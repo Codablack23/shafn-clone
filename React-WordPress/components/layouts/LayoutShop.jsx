@@ -11,7 +11,7 @@ const LayoutShop = ({ children, title = 'Shop' }) => {
     return (
         <div className="layout--post">
             <Head>
-                <title>Martfury - {title}</title>
+                <title>ShafN {title}</title>
             </Head>
             <HeaderDefault />
             <HeaderMobile />

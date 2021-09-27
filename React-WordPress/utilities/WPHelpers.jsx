@@ -50,7 +50,7 @@ export function WPGetProductPrice(product) {
                 <span>$</span>
                 {formatCurrency(product.regular_price)}
                 <del className="ml-2">
-                    <span>$</span>
+                    <span>€</span>
                     {formatCurrency(product.sale_price)}
                 </del>
             </p>
@@ -58,7 +58,7 @@ export function WPGetProductPrice(product) {
     } else {
         price = (
             <p className="ps-product__price">
-                <span>$</span>
+                <span>€</span>
                 {formatCurrency(product.regular_price)}
             </p>
         );
@@ -84,14 +84,14 @@ export function WPProductPriceView(product) {
     if (product.on_sale === true) {
         view = (
             <p className="ps-product__price sale">
-                <span>$</span>
+                <span>€</span>
                 {formatCurrency(
                     product.regular_price
                         ? product.regular_price
                         : product.price
                 )}
                 <del className="ml-2">
-                    <span>$</span>
+                    <span>€</span>
                     {formatCurrency(product.sale_price)}
                 </del>
             </p>
@@ -99,7 +99,7 @@ export function WPProductPriceView(product) {
     } else {
         view = (
             <p className="ps-product__price">
-                <span>$</span>
+                <span>€</span>
                 {formatCurrency(
                     product.regular_price
                         ? product.regular_price

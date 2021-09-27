@@ -1,6 +1,6 @@
 import axios from 'axios';
 const baseDomain = 'http://45.76.97.89:3000';
-export const wp = 'http://shafn.floppiess.com';
+export const wp = 'https://shafn.com';
 //export const wp = 'http://wp.diaryforlife.info';
 
 const authorization_prefix = 'Bearer ';
@@ -9,8 +9,8 @@ export const customHeaders = {
     "Accept": 'application/json',
     /* Authorization: authorization_prefix + token || undefined*/
     /*auth: {
-        "username": "ck_dc45d73b9a8b2931930de4a5eb2b2d520c8ba566",
-        "password": "cs_e3c6ca23aca7a6350b490e5969cdfa9b11703a42"
+        "username": "ck_a1afc51ff351c0c57c490de46c158cb372e5dae7",
+        "password": "cs_0f193ce5d8accbb6286ecc6675d1c78d1181c1f5"
     }*/
 };
 

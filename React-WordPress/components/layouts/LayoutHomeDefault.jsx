@@ -11,7 +11,7 @@ const LayoutHomeDefault = ({ children, title = 'Homepage' }) => {
     return (
         <div className="__site-layout">
             <Head>
-                <title>Martfury - {title}</title>
+                <title>ShafN {title}</title>
             </Head>
             {/*<HeaderDefault />
             <HeaderMobile />

@@ -11,8 +11,8 @@ const withImages = require('next-images');
 
 const nextSettings = {
     env: {
-        title: 'Martfury',
-        titleDescription: 'Multipurpose Marketplace React Ecommerce Template',
+        title: 'ShafN',
+        titleDescription: 'ShafN We are here to serve you',
     },
 };
 

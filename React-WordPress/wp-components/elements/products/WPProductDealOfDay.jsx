@@ -72,10 +72,10 @@ const WPProduct = ({ product }) => {
         if (product.on_sale === true) {
             productPrice = (
                 <p className="ps-product__price sale">
-                    <span>$</span>
+                    <span>€</span>
                     {formatCurrency(product.regular_price)}
                     <del className="ml-2">
-                        <span>$</span>
+                        <span>€</span>
                         {formatCurrency(product.sale_price)}
                     </del>
                     <small>18% off</small>
@@ -84,7 +84,7 @@ const WPProduct = ({ product }) => {
         } else {
             productPrice = (
                 <p className="ps-product__price">
-                    <span>$</span>
+                    <span>€</span>
                     {formatCurrency(product.regular_price)}
                 </p>
             );

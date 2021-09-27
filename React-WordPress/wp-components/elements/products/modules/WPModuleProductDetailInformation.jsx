@@ -41,10 +41,10 @@ const WPModuleProductDetailInformation = ({ product, children, variant }) => {
         if (product.on_sale === true) {
             priceView = (
                 <p className="ps-product__price sale">
-                    <span>$</span>
+                    <span>€</span>
                     {formatCurrency(product.regular_price)}
                     <del className="ml-2">
-                        <span>$</span>
+                        <span>€</span>
                         {formatCurrency(product.sale_price)}
                     </del>
                 </p>
@@ -52,7 +52,7 @@ const WPModuleProductDetailInformation = ({ product, children, variant }) => {
         } else {
             priceView = (
                 <p className="ps-product__price">
-                    <span>$</span>
+                    <span>€</span>
                     {formatCurrency(product.regular_price)}
                 </p>
             );
@@ -128,7 +128,7 @@ const WPModuleProductDetailInformation = ({ product, children, variant }) => {
                     onClick={handleAddItemToCart}>
                     Add to cart
                 </a>
-                <a className="ps-btn" href="#">
+                <a className="ps-btn" href="/account/checkout">
                     Buy Now
                 </a>
             </div>

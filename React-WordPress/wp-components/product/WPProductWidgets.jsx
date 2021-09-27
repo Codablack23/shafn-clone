@@ -23,7 +23,7 @@ const WPProductWidgets  = ({children}) => {
             </aside>
             <aside className="widget widget_sell-on-site">
                 <p>
-                    <i className="icon-store"></i> Sell on Martfury?
+                    <i className="icon-store"></i> Sell on ShafN
                     <Link href="/account/register">
                         <a> Register Now !</a>
                     </Link>
@@ -32,7 +32,7 @@ const WPProductWidgets  = ({children}) => {
             <aside className="widget widget_ads">
                 <Link href="/shop">
                     <a>
-                        <img src="/static/img/ads/product-ads.png" alt="martfury" />
+                        <img src="/static/img/ads/product-ads.png" alt="shafn" />
                     </a>
                 </Link>
             </aside>

@@ -44,7 +44,7 @@ class WPProductOnCart extends Component {
                         {product.store && product.store.name}
                     </p>
                     <small>
-                        {product.quantity} x ${product.regular_price}
+                        {product.quantity} x €{product.regular_price}
                     </small>
                 </div>
             </div>

@@ -9,7 +9,7 @@ const LayoutProductDetail = ({ children, title = 'Homepage' }) => {
     return (
         <div className="layout--product">
             <Head>
-                <title>Martfury {title ? '-' + title : ''}</title>
+                <title>ShafN {title ? '-' + title : ''}</title>
             </Head>
            {/* <HeaderMobileProduct />*/}
             <NavigationList />
