@@ -16,4 +16,15 @@ const nextSettings = {
     },
 };
 
+module.exports = {
+    async rewrites() {
+        return [
+          {
+            source: '/api/:path*',
+            destination: 'https://shafn.com/:path*',
+          },
+        ]
+      },
+  };
+
 module.exports = withPlugins([withImages(), nextSettings]);

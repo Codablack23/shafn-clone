@@ -1,4 +1,5 @@
 import axios from 'axios';
+import app from 'next/app';
 const baseDomain = 'http://45.76.97.89:3000';
 export const wp = 'https://shafn.com';
 //export const wp = 'http://wp.diaryforlife.info';
@@ -29,3 +30,4 @@ export const serializeQuery = query => {
         )
         .join('&');
 };
+
