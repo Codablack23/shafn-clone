@@ -19,14 +19,17 @@ const WPProductDetailPage = ({ query }) => {
     const [loading, setLoading] = useState(true);
     const [relatedProducts, setRelatedProducts] = useState(null);
 
+    // Get your product by ID from API
     async function getProduct(productID) {
         const WPProduct = await WPProductRepository.getProductByID(productID);
         if (WPProduct) {
+            // Get related product data
             if (WPProduct.related_ids) {
                 setRelatedProducts(WPProduct.related_ids);
             }
             setProduct(WPProduct);
             if (WPProduct.variations.length > 0) {
+                // Get variants
                 const WPPRroductVariations = await WPProductRepository.getProductVariantsByID(
                     productID
                 );

@@ -16,7 +16,7 @@ const PartialDescription = () => (
             knobs allow you to fine tune the controls to your personal preferences while the
             guitar-influenced leather strap enables easy and stylish travel.
         </p>
-        <img className="mb-30" src="/static/img/products/detail/content/description.jpg" alt="martfury" />
+       {/* <img className="mb-30" src="/static/img/products/detail/content/description.jpg" alt="martfury" />*/}
         <h5>What do you get</h5>
         <p>Sound of Marshall, unplugs the chords, and takes the show on the road.</p>
         <p>

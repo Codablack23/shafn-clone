@@ -7,7 +7,7 @@ import {
     WPDomain,
     WPRepository,
 } from '~/repositories/WP/WPRepository';
-import { serializeQuery } from '~/repositories/Repository';
+import Repository, { serializeQuery } from '~/repositories/Repository';
 
 
     const settings = {
@@ -43,8 +43,20 @@ class WPProductRepository {
         }, []);
     
     }
+    async getProductsByIds(payload) {
+        const endPoint = `${baseDomain}/products?${payload}`;
+        const response = await Repository.get(endPoint)
+            .then((response) => {
+                return {
+                    items: response.data,
+                };
+            })
 
-    
+            .catch((error) => ({ error: JSON.stringify(error) }));
+        return response;
+    }
+
+
     async getProducts(payload) {
         let enpoint;
         if (payload) {

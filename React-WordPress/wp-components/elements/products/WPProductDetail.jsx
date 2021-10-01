@@ -1,117 +1,47 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import DefaultDescription from '~/components/elements/detail/modules/description/DefaultDescription';
 import WPModuleProductDetailThumbnail from '~/wp-components/elements/products/modules/WPModuleProductDetailThumbnail';
-import WPModuleProductDetailInformation from '~/wp-components/elements/products/modules/WPModuleProductDetailInformation';
+import WPModuleProductDetailInformation
+    from '~/wp-components/elements/products/modules/WPModuleProductDetailInformation';
 import WPModuleDefaultDescription from '~/wp-components/elements/products/modules/WPModuleDefaultDescription';
 
 const WPProductDetail = ({ product, variations }) => {
-    const [selectedVariant, setSelectedVariant] = useState(null);
-    const [selectedColor, setSelectedColor] = useState(null);
     const [selectedSize, setSelectedSize] = useState(null);
-    const handleGetVariant = () => {
-        const WPSelectedVariant = variations.find((item) => {
-            return item.attributes.some(
-                (item) =>
-                    item.name === 'color' &&
-                    item.option.toLowerCase() === selectedColor
-            );
-        });
-        setSelectedVariant(WPSelectedVariant);
-        return WPSelectedVariant;
-    };
+    const [activeVariant, setActiveVariant] = useState(null);
 
-    const handleChangeColor = (newColor) => {
-        if (newColor !== selectedColor) {
-            setSelectedColor(newColor);
-            handleGetVariant();
-        }
-    };
-
-    function handleChangeSize(newSize) {
+    async function handleChangeSize(newSize) {
         if (newSize !== selectedSize) {
             setSelectedSize(newSize.toLowerCase());
         }
+       variations.forEach(item => {
+           if (item.attributes.some(attr => attr.option === newSize)) {
+               setActiveVariant(item);
+           }
+        });
     }
-
-    function init() {
-        if (variations) {
-            if (!selectedColor) {
-                setSelectedColor(
-                    product.default_attributes.find(
-                        (item) => item.name === 'color'
-                    ).option
-                );
-            }
-            if (!selectedSize) {
-                setSelectedSize(
-                    product.default_attributes.find(
-                        (item) => item.name === 'size'
-                    ).option
-                );
-            }
-
-            if (selectedColor !== null) {
-                handleGetVariant();
-            }
-        }
-    }
-
-    useEffect(() => {
-        init();
-    }, [init]);
 
     // Views
-    let colorsView, sizesView;
+    let sizesView;
 
     if (product) {
         if (variations) {
             const WPProductSizes = product.attributes.find(
-                (item) => item.name === 'size'
+                (item) => item.name === 'Size',
             );
-            const WPProductColors = product.attributes.find(
-                (item) => item.name === 'color'
-            );
-            if (WPProductColors) {
-                const colorItems = WPProductColors.options.map((item) => (
-                    <div
-                        className={`ps-variant ps-variant--color ${
-                            selectedColor === item && 'active'
-                        }`}
-                        onClick={(e) => handleChangeColor(item)}
-                        style={{ backgroundColor: item }}
-                        key={item.id}>
-                        <span className="ps-variant__tooltip text-capitalize">
-                            {item}
-                        </span>
-                    </div>
-                ));
-
-                colorsView = (
-                    <div className="ps-product__variations">
-                        <figure>
-                            <figcaption>Colors</figcaption>
-                            {colorItems}
-                        </figure>
-                    </div>
-                );
-            } else {
-                colorsView = <p>Color not found.</p>;
-            }
-
             if (WPProductSizes) {
-                const sizeItems = WPProductSizes.options.map((item) => (
+                const sizeItems = WPProductSizes.options.map((item, index) => (
                     <div
                         className={`ps-variant ps-variant--size ${
                             selectedSize === item.toLowerCase() && 'active'
                         }`}
-                        onClick={(e) => handleChangeSize(item)}>
-                        <span className="ps-variant__size text-uppercase">
+                        onClick={(e) => handleChangeSize(item)} key={index}>
+                        <span className='ps-variant__size text-uppercase'>
                             {item}
                         </span>
                     </div>
                 ));
                 sizesView = (
-                    <div className="ps-product__variations">
+                    <div className='ps-product__variations'>
                         <figure>
                             <figcaption>
                                 Size: <strong> Choose an option</strong>
@@ -128,8 +58,8 @@ const WPProductDetail = ({ product, variations }) => {
 
     if (!variations) {
         return (
-            <div className="ps-product--detail ps-product--fullwidth">
-                <div className="ps-product__header">
+            <div className='ps-product--detail ps-product--fullwidth'>
+                <div className='ps-product__header'>
                     <WPModuleProductDetailThumbnail product={product} />
                     <WPModuleProductDetailInformation product={product} />
                 </div>
@@ -138,16 +68,16 @@ const WPProductDetail = ({ product, variations }) => {
         );
     } else {
         return (
-            <div className="ps-product--detail ps-product--fullwidth">
-                <div className="ps-product__header">
+            <div className='ps-product--detail ps-product--fullwidth'>
+                <div className='ps-product__header'>
                     <WPModuleProductDetailThumbnail
                         product={product}
-                        variant={selectedVariant}
+                        variant={activeVariant}
                     />
                     <WPModuleProductDetailInformation
                         product={product}
-                        variant={selectedVariant && selectedVariant}>
-                        {colorsView}
+                        variant={activeVariant && activeVariant}>
+                        {/*  {colorsView}*/}
                         {sizesView}
                     </WPModuleProductDetailInformation>
                 </div>

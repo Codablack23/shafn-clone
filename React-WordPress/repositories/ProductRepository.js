@@ -7,7 +7,7 @@ class ProductRepository {
 
     async getRecords(params) {
         const reponse = await Repository.get(
-            `${baseUrl}/products?${serializeQuery(params)}`
+            `${baseUrl}/products?${serializeQuery(params)}`,
         )
             .then(response => {
                 return response.data;
@@ -54,7 +54,7 @@ class ProductRepository {
 
     async getProductsByCategory(payload) {
         const reponse = await Repository.get(
-            `${baseUrl}/product-categories?slug=${payload}`
+            `${baseUrl}/product-categories?slug=${payload}`,
         )
             .then(response => {
                 return response.data[0].products;
@@ -82,7 +82,7 @@ class ProductRepository {
 
     async getProductsByPriceRange(payload) {
         const reponse = await Repository.get(
-            `${baseUrl}/products?${serializeQuery(payload)}`
+            `${baseUrl}/products?${serializeQuery(payload)}`,
         )
             .then(response => {
                 return response.data;
@@ -90,6 +90,7 @@ class ProductRepository {
             .catch(error => ({ error: JSON.stringify(error) }));
         return reponse;
     }
+
 
     async getProductWP(payload) {
         const enpoint = 'wp-json';
