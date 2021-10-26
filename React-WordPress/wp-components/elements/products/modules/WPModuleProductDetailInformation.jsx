@@ -31,7 +31,7 @@ const WPModuleProductDetailInformation = ({ product, children, variant }) => {
 
     const handleDecreaseItemQty = (e) => {
         e.preventDefault();
-        if (this.state.quantity > 1) {
+        if (quantity > 1) {
             setQuantity(quantity - 1);
         }
     };
