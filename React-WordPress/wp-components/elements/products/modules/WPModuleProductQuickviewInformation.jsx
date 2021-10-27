@@ -5,8 +5,7 @@ import { formatCurrency } from '~/utilities/product-helper';
 import Rating from '~/components/elements/Rating';
 import { addItem } from '~/store/cart/action';
 import ModuleProductDetailSharing from '~/components/elements/detail/modules/elements/ModuleProductDetailSharing';
-import ModuleProductDetailSpecification
-    from '~/components/elements/detail/modules/elements/ModuleProductDetailSpecification';
+import ModuleProductDetailSpecification from '~/components/elements/detail/modules/elements/ModuleProductDetailSpecification';
 
 const WPModuleProductQuickviewInformation = ({ product }) => {
     const dispatch = useDispatch();
@@ -27,7 +26,7 @@ const WPModuleProductQuickviewInformation = ({ product }) => {
 
     const handleDecreaseItemQty = (e) => {
         e.preventDefault();
-        if (this.state.quantity > 1) {
+        if (quantity > 1) {
             setQuantity(quantity - 1);
         }
     };
@@ -130,7 +129,6 @@ const WPModuleProductQuickviewInformation = ({ product }) => {
         </div>
     );
 };
-
 
 export default connect((state) => state.cart)(
     WPModuleProductQuickviewInformation
