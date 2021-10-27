@@ -93,7 +93,11 @@ const WPProduct = ({ product }) => {
     return (
         <div className="ps-product ps-product--inner">
             <div className="ps-product__thumbnail">
-                <Link href="/product/[pid]" as={`/product/${product.id}`}>
+                <Link
+                    href="/product/[pid]"
+                    as={`/product/${product.name.split(' ').join('-')}-${
+                        product.id
+                    }`}>
                     <a>
                         <LazyLoad>{thumbnailImage}</LazyLoad>
                     </a>
@@ -150,7 +154,11 @@ const WPProduct = ({ product }) => {
                 </Link>
                 <div className="ps-product__content">
                     {productPrice}
-                    <Link href="/product/[pid]" as={`/product/${product.id}`}>
+                    <Link
+                        href="/product/[pid]"
+                        as={`/product/${product.name.split(' ').join('-')}-${
+                            product.id
+                        }`}>
                         <a className="ps-product__title">{product.name}</a>
                     </Link>
                     <div className="ps-product__rating">

@@ -12,7 +12,7 @@ import WPProductWidgets from '~/wp-components/product/WPProductWidgets';
 import WPLayoutProductDetail from '~/wp-components/layouts/WPLayoutProductDetail';
 import WPHeaderDefault from '~/wp-components/shared/headers/WPHeaderDefault';
 
-const WPProductDetailPage = ({ query }) => {
+const WPProductDetailPage = ({ pid }) => {
     const router = useRouter();
     const [product, setProduct] = useState(null);
     const [productVariations, setProductVariations] = useState(null);
@@ -30,9 +30,8 @@ const WPProductDetailPage = ({ query }) => {
             setProduct(WPProduct);
             if (WPProduct.variations.length > 0) {
                 // Get variants
-                const WPPRroductVariations = await WPProductRepository.getProductVariantsByID(
-                    productID
-                );
+                const WPPRroductVariations =
+                    await WPProductRepository.getProductVariantsByID(productID);
                 if (WPPRroductVariations) {
                     setProductVariations(WPPRroductVariations);
                 }
@@ -58,12 +57,11 @@ const WPProductDetailPage = ({ query }) => {
     }
 
     useEffect(() => {
-        const { pid } = query;
         if (isNaN(pid)) {
             Router.push('/page/page-404');
         }
 
-        if (query) {
+        if (pid) {
             const collectionsParams = [
                 'customer_bought',
                 'shop-recommend-items',
@@ -129,7 +127,9 @@ const WPProductDetailPage = ({ query }) => {
 };
 
 WPProductDetailPage.getInitialProps = async ({ query }) => {
-    return { query: query };
+    let product_id = query.pid.split('-').pop();
+
+    return { pid: product_id };
 };
 
 export default connect()(WPProductDetailPage);
