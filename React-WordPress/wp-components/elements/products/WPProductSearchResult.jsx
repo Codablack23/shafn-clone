@@ -17,15 +17,21 @@ const WPProductSearchResult = ({ product }) => {
         productPriceView = WPGetProductPrice(product);
     }
 
+    const query = `${product.name
+        .replace(/[^a-zA-Z0-9-_]/g, ' ')
+        .replace(/  +/g, ' ')
+        .split(' ')
+        .join('-')}-${product.id}`.trim();
+
     return (
         <div className="ps-product ps-product--wide ps-product--search-result">
             <div className="ps-product__thumbnail">
-                <Link href="/product/[pid]" as={`/product/${product.id}`}>
+                <Link href="/product/[pid]" as={`/product/${query}`}>
                     <a>{thumbnailImage}</a>
                 </Link>
             </div>
             <div className="ps-product__content">
-                <Link href="/product/[pid]" as={`/product/${product.id}`}>
+                <Link href="/product/[pid]" as={`/product/${query}`}>
                     <a className="ps-product__title">{product.name}</a>
                 </Link>
                 <div className="ps-product__rating">
