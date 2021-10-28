@@ -1,51 +1,64 @@
 import React, { useState } from 'react';
 import DefaultDescription from '~/components/elements/detail/modules/description/DefaultDescription';
 import WPModuleProductDetailThumbnail from '~/wp-components/elements/products/modules/WPModuleProductDetailThumbnail';
-import WPModuleProductDetailInformation
-    from '~/wp-components/elements/products/modules/WPModuleProductDetailInformation';
+import WPModuleProductDetailInformation from '~/wp-components/elements/products/modules/WPModuleProductDetailInformation';
 import WPModuleDefaultDescription from '~/wp-components/elements/products/modules/WPModuleDefaultDescription';
 
 const WPProductDetail = ({ product, variations }) => {
     const [selectedSize, setSelectedSize] = useState(null);
+    const [selectedColor, setSelectedColor] = useState(null);
     const [activeVariant, setActiveVariant] = useState(null);
 
     async function handleChangeSize(newSize) {
         if (newSize !== selectedSize) {
             setSelectedSize(newSize.toLowerCase());
         }
-       variations.forEach(item => {
-           if (item.attributes.some(attr => attr.option === newSize)) {
-               setActiveVariant(item);
-           }
+        variations.forEach((item) => {
+            if (item.attributes.some((attr) => attr.option === newSize)) {
+                setActiveVariant(item);
+            }
+        });
+    }
+
+    async function handleChangeColor(newColor) {
+        if (newColor !== selectedColor) {
+            setSelectedColor(newColor.toLowerCase());
+        }
+        variations.forEach((item) => {
+            if (item.attributes.some((attr) => attr.option === newColor)) {
+                setActiveVariant(item);
+            }
         });
     }
 
     // Views
     let sizesView;
+    let colorsView;
 
     if (product) {
         if (variations) {
+            // Sizes View
             const WPProductSizes = product.attributes.find(
-                (item) => item.name === 'Size',
+                (item) => item.name === 'Size'
             );
+
             if (WPProductSizes) {
                 const sizeItems = WPProductSizes.options.map((item, index) => (
                     <div
                         className={`ps-variant ps-variant--size ${
                             selectedSize === item.toLowerCase() && 'active'
                         }`}
-                        onClick={(e) => handleChangeSize(item)} key={index}>
-                        <span className='ps-variant__size text-uppercase'>
+                        onClick={(e) => handleChangeSize(item)}
+                        key={index}>
+                        <span className="ps-variant__size text-uppercase">
                             {item}
                         </span>
                     </div>
                 ));
                 sizesView = (
-                    <div className='ps-product__variations'>
+                    <div className="ps-product__variations">
                         <figure>
-                            <figcaption>
-                                Size: <strong> Choose an option</strong>
-                            </figcaption>
+                            <figcaption>Size</figcaption>
                             {sizeItems}
                         </figure>
                     </div>
@@ -53,13 +66,48 @@ const WPProductDetail = ({ product, variations }) => {
             } else {
                 sizesView = <p>Size not found.</p>;
             }
+
+            // Colors View
+            const WPProductColors = product.attributes.find(
+                (item) => item.name === 'Color'
+            );
+
+            if (WPProductColors) {
+                const colorItems = WPProductColors.options.map(
+                    (item, index) => (
+                        <div
+                            className={`ps-variant ps-variant--size ${
+                                selectedColor === item.toLowerCase() && 'active'
+                            }`}
+                            style={{ backgroundColor: item.toLowerCase() }}
+                            onClick={(e) => handleChangeColor(item)}
+                            key={index}>
+                            {/* <span
+                                className="ps-variant__size text-uppercase">
+                                {item}
+                            </span> */}
+                        </div>
+                    )
+                );
+
+                colorsView = (
+                    <div className="ps-product__variations">
+                        <figure>
+                            <figcaption>Color</figcaption>
+                            {colorItems}
+                        </figure>
+                    </div>
+                );
+            } else {
+                colorsView = <p>Color not found</p>;
+            }
         }
     }
 
     if (!variations) {
         return (
-            <div className='ps-product--detail ps-product--fullwidth'>
-                <div className='ps-product__header'>
+            <div className="ps-product--detail ps-product--fullwidth">
+                <div className="ps-product__header">
                     <WPModuleProductDetailThumbnail product={product} />
                     <WPModuleProductDetailInformation product={product} />
                 </div>
@@ -68,8 +116,8 @@ const WPProductDetail = ({ product, variations }) => {
         );
     } else {
         return (
-            <div className='ps-product--detail ps-product--fullwidth'>
-                <div className='ps-product__header'>
+            <div className="ps-product--detail ps-product--fullwidth">
+                <div className="ps-product__header">
                     <WPModuleProductDetailThumbnail
                         product={product}
                         variant={activeVariant}
@@ -77,8 +125,10 @@ const WPProductDetail = ({ product, variations }) => {
                     <WPModuleProductDetailInformation
                         product={product}
                         variant={activeVariant && activeVariant}>
-                        {/*  {colorsView}*/}
-                        {sizesView}
+                        <>
+                            {colorsView}
+                            {sizesView}
+                        </>
                     </WPModuleProductDetailInformation>
                 </div>
                 <DefaultDescription />

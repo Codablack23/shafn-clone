@@ -91,7 +91,7 @@ const WPShopProducts = (props) => {
             );
             producItemView = (
                 <div className="ps-not-found text-center pt-100 pb-100">
-                    <img src="static/img/404.png" className="mb-20"/>
+                    <img src="static/img/404.png" className="mb-20" />
                     <h3>No Product Found.</h3>
                 </div>
             );

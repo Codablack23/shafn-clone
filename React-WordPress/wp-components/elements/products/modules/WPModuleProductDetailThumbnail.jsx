@@ -84,7 +84,6 @@ class WPModuleProductDetailThumbnail extends Component {
             lightboxImages = [],
             productImages;
         if (product) {
-
             if (variant) {
                 let tempImgs = product.images;
                 tempImgs[0] = variant.image;
