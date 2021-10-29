@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @mixin triangle($size, $color, $direction) {
   $width: nth($size, 1);
   $height: nth($size, length($size));
@@ -6,9 +8,13 @@
   height: 0;
   width: 0;
 
-  @if ($direction == up) or ($direction == down) or ($direction == right) or ($direction == left) {
-    $width: $width / 2;
-    $height: if(length($size) > 1, $height, $height/2);
+  @if ($direction == up) or
+    ($direction == down) or
+    ($direction == right) or
+    ($direction == left)
+  {
+    $width: math.div($width, 2);
+    $height: if(length($size) > 1, $height, math.div($height, 2));
 
     @if $direction == up {
       border-bottom: $height solid $foreground-color;
@@ -31,7 +37,7 @@
     border-top: $height solid $foreground-color;
 
     @if $direction == up-right {
-      border-left:  $width solid $background-color;
+      border-left: $width solid $background-color;
     } @else if $direction == up-left {
       border-right: $width solid $background-color;
     }
@@ -39,7 +45,7 @@
     border-bottom: $height solid $foreground-color;
 
     @if $direction == down-right {
-      border-left:  $width solid $background-color;
+      border-left: $width solid $background-color;
     } @else if $direction == down-left {
       border-right: $width solid $background-color;
     }
@@ -52,11 +58,17 @@
     border-style: solid;
     border-width: $height $width;
   } @else if ($direction == inset-right) {
-    border-color: $background-color $background-color $background-color $foreground-color;
+    border-color: $background-color
+      $background-color
+      $background-color
+      $foreground-color;
     border-style: solid;
     border-width: $width $height;
   } @else if ($direction == inset-left) {
-    border-color: $background-color $foreground-color $background-color $background-color;
+    border-color: $background-color
+      $foreground-color
+      $background-color
+      $background-color;
     border-style: solid;
     border-width: $width $height;
   }
