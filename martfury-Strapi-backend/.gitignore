@@ -80,6 +80,7 @@ $RECYCLE.BIN/
 ssl
 .idea
 nbproject
+public/uploads/*
 !public/uploads/.gitkeep
 
 ############################
@@ -93,7 +94,7 @@ logs
 results
 node_modules
 .node_history
-
+package-lock.json
 
 ############################
 # Tests
@@ -107,6 +108,8 @@ coverage
 ############################
 
 .env
+license.txt
 exports
-.cache
+*.cache
 build
+.strapi-updater.json
