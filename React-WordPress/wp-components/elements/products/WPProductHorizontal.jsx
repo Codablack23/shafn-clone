@@ -12,11 +12,7 @@ const WPProductHorizontal = ({ product }) => {
     const thumbnailImage = WPProductThumbnailView(product);
     const priceView = WPProductPriceView(product);
 
-    const query = `${product.name
-        .replace(/[^a-zA-Z0-9-_]/g, ' ')
-        .replace(/  +/g, ' ')
-        .split(' ')
-        .join('-')}-${product.id}`.trim();
+    const query = `${product.slug}-${product.id}`.trim();
 
     return (
         <div className="ps-product--horizontal">
