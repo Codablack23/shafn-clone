@@ -6,6 +6,7 @@ import {
     decreaseItemQty,
     removeItem,
 } from '~/store/cart/action';
+import { addCheckoutItem } from '~/store/checkout-items/action';
 
 import Link from 'next/link';
 import WPProductCart from '~/wp-components/elements/products/WPProductCart';
@@ -17,6 +18,10 @@ class WPShoppingCart extends Component {
 
     componentDidMount() {
         this.props.dispatch(getCart());
+    }
+
+    handleAddToCheckoutItems() {
+        this.props.dispatch(addCheckoutItem(this.props));
     }
 
     handleIncreaseItemQty(product) {
@@ -151,7 +156,11 @@ class WPShoppingCart extends Component {
                                     </div>
                                 </div>
                                 <Link href="/account/checkout">
-                                    <a className="ps-btn ps-btn--fullwidth">
+                                    <a
+                                        className="ps-btn ps-btn--fullwidth"
+                                        onClick={() =>
+                                            this.handleAddToCheckoutItems()
+                                        }>
                                         Proceed to checkout
                                     </a>
                                 </Link>

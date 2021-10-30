@@ -20,7 +20,6 @@ const WPFormCheckout = ({ shipping, amount, cartItems }) => {
     async function getCheckoutData() {
         const WPGateways = await WPOrderRepository.getPaymentGateWays();
         if (WPGateways) {
-            console.log(WPGateways);
             setPaymentGateways(WPGateways);
             setTimeout(function () {
                 setLoading(false);
@@ -109,7 +108,6 @@ const WPFormCheckout = ({ shipping, amount, cartItems }) => {
                     convertToURLEncoded(checkoutData)
                 );
                 if (result) {
-
                 }
             } else {
                 window.open('https://www.paypal.com/', '_blank');
@@ -623,4 +621,6 @@ const WPFormCheckout = ({ shipping, amount, cartItems }) => {
     );
 };
 
-export default connect((state) => state.cart)(WPFormCheckout);
+export default connect((state) => {
+    return state.checkoutItems;
+})(WPFormCheckout);

@@ -4,7 +4,6 @@ import Link from 'next/link';
 import AccountQuickLinks from '~/components/shared/headers/modules/AccountQuickLinks';
 import WPMiniCart from '~/wp-components/shared/headers/WPMiniCart';
 
-
 class WPHeaderActions extends Component {
     constructor(props) {
         super(props);
@@ -37,7 +36,7 @@ class WPHeaderActions extends Component {
                         </span>
                     </a>
                 </Link>
-                <WPMiniCart/>
+                <WPMiniCart />
                 {accountView}
             </div>
         );

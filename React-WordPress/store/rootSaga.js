@@ -3,6 +3,7 @@ import PostSaga from './post/saga';
 import ProductSaga from './product/saga';
 import SettingSaga from './setting/saga';
 import CartSaga from './cart/saga';
+import CheckoutSaga from './checkout-items/saga';
 import AuthSaga from './auth/saga';
 import CompareSaga from './compare/saga';
 import WishlistSaga from './wishlist/saga';
@@ -17,6 +18,7 @@ export default function* rootSaga() {
         ProductSaga(),
         SettingSaga(),
         CartSaga(),
+        CheckoutSaga(),
         AuthSaga(),
         CompareSaga(),
         WishlistSaga(),

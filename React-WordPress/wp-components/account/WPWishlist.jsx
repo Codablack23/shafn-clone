@@ -19,7 +19,6 @@ class WPWishlist extends Component {
 
     render() {
         const { wishlistItems } = this.props;
-        console.log(wishlistItems);
         // views
         let wishlistView;
         if (wishlistItems && wishlistItems.length > 0) {

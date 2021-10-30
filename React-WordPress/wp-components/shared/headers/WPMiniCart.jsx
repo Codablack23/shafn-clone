@@ -2,15 +2,21 @@ import React, { Component, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { getCart, removeItem } from '~/store/cart/action';
+import { addCheckoutItem } from '~/store/checkout-items/action';
 import WPProductOnCart from '~/wp-components/elements/products/WPProductOnCart';
 
-class WPMiniCart extends Component{
+class WPMiniCart extends Component {
     constructor() {
         super();
     }
-    handleRemoveCartItem (product){
+
+    handleAddToCheckoutItems() {
+        this.props.dispatch(addCheckoutItem(this.props));
+    }
+
+    handleRemoveCartItem(product) {
         this.props.dispatch(removeItem(product));
-    };
+    }
 
     componentDidMount() {
         this.props.dispatch(getCart());
@@ -22,10 +28,7 @@ class WPMiniCart extends Component{
         let cartItemsView;
         if (cartItems && cartItems.length > 0) {
             const productItems = cartItems.map((item) => {
-
-                return (
-                    <WPProductOnCart product={item} key={item.id}/>
-                );
+                return <WPProductOnCart product={item} key={item.id} />;
             });
             cartItemsView = (
                 <div className="ps-cart__content">
@@ -40,7 +43,13 @@ class WPMiniCart extends Component{
                                 <a className="ps-btn">View Cart</a>
                             </Link>
                             <Link href="/account/checkout">
-                                <a className="ps-btn">Checkout</a>
+                                <a
+                                    className="ps-btn"
+                                    onClick={() =>
+                                        this.handleAddToCheckoutItems()
+                                    }>
+                                    Checkout
+                                </a>
                             </Link>
                         </figure>
                     </div>
@@ -61,13 +70,13 @@ class WPMiniCart extends Component{
                 <a className="header__extra" href="#">
                     <i className="icon-bag2"></i>
                     <span>
-                    <i>{cartTotal ? cartTotal : 0}</i>
-                </span>
+                        <i>{cartTotal ? cartTotal : 0}</i>
+                    </span>
                 </a>
                 {cartItemsView}
             </div>
         );
     }
-};
+}
 
 export default connect((state) => state.cart)(WPMiniCart);

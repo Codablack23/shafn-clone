@@ -3,6 +3,7 @@ import { connect, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { formatCurrency } from '~/utilities/product-helper';
 import { addItem } from '~/store/cart/action';
+import { addCheckoutItem } from '~/store/checkout-items/action';
 import ModuleProductDetailSharing from '~/components/elements/detail/modules/elements/ModuleProductDetailSharing';
 
 import {
@@ -16,6 +17,16 @@ import {
 const WPModuleProductDetailInformation = ({ product, children, variant }) => {
     const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(1);
+
+    const handleAddToCheckoutItems = () => {
+        const item = {
+            amount: product.price,
+            cartItems: [product],
+            cartTotal: 1,
+        };
+
+        dispatch(addCheckoutItem(item));
+    };
 
     const handleAddItemToCart = (e) => {
         e.preventDefault();
@@ -128,9 +139,11 @@ const WPModuleProductDetailInformation = ({ product, children, variant }) => {
                     onClick={handleAddItemToCart}>
                     Add to cart
                 </a>
-                <a className="ps-btn" href="/account/checkout">
-                    Buy Now
-                </a>
+                <Link href="/account/checkout">
+                    <a className="ps-btn" onClick={handleAddToCheckoutItems}>
+                        Buy Now
+                    </a>
+                </Link>
             </div>
             <div className="ps-product__specification">
                 <Link href="/page/blank">
