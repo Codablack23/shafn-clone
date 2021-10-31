@@ -2,7 +2,12 @@ import { all, put, takeEvery } from 'redux-saga/effects';
 import { actionTypes, updateCheckoutItems } from './action';
 
 function* addItemSaga(payload) {
-    yield put(updateCheckoutItems(payload.item));
+    const item = {
+        checkoutItems: payload.item.cartItems,
+        amount: payload.item.amount,
+        total: payload.item.cartTotal,
+    };
+    yield put(updateCheckoutItems(item));
 }
 
 export default function* rootSaga() {

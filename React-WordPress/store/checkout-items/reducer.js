@@ -1,9 +1,9 @@
 import { actionTypes } from './action';
 
 export const initItems = {
-    cartItems: [],
+    checkoutItems: [],
     amount: 0,
-    cartTotal: 0,
+    total: 0,
 };
 
 function reducer(state = initItems, action) {

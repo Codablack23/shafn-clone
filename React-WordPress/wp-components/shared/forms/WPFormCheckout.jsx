@@ -9,7 +9,7 @@ import {
     convertToURLEncoded,
 } from '~/utilities/WPHelpers';
 
-const WPFormCheckout = ({ shipping, amount, cartItems }) => {
+const WPFormCheckout = ({ amount, checkoutItems }) => {
     const dispatch = useDispatch();
     const [form] = Form.useForm();
     const [paymentGateways, setPaymentGateways] = useState(null);
@@ -92,8 +92,8 @@ const WPFormCheckout = ({ shipping, amount, cartItems }) => {
             };
         }
         if (selectedGateway) {
-            if (cartItems) {
-                WPLineItems = cartItems.map((item) => ({
+            if (checkoutItems) {
+                WPLineItems = checkoutItems.map((item) => ({
                     product_id: item.id,
                     quantity: item.quantity,
                 }));
@@ -130,8 +130,8 @@ const WPFormCheckout = ({ shipping, amount, cartItems }) => {
         selectedPaymentGateway,
         buttonOrderView;
 
-    if (cartItems && cartItems.length > 0) {
-        listItemsView = cartItems.map((product) => (
+    if (checkoutItems && checkoutItems.length > 0) {
+        listItemsView = checkoutItems.map((product) => (
             <Link href="/" key={product.id}>
                 <a>
                     <strong>
