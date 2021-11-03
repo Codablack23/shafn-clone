@@ -59,7 +59,7 @@ const WPDealOfDay = () => {
             <div className="ps-container">
                 <div className="ps-section__header">
                     <div className="ps-block--countdown-deal">
-                        <div className="ps-block__left">
+                        {/* <div className="ps-block__left">
                             <h3>Deal of the day</h3>
                         </div>
                         <div className="ps-block__right">
@@ -70,11 +70,12 @@ const WPDealOfDay = () => {
                                     timeFormat="MM DD YYYY, h:mm a"
                                 />
                             </figure>
-                        </div>
-                    </div>
-                    <Link href="/shop">
+                        </div> */}
+                        <Link href="/shop">
                         <a>View all</a>
                     </Link>
+                    </div>
+                    
                 </div>
                 <div className="ps-section__content">{productItemsView}</div>
             </div>

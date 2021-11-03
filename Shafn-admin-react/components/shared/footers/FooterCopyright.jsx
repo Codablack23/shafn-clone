@@ -5,7 +5,7 @@ const FooterCopyright = () => {
         <div className="ps-copyright">
             <img src="/img/logo.png" alt="" />
             <p>
-                &copy;2020 Marfury marketplace. <br /> All rights reversed.
+                &copy;Shafn {new Date().getFullYear()} All Rights Reserved 
             </p>
         </div>
     );
