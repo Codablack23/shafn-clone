@@ -74,11 +74,9 @@ const WPProductSelf = ({ productID }) => {
         return (
             <div className="ps-product">
                 <div className="ps-product__thumbnail">
-                    <Link href="/product/[pid]" as={`/product/${query}`}>
-                        <a>
-                            <LazyLoad>{thumbnailImage}</LazyLoad>
-                        </a>
-                    </Link>
+                    <a href={`/product/${query}`}>
+                        <LazyLoad>{thumbnailImage}</LazyLoad>
+                    </a>
                     {/*  {product.badge ? productBadge : ''}*/}
                     <ul className="ps-product__actions">
                         <li>
