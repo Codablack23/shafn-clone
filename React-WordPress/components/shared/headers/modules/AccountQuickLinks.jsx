@@ -7,7 +7,7 @@ class AccountQuickLinks extends Component {
         super(props);
     }
 
-    handleLogout = e => {
+    handleLogout = (e) => {
         e.preventDefault();
         this.props.dispatch(logOut());
     };
@@ -46,7 +46,7 @@ class AccountQuickLinks extends Component {
                     <i className="icon-user"></i>
                     <div className="ps-block__content">
                         <ul className="ps-list--arrow">
-                            {accountLinks.map(link => (
+                            {accountLinks.map((link) => (
                                 <li key={link.text}>
                                     <Link href={link.url}>
                                         <a>{link.text}</a>
@@ -65,17 +65,18 @@ class AccountQuickLinks extends Component {
                 </div>
             );
         } else {
+            let dashboardDomain = 'http://localhost:5500';
             return (
                 <div className="ps-block--user-header">
                     <div className="ps-block__left">
                         <i className="icon-user"></i>
                     </div>
                     <div className="ps-block__right">
-                        <Link href="/account/login">
-                            <a>Login</a>
+                        <Link href={`${dashboardDomain}/account/login`}>
+                            <a target="_blank">Login</a>
                         </Link>
-                        <Link href="/account/register">
-                            <a>Register</a>
+                        <Link href={`${dashboardDomain}/account/register`}>
+                            <a target="_blank">Register</a>
                         </Link>
                     </div>
                 </div>
@@ -83,7 +84,7 @@ class AccountQuickLinks extends Component {
         }
     }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return state;
 };
 export default connect(mapStateToProps)(AccountQuickLinks);

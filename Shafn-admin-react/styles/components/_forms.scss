@@ -1,130 +1,287 @@
 .ps-form {
-    .ps-form__header {
-        h4 {
-            font-size: 20px;
-            font-weight: 600;
-            text-transform: capitalize;
-        }
+  .ps-form__header {
+    h4 {
+      font-size: 20px;
+      font-weight: 600;
+      text-transform: capitalize;
     }
+  }
 
+  .ps-form__bottom {
+    padding-top: 50px;
+    text-align: center;
+    .ps-btn {
+      margin-right: 20px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+  @media screen and (max-width: 1679px) {
     .ps-form__bottom {
-        padding-top: 50px;
-        text-align: center;
-        .ps-btn {
-            margin-right: 20px;
-            &:last-child {
-                margin-right: 0;
-            }
-        }
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .ps-btn {
+        margin-right: 10px;
+      }
     }
-    @media screen and (max-width: 1679px) {
-        .ps-form__bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            .ps-btn {
-                margin-right: 10px;
-            }
-        }
-    }
+  }
 }
 
 .ps-form--search-bar {
-    position: relative;
+  position: relative;
 
-    input {
-        border: none;
-        border-bottom: 1px solid #ddd;
-        text-indent: 20px;
+  input {
+    border: none;
+    border-bottom: 1px solid #ddd;
+    text-indent: 20px;
 
-        &:hover {
-            border-bottom-color: $color-1st;
-        }
+    &:hover {
+      border-bottom-color: $color-1st;
     }
+  }
 
-    button {
-        @include vertical-align();
-        left: 0;
-        font-size: 18px;
-        border: none;
-        background-color: transparent;
-    }
+  button {
+    @include vertical-align();
+    left: 0;
+    font-size: 18px;
+    border: none;
+    background-color: transparent;
+  }
 }
 
 .ps-form--search-simple {
-    position: relative;
-    max-width: 360px;
-    width: 100%;
+  position: relative;
+  max-width: 360px;
+  width: 100%;
 
-    button {
-        @include vertical-align();
-        right: 10px;
-        background: none;
-        border: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: all 0.4s ease;
-        font-size: 16px;
-    }
+  button {
+    @include vertical-align();
+    right: 10px;
+    background: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.4s ease;
+    font-size: 16px;
+  }
 
-    input {
-        height: 40px;
-    }
+  input {
+    height: 40px;
+  }
 }
 
 .ps-form--filter {
-    display: flex;
-    flex-flow: column wrap;
-    > * {
-        flex-basis: 100%;
-    }
+  display: flex;
+  flex-flow: column wrap;
+  > * {
+    flex-basis: 100%;
+  }
 
-    input {
-        height: 40px;
-    }
+  input {
+    height: 40px;
+  }
 
-    .ps-btn {
-        height: 40px;
-        padding: 0 30px;
-        font-size: 13px;
-    }
+  .ps-btn {
+    height: 40px;
+    padding: 0 30px;
+    font-size: 13px;
+  }
 
+  .form-group {
+    margin-bottom: 10px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
     .form-group {
+      padding: 0 5px;
+    }
+
+    .ps-form__left {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin: 0 -5px;
+      margin-bottom: 10px;
+      > * {
+        flex-basis: 100%;
+      }
+
+      .form-group {
         margin-bottom: 10px;
+      }
     }
 
-    @media screen and (min-width: 1200px) {
-        flex-flow: row nowrap;
-        justify-content: space-between;
-        align-items: flex-start;
-        .form-group {
-            padding: 0 5px;
-        }
-
-        .ps-form__left {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin: 0 -5px;
-            margin-bottom: 10px;
-            > * {
-                flex-basis: 100%;
-            }
-
-            .form-group {
-                margin-bottom: 10px;
-            }
-        }
-
-        .ps-form__right {
-            padding-left: 10px;
-            max-width: 100px;
-        }
+    .ps-form__right {
+      padding-left: 10px;
+      max-width: 100px;
     }
+  }
 }
 
-.ps-form--account-settings {
-    .ps-form__footer {
+.ps-form--account {
+  max-width: 430px;
+  margin: 0 auto !important;
+  padding-top: 130px;
+  @extend %list-reset;
+
+  .ps-tab-list {
+    text-align: center;
+    margin-bottom: 30px;
+
+    li {
+      display: inline-block;
+      padding: 0 15px;
+
+      a {
+        font-size: 30px;
+        color: $color-text;
+        font-weight: 600;
+      }
+
+      &.active {
+        a {
+          color: $color-heading;
+        }
+      }
     }
+  }
+
+  .form-forgot {
+    position: relative;
+
+    input {
+      padding-right: 100px;
+    }
+
+    > a {
+      @include vertical-align();
+      right: 10px;
+      color: #06c;
+
+      &:hover {
+        color: $color-1st;
+      }
+    }
+  }
+
+  .ps-checkbox {
+    > label {
+      color: $color-heading;
+    }
+  }
+
+  .ps-list--social {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin: 0 -5px;
+
+    li {
+      padding: 0 5px;
+      width: 100%;
+      text-align: center;
+      margin-right: 0;
+
+      a {
+        display: block;
+        line-height: 20px;
+        padding: 15px 0;
+
+        i {
+          color: #ffffff;
+          text-align: center;
+        }
+
+        &.facebook {
+          background-color: #3b5999;
+        }
+
+        &.google {
+          background-color: #dd4b39;
+        }
+
+        &.twitter {
+          background-color: #55acee;
+        }
+
+        &.instagram {
+          background-color: #e4405f;
+        }
+      }
+    }
+  }
+
+  .ps-form__content {
+    padding: 30px 30px 0;
+
+    h5 {
+      margin: 0 0 25px;
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    .submit {
+      text-align: center;
+
+      .ps-btn {
+        padding: 0 30px;
+        height: 50px;
+      }
+    }
+  }
+
+  .ps-form__footer {
+    padding: 30px 30px;
+  }
+
+  .ps-tab {
+    background-color: #ffffff;
+  }
+}
+
+.ps-form--account-setting {
+  .ant-calendar-picker {
+    min-width: 100%;
+
+    input {
+      height: 50px;
+      border-radius: 0;
+    }
+  }
+
+  .form-control {
+    &.ant-input {
+      border-color: #d1d1d1;
+      background-color: #fafafa;
+
+      &:focus {
+        border-color: $color-1st;
+      }
+    }
+  }
+
+  .ps-form__header {
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eaeaea;
+
+    h3 {
+      margin-bottom: 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+
+  .ps-form__content {
+    padding: 30px;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(#ccc, 0.5);
+    background-color: #fff;
+  }
 }

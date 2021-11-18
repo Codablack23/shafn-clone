@@ -126,9 +126,11 @@ const WPProductSelf = ({ productID }) => {
                         <a className="ps-product__vendor">Young Shop</a>
                     </Link>*/}
                     <div className="ps-product__content">
-                        <Link href="/product/[pid]" as={`/product/${query}`}>
-                            <a className="ps-product__title">{product.name}</a>
-                        </Link>
+                        <a
+                            className="ps-product__title"
+                            href={`/product/${query}`}>
+                            {product.name}
+                        </a>
                         <div className="ps-product__rating">
                             <Rating />
                             <span>{product.review_count}</span>
@@ -136,9 +138,11 @@ const WPProductSelf = ({ productID }) => {
                         {priceView}
                     </div>
                     <div className="ps-product__content hover">
-                        <Link href="/product/[pid]" as={`/product/${query}`}>
-                            <a className="ps-product__title">{product.name}</a>
-                        </Link>
+                        <a
+                            className="ps-product__title"
+                            href={`/product/${query}`}>
+                            {product.name}
+                        </a>
                         {priceView}
                     </div>
                 </div>
