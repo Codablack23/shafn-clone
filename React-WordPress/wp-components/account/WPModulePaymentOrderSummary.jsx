@@ -12,7 +12,7 @@ const WPModulePaymentOrderSummary = ({ shipping, amount, cartItems }) => {
                         {product.name}
                         <span>x{product.quantity}</span>
                     </strong>
-                    <small>${product.quantity * product.price}</small>
+                    <small>€{product.quantity * product.price}</small>
                 </a>
             </Link>
         ));
@@ -24,7 +24,7 @@ const WPModulePaymentOrderSummary = ({ shipping, amount, cartItems }) => {
             <figure>
                 <figcaption>
                     <strong>Shipping Fee</strong>
-                    <small>$20.00</small>
+                    <small>€ 0</small>
                 </figcaption>
             </figure>
         );
@@ -32,7 +32,7 @@ const WPModulePaymentOrderSummary = ({ shipping, amount, cartItems }) => {
             <figure className="ps-block__total">
                 <h3>
                     Total
-                    <strong>${parseInt(amount) + 20}.00</strong>
+                    <strong>€{parseInt(amount) + 20}.00</strong>
                 </h3>
             </figure>
         );

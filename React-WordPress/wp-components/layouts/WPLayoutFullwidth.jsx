@@ -15,7 +15,7 @@ const WPLayoutFullwidth = ({ children, title }) => {
     }
 
     return (
-        <div className="martfury">
+        <div className="shafn">
             <Head>
                 <title>{titleView}</title>
             </Head>

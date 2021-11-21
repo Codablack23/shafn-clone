@@ -1,6 +1,6 @@
 /*
  * WPReact
- * Developed by: diaryforlife
+ * Developed by: shafN
  * */
 
 import React from 'react';
@@ -157,7 +157,7 @@ export function WPProductBadgeView(product) {
 
 export function WPProductDetailRatingView(product) {
     let view;
-    if (product.rating_count > 0) {
+    if (product?.rating_count > 0) {
         view = (
             <div className="ps-product__rating">
                 <Rating />
@@ -176,7 +176,7 @@ export function WPProductDetailRatingView(product) {
 
 export function WPProductDetailShortDescView(product) {
     let view;
-    if (product.short_description) {
+    if (product?.short_description) {
         view = (
             <div
                 className="ps-document"
@@ -199,7 +199,7 @@ export function WPProductDetailShortDescView(product) {
 
 export function WPProductDetailBrandView(product) {
     let view;
-    if (product.attributes && product.attributes.length > 0) {
+    if (product?.attributes && product.attributes.length > 0) {
         const brand = product.attributes.find((item) => item.name === 'brand');
         if (brand) {
             view = (
@@ -222,7 +222,7 @@ export function WPProductDetailBrandView(product) {
 
 export function WPProductDetailCategoriesView(product) {
     let view;
-    if (product.categories) {
+    if (product?.categories) {
         view = product.categories.map((item) => (
             <Link href="/shop" key={item.id}>
                 <a
@@ -240,7 +240,7 @@ export function WPProductDetailCategoriesView(product) {
 
 export function WPProductDetailTagsView(product) {
     let view;
-    if (product.tags && product.tags.length > 0) {
+    if (product?.tags && product.tags.length > 0) {
         view = product.tags.map((item) => (
             <Link href="/shop" key={item.id}>
                 <a

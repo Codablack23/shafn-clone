@@ -4,7 +4,7 @@ import { notification } from 'antd';
 import Menu from '../../elements/menu/Menu';
 
 import menuData from '../../../public/static/data/menu';
-import CurrencyDropdown from '../headers/modules/CurrencyDropdown';
+//import CurrencyDropdown from '../headers/modules/CurrencyDropdown';
 import LanguageSwicher from '../headers/modules/LanguageSwicher';
 import MenuCategoriesDropdown from '~/components/shared/menus/MenuCategoriesDropdown';
 
@@ -45,9 +45,9 @@ class NavigationDefault extends Component {
                                     <a>Tract your order</a>
                                 </Link>
                             </li>
-                            <li>
+                            {/* <li>
                                 <CurrencyDropdown />
-                            </li>
+                            </li> */}
                             <li>
                                 <LanguageSwicher />
                             </li>

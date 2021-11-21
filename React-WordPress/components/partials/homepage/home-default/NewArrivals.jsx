@@ -15,7 +15,7 @@ class NewArrivals extends Component {
             <div className="ps-product-list ps-new-arrivals">
                 <div className="ps-container">
                     <div className="ps-section__header">
-                        <h3>Hot New Arrivals</h3>
+                        <h3>New Arrivals</h3>
                         <ul className="ps-section__links">
                             <li>
                                 <Link href="/shop?category=computers-and-technologies">

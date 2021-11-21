@@ -6,34 +6,9 @@ const FooterWidgets = () => (
         <aside className="widget widget_footer widget_contact-us">
             <h4 className="widget-title">Contact us</h4>
             <div className="widget_content">
-                <p>Call us 24/7</p>
-                <h3>1800 97 97 69</h3>
                 <p>
-                    502 New Design Str, Melbourne, Australia <br />
-                    <a href="mailto:contact@martfury.co">contact@martfury.co</a>
+                    <a href="mailto:info@shafn.com<">info@shafn.com</a>
                 </p>
-                <ul className="ps-list--social">
-                    <li>
-                        <a className="facebook" href="#">
-                            <i className="fa fa-facebook"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a className="twitter" href="#">
-                            <i className="fa fa-twitter"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a className="google-plus" href="#">
-                            <i className="fa fa-google-plus"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a className="instagram" href="#">
-                            <i className="fa fa-instagram"></i>
-                        </a>
-                    </li>
-                </ul>
             </div>
         </aside>
         <aside className="widget widget_footer">
@@ -120,6 +95,12 @@ const FooterWidgets = () => (
                         <a>Shop</a>
                     </Link>
                 </li>
+                <p>
+                    <i className="icon-store"></i>
+                <Link href="/vendor/become-a-vendor">
+                    <a>Sell on shafN</a>
+                </Link>
+                </p>
             </ul>
         </aside>
     </div>

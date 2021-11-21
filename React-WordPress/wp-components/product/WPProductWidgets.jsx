@@ -1,10 +1,20 @@
 import React from 'react';
 import Link from 'next/link';
+import WPModuleProductDetailInformation from '../../wp-components/elements/products/modules/WPModuleProductDetailInformation';
+import {
+    WPProductDetailBrandView,
+    WPProductDetailCategoriesView,
+    WPProductDetailRatingView,
+    WPProductDetailShortDescView,
+    WPProductDetailTagsView,
+} from '~/utilities/WPHelpers';
+
+
 
 const WPProductWidgets  = ({children}) => {
     return (
         <section>
-            <aside className="widget widget_product widget_features">
+            {/* <aside className="widget widget_product widget_features">
                 <p>
                     <i className="icon-network"></i> Shipping worldwide
                 </p>
@@ -22,20 +32,18 @@ const WPProductWidgets  = ({children}) => {
                 </p>
             </aside>
             <aside className="widget widget_sell-on-site">
-                <p>
-                    <i className="icon-store"></i> Sell on ShafN
-                    <Link href="/account/register">
-                        <a> Register Now !</a>
-                    </Link>
-                </p>
-            </aside>
-            <aside className="widget widget_ads">
+            </aside> */}
+                <WPModuleProductDetailInformation/>   
+
+            {/* <aside className="widget widget_ads">
                 <Link href="/shop">
                     <a>
                         <img src="/static/img/ads/product-ads.png" alt="shafn" />
                     </a>
                 </Link>
-            </aside>
+            </aside> */}
+        
+            
             {children}
         </section>
     );

@@ -20,14 +20,14 @@ class WPHeaderActions extends Component {
         }
         return (
             <div className="header__actions">
-                <Link href="/account/compare">
+                {/* <Link href="/account/compare">
                     <a className="header__extra">
                         <i className="icon-chart-bars"></i>
                         <span>
                             <i>{compare && compare.compareTotal}</i>
                         </span>
                     </a>
-                </Link>
+                </Link> */}
                 <Link href="/account/wishlist">
                     <a className="header__extra">
                         <i className="icon-heart"></i>
@@ -36,6 +36,14 @@ class WPHeaderActions extends Component {
                         </span>
                     </a>
                 </Link>
+                {/* <Link href="/">
+                    <a className="header__extra">
+                        <i className="fa fa-bell"></i>
+                        <span>
+                            <i>{wishlist.wishlistTotal}</i>
+                        </span>
+                    </a>
+                </Link> */}
                 <WPMiniCart />
                 {accountView}
             </div>

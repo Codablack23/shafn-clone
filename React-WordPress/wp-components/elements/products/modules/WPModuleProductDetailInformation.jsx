@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { formatCurrency } from '~/utilities/product-helper';
 import { addItem } from '~/store/cart/action';
 import { addCheckoutItem } from '~/store/checkout-items/action';
-import ModuleProductDetailSharing from '~/components/elements/detail/modules/elements/ModuleProductDetailSharing';
+// import ModuleProductDetailSharing from '~/components/elements/detail/modules/elements/ModuleProductDetailSharing';
 
 import {
     WPProductDetailBrandView,
@@ -101,7 +101,7 @@ const WPModuleProductDetailInformation = ({ product, children, variant }) => {
 
     return (
         <div className="ps-product__info">
-            <h1>{product.name}</h1>
+            <h1>{product?.name}</h1>
             <div className="ps-product__meta">
                 {brandView}
                 {ratingView}
@@ -161,7 +161,7 @@ const WPModuleProductDetailInformation = ({ product, children, variant }) => {
                     {tagsView}
                 </p>
             </div>
-            <ModuleProductDetailSharing />
+            {/* <ModuleProductDetailSharing /> */}
         </div>
     );
 };

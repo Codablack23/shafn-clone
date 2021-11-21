@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import WPHeaderMobile from '~/wp-components/shared/mobile/WPHeaderMobile';
+// import WPHeaderMobile from '~/wp-components/shared/mobile/WPHeaderMobile';
 import WPNavigationBottom from '~/wp-components/shared/mobile/WPNavigationBottom';
 import FooterDefault from '~/components/shared/footers/FooterDefault';
 import Newsletters from '~/components/partials/commons/Newletters';
@@ -20,7 +20,7 @@ const WPLayoutHomeMarketPlace = ({ children, title }) => {
                 <title>{titleView}</title>
             </Head>
             <WPHeaderMarketPlace />
-            <WPHeaderMobile />
+            {/* <WPHeaderMobile /> */}
             <WPNavigationBottom />
             {/*<SubscribePopup active={subscribe} />*/}
             {children}

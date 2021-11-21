@@ -38,7 +38,7 @@ class WPNavigationDefault extends Component {
                         <ul className="navigation__extra">
                             <li>
                                 <Link href="/vendor/become-a-vendor">
-                                    <a>Sell on Martfury</a>
+                                    <a>Sell on shafN</a>
                                 </Link>
                             </li>
                             <li>
@@ -46,12 +46,12 @@ class WPNavigationDefault extends Component {
                                     <a>Tract your order</a>
                                 </Link>
                             </li>
-                            <li>
+                            {/* <li>
                                 <CurrencyDropdown />
                             </li>
                             <li>
                                 <LanguageSwicher />
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                 </div>
