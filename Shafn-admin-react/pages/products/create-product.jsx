@@ -74,8 +74,15 @@ const CreateProductPage = () => {
       },
     };
 
+    let slug = `${name
+      .replace(/[^a-zA-Z0-9-_]/g, " ")
+      .replace(/  +/g, " ")
+      .split(" ")
+      .join("-")}`.trim();
+
     const product = {
       name,
+      slug,
       price: discountedPrice.trim() || price.trim(),
       regular_price: price.trim(),
       sale_price: discountedPrice.trim(),
