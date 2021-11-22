@@ -14,7 +14,12 @@ import {
     WPProductDetailTagsView,
 } from '~/utilities/WPHelpers';
 
-const WPModuleProductDetailInformation = ({ product, children, variant }) => {
+const WPModuleProductDetailInformation = ({
+    product,
+    children,
+    variant,
+    isWidget,
+}) => {
     const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(1);
 
@@ -101,7 +106,7 @@ const WPModuleProductDetailInformation = ({ product, children, variant }) => {
 
     return (
         <div className="ps-product__info">
-            <h1>{product?.name}</h1>
+            {!isWidget && <h1>{product?.name}</h1>}
             <div className="ps-product__meta">
                 {brandView}
                 {ratingView}

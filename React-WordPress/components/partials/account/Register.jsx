@@ -31,38 +31,6 @@ class Register extends Component {
 
     handleSubmit = () => {
         window.location.assign('http://localhost:5500');
-        // let endpoint = '/wp-json/jwt-auth/v1/token';
-        // let endpoint = '/wp-json/wp/v2/users';
-        // const loginData = {
-        //     email: 'Valentineorga@gmail.com',
-        //     first_name: 'Valentine',
-        //     last_name: 'Orga',
-        //     url: 'http://shafn.com/Store/Valentine',
-        //     username: 'ValenKool',
-        //     password: 'GoofyBalls',
-        //     roles: ['seller'],
-        // };
-        // "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvc2hhZm4uY29tIiwiaWF0IjoxNjM2MjkxNDExLCJuYmYiOjE2MzYyOTE0MTEsImV4cCI6MTYzNjg5NjIxMSwiZGF0YSI6eyJ1c2VyIjp7ImlkIjoiMjUifX19.QaxcGOWKk4thBVGEyPkjXf6KyH3helGGDDieTHboWes"
-        // const loginData = {
-        //     store_name: 'floppies',
-        // };
-        // const headers = {
-        //     'Content-type': 'application/json',
-        //     Authorization:
-        //         'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvc2hhZm4uY29tIiwiaWF0IjoxNjM2MjkxNDExLCJuYmYiOjE2MzYyOTE0MTEsImV4cCI6MTYzNjg5NjIxMSwiZGF0YSI6eyJ1c2VyIjp7ImlkIjoiMjUifX19.QaxcGOWKk4thBVGEyPkjXf6KyH3helGGDDieTHboWes',
-        // eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvc2hhZm4uY29tIiwiaWF0IjoxNjM2MjgyNDk4LCJuYmYiOjE2MzYyODI0OTgsImV4cCI6MTYzNjg4NzI5OCwiZGF0YSI6eyJ1c2VyIjp7ImlkIjoiMSJ9fX0.2akCakbS_X-XyzXwD0qmgcfMeS4V19LJP2bs-v1o6Lg
-        // };
-        // /wp-json/dokan/v1/settings
-        // axios
-        //     .put(`${WPDomain}/wp-json/dokan/v1/settings`, loginData, {
-        //         headers: headers,
-        //     })
-        //     .then((res) => {
-        //         console.log('Success::', res.data);
-        //     })
-        //     .catch((err) => {
-        //         console.log('Failed::', err);
-        //     });
     };
 
     render() {

@@ -110,7 +110,7 @@ const WPProductDetailPage = ({ pid }) => {
                     <div className="ps-page__container">
                         <div className="ps-page__left">{productView}</div>
                         <div className="ps-page__right">
-                            <WPProductWidgets>
+                            <WPProductWidgets product={product}>
                                 <WPWidgetProductsSameBrand
                                     products={relatedProducts}
                                     isVariant={true}
