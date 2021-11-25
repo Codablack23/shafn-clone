@@ -11,7 +11,6 @@ import {
 } from '~/utilities/WPHelpers';
 
 const WPProductWidgets = ({ product, children }) => {
-    console.log('Weee::', product);
     return (
         <section>
             {/* <aside className="widget widget_product widget_features">
