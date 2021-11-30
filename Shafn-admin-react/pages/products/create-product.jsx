@@ -14,12 +14,12 @@ const CreateProductPage = () => {
   const [discountedPrice, setDiscountedPrice] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
+  const [type, setType] = useState("simple");
   const [qty, setQty] = useState("");
   const [sku, setSku] = useState("");
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
 
-  // const [imageUploadStatus, setImageUploadStatus] = useState("NOT_UPLOADING");
   const [isUploading, setIsUploading] = useState(false);
 
   const imageHandler = (e) => {
@@ -40,8 +40,6 @@ const CreateProductPage = () => {
   };
 
   const uploadImages = (config) => {
-    // setImageUploadStatus("UPLOADING");
-
     let images = [];
     imageFiles.forEach((img, index) => {
       let formData = new FormData();
@@ -51,12 +49,9 @@ const CreateProductPage = () => {
       axios
         .post("https://shafn.com/wp-json/wp/v2/media", formData, config)
         .then((res) => {
-          // setImageUploadStatus("UPLOADED");
-
           images.push({ src: res.data.source_url, position: index });
         })
         .catch((err) => {
-          // setImageUploadStatus("FAILED");
           return;
         })
         .finally(() => {
@@ -94,6 +89,7 @@ const CreateProductPage = () => {
       categories: category,
       stock_quantity: Number(qty.trim()),
       sku,
+      type,
       images,
     };
 
@@ -276,6 +272,22 @@ const CreateProductPage = () => {
                         </select>
                       </div>
                     </div>
+                    <div className="form-group form-group--select">
+                      <label>
+                        Type<sup>*</sup>
+                      </label>
+                      <div className="form-group__content">
+                        <select
+                          name="type"
+                          className="ps-select"
+                          title="Status"
+                          onChange={(e) => setType(e.target.value)}
+                        >
+                          <option value="simple">Simple</option>
+                          <option value="variable">Variable</option>
+                        </select>
+                      </div>
+                    </div>
                     <div className="form-group">
                       <label>
                         Sale Quantity<sup>*</sup>
@@ -348,36 +360,6 @@ const CreateProductPage = () => {
                         >
                           Choose
                         </label>
-                        {/* {imageUploadStatus === "UPLOADING" ? (
-                          <img
-                            src={require("../../public/img/Interwind-loader.svg")}
-                            alt="Loading..."
-                            width={50}
-                            height={50}
-                          />
-                        ) : imageUploadStatus === "UPLOADED" ? (
-                          <img
-                            src={require("../../public/img/tick.jpg")}
-                            alt="Loading..."
-                            style={{
-                              marginTop: 13,
-                              marginLeft: 10,
-                              width: 30,
-                              height: 30,
-                            }}
-                          />
-                        ) : imageUploadStatus === "FAILED" ? (
-                          <img
-                            src={require("../../public/img/cancel.png")}
-                            alt="Loading..."
-                            style={{
-                              marginTop: 13,
-                              marginLeft: 10,
-                              width: 20,
-                              height: 20,
-                            }}
-                          />
-                        ) : null} */}
                       </div>
                     </div>
                     {/* <div className="form-group form-group--nest">

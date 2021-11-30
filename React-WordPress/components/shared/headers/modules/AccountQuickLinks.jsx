@@ -65,18 +65,17 @@ class AccountQuickLinks extends Component {
                 </div>
             );
         } else {
-            let dashboardDomain = 'http://localhost:5500';
             return (
                 <div className="ps-block--user-header">
                     <div className="ps-block__left">
                         <i className="icon-user"></i>
                     </div>
                     <div className="ps-block__right">
-                        <Link href={`${dashboardDomain}/account/login`}>
-                            <a target="_blank">Login</a>
+                        <Link href="/account/login">
+                            <a>Login</a>
                         </Link>
-                        <Link href={`${dashboardDomain}/account/register`}>
-                            <a target="_blank">Register</a>
+                        <Link href="/account/register">
+                            <a>Register</a>
                         </Link>
                     </div>
                 </div>
