@@ -142,13 +142,7 @@ const CreateProductPage = () => {
   const renderImages = () => {
     return selectedImages.map((img, index) => (
       <div key={img.url} style={styles.imageContainer}>
-        <img
-          src={img.url}
-          style={{
-            width: 200,
-            maxHeight: 300,
-          }}
-        />
+        <img src={img.url} style={styles.image} />
 
         <div
           className="ps-btn ps-btn--sm"
@@ -275,22 +269,7 @@ const CreateProductPage = () => {
                         </select>
                       </div>
                     </div>
-                    {/* <div className="form-group form-group--select">
-                      <label>
-                        Type<sup>*</sup>
-                      </label>
-                      <div className="form-group__content">
-                        <select
-                          name="type"
-                          className="ps-select"
-                          title="Status"
-                          onChange={(e) => setType(e.target.value)}
-                        >
-                          <option value="simple">Simple</option>
-                          <option value="variable">Variable</option>
-                        </select>
-                      </div>
-                    </div> */}
+
                     <div className="form-group">
                       <label>
                         Sale Quantity<sup>*</sup>
@@ -476,6 +455,7 @@ let styles = {
     marginBottom: 10,
     position: "relative",
   },
+  image: { width: 200, maxHeight: 300 },
   imageDel: {
     position: "absolute",
     fontSize: 15,
