@@ -14,10 +14,7 @@ const WithdrawPage = () => {
   }, []);
   return (
     <ContainerDefault title="Withdraw">
-      <HeaderDashboard
-        title="Withdraw"
-        description="Martfury Withdraw Listing"
-      />
+      <HeaderDashboard title="Withdraw" description="ShafN Withdraw Listing" />
       <section className="ps-items-listing">
         {/* <div className="ps-section__header simple">
           <div className="ps-section__filter">

@@ -9,7 +9,9 @@ const WPProductDetail = ({ product, variations }) => {
     const [selectedColor, setSelectedColor] = useState(null);
     const [activeVariant, setActiveVariant] = useState(null);
 
-    async function handleChangeSize(newSize) {
+    console.log(product);
+
+    function handleChangeSize(newSize) {
         if (newSize !== selectedSize) {
             setSelectedSize(newSize.toLowerCase());
         }
@@ -19,8 +21,7 @@ const WPProductDetail = ({ product, variations }) => {
             }
         });
     }
-
-    async function handleChangeColor(newColor) {
+    function handleChangeColor(newColor) {
         if (newColor !== selectedColor) {
             setSelectedColor(newColor.toLowerCase());
         }

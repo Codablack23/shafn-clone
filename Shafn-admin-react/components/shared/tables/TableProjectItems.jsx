@@ -138,7 +138,7 @@ const TableProjectItems = () => {
         </td>
         <td>{item.date_created}</td>
         <td>
-          <DropdownAction />
+          <DropdownAction productID={item.id} />
         </td>
       </tr>
     );

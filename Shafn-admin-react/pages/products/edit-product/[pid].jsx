@@ -165,11 +165,8 @@ const CreateProductPage = () => {
     dispatch(toggleDrawerMenu(false));
   }, []);
   return (
-    <ContainerDefault title="Create new product">
-      <HeaderDashboard
-        title="Create Product"
-        description="ShafN Create New Product "
-      />
+    <ContainerDefault title="Edit product">
+      <HeaderDashboard title="Edit Product" description="ShafN Edit Product " />
       <section className="ps-new-item">
         <form
           className="ps-form ps-form--new-product"
@@ -446,7 +443,7 @@ const CreateProductPage = () => {
             <button disabled={isUploading} type="submit" className="ps-btn">
               {isUploading ? (
                 <img
-                  src={require("../../public/img/Interwind-loader.svg")}
+                  src={require("../../../public/img/Interwind-loader.svg")}
                   alt="Uploading..."
                   width={40}
                   height={30}
