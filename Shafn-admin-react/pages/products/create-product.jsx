@@ -419,10 +419,13 @@ const CreateProductPage = () => {
             <a className="ps-btn ps-btn--black" href="products.html">
               Back
             </a>
-            <button className="ps-btn ps-btn--gray" onClick={handleOnSubmit}>
-              Cancel
-            </button>
-            <button disabled={isUploading} type="submit" className="ps-btn">
+            <button className="ps-btn ps-btn--gray">Cancel</button>
+            <button
+              disabled={isUploading}
+              type="submit"
+              className="ps-btn"
+              onClick={handleOnSubmit}
+            >
               {isUploading ? (
                 <img
                   src={require("../../public/img/Interwind-loader.svg")}

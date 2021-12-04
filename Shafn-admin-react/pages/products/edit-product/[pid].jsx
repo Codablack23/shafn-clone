@@ -30,6 +30,10 @@ const EditProductPage = ({ pid }) => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [imagesToUpload, setImagesToUpload] = useState([]);
 
+  console.log("Files::", imageFiles);
+  console.log("Selected::", selectedImages);
+  console.log("images::", imagesToUpload);
+
   const [isUploading, setIsUploading] = useState(false);
 
   const imageHandler = (e) => {
@@ -51,38 +55,44 @@ const EditProductPage = ({ pid }) => {
 
   const uploadImages = (config) => {
     let images = [];
-    imageFiles.forEach((img, index) => {
-      let formData = new FormData();
+    if (imageFiles.length === 0) {
+      uploadProduct(config, images);
+    } else {
+      imageFiles.forEach((img, index) => {
+        let formData = new FormData();
 
-      formData.append("file", img);
+        formData.append("file", img);
 
-      axios
-        .post("https://shafn.com/wp-json/wp/v2/media", formData, config)
-        .then((res) => {
-          images.push({ src: res.data.source_url });
-        })
-        .catch((err) => {
-          return;
-        })
-        .finally(() => {
-          //  Check if last image has been reached
-          if (index === imageFiles.length - 1) {
-            // Check if every image uploaded
-            if (images.length === imageFiles.length) {
-              uploadProduct(config, images);
-            } else {
-              setIsUploading(false);
-              notification["error"]({
-                message:
-                  "Some images did not upload!. Check your data connection and try again.",
-              });
+        axios
+          .post("https://shafn.com/wp-json/wp/v2/media", formData, config)
+          .then((res) => {
+            images.push({ src: res.data.source_url });
+          })
+          .catch((err) => {
+            return;
+          })
+          .finally(() => {
+            //  Check if last image has been reached
+            if (index === imageFiles.length - 1) {
+              // Check if every image uploaded
+              if (images.length === imageFiles.length) {
+                console.log("editing...");
+                uploadProduct(config, images);
+              } else {
+                setIsUploading(false);
+                notification["error"]({
+                  message:
+                    "Some images did not upload!. Check your data connection and try again.",
+                });
+              }
             }
-          }
-        });
-    });
+          });
+      });
+    }
   };
 
   const uploadProduct = (config, images) => {
+    console.log(imagesToUpload.concat(images));
     let slug = `${name
       .replace(/[^a-zA-Z0-9-_]/g, " ")
       .replace(/  +/g, " ")
@@ -109,6 +119,7 @@ const EditProductPage = ({ pid }) => {
       type,
     };
 
+    console.log("Done");
     axios
       .put(
         `https://shafn.com/wp-json/dokan/v1/products/${pid}`,
@@ -150,7 +161,7 @@ const EditProductPage = ({ pid }) => {
   const removeImage = (name) => {
     setSelectedImages((current) => current.filter((img) => img.name !== name));
     setImageFiles((current) => current.filter((img) => img.name !== name));
-    setImageToUpload((current) => current.filter((img) => img.name !== name));
+    setImagesToUpload((current) => current.filter((img) => img.name !== name));
   };
 
   const renderImages = () => {
@@ -182,7 +193,6 @@ const EditProductPage = ({ pid }) => {
     axios
       .get(`https://shafn.com/wp-json/dokan/v1/products/${pid}`, config)
       .then((res) => {
-        console.log(res.data);
         let product = res.data;
         setName(product.name);
         setPrice(String(product.regular_price));
@@ -574,7 +584,7 @@ const EditProductPage = ({ pid }) => {
                     </div> */}
                   </div>
                 </figure>
-                {/* <figure className="ps-block--form-box">
+                <figure className="ps-block--form-box">
                   <figcaption>Meta</figcaption>
                   <div className="ps-block__content">
                     <div className="form-group form-group--select">
@@ -593,7 +603,7 @@ const EditProductPage = ({ pid }) => {
                       <input className="form-control" type="text" />
                     </div>
                   </div>
-                </figure> */}
+                </figure>
               </div>
             </div>
           </div>
@@ -601,10 +611,13 @@ const EditProductPage = ({ pid }) => {
             <a className="ps-btn ps-btn--black" href="products.html">
               Back
             </a>
-            <button className="ps-btn ps-btn--gray" onClick={handleOnSubmit}>
-              Cancel
-            </button>
-            <button disabled={isUploading} type="submit" className="ps-btn">
+            <button className="ps-btn ps-btn--gray">Cancel</button>
+            <button
+              disabled={isUploading}
+              type="submit"
+              className="ps-btn"
+              onClick={handleOnSubmit}
+            >
               {isUploading ? (
                 <img
                   src={require("../../../public/img/Interwind-loader.svg")}
