@@ -5,20 +5,30 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { notification } from "antd";
 import { toggleDrawerMenu } from "~/store/app/action";
+import Router from "next/router";
+import { CompatSource } from "webpack-sources";
 
-const CreateProductPage = () => {
+const EditProductPage = ({ pid }) => {
   const dispatch = useDispatch();
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [discountedPrice, setDiscountedPrice] = useState("");
+  const [shortDescription, setShortDescription] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
-  // const [type, setType] = useState("simple");
-  const [qty, setQty] = useState("");
+  const [type, setType] = useState("simple");
+  const [downloadable, setDownloadable] = useState(false);
+  const [virtual, setVirtual] = useState(false);
+  // const [qty, setQty] = useState("");
   const [sku, setSku] = useState("");
+  const [inStock, setInStock] = useState("true");
+  const [manageStock, setManageStock] = useState(false);
+  const [soldIndividually, setSoldIndividually] = useState(false);
+  const [tags, setTags] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
+  const [imagesToUpload, setImagesToUpload] = useState([]);
 
   const [isUploading, setIsUploading] = useState(false);
 
@@ -30,7 +40,7 @@ const CreateProductPage = () => {
 
       const imgArr = Array.from(e.target.files).map((img) => ({
         name: img.name,
-        url: URL.createObjectURL(img),
+        src: URL.createObjectURL(img),
       }));
 
       setSelectedImages((current) => current.concat(imgArr));
@@ -41,35 +51,39 @@ const CreateProductPage = () => {
 
   const uploadImages = (config) => {
     let images = [];
-    imageFiles.forEach((img, index) => {
-      let formData = new FormData();
+    if (imageFiles.length === 0) {
+      uploadProduct(config, images);
+    } else {
+      imageFiles.forEach((img, index) => {
+        let formData = new FormData();
 
-      formData.append("file", img);
+        formData.append("file", img);
 
-      axios
-        .post("https://shafn.com/wp-json/wp/v2/media", formData, config)
-        .then((res) => {
-          images.push({ src: res.data.source_url, position: index });
-        })
-        .catch((err) => {
-          return;
-        })
-        .finally(() => {
-          //  Check if last image has been reached
-          if (index === imageFiles.length - 1) {
-            // Check if every image uploaded
-            if (images.length === imageFiles.length) {
-              uploadProduct(config, images);
-            } else {
-              setIsUploading(false);
-              notification["error"]({
-                message:
-                  "Some images did not upload!. Check your data connection and try again.",
-              });
+        axios
+          .post("https://shafn.com/wp-json/wp/v2/media", formData, config)
+          .then((res) => {
+            images.push({ src: res.data.source_url });
+          })
+          .catch((err) => {
+            return;
+          })
+          .finally(() => {
+            //  Check if last image has been reached
+            if (index === imageFiles.length - 1) {
+              // Check if every image uploaded
+              if (images.length === imageFiles.length) {
+                uploadProduct(config, images);
+              } else {
+                setIsUploading(false);
+                notification["error"]({
+                  message:
+                    "Some images did not upload!. Check your data connection and try again.",
+                });
+              }
             }
-          }
-        });
-    });
+          });
+      });
+    }
   };
 
   const uploadProduct = (config, images) => {
@@ -85,29 +99,31 @@ const CreateProductPage = () => {
       price: discountedPrice.trim() || price.trim(),
       regular_price: price.trim(),
       sale_price: discountedPrice.trim(),
-      short_description: description.trim(),
+      short_description: shortDescription,
+      description,
       categories: category,
-      stock_quantity: Number(qty.trim()),
+      // stock_quantity: qty,
       sku,
-      images,
+      in_stock: inStock || inStock == "true" ? true : false,
+      downloadable,
+      virtual,
+      images: imagesToUpload.concat(images),
+      manage_stock: manageStock,
+      sold_individually: soldIndividually,
+      type,
     };
 
     axios
-      .post("https://shafn.com/wp-json/dokan/v1/products/", product, config)
+      .put(
+        `https://shafn.com/wp-json/dokan/v1/products/${pid}`,
+        product,
+        config
+      )
       .then((res) => {
         notification["success"]({
-          message: "Product Uploaded Successfully",
+          message: "Product Updated Successfully",
         });
-        setIsUploading(false);
-        setName("");
-        setPrice("");
-        setDiscountedPrice("");
-        setDescription("");
-        setCategory("");
-        setQty("");
-        setSku("");
-        setImageFiles([]);
-        setSelectedImages([]);
+        Router.push("/products");
       })
       .catch((err) => {
         notification["error"]({
@@ -137,12 +153,13 @@ const CreateProductPage = () => {
   const removeImage = (name) => {
     setSelectedImages((current) => current.filter((img) => img.name !== name));
     setImageFiles((current) => current.filter((img) => img.name !== name));
+    setImagesToUpload((current) => current.filter((img) => img.name !== name));
   };
 
   const renderImages = () => {
     return selectedImages.map((img, index) => (
-      <div key={img.url} style={styles.imageContainer}>
-        <img src={img.url} style={styles.image} />
+      <div key={img.src} style={styles.imageContainer}>
+        <img src={img.src} style={styles.image} />
 
         <div
           className="ps-btn ps-btn--sm"
@@ -156,14 +173,48 @@ const CreateProductPage = () => {
   };
 
   useEffect(() => {
+    // Get product
+    let auth_token = localStorage.getItem("auth_token");
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    axios
+      .get(`https://shafn.com/wp-json/dokan/v1/products/${pid}`, config)
+      .then((res) => {
+        let product = res.data;
+        setName(product.name);
+        setPrice(String(product.regular_price));
+        setDiscountedPrice(String(product.price));
+        setCategory([{ id: product.categories[0].id }]);
+        // setQty(product.stock_quantity);
+        setShortDescription(product.description);
+        setDescription(product.short_description);
+        setSku(product.sku);
+        setSelectedImages(product.images);
+        setImagesToUpload(product.images);
+        setDownloadable(product.downloadable);
+        setVirtual(product.virtual);
+        setInStock(product.in_stock);
+        setManageStock(product.manage_stock);
+        setSoldIndividually(product.sold_individually);
+      })
+      .catch((err) => {
+        console.log(err);
+        notification["error"]({
+          message: "Failed to get product!",
+          description: "Check your data connection and try again.",
+        });
+      });
+
     dispatch(toggleDrawerMenu(false));
   }, []);
   return (
-    <ContainerDefault title="Create new product">
-      <HeaderDashboard
-        title="Create Product"
-        description="ShafN Create New Product "
-      />
+    <ContainerDefault title="Edit product">
+      <HeaderDashboard title="Edit Product" description="ShafN Edit Product " />
       <section className="ps-new-item">
         <form
           className="ps-form ps-form--new-product"
@@ -189,6 +240,57 @@ const CreateProductPage = () => {
                         onChange={(e) => setName(e.target.value)}
                         required
                       />
+                    </div>
+                    <div className="form-group form-group--select">
+                      <label>
+                        Type<sup>*</sup>
+                      </label>
+                      <div className="form-group__content">
+                        <select
+                          name="type"
+                          className="ps-select"
+                          title="type"
+                          onChange={(e) => setType(e.target.value)}
+                        >
+                          <option value="simple">Simple</option>
+                          <option value="variable">Variable</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <div className="ps-checkbox">
+                        <input
+                          checked={downloadable}
+                          className="form-control"
+                          type="checkbox"
+                          id="downloadable"
+                          name="downloadable"
+                          onChange={() =>
+                            setDownloadable((current) => !current)
+                          }
+                        />
+                        <label
+                          htmlFor="downloadable"
+                          style={{ color: "black" }}
+                        >
+                          Downloadable
+                        </label>
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <div className="ps-checkbox">
+                        <input
+                          checked={virtual}
+                          className="form-control"
+                          type="checkbox"
+                          id="virtual"
+                          name="virtual"
+                          onChange={() => setVirtual((current) => !current)}
+                        />
+                        <label htmlFor="virtual" style={{ color: "black" }}>
+                          Virtual
+                        </label>
+                      </div>
                     </div>
                     {/* <div className="form-group">
                       <label>
@@ -245,7 +347,7 @@ const CreateProductPage = () => {
                         <select
                           name="categories"
                           className="ps-select"
-                          title="Status"
+                          title="Category"
                           onChange={(e) =>
                             setCategory([{ id: e.target.value }])
                           }
@@ -269,8 +371,23 @@ const CreateProductPage = () => {
                         </select>
                       </div>
                     </div>
-
-                    <div className="form-group">
+                    {/* <div className="form-group form-group--select">
+                      <label>
+                        Type<sup>*</sup>
+                      </label>
+                      <div className="form-group__content">
+                        <select
+                          name="type"
+                          className="ps-select"
+                          title="Status"
+                          onChange={(e) => setType(e.target.value)}
+                        >
+                          <option value="simple">Simple</option>
+                          <option value="variable">Variable</option>
+                        </select>
+                      </div>
+                    </div> */}
+                    {/* <div className="form-group">
                       <label>
                         Sale Quantity<sup>*</sup>
                       </label>
@@ -283,7 +400,7 @@ const CreateProductPage = () => {
                         value={qty}
                         onChange={(e) => setQty(e.target.value)}
                       />
-                    </div>
+                    </div> */}
                     {/* <div className="form-group">
                       <label>
                         Sold Items<sup>*</sup>
@@ -296,10 +413,23 @@ const CreateProductPage = () => {
                     </div> */}
                     <div className="form-group">
                       <label>
-                        Product Description<sup>*</sup>
+                        Short Description<sup>*</sup>
                       </label>
                       <textarea
                         name="short_description"
+                        className="form-control"
+                        rows="6"
+                        value={shortDescription}
+                        onChange={(e) => setShortDescription(e.target.value)}
+                      ></textarea>
+                    </div>
+
+                    <div className="form-group">
+                      <label>
+                        Description<sup>*</sup>
+                      </label>
+                      <textarea
+                        name="description"
                         className="form-control"
                         rows="6"
                         value={description}
@@ -380,38 +510,85 @@ const CreateProductPage = () => {
                         onChange={(e) => setSku(e.target.value)}
                       />
                     </div>
-                    {/* <div className="form-group form-group--select">
-                      <label>Stock Status</label>
-                      <div className="form-group__content">
-                        <select className="ps-select" title="Status">
-                          <option value="1">In stock</option>
-                          <option value="2">Out of stock</option>
-                          <option value="3">On backorder</option>
-                        </select>
-                      </div>
-                    </div> */}
-                  </div>
-                </figure>
-                {/* <figure className="ps-block--form-box">
-                  <figcaption>Meta</figcaption>
-                  <div className="ps-block__content">
                     <div className="form-group form-group--select">
-                      <label>Brand</label>
+                      <label>
+                        Stock Status<sup>*</sup>
+                      </label>
                       <div className="form-group__content">
-                        <select className="ps-select" title="Brand">
-                          <option value="1">Brand 1</option>
-                          <option value="2">Brand 2</option>
-                          <option value="3">Brand 3</option>
-                          <option value="4">Brand 4</option>
+                        <select
+                          name="status"
+                          className="ps-select"
+                          title="Status"
+                          onChange={(e) => setInStock(e.target.value)}
+                        >
+                          <option value="true">In Stock</option>
+                          <option value="false">Out of Stock</option>
                         </select>
                       </div>
                     </div>
                     <div className="form-group">
-                      <label>Tags</label>
-                      <input className="form-control" type="text" />
+                      <div className="ps-checkbox">
+                        <input
+                          checked={manageStock}
+                          className="form-control"
+                          type="checkbox"
+                          id="manage_stock"
+                          name="manage_stock"
+                          onChange={() => setManageStock((current) => !current)}
+                        />
+                        <label
+                          htmlFor="manage_stock"
+                          style={{ color: "black" }}
+                        >
+                          Enable product stock management
+                        </label>
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <div className="ps-checkbox">
+                        <input
+                          checked={soldIndividually}
+                          className="form-control"
+                          type="checkbox"
+                          id="sold_individually"
+                          name="sold_individually"
+                          onChange={() =>
+                            setSoldIndividually((current) => !current)
+                          }
+                        />
+                        <label
+                          htmlFor="sold_individually"
+                          style={{ color: "black" }}
+                        >
+                          Allow only one quantity of this product to be bought
+                          in a single order
+                        </label>
+                      </div>
                     </div>
                   </div>
-                </figure> */}
+                </figure>
+                {type === "variable" ? (
+                  <figure className="ps-block--form-box">
+                    <figcaption>Attribute and Variation</figcaption>
+                    <div className="ps-block__content">
+                      <div className="form-group form-group--select">
+                        <label>Brand</label>
+                        <div className="form-group__content">
+                          <select className="ps-select" title="Brand">
+                            <option value="1">Brand 1</option>
+                            <option value="2">Brand 2</option>
+                            <option value="3">Brand 3</option>
+                            <option value="4">Brand 4</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="form-group">
+                        <label>Tags</label>
+                        <input className="form-control" type="text" />
+                      </div>
+                    </div>
+                  </figure>
+                ) : null}
               </div>
             </div>
           </div>
@@ -428,13 +605,13 @@ const CreateProductPage = () => {
             >
               {isUploading ? (
                 <img
-                  src={require("../../public/img/Interwind-loader.svg")}
+                  src={require("../../../public/img/Interwind-loader.svg")}
                   alt="Uploading..."
                   width={40}
                   height={30}
                 />
               ) : (
-                "Submit"
+                "Update"
               )}
             </button>
           </div>
@@ -443,7 +620,12 @@ const CreateProductPage = () => {
     </ContainerDefault>
   );
 };
-export default CreateProductPage;
+
+EditProductPage.getInitialProps = async ({ query }) => {
+  return { pid: query.pid };
+};
+
+export default EditProductPage;
 
 let styles = {
   imagesWrapper: { display: "flex", flexWrap: "wrap" },

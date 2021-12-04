@@ -19,7 +19,7 @@ const WidgetUserWelcome = () => {
         setName(res.data.store_name);
       })
       .catch((err) => {
-        Router.push("/account/login");
+        window.location.assign("http://localhost:3000/account/login");
       });
   }, []);
   return (
