@@ -20,7 +20,7 @@ const EditProductPage = ({ pid }) => {
   const [type, setType] = useState("simple");
   const [downloadable, setDownloadable] = useState(false);
   const [virtual, setVirtual] = useState(false);
-  const [qty, setQty] = useState("");
+  // const [qty, setQty] = useState("");
   const [sku, setSku] = useState("");
   const [inStock, setInStock] = useState("true");
   const [manageStock, setManageStock] = useState(false);
@@ -29,10 +29,6 @@ const EditProductPage = ({ pid }) => {
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [imagesToUpload, setImagesToUpload] = useState([]);
-
-  console.log("Files::", imageFiles);
-  console.log("Selected::", selectedImages);
-  console.log("images::", imagesToUpload);
 
   const [isUploading, setIsUploading] = useState(false);
 
@@ -76,7 +72,6 @@ const EditProductPage = ({ pid }) => {
             if (index === imageFiles.length - 1) {
               // Check if every image uploaded
               if (images.length === imageFiles.length) {
-                console.log("editing...");
                 uploadProduct(config, images);
               } else {
                 setIsUploading(false);
@@ -92,7 +87,6 @@ const EditProductPage = ({ pid }) => {
   };
 
   const uploadProduct = (config, images) => {
-    console.log(imagesToUpload.concat(images));
     let slug = `${name
       .replace(/[^a-zA-Z0-9-_]/g, " ")
       .replace(/  +/g, " ")
@@ -108,9 +102,9 @@ const EditProductPage = ({ pid }) => {
       short_description: shortDescription,
       description,
       categories: category,
-      stock_quantity: Number(qty),
+      // stock_quantity: qty,
       sku,
-      in_stock: inStock == "true" ? true : false,
+      in_stock: inStock || inStock == "true" ? true : false,
       downloadable,
       virtual,
       images: imagesToUpload.concat(images),
@@ -119,7 +113,6 @@ const EditProductPage = ({ pid }) => {
       type,
     };
 
-    console.log("Done");
     axios
       .put(
         `https://shafn.com/wp-json/dokan/v1/products/${pid}`,
@@ -133,7 +126,6 @@ const EditProductPage = ({ pid }) => {
         Router.push("/products");
       })
       .catch((err) => {
-        console.log(err.response);
         notification["error"]({
           message: "Product Upload Failed",
           description: "Check your data connection and try again.",
@@ -198,7 +190,7 @@ const EditProductPage = ({ pid }) => {
         setPrice(String(product.regular_price));
         setDiscountedPrice(String(product.price));
         setCategory([{ id: product.categories[0].id }]);
-        setQty(product.stock_quantity);
+        // setQty(product.stock_quantity);
         setShortDescription(product.description);
         setDescription(product.short_description);
         setSku(product.sku);
@@ -211,6 +203,7 @@ const EditProductPage = ({ pid }) => {
         setSoldIndividually(product.sold_individually);
       })
       .catch((err) => {
+        console.log(err);
         notification["error"]({
           message: "Failed to get product!",
           description: "Check your data connection and try again.",
@@ -394,7 +387,7 @@ const EditProductPage = ({ pid }) => {
                         </select>
                       </div>
                     </div> */}
-                    <div className="form-group">
+                    {/* <div className="form-group">
                       <label>
                         Sale Quantity<sup>*</sup>
                       </label>
@@ -407,7 +400,7 @@ const EditProductPage = ({ pid }) => {
                         value={qty}
                         onChange={(e) => setQty(e.target.value)}
                       />
-                    </div>
+                    </div> */}
                     {/* <div className="form-group">
                       <label>
                         Sold Items<sup>*</sup>
@@ -572,38 +565,30 @@ const EditProductPage = ({ pid }) => {
                         </label>
                       </div>
                     </div>
-                    {/* <div className="form-group form-group--select">
-                      <label>Stock Status</label>
-                      <div className="form-group__content">
-                        <select className="ps-select" title="Status">
-                          <option value="1">In stock</option>
-                          <option value="2">Out of stock</option>
-                          <option value="3">On backorder</option>
-                        </select>
-                      </div>
-                    </div> */}
                   </div>
                 </figure>
-                <figure className="ps-block--form-box">
-                  <figcaption>Meta</figcaption>
-                  <div className="ps-block__content">
-                    <div className="form-group form-group--select">
-                      <label>Brand</label>
-                      <div className="form-group__content">
-                        <select className="ps-select" title="Brand">
-                          <option value="1">Brand 1</option>
-                          <option value="2">Brand 2</option>
-                          <option value="3">Brand 3</option>
-                          <option value="4">Brand 4</option>
-                        </select>
+                {type === "variable" ? (
+                  <figure className="ps-block--form-box">
+                    <figcaption>Attribute and Variation</figcaption>
+                    <div className="ps-block__content">
+                      <div className="form-group form-group--select">
+                        <label>Brand</label>
+                        <div className="form-group__content">
+                          <select className="ps-select" title="Brand">
+                            <option value="1">Brand 1</option>
+                            <option value="2">Brand 2</option>
+                            <option value="3">Brand 3</option>
+                            <option value="4">Brand 4</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="form-group">
+                        <label>Tags</label>
+                        <input className="form-control" type="text" />
                       </div>
                     </div>
-                    <div className="form-group">
-                      <label>Tags</label>
-                      <input className="form-control" type="text" />
-                    </div>
-                  </div>
-                </figure>
+                  </figure>
+                ) : null}
               </div>
             </div>
           </div>
