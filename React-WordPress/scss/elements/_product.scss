@@ -971,8 +971,8 @@
         }
     }
 
-    .ps-product__shopping-2 {
-    }
+    // .ps-product__shopping-2 {
+    // }
 
     .ps-product__links {
         margin-bottom: 3rem;
@@ -2398,6 +2398,29 @@
         }
         .ps-product__content {
             padding-left: 10px;
+        }
+    }
+}
+
+
+.ps-page--product {
+    margin: 0 auto;
+    .ps-page__container {
+        .ps-page__right {          
+             figure {
+                figcaption {
+                    margin-bottom: 2px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+            .form-group--number, .ps-btn--black, .ps-btn{
+                    margin: 0 2rem 2rem 2rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+            }
         }
     }
 }
