@@ -3,10 +3,12 @@ import ContainerDefault from "~/components/layouts/ContainerDefault";
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import { notification } from "antd";
+import { Modal, notification } from "antd";
 import { toggleDrawerMenu } from "~/store/app/action";
 import Router from "next/router";
 import { CompatSource } from "webpack-sources";
+import { ColorPicker, useColor } from "react-color-palette";
+import "react-color-palette/lib/css/styles.css";
 
 const EditProductPage = ({ pid }) => {
   const dispatch = useDispatch();
@@ -20,7 +22,7 @@ const EditProductPage = ({ pid }) => {
   const [type, setType] = useState("simple");
   const [downloadable, setDownloadable] = useState(false);
   const [virtual, setVirtual] = useState(false);
-  // const [qty, setQty] = useState("");
+  const [qty, setQty] = useState("");
   const [sku, setSku] = useState("");
   const [inStock, setInStock] = useState("true");
   const [manageStock, setManageStock] = useState(false);
@@ -29,8 +31,12 @@ const EditProductPage = ({ pid }) => {
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [imagesToUpload, setImagesToUpload] = useState([]);
+  const [attributes, setAttributes] = useState([]);
 
   const [isUploading, setIsUploading] = useState(false);
+  const [attr, setAttr] = useState(null);
+
+  const [color, setColor] = useColor("hex", "#aabbcc");
 
   const imageHandler = (e) => {
     //Display Image
@@ -86,6 +92,226 @@ const EditProductPage = ({ pid }) => {
     }
   };
 
+  const removeImage = (name) => {
+    setSelectedImages((current) => current.filter((img) => img.name !== name));
+    setImageFiles((current) => current.filter((img) => img.name !== name));
+    setImagesToUpload((current) => current.filter((img) => img.name !== name));
+  };
+
+  const addAttr = () => {
+    if (attr) {
+      setAttributes((current) => {
+        if (current.map((attr) => attr.name).includes(attr)) {
+          return current;
+        } else {
+          return current.concat({
+            name: attr,
+            options: [],
+            visible: true,
+            variation: false,
+          });
+        }
+      });
+
+      setAttr("");
+    }
+  };
+
+  const renderImages = () => {
+    return selectedImages.map((img, index) => (
+      <div key={img.src} style={styles.imageContainer}>
+        <img src={img.src} style={styles.image} />
+
+        <div
+          className="ps-btn ps-btn--sm"
+          style={styles.imageDel}
+          onClick={removeImage.bind(this, img.name)}
+        >
+          x
+        </div>
+      </div>
+    ));
+  };
+
+  const renderAttributes = () => {
+    return attributes.map((attr, index) => (
+      <div key={index} style={styles.attrWrapper}>
+        <div className="ps-btn--gray" style={styles.header}>
+          <span style={{ fontWeight: "bold" }}>{attr.name}</span>
+          <span onClick={() => removeAttr(attr.name)} style={styles.removeBtn}>
+            Remove
+          </span>
+        </div>
+        {/* Name */}
+        <div>
+          <p style={{ fontWeight: "bold", marginTop: 5 }}>Name</p>
+          <hr />
+          <p style={{ fontWeight: "bold" }}>{attr.name}</p>{" "}
+          <div className="form-group">
+            <div className="ps-checkbox">
+              <input
+                checked={attr.visible}
+                className="form-control"
+                type="checkbox"
+                id={"visible" + index}
+                name="visible"
+                onChange={() => toggleAttrVisibility(attr.name)}
+              />
+              <label htmlFor={"visible" + index} style={{ color: "black" }}>
+                Visible on the product page
+              </label>
+            </div>
+          </div>{" "}
+          <div className="form-group">
+            <div className="ps-checkbox">
+              <input
+                checked={attr.variation}
+                className="form-control"
+                type="checkbox"
+                id={"variation" + index}
+                name="variation"
+                onChange={() => toggleAttrVariation(attr.name)}
+              />
+              <label htmlFor={"variation" + index} style={{ color: "black" }}>
+                Used for variations
+              </label>
+            </div>
+          </div>
+        </div>
+        {/* Value(s) */}
+
+        {attr.name === "Color" ? (
+          <>
+            {renderColorAttrOptions(attr.name, attr.options)}
+            <ColorPicker
+              width={250}
+              height={100}
+              color={color}
+              onChange={setColor}
+              hideHSV
+              hideRGB
+              dark
+            />
+            <button
+              type="button"
+              className="ps-btn ps-btn--gray"
+              style={{ marginTop: 10 }}
+              onClick={() => addAttrOption(attr.name, color.hex)}
+            >
+              Add Color
+            </button>
+          </>
+        ) : (
+          <div>
+            <p style={{ fontWeight: "bold" }}>Value(s)</p>
+            {renderAttrOptions(attr.name, attr.options)}
+            <div className="form-group form-group--select">
+              <div className="form-group__content">
+                <select
+                  className="ps-select"
+                  title="Values"
+                  onChange={(e) => {
+                    e.persist();
+                    addAttrOption(attr.name, e.target.value);
+                  }}
+                >
+                  <option value="">Select Values</option>
+                  <option value="XS">XS</option>
+                  <option value="S">S</option>
+                  <option value="M">M</option>
+                  <option value="L">L</option>
+                  <option value="XL">XL</option>
+                  <option value="XXL">XXL</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    ));
+  };
+
+  const renderAttrOptions = (name, options) => {
+    return options.map((option, index) => (
+      <label
+        key={index}
+        className="ps-btn--gray"
+        style={styles.attrVal}
+        onClick={() => removeAttrOption(name, option)}
+      >
+        <span>x</span> {option}
+      </label>
+    ));
+  };
+
+  const renderColorAttrOptions = (name, options) => {
+    return options.map((option, index) => (
+      <span
+        key={index}
+        className="ps-btn"
+        style={{
+          backgroundColor: option,
+        }}
+        onClick={() => removeAttrOption(name, option)}
+      ></span>
+    ));
+  };
+
+  const removeAttr = (name) => {
+    setAttributes((attr) => attr.filter((item) => item.name !== name));
+  };
+
+  const addAttrOption = (name, option) => {
+    setAttributes((attr) =>
+      attr.map((item) => {
+        if (item.name !== name) return item;
+        return {
+          ...item,
+          options:
+            !option || item.options.includes(option)
+              ? item.options
+              : [...item.options, option],
+        };
+      })
+    );
+  };
+
+  const removeAttrOption = (name, option) => {
+    setAttributes((attr) =>
+      attr.map((item) => {
+        if (item.name !== name) return item;
+        return {
+          ...item,
+          options: item.options.filter((opt) => opt !== option),
+        };
+      })
+    );
+  };
+
+  const toggleAttrVisibility = (name) => {
+    setAttributes((attr) =>
+      attr.map((item) => {
+        if (item.name !== name) return item;
+        return {
+          ...item,
+          visible: !item.visible,
+        };
+      })
+    );
+  };
+
+  const toggleAttrVariation = (name) => {
+    setAttributes((attr) =>
+      attr.map((item) => {
+        if (item.name !== name) return item;
+        return {
+          ...item,
+          variation: !item.variation,
+        };
+      })
+    );
+  };
+
   const uploadProduct = (config, images) => {
     let slug = `${name
       .replace(/[^a-zA-Z0-9-_]/g, " ")
@@ -96,15 +322,16 @@ const EditProductPage = ({ pid }) => {
     const product = {
       name,
       slug,
+      attributes,
       price: discountedPrice.trim() || price.trim(),
       regular_price: price.trim(),
       sale_price: discountedPrice.trim(),
       short_description: shortDescription,
       description,
       categories: category,
-      // stock_quantity: qty,
+      stock_quantity: qty,
       sku,
-      in_stock: inStock || inStock == "true" ? true : false,
+      in_stock: inStock === true || inStock === "true" ? true : false,
       downloadable,
       virtual,
       images: imagesToUpload.concat(images),
@@ -150,28 +377,6 @@ const EditProductPage = ({ pid }) => {
     uploadImages(config); // product is uploaded in here
   };
 
-  const removeImage = (name) => {
-    setSelectedImages((current) => current.filter((img) => img.name !== name));
-    setImageFiles((current) => current.filter((img) => img.name !== name));
-    setImagesToUpload((current) => current.filter((img) => img.name !== name));
-  };
-
-  const renderImages = () => {
-    return selectedImages.map((img, index) => (
-      <div key={img.src} style={styles.imageContainer}>
-        <img src={img.src} style={styles.image} />
-
-        <div
-          className="ps-btn ps-btn--sm"
-          style={styles.imageDel}
-          onClick={removeImage.bind(this, img.name)}
-        >
-          x
-        </div>
-      </div>
-    ));
-  };
-
   useEffect(() => {
     // Get product
     let auth_token = localStorage.getItem("auth_token");
@@ -187,10 +392,12 @@ const EditProductPage = ({ pid }) => {
       .then((res) => {
         let product = res.data;
         setName(product.name);
+        setAttributes(product.attributes);
         setPrice(String(product.regular_price));
         setDiscountedPrice(String(product.price));
         setCategory([{ id: product.categories[0].id }]);
-        // setQty(product.stock_quantity);
+        setQty(product.stock_quantity);
+        setType(product.type);
         setShortDescription(product.description);
         setDescription(product.short_description);
         setSku(product.sku);
@@ -203,7 +410,6 @@ const EditProductPage = ({ pid }) => {
         setSoldIndividually(product.sold_individually);
       })
       .catch((err) => {
-        console.log(err);
         notification["error"]({
           message: "Failed to get product!",
           description: "Check your data connection and try again.",
@@ -250,6 +456,7 @@ const EditProductPage = ({ pid }) => {
                           name="type"
                           className="ps-select"
                           title="type"
+                          value={type}
                           onChange={(e) => setType(e.target.value)}
                         >
                           <option value="simple">Simple</option>
@@ -292,26 +499,7 @@ const EditProductPage = ({ pid }) => {
                         </label>
                       </div>
                     </div>
-                    {/* <div className="form-group">
-                      <label>
-                        Reference<sup>*</sup>
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Enter product Reference..."
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>
-                        Product Summary<sup>*</sup>
-                      </label>
-                      <text-area
-                        className="form-control"
-                        rows="6"
-                        placeholder="Enter product description..."
-                      ></text-area>
-                    </div> */}
+
                     <div className="form-group">
                       <label>
                         Sale Price<sup>*</sup>
@@ -348,6 +536,7 @@ const EditProductPage = ({ pid }) => {
                           name="categories"
                           className="ps-select"
                           title="Category"
+                          value={category && category[0].id}
                           onChange={(e) =>
                             setCategory([{ id: e.target.value }])
                           }
@@ -371,23 +560,8 @@ const EditProductPage = ({ pid }) => {
                         </select>
                       </div>
                     </div>
-                    {/* <div className="form-group form-group--select">
-                      <label>
-                        Type<sup>*</sup>
-                      </label>
-                      <div className="form-group__content">
-                        <select
-                          name="type"
-                          className="ps-select"
-                          title="Status"
-                          onChange={(e) => setType(e.target.value)}
-                        >
-                          <option value="simple">Simple</option>
-                          <option value="variable">Variable</option>
-                        </select>
-                      </div>
-                    </div> */}
-                    {/* <div className="form-group">
+
+                    <div className="form-group">
                       <label>
                         Sale Quantity<sup>*</sup>
                       </label>
@@ -400,17 +574,8 @@ const EditProductPage = ({ pid }) => {
                         value={qty}
                         onChange={(e) => setQty(e.target.value)}
                       />
-                    </div> */}
-                    {/* <div className="form-group">
-                      <label>
-                        Sold Items<sup>*</sup>
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder=""
-                      />
-                    </div> */}
+                    </div>
+
                     <div className="form-group">
                       <label>
                         Short Description<sup>*</sup>
@@ -443,17 +608,6 @@ const EditProductPage = ({ pid }) => {
                 <figure className="ps-block--form-box">
                   <figcaption>Product Images</figcaption>
                   <div className="ps-block__content">
-                    {/* <div className="form-group">
-                      <label>Product Thumbnail</label>
-                      <div className="form-group--nest">
-                        <input
-                          className="form-control mb-1"
-                          type="text"
-                          placeholder=""
-                        />
-                        <button className="ps-btn ps-btn--sm">Choose</button>
-                      </div>
-                    </div> */}
                     <div className="form-group">
                       <div className="form-group--nest">
                         <input
@@ -474,22 +628,6 @@ const EditProductPage = ({ pid }) => {
                         </label>
                       </div>
                     </div>
-                    {/* <div className="form-group form-group--nest">
-                      <input
-                        className="form-control mb-1"
-                        type="text"
-                        placeholder=""
-                      />
-                      <button className="ps-btn ps-btn--sm">Choose</button>
-                    </div> */}
-                    {/* <div className="form-group">
-                      <label>Video (optional)</label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Enter video URL"
-                      />
-                    </div> */}
 
                     <div style={styles.imagesWrapper}>{renderImages()}</div>
                   </div>
@@ -519,6 +657,7 @@ const EditProductPage = ({ pid }) => {
                           name="status"
                           className="ps-select"
                           title="Status"
+                          value={String(inStock)}
                           onChange={(e) => setInStock(e.target.value)}
                         >
                           <option value="true">In Stock</option>
@@ -565,33 +704,60 @@ const EditProductPage = ({ pid }) => {
                         </label>
                       </div>
                     </div>
+
+                    {/* <div className="form-group">
+                        <label>Tags</label>
+                        <input className="form-control" type="text" />
+                      </div> */}
                   </div>
                 </figure>
                 {type === "variable" ? (
                   <figure className="ps-block--form-box">
                     <figcaption>Attribute and Variation</figcaption>
                     <div className="ps-block__content">
+                      {renderAttributes()}
+
+                      <hr style={{ borderWidth: 3 }} />
+
                       <div className="form-group form-group--select">
-                        <label>Brand</label>
                         <div className="form-group__content">
-                          <select className="ps-select" title="Brand">
-                            <option value="1">Brand 1</option>
-                            <option value="2">Brand 2</option>
-                            <option value="3">Brand 3</option>
-                            <option value="4">Brand 4</option>
+                          <select
+                            className="ps-select"
+                            title="Attributes"
+                            value={attr}
+                            onChange={(e) => {
+                              e.persist();
+                              setAttr(e.target.value);
+                            }}
+                          >
+                            <option value="">Select Attribute</option>
+                            <option value="Color">Color</option>
+                            <option value="Size">Size</option>
                           </select>
                         </div>
                       </div>
-                      <div className="form-group">
-                        <label>Tags</label>
-                        <input className="form-control" type="text" />
-                      </div>
+
+                      <button
+                        type="button"
+                        className="ps-btn ps-btn--gray"
+                        onClick={addAttr}
+                      >
+                        Add
+                      </button>
+                      <button
+                        type="button"
+                        className="ps-btn"
+                        style={{ marginLeft: 10 }}
+                      >
+                        Save
+                      </button>
                     </div>
                   </figure>
                 ) : null}
               </div>
             </div>
           </div>
+
           <div className="ps-form__bottom">
             <a className="ps-btn ps-btn--black" href="products.html">
               Back
@@ -652,5 +818,21 @@ let styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+  },
+  attrWrapper: { marginBottom: 20 },
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 10,
+  },
+  removeBtn: { color: "red", cursor: "pointer" },
+  attrVal: {
+    padding: 5,
+    marginBottom: 10,
+    marginLeft: 10,
+    fontWeight: "bold",
+    cursor: "pointer",
+    color: "#888",
   },
 };

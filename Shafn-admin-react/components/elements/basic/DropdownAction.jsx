@@ -23,7 +23,7 @@ const DropdownAction = ({ productID }) => {
         notification["success"]({
           message: "Product Deleted!",
         });
-        Router.push("/products");
+        window.location.reload();
       })
       .catch((err) => {
         notification["error"]({

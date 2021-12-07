@@ -4903,6 +4903,11 @@
   dependencies:
     "@babel/runtime" "^7.0.0"
 
+"react-color-palette@^6.2.0":
+  "integrity" "sha512-9rIboaRJNoeF8aCI2f3J8wgMyhl74SnGmZLDjor3bKf0iDBhP2EBv0/jGmm0hrj6OackGCqtWl5ZvM89XUc3sg=="
+  "resolved" "https://registry.npmjs.org/react-color-palette/-/react-color-palette-6.2.0.tgz"
+  "version" "6.2.0"
+
 "react-dom@*", "react-dom@^0.14.0 || ^15.0.0 || ^16", "react-dom@^0.14.0 || ^15.0.0 || ^16.0.0", "react-dom@^15.3.0 || ^16.2.0", "react-dom@^16.0.0", "react-dom@^16.13.1", "react-dom@^16.6.0", "react-dom@^16.9.0", "react-dom@^16.x", "react-dom@>= 16.9.0", "react-dom@>=15.0.0", "react-dom@>=16.0.0", "react-dom@>=16.9.0", "react-dom@0.14.x || ^15.0.0 || ^16.0.0":
   "integrity" "sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-16.14.0.tgz"
@@ -5073,7 +5078,7 @@
     "resize-observer-polyfill" "1.5.0"
     "tabbable" "1.1.2"
 
-"react@*", "react@^0.14 || ^15 || ^16", "react@^0.14.0 || ^15.0.0 || ^16", "react@^0.14.0 || ^15.0.0 || ^16.0.0", "react@^0.14.9 || ^15.3.0 || ^16.0.0", "react@^15.3.0 || ^16.0.0", "react@^15.3.0 || ^16.2.0", "react@^15.4.2 || ^16", "react@^15.6 || ^16", "react@^16.0.0", "react@^16.13.1", "react@^16.14.0", "react@^16.6.0", "react@^16.8.0", "react@^16.8.3", "react@^16.9.0", "react@^16.x", "react@>= 16.9.0", "react@>=0.13", "react@>=15.0.0", "react@>=16.0.0", "react@>=16.9.0", "react@0.14.x || ^15.0.0 || ^16.0.0", "react@15.x.x || 16.x.x":
+"react@*", "react@^0.14 || ^15 || ^16", "react@^0.14.0 || ^15.0.0 || ^16", "react@^0.14.0 || ^15.0.0 || ^16.0.0", "react@^0.14.9 || ^15.3.0 || ^16.0.0", "react@^15.3.0 || ^16.0.0", "react@^15.3.0 || ^16.2.0", "react@^15.4.2 || ^16", "react@^15.6 || ^16", "react@^16.0.0", "react@^16.13.1", "react@^16.14.0", "react@^16.6.0", "react@^16.8.0", "react@^16.8.3", "react@^16.9.0", "react@^16.x", "react@>= 16.9.0", "react@>=0.13", "react@>=15.0.0", "react@>=16.0.0", "react@>=16.8.0", "react@>=16.9.0", "react@0.14.x || ^15.0.0 || ^16.0.0", "react@15.x.x || 16.x.x":
   "integrity" "sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g=="
   "resolved" "https://registry.npmjs.org/react/-/react-16.14.0.tgz"
   "version" "16.14.0"

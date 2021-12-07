@@ -9,8 +9,6 @@ const WPProductDetail = ({ product, variations }) => {
     const [selectedColor, setSelectedColor] = useState(null);
     const [activeVariant, setActiveVariant] = useState(null);
 
-    console.log(product);
-
     function handleChangeSize(newSize) {
         if (newSize !== selectedSize) {
             setSelectedSize(newSize.toLowerCase());
