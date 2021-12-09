@@ -8,7 +8,6 @@ const WidgetUserWelcome = () => {
   const [avatarUrl, setAvatarUrl] = useState("");
 
   useEffect(() => {
-    // Get store name
     let auth_token = localStorage.getItem("auth_token");
 
     // Get store name
@@ -25,7 +24,7 @@ const WidgetUserWelcome = () => {
         window.location.assign("http://localhost:3000/account/login");
       });
 
-    // Get profile picture
+    // Get user id
     axios
       .get("https://shafn.com/wp-json/wp/v2/users/me", {
         headers: {
@@ -33,18 +32,29 @@ const WidgetUserWelcome = () => {
         },
       })
       .then((res) => {
-        setAvatarUrl(res.data.avatar_urls[48]);
+        // Get user profile picture
+        axios
+          .get(`https://shafn.com/wp-json/dokan/v1/stores/${res.data.id}`, {
+            headers: {
+              Authorization: `Bearer ${auth_token}`,
+            },
+          })
+          .then((res) => {
+            setAvatarUrl(res.data.gravatar);
+          })
+          .catch((err) => {
+            return;
+          });
       })
       .catch((err) => {
         return;
       });
   }, []);
 
-  // /img/user/admin.jpg
   return (
     <div className="ps-block--user-wellcome">
       <div className="ps-block__left">
-        <img src={avatarUrl} alt="" />
+        <img src={avatarUrl} alt="" style={styles.img} />
       </div>
       <div className="ps-block__right">
         <p>
@@ -58,6 +68,14 @@ const WidgetUserWelcome = () => {
       </div>
     </div>
   );
+};
+
+const styles = {
+  img: {
+    width: 60,
+    height: 60,
+    borderRadius: 50,
+  },
 };
 
 export default WidgetUserWelcome;
