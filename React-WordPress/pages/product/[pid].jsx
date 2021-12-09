@@ -34,8 +34,8 @@ const WPProductDetailPage = ({ pid }) => {
                     await WPProductRepository.getProductVariantsByID(productID);
 
                 if (WPPRroductVariations) {
-                    console.log('Product::', WPProduct);
-                    console.log('Variations::', WPPRroductVariations);
+                    // console.log('Product::', WPProduct);
+                    // console.log('Variations::', WPPRroductVariations);
                     setProductVariations(WPPRroductVariations);
                 }
             }

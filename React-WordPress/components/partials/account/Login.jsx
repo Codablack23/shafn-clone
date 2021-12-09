@@ -35,14 +35,14 @@ function Login() {
         axios
             .post(`${WPDomain}/wp-json/jwt-auth/v1/token`, loginData)
             .then((res) => {
-                if (res.data.user_role[0] === 'seller') {
-                    window.location.assign(
-                        `http://localhost:5500/${res.data.token}`
-                    );
-                } else {
+                if (res.data.user_role[0] === 'customer') {
                     localStorage.setItem('auth_token', res.data.token);
                     dispatch(login());
                     Router.push('/');
+                } else {
+                    window.location.assign(
+                        `http://localhost:5500/${res.data.token}`
+                    );
                 }
                 setIsLoading(false);
             })
