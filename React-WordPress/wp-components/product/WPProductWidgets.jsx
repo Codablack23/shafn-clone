@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import WPModuleProductDetailInformation from '../../wp-components/elements/products/modules/WPModuleProductDetailInformation';
+import WPModuleProductInformation from '../../wp-components/elements/products/modules/WPModuleProductInformation';
 import { connect } from 'react-redux';
 import {
     WPProductDetailBrandView,
@@ -11,6 +11,7 @@ import {
 } from '~/utilities/WPHelpers';
 
 const WPProductWidgets = ({ product, children }) => {
+    console.log('Weee::', product);
     return (
         <section>
             {/* <aside className="widget widget_product widget_features">
@@ -32,7 +33,7 @@ const WPProductWidgets = ({ product, children }) => {
             </aside>
             <aside className="widget widget_sell-on-site">
             </aside> */}
-            <WPModuleProductDetailInformation product={product} isWidget />
+            <WPModuleProductInformation product={product} isWidget />
 
             {/* <aside className="widget widget_ads">
                 <Link href="/shop">

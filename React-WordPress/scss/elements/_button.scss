@@ -151,16 +151,18 @@ button.ps-btn {
     }
 
     &.ps-btn--black {
-        background-color: $color-heading;
-
+        //background-color: $color-heading;
+        background-color: #222;
+        color: #fff;
         &.ps-btn--outline {
             background-color: transparent;
             border: 2px solid $color-heading;
             color: $color-heading;
 
             &:hover {
-                background-color: $color-heading;
-                color: #ffffff;
+                background-color: #222;
+                //background-color: $color-heading;
+                //color: #ffffff;
             }
         }
     }
@@ -169,7 +171,8 @@ button.ps-btn {
     &:active {
         background-color: #222;
         color: #fff !important;
-        &.ps-btn--black {
+        &.ps-btn--black{
+            background-color: #222;
             background-color: $color-1st;
         }
     }
