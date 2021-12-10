@@ -62,42 +62,10 @@ const FormAccountSettings = () => {
       },
     };
 
-    // Upload image
+    updateSettings(config);
+  };
 
-    // if(imgFile){
-    //     let formData = new FormData();
-
-    //     formData.append("file", img);
-
-    //     axios
-    //       .post("https://shafn.com/wp-json/wp/v2/media", formData, config)
-    //       .then((res) => {
-    //         // Update user profile
-    //       })
-    //       .catch((err) => {
-    //         console.log(err.response.data)
-    //       })
-    //       .finally(() => {
-    //         //  Check if last image has been reached
-    //         if (index === imageFiles.length - 1) {
-    //           // Check if every image uploaded
-    //           if (images.length === imageFiles.length) {
-    //             uploadProduct(config, images);
-    //           } else {
-    //             setIsUploading(false);
-    //             notification["error"]({
-    //               message:
-    //                 "Some images did not upload!. Check your data connection and try again.",
-    //             });
-    //           }
-    //         }
-    //       });
-    // }
-
-    // Update user profile
-
-    // Update settings
-
+  const updateSettings = (config) => {
     let settings = {
       store_name: name,
       address,
@@ -109,6 +77,7 @@ const FormAccountSettings = () => {
     axios
       .put("https://shafn.com/wp-json/dokan/v1/settings", settings, config)
       .then((res) => {
+        console.log(res);
         setIsUploading(false);
         notification["success"]({
           message: "Settings Updated Successfully",
@@ -126,14 +95,15 @@ const FormAccountSettings = () => {
 
   useEffect(() => {
     let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
 
     // Get user settings
     axios
-      .get("https://shafn.com/wp-json/dokan/v1/settings", {
-        headers: {
-          Authorization: `Bearer ${auth_token}`,
-        },
-      })
+      .get("https://shafn.com/wp-json/dokan/v1/settings", config)
       .then((res) => {
         let user = res.data;
         setName(user.store_name);
@@ -148,11 +118,7 @@ const FormAccountSettings = () => {
 
     // Get user id
     axios
-      .get("https://shafn.com/wp-json/wp/v2/users/me", {
-        headers: {
-          Authorization: `Bearer ${auth_token}`,
-        },
-      })
+      .get("https://shafn.com/wp-json/wp/v2/users/me", config)
       .then((res) => {
         // Get user profile picture
         axios
@@ -165,7 +131,7 @@ const FormAccountSettings = () => {
             setImg(res.data.gravatar);
           })
           .catch((err) => {
-            console.log(err.response.data);
+            return;
           });
       })
       .catch((err) => {
