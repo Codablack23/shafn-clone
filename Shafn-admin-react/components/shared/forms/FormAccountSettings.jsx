@@ -62,7 +62,58 @@ const FormAccountSettings = () => {
       },
     };
 
-    updateSettings(config);
+    if (imgFile) {
+      let formData = new FormData();
+
+      formData.append("file", imgFile);
+
+      axios
+        .post("https://shafn.com/wp-json/wp/v2/media", formData, config)
+        .then((res) => {
+          updateProfilePic(res.data.id, config);
+        })
+        .catch((err) => {
+          setIsUploading(false);
+          notification["error"]({
+            message: "Settings Failed To Update",
+            description: "Check your data connection and try again.",
+          });
+        });
+    } else {
+      updateSettings(config);
+    }
+  };
+
+  const updateProfilePic = (imgID, config) => {
+    // Get user id
+    axios
+      .get("https://shafn.com/wp-json/wp/v2/users/me", config)
+      .then((res) => {
+        // Update user profile picture
+        axios
+          .put(
+            `https://shafn.com/wp-json/dokan/v1/stores/${res.data.id}`,
+            { gravatar_id: imgID },
+            config
+          )
+          .then((res) => {
+            updateSettings(config);
+          })
+          .catch((err) => {
+            setIsUploading(false);
+            notification["error"]({
+              message: "Settings Failed To Update",
+              description: "Check your data connection and try again.",
+            });
+          });
+      })
+      .catch((err) => {
+        setIsUploading(false);
+        notification["error"]({
+          message: "Settings Failed To Update",
+          description: "Check your data connection and try again.",
+        });
+      });
   };
 
   const updateSettings = (config) => {
@@ -77,7 +128,7 @@ const FormAccountSettings = () => {
     axios
       .put("https://shafn.com/wp-json/dokan/v1/settings", settings, config)
       .then((res) => {
-        console.log(res);
+        console.log(res.data);
         setIsUploading(false);
         notification["success"]({
           message: "Settings Updated Successfully",
@@ -122,11 +173,10 @@ const FormAccountSettings = () => {
       .then((res) => {
         // Get user profile picture
         axios
-          .get(`https://shafn.com/wp-json/dokan/v1/stores/${res.data.id}`, {
-            headers: {
-              Authorization: `Bearer ${auth_token}`,
-            },
-          })
+          .get(
+            `https://shafn.com/wp-json/dokan/v1/stores/${res.data.id}`,
+            config
+          )
           .then((res) => {
             setImg(res.data.gravatar);
           })
@@ -158,7 +208,7 @@ const FormAccountSettings = () => {
                 hidden
               />
               <label htmlFor="image-picker" style={{ paddingTop: 12 }}>
-                <img src={img} alt="" style={styles.img} />
+                <img src={img.toString()} alt="" style={styles.img} />
               </label>
             </div>
           </div>

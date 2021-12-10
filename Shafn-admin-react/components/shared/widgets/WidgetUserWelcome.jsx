@@ -54,7 +54,7 @@ const WidgetUserWelcome = () => {
   return (
     <div className="ps-block--user-wellcome">
       <div className="ps-block__left">
-        <img src={avatarUrl} alt="" style={styles.img} />
+        <img src={avatarUrl.toString()} alt="" style={styles.img} />
       </div>
       <div className="ps-block__right">
         <p>
