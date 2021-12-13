@@ -8,6 +8,7 @@ import { toggleDrawerMenu } from "~/store/app/action";
 import Router from "next/router";
 import { CompatSource } from "webpack-sources";
 import { ColorPicker, useColor } from "react-color-palette";
+import { WPDomain } from "~/repositories/Repository";
 import "react-color-palette/lib/css/styles.css";
 
 const EditProductPage = ({ pid }) => {
@@ -66,7 +67,7 @@ const EditProductPage = ({ pid }) => {
         formData.append("file", img);
 
         axios
-          .post("https://shafn.com/wp-json/wp/v2/media", formData, config)
+          .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
           .then((res) => {
             images.push({ src: res.data.source_url });
           })
@@ -341,11 +342,7 @@ const EditProductPage = ({ pid }) => {
     };
 
     axios
-      .put(
-        `https://shafn.com/wp-json/dokan/v1/products/${pid}`,
-        product,
-        config
-      )
+      .put(`${WPDomain}/wp-json/dokan/v1/products/${pid}`, product, config)
       .then((res) => {
         notification["success"]({
           message: "Product Updated Successfully",
@@ -388,7 +385,7 @@ const EditProductPage = ({ pid }) => {
     };
 
     axios
-      .get(`https://shafn.com/wp-json/dokan/v1/products/${pid}`, config)
+      .get(`${WPDomain}/wp-json/dokan/v1/products/${pid}`, config)
       .then((res) => {
         let product = res.data;
         setName(product.name);

@@ -3,6 +3,7 @@ import axios from "axios";
 import Router from "next/router";
 import { notification } from "antd";
 
+import { WPDomain } from "~/repositories/Repository";
 import { countryList } from "~/utilities/coutryList";
 
 const FormAccountSettings = () => {
@@ -68,7 +69,7 @@ const FormAccountSettings = () => {
       formData.append("file", imgFile);
 
       axios
-        .post("https://shafn.com/wp-json/wp/v2/media", formData, config)
+        .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
         .then((res) => {
           updateProfilePic(res.data.id, config);
         })
@@ -87,12 +88,12 @@ const FormAccountSettings = () => {
   const updateProfilePic = (imgID, config) => {
     // Get user id
     axios
-      .get("https://shafn.com/wp-json/wp/v2/users/me", config)
+      .get(`${WPDomain}/wp-json/wp/v2/users/me`, config)
       .then((res) => {
         // Update user profile picture
         axios
           .put(
-            `https://shafn.com/wp-json/dokan/v1/stores/${res.data.id}`,
+            `${WPDomain}/wp-json/dokan/v1/stores/${res.data.id}`,
             { gravatar_id: imgID },
             config
           )
@@ -126,9 +127,8 @@ const FormAccountSettings = () => {
     };
 
     axios
-      .put("https://shafn.com/wp-json/dokan/v1/settings", settings, config)
+      .put(`${WPDomain}/wp-json/dokan/v1/settings`, settings, config)
       .then((res) => {
-        console.log(res.data);
         setIsUploading(false);
         notification["success"]({
           message: "Settings Updated Successfully",
@@ -154,7 +154,7 @@ const FormAccountSettings = () => {
 
     // Get user settings
     axios
-      .get("https://shafn.com/wp-json/dokan/v1/settings", config)
+      .get(`${WPDomain}/wp-json/dokan/v1/settings`, config)
       .then((res) => {
         let user = res.data;
         setName(user.store_name);
@@ -169,14 +169,11 @@ const FormAccountSettings = () => {
 
     // Get user id
     axios
-      .get("https://shafn.com/wp-json/wp/v2/users/me", config)
+      .get(`${WPDomain}/wp-json/wp/v2/users/me`, config)
       .then((res) => {
         // Get user profile picture
         axios
-          .get(
-            `https://shafn.com/wp-json/dokan/v1/stores/${res.data.id}`,
-            config
-          )
+          .get(`${WPDomain}/wp-json/dokan/v1/stores/${res.data.id}`, config)
           .then((res) => {
             setImg(res.data.gravatar);
           })

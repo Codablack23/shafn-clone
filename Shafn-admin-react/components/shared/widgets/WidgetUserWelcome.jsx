@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Router from "next/router";
+import { WPDomain } from "~/repositories/Repository";
 
 import axios from "axios";
 
@@ -7,14 +7,11 @@ const WidgetUserWelcome = () => {
   const [name, setName] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
 
-  useEffect(() => {
-    let auth_token = localStorage.getItem("auth_token");
-
-    // Get store name
+  const getStorename = (token) => {
     axios
-      .get("https://shafn.com/wp-json/dokan/v1/settings", {
+      .get(`${WPDomain}/wp-json/dokan/v1/settings`, {
         headers: {
-          Authorization: `Bearer ${auth_token}`,
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
@@ -23,10 +20,16 @@ const WidgetUserWelcome = () => {
       .catch((err) => {
         window.location.assign("http://localhost:3000/account/login");
       });
+  };
+
+  useEffect(() => {
+    let auth_token = localStorage.getItem("auth_token");
+
+    getStorename(auth_token);
 
     // Get user id
     axios
-      .get("https://shafn.com/wp-json/wp/v2/users/me", {
+      .get(`${WPDomain}/wp-json/wp/v2/users/me`, {
         headers: {
           Authorization: `Bearer ${auth_token}`,
         },
@@ -34,7 +37,7 @@ const WidgetUserWelcome = () => {
       .then((res) => {
         // Get user profile picture
         axios
-          .get(`https://shafn.com/wp-json/dokan/v1/stores/${res.data.id}`, {
+          .get(`${WPDomain}/wp-json/dokan/v1/stores/${res.data.id}`, {
             headers: {
               Authorization: `Bearer ${auth_token}`,
             },

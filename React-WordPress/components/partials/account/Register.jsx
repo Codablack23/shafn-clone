@@ -280,15 +280,7 @@ function Register() {
                                     </div>
 
                                     <div className="form-group">
-                                        <Form.Item
-                                            name="text"
-                                            rules={[
-                                                {
-                                                    required: true,
-                                                    message:
-                                                        'Please input your preferred store name',
-                                                },
-                                            ]}>
+                                        <Form.Item name="text">
                                             <Input
                                                 className="form-control"
                                                 type="text"

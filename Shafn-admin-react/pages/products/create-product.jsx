@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
+import Router from "next/router";
 import ContainerDefault from "~/components/layouts/ContainerDefault";
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { notification } from "antd";
 import { toggleDrawerMenu } from "~/store/app/action";
+import { WPDomain } from "~/repositories/Repository";
 
 const CreateProductPage = () => {
   const dispatch = useDispatch();
 
+  const [storename, setStorename] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [discountedPrice, setDiscountedPrice] = useState("");
@@ -47,7 +50,7 @@ const CreateProductPage = () => {
       formData.append("file", img);
 
       axios
-        .post("https://shafn.com/wp-json/wp/v2/media", formData, config)
+        .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
         .then((res) => {
           images.push({ src: res.data.source_url, position: index });
         })
@@ -92,29 +95,45 @@ const CreateProductPage = () => {
       images,
     };
 
+    // Update Store Name
     axios
-      .post("https://shafn.com/wp-json/dokan/v1/products/", product, config)
+      .put(
+        `${WPDomain}/wp-json/dokan/v1/settings`,
+        { store_name: storename },
+        config
+      )
       .then((res) => {
-        notification["success"]({
-          message: "Product Uploaded Successfully",
-        });
-        setIsUploading(false);
-        setName("");
-        setPrice("");
-        setDiscountedPrice("");
-        setDescription("");
-        setCategory("");
-        setQty("");
-        setSku("");
-        setImageFiles([]);
-        setSelectedImages([]);
+        // Upload Product
+        axios
+          .post(`${WPDomain}/wp-json/dokan/v1/products/`, product, config)
+          .then((res) => {
+            notification["success"]({
+              message: "Product Uploaded Successfully",
+            });
+            Router.reload(window.location.pathname);
+            // setName("");
+            // setPrice("");
+            // setDiscountedPrice("");
+            // setDescription("");
+            // setCategory("");
+            // setQty("");
+            // setSku("");
+            // setImageFiles([]);
+            // setSelectedImages([]);
+          })
+          .catch((err) => {
+            setIsUploading(false);
+            notification["error"]({
+              message: "Product Upload Failed",
+              description: "Check your data connection and try again.",
+            });
+          });
       })
       .catch((err) => {
+        setIsUploading(false);
         notification["error"]({
           message: "Product Upload Failed",
-          description: "Check your data connection and try again.",
         });
-        setIsUploading(false);
       });
   };
 
@@ -155,8 +174,26 @@ const CreateProductPage = () => {
     ));
   };
 
+  const getStorename = (token) => {
+    axios
+      .get(`${WPDomain}/wp-json/dokan/v1/settings`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setStorename(res.data.store_name);
+      })
+      .catch((err) => {
+        return;
+      });
+  };
+
   useEffect(() => {
     dispatch(toggleDrawerMenu(false));
+    let auth_token = localStorage.getItem("auth_token");
+
+    getStorename(auth_token);
   }, []);
   return (
     <ContainerDefault title="Create new product">
@@ -177,6 +214,20 @@ const CreateProductPage = () => {
                 <figure className="ps-block--form-box">
                   <figcaption>General</figcaption>
                   <div className="ps-block__content">
+                    <div className="form-group">
+                      <label>
+                        Store Name<sup>*</sup>
+                      </label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        placeholder="Enter store name..."
+                        value={storename}
+                        onChange={(e) => setStorename(e.target.value)}
+                        required
+                      />
+                    </div>
+
                     <div className="form-group">
                       <label>
                         Product Name<sup>*</sup>
