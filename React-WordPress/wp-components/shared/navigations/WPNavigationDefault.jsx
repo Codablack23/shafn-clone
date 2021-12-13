@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import { notification } from 'antd';
 
-
 import MenuCategoriesDropdown from '~/components/shared/menus/MenuCategoriesDropdown';
 import CurrencyDropdown from '~/components/shared/headers/modules/CurrencyDropdown';
 import LanguageSwicher from '~/components/shared/headers/modules/LanguageSwicher';
@@ -31,13 +30,10 @@ class WPNavigationDefault extends Component {
                         <MenuCategoriesDropdown />
                     </div>
                     <div className="navigation__right">
-                        <Menu
-                            data={menuData.WPMenu}
-                            className="menu"
-                        />
+                        <Menu data={menuData.WPMenu} className="menu" />
                         <ul className="navigation__extra">
                             <li>
-                                <Link href="/vendor/become-a-vendor">
+                                <Link href="/account/register">
                                     <a>Sell on shafN</a>
                                 </Link>
                             </li>

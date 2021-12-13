@@ -75,11 +75,6 @@ function Login() {
                                 <a>Login</a>
                             </Link>
                         </li>
-                        <li>
-                            <Link href="/account/register">
-                                <a>Register</a>
-                            </Link>
-                        </li>
                     </ul>
                     <div
                         className="ps-tab active"

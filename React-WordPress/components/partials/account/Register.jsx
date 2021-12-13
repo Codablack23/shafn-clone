@@ -153,11 +153,6 @@ function Register() {
                     className="ps-form--account"
                     onFinish={!isLoading && handleSubmit}>
                     <ul className="ps-tab-list">
-                        <li>
-                            <Link href="/account/login">
-                                <a>Login</a>
-                            </Link>
-                        </li>
                         <li className="active">
                             <Link href="/account/register">
                                 <a>Register</a>
