@@ -11,7 +11,6 @@ import { WPDomain } from "~/repositories/Repository";
 const CreateProductPage = () => {
   const dispatch = useDispatch();
 
-  const [storename, setStorename] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [discountedPrice, setDiscountedPrice] = useState("");
@@ -95,44 +94,20 @@ const CreateProductPage = () => {
       images,
     };
 
-    // Update Store Name
+    // Upload Product
     axios
-      .put(
-        `${WPDomain}/wp-json/dokan/v1/settings`,
-        { store_name: storename },
-        config
-      )
+      .post(`${WPDomain}/wp-json/dokan/v1/products/`, product, config)
       .then((res) => {
-        // Upload Product
-        axios
-          .post(`${WPDomain}/wp-json/dokan/v1/products/`, product, config)
-          .then((res) => {
-            notification["success"]({
-              message: "Product Uploaded Successfully",
-            });
-            Router.reload(window.location.pathname);
-            // setName("");
-            // setPrice("");
-            // setDiscountedPrice("");
-            // setDescription("");
-            // setCategory("");
-            // setQty("");
-            // setSku("");
-            // setImageFiles([]);
-            // setSelectedImages([]);
-          })
-          .catch((err) => {
-            setIsUploading(false);
-            notification["error"]({
-              message: "Product Upload Failed",
-              description: "Check your data connection and try again.",
-            });
-          });
+        notification["success"]({
+          message: "Product Uploaded Successfully",
+        });
+        Router.reload(window.location.pathname);
       })
       .catch((err) => {
         setIsUploading(false);
         notification["error"]({
           message: "Product Upload Failed",
+          description: "Check your data connection and try again.",
         });
       });
   };
@@ -182,7 +157,12 @@ const CreateProductPage = () => {
         },
       })
       .then((res) => {
-        setStorename(res.data.store_name);
+        if (!res.data.store_name.trim()) {
+          notification["error"]({
+            message: "You must have a Store Name to upload a product.",
+          });
+          setTimeout(() => Router.push("/settings"), 2000);
+        }
       })
       .catch((err) => {
         return;
@@ -214,20 +194,6 @@ const CreateProductPage = () => {
                 <figure className="ps-block--form-box">
                   <figcaption>General</figcaption>
                   <div className="ps-block__content">
-                    <div className="form-group">
-                      <label>
-                        Store Name<sup>*</sup>
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Enter store name..."
-                        value={storename}
-                        onChange={(e) => setStorename(e.target.value)}
-                        required
-                      />
-                    </div>
-
                     <div className="form-group">
                       <label>
                         Product Name<sup>*</sup>
