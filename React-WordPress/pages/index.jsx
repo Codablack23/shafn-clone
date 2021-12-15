@@ -47,7 +47,7 @@ const Index = () => {
             <WPProductList categoryID={202} title="Clothing & Apparel" />
             <WPProductList categoryID={205} title="Consumer Electronics" />
             <WPProductList categoryID={203} title="Home, Garden & Kitchen" />
-            <DownLoadApp />
+            {/* <DownLoadApp /> */}
             <WPNewArrivals />
             <Newletters />
         </WPLayoutHomeDefault>
