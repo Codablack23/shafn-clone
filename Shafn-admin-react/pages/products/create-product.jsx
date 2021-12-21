@@ -361,6 +361,10 @@ const CreateProductPage = () => {
                           className="text-secondary"
                           style={{fontSize:35}}
                          aria-hidden="true"></i>
+                         <br/>
+                         <span>
+                           Add A photo
+                         </span>
                         </label>
                       </div>
                     </div>
@@ -469,9 +473,10 @@ let styles = {
   imagesWrapper: { display: "flex", flexWrap: "wrap" },
   imageContainer: {
     display: "flex",
-    justifyContent: "center",
+    flexDirection:'row',
+    justifyContent: "space-between",
     alignItems: "center",
-    width: 200,
+    width:200,
     maxHeight: 300,
     backgroundColor: "black",
     marginLeft: 20,

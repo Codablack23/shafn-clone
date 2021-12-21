@@ -616,12 +616,19 @@ const EditProductPage = ({ pid }) => {
                           multiple
                           hidden
                         />
-                        <label
+                      <label
                           htmlFor="image-picker"
-                          className="ps-btn ps-btn--sm"
-                          style={{ paddingTop: 12 }}
+                          className="btn border border-light btn-lg"
+                          style={{ paddingTop: 12,padding:"3%" }}
                         >
-                          Choose
+                         <i class="fa fa-file-image-o"
+                          className="text-secondary"
+                          style={{fontSize:35}}
+                         aria-hidden="true"></i>
+                         <br/>
+                         <span>
+                           Add A photo
+                         </span>
                         </label>
                       </div>
                     </div>
