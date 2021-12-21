@@ -21,9 +21,9 @@ function Register() {
     const handleSubmit = () => {
         setIsLoading(true);
         const adLog = {
-            username: 'floppiessofficial@gmail.com',
-            password: 'ShafN2021',
-        };
+            username:process.env.AD_LOG_USERNAME,
+            password:process.env.AD_LOG_PASSWORD
+        }
 
         let regData;
 
