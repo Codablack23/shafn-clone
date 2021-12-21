@@ -621,13 +621,12 @@ const EditProductPage = ({ pid }) => {
                           className="btn border border-light btn-lg"
                           style={{ paddingTop: 12,padding:"3%" }}
                         >
-                         <i class="fa fa-file-image-o"
-                          className="text-secondary"
-                          style={{fontSize:35}}
+                         <i className="fa fa-file-image-o"
+                          style={{fontSize:38}}
                          aria-hidden="true"></i>
                          <br/>
                          <span>
-                           Add A photo
+                           Add image
                          </span>
                         </label>
                       </div>
