@@ -388,11 +388,14 @@ const EditProductPage = ({ pid }) => {
       .get(`${WPDomain}/wp-json/dokan/v1/products/${pid}`, config)
       .then((res) => {
         let product = res.data;
+        console.log(product);
         setName(product.name);
         setAttributes(product.attributes);
         setPrice(String(product.regular_price));
         setDiscountedPrice(String(product.price));
-        setCategory([{ id: product.categories[0].id }]);
+        setCategory([
+          { id: product.catageories ? product.categories[0].id : "15" },
+        ]);
         setQty(product.stock_quantity);
         setType(product.type);
         setShortDescription(product.description);
@@ -616,18 +619,18 @@ const EditProductPage = ({ pid }) => {
                           multiple
                           hidden
                         />
-                      <label
+                        <label
                           htmlFor="image-picker"
                           className="btn border border-light btn-lg"
-                          style={{ paddingTop: 12,padding:"3%" }}
+                          style={{ paddingTop: 12, padding: "3%" }}
                         >
-                         <i className="fa fa-file-image-o"
-                          style={{fontSize:38}}
-                         aria-hidden="true"></i>
-                         <br/>
-                         <span>
-                           Add image
-                         </span>
+                          <i
+                            className="fa fa-file-image-o"
+                            style={{ fontSize: 38 }}
+                            aria-hidden="true"
+                          ></i>
+                          <br />
+                          <span>Add image</span>
                         </label>
                       </div>
                     </div>
