@@ -5,9 +5,12 @@ import { notification } from "antd";
 
 import { WPDomain } from "~/repositories/Repository";
 import { countryList } from "~/utilities/coutryList";
+import { allStates }  from "~/utilities/stateList";
 
 const FormAccountSettings = () => {
+  const { data } = allStates
   const [name, setName] = useState("");
+  const [countryStates,setStates]=useState([])
   const [address, setAddress] = useState({
     city: "",
     country: "",
@@ -41,6 +44,13 @@ const FormAccountSettings = () => {
   const setAddr = (name, value) => {
     setAddress((current) => ({ ...current, [name]: value }));
   };
+
+  const selectCountry=(e)=>{
+    setAddr(e.target.name,e.target.value)
+    const stateList=data.filter((coun)=>coun.name==e.target.value)
+    setStates(stateList[0].states)
+  }
+   
 
   const renderCountries = () => {
     return countryList.map((country, index) => (
@@ -268,10 +278,29 @@ const FormAccountSettings = () => {
                   title="countries"
                   style={{ width: "100%" }}
                   defaultValue={address.country}
-                  onChange={(e) => setAddr(e.target.name, e.target.value)}
+                  onChange={(e) => selectCountry(e)}
                 >
                   <option value="">Select Country</option>
                   {renderCountries()}
+                </select>
+              </div>
+            </div>
+            {/* add state */}
+            <p style={styles.addrHeader}>State</p>
+            <div className="form-group form-group--select">
+              <div className="form-group__content">
+                <select
+                  name="state"
+                  className="ps-select"
+                  title="countries"
+                  style={{ width: "100%" }}
+                  defaultValue={address.country}
+                  onChange={(e) => setAddr(e.target.name,e.target.value)}
+                >
+                  <option value="">Select State</option>
+                  {
+                    countryStates.map((state)=><option key={state.name} value={state.name}>{state.name}</option>)
+                  }
                 </select>
               </div>
             </div>
