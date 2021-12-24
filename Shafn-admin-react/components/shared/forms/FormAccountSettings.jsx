@@ -214,8 +214,18 @@ const FormAccountSettings = () => {
                 multiple
                 hidden
               />
-              <label htmlFor="image-picker" style={{ paddingTop: 12 }}>
+              <label htmlFor="image-picker" style={{...styles.imgPicker, paddingTop: 12 }}>
                 <img src={img.toString()} alt="" style={styles.img} />
+                <span
+                 style={{
+                   position:"absolute",
+                   bottom:20,
+                   right:10
+                 }}
+                 className="text-warning"
+                >
+                <i className="fa fa-camera" aria-hidden="true" style={{fontSize:30}}></i>
+                </span>
               </label>
             </div>
           </div>
@@ -382,6 +392,9 @@ const FormAccountSettings = () => {
 };
 
 const styles = {
+  imgPicker:{
+    position:"relative"
+  },
   img: {
     width: 150,
     height: 150,
