@@ -4,13 +4,12 @@ import Router from "next/router";
 import { notification } from "antd";
 
 import { WPDomain } from "~/repositories/Repository";
-import { countryList } from "~/utilities/coutryList";
-import { allStates }  from "~/utilities/stateList";
+import { allStates } from "~/utilities/stateList";
 
 const FormAccountSettings = () => {
-  const { data } = allStates
+  const { data } = allStates;
   const [name, setName] = useState("");
-  const [countryStates,setStates]=useState([])
+  const [countryStates, setStates] = useState([]);
   const [address, setAddress] = useState({
     city: "",
     country: "",
@@ -45,17 +44,16 @@ const FormAccountSettings = () => {
     setAddress((current) => ({ ...current, [name]: value }));
   };
 
-  const selectCountry=(e)=>{
-    setAddr(e.target.name,e.target.value)
-    const stateList=data.filter((coun)=>coun.name==e.target.value)
-    setStates(stateList[0].states)
-  }
-   
+  const selectCountry = (e) => {
+    setAddr(e.target.name, e.target.value);
+    const stateList = data.filter((coun) => coun.name == e.target.value);
+    setStates(stateList[0].states);
+  };
 
   const renderCountries = () => {
-    return countryList.map((country, index) => (
-      <option key={index} value={country}>
-        {country}
+    return data.map((country, index) => (
+      <option key={index} value={country.name}>
+        {country.name}
       </option>
     ));
   };
@@ -209,22 +207,29 @@ const FormAccountSettings = () => {
                 id="image-picker"
                 type="file"
                 accept="image/*"
-                onChange={imageHandler}
                 required
                 multiple
                 hidden
               />
-              <label htmlFor="image-picker" style={{...styles.imgPicker, paddingTop: 12 }}>
+              <label
+                htmlFor="image-picker"
+                style={{ ...styles.imgPicker, paddingTop: 12 }}
+              >
                 <img src={img.toString()} alt="" style={styles.img} />
                 <span
-                 style={{
-                   position:"absolute",
-                   bottom:20,
-                   right:10
-                 }}
-                 className="text-warning"
+                  style={{
+                    position: "absolute",
+                    bottom: 20,
+                    right: 10,
+                  }}
+                  className="text-warning"
                 >
-                <i className="fa fa-camera" aria-hidden="true" style={{fontSize:30}}></i>
+                  <i
+                    className="fa fa-camera"
+                    aria-hidden="true"
+                    onClick={imageHandler}
+                    style={{ fontSize: 30, cursor: "pointer" }}
+                  ></i>
                 </span>
               </label>
             </div>
@@ -305,12 +310,14 @@ const FormAccountSettings = () => {
                   title="countries"
                   style={{ width: "100%" }}
                   defaultValue={address.country}
-                  onChange={(e) => setAddr(e.target.name,e.target.value)}
+                  onChange={(e) => setAddr(e.target.name, e.target.value)}
                 >
                   <option value="">Select State</option>
-                  {
-                    countryStates.map((state)=><option key={state.name} value={state.name}>{state.name}</option>)
-                  }
+                  {countryStates.map((state) => (
+                    <option key={state.name} value={state.name}>
+                      {state.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -392,15 +399,14 @@ const FormAccountSettings = () => {
 };
 
 const styles = {
-  imgPicker:{
-    position:"relative"
+  imgPicker: {
+    position: "relative",
   },
   img: {
     width: 150,
     height: 150,
     borderRadius: 75,
     marginBottom: 20,
-    cursor: "pointer",
   },
   addrHeader: {
     marginTop: 10,
