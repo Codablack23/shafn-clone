@@ -4,7 +4,7 @@ import HomeBanner from '~/components/partials/homepage/home-default/HomeBanner';
 import SiteFeatures from '~/components/partials/homepage/home-default/SiteFeatures';
 import HomeAdsColumns from '~/components/partials/homepage/home-default/HomeAdsColumns';
 import HomeAds from '~/components/partials/homepage/home-default/HomeAds';
-import DownLoadApp from '~/components/partials/commons/DownLoadApp';
+// import DownLoadApp from '~/components/partials/commons/DownLoadApp';
 import Newletters from '~/components/partials/commons/Newletters';
 import HomeDefaultTopCategories from '~/components/partials/homepage/home-default/HomeDefaultTopCategories';
 import { getCollections } from '~/store/collection/action';

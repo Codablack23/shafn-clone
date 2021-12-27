@@ -354,10 +354,16 @@ const CreateProductPage = () => {
                         />
                         <label
                           htmlFor="image-picker"
-                          className="ps-btn ps-btn--sm"
-                          style={{ paddingTop: 12 }}
+                          className="btn border border-light btn-lg"
+                          style={{ paddingTop: 12,padding:"3%" }}
                         >
-                          Choose
+                         <i className="fa fa-file-image-o"
+                          style={{fontSize:38}}
+                         aria-hidden="true"></i>
+                         <br/>
+                         <span>
+                           Add image
+                         </span>
                         </label>
                       </div>
                     </div>
@@ -466,9 +472,10 @@ let styles = {
   imagesWrapper: { display: "flex", flexWrap: "wrap" },
   imageContainer: {
     display: "flex",
-    justifyContent: "center",
+    flexDirection:'row',
+    justifyContent: "space-between",
     alignItems: "center",
-    width: 200,
+    width:200,
     maxHeight: 300,
     backgroundColor: "black",
     marginLeft: 20,
