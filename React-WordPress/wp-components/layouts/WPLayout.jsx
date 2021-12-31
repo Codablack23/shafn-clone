@@ -16,7 +16,7 @@ const WPLayout = ({ children, title }) => {
     }
 
     return (
-        <div className="shafn">
+        <div className="">
             <Head>
                 <title>{titleView}</title>
             </Head>

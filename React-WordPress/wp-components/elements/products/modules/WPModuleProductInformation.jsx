@@ -120,18 +120,24 @@ const WPModuleProductInformation = ({
                             disabled
                         />
                     </div>
-                </figure>
+                </figure><br />
+                <div className="m-3 ml-3 mr-3">
                 <a
-                    className="ps-btn ps-btn--black"
+                    className="btn btn-lg w3-center p-3 m-2 w3-black w3-hover-orange"
                     href="#"
+                    style={{minWidth:210}}
                     onClick={handleAddItemToCart}>
                     Add to cart
-                </a>
+                </a><br/>
                 <Link href="/account/checkout">
-                    <a className="ps-btn" onClick={handleAddToCheckoutItems}>
+                    <a 
+                     style={{minWidth:210}}
+                     className="btn-lg btn w3-orange p-3 m-2 w3-hover-black"
+                     onClick={handleAddToCheckoutItems}>
                         Buy Now
                     </a>
                 </Link>
+                </div>
             </div>
            
         </div>
