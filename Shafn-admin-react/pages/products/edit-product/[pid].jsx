@@ -536,6 +536,7 @@ const EditProductPage = ({ pid }) => {
       manage_stock: manageStock,
       sold_individually: soldIndividually,
       type,
+      variations
     };
 
     axios
@@ -605,6 +606,7 @@ const EditProductPage = ({ pid }) => {
         setInStock(product.in_stock);
         setManageStock(product.manage_stock);
         setSoldIndividually(product.sold_individually);
+        setVariations(product.variations)
       })
       .catch((err) => {
         notification["error"]({
