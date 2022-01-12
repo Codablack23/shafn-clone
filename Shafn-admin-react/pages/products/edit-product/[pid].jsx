@@ -10,6 +10,7 @@ import { CompatSource } from "webpack-sources";
 import { ColorPicker, useColor } from "react-color-palette";
 import { WPDomain } from "~/repositories/Repository";
 import "react-color-palette/lib/css/styles.css";
+import {v4 as uuid} from 'uuid'
 
 const EditProductPage = ({ pid }) => {
   const dispatch = useDispatch();
@@ -33,11 +34,204 @@ const EditProductPage = ({ pid }) => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [imagesToUpload, setImagesToUpload] = useState([]);
   const [attributes, setAttributes] = useState([]);
-
   const [isUploading, setIsUploading] = useState(false);
-  const [attr, setAttr] = useState(null);
-
   const [color, setColor] = useColor("hex", "#aabbcc");
+  const [attr, setAttr] = useState(null);
+  // variation attributes states
+  const [variations,setVariations] = useState([])
+  const [variation,setVariation]=useState({})
+  const [singleVariation,setSingleVariation]=useState("single")
+
+  // variations Logic
+  const addVariations=(varType)=>{
+    if(varType=="single"||variations.length<50){
+   
+        var new_id=uuid().slice(0,3)
+        var varObj= {
+          id:new_id,
+          regular_price:price,
+          sku:"",
+          attributes:createVariationAttributes(),
+          in_stock:true
+        }
+      setVariations(current=>[...current,varObj])
+      console.log(variation)
+    // }else{
+    //   addVariationFromAttributes()
+    }
+    //  console.log(variations)
+  }
+  const createVariationAttributes=(value={})=>{
+     var attrArray=[]
+     attributes.forEach((att,id)=>{
+       attrArray.push({
+        id:id,
+        name: att.name.toLowerCase(),
+        option: value[att.name.toLowerCase()]
+       })
+     })
+     return attrArray
+    }
+  // const addVariationFromAttributes=()=>{
+  //   const sizes=attributes.filter(att=>att.name=="Size" && att.variation==true)[0].options
+  //   const colors=attributes.filter(att=>att.name=="Color" && att.variation==true)[0].options
+  //   const attArray=attributes.map(att=>{
+  //     if(att.variation==true){
+  //       return att.name
+  //     }
+  //   })
+  //   var prev_id
+  //   const allvariations=[]
+  //   sizes.forEach((size)=>{
+  //    colors.forEach((color)=>{       
+  //       prev_id=uuid().slice(0,3)
+
+  //       const variationObject = {
+  //         id:prev_id,
+  //         regular_price:price,
+  //         slug:size+color,
+  //         sku:"",
+  //         attributes:createVariationAttributes({color,size}),
+  //         in_stock:true
+  //       }
+        
+  //      if(!variations.map((attr) => attr.slug).includes(variationObject.slug)){
+  //        allvariations.push(variationObject)
+  //      }
+  //    })
+    
+  //   })
+  //  setVariations(current=>[...current,...allvariations])
+  //  console.log(attributes)
+  //  console.log(attArray)
+
+  //  attArray.forEach(att=>{
+  //      attributes.forEach(a=>{
+  //        if(a.name==att){
+  //          console.log(a.options)
+  //        }
+  //      })
+  //  })
+  // }
+  const removeVariation=(id)=>{
+    setVariations(current=>
+      current.filter(vari=>vari.id!==id)
+    )
+  }
+  const renderVarAttributes=(attName)=>{
+    return(
+      attributes.map(att=>{
+        if(att.name==attName){
+          return(
+            att.options.map(options=>
+            <option key={options} value={options}>{options}</option>  
+            )
+          )
+        }
+      })
+    )
+  }
+  const updateVariationAtt=(id,key,value)=>{
+    const varList=[...variations]
+    var updated=[]
+   
+    if (varList.length>0){
+        updated=[...varList.filter(v=>v.id==id)[0].attributes]
+        updated.forEach(up=>{
+          if( up.name==key){
+            up.option=value
+          }
+        })
+      // console.log(attributes)
+    }
+  }
+  const updateVariations=(id,key,value)=>{
+      const varList=[...variations]
+      var updated=[]
+      if (varList.length>0){
+        updated= varList.map(v=>{
+          if(v.id==id){
+            v[key]=value
+          }
+          return v
+        })
+        setVariation(updated)
+        // console.log(variations)
+      }
+
+  }
+  const stockStatus=(stock)=>stock=="in stock"?true:false;
+  const renderAttSelection=(params)=>
+  attributes.map(att=>{
+    return(
+      <select key={att.name}
+      onChange={(e)=>{updateVariationAtt(params.id,att.name.toLowerCase(),e.target.value)}}
+       value={params.attributes.filter(attr=>attr.name==att.name.toLowerCase())[0].option}
+      className="mr-3 border border-white rounded p-2" style={{width:`${(100/attributes.length)-5}%`}} name="size" id="">
+      {renderVarAttributes(att.name)}
+     </select>
+    )
+  });
+
+
+  const renderVariation=()=>{
+    if(variations.length >0){
+      return variations.map((vari)=>
+         <div key={vari.id} className="variations-List mt-5 rounded">
+            <header className="d-flex justify-content-between bg-light p-3">
+              <div style={{width:"15%"}}>
+                <h4>123</h4>
+              </div>
+                 <div style={{width:"70%"}}>
+                   {renderAttSelection(vari)}
+                
+                 </div>
+                 <div className="d-flex justify-content-end" style={{width:"15%"}}>
+                   <span className="btn" >
+                     <span style={{fontSize:15}} data-bs-toggle="collapse" href={`#collapse${vari.id}`}>
+                     <i className="fa fa-caret-down" aria-hidden="true"></i>
+                     </span>
+                   </span>
+                   <span style={{cursor:"pointer"}} className="text-danger small mt-2 ml-2" onClick={()=>{removeVariation(vari.id)}}>Remove</span>
+                 </div>
+            </header>
+              <div className="collapse" id={`collapse${vari.id}`}>
+                <div className="card card-body container">
+                   <div className="row pl-4 p-2">   
+                   <div className="col-12 col-md-6 p-2">
+                       <label htmlFor="">Variation Price</label><br />
+                       <input 
+                        onChange={(e)=>{updateVariations(vari.id,'regular_price',e.target.value)}}
+                        style={{...styles.variationInput}} className="p-2" placeholder="" value={vari.regular_price} type="number" />
+                   </div>
+                     <div className="col-12 col-md-6 p-2">
+                     <label htmlFor="">SKU</label><br />
+                     <input 
+                      onChange={(e)=>{updateVariations(vari.id,'sku',e.target.value,)}}
+                     style={{...styles.variationInput}} className="p-2" value={vari.sku} type="text" />
+                     </div>
+                   </div>
+                   <div className="row p-2">
+                    <div className="col-12 pr-3 pl-3">
+                      <label htmlFor="">Stock Status</label>
+                       <select 
+                       value={vari.in_stock==true?"in stock":"out of stock"} 
+                       style={{...styles.variationInput,width:"94%"}} 
+                       onChange={(e)=>{updateVariations(vari.id,'in_stock',stockStatus(e.target.value))}}
+                       className="p-2 bg-white" type="text" >
+                        <option value="in stock">In Stock</option>
+                        <option value="out of stock">Out Of Stock</option>
+                       </select>
+                    </div>
+                   </div>
+                </div>
+              </div>
+            </div>
+      )
+    }
+  }
+// end of variation Logic
+
 
   const imageHandler = (e) => {
     //Display Image
@@ -54,6 +248,8 @@ const EditProductPage = ({ pid }) => {
 
       Array.from(e.target.files).map((img) => URL.revokeObjectURL(img));
     }
+    console.log(imageFiles)
+    console.log(selectedImages)
   };
 
   const uploadImages = (config) => {
@@ -116,6 +312,7 @@ const EditProductPage = ({ pid }) => {
 
       setAttr("");
     }
+
   };
 
   const renderImages = () => {
@@ -603,8 +800,7 @@ const EditProductPage = ({ pid }) => {
                     </div>
                   </div>
                 </figure>
-              </div>
-              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                {/* product images */}
                 <figure className="ps-block--form-box">
                   <figcaption>Product Images</figcaption>
                   <div className="ps-block__content">
@@ -638,6 +834,9 @@ const EditProductPage = ({ pid }) => {
                     <div style={styles.imagesWrapper}>{renderImages()}</div>
                   </div>
                 </figure>
+              </div>
+              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+              
                 <figure className="ps-block--form-box">
                   <figcaption>Inventory</figcaption>
                   <div className="ps-block__content">
@@ -718,7 +917,8 @@ const EditProductPage = ({ pid }) => {
                   </div>
                 </figure>
                 {type === "variable" ? (
-                  <figure className="ps-block--form-box">
+                  <div>
+                     <figure className="ps-block--form-box">
                     <figcaption>Attribute and Variation</figcaption>
                     <div className="ps-block__content">
                       {renderAttributes()}
@@ -757,8 +957,26 @@ const EditProductPage = ({ pid }) => {
                       >
                         Save
                       </button>
-                    </div>
+                      </div>
+                    
                   </figure>
+                  <div className="p-3">
+                  <div>
+                    <h3>Variations</h3>
+                      <select style={{border:"none",borderRadius:50}}
+                        className="p-3 bg-light" 
+                        name=""
+                        id=""
+                        onChange={(e)=>{setSingleVariation(e.target.value)}}
+                        >
+                        <option value="single">Add Variation</option>
+                        {/* <option value="fromAttributes">Create Variation From All Attributes</option> */}
+                      </select><br />
+                      <span className="btn ps-btn btn-lg mt-3" onClick={(e)=>addVariations(singleVariation)}>Add</span>        
+                       {renderVariation()}
+                    </div>
+                    </div>
+                  </div>
                 ) : null}
               </div>
             </div>
@@ -800,6 +1018,17 @@ EditProductPage.getInitialProps = async ({ query }) => {
 export default EditProductPage;
 
 let styles = {
+  variationSelect:{
+   border:"none"
+  },
+  variationBtnSubmit:{
+    minWidth:120
+  },
+  variationInput:{
+    border:"1px solid lightgrey",
+    borderRadius:8,
+  }
+  ,
   imagesWrapper: { display: "flex", flexWrap: "wrap" },
   imageContainer: {
     display: "flex",
