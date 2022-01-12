@@ -180,7 +180,7 @@ const EditProductPage = ({ pid }) => {
          <div key={vari.id} className="variations-List mt-5 rounded">
             <header className="d-flex justify-content-between bg-light p-3">
               <div style={{width:"15%"}}>
-                <h4>123</h4>
+                <h4>{vari.id}</h4>
               </div>
                  <div style={{width:"70%"}}>
                    {renderAttSelection(vari)}
