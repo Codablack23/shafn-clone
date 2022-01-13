@@ -509,7 +509,30 @@ const EditProductPage = ({ pid }) => {
       })
     );
   };
+const saveVariations=()=>{
+  let auth_token = localStorage.getItem("auth_token");
 
+  const config = {
+    headers: {
+      Authorization: `Bearer ${auth_token}`,
+    },
+  };
+  
+  axios
+        .put(`${WPDomain}/wp-json/wc/v3/products/${pid}/variations`, variations, config)
+        .then((res) => {
+          notification["success"]({
+            message: "variations Added Successfully",
+          });
+        }) 
+         .catch((err) => {
+        console.log(err)
+        notification["error"]({
+          message: "Varitions Could not be Added",
+          description: "Check your data connection and try again.",
+        });
+      })
+}
   const uploadProduct = (config, images) => {
     let slug = `${name
       .replace(/[^a-zA-Z0-9-_]/g, " ")
@@ -526,6 +549,7 @@ const EditProductPage = ({ pid }) => {
       sale_price: discountedPrice.trim(),
       short_description: shortDescription,
       description,
+      variations:variations.map(v=>v.id),
       categories: category,
       stock_quantity: qty,
       sku,
@@ -536,16 +560,18 @@ const EditProductPage = ({ pid }) => {
       manage_stock: manageStock,
       sold_individually: soldIndividually,
       type,
-      variations
+    
     };
+    console.log(product)
 
     axios
       .put(`${WPDomain}/wp-json/dokan/v1/products/${pid}`, product, config)
       .then((res) => {
-        notification["success"]({
-          message: "Product Updated Successfully",
-        });
-        Router.push("/products");
+      
+          notification["success"]({
+            message: "Product Updated Successfully",
+          });
+          Router.push("/products");
       })
       .catch((err) => {
         notification["error"]({
@@ -583,6 +609,18 @@ const EditProductPage = ({ pid }) => {
     };
 
     axios
+      .get(`${WPDomain}/wp-json/dokan/v1/products/${pid}/variations`, config)
+      .then(result=>{
+        let allVariations=result.data
+        setVariations(allVariations)
+      }).catch((err) => {
+        console.log(err)
+        notification["error"]({
+          message: "Failed to get variations!",
+          description: "Check your data connection and try again.",
+        });
+      });
+    axios
       .get(`${WPDomain}/wp-json/dokan/v1/products/${pid}`, config)
       .then((res) => {
         let product = res.data;
@@ -606,7 +644,6 @@ const EditProductPage = ({ pid }) => {
         setInStock(product.in_stock);
         setManageStock(product.manage_stock);
         setSoldIndividually(product.sold_individually);
-        setVariations(product.variations)
       })
       .catch((err) => {
         notification["error"]({
@@ -977,6 +1014,7 @@ const EditProductPage = ({ pid }) => {
                       <span className="btn ps-btn btn-lg mt-3" onClick={(e)=>addVariations(singleVariation)}>Add</span>        
                        {renderVariation()}
                     </div>
+                    <span className="btn ps-btn btn-lg mt-3" onClick={()=>{saveVariations()}}>Save Variations</span>  
                     </div>
                   </div>
                 ) : null}
