@@ -16,11 +16,7 @@ const WPLayout = ({ children, title }) => {
     }
 
     return (
-<<<<<<< HEAD
-        <div className="">
-=======
         <div className="shafn">
->>>>>>> main-repo-branch
             <Head>
                 <title>{titleView}</title>
             </Head>
