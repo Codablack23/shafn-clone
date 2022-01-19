@@ -1215,11 +1215,14 @@
     "@types/prop-types" "*"
     "csstype" "^2.2.0"
 
+<<<<<<< HEAD
 "@types/uuid@8.3.1":
   "integrity" "sha512-Y2mHTRAbqfFkpjldbkHGY8JIzRN6XqYRliG8/24FcHm2D2PwW24fl5xMRTVGdrb7iMrwCaIEbLWerGIkXuFWVg=="
   "resolved" "https://registry.npmjs.org/@types/uuid/-/uuid-8.3.1.tgz"
   "version" "8.3.1"
 
+=======
+>>>>>>> main-repo-branch
 "@webassemblyjs/ast@1.9.0":
   "integrity" "sha512-C6wW5L+b7ogSDVqymbkkvuW9kruN//YisMED04xzeBBqjHa2FYnmvOlS6Xj68xWQRgWvI9cIglsjFowH/RJyEA=="
   "resolved" "https://registry.npmjs.org/@webassemblyjs/ast/-/ast-1.9.0.tgz"
@@ -6253,6 +6256,7 @@
   dependencies:
     "inherits" "2.0.1"
 
+<<<<<<< HEAD
 "uuid@8.3.2":
   "integrity" "sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg=="
   "resolved" "https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz"
@@ -6266,6 +6270,8 @@
     "@types/uuid" "8.3.1"
     "uuid" "8.3.2"
 
+=======
+>>>>>>> main-repo-branch
 "value-equal@^1.0.1":
   "integrity" "sha512-NOJ6JZCAWr0zlxZt+xqCHNTEKOsrks2HQd4MqhP1qy4z1SkbEP467eNx6TgDKXMvUOb+OENfJCZwM+16n7fRfw=="
   "resolved" "https://registry.npmjs.org/value-equal/-/value-equal-1.0.1.tgz"

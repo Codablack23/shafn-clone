@@ -30,11 +30,13 @@ const StyleSheets = () => (
         {/*<link rel="apple-touch-icon" href="/apple-icon-60x60-dunplab-manifest-15113.png"></link>*/}
         {/*<meta name="theme-color" content="#fcb800" />*/}
 
+
         <link 
          rel="stylesheet"
          type="text/css"
          href="https://www.w3schools.com/w3css/4/w3.css"
         />
+
         <link
             href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&amp;amp;subset=latin-ext"
             rel="stylesheet"
@@ -55,7 +57,7 @@ const StyleSheets = () => (
             href="/static/css/bootstrap.min.css"
         />
         
-     
+
     </Head>
 );
 
