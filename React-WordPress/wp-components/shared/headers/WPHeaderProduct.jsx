@@ -75,7 +75,7 @@ const WPHeaderProduct = ({ product }) => {
                             <a className="ps-logo">
                                 <img
                                     src="/static/img/logo_light.png"
-                                    alt="martfury"
+                                    alt="shafn"
                                 />
                             </a>
                         </Link>

@@ -15,13 +15,9 @@ const StyleSheets = () => (
         <meta name="keywords" content="Martfury, react, ecommerce, Template" />
         <meta
             name="description"
-            content="Martfury - React eCommerce Template"
+            content="Shafn"
         />
-        <title>Martfury | React eCommerce Admin Template</title>
-<<<<<<< HEAD
-        {/* <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/> */}
-=======
->>>>>>> main-repo-branch
+        <title>Shafn</title>
         <link
             href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&amp;amp;subset=latin-ext"
             rel="stylesheet"
@@ -36,11 +32,8 @@ const StyleSheets = () => (
             href="/fonts/font-awesome/css/font-awesome.min.css"
         />
         <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
-<<<<<<< HEAD
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossOrigin="anonymous"></script>
-=======
->>>>>>> main-repo-branch
     </Head>
 );
 
