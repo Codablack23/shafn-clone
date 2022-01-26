@@ -174,6 +174,7 @@
 
         img {
             width: 100%;
+            height: 200px;
         }
 
         .ps-product__actions {
@@ -244,8 +245,22 @@
         }
     }
 
+    @include media('<md') {
+        .ps-product__thumbnail {
+            img {
+                height: 150px;
+            }
+        }
+    }
+
     @include media('<sm') {
         padding: 0;
+
+        .ps-product__thumbnail {
+            img {
+                height: 100px;
+            }
+        }
     }
 }
 
@@ -2425,9 +2440,4 @@
             }
         }
     }
-}
-
-.hover-popup:hover {
-    transform: scale(1.5);
-    z-index: 1000;
 }
