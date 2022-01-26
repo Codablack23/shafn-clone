@@ -11,6 +11,10 @@ import { ColorPicker, useColor } from "react-color-palette";
 import { WPDomain } from "~/repositories/Repository";
 import "react-color-palette/lib/css/styles.css";
 import {v4 as uuid} from 'uuid'
+import { EditorState, ContentState,convertToRaw,convertFromHTML } from 'draft-js';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
 
 
 const EditProductPage = ({ pid }) => {
@@ -42,7 +46,22 @@ const EditProductPage = ({ pid }) => {
   const [variations,setVariations] = useState([])
   const [variation,setVariation]=useState({})
   const [singleVariation,setSingleVariation]=useState("single")
+  const [descEditorState, setDescEditorState] = useState(EditorState.createEmpty());
+  const [shortDescEditor,setShortDescEditor] =useState(EditorState.createEmpty());
 
+
+  console.log(descEditorState)
+  console.log(shortDescEditor)
+  const onDescEditorStateChange = (current_State) => {
+    setDescription(draftToHtml(convertToRaw(current_State.getCurrentContent())));
+    setDescEditorState(current_State);
+  };
+  const onShortDescEditorStateChange = (current_State) => {
+    setShortDescription(draftToHtml(convertToRaw(current_State.getCurrentContent())));
+    setShortDescEditor(current_State);
+  };
+
+  
   // variations Logic
   const addVariations=(varType)=>{
     if(varType=="single"||variations.length<50){
@@ -649,6 +668,8 @@ const saveVariations=()=>{
         setInStock(product.in_stock);
         setManageStock(product.manage_stock);
         setSoldIndividually(product.sold_individually);
+        setDescEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(product.description))))
+        setShortDescEditor(EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(product.short_description))))
       })
       .catch((err) => {
         notification["error"]({
@@ -821,12 +842,19 @@ const saveVariations=()=>{
                       <label>
                         Short Description<sup>*</sup>
                       </label>
+                        <Editor
+                          editorState={shortDescEditor}
+                          onEditorStateChange={onShortDescEditorStateChange}
+                          wrapperClassName="wrapper-class"
+                          editorClassName="editor-class"
+                          toolbarClassName="toolbar-class"
+                        />
                       <textarea
                         name="short_description"
                         className="form-control"
                         rows="6"
                         value={shortDescription}
-                        onChange={(e) => setShortDescription(e.target.value)}
+                        readOnly={true}
                       ></textarea>
                     </div>
 
@@ -834,12 +862,19 @@ const saveVariations=()=>{
                       <label>
                         Description<sup>*</sup>
                       </label>
+                        <Editor
+                          editorState={descEditorState}
+                          onEditorStateChange={onDescEditorStateChange}
+                          wrapperClassName="wrapper-class"
+                          editorClassName="editor-class"
+                          toolbarClassName="toolbar-class"
+                        />
                       <textarea
                         name="description"
                         className="form-control"
                         rows="6"
                         value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        readOnly={true}
                       ></textarea>
                     </div>
                   </div>

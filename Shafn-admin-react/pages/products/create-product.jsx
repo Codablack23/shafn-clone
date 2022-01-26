@@ -7,6 +7,10 @@ import axios from "axios";
 import { notification } from "antd";
 import { toggleDrawerMenu } from "~/store/app/action";
 import { WPDomain } from "~/repositories/Repository";
+import { EditorState, ContentState,convertToRaw,convertFromHTML } from 'draft-js';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
 
 const CreateProductPage = () => {
   const dispatch = useDispatch();
@@ -21,6 +25,17 @@ const CreateProductPage = () => {
   const [sku, setSku] = useState("");
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
+const [descEditorState, setDescEditorState] = useState(EditorState.createEmpty());
+  const [shortDescEditor,setShortDescEditor] =useState(EditorState.createEmpty());
+
+
+  console.log(descEditorState)
+  console.log(shortDescEditor)
+  const onDescEditorStateChange = (current_State) => {
+    setDescription(draftToHtml(convertToRaw(current_State.getCurrentContent())));
+    setDescEditorState(current_State);
+  };
+  
 
   const [isUploading, setIsUploading] = useState(false);
 
@@ -315,12 +330,19 @@ const CreateProductPage = () => {
                       <label>
                         Product Description<sup>*</sup>
                       </label>
+                           <Editor
+                          editorState={descEditorState}
+                          onEditorStateChange={onDescEditorStateChange}
+                          wrapperClassName="wrapper-class"
+                          editorClassName="editor-class"
+                          toolbarClassName="toolbar-class"
+                        />
                       <textarea
                         name="short_description"
                         className="form-control"
                         rows="6"
                         value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        readOnly={true}
                       ></textarea>
                     </div>
                   </div>
