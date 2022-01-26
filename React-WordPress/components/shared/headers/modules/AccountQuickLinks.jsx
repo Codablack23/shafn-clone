@@ -74,9 +74,9 @@ class AccountQuickLinks extends Component {
                         <Link href="/account/login">
                             <a>Login</a>
                         </Link>
-                        <Link href="/account/register">
+                        {/* <Link href="/account/register">
                             <a>Register</a>
-                        </Link>
+                        </Link> */}
                     </div>
                 </div>
             );
