@@ -233,56 +233,10 @@
     },
     "WPMenu": [
         {
-            "text": "Home",
-            "url": "/"
-        },
-        {
             "text": "Shop",
             "url": "/shop"
-        },
-        {
-            "text": "Pages",
-            "url": "",
-            "extraClass": "menu-item-has-children has-mega-menu",
-            "subClass": "sub-menu",
-            "mega": "true",
-            "megaContent": [
-                {
-                    "heading": "Basic Page",
-                    "megaItems": [
-                        {
-                            "text": "About Us",
-                            "url": "/page/about-us"
-                        },
-                        {
-                            "text": "Contact",
-                            "url": "/page/contact-us"
-                        },
-                        {
-                            "text": "Faqs",
-                            "url": "/page/faqs"
-                        },
-                        {
-                            "text": "404 Page",
-                            "url": "/page/page-404"
-                        }
-                    ]
-                },
-                {
-                    "heading": "Vendor Pages",
-                    "megaItems": [
-                        {
-                            "text": "Become a Vendor",
-                            "url": "/vendors/become-a-vendor"
-                        },
-                        {
-                            "text": "Vendor Stores",
-                            "url": "/vendors"
-                        }
-                    ]
-                }
-            ]
         }
+       
     ],
     "product_categories": [
         {

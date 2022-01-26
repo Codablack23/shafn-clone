@@ -10,10 +10,8 @@ import { CompatSource } from "webpack-sources";
 import { ColorPicker, useColor } from "react-color-palette";
 import { WPDomain } from "~/repositories/Repository";
 import "react-color-palette/lib/css/styles.css";
-<<<<<<< HEAD
 import {v4 as uuid} from 'uuid'
-=======
->>>>>>> main-repo-branch
+
 
 const EditProductPage = ({ pid }) => {
   const dispatch = useDispatch();
@@ -37,7 +35,6 @@ const EditProductPage = ({ pid }) => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [imagesToUpload, setImagesToUpload] = useState([]);
   const [attributes, setAttributes] = useState([]);
-<<<<<<< HEAD
   const [isUploading, setIsUploading] = useState(false);
   const [color, setColor] = useColor("hex", "#aabbcc");
   const [attr, setAttr] = useState(null);
@@ -235,15 +232,6 @@ const EditProductPage = ({ pid }) => {
     }
   }
 // end of variation Logic
-
-=======
-
-  const [isUploading, setIsUploading] = useState(false);
-  const [attr, setAttr] = useState(null);
-
-  const [color, setColor] = useColor("hex", "#aabbcc");
->>>>>>> main-repo-branch
-
   const imageHandler = (e) => {
     //Display Image
     e.persist();
@@ -259,12 +247,10 @@ const EditProductPage = ({ pid }) => {
 
       Array.from(e.target.files).map((img) => URL.revokeObjectURL(img));
     }
-<<<<<<< HEAD
     console.log(imageFiles)
     console.log(selectedImages)
-=======
->>>>>>> main-repo-branch
-  };
+
+};
 
   const uploadImages = (config) => {
     let images = [];
@@ -326,10 +312,7 @@ const EditProductPage = ({ pid }) => {
 
       setAttr("");
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> main-repo-branch
+ main-repo-branch
   };
 
   const renderImages = () => {
@@ -526,7 +509,6 @@ const EditProductPage = ({ pid }) => {
       })
     );
   };
-<<<<<<< HEAD
 const saveVariations=()=>{
   let auth_token = localStorage.getItem("auth_token");
 
@@ -551,9 +533,7 @@ const saveVariations=()=>{
         });
       })
 }
-=======
 
->>>>>>> main-repo-branch
   const uploadProduct = (config, images) => {
     let slug = `${name
       .replace(/[^a-zA-Z0-9-_]/g, " ")
@@ -570,10 +550,7 @@ const saveVariations=()=>{
       sale_price: discountedPrice.trim(),
       short_description: shortDescription,
       description,
-<<<<<<< HEAD
       variations:variations.map(v=>v.id),
-=======
->>>>>>> main-repo-branch
       categories: category,
       stock_quantity: qty,
       sku,
@@ -584,29 +561,20 @@ const saveVariations=()=>{
       manage_stock: manageStock,
       sold_individually: soldIndividually,
       type,
-<<<<<<< HEAD
-    
+   
     };
     console.log(product)
-=======
-    };
->>>>>>> main-repo-branch
+
 
     axios
       .put(`${WPDomain}/wp-json/dokan/v1/products/${pid}`, product, config)
       .then((res) => {
-<<<<<<< HEAD
       
           notification["success"]({
             message: "Product Updated Successfully",
           });
           Router.push("/products");
-=======
-        notification["success"]({
-          message: "Product Updated Successfully",
-        });
-        Router.push("/products");
->>>>>>> main-repo-branch
+
       })
       .catch((err) => {
         notification["error"]({
@@ -644,7 +612,6 @@ const saveVariations=()=>{
     };
 
     axios
-<<<<<<< HEAD
       .get(`${WPDomain}/wp-json/dokan/v1/products/${pid}/variations`, config)
       .then(result=>{
         let allVariations=result.data
@@ -656,9 +623,9 @@ const saveVariations=()=>{
           description: "Check your data connection and try again.",
         });
       });
+
     axios
-=======
->>>>>>> main-repo-branch
+
       .get(`${WPDomain}/wp-json/dokan/v1/products/${pid}`, config)
       .then((res) => {
         let product = res.data;
@@ -877,12 +844,6 @@ const saveVariations=()=>{
                     </div>
                   </div>
                 </figure>
-<<<<<<< HEAD
-                {/* product images */}
-=======
-              </div>
-              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
->>>>>>> main-repo-branch
                 <figure className="ps-block--form-box">
                   <figcaption>Product Images</figcaption>
                   <div className="ps-block__content">
@@ -916,12 +877,8 @@ const saveVariations=()=>{
                     <div style={styles.imagesWrapper}>{renderImages()}</div>
                   </div>
                 </figure>
-<<<<<<< HEAD
               </div>
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-              
-=======
->>>>>>> main-repo-branch
                 <figure className="ps-block--form-box">
                   <figcaption>Inventory</figcaption>
                   <div className="ps-block__content">
@@ -1002,12 +959,10 @@ const saveVariations=()=>{
                   </div>
                 </figure>
                 {type === "variable" ? (
-<<<<<<< HEAD
+
                   <div>
                      <figure className="ps-block--form-box">
-=======
-                  <figure className="ps-block--form-box">
->>>>>>> main-repo-branch
+
                     <figcaption>Attribute and Variation</figcaption>
                     <div className="ps-block__content">
                       {renderAttributes()}
@@ -1046,7 +1001,6 @@ const saveVariations=()=>{
                       >
                         Save
                       </button>
-<<<<<<< HEAD
                       </div>
                     
                   </figure>
@@ -1068,10 +1022,6 @@ const saveVariations=()=>{
                     <span className="btn ps-btn btn-lg mt-3" onClick={()=>{saveVariations()}}>Save Variations</span>  
                     </div>
                   </div>
-=======
-                    </div>
-                  </figure>
->>>>>>> main-repo-branch
                 ) : null}
               </div>
             </div>
@@ -1113,7 +1063,6 @@ EditProductPage.getInitialProps = async ({ query }) => {
 export default EditProductPage;
 
 let styles = {
-<<<<<<< HEAD
   variationSelect:{
    border:"none"
   },
@@ -1125,8 +1074,6 @@ let styles = {
     borderRadius:8,
   }
   ,
-=======
->>>>>>> main-repo-branch
   imagesWrapper: { display: "flex", flexWrap: "wrap" },
   imageContainer: {
     display: "flex",

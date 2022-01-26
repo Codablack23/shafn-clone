@@ -119,7 +119,7 @@ const WPModuleProductDetailInformation = ({
                 {shortDescView}
             </div>
             {children}
-            {/* <div className="ps-product__shopping">
+            <div className="ps-product__shopping">
                 <figure>
                     <figcaption>Quantity</figcaption>
                     <div className="form-group--number">
@@ -139,18 +139,19 @@ const WPModuleProductDetailInformation = ({
                         />
                     </div>
                 </figure>
+                
                 <a
-                    className="ps-btn ps-btn--black"
+                    className="ps-btn ps-btn--black d-md-inline d-block ml-4 mb--3 mt-5 mt-md-0"
                     href="#"
                     onClick={handleAddItemToCart}>
                     Add to cart
                 </a>
                 <Link href="/account/checkout">
-                    <a className="ps-btn" onClick={handleAddToCheckoutItems}>
+                    <a className="ps-btn d-md-inline d-block ml-2 mt-1" onClick={handleAddToCheckoutItems}>
                         Buy Now
                     </a>
                 </Link>
-            </div> */}
+            </div>
             <div className="ps-product__specification">
                 <Link href="/page/blank">
                     <a className="report">Report Abuse</a>
