@@ -112,7 +112,7 @@ const WPProductDetailPage = ({ pid }) => {
                 <div className="ps-container">
                     <div className="ps-page__container">
                         <div className="ps-page__left">{productView}</div>
-                        <div className="" style={{width:"100%"}}>
+                        <div className="" style={{ width: '100%' }}>
                             <WPProductWidgets product={product}>
                                 <WPWidgetProductsSameBrand
                                     products={relatedProducts}

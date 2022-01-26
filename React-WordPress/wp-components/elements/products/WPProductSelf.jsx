@@ -73,12 +73,12 @@ const WPProductSelf = ({ productID }) => {
 
         return (
             <div className="ps-product">
-                <div className="ps-product__thumbnail">
+                <div className="ps-product__thumbnail hover-popup">
                     <a href={`/product/${query}`}>
                         <LazyLoad>{thumbnailImage}</LazyLoad>
                     </a>
                     {/*  {product.badge ? productBadge : ''}*/}
-                    <ul className="ps-product__actions">
+                    {/* <ul className="ps-product__actions">
                         <li>
                             <a
                                 href="#"
@@ -119,7 +119,7 @@ const WPProductSelf = ({ productID }) => {
                                 <i className="icon-chart-bars"></i>
                             </a>
                         </li>
-                    </ul>
+                    </ul> */}
                 </div>
                 <div className="ps-product__container">
                     {/*<Link href="/shop">

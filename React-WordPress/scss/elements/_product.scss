@@ -166,6 +166,7 @@
     .ps-product__thumbnail {
         position: relative;
         overflow: hidden;
+        transition: all 0.5s;
 
         a {
             display: block;
@@ -2402,12 +2403,11 @@
     }
 }
 
-
 .ps-page--product {
     margin: 0 auto;
     .ps-page__container {
-        .ps-page__right {          
-             figure {
+        .ps-page__right {
+            figure {
                 figcaption {
                     margin-bottom: 2px;
                     display: flex;
@@ -2415,12 +2415,19 @@
                     justify-content: center;
                 }
             }
-            .form-group--number, .ps-btn--black, .ps-btn{
-                    margin: 0 2rem 2rem 2rem;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
+            .form-group--number,
+            .ps-btn--black,
+            .ps-btn {
+                margin: 0 2rem 2rem 2rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
     }
+}
+
+.hover-popup:hover {
+    transform: scale(1.5);
+    z-index: 1000;
 }

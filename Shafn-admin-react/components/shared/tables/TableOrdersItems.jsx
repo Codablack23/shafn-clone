@@ -79,6 +79,7 @@ const TableOrdersItems = () => {
         return;
       });
   }, []);
+
   return (
     <div className="table-responsive">
       <table className="table ps-table">
