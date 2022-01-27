@@ -11,10 +11,10 @@ import { ColorPicker, useColor } from "react-color-palette";
 import { WPDomain } from "~/repositories/Repository";
 import "react-color-palette/lib/css/styles.css";
 import {v4 as uuid} from 'uuid'
-<<<<<<< HEAD
-
-=======
->>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
+import { EditorState, ContentState,convertToRaw,convertFromHTML } from 'draft-js';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
 
 const EditProductPage = ({ pid }) => {
   const dispatch = useDispatch();
@@ -38,7 +38,6 @@ const EditProductPage = ({ pid }) => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [imagesToUpload, setImagesToUpload] = useState([]);
   const [attributes, setAttributes] = useState([]);
-<<<<<<< HEAD
   const [isUploading, setIsUploading] = useState(false);
   const [color, setColor] = useColor("hex", "#aabbcc");
   const [attr, setAttr] = useState(null);
@@ -46,7 +45,22 @@ const EditProductPage = ({ pid }) => {
   const [variations,setVariations] = useState([])
   const [variation,setVariation]=useState({})
   const [singleVariation,setSingleVariation]=useState("single")
+  const [descEditorState, setDescEditorState] = useState(EditorState.createEmpty());
+  const [shortDescEditor,setShortDescEditor] =useState(EditorState.createEmpty());
 
+
+  console.log(descEditorState)
+  console.log(shortDescEditor)
+  const onDescEditorStateChange = (current_State) => {
+    setDescription(draftToHtml(convertToRaw(current_State.getCurrentContent())));
+    setDescEditorState(current_State);
+  };
+  const onShortDescEditorStateChange = (current_State) => {
+    setShortDescription(draftToHtml(convertToRaw(current_State.getCurrentContent())));
+    setShortDescEditor(current_State);
+  };
+
+  
   // variations Logic
   const addVariations=(varType)=>{
     if(varType=="single"||variations.length<50){
@@ -236,14 +250,12 @@ const EditProductPage = ({ pid }) => {
     }
   }
 // end of variation Logic
-=======
 
   const [isUploading, setIsUploading] = useState(false);
   const [attr, setAttr] = useState(null);
 
   const [color, setColor] = useColor("hex", "#aabbcc");
 
->>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
   const imageHandler = (e) => {
     //Display Image
     e.persist();
@@ -259,14 +271,11 @@ const EditProductPage = ({ pid }) => {
 
       Array.from(e.target.files).map((img) => URL.revokeObjectURL(img));
     }
-<<<<<<< HEAD
+
     console.log(imageFiles)
     console.log(selectedImages)
 
 };
-=======
-  };
->>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
 
   const uploadImages = (config) => {
     let images = [];
@@ -328,10 +337,6 @@ const EditProductPage = ({ pid }) => {
 
       setAttr("");
     }
-<<<<<<< HEAD
- main-repo-branch
-=======
->>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
   };
 
   const renderImages = () => {
@@ -528,7 +533,7 @@ const EditProductPage = ({ pid }) => {
       })
     );
   };
-<<<<<<< HEAD
+
 const saveVariations=()=>{
   let auth_token = localStorage.getItem("auth_token");
 
@@ -553,9 +558,6 @@ const saveVariations=()=>{
         });
       })
 }
-
-=======
->>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
   const uploadProduct = (config, images) => {
     let slug = `${name
       .replace(/[^a-zA-Z0-9-_]/g, " ")
@@ -572,10 +574,7 @@ const saveVariations=()=>{
       sale_price: discountedPrice.trim(),
       short_description: shortDescription,
       description,
-<<<<<<< HEAD
       variations:variations.map(v=>v.id),
-=======
->>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
       categories: category,
       stock_quantity: qty,
       sku,
@@ -586,31 +585,18 @@ const saveVariations=()=>{
       manage_stock: manageStock,
       sold_individually: soldIndividually,
       type,
-<<<<<<< HEAD
-   
     };
     console.log(product)
 
-=======
-    };
->>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
-
     axios
       .put(`${WPDomain}/wp-json/dokan/v1/products/${pid}`, product, config)
-      .then((res) => {
-<<<<<<< HEAD
-      
+      .then((res) => {      
           notification["success"]({
             message: "Product Updated Successfully",
           });
           Router.push("/products");
 
-=======
-        notification["success"]({
-          message: "Product Updated Successfully",
-        });
-        Router.push("/products");
->>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
+
       })
       .catch((err) => {
         notification["error"]({
@@ -648,7 +634,6 @@ const saveVariations=()=>{
     };
 
     axios
-<<<<<<< HEAD
       .get(`${WPDomain}/wp-json/dokan/v1/products/${pid}/variations`, config)
       .then(result=>{
         let allVariations=result.data
@@ -662,9 +647,6 @@ const saveVariations=()=>{
       });
 
     axios
-
-=======
->>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
       .get(`${WPDomain}/wp-json/dokan/v1/products/${pid}`, config)
       .then((res) => {
         let product = res.data;
@@ -688,6 +670,8 @@ const saveVariations=()=>{
         setInStock(product.in_stock);
         setManageStock(product.manage_stock);
         setSoldIndividually(product.sold_individually);
+        setDescEditorState(EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(product.description))))
+        setShortDescEditor(EditorState.createWithContent(ContentState.createFromBlockArray(convertFromHTML(product.short_description))))
       })
       .catch((err) => {
         notification["error"]({
@@ -860,12 +844,19 @@ const saveVariations=()=>{
                       <label>
                         Short Description<sup>*</sup>
                       </label>
+                        <Editor
+                          editorState={shortDescEditor}
+                          onEditorStateChange={onShortDescEditorStateChange}
+                          wrapperClassName="wrapper-class"
+                          editorClassName="editor-class"
+                          toolbarClassName="toolbar-class"
+                        />
                       <textarea
                         name="short_description"
                         className="form-control"
                         rows="6"
                         value={shortDescription}
-                        onChange={(e) => setShortDescription(e.target.value)}
+                        readOnly={true}
                       ></textarea>
                     </div>
 
@@ -873,21 +864,23 @@ const saveVariations=()=>{
                       <label>
                         Description<sup>*</sup>
                       </label>
+                        <Editor
+                          editorState={descEditorState}
+                          onEditorStateChange={onDescEditorStateChange}
+                          wrapperClassName="wrapper-class"
+                          editorClassName="editor-class"
+                          toolbarClassName="toolbar-class"
+                        />
                       <textarea
                         name="description"
                         className="form-control"
                         rows="6"
                         value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        readOnly={true}
                       ></textarea>
                     </div>
                   </div>
                 </figure>
-<<<<<<< HEAD
-=======
-              </div>
-              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
->>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
                 <figure className="ps-block--form-box">
                   <figcaption>Product Images</figcaption>
                   <div className="ps-block__content">
@@ -921,11 +914,8 @@ const saveVariations=()=>{
                     <div style={styles.imagesWrapper}>{renderImages()}</div>
                   </div>
                 </figure>
-<<<<<<< HEAD
               </div>
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-=======
->>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
                 <figure className="ps-block--form-box">
                   <figcaption>Inventory</figcaption>
                   <div className="ps-block__content">
@@ -1006,14 +996,9 @@ const saveVariations=()=>{
                   </div>
                 </figure>
                 {type === "variable" ? (
-<<<<<<< HEAD
-
                   <div>
                      <figure className="ps-block--form-box">
 
-=======
-                  <figure className="ps-block--form-box">
->>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
                     <figcaption>Attribute and Variation</figcaption>
                     <div className="ps-block__content">
                       {renderAttributes()}
@@ -1052,7 +1037,6 @@ const saveVariations=()=>{
                       >
                         Save
                       </button>
-<<<<<<< HEAD
                       </div>
                     
                   </figure>
@@ -1074,10 +1058,6 @@ const saveVariations=()=>{
                     <span className="btn ps-btn btn-lg mt-3" onClick={()=>{saveVariations()}}>Save Variations</span>  
                     </div>
                   </div>
-=======
-                    </div>
-                  </figure>
->>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
                 ) : null}
               </div>
             </div>
@@ -1119,7 +1099,6 @@ EditProductPage.getInitialProps = async ({ query }) => {
 export default EditProductPage;
 
 let styles = {
-<<<<<<< HEAD
   variationSelect:{
    border:"none"
   },
@@ -1131,8 +1110,6 @@ let styles = {
     borderRadius:8,
   }
   ,
-=======
->>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
   imagesWrapper: { display: "flex", flexWrap: "wrap" },
   imageContainer: {
     display: "flex",
