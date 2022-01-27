@@ -1,236 +1,102 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { Menu } from "antd";
+import axios from "axios";
+import DropdownAction from "~/components/elements/basic/DropdownAction";
+import { WPDomain } from "~/repositories/Repository";
 
-const TableOrderSummary = () => (
+const TableOrderSummary = () => {
+  const [orderItems, setOrderItems] = useState([]);
+
+  const tableItemsView = orderItems.map((item) => {
+    let status, fullfillmentView;
+    const menuView = (
+      <Menu>
+        <Menu.Item key={0}>
+          <a className="dropdown-item" href="#">
+            Edit
+          </a>
+        </Menu.Item>
+        <Menu.Item key={0}>
+          <a className="dropdown-item" href="#">
+            <i className="icon-t"></i>
+            Delete
+          </a>
+        </Menu.Item>
+      </Menu>
+    );
+    // if (item.status === "completed") {
+    //   status = <span className="ps-badge success">Paid</span>;
+    // } else {
+    //   status = <span className="ps-badge gray">Unpaid</span>;
+    // }
+
+    if (item.status === "completed" || item.status === "refunded") {
+      status = <span className="ps-fullfillment success">{item.status}</span>;
+    } else if (item.status === "failed" || item.status === "cancelled") {
+      status = <span className="ps-fullfillment danger">{item.status}</span>;
+    } else {
+      status = <span className="ps-fullfillment warning">{item.status}</span>;
+    }
+
+    return (
+      <tr key={item.id}>
+        <td>{item.id}</td>
+        <td>
+          <strong>{item.total}</strong>
+        </td>
+        <td>{status}</td>
+        <td>
+          <Link href="/orders/order-detail">
+            <a>
+              <strong>{item.customer_id}</strong>
+            </a>
+          </Link>
+        </td>
+        <td>
+          <strong> {item.date_created}</strong>
+        </td>
+
+        <td>
+          <DropdownAction />
+        </td>
+      </tr>
+    );
+  });
+
+  useEffect(() => {
+    let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    axios
+      .get(`${WPDomain}/wp-json/dokan/v1/orders/`, config)
+      .then((res) => setOrderItems(res.data.slice(0, 5)))
+      .catch((err) => {
+        return;
+      });
+  }, []);
+
+  return (
     <div className="table-responsive">
-        <table className="table ps-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Date</th>
-                    <th>Product</th>
-                    <th>Payment</th>
-                    <th>Fullfillment</th>
-                    <th>Total</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>#A580</td>
-                    <td>
-                        <strong> Aug, 15, 2020</strong>
-                    </td>
-                    <td>
-                        <a href="order-detail.html">
-                            <strong>Unero Black Military</strong>
-                        </a>
-                    </td>
-                    <td>
-                        <span className="ps-badge success">Paid</span>
-                    </td>
-                    <td>
-                        <span className="ps-fullfillment success">
-                            delivered
-                        </span>
-                    </td>
-                    <td>
-                        <strong>$56.00</strong>
-                    </td>
-                    <td>
-                        <div className="dropdown">
-                            <a
-                                id="dropdownMenuButton"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false">
-                                <i className="icon-ellipsis"></i>
-                            </a>
-                            <div
-                                className="dropdown-menu"
-                                aria-labelledby="dropdownMenuButton">
-                                <a className="dropdown-item" href="#">
-                                    Edit
-                                </a>
-                                <a className="dropdown-item" href="#">
-                                    Delete
-                                </a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>#B260</td>
-                    <td>
-                        <strong> Aug, 15, 2020</strong>
-                    </td>
-                    <td>
-                        <a href="order-detail.html">
-                            <strong>Marsh Speaker</strong>
-                        </a>
-                    </td>
-                    <td>
-                        <span className="ps-badge gray">Unpaid</span>
-                    </td>
-                    <td>
-                        <span className="ps-fullfillment success">
-                            delivered
-                        </span>
-                    </td>
-                    <td>
-                        <strong>$56.00</strong>
-                    </td>
-                    <td>
-                        <div className="dropdown">
-                            <a
-                                id="dropdownMenuButton"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false">
-                                <i className="icon-ellipsis"></i>
-                            </a>
-                            <div
-                                className="dropdown-menu"
-                                aria-labelledby="dropdownMenuButton">
-                                <a className="dropdown-item" href="#">
-                                    Edit
-                                </a>
-                                <a className="dropdown-item" href="#">
-                                    Delete
-                                </a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>#A583</td>
-                    <td>
-                        <strong> Aug, 15, 2020</strong>
-                    </td>
-                    <td>
-                        <a href="order-detail.html">
-                            <strong>Lined Blend T-Shirt</strong>
-                        </a>
-                    </td>
-                    <td>
-                        <span className="ps-badge success">Paid</span>
-                    </td>
-                    <td>
-                        <span className="ps-fullfillment warning">
-                            In Progress
-                        </span>
-                    </td>
-                    <td>
-                        <strong>$516.00</strong>
-                    </td>
-                    <td>
-                        <div className="dropdown">
-                            <a
-                                id="dropdownMenuButton"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false">
-                                <i className="icon-ellipsis"></i>
-                            </a>
-                            <div
-                                className="dropdown-menu"
-                                aria-labelledby="dropdownMenuButton">
-                                <a className="dropdown-item" href="#">
-                                    Edit
-                                </a>
-                                <a className="dropdown-item" href="#">
-                                    Delete
-                                </a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>#A583</td>
-                    <td>
-                        <strong> Aug, 15, 2020</strong>
-                    </td>
-                    <td>
-                        <a href="order-detail.html">
-                            <strong>DJI MAcvic Quadcopter</strong>
-                        </a>
-                    </td>
-                    <td>
-                        <span className="ps-badge gray">Unpaid</span>
-                    </td>
-                    <td>
-                        <span className="ps-fullfillment success">
-                            delivered
-                        </span>
-                    </td>
-                    <td>
-                        <strong>$112.00</strong>
-                    </td>
-                    <td>
-                        <div className="dropdown">
-                            <a
-                                id="dropdownMenuButton"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false">
-                                <i className="icon-ellipsis"></i>
-                            </a>
-                            <div
-                                className="dropdown-menu"
-                                aria-labelledby="dropdownMenuButton">
-                                <a className="dropdown-item" href="#">
-                                    Edit
-                                </a>
-                                <a className="dropdown-item" href="#">
-                                    Delete
-                                </a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>#A112</td>
-                    <td>
-                        <strong> Aug, 15, 2020</strong>
-                    </td>
-                    <td>
-                        <a href="order-detail.html">
-                            <strong>Black T-Shirt</strong>
-                        </a>
-                    </td>
-                    <td>
-                        <span className="ps-badge success">Paid</span>
-                    </td>
-                    <td>
-                        <span className="ps-fullfillment danger">Cancel</span>
-                    </td>
-                    <td>
-                        <strong>$30.00</strong>
-                    </td>
-                    <td>
-                        <div className="dropdown">
-                            <a
-                                id="dropdownMenuButton"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false">
-                                <i className="icon-ellipsis"></i>
-                            </a>
-                            <div
-                                className="dropdown-menu"
-                                aria-labelledby="dropdownMenuButton">
-                                <a className="dropdown-item" href="#">
-                                    Edit
-                                </a>
-                                <a className="dropdown-item" href="#">
-                                    Delete
-                                </a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+      <table className="table ps-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Customer</th>
+            <th>Date</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>{tableItemsView}</tbody>
+      </table>
     </div>
-);
+  );
+};
 
 export default TableOrderSummary;

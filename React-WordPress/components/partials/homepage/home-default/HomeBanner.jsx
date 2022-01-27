@@ -8,8 +8,7 @@ import { getItemBySlug } from '../../../../utilities/product-helper';
 import Promotion from '../../../elements/media/Promotion';
 import BannerItem from '~/components/elements/media/BannerItem';
 
-
-const HomeBanner = (props) =>  {
+const HomeBanner = (props) => {
     const { banners, promotions } = props;
     const carouselSetting = {
         dots: false,
@@ -36,18 +35,16 @@ const HomeBanner = (props) =>  {
     // Views
     let bannersView;
     if (bannerData) {
-        bannersView = bannerData.items.map(item => (
+        bannersView = bannerData.items.map((item) => (
             <BannerItem source={item} key={item.id} />
-        ))
+        ));
     }
     return (
         <div className="ps-home-banner ps-home-banner--1">
             <div className="ps-container">
                 <div className="ps-section__left">
                     {bannerData !== null ? (
-                        <Slider
-                            {...carouselSetting}
-                            className="ps-carousel">
+                        <Slider {...carouselSetting} className="ps-carousel">
                             {bannersView}
                         </Slider>
                     ) : (
@@ -67,6 +64,6 @@ const HomeBanner = (props) =>  {
             </div>
         </div>
     );
-}
+};
 
-export default connect(state => state.media)(HomeBanner);
+export default connect((state) => state.media)(HomeBanner);

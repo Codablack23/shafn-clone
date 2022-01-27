@@ -120,6 +120,7 @@ const WPModuleProductInformation = ({
                             disabled
                         />
                     </div>
+<<<<<<< HEAD
                 </figure><br />
                 <div className="m-3 ml-3 mr-3 d-flex justify-content-between">
                 <a
@@ -133,11 +134,33 @@ const WPModuleProductInformation = ({
                      className="btn-lg btn w3-orange p-3 m-2 w3-hover-black"
                      onClick={handleAddToCheckoutItems}>
                         Buy Now
+=======
+                </figure>
+                <br />
+                <div className="m-3 ml-3 mr-3">
+                    <a
+                        className="btn btn-lg w3-center p-3 m-2 w3-black w3-hover-orange"
+                        href="#"
+                        style={{ minWidth: 210 }}
+                        onClick={handleAddItemToCart}>
+                        Add to cart
+>>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
                     </a>
-                </Link>
+                    <br />
+                    <Link href="/account/checkout">
+                        <a
+                            style={{ minWidth: 210 }}
+                            className="btn-lg btn w3-orange p-3 m-2 w3-hover-black"
+                            onClick={handleAddToCheckoutItems}>
+                            Buy Now
+                        </a>
+                    </Link>
                 </div>
             </div>
+<<<<<<< HEAD
             */}
+=======
+>>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
         </div>
     );
 };
