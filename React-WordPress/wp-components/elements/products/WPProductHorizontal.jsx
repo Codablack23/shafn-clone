@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { formatCurrency } from '~/utilities/product-helper';
-import LazyLoad from 'react-lazyload';
+// import LazyLoad from 'react-lazyload';
 import Rating from '~/components/elements/Rating';
 import {
     WPProductPriceView,
@@ -16,11 +16,9 @@ const WPProductHorizontal = ({ product }) => {
 
     return (
         <div className="ps-product--horizontal">
-            <div className="ps-product__thumbnail">
+            <div className="ps-product__thumbnail hover-popup">
                 <Link href="/shop">
-                    <a>
-                        <LazyLoad>{thumbnailImage}</LazyLoad>
-                    </a>
+                    <a>{thumbnailImage}</a>
                 </Link>
             </div>
             <div className="ps-product__content">
