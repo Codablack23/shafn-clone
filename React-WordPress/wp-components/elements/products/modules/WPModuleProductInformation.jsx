@@ -101,10 +101,11 @@ const WPModuleProductInformation = ({
                 {shortDescView}
             </div>
             {children}
-            {/* <div className="ps-product__shopping d-flex justify-content-between">
+            <div className="d-none d-lg-block">
+                <div className="w-100 w3-center m-auto">
                 <figure>
                     <figcaption>Quantity</figcaption>
-                    <div className="form-group--number">
+                    <div className="form-group--number w3-center">
                         <button className="up" onClick={handleIncreaseItemQty}>
                             <i className="fa fa-plus"></i>
                         </button>
@@ -120,48 +121,27 @@ const WPModuleProductInformation = ({
                             disabled
                         />
                     </div>
-<<<<<<< HEAD
-                </figure><br />
-                <div className="m-3 ml-3 mr-3 d-flex justify-content-between">
+                </figure>
+                </div>
+                 </div>
+                <div className="w3-center mt-2 d-none d-lg-block">
                 <a
-                    className="btn btn-lg w3-center p-3 m-2 w3-black w3-hover-orange"
+                    className="btn btn-lg p-3 m-2 w3-black w3-hover-orange rounded-pill"
                     href="#"
+                    style={{minWidth:"90%"}}
                     onClick={handleAddItemToCart}>
                     Add to cart
                 </a><br/>
                 <Link href="/account/checkout">
                     <a 
-                     className="btn-lg btn w3-orange p-3 m-2 w3-hover-black"
+                     style={{minWidth:"90%"}}
+                     className="btn-lg btn w3-orange p-3 m-2 w3-hover-black rounded-pill"
                      onClick={handleAddToCheckoutItems}>
                         Buy Now
-=======
-                </figure>
-                <br />
-                <div className="m-3 ml-3 mr-3">
-                    <a
-                        className="btn btn-lg w3-center p-3 m-2 w3-black w3-hover-orange"
-                        href="#"
-                        style={{ minWidth: 210 }}
-                        onClick={handleAddItemToCart}>
-                        Add to cart
->>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
                     </a>
-                    <br />
-                    <Link href="/account/checkout">
-                        <a
-                            style={{ minWidth: 210 }}
-                            className="btn-lg btn w3-orange p-3 m-2 w3-hover-black"
-                            onClick={handleAddToCheckoutItems}>
-                            Buy Now
-                        </a>
-                    </Link>
+                </Link>
                 </div>
             </div>
-<<<<<<< HEAD
-            */}
-=======
->>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
-        </div>
     );
 };
 

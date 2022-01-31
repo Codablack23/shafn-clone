@@ -119,8 +119,10 @@ const WPModuleProductDetailInformation = ({
                 {shortDescView}
             </div>
             {children}
-            <div className="ps-product__shopping">
-                <figure>
+            <div className="w3-center">
+                 <div className="d-block d-lg-none">
+                 <div className="m-auto" style={{width:'95%'}}>
+                 <figure>
                     <figcaption>Quantity</figcaption>
                     <div className="form-group--number">
                         <button className="up" onClick={handleIncreaseItemQty}>
@@ -138,19 +140,29 @@ const WPModuleProductDetailInformation = ({
                             disabled
                         />
                     </div>
-                </figure>
-                
+                </figure><br />
+                 </div>
+                <div className="w3-center pl-3 pr-3">
+                <div className="d-flex justify-content-between">
                 <a
-                    className="ps-btn ps-btn--black d-md-inline d-block ml-4 mb--3 mt-5 mt-md-0"
+                    className="btn btn-lg p-3 m-2 w3-black w3-hover-orange rounded-pill"
                     href="#"
+                    style={{minWidth:"45%"}}
                     onClick={handleAddItemToCart}>
                     Add to cart
-                </a>
+                </a><br/>
                 <Link href="/account/checkout">
-                    <a className="ps-btn d-md-inline d-block ml-2 mt-1" onClick={handleAddToCheckoutItems}>
+                    <a 
+                     style={{minWidth:"45%"}}
+                     className="btn-lg btn w3-orange p-3 m-2 w3-hover-black rounded-pill"
+                     onClick={handleAddToCheckoutItems}>
                         Buy Now
                     </a>
                 </Link>
+                </div>
+                </div>
+
+            </div>
             </div>
             <div className="ps-product__specification">
                 <Link href="/page/blank">
