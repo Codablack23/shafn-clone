@@ -7,10 +7,15 @@ import axios from "axios";
 import { notification } from "antd";
 import { toggleDrawerMenu } from "~/store/app/action";
 import { WPDomain } from "~/repositories/Repository";
-import { EditorState, ContentState,convertToRaw,convertFromHTML } from 'draft-js';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { Editor } from 'react-draft-wysiwyg';
-import draftToHtml from 'draftjs-to-html';
+import {
+  EditorState,
+  ContentState,
+  convertToRaw,
+  convertFromHTML,
+} from "draft-js";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { Editor } from "react-draft-wysiwyg";
+import draftToHtml from "draftjs-to-html";
 
 const CreateProductPage = () => {
   const dispatch = useDispatch();
@@ -25,17 +30,21 @@ const CreateProductPage = () => {
   const [sku, setSku] = useState("");
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
-const [descEditorState, setDescEditorState] = useState(EditorState.createEmpty());
-  const [shortDescEditor,setShortDescEditor] =useState(EditorState.createEmpty());
-
-
-  console.log(descEditorState)
-  console.log(shortDescEditor)
+  const [descEditorState, setDescEditorState] = useState(
+    EditorState.createEmpty()
+  );
+  const [shortDescEditor, setShortDescEditor] = useState(
+    EditorState.createEmpty()
+  );
+  console.log(description);
+  // console.log(descEditorState)
+  // console.log(shortDescEditor)
   const onDescEditorStateChange = (current_State) => {
-    setDescription(draftToHtml(convertToRaw(current_State.getCurrentContent())));
+    setDescription(
+      draftToHtml(convertToRaw(current_State.getCurrentContent()))
+    );
     setDescEditorState(current_State);
   };
-  
 
   const [isUploading, setIsUploading] = useState(false);
 
@@ -330,13 +339,13 @@ const [descEditorState, setDescEditorState] = useState(EditorState.createEmpty()
                       <label>
                         Product Description<sup>*</sup>
                       </label>
-                           <Editor
-                          editorState={descEditorState}
-                          onEditorStateChange={onDescEditorStateChange}
-                          wrapperClassName="wrapper-class"
-                          editorClassName="editor-class"
-                          toolbarClassName="toolbar-class"
-                        />
+                      <Editor
+                        editorState={descEditorState}
+                        onEditorStateChange={onDescEditorStateChange}
+                        wrapperClassName="wrapper-class"
+                        editorClassName="editor-class"
+                        toolbarClassName="toolbar-class"
+                      />
                       <textarea
                         name="short_description"
                         className="form-control"
@@ -377,15 +386,15 @@ const [descEditorState, setDescEditorState] = useState(EditorState.createEmpty()
                         <label
                           htmlFor="image-picker"
                           className="btn border border-light btn-lg"
-                          style={{ paddingTop: 12,padding:"3%" }}
+                          style={{ paddingTop: 12, padding: "3%" }}
                         >
-                         <i className="fa fa-file-image-o"
-                          style={{fontSize:38}}
-                         aria-hidden="true"></i>
-                         <br/>
-                         <span>
-                           Add image
-                         </span>
+                          <i
+                            className="fa fa-file-image-o"
+                            style={{ fontSize: 38 }}
+                            aria-hidden="true"
+                          ></i>
+                          <br />
+                          <span>Add image</span>
                         </label>
                       </div>
                     </div>
@@ -494,10 +503,10 @@ let styles = {
   imagesWrapper: { display: "flex", flexWrap: "wrap" },
   imageContainer: {
     display: "flex",
-    flexDirection:'row',
+    flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width:200,
+    width: 200,
     maxHeight: 300,
     backgroundColor: "black",
     marginLeft: 20,

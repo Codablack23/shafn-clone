@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { formatCurrency } from '~/utilities/product-helper';
 import { addItem } from '~/store/cart/action';
 import { addCheckoutItem } from '~/store/checkout-items/action';
+import { addItemToWishlist } from '~/store/wishlist/action';
 // import ModuleProductDetailSharing from '~/components/elements/detail/modules/elements/ModuleProductDetailSharing';
 
 import {
@@ -38,6 +39,10 @@ const WPModuleProductInformation = ({
         let tempProduct = product;
         tempProduct.quantity = quantity;
         dispatch(addItem(product));
+    };
+    const handleAddItemToWishlist = (e) => {
+        e.preventDefault();
+        dispatch(addItemToWishlist(product));
     };
 
     const handleIncreaseItemQty = (e) => {
@@ -120,7 +125,6 @@ const WPModuleProductInformation = ({
                             disabled
                         />
                     </div>
-<<<<<<< HEAD
                 </figure><br />
                 <div className="m-3 ml-3 mr-3 d-flex justify-content-between">
                 <a
@@ -134,7 +138,6 @@ const WPModuleProductInformation = ({
                      className="btn-lg btn w3-orange p-3 m-2 w3-hover-black"
                      onClick={handleAddToCheckoutItems}>
                         Buy Now
-=======
                 </figure>
                 <br />
                 <div className="m-3 ml-3 mr-3">
@@ -144,7 +147,6 @@ const WPModuleProductInformation = ({
                         style={{ minWidth: 210 }}
                         onClick={handleAddItemToCart}>
                         Add to cart
->>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
                     </a>
                     <br />
                     <Link href="/account/checkout">
@@ -157,10 +159,51 @@ const WPModuleProductInformation = ({
                     </Link>
                 </div>
             </div>
-<<<<<<< HEAD
             */}
-=======
->>>>>>> d131f8d71a60a882ca0ce24e0af61db69361c3f3
+            <figure>
+                <figcaption>Quantity</figcaption>
+                <div className="form-group--number">
+                    <button className="up" onClick={handleIncreaseItemQty}>
+                        <i className="fa fa-plus"></i>
+                    </button>
+                    <button className="down" onClick={handleDecreaseItemQty}>
+                        <i className="fa fa-minus"></i>
+                    </button>
+                    <input
+                        className="form-control"
+                        type="text"
+                        placeholder={quantity}
+                        disabled
+                    />
+                </div>
+            </figure>
+            <br />
+            <div className="m-3 ml-3 mr-3">
+                <a
+                    className="btn btn-lg w3-center p-3 m-2 w3-black w3-hover-orange"
+                    href="#"
+                    style={{ minWidth: 210 }}
+                    onClick={handleAddItemToCart}>
+                    Add to cart
+                </a>
+                <br />
+                <Link href="/account/checkout">
+                    <a
+                        style={{ minWidth: 210 }}
+                        className="btn-lg btn w3-orange p-3 m-2 w3-hover-black"
+                        onClick={handleAddToCheckoutItems}>
+                        Buy Now
+                    </a>
+                </Link>
+                <br />
+                <a
+                    className="btn btn-lg w3-center p-3 m-2 w3-black w3-hover-orange"
+                    href="#"
+                    style={{ minWidth: 210 }}
+                    onClick={handleAddItemToWishlist}>
+                    Add to wishlist
+                </a>
+            </div>
         </div>
     );
 };

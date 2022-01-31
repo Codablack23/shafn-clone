@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import LazyLoad from 'react-lazyload';
+// import LazyLoad from 'react-lazyload';
 import Link from 'next/link';
 import { Modal } from 'antd';
 import Rating from '../../../components/elements/Rating';
@@ -74,9 +74,7 @@ const WPProductSelf = ({ productID }) => {
         return (
             <div className="ps-product">
                 <div className="ps-product__thumbnail hover-popup">
-                    <a href={`/product/${query}`}>
-                        <LazyLoad>{thumbnailImage}</LazyLoad>
-                    </a>
+                    <a href={`/product/${query}`}>{thumbnailImage}</a>
                     {/*  {product.badge ? productBadge : ''}*/}
                     {/* <ul className="ps-product__actions">
                         <li>
