@@ -3,6 +3,10 @@ import Rating from '~/components/elements/Rating';
 import Link from 'next/link';
 
 const WPStore = ({ store }) => {
+    let query = `${store.store_name.toLowerCase().replace(/ /g, '-')}-${
+        store.id
+    }`.trim();
+
     return (
         <article className="ps-block--store-2">
             <div
@@ -29,7 +33,7 @@ const WPStore = ({ store }) => {
                 <a className="ps-block__user" href="#">
                     <img src={store.gravatar} alt="martfury" />
                 </a>
-                <Link href="/store/[pid]" as={`/store/${store.id}`}>
+                <Link href="/store/[pid]" as={`/store/${query}`}>
                     <a className="ps-btn"> Visit Store</a>
                 </Link>
             </div>

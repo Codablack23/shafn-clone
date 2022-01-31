@@ -102,7 +102,8 @@ const WPStorePage = ({ query }) => {
 };
 
 WPStorePage.getInitialProps = async ({ query }) => {
-    return { query: query };
+    let store_id = query.pid.split('-').pop();
+    return { query: { pid: store_id } };
 };
 
 export default connect()(WPStorePage);

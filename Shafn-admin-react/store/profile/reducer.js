@@ -1,7 +1,7 @@
 import { actionTypes } from "./action";
 
 export const initProfile = {
-  name: "Store Name",
+  name: "",
 };
 
 function reducer(state = initProfile, action) {
