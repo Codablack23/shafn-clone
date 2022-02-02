@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { WPDomain } from "~/repositories/Repository";
-
+import { useDispatch } from "react-redux";
 import axios from "axios";
+import { addProfile } from "~/store/profile/action";
 
 const WidgetUserWelcome = () => {
+  const dispatch = useDispatch();
+
   const [name, setName] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
 
@@ -16,6 +19,7 @@ const WidgetUserWelcome = () => {
       })
       .then((res) => {
         setName(res.data.store_name);
+        dispatch(addProfile({ name: res.data.store_name }));
       })
       .catch((err) => {
         window.location.assign("http://localhost:3000/account/login");

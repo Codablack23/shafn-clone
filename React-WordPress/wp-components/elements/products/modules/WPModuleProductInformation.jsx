@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { formatCurrency } from '~/utilities/product-helper';
 import { addItem } from '~/store/cart/action';
 import { addCheckoutItem } from '~/store/checkout-items/action';
+import { addItemToWishlist } from '~/store/wishlist/action';
 // import ModuleProductDetailSharing from '~/components/elements/detail/modules/elements/ModuleProductDetailSharing';
 
 import {
@@ -38,6 +39,10 @@ const WPModuleProductInformation = ({
         let tempProduct = product;
         tempProduct.quantity = quantity;
         dispatch(addItem(product));
+    };
+    const handleAddItemToWishlist = (e) => {
+        e.preventDefault();
+        dispatch(addItemToWishlist(product));
     };
 
     const handleIncreaseItemQty = (e) => {
@@ -125,6 +130,7 @@ const WPModuleProductInformation = ({
                 </div>
                  </div>
                 <div className="w3-center mt-2 d-none d-lg-block">
+
                 <a
                     className="btn btn-lg p-3 m-2 w3-black w3-hover-orange rounded-pill"
                     href="#"
@@ -138,6 +144,7 @@ const WPModuleProductInformation = ({
                      className="btn-lg btn w3-orange p-3 m-2 w3-hover-black rounded-pill"
                      onClick={handleAddToCheckoutItems}>
                         Buy Now
+
                     </a>
                 </Link>
                 </div>
