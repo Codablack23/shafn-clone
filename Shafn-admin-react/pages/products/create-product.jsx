@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import Router from "next/router";
 import ContainerDefault from "~/components/layouts/ContainerDefault";
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
@@ -7,15 +8,11 @@ import axios from "axios";
 import { notification } from "antd";
 import { toggleDrawerMenu } from "~/store/app/action";
 import { WPDomain } from "~/repositories/Repository";
-import {
-  EditorState,
-  ContentState,
-  convertToRaw,
-  convertFromHTML,
-} from "draft-js";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { Editor } from "react-draft-wysiwyg";
-import draftToHtml from "draftjs-to-html";
+import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
+
+const SunEditor = dynamic(() => import("suneditor-react"), {
+  ssr: false,
+});
 
 const CreateProductPage = () => {
   const dispatch = useDispatch();
@@ -23,28 +20,14 @@ const CreateProductPage = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [discountedPrice, setDiscountedPrice] = useState("");
+  const [shortDescription, setShortDescription] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
-  // const [type, setType] = useState("simple");
+  const [type, setType] = useState("simple");
   const [qty, setQty] = useState("");
   const [sku, setSku] = useState("");
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
-  const [descEditorState, setDescEditorState] = useState(
-    EditorState.createEmpty()
-  );
-  const [shortDescEditor, setShortDescEditor] = useState(
-    EditorState.createEmpty()
-  );
-  console.log(description);
-  // console.log(descEditorState)
-  // console.log(shortDescEditor)
-  const onDescEditorStateChange = (current_State) => {
-    setDescription(
-      draftToHtml(convertToRaw(current_State.getCurrentContent()))
-    );
-    setDescEditorState(current_State);
-  };
 
   const [isUploading, setIsUploading] = useState(false);
 
@@ -108,10 +91,12 @@ const CreateProductPage = () => {
     const product = {
       name,
       slug,
+      type,
       price: discountedPrice.trim() || price.trim(),
       regular_price: price.trim(),
       sale_price: discountedPrice.trim(),
-      short_description: description.trim(),
+      short_description: shortDescription.trim(),
+      description: description.trim(),
       categories: category,
       stock_quantity: Number(qty.trim()),
       sku,
@@ -225,11 +210,27 @@ const CreateProductPage = () => {
                       <input
                         className="form-control"
                         type="text"
-                        placeholder="Enter product name..."
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
                       />
+                    </div>
+
+                    <div className="form-group form-group--select">
+                      <label>
+                        Type<sup>*</sup>
+                      </label>
+                      <div className="form-group__content">
+                        <select
+                          name="type"
+                          className="ps-select"
+                          title="type"
+                          defaultValue={type}
+                        >
+                          <option value="simple">Simple</option>
+                          <option value="variable">Variable</option>
+                        </select>
+                      </div>
                     </div>
                     {/* <div className="form-group">
                       <label>
@@ -337,22 +338,24 @@ const CreateProductPage = () => {
                     </div> */}
                     <div className="form-group">
                       <label>
+                        Short Description<sup>*</sup>
+                      </label>
+                      <input
+                        required
+                        className="form-control"
+                        type="text"
+                        onChange={(e) => setShortDescription(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label>
                         Product Description<sup>*</sup>
                       </label>
-                      <Editor
-                        editorState={descEditorState}
-                        onEditorStateChange={onDescEditorStateChange}
-                        wrapperClassName="wrapper-class"
-                        editorClassName="editor-class"
-                        toolbarClassName="toolbar-class"
+                      <SunEditor
+                        height="200px"
+                        onChange={(val) => setDescription(val)}
                       />
-                      <textarea
-                        name="short_description"
-                        className="form-control"
-                        rows="6"
-                        value={description}
-                        readOnly={true}
-                      ></textarea>
                     </div>
                   </div>
                 </figure>
