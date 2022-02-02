@@ -20,7 +20,7 @@ const CreateProductPage = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [discountedPrice, setDiscountedPrice] = useState("");
-  const [shortDesc, setShortDesc] = useState("");
+  const [shortDescription, setShortDescription] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [type, setType] = useState("simple");
@@ -95,7 +95,7 @@ const CreateProductPage = () => {
       price: discountedPrice.trim() || price.trim(),
       regular_price: price.trim(),
       sale_price: discountedPrice.trim(),
-      short_description: shortDesc.trim(),
+      short_description: shortDescription.trim(),
       description: description.trim(),
       categories: category,
       stock_quantity: Number(qty.trim()),
@@ -344,7 +344,7 @@ const CreateProductPage = () => {
                         required
                         className="form-control"
                         type="text"
-                        onChange={(e) => setShortDesc(e.target.value)}
+                        onChange={(e) => setShortDescription(e.target.value)}
                       />
                     </div>
 
