@@ -1,0 +1,6 @@
+.btn-hover{
+    transition:all ease-in 0.4s;
+}
+.btn-hover:hover{
+    transform: scale(1.1);
+}

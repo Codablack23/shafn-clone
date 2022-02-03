@@ -94,7 +94,7 @@ const WPModuleProductDetailInformation = ({
         if (product.store) {
             productVendorView = (
                 <p>
-                    Sold By:
+                    SOLD BY:
                     <Link href="/shop">
                         <a className="ml-2">
                             <strong> {product.store.shop_name}</strong>
@@ -106,25 +106,20 @@ const WPModuleProductDetailInformation = ({
     }
 
     return (
-        <div className="ps-product__info">
-            {!isWidget && <h1>{product?.name}</h1>}
-            <div className="ps-product__meta">
-                {brandView}
-                {ratingView}
-            </div>
+        <div className="">
+            {!isWidget && <p style={{fontSize:20}}>{product?.name}</p>}
             {productPriceView}
-
+            <hr className="w3-lightgrey" />
             <div className="ps-product__desc">
                 {productVendorView}
                 {shortDescView}
             </div>
             {children}
-            <div className="w3-center">
-                 <div className="d-block d-lg-none">
-                 <div className="m-auto" style={{width:'95%'}}>
-                 <figure>
+             <div className="d-block d-lg-none m-auto" style={{minWidth:"60%"}}>
+                <div className="">
+                <figure>
                     <figcaption>Quantity</figcaption>
-                    <div className="form-group--number">
+                    <div className="form-group--number rounded-pill border-none 0 w3-light-grey w3-center" style={{width:250,border:"none"}}>
                         <button className="up" onClick={handleIncreaseItemQty}>
                             <i className="fa fa-plus"></i>
                         </button>
@@ -140,32 +135,31 @@ const WPModuleProductDetailInformation = ({
                             disabled
                         />
                     </div>
-                </figure><br />
+                </figure>
+                </div>
                  </div>
-                <div className="w3-center pl-3 pr-3">
-                <div className="d-flex justify-content-between">
+                <div className="mt-2 d-block d-lg-none">
+
                 <a
-                    className="btn btn-lg p-3 m-2 w3-black w3-hover-orange rounded-pill"
+                    className="btn btn-lg btn-hover p-3 m-2 w3-blue rounded-pill"
                     href="#"
-                    style={{minWidth:"45%"}}
+                    style={{minWidth:250}}
                     onClick={handleAddItemToCart}>
                     Add to cart
                 </a><br/>
                 <Link href="/account/checkout">
                     <a 
-                     style={{minWidth:"45%"}}
-                     className="btn-lg btn w3-orange p-3 m-2 w3-hover-black rounded-pill"
+                     style={{minWidth:250}}
+                     className="btn-lg btn btn-hover w3-orange p-3 m-2 rounded-pill"
                      onClick={handleAddToCheckoutItems}>
                         Buy Now
+
                     </a>
                 </Link>
                 </div>
-                </div>
-
-            </div>
-            </div>
+                <button className="btn rounded-pill btn-lg btn-hover w3-light-grey p-3 pl-4 pr-4 text-center" style={{minWidth:250}}>Add To WatchList</button>
             <div className="ps-product__specification">
-                <Link href="/page/blank">
+                {/* <Link href="/page/blank">
                     <a className="report">Report Abuse</a>
                 </Link>
                 <p>
@@ -174,7 +168,7 @@ const WPModuleProductDetailInformation = ({
                 <p className="categories">
                     <strong> Categories:</strong>
                     {categoriesView}
-                </p>
+                </p> */}
                 {/* <p className="tags">
                     <strong>Tags: </strong>
                     {tagsView}

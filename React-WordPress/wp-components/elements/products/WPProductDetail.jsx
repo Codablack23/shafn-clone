@@ -75,10 +75,10 @@ const WPProductDetail = ({ product, variations }) => {
                 const colorItems = WPProductColors.options.map(
                     (item, index) => (
                         <div
-                            className={`ps-variant ps-variant--size ${
+                            className={`ps-variant ps-variant--size w3-circle ${
                                 selectedColor === item.toLowerCase() && 'active'
                             }`}
-                            style={{ backgroundColor: item.toLowerCase() }}
+                            style={{ backgroundColor: item.toLowerCase() ,borderRadius:20}}
                             onClick={(e) => handleChangeColor(item)}
                             key={index}>
                             {/* <span
@@ -115,12 +115,15 @@ const WPProductDetail = ({ product, variations }) => {
         );
     } else {
         return (
-            <div className="ps-product--detail ps-product--fullwidth">
-                <div className="ps-product__header">
+            <div className="ps-product--detail ps-product--fullwidth" style={{paddingBottom:0}}>
+                <div className="row" style={{paddingBottom:0}}>
+                    <div className="col-12 col-md-8">
                     <WPModuleProductDetailThumbnail
                         product={product}
                         variant={activeVariant}
                     />
+                    </div>
+                    <div className="col-12 col-md-4">
                     <WPModuleProductDetailInformation
                         product={product}
                         variant={activeVariant && activeVariant}>
@@ -129,8 +132,9 @@ const WPProductDetail = ({ product, variations }) => {
                             {sizesView}
                         </>
                     </WPModuleProductDetailInformation>
+                    </div>
+                    <DefaultDescription />
                 </div>
-                <DefaultDescription />
             </div>
         );
     }

@@ -64,17 +64,18 @@ const WPModuleProductInformation = ({
                 <p className="ps-product__price sale">
                     <span>€</span>
                     {formatCurrency(product.price)}
-                    <del className="ml-2">
+                    <del className="ml-2" style={{fontSize:20,color:"#669900"}}>
                         <span>€</span>
-                        {formatCurrency(product.sale_price)}
+                        <span className="fs-1">{formatCurrency(product.sale_price)}</span>
                     </del>
                 </p>
             );
         } else {
             priceView = (
-                <p className="ps-product__price">
-                    <span>€</span>
-                    {formatCurrency(product.price)}
+                <p className="ps-product__price"  style={{fontSize:20,color:"#669900"}}>
+                <span>€</span>
+                <span className="fs-1">{formatCurrency(product.price)}</span><br />
+                <span className="w3-text-grey">VAT Included</span>
                 </p>
             );
         }
@@ -97,10 +98,15 @@ const WPModuleProductInformation = ({
     }
 
     return (
-        <div className="ps-product__info">
+        <div className="">
             {!isWidget && <h1>{product?.name}</h1>}
             {productPriceView}
 
+            <hr className="w3-lightgrey" />
+            <p>
+            <span>Delivery: 2 -4 Working days</span><br />
+            <span><span className="text-danger" style={{fontWeight:"bold"}}> in Stock: </span>{product.stock_quantity==null?0:product.stock_quantity}</span>
+            </p>
             <div className="ps-product__desc">
                 {productVendorView}
                 {shortDescView}
@@ -110,7 +116,7 @@ const WPModuleProductInformation = ({
                 <div className="w-100 w3-center m-auto">
                 <figure>
                     <figcaption>Quantity</figcaption>
-                    <div className="form-group--number w3-center">
+                    <div className="form-group--number rounded-pill border-none 0 w3-light-grey w3-center" style={{width:"90%",border:"none"}}>
                         <button className="up" onClick={handleIncreaseItemQty}>
                             <i className="fa fa-plus"></i>
                         </button>
@@ -132,16 +138,16 @@ const WPModuleProductInformation = ({
                 <div className="w3-center mt-2 d-none d-lg-block">
 
                 <a
-                    className="btn btn-lg p-3 m-2 w3-black w3-hover-orange rounded-pill"
+                    className="btn btn-lg w3-text-white btn-hover p-3 m-2 rounded-pill"
                     href="#"
-                    style={{minWidth:"90%"}}
+                    style={{minWidth:"90%",backgroundColor:"#0309A5"}}
                     onClick={handleAddItemToCart}>
                     Add to cart
                 </a><br/>
                 <Link href="/account/checkout">
                     <a 
                      style={{minWidth:"90%"}}
-                     className="btn-lg btn w3-orange p-3 m-2 w3-hover-black rounded-pill"
+                     className="btn-lg btn btn-hover w3-orange p-3 m-2 rounded-pill"
                      onClick={handleAddToCheckoutItems}>
                         Buy Now
 

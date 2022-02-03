@@ -175,13 +175,14 @@ export function WPProductDetailRatingView(product) {
 }
 
 export function WPProductDetailShortDescView(product) {
+    console.log(product)
     let view;
     if (product?.short_description) {
         view = (
             <div
                 className="ps-document"
                 dangerouslySetInnerHTML={{
-                    __html: `${product.short_description}`,
+                    __html: `${product.short_description.slice(0,100)}`,
                 }}
             />
         );
@@ -261,7 +262,7 @@ export function WPProductDetailStoreView(product) {
     if (product.store) {
         view = (
             <p>
-                Sold By:
+                SOLD BY:
                 <Link href="/shop">
                     <a className="ml-2">
                         <strong> {product.store.name}</strong>
