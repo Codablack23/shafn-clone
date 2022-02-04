@@ -4,8 +4,10 @@ import Router from "next/router";
 import ContainerDefault from "~/components/layouts/ContainerDefault";
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
 import { useDispatch } from "react-redux";
+import { Player } from "video-react";
 import axios from "axios";
-import { notification } from "antd";
+import { notification, Modal } from "antd";
+import Slider from "react-slick";
 import { toggleDrawerMenu } from "~/store/app/action";
 import { WPDomain } from "~/repositories/Repository";
 import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
@@ -26,26 +28,124 @@ const CreateProductPage = () => {
   const [type, setType] = useState("simple");
   const [qty, setQty] = useState("");
   const [sku, setSku] = useState("");
+
+  const [videoFile, setVideoFile] = useState("");
+  const [videoUrl, setVideoUrl] = useState("");
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
 
+  const [isViewProducts, setIsViewProducts] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
-  const imageHandler = (e) => {
-    //Display Image
+  const videoHandler = (e) => {
     e.persist();
-    if (e.target.files) {
-      setImageFiles((current) => [...current, ...e.target.files]);
 
-      const imgArr = Array.from(e.target.files).map((img) => ({
-        name: img.name,
-        url: URL.createObjectURL(img),
-      }));
+    if (e.target.accept === "video/*" && e.target.files[0]) {
+      const url = URL.createObjectURL(e.target.files[0]);
 
-      setSelectedImages((current) => current.concat(imgArr));
+      setVideoUrl(url);
 
-      Array.from(e.target.files).map((img) => URL.revokeObjectURL(img));
+      URL.revokeObjectURL(e.target.files[0]);
     }
+  };
+
+  const imageHandler = (e) => {
+    e.persist();
+
+    if (e.target.accept === "image/*" && e.target.files[0]) {
+      const imgFile = {
+        id: e.target.id,
+        img: e.target.files[0],
+      };
+      setImageFiles((current) => current.concat(imgFile));
+
+      const img = {
+        id: e.target.id,
+        url: URL.createObjectURL(e.target.files[0]),
+      };
+
+      setSelectedImages((current) => current.concat(img));
+
+      URL.revokeObjectURL(e.target.files[0]);
+
+      // setImageFiles((current) => [...current, ...e.target.files]);
+
+      // const imgArr = Array.from(e.target.files).map((img) => ({
+      //   name: img.name,
+      //   url: URL.createObjectURL(img),
+      // }));
+
+      // Array.from(e.target.files).map((img) => URL.revokeObjectURL(img));
+    }
+  };
+
+  const removeVideo = () => {
+    setVideoUrl("");
+    setVideoFile("");
+  };
+  const removeImage = (id) => {
+    setSelectedImages((current) => current.filter((img) => img.id !== id));
+    setImageFiles((current) => current.filter((img) => img.id !== id));
+  };
+
+  const renderProductImages = (num) => {
+    return Array(num)
+      .fill("")
+      .map((el, i) => {
+        let image = selectedImages.find((img) => img.id === `img-${i + 1}`);
+
+        return (
+          <div key={i} style={{ width: 200, height: 200 }}>
+            {image === undefined ? (
+              <div>
+                <input
+                  id={`img-${i + 1}`}
+                  type="file"
+                  accept="image/*"
+                  onChange={imageHandler}
+                  required
+                  multiple
+                  hidden
+                />
+                <label
+                  htmlFor={`img-${i + 1}`}
+                  className="btn border btn-lg"
+                  style={{
+                    paddingTop: 12,
+                    padding: "3%",
+                    backgroundColor: "#ededed",
+                  }}
+                >
+                  <i
+                    className="fa fa-file-image-o "
+                    style={{ fontSize: 38 }}
+                    aria-hidden="true"
+                  ></i>
+                  <br />
+                  <br />
+                  <span>Add A Photo</span>
+                </label>
+              </div>
+            ) : (
+              <div
+                key={image.id}
+                style={{ position: "relative", width: "100%", height: "100%" }}
+                onClick={() => setIsViewProducts(true)}
+              >
+                <img src={image.url} style={styles.image} />
+
+                <div
+                  className="ps-btn ps-btn--sm"
+                  style={styles.imageDel}
+                  onClick={removeImage.bind(this, image.id)}
+                >
+                  x
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      });
   };
 
   const uploadImages = (config) => {
@@ -137,27 +237,6 @@ const CreateProductPage = () => {
     uploadImages(config); // product is uploaded in here
   };
 
-  const removeImage = (name) => {
-    setSelectedImages((current) => current.filter((img) => img.name !== name));
-    setImageFiles((current) => current.filter((img) => img.name !== name));
-  };
-
-  const renderImages = () => {
-    return selectedImages.map((img, index) => (
-      <div key={img.url} style={styles.imageContainer}>
-        <img src={img.url} style={styles.image} />
-
-        <div
-          className="ps-btn ps-btn--sm"
-          style={styles.imageDel}
-          onClick={removeImage.bind(this, img.name)}
-        >
-          x
-        </div>
-      </div>
-    ));
-  };
-
   const getStorename = (token) => {
     axios
       .get(`${WPDomain}/wp-json/dokan/v1/settings`, {
@@ -184,6 +263,7 @@ const CreateProductPage = () => {
 
     getStorename(auth_token);
   }, []);
+
   return (
     <ContainerDefault title="Create new product">
       <HeaderDashboard
@@ -326,16 +406,7 @@ const CreateProductPage = () => {
                         onChange={(e) => setQty(e.target.value)}
                       />
                     </div>
-                    {/* <div className="form-group">
-                      <label>
-                        Sold Items<sup>*</sup>
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder=""
-                      />
-                    </div> */}
+
                     <div className="form-group">
                       <label>
                         Short Description<sup>*</sup>
@@ -364,61 +435,55 @@ const CreateProductPage = () => {
                 <figure className="ps-block--form-box">
                   <figcaption>Product Images</figcaption>
                   <div className="ps-block__content">
-                    {/* <div className="form-group">
-                      <label>Product Thumbnail</label>
-                      <div className="form-group--nest">
-                        <input
-                          className="form-control mb-1"
-                          type="text"
-                          placeholder=""
-                        />
-                        <button className="ps-btn ps-btn--sm">Choose</button>
-                      </div>
-                    </div> */}
                     <div className="form-group">
                       <div className="form-group--nest">
-                        <input
-                          id="image-picker"
-                          type="file"
-                          accept="image/*"
-                          onChange={imageHandler}
-                          required
-                          multiple
-                          hidden
-                        />
-                        <label
-                          htmlFor="image-picker"
-                          className="btn border border-light btn-lg"
-                          style={{ paddingTop: 12, padding: "3%" }}
-                        >
-                          <i
-                            className="fa fa-file-image-o"
-                            style={{ fontSize: 38 }}
-                            aria-hidden="true"
-                          ></i>
-                          <br />
-                          <span>Add image</span>
-                        </label>
+                        {/* Video */}
+
+                        <div style={{ width: 200, height: 200 }}>
+                          {!videoUrl ? (
+                            <>
+                              <input
+                                id="video"
+                                type="file"
+                                accept="video/*"
+                                onChange={videoHandler}
+                                required
+                                multiple
+                                hidden
+                              />
+                              <label
+                                htmlFor="video"
+                                className="btn border btn-lg"
+                                style={{
+                                  paddingTop: 12,
+                                  padding: "3%",
+                                  backgroundColor: "#ededed",
+                                }}
+                              >
+                                <i
+                                  className="fa fa-file-video-o"
+                                  style={{ fontSize: 38 }}
+                                  aria-hidden="true"
+                                ></i>
+                                <br />
+                                <br />
+                                <span>Add A Video</span>
+                              </label>
+                            </>
+                          ) : (
+                            <video
+                              id="video"
+                              src={videoUrl}
+                              controls
+                              width="200px"
+                              height="200px"
+                            />
+                          )}
+                        </div>
+                        {/* Images */}
+                        {renderProductImages(3)}
                       </div>
                     </div>
-                    {/* <div className="form-group form-group--nest">
-                      <input
-                        className="form-control mb-1"
-                        type="text"
-                        placeholder=""
-                      />
-                      <button className="ps-btn ps-btn--sm">Choose</button>
-                    </div> */}
-                    {/* <div className="form-group">
-                      <label>Video (optional)</label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Enter video URL"
-                      />
-                    </div> */}
-
-                    <div style={styles.imagesWrapper}>{renderImages()}</div>
                   </div>
                 </figure>
                 <figure className="ps-block--form-box">
@@ -497,6 +562,17 @@ const CreateProductPage = () => {
           </div>
         </form>
       </section>
+
+      {/* Products Viewer */}
+      <Modal
+        centered
+        visible={isViewProducts}
+        onCancel={() => setIsViewProducts((current) => !current)}
+        okButtonProps={{ hidden: true }}
+        cancelButtonProps={{ hidden: true }}
+      >
+        <div>Add Product Video and Images slider here</div>
+      </Modal>
     </ContainerDefault>
   );
 };
