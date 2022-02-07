@@ -4,9 +4,8 @@ import Router from "next/router";
 import ContainerDefault from "~/components/layouts/ContainerDefault";
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
 import { useDispatch } from "react-redux";
-import { Player } from "video-react";
 import axios from "axios";
-import { notification, Modal } from "antd";
+import { notification, Modal, Progress } from "antd";
 import Slider from "react-slick";
 import { toggleDrawerMenu } from "~/store/app/action";
 import { WPDomain } from "~/repositories/Repository";
@@ -28,24 +27,53 @@ const CreateProductPage = () => {
   const [type, setType] = useState("simple");
   const [qty, setQty] = useState("");
   const [sku, setSku] = useState("");
+  const [tags, setTags] = useState("");
 
   const [videoFile, setVideoFile] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
 
-  const [isViewProducts, setIsViewProducts] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
+  const [viewProducts, setViewProducts] = useState(false);
+
+  const [uploading, setUploading] = useState({
+    status: "",
+    progress: 0,
+  });
 
   const videoHandler = (e) => {
     e.persist();
 
-    if (e.target.accept === "video/*" && e.target.files[0]) {
-      const url = URL.createObjectURL(e.target.files[0]);
+    let video = e.target.files[0];
+    if (e.target.accept === "video/*" && video) {
+      let size = e.target.files[0].size / 1024 ** 2;
 
-      setVideoUrl(url);
+      let reader = new FileReader();
 
-      URL.revokeObjectURL(e.target.files[0]);
+      reader.onload = () => {
+        let vid = new Audio(reader.result);
+        vid.onloadedmetadata = () => {
+          if (size <= 20 && vid.duration <= 30) {
+            const url = URL.createObjectURL(video);
+
+            setVideoFile(video);
+            setVideoUrl(url);
+
+            URL.revokeObjectURL(video);
+          } else {
+            notification["error"]({
+              message:
+                "Video must not exceed a duration of 30secs and a size of 20MB",
+            });
+          }
+        };
+      };
+
+      reader.readAsDataURL(video);
+    } else {
+      notification["error"]({
+        message: "Not a video file!",
+      });
     }
   };
 
@@ -67,15 +95,6 @@ const CreateProductPage = () => {
       setSelectedImages((current) => current.concat(img));
 
       URL.revokeObjectURL(e.target.files[0]);
-
-      // setImageFiles((current) => [...current, ...e.target.files]);
-
-      // const imgArr = Array.from(e.target.files).map((img) => ({
-      //   name: img.name,
-      //   url: URL.createObjectURL(img),
-      // }));
-
-      // Array.from(e.target.files).map((img) => URL.revokeObjectURL(img));
     }
   };
 
@@ -130,7 +149,7 @@ const CreateProductPage = () => {
               <div
                 key={image.id}
                 style={{ position: "relative", width: "100%", height: "100%" }}
-                onClick={() => setIsViewProducts(true)}
+                onClick={() => setViewProducts(true)}
               >
                 <img src={image.url} style={styles.image} />
 
@@ -148,9 +167,70 @@ const CreateProductPage = () => {
       });
   };
 
-  const uploadImages = (config) => {
+  const uploadVideo = () => {
+    let auth_token = localStorage.getItem("auth_token");
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+      onUploadProgress: (progressEvent) => {
+        const percent = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+
+        setUploading({
+          status: "Uploading Video",
+          progress: percent,
+        });
+      },
+    };
+
+    let formData = new FormData();
+
+    formData.append("file", videoFile);
+
+    axios
+      .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
+      .then((res) => {
+        uploadImages(res.data.source_url);
+      })
+      .catch((err) => {
+        notification["error"]({
+          message:
+            "Video could not be uploaded!. Check your data connection and try again.",
+        });
+
+        setUploading({
+          status: "",
+          progress: 0,
+        });
+      });
+  };
+
+  const uploadImages = (video = "") => {
+    let auth_token = localStorage.getItem("auth_token");
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+      onUploadProgress: (progressEvent) => {
+        const percent = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+
+        setUploading({
+          status: "Uploading Images",
+          progress: percent,
+        });
+      },
+    };
+
     let images = [];
-    imageFiles.forEach((img, index) => {
+    let imgFiles = imageFiles.map((img) => img.img);
+
+    imgFiles.forEach((img, index, arr) => {
       let formData = new FormData();
 
       formData.append("file", img);
@@ -159,34 +239,50 @@ const CreateProductPage = () => {
         .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
         .then((res) => {
           images.push({ src: res.data.source_url, position: index });
+
+          if (images.length === imageFiles.length) {
+            uploadProduct(images, video);
+          }
         })
         .catch((err) => {
-          return;
-        })
-        .finally(() => {
-          //  Check if last image has been reached
-          if (index === imageFiles.length - 1) {
-            // Check if every image uploaded
-            if (images.length === imageFiles.length) {
-              uploadProduct(config, images);
-            } else {
-              setIsUploading(false);
-              notification["error"]({
-                message:
-                  "Some images did not upload!. Check your data connection and try again.",
-              });
-            }
-          }
+          arr.length = index + 1;
+          notification["error"]({
+            message:
+              "Some images did not upload!. Check your data connection and try again.",
+          });
+
+          setUploading({
+            status: "",
+            progress: 0,
+          });
         });
     });
   };
 
-  const uploadProduct = (config, images) => {
+  const uploadProduct = (images = [], video) => {
+    console.log("Uploading Product...");
+    let auth_token = localStorage.getItem("auth_token");
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+      onUploadProgress: (progressEvent) => {
+        const percent = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+
+        setUploading({
+          status: "Uploading Product",
+          progress: percent,
+        });
+      },
+    };
+
     let slug = `${name
       .replace(/[^a-zA-Z0-9-_]/g, " ")
       .replace(/  +/g, " ")
-      .split(" ")
-      .join("-")}`.trim();
+      .replace(/ /g, "-")}`.trim();
 
     const product = {
       name,
@@ -201,6 +297,8 @@ const CreateProductPage = () => {
       stock_quantity: Number(qty.trim()),
       sku,
       images,
+      external_url: video,
+      tags: tags.replace(/  +/g, " ").split(" "),
     };
 
     // Upload Product
@@ -213,28 +311,31 @@ const CreateProductPage = () => {
         Router.reload(window.location.pathname);
       })
       .catch((err) => {
-        setIsUploading(false);
         notification["error"]({
           message: "Product Upload Failed",
-          description: "Check your data connection and try again.",
+          description:
+            err.response === undefined
+              ? "Check your data connection and try again."
+              : err.response.data.message,
+        });
+
+        setUploading({
+          status: "",
+          progress: 0,
         });
       });
   };
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
 
-    setIsUploading(true);
+    setUploading((current) => ({ ...current, status: "Uploading" }));
 
-    let auth_token = localStorage.getItem("auth_token");
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth_token}`,
-      },
-    };
-
-    uploadImages(config); // product is uploaded in here
+    if (videoFile !== "") {
+      uploadVideo();
+    } else {
+      uploadImages(); // product is uploaded in here
+    }
   };
 
   const getStorename = (token) => {
@@ -296,22 +397,6 @@ const CreateProductPage = () => {
                       />
                     </div>
 
-                    <div className="form-group form-group--select">
-                      <label>
-                        Type<sup>*</sup>
-                      </label>
-                      <div className="form-group__content">
-                        <select
-                          name="type"
-                          className="ps-select"
-                          title="type"
-                          defaultValue={type}
-                        >
-                          <option value="simple">Simple</option>
-                          <option value="variable">Variable</option>
-                        </select>
-                      </div>
-                    </div>
                     {/* <div className="form-group">
                       <label>
                         Reference<sup>*</sup>
@@ -433,7 +518,7 @@ const CreateProductPage = () => {
               </div>
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                 <figure className="ps-block--form-box">
-                  <figcaption>Product Images</figcaption>
+                  <figcaption>Product Files</figcaption>
                   <div className="ps-block__content">
                     <div className="form-group">
                       <div className="form-group--nest">
@@ -471,17 +556,28 @@ const CreateProductPage = () => {
                               </label>
                             </>
                           ) : (
-                            <video
-                              id="video"
-                              src={videoUrl}
-                              controls
-                              width="200px"
-                              height="200px"
-                            />
+                            <>
+                              <video
+                                id="video"
+                                src={videoUrl}
+                                controls
+                                width="200px"
+                                height="200px"
+                              />
+
+                              <button onClick={removeVideo}>
+                                Delete video
+                              </button>
+                            </>
                           )}
                         </div>
                         {/* Images */}
                         {renderProductImages(3)}
+                      </div>
+
+                      <div style={{ marginTop: 100 }}>
+                        <p>{uploading.status}</p>
+                        <Progress type="line" percent={uploading.progress} />
                       </div>
                     </div>
                   </div>
@@ -497,9 +593,22 @@ const CreateProductPage = () => {
                         name="sku"
                         className="form-control"
                         type="text"
-                        placeholder=""
                         value={sku}
                         onChange={(e) => setSku(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label>
+                        Tags<sup>*</sup>
+                      </label>
+                      <input
+                        name="tags"
+                        className="form-control"
+                        type="text"
+                        placeholder="E.g. shoe adidas"
+                        value={tags}
+                        onChange={(e) => setTags(e.target.value)}
                       />
                     </div>
                     {/* <div className="form-group form-group--select">
@@ -543,12 +652,12 @@ const CreateProductPage = () => {
             </a>
             <button className="ps-btn ps-btn--gray">Cancel</button>
             <button
-              disabled={isUploading}
+              disabled={uploading.status ? true : false}
               type="submit"
               className="ps-btn"
               onClick={handleOnSubmit}
             >
-              {isUploading ? (
+              {uploading.status ? (
                 <img
                   src={require("../../public/img/Interwind-loader.svg")}
                   alt="Uploading..."
@@ -564,15 +673,15 @@ const CreateProductPage = () => {
       </section>
 
       {/* Products Viewer */}
-      <Modal
+      {/* <Modal
         centered
-        visible={isViewProducts}
-        onCancel={() => setIsViewProducts((current) => !current)}
+        visible={viewProducts}
+        onCancel={() => setViewProducts((current) => !current)}
         okButtonProps={{ hidden: true }}
         cancelButtonProps={{ hidden: true }}
       >
         <div>Add Product Video and Images slider here</div>
-      </Modal>
+      </Modal> */}
     </ContainerDefault>
   );
 };

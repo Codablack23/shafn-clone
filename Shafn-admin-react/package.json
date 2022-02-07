@@ -41,8 +41,7 @@
         "sass": "^1.43.3",
         "suneditor": "^2.42.0",
         "suneditor-react": "^3.3.1",
-        "uuidv4": "^6.2.12",
-        "video-react": "^0.15.0"
+        "uuidv4": "^6.2.12"
     },
     "devDependencies": {
         "webpack": "^4.44.2"
