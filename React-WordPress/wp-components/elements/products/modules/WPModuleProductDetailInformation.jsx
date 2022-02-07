@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { formatCurrency } from '~/utilities/product-helper';
 import { addItem } from '~/store/cart/action';
 import { addCheckoutItem } from '~/store/checkout-items/action';
+import { addItemToWishlist } from '~/store/wishlist/action';
 // import ModuleProductDetailSharing from '~/components/elements/detail/modules/elements/ModuleProductDetailSharing';
 
 import {
@@ -51,6 +52,10 @@ const WPModuleProductDetailInformation = ({
         if (quantity > 1) {
             setQuantity(quantity - 1);
         }
+    };
+    const handleAddItemToWishlist = (e) => {
+        e.preventDefault();
+        dispatch(addItemToWishlist(product));
     };
 
     const handleRenderPrice = (product) => {
@@ -157,7 +162,13 @@ const WPModuleProductDetailInformation = ({
                     </a>
                 </Link>
                 </div>
-                <button className="btn rounded-pill btn-lg btn-hover w3-light-grey p-3 pl-4 pr-4 text-center" style={{minWidth:250}}>Add To WatchList</button>
+                <button 
+                className="btn rounded-pill btn-lg btn-hover w3-light-grey p-3 pl-4 pr-4 text-center w3-border w3-border-white w3-hover-border-grey w3-hover-none " 
+                style={{minWidth:250}}
+                onClick={handleAddItemToWishlist}
+                >
+                    Add To WatchList
+                </button>
             <div className="ps-product__specification">
                 {/* <Link href="/page/blank">
                     <a className="report">Report Abuse</a>

@@ -117,13 +117,13 @@ const WPProductDetail = ({ product, variations }) => {
         return (
             <div className="ps-product--detail ps-product--fullwidth" style={{paddingBottom:0}}>
                 <div className="row" style={{paddingBottom:0}}>
-                    <div className="col-12 col-md-8">
+                    <div className="col-12 col-md-7">
                     <WPModuleProductDetailThumbnail
                         product={product}
                         variant={activeVariant}
                     />
                     </div>
-                    <div className="col-12 col-md-4">
+                    <div className="col-12 col-md-5">
                     <WPModuleProductDetailInformation
                         product={product}
                         variant={activeVariant && activeVariant}>

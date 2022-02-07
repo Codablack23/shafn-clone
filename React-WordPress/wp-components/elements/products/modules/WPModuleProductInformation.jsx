@@ -105,7 +105,8 @@ const WPModuleProductInformation = ({
             <hr className="w3-lightgrey" />
             <p>
             <span>Delivery: 2 -4 Working days</span><br />
-            <span><span className="text-danger" style={{fontWeight:"bold"}}> in Stock: </span>{product.stock_quantity==null?0:product.stock_quantity}</span>
+            <span><span className="text-danger" style={{fontWeight:"bold"}}> in Stock: </span>
+            </span>
             </p>
             <div className="ps-product__desc">
                 {productVendorView}
