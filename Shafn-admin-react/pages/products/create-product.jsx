@@ -36,6 +36,8 @@ const CreateProductPage = () => {
 
   const [viewProducts, setViewProducts] = useState(false);
 
+  const [isPriceValid, setIsPriceValid] = useState(true);
+
   const [uploading, setUploading] = useState({
     status: "",
     progress: 0,
@@ -85,7 +87,9 @@ const CreateProductPage = () => {
         id: e.target.id,
         img: e.target.files[0],
       };
-      setImageFiles((current) => current.concat(imgFile));
+      setImageFiles((current) =>
+        imgFile.id === "img-1" ? [imgFile, ...current] : current.concat(imgFile)
+      );
 
       const img = {
         id: e.target.id,
@@ -135,6 +139,7 @@ const CreateProductPage = () => {
                     backgroundColor: "#ededed",
                   }}
                 >
+                  {i === 0 ? <p>Primary</p> : null}
                   <i
                     className="fa fa-file-image-o "
                     style={{ fontSize: 38 }}
@@ -326,15 +331,82 @@ const CreateProductPage = () => {
       });
   };
 
+  const validateInputs = () => {
+    return new Promise((resolve, reject) => {
+      if (name) {
+        if (price) {
+          if (category !== "") {
+            if (qty > 0) {
+              if (shortDescription) {
+                if (imageFiles.map((el) => el.id).includes("img-1")) {
+                  resolve(true);
+                } else {
+                  reject("Primary Image is required!");
+                }
+              } else {
+                reject("Short Description is required!");
+              }
+            } else {
+              reject("Sale Quantity must be 1 or more");
+            }
+          } else {
+            reject("Category is required!");
+          }
+        } else {
+          reject("Sale Price is required!");
+        }
+      } else {
+        reject("Product Name is required!");
+      }
+    });
+  };
+
   const handleOnSubmit = async (e) => {
     e.preventDefault();
 
-    setUploading((current) => ({ ...current, status: "Uploading" }));
+    const upload = () => {
+      setUploading((current) => ({ ...current, status: "Uploading" }));
 
-    if (videoFile !== "") {
-      uploadVideo();
-    } else {
-      uploadImages(); // product is uploaded in here
+      if (videoFile !== "") {
+        uploadVideo();
+      } else {
+        uploadImages(); // product is uploaded in here
+      }
+    };
+
+    try {
+      let isValid = await validateInputs();
+
+      if (isValid) {
+        upload();
+      }
+    } catch (err) {
+      notification["error"]({
+        message: err,
+      });
+    }
+  };
+
+  const handleInputChange = (e) => {
+    let name = e.target.name;
+    let val = e.target.value;
+    if (name === "regular_price" && isNaN(val) === false) {
+      setPrice(val);
+    }
+
+    if (name === "price" && isNaN(val) === false) {
+      if (Number(val) >= Number(price)) {
+        setIsPriceValid(false);
+        setTimeout(() => {
+          setIsPriceValid(true);
+        }, 4000);
+      } else {
+        setDiscountedPrice(val);
+      }
+    }
+
+    if (name === "stock_quantity" && isNaN(val) === false) {
+      setQty(val);
     }
   };
 
@@ -422,12 +494,12 @@ const CreateProductPage = () => {
                         Sale Price<sup>*</sup>
                       </label>
                       <input
-                        name="regualar_price"
+                        name="regular_price"
                         className="form-control"
                         type="text"
                         placeholder=""
                         value={price}
-                        onChange={(e) => setPrice(e.target.value)}
+                        onChange={handleInputChange}
                         required
                       />
                     </div>
@@ -441,8 +513,11 @@ const CreateProductPage = () => {
                         type="text"
                         placeholder=""
                         value={discountedPrice}
-                        onChange={(e) => setDiscountedPrice(e.target.value)}
+                        onChange={handleInputChange}
                       />
+                      <p style={{ color: "red" }} hidden={isPriceValid}>
+                        Discounted price must be less than the sale price
+                      </p>
                     </div>
                     <div className="form-group form-group--select">
                       <label>
@@ -453,6 +528,7 @@ const CreateProductPage = () => {
                           name="categories"
                           className="ps-select"
                           title="Status"
+                          defaultValue={category}
                           onChange={(e) =>
                             setCategory([{ id: e.target.value }])
                           }
@@ -484,11 +560,11 @@ const CreateProductPage = () => {
                       <input
                         name="stock_quantity"
                         className="form-control"
-                        type="number"
+                        type="text"
                         placeholder=""
                         required
                         value={qty}
-                        onChange={(e) => setQty(e.target.value)}
+                        onChange={handleInputChange}
                       />
                     </div>
 
@@ -500,6 +576,7 @@ const CreateProductPage = () => {
                         required
                         className="form-control"
                         type="text"
+                        maxLength={100}
                         onChange={(e) => setShortDescription(e.target.value)}
                       />
                     </div>
@@ -574,11 +651,6 @@ const CreateProductPage = () => {
                         {/* Images */}
                         {renderProductImages(3)}
                       </div>
-
-                      <div style={{ marginTop: 100 }}>
-                        <p>{uploading.status}</p>
-                        <Progress type="line" percent={uploading.progress} />
-                      </div>
                     </div>
                   </div>
                 </figure>
@@ -606,7 +678,7 @@ const CreateProductPage = () => {
                         name="tags"
                         className="form-control"
                         type="text"
-                        placeholder="E.g. shoe adidas"
+                        placeholder="E.g. shoe adidas ..."
                         value={tags}
                         onChange={(e) => setTags(e.target.value)}
                       />
@@ -621,6 +693,11 @@ const CreateProductPage = () => {
                         </select>
                       </div>
                     </div> */}
+                  </div>
+
+                  <div style={{ marginTop: 100 }}>
+                    <p>{uploading.status}</p>
+                    <Progress type="line" percent={uploading.progress} />
                   </div>
                 </figure>
                 {/* <figure className="ps-block--form-box">
@@ -673,7 +750,7 @@ const CreateProductPage = () => {
       </section>
 
       {/* Products Viewer */}
-      {/* <Modal
+      <Modal
         centered
         visible={viewProducts}
         onCancel={() => setViewProducts((current) => !current)}
@@ -681,7 +758,7 @@ const CreateProductPage = () => {
         cancelButtonProps={{ hidden: true }}
       >
         <div>Add Product Video and Images slider here</div>
-      </Modal> */}
+      </Modal>
     </ContainerDefault>
   );
 };
