@@ -13,6 +13,7 @@ import {
     WPProductDetailRatingView,
     WPProductDetailShortDescView,
     WPProductDetailTagsView,
+    Button
 } from '~/utilities/WPHelpers';
 
 const WPModuleProductDetailInformation = ({
@@ -111,7 +112,7 @@ const WPModuleProductDetailInformation = ({
     }
 
     return (
-        <div className="">
+        <div className="ps-product__info">
             {!isWidget && <p style={{fontSize:20}}>{product?.name}</p>}
             {productPriceView}
             <hr className="w3-lightgrey" />
@@ -144,31 +145,42 @@ const WPModuleProductDetailInformation = ({
                 </div>
                  </div>
                 <div className="mt-2 d-block d-lg-none">
+ 
+                <Button 
+                  width={250}
+                  classes={`w3-0309A5 btn-hover`}
+                  hoverBorder="0309A5"
+                  hoverBg="none"
+                  hoverColor="0309A5"
+                  eventHandler={handleAddItemToCart}
+                  text="Add to cart"
+                /><br/>
 
-                <a
-                    className="btn btn-lg btn-hover p-3 m-2 w3-blue rounded-pill"
-                    href="#"
-                    style={{minWidth:250}}
-                    onClick={handleAddItemToCart}>
-                    Add to cart
-                </a><br/>
                 <Link href="/account/checkout">
-                    <a 
-                     style={{minWidth:250}}
-                     className="btn-lg btn btn-hover w3-orange p-3 m-2 rounded-pill"
-                     onClick={handleAddToCheckoutItems}>
-                        Buy Now
-
-                    </a>
+                    <Button 
+                    width={250}
+                    classes={`w3-orange btn-hover`}
+                    eventHandler={handleAddToCheckoutItems}
+                    text="Buy Now"
+                    />
                 </Link>
                 </div>
-                <button 
-                className="btn rounded-pill btn-lg btn-hover w3-light-grey p-3 pl-4 pr-4 text-center w3-border w3-border-white w3-hover-border-grey w3-hover-none " 
+                {/* <button 
+                className="btn rounded-pill btn-lg btn-hover w3-light-grey p-3 pl-4 pr-4 w3-border w3-border-white w3-hover-border-grey w3-hover-none" 
                 style={{minWidth:250}}
                 onClick={handleAddItemToWishlist}
                 >
                     Add To WatchList
-                </button>
+                </button> */}
+                   <Button 
+                   width={250}
+                   classes={`w3-light-grey btn-hover`}
+                   hoverBorder="grey"
+                   hoverBg="none"
+                   hoverColor="grey"
+                   eventHandler={handleAddItemToWishlist}
+                   text="Add to WishLIst"
+                /><br/>
             <div className="ps-product__specification">
                 {/* <Link href="/page/blank">
                     <a className="report">Report Abuse</a>

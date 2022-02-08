@@ -116,14 +116,12 @@ const WPProductDetail = ({ product, variations }) => {
     } else {
         return (
             <div className="ps-product--detail ps-product--fullwidth" style={{paddingBottom:0}}>
-                <div className="row" style={{paddingBottom:0}}>
-                    <div className="col-12 col-md-7">
+                <div className="ps-product__header">
+
                     <WPModuleProductDetailThumbnail
                         product={product}
                         variant={activeVariant}
                     />
-                    </div>
-                    <div className="col-12 col-md-5">
                     <WPModuleProductDetailInformation
                         product={product}
                         variant={activeVariant && activeVariant}>
@@ -134,7 +132,7 @@ const WPProductDetail = ({ product, variations }) => {
                     </WPModuleProductDetailInformation>
                     </div>
                     <DefaultDescription />
-                </div>
+              
             </div>
         );
     }

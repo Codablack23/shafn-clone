@@ -13,6 +13,7 @@ import {
     WPProductDetailRatingView,
     WPProductDetailShortDescView,
     WPProductDetailTagsView,
+    Button
 } from '~/utilities/WPHelpers';
 
 const WPModuleProductInformation = ({
@@ -137,22 +138,38 @@ const WPModuleProductInformation = ({
                 </div>
                  </div>
                 <div className="w3-center mt-2 d-none d-lg-block">
-
-                <a
+                <Button 
+                  width={"90%"}
+                  classes={`w3-0309A5 btn-hover`}
+                  hoverBorder="0309A5"
+                  hoverBg="none"
+                  hoverColor="0309A5"
+                  eventHandler={handleAddItemToCart}
+                  text="Add to cart"
+                /><br/>
+                {/* <a
                     className="btn btn-lg w3-text-white btn-hover p-3 m-2 rounded-pill"
                     href="#"
                     style={{minWidth:"90%",backgroundColor:"#0309A5"}}
                     onClick={handleAddItemToCart}>
                     Add to cart
-                </a><br/>
+                </a><br/> */}
                 <Link href="/account/checkout">
+                    
+                <Button 
+                  width={"90%"}
+                  classes={`w3-orange btn-hover`}
+                  eventHandler={handleAddToCheckoutItems}
+                  text="Buy Now"
+                />
+                {/* <br/>
                     <a 
                      style={{minWidth:"90%"}}
                      className="btn-lg btn btn-hover w3-orange p-3 m-2 rounded-pill"
                      onClick={handleAddToCheckoutItems}>
                         Buy Now
 
-                    </a>
+                    </a> */}
                 </Link>
                 </div>
             </div>

@@ -2,5 +2,31 @@
     transition:all ease-in 0.25s;
 }
 .btn-hover:hover{
-    transform: scale(1.05);
+    transform: scale(1.025);
+}
+.w3-hover-border-0309A5{
+    transition: all ease-in 0.2s;
+
+}
+.w3-hover-border-0309A5:hover{
+   border: 1px solid #0309A5;    
+}
+.w3-0309A5{
+    background: #0309A5;
+    color:white;
+}
+.w3-hover-0309A5{
+    transition: all ease-in 0.2s;
+}
+.w3-hover-0309A5:hover{
+    background: #0309A5;
+}
+.w3-text-0309A5{
+    color: #0309A5;
+}
+.w3-hover-text-0309A5{
+    transition: all ease-in 0.2s;
+}
+.w3-hover-text-0309A5:hover{
+    color: #0309A5;
 }

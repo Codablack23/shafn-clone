@@ -286,3 +286,16 @@ export function convertFormData(object) {
     Object.keys(object).forEach((key) => formData.append(key, object[key]));
     return formData;
 }
+
+export function Button({text,eventHandler,classes,width,hoverBg,hoverColor,hoverBorder,color,height}){
+    let hoverClass =""
+    hoverClass=`w3-hover-${hoverBg} w3-hover-text-${hoverColor} w3-hover-border-${hoverBorder}`
+    return (
+        <button
+        className={`btn btn-lg p-3 m-2 rounded-pill w3-text-${color} ${classes} ${hoverClass}`}
+        onClick={eventHandler}
+        style={{minWidth:width,height}}>
+            {text}
+        </button>
+    )
+}
