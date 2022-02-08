@@ -3,7 +3,9 @@ import React from 'react';
 import BreadCrumb from '~/components/elements/BreadCrumb';
 import Wishlist from '~/components/partials/account/Wishlist';
 import WPLayout from '~/wp-components/layouts/WPLayout';
+
 import WPWishlist from '~/wp-components/account/WPWishlist';
+
 
 const WishlistPage = () => {
     const breadCrumb = [

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { addItem } from '~/store/cart/action';
 import { removeWishlistItem } from '~/store/wishlist/action';
 import WPProductCart from '~/wp-components/elements/products/WPProductCart';
+import { Button } from '~/utilities/WPHelpers'
 class WPWishlist extends Component {
     constructor(props) {
         super(props);
@@ -30,14 +31,21 @@ class WPWishlist extends Component {
                     <td className="price">${product.price}</td>
                     <td>{product.store.name}</td>
                     <td>
-                        <a
+                        <Button 
+                        width={150}
+                        classes={`w3-0309A5 btn-hover`}
+                        hoverColor="white"
+                        eventHandler={(e)=>{this.handleAddItemToCart(e, product)}}
+                        text="Add to cart"
+                        />
+                        {/* <a
                             className="ps-btn ps-btn--sm mr-2"
                             href=""
                             onClick={(e) =>
                                 this.handleAddItemToCart(e, product)
                             }>
                             Add to cart
-                        </a>
+                        </a> */}
                         <a
                             href="#"
                             onClick={(e) =>

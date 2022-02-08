@@ -121,7 +121,7 @@ const WPModuleProductDetailInformation = ({
                 {shortDescView}
             </div>
             {children}
-             <div className="d-block d-lg-none m-auto" style={{minWidth:"60%"}}>
+             <div className="d-block d-lg-none m-auto w3-center" style={{minWidth:"60%"}}>
                 <div className="">
                 <figure>
                     <figcaption>Quantity</figcaption>
@@ -144,14 +144,12 @@ const WPModuleProductDetailInformation = ({
                 </figure>
                 </div>
                  </div>
-                <div className="mt-2 d-block d-lg-none">
+                <div className="mt-2 d-block w3-center d-lg-none">
  
                 <Button 
                   width={250}
                   classes={`w3-0309A5 btn-hover`}
-                  hoverBorder="0309A5"
-                  hoverBg="none"
-                  hoverColor="0309A5"
+                  hoverColor="white"
                   eventHandler={handleAddItemToCart}
                   text="Add to cart"
                 /><br/>
@@ -172,6 +170,7 @@ const WPModuleProductDetailInformation = ({
                 >
                     Add To WatchList
                 </button> */}
+                <div className="text-center text-lg-left">
                    <Button 
                    width={250}
                    classes={`w3-light-grey btn-hover`}
@@ -181,6 +180,7 @@ const WPModuleProductDetailInformation = ({
                    eventHandler={handleAddItemToWishlist}
                    text="Add to WishLIst"
                 /><br/>
+                </div>
             <div className="ps-product__specification">
                 {/* <Link href="/page/blank">
                     <a className="report">Report Abuse</a>

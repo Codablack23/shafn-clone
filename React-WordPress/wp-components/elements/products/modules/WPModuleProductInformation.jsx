@@ -141,9 +141,7 @@ const WPModuleProductInformation = ({
                 <Button 
                   width={"90%"}
                   classes={`w3-0309A5 btn-hover`}
-                  hoverBorder="0309A5"
-                  hoverBg="none"
-                  hoverColor="0309A5"
+                  hoverColor="white"
                   eventHandler={handleAddItemToCart}
                   text="Add to cart"
                 /><br/>
