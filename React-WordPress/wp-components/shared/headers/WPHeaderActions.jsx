@@ -44,6 +44,7 @@ class WPHeaderActions extends Component {
                         </span>
                     </a>
                 </Link> */}
+                
                 <WPMiniCart />
                 {accountView}
             </div>
