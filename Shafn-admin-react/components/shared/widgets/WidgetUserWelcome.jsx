@@ -26,6 +26,11 @@ const WidgetUserWelcome = () => {
       });
   };
 
+  const logout = () => {
+    localStorage.removeItem("auth_token");
+    window.location.assign("http://localhost:3000/account/login");
+  };
+
   useEffect(() => {
     let auth_token = localStorage.getItem("auth_token");
 
@@ -68,10 +73,12 @@ const WidgetUserWelcome = () => {
           Hello,<a href="#">{name || "Vendor"}</a>
         </p>
       </div>
-      <div className="ps-block__action">
-        <a href="#">
-          <i className="icon-exit"></i>
-        </a>
+      <div
+        className="ps-block__action"
+        style={{ cursor: "pointer" }}
+        onClick={logout}
+      >
+        <i className="icon-exit"></i>
       </div>
     </div>
   );
