@@ -17,10 +17,7 @@ const ProductPage = () => {
   }, []);
   return (
     <ContainerDefault title="Products">
-      <HeaderDashboard
-        title="Products"
-        description="Martfury Product Listing "
-      />
+      <HeaderDashboard title="Products" description="ShafN Product Listing " />
       <section className="ps-items-listing">
         <div className="ps-section__actions">
           <Link href="/products/create-product">
