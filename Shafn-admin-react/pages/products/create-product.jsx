@@ -42,7 +42,15 @@ const CreateProductPage = () => {
     status: "",
     progress: 0,
   });
-
+  
+  const settings = {
+    className: "center",
+    centerMode: true,
+    infinite: true,
+    centerPadding: "60px",
+    slidesToShow: 1,
+    speed: 500
+  };
   const videoHandler = (e) => {
     e.persist();
 
@@ -118,9 +126,9 @@ const CreateProductPage = () => {
         let image = selectedImages.find((img) => img.id === `img-${i + 1}`);
 
         return (
-          <div key={i} style={{ width: 200, height: 200 }}>
+          <div className="" key={i} style={{...styles.filesSelect}}>
             {image === undefined ? (
-              <div>
+              <>
                 <input
                   id={`img-${i + 1}`}
                   type="file"
@@ -132,28 +140,36 @@ const CreateProductPage = () => {
                 />
                 <label
                   htmlFor={`img-${i + 1}`}
-                  className="btn border btn-lg"
+                  className="btn border m-2 p-3 btn-lg"
                   style={{
-                    paddingTop: 12,
-                    padding: "3%",
-                    backgroundColor: "#ededed",
+                    display:"block",
+                    minwidth:"90%",
+                    minHeight:"20vh",
+                    margin:"auto",
+                    borderColor:"lightgrey",
                   }}
                 >
-                  {i === 0 ? <p>Primary</p> : null}
+                
+                  <span>Add A Photo</span>
+                  <br />
+                  <br />
                   <i
-                    className="fa fa-file-image-o "
+                    className="fa fa-file-image-o text-secondary"
                     style={{ fontSize: 38 }}
                     aria-hidden="true"
-                  ></i>
-                  <br />
-                  <br />
-                  <span>Add A Photo</span>
+                  ></i><br />
+                  {i === 0 ?<span> <span>Primary</span></span>: null}
                 </label>
-              </div>
+              </>
             ) : (
               <div
                 key={image.id}
-                style={{ position: "relative", width: "100%", height: "100%" }}
+                style={{
+                   position: "relative",
+                   width: "90%",
+                   height: "100%",
+                   margin:"2% auto"
+                  }}
                 onClick={() => setViewProducts(true)}
               >
                 <img src={image.url} style={styles.image} />
@@ -600,8 +616,62 @@ const CreateProductPage = () => {
                     <div className="form-group">
                       <div className="form-group--nest">
                         {/* Video */}
+                        <div style={styles.filesStyles}>
+                          <div className="m-2" style={{...styles.filesSelect}}>
+                          {!videoUrl ? (
+                            <>
+                              <input
+                                id="video"
+                                type="file"
+                                accept="video/*"
+                                onChange={videoHandler}
+                                required
+                                multiple
+                                hidden
+                              />
+                              <label
+                                htmlFor="video"
+                                className="btn btn-lg p-3"
+                                style={{
+                                  display:"block",
+                                  minwidth:"90%",
+                                  minHeight:"20vh",
+                                  borderColor:"lightgrey",
+                                  margin:"auto"
+                                }}
+                              >
+                                <span>Add A Video</span>
+                                <br />
+                                <br />
+                              
+                                <i
+                                  className="fa fa-file-video-o text-secondary"
+                                  style={{ fontSize: 38 }}
+                                  aria-hidden="true"
+                                ></i>
+                              </label>
+                            </>
+                          ) : (
+                            <>
+                              <video
+                                id="video"
+                                src={videoUrl}
+                                controls
+                                width="200px"
+                                height="200px"
+                              />
 
-                        <div style={{ width: 200, height: 200 }}>
+                              <button onClick={removeVideo}>
+                                Delete video
+                              </button>
+                            </>
+                          )}
+                          </div>
+                          {renderProductImages(9)}
+                        </div>
+                        {/* <div  
+                           className="d-flex"
+                           style={{flexWrap:"wrap", width: 200, height: 200 }}>
                           {!videoUrl ? (
                             <>
                               <input
@@ -620,6 +690,7 @@ const CreateProductPage = () => {
                                   paddingTop: 12,
                                   padding: "3%",
                                   backgroundColor: "#ededed",
+                                  marginRight:"2%",
                                 }}
                               >
                                 <i
@@ -648,9 +719,9 @@ const CreateProductPage = () => {
                             </>
                           )}
                         </div>
-                        {/* Images */}
-                        {renderProductImages(3)}
-                      </div>
+                        {/* Images *
+                        {renderProductImages(6)}*/}
+                      </div> 
                     </div>
                   </div>
                 </figure>
@@ -757,7 +828,12 @@ const CreateProductPage = () => {
         okButtonProps={{ hidden: true }}
         cancelButtonProps={{ hidden: true }}
       >
-        <div>Add Product Video and Images slider here</div>
+        <Slider {...settings}>
+          <div>
+            Hello
+          </div>
+        </Slider>
+
       </Modal>
     </ContainerDefault>
   );
@@ -791,4 +867,15 @@ let styles = {
     justifyContent: "center",
     alignItems: "center",
   },
+  filesStyles:{
+    display:"flex",
+    flexWrap:"wrap",
+    width:"100%",
+    justifyContent:"center"
+  },
+  fileSelect:{
+    minWidth:'33%',
+    minHeight:"30vh",
+    marginRight:'2%'
+  }
 };
