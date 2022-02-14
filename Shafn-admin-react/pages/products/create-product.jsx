@@ -823,14 +823,49 @@ const CreateProductPage = () => {
       {/* Products Viewer */}
       <Modal
         centered
+        bodyStyle={{
+          height:"65vh"
+        }}
         visible={viewProducts}
+        wrapClassName="bg-none p-2"
         onCancel={() => setViewProducts((current) => !current)}
         okButtonProps={{ hidden: true }}
         cancelButtonProps={{ hidden: true }}
+        width={"65%"}
       >
-        <Slider {...settings}>
+     <Slider {...{
+      dots: true,
+      className: "text-center bg-none",
+      infinite: true,
+      centerMode: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      adaptiveHeight: true,
+      style:{
+        minHeight:"65vh"
+      }
+    }}>
+          <div className="bg-light w-100 p-2"
+          style={{
+            minHeight:"65vh"
+          }}>
+          
+          </div>
           <div>
-            Hello
+            <h3>2</h3>
+          </div>
+          <div>
+            <h3>3</h3>
+          </div>
+          <div>
+            <h3>4</h3>
+          </div>
+          <div>
+            <h3>5</h3>
+          </div>
+          <div>
+            <h3>6</h3>
           </div>
         </Slider>
 
