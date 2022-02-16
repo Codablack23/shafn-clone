@@ -4,7 +4,7 @@ import ContainerDefault from "~/components/layouts/ContainerDefault";
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import { Modal, notification } from "antd";
+import { Modal, notification, Progress } from "antd";
 import { toggleDrawerMenu } from "~/store/app/action";
 import Router from "next/router";
 import { CompatSource } from "webpack-sources";
@@ -18,27 +18,80 @@ const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
 });
 
+let short_buttonList = [
+  [
+    "undo",
+    "redo",
+    "font",
+    "blockquote",
+    "bold",
+    "underline",
+    "italic",
+    "strike",
+    "subscript",
+    "superscript",
+    "fontColor",
+    "hiliteColor",
+    "textStyle",
+    "fullScreen",
+  ],
+];
+
+let buttonList = [
+  [
+    "undo",
+    "redo",
+    "font",
+    "fontSize",
+    "formatBlock",
+    "paragraphStyle",
+    "blockquote",
+    "bold",
+    "underline",
+    "italic",
+    "strike",
+    "subscript",
+    "superscript",
+    "fontColor",
+    "hiliteColor",
+    "textStyle",
+    "removeFormat",
+    "outdent",
+    "indent",
+    "align",
+    "horizontalRule",
+    "list",
+    "lineHeight",
+    "fullScreen",
+  ],
+];
+
 const EditProductPage = ({ pid }) => {
   const dispatch = useDispatch();
 
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [discountedPrice, setDiscountedPrice] = useState("");
-  const [shortDescription, setShortDescription] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [type, setType] = useState("simple");
-  const [downloadable, setDownloadable] = useState(false);
-  const [virtual, setVirtual] = useState(false);
-  const [qty, setQty] = useState("");
-  const [sku, setSku] = useState("");
-  const [inStock, setInStock] = useState("true");
-  const [manageStock, setManageStock] = useState(false);
-  const [soldIndividually, setSoldIndividually] = useState(false);
-  const [tags, setTags] = useState([]);
+  const [product, setProduct] = useState({
+    name: "",
+    attributes: [],
+    price: "",
+    regular_price: "",
+    sale_price: "",
+    short_description: "",
+    description: "",
+    variations: [],
+    categories: "",
+    stock_quantity: 0,
+    sku: "",
+    in_stock: false,
+    downloadable: false,
+    virtual: false,
+    images: [],
+    manage_stock: false,
+    sold_individually: false,
+    type: "simple",
+  });
+
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
-  const [imagesToUpload, setImagesToUpload] = useState([]);
   const [attributes, setAttributes] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
   const [color, setColor] = useColor("hex", "#aabbcc");
@@ -47,6 +100,208 @@ const EditProductPage = ({ pid }) => {
   const [variations, setVariations] = useState([]);
   const [variation, setVariation] = useState({});
   const [singleVariation, setSingleVariation] = useState("single");
+
+  const [videoUrl, setVideoUrl] = useState("");
+
+  const [isPriceValid, setIsPriceValid] = useState(true);
+  const [uploading, setUploading] = useState({
+    status: "",
+    progress: 0,
+  });
+
+  const handleInputChange = (e) => {
+    let name = e.target.name;
+    let val = e.target.value;
+    let fieldNames = [
+      "regular_price",
+      "price",
+      "stock_quantity",
+      "downloadable",
+      "virtual",
+      "manage_stock",
+      "sold_individually",
+      "categories",
+    ];
+    if (name === "regular_price" && !isNaN(val)) {
+      setProduct((current) => ({ ...current, [name]: val }));
+    }
+
+    if (name === "price" && !isNaN(val)) {
+      if (Number(val) >= Number(product.regular_price)) {
+        setIsPriceValid(false);
+        setTimeout(() => {
+          setIsPriceValid(true);
+        }, 4000);
+      } else {
+        setProduct((current) => ({ ...current, [name]: val }));
+      }
+    }
+
+    if (name === "stock_quantity" && Number.isInteger(Number(val))) {
+      setProduct((current) => ({ ...current, [name]: val }));
+    }
+
+    if (
+      name === "downloadable" ||
+      name === "virtual" ||
+      name === "manage_stock" ||
+      name === "sold_individually"
+    ) {
+      setProduct((current) => ({ ...current, [name]: !current[name] }));
+    }
+
+    if (name === "categories") {
+      setProduct((current) => ({ ...current, [name]: [{ id: val }] }));
+    }
+
+    if (!fieldNames.includes(name)) {
+      setProduct((current) => ({ ...current, [name]: val }));
+    }
+  };
+
+  const imageHandler = (e) => {
+    e.persist();
+
+    let image = e.target.files[0];
+    let type = image.type.split("/").pop();
+
+    if (image) {
+      if (
+        type === "jpeg" ||
+        type === "jpg" ||
+        type === "png" ||
+        type === "gif"
+      ) {
+        const imgFile = {
+          id: e.target.id,
+          file: e.target.files[0],
+        };
+        setImageFiles((current) =>
+          imgFile.id === "img-1"
+            ? [imgFile, ...current]
+            : current.concat(imgFile)
+        );
+
+        const img = {
+          id: e.target.id,
+          url: URL.createObjectURL(e.target.files[0]),
+        };
+
+        setSelectedImages((current) => current.concat(img));
+
+        URL.revokeObjectURL(e.target.files[0]);
+      } else {
+        notification["error"]({
+          message: "Invalid image type!",
+          description: "Image must be a jpg, png or gif",
+        });
+      }
+    }
+  };
+
+  const removeImage = (id) => {
+    setSelectedImages((current) => current.filter((img) => img.id !== id));
+    setImageFiles((current) => current.filter((img) => img.id !== id));
+  };
+
+  const renderVideo = () => (
+    <div style={{ width: 200, height: 200 }}>
+      {!videoUrl ? (
+        <>
+          <input id="video" type="file" accept="video/*" required hidden />
+          <label
+            htmlFor="video"
+            className="btn border btn-lg"
+            style={{
+              paddingTop: 12,
+              padding: "3%",
+              backgroundColor: "#ededed",
+            }}
+          >
+            <i
+              className="fa fa-file-video-o"
+              style={{ fontSize: 38 }}
+              aria-hidden="true"
+            ></i>
+            <br />
+            <br />
+            <span>Add A Video</span>
+          </label>
+        </>
+      ) : (
+        <>
+          <video
+            id="video"
+            src={videoUrl}
+            controls
+            width="200px"
+            height="200px"
+          />
+
+          <button>Delete video</button>
+        </>
+      )}
+    </div>
+  );
+
+  const renderProductImages = (num) => {
+    return Array(num)
+      .fill("")
+      .map((el, i) => {
+        let image = selectedImages.find((img) => img.id === `img-${i + 1}`);
+
+        return (
+          <div key={i} style={{ width: 200, height: 200 }}>
+            {image === undefined ? (
+              <div>
+                <input
+                  id={`img-${i + 1}`}
+                  type="file"
+                  accept="image/*"
+                  required
+                  hidden
+                  onChange={imageHandler}
+                />
+                <label
+                  htmlFor={`img-${i + 1}`}
+                  className="btn border btn-lg"
+                  style={{
+                    paddingTop: 12,
+                    padding: "3%",
+                    backgroundColor: "#ededed",
+                  }}
+                >
+                  {i === 0 ? <p>Primary</p> : null}
+                  <i
+                    className="fa fa-file-image-o "
+                    style={{ fontSize: 38 }}
+                    aria-hidden="true"
+                  ></i>
+                  <br />
+                  <br />
+                  <span>Add A Photo</span>
+                </label>
+              </div>
+            ) : (
+              <div
+                key={image.id}
+                style={{ position: "relative", width: "100%", height: "100%" }}
+              >
+                <img src={image.url} style={styles.image} />
+
+                <div
+                  className="ps-btn ps-btn--sm"
+                  style={styles.imageDel}
+                  onClick={() => removeImage(image.id)}
+                >
+                  x
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      });
+  };
 
   // variations Logic
   const addVariations = (varType) => {
@@ -285,69 +540,6 @@ const EditProductPage = ({ pid }) => {
   };
   // end of variation Logic
 
-  const imageHandler = (e) => {
-    //Display Image
-    e.persist();
-    if (e.target.files) {
-      setImageFiles((current) => [...current, ...e.target.files]);
-
-      const imgArr = Array.from(e.target.files).map((img) => ({
-        name: img.name,
-        src: URL.createObjectURL(img),
-      }));
-
-      setSelectedImages((current) => current.concat(imgArr));
-
-      Array.from(e.target.files).map((img) => URL.revokeObjectURL(img));
-    }
-
-    console.log(imageFiles);
-    console.log(selectedImages);
-  };
-
-  const uploadImages = (config) => {
-    let images = [];
-    if (imageFiles.length === 0) {
-      uploadProduct(config, images);
-    } else {
-      imageFiles.forEach((img, index) => {
-        let formData = new FormData();
-
-        formData.append("file", img);
-
-        axios
-          .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
-          .then((res) => {
-            images.push({ src: res.data.source_url });
-          })
-          .catch((err) => {
-            return;
-          })
-          .finally(() => {
-            //  Check if last image has been reached
-            if (index === imageFiles.length - 1) {
-              // Check if every image uploaded
-              if (images.length === imageFiles.length) {
-                uploadProduct(config, images);
-              } else {
-                setIsUploading(false);
-                notification["error"]({
-                  message:
-                    "Some images did not upload!. Check your data connection and try again.",
-                });
-              }
-            }
-          });
-      });
-    }
-  };
-
-  const removeImage = (name) => {
-    setSelectedImages((current) => current.filter((img) => img.name !== name));
-    setImageFiles((current) => current.filter((img) => img.name !== name));
-    setImagesToUpload((current) => current.filter((img) => img.name !== name));
-  };
-
   const addAttr = () => {
     if (attr) {
       setAttributes((current) => {
@@ -365,22 +557,6 @@ const EditProductPage = ({ pid }) => {
 
       setAttr("");
     }
-  };
-
-  const renderImages = () => {
-    return selectedImages.map((img, index) => (
-      <div key={img.src} style={styles.imageContainer}>
-        <img src={img.src} style={styles.image} />
-
-        <div
-          className="ps-btn ps-btn--sm"
-          style={styles.imageDel}
-          onClick={removeImage.bind(this, img.name)}
-        >
-          x
-        </div>
-      </div>
-    ));
   };
 
   const renderAttributes = () => {
@@ -590,38 +766,107 @@ const EditProductPage = ({ pid }) => {
         });
       });
   };
-  const uploadProduct = (config, images) => {
-    let slug = `${name
+
+  const uploadImages = () => {
+    let auth_token = localStorage.getItem("auth_token");
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+      onUploadProgress: (progressEvent) => {
+        const percent = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+
+        setUploading({
+          status: "Uploading Images",
+          progress: percent,
+        });
+      },
+    };
+
+    let images = [];
+    let imgFiles = imageFiles.map((img) => img.file);
+
+    imgFiles.forEach((file, index, arr) => {
+      // Check if it's an already uploaded image
+
+      if (typeof file === "string") {
+        images.push({ src: file, position: index });
+        if (images.length === imageFiles.length) {
+          editProduct(images);
+        }
+      } else {
+        let formData = new FormData();
+
+        formData.append("file", file);
+
+        axios
+          .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
+          .then((res) => {
+            images.push({ src: res.data.source_url, position: index });
+
+            if (images.length === imageFiles.length) {
+              editProduct(images);
+            }
+          })
+          .catch((err) => {
+            arr.length = index + 1;
+            notification["error"]({
+              message:
+                "Some images did not upload!. Check your data connection and try again.",
+            });
+
+            setUploading({
+              status: "",
+              progress: 0,
+            });
+          });
+      }
+    });
+  };
+
+  const editProduct = (images) => {
+    let auth_token = localStorage.getItem("auth_token");
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+      onUploadProgress: (progressEvent) => {
+        const percent = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+
+        setUploading({
+          status: "Uploading Product",
+          progress: percent,
+        });
+      },
+    };
+
+    let slug = `${product.name
       .replace(/[^a-zA-Z0-9-_]/g, " ")
       .replace(/  +/g, " ")
       .split(" ")
       .join("-")}`.trim();
 
-    const product = {
-      name,
+    let in_stock = product.in_stock === true || product.in_stock === "true";
+
+    const productData = {
+      ...product,
       slug,
-      attributes,
-      price: discountedPrice.trim() || price.trim(),
-      regular_price: price.trim(),
-      sale_price: discountedPrice.trim(),
-      short_description: shortDescription,
-      description,
-      variations: variations.map((v) => v.id),
-      categories: category,
-      stock_quantity: qty,
-      sku,
-      in_stock: inStock === true || inStock === "true" ? true : false,
-      downloadable,
-      virtual,
-      images: imagesToUpload.concat(images),
-      manage_stock: manageStock,
-      sold_individually: soldIndividually,
-      type,
+      images,
+      in_stock,
+      price: product.price || product.regular_price,
+      stock_quantity: !in_stock ? 0 : Number(product.stock_quantity),
+      // attributes,
+      // variations: variations.map((v) => v.id),
     };
-    console.log(product);
 
     axios
-      .put(`${WPDomain}/wp-json/dokan/v1/products/${pid}`, product, config)
+      .put(`${WPDomain}/wp-json/dokan/v1/products/${pid}`, productData, config)
       .then((res) => {
         notification["success"]({
           message: "Product Updated Successfully",
@@ -637,20 +882,45 @@ const EditProductPage = ({ pid }) => {
       });
   };
 
+  const validateInputs = () => {
+    if (!product.name) return "Product Name is required!";
+    if (!product.regular_price) return "Sale Price is required!";
+    if (Number(product.price) > Number(product.regular_price)) {
+      setIsPriceValid(false);
+      setTimeout(() => {
+        setIsPriceValid(true);
+      }, 4000);
+      return "Discounted Price must be less than the Sale Price";
+    }
+    if (product.category === "") return "Category is required!";
+
+    let isProductInStock =
+      product.in_stock === true || product.in_stock === "true";
+    if (isProductInStock && Number(product.stock_quantity) <= 0)
+      return "Sale Quantity must be greater than 0";
+    if (!product.short_description) return "Short Description is required!";
+
+    let isPrimaryImageSelected = imageFiles
+      .map((el) => el.id)
+      .includes("img-1");
+    if (!isPrimaryImageSelected) return "Primary Image is required!";
+
+    return "VALID";
+  };
+
   const handleOnSubmit = (e) => {
     e.preventDefault();
 
-    setIsUploading(true);
+    let result = validateInputs();
 
-    let auth_token = localStorage.getItem("auth_token");
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth_token}`,
-      },
-    };
-
-    uploadImages(config); // product is uploaded in here
+    if (result === "VALID") {
+      setUploading((current) => ({ ...current, status: "Uploading" }));
+      uploadImages(); // product is uploaded in here
+    } else {
+      notification["error"]({
+        message: result,
+      });
+    }
   };
 
   useEffect(() => {
@@ -664,63 +934,24 @@ const EditProductPage = ({ pid }) => {
     };
 
     axios
-      .get(`${WPDomain}/wp-json/dokan/v1/products/${pid}/variations`, config)
-      .then((result) => {
-        let allVariations = result.data;
-        setVariations(allVariations);
+      .get(`${WPDomain}/wp-json/dokan/v1/products/${pid}`, config)
+      .then((res) => {
+        setProduct(res.data);
+
+        let imageFiles = Array.from(res.data.images).map((img, i) => ({
+          id: `img-${i + 1}`,
+          file: img.src,
+        }));
+
+        let selectedImages = Array.from(res.data.images).map((img, i) => ({
+          id: `img-${i + 1}`,
+          url: img.src,
+        }));
+        setImageFiles(imageFiles);
+        setSelectedImages(selectedImages);
       })
       .catch((err) => {
         console.log(err);
-        notification["error"]({
-          message: "Failed to get variations!",
-          description: "Check your data connection and try again.",
-        });
-      });
-
-    axios
-      .get(`${WPDomain}/wp-json/dokan/v1/products/${pid}`, config)
-      .then((res) => {
-        let product = res.data;
-        console.log(product);
-        setName(product.name);
-        setAttributes(product.attributes);
-        setPrice(String(product.regular_price));
-        setDiscountedPrice(String(product.price));
-        setCategory([
-          { id: product.catageories ? product.categories[0].id : "15" },
-        ]);
-        setQty(product.stock_quantity);
-        setType(product.type);
-        setShortDescription(product.description);
-        setDescription(product.short_description);
-        setSku(product.sku);
-        setSelectedImages(product.images);
-        setImagesToUpload(product.images);
-        setDownloadable(product.downloadable);
-        setVirtual(product.virtual);
-        setInStock(product.in_stock);
-        setManageStock(product.manage_stock);
-        setSoldIndividually(product.sold_individually);
-        setDescEditorState(
-          EditorState.createWithContent(
-            ContentState.createFromBlockArray(
-              convertFromHTML(product.description)
-            )
-          )
-        );
-        setShortDescEditor(
-          EditorState.createWithContent(
-            ContentState.createFromBlockArray(
-              convertFromHTML(product.short_description)
-            )
-          )
-        );
-      })
-      .catch((err) => {
-        notification["error"]({
-          message: "Failed to get product!",
-          description: "Check your data connection and try again.",
-        });
       });
 
     dispatch(toggleDrawerMenu(false));
@@ -746,11 +977,12 @@ const EditProductPage = ({ pid }) => {
                         Product Name<sup>*</sup>
                       </label>
                       <input
+                        name="name"
                         className="form-control"
                         type="text"
                         placeholder="Enter product name..."
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={product.name}
+                        onChange={handleInputChange}
                         required
                       />
                     </div>
@@ -763,8 +995,8 @@ const EditProductPage = ({ pid }) => {
                           name="type"
                           className="ps-select"
                           title="type"
-                          value={type}
-                          onChange={(e) => setType(e.target.value)}
+                          value={product.type}
+                          onChange={handleInputChange}
                         >
                           <option value="simple">Simple</option>
                           <option value="variable">Variable</option>
@@ -774,14 +1006,12 @@ const EditProductPage = ({ pid }) => {
                     <div className="form-group">
                       <div className="ps-checkbox">
                         <input
-                          checked={downloadable}
+                          checked={product.downloadable}
                           className="form-control"
                           type="checkbox"
                           id="downloadable"
                           name="downloadable"
-                          onChange={() =>
-                            setDownloadable((current) => !current)
-                          }
+                          onChange={handleInputChange}
                         />
                         <label
                           htmlFor="downloadable"
@@ -794,12 +1024,12 @@ const EditProductPage = ({ pid }) => {
                     <div className="form-group">
                       <div className="ps-checkbox">
                         <input
-                          checked={virtual}
+                          checked={product.virtual}
                           className="form-control"
                           type="checkbox"
                           id="virtual"
                           name="virtual"
-                          onChange={() => setVirtual((current) => !current)}
+                          onChange={handleInputChange}
                         />
                         <label htmlFor="virtual" style={{ color: "black" }}>
                           Virtual
@@ -812,12 +1042,11 @@ const EditProductPage = ({ pid }) => {
                         Sale Price<sup>*</sup>
                       </label>
                       <input
-                        name="regualar_price"
+                        name="regular_price"
                         className="form-control"
                         type="text"
-                        placeholder=""
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
+                        value={product.regular_price}
+                        onChange={handleInputChange}
                         required
                       />
                     </div>
@@ -829,10 +1058,12 @@ const EditProductPage = ({ pid }) => {
                         name="price"
                         className="form-control"
                         type="text"
-                        placeholder=""
-                        value={discountedPrice}
-                        onChange={(e) => setDiscountedPrice(e.target.value)}
+                        value={product.price}
+                        onChange={handleInputChange}
                       />
+                      <p style={{ color: "red" }} hidden={isPriceValid}>
+                        Discounted price must be less than the Sale price
+                      </p>
                     </div>
                     <div className="form-group form-group--select">
                       <label>
@@ -843,10 +1074,8 @@ const EditProductPage = ({ pid }) => {
                           name="categories"
                           className="ps-select"
                           title="Category"
-                          value={category && category[0].id}
-                          onChange={(e) =>
-                            setCategory([{ id: e.target.value }])
-                          }
+                          value={product.categories && product.categories[0].id}
+                          onChange={handleInputChange}
                         >
                           <option value="">Select a category</option>
                           <option value="17">Accessories</option>
@@ -875,11 +1104,10 @@ const EditProductPage = ({ pid }) => {
                       <input
                         name="stock_quantity"
                         className="form-control"
-                        type="number"
-                        placeholder=""
+                        type="text"
                         required
-                        value={qty}
-                        onChange={(e) => setQty(e.target.value)}
+                        value={product.stock_quantity}
+                        onChange={handleInputChange}
                       />
                     </div>
 
@@ -887,61 +1115,67 @@ const EditProductPage = ({ pid }) => {
                       <label>
                         Short Description<sup>*</sup>
                       </label>
-                      <input
-                        required
-                        className="form-control"
-                        type="text"
-                        onChange={(e) => setShortDescription(e.target.value)}
-                      />
+
+                      {product.short_description && (
+                        <SunEditor
+                          height="100px"
+                          defaultValue={product.short_description}
+                          setOptions={{
+                            buttonList: short_buttonList,
+                            maxCharCount: 100,
+                          }}
+                          onChange={(val) =>
+                            handleInputChange({
+                              target: {
+                                name: "short_description",
+                                value: val,
+                              },
+                            })
+                          }
+                        />
+                      )}
                     </div>
 
                     <div className="form-group">
                       <label>
                         Product Description<sup>*</sup>
                       </label>
-                      <SunEditor
-                        height="200px"
-                        defaultValue={description}
-                        onChange={(val) => setDescription(val)}
-                      />
+
+                      {product.short_description && (
+                        <SunEditor
+                          height="200px"
+                          defaultValue={product.description}
+                          setOptions={{
+                            buttonList,
+                          }}
+                          onChange={(val) =>
+                            handleInputChange({
+                              target: {
+                                name: "description",
+                                value: val,
+                              },
+                            })
+                          }
+                        />
+                      )}
                     </div>
                   </div>
                 </figure>
+              </div>
+              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                 <figure className="ps-block--form-box">
                   <figcaption>Product Images</figcaption>
                   <div className="ps-block__content">
                     <div className="form-group">
                       <div className="form-group--nest">
-                        <input
-                          id="image-picker"
-                          type="file"
-                          accept="image/*"
-                          onChange={imageHandler}
-                          required
-                          multiple
-                          hidden
-                        />
-                        <label
-                          htmlFor="image-picker"
-                          className="btn border border-light btn-lg"
-                          style={{ paddingTop: 12, padding: "3%" }}
-                        >
-                          <i
-                            className="fa fa-file-image-o"
-                            style={{ fontSize: 38 }}
-                            aria-hidden="true"
-                          ></i>
-                          <br />
-                          <span>Add image</span>
-                        </label>
+                        {renderProductImages(3)}
                       </div>
                     </div>
 
-                    <div style={styles.imagesWrapper}>{renderImages()}</div>
+                    {/* <div style={styles.imagesWrapper}>{renderImages()}</div> */}
                   </div>
                 </figure>
-              </div>
-              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+
                 <figure className="ps-block--form-box">
                   <figcaption>Inventory</figcaption>
                   <div className="ps-block__content">
@@ -954,8 +1188,8 @@ const EditProductPage = ({ pid }) => {
                         className="form-control"
                         type="text"
                         placeholder=""
-                        value={sku}
-                        onChange={(e) => setSku(e.target.value)}
+                        value={product.sku}
+                        onChange={handleInputChange}
                       />
                     </div>
                     <div className="form-group form-group--select">
@@ -964,11 +1198,11 @@ const EditProductPage = ({ pid }) => {
                       </label>
                       <div className="form-group__content">
                         <select
-                          name="status"
+                          name="in_stock"
                           className="ps-select"
                           title="Status"
-                          value={String(inStock)}
-                          onChange={(e) => setInStock(e.target.value)}
+                          value={String(product.in_stock)}
+                          onChange={handleInputChange}
                         >
                           <option value="true">In Stock</option>
                           <option value="false">Out of Stock</option>
@@ -978,12 +1212,12 @@ const EditProductPage = ({ pid }) => {
                     <div className="form-group">
                       <div className="ps-checkbox">
                         <input
-                          checked={manageStock}
+                          checked={product.manage_stock}
                           className="form-control"
                           type="checkbox"
                           id="manage_stock"
                           name="manage_stock"
-                          onChange={() => setManageStock((current) => !current)}
+                          onChange={handleInputChange}
                         />
                         <label
                           htmlFor="manage_stock"
@@ -996,14 +1230,12 @@ const EditProductPage = ({ pid }) => {
                     <div className="form-group">
                       <div className="ps-checkbox">
                         <input
-                          checked={soldIndividually}
+                          checked={product.sold_individually}
                           className="form-control"
                           type="checkbox"
                           id="sold_individually"
                           name="sold_individually"
-                          onChange={() =>
-                            setSoldIndividually((current) => !current)
-                          }
+                          onChange={handleInputChange}
                         />
                         <label
                           htmlFor="sold_individually"
@@ -1020,8 +1252,13 @@ const EditProductPage = ({ pid }) => {
                         <input className="form-control" type="text" />
                       </div> */}
                   </div>
+
+                  <div style={{ marginTop: 100 }}>
+                    <p>{uploading.status}</p>
+                    <Progress type="line" percent={uploading.progress} />
+                  </div>
                 </figure>
-                {type === "variable" ? (
+                {/* {type === "variable" ? (
                   <div>
                     <figure className="ps-block--form-box">
                       <figcaption>Attribute and Variation</figcaption>
@@ -1076,9 +1313,9 @@ const EditProductPage = ({ pid }) => {
                             setSingleVariation(e.target.value);
                           }}
                         >
-                          <option value="single">Add Variation</option>
-                          {/* <option value="fromAttributes">Create Variation From All Attributes</option> */}
-                        </select>
+                          <option value="single">Add Variation</option> */}
+                {/* <option value="fromAttributes">Create Variation From All Attributes</option> */}
+                {/* </select>
                         <br />
                         <span
                           className="btn ps-btn btn-lg mt-3"
@@ -1098,7 +1335,7 @@ const EditProductPage = ({ pid }) => {
                       </span>
                     </div>
                   </div>
-                ) : null}
+                ) : null} */}
               </div>
             </div>
           </div>

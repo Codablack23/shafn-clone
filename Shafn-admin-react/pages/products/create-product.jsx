@@ -15,6 +15,54 @@ const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
 });
 
+let short_buttonList = [
+  [
+    "undo",
+    "redo",
+    "font",
+    "blockquote",
+    "bold",
+    "underline",
+    "italic",
+    "strike",
+    "subscript",
+    "superscript",
+    "fontColor",
+    "hiliteColor",
+    "textStyle",
+    "fullScreen",
+  ],
+];
+
+let buttonList = [
+  [
+    "undo",
+    "redo",
+    "font",
+    "fontSize",
+    "formatBlock",
+    "paragraphStyle",
+    "blockquote",
+    "bold",
+    "underline",
+    "italic",
+    "strike",
+    "subscript",
+    "superscript",
+    "fontColor",
+    "hiliteColor",
+    "textStyle",
+    "removeFormat",
+    "outdent",
+    "indent",
+    "align",
+    "horizontalRule",
+    "list",
+    "lineHeight",
+    "fullScreen",
+  ],
+];
+
 const CreateProductPage = () => {
   const dispatch = useDispatch();
 
@@ -42,6 +90,29 @@ const CreateProductPage = () => {
     status: "",
     progress: 0,
   });
+
+  const handleInputChange = (e) => {
+    let name = e.target.name;
+    let val = e.target.value;
+    if (name === "regular_price" && !isNaN(val)) {
+      setPrice(val);
+    }
+
+    if (name === "price" && !isNaN(val)) {
+      if (Number(val) >= Number(price)) {
+        setIsPriceValid(false);
+        setTimeout(() => {
+          setIsPriceValid(true);
+        }, 4000);
+      } else {
+        setDiscountedPrice(val);
+      }
+    }
+
+    if (name === "stock_quantity" && Number.isInteger(Number(val))) {
+      setQty(Number(val));
+    }
+  };
 
   const videoHandler = (e) => {
     e.persist();
@@ -82,23 +153,40 @@ const CreateProductPage = () => {
   const imageHandler = (e) => {
     e.persist();
 
-    if (e.target.accept === "image/*" && e.target.files[0]) {
-      const imgFile = {
-        id: e.target.id,
-        img: e.target.files[0],
-      };
-      setImageFiles((current) =>
-        imgFile.id === "img-1" ? [imgFile, ...current] : current.concat(imgFile)
-      );
+    let image = e.target.files[0];
+    let type = image.type.split("/").pop();
 
-      const img = {
-        id: e.target.id,
-        url: URL.createObjectURL(e.target.files[0]),
-      };
+    if (image) {
+      if (
+        type === "jpeg" ||
+        type === "jpg" ||
+        type === "png" ||
+        type === "gif"
+      ) {
+        const imgFile = {
+          id: e.target.id,
+          file: image,
+        };
+        setImageFiles((current) =>
+          imgFile.id === "img-1"
+            ? [imgFile, ...current]
+            : current.concat(imgFile)
+        );
 
-      setSelectedImages((current) => current.concat(img));
+        const img = {
+          id: e.target.id,
+          url: URL.createObjectURL(image),
+        };
 
-      URL.revokeObjectURL(e.target.files[0]);
+        setSelectedImages((current) => current.concat(img));
+
+        URL.revokeObjectURL(image);
+      } else {
+        notification["error"]({
+          message: "Invalid image type!",
+          description: "Image must be a jpg, png or gif",
+        });
+      }
     }
   };
 
@@ -110,6 +198,53 @@ const CreateProductPage = () => {
     setSelectedImages((current) => current.filter((img) => img.id !== id));
     setImageFiles((current) => current.filter((img) => img.id !== id));
   };
+
+  const renderVideo = () => (
+    <div style={{ width: 200, height: 200 }}>
+      {!videoUrl ? (
+        <>
+          <input
+            id="video"
+            type="file"
+            accept="video/*"
+            onChange={videoHandler}
+            required
+            hidden
+          />
+          <label
+            htmlFor="video"
+            className="btn border btn-lg"
+            style={{
+              paddingTop: 12,
+              padding: "3%",
+              backgroundColor: "#ededed",
+            }}
+          >
+            <i
+              className="fa fa-file-video-o"
+              style={{ fontSize: 38 }}
+              aria-hidden="true"
+            ></i>
+            <br />
+            <br />
+            <span>Add A Video</span>
+          </label>
+        </>
+      ) : (
+        <>
+          <video
+            id="video"
+            src={videoUrl}
+            controls
+            width="200px"
+            height="200px"
+          />
+
+          <button onClick={removeVideo}>Delete video</button>
+        </>
+      )}
+    </div>
+  );
 
   const renderProductImages = (num) => {
     return Array(num)
@@ -127,7 +262,6 @@ const CreateProductPage = () => {
                   accept="image/*"
                   onChange={imageHandler}
                   required
-                  multiple
                   hidden
                 />
                 <label
@@ -233,12 +367,12 @@ const CreateProductPage = () => {
     };
 
     let images = [];
-    let imgFiles = imageFiles.map((img) => img.img);
+    let imgFiles = imageFiles.map((img) => img.file);
 
-    imgFiles.forEach((img, index, arr) => {
+    imgFiles.forEach((file, index, arr) => {
       let formData = new FormData();
 
-      formData.append("file", img);
+      formData.append("file", file);
 
       axios
         .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
@@ -246,7 +380,7 @@ const CreateProductPage = () => {
           images.push({ src: res.data.source_url, position: index });
 
           if (images.length === imageFiles.length) {
-            uploadProduct(images, video);
+            createProduct(images, video);
           }
         })
         .catch((err) => {
@@ -264,8 +398,7 @@ const CreateProductPage = () => {
     });
   };
 
-  const uploadProduct = (images = [], video) => {
-    console.log("Uploading Product...");
+  const createProduct = (images = [], video) => {
     let auth_token = localStorage.getItem("auth_token");
 
     const config = {
@@ -299,11 +432,12 @@ const CreateProductPage = () => {
       short_description: shortDescription.trim(),
       description: description.trim(),
       categories: category,
-      stock_quantity: Number(qty.trim()),
+      stock_quantity: qty,
       sku,
+      manage_stock: true,
       images,
-      external_url: video,
-      tags: tags.replace(/  +/g, " ").split(" "),
+      external_url: video, // TO-DO: To be removed
+      // tags: tags.toLowerCase().replace(/  +/g, " ").split(" "),
     };
 
     // Upload Product
@@ -313,7 +447,10 @@ const CreateProductPage = () => {
         notification["success"]({
           message: "Product Uploaded Successfully",
         });
-        Router.reload(window.location.pathname);
+
+        setTimeout(() => {
+          Router.reload(window.location.pathname);
+        }, 1500);
       })
       .catch((err) => {
         notification["error"]({
@@ -332,36 +469,28 @@ const CreateProductPage = () => {
   };
 
   const validateInputs = () => {
-    return new Promise((resolve, reject) => {
-      if (name) {
-        if (price) {
-          if (category !== "") {
-            if (qty > 0) {
-              if (shortDescription) {
-                if (imageFiles.map((el) => el.id).includes("img-1")) {
-                  resolve(true);
-                } else {
-                  reject("Primary Image is required!");
-                }
-              } else {
-                reject("Short Description is required!");
-              }
-            } else {
-              reject("Sale Quantity must be 1 or more");
-            }
-          } else {
-            reject("Category is required!");
-          }
-        } else {
-          reject("Sale Price is required!");
-        }
-      } else {
-        reject("Product Name is required!");
-      }
-    });
+    if (!name) return "Product Name is required!";
+    if (!price) return "Sale Price is required!";
+    if (Number(discountedPrice) > Number(price)) {
+      setIsPriceValid(false);
+      setTimeout(() => {
+        setIsPriceValid(true);
+      }, 4000);
+      return "Discounted Price must be less than the Sale Price";
+    }
+    if (category === "") return "Category is required!";
+    if (Number(qty) <= 0) return "Sale Quantity must be greater than 0";
+    if (!shortDescription) return "Short Description is required!";
+
+    let isPrimaryImageSelected = imageFiles
+      .map((el) => el.id)
+      .includes("img-1");
+    if (!isPrimaryImageSelected) return "Primary Image is required!";
+
+    return "VALID";
   };
 
-  const handleOnSubmit = async (e) => {
+  const handleOnSubmit = (e) => {
     e.preventDefault();
 
     const upload = () => {
@@ -374,39 +503,14 @@ const CreateProductPage = () => {
       }
     };
 
-    try {
-      let isValid = await validateInputs();
+    let result = validateInputs();
 
-      if (isValid) {
-        upload();
-      }
-    } catch (err) {
+    if (result === "VALID") {
+      upload();
+    } else {
       notification["error"]({
-        message: err,
+        message: result,
       });
-    }
-  };
-
-  const handleInputChange = (e) => {
-    let name = e.target.name;
-    let val = e.target.value;
-    if (name === "regular_price" && isNaN(val) === false) {
-      setPrice(val);
-    }
-
-    if (name === "price" && isNaN(val) === false) {
-      if (Number(val) >= Number(price)) {
-        setIsPriceValid(false);
-        setTimeout(() => {
-          setIsPriceValid(true);
-        }, 4000);
-      } else {
-        setDiscountedPrice(val);
-      }
-    }
-
-    if (name === "stock_quantity" && isNaN(val) === false) {
-      setQty(val);
     }
   };
 
@@ -461,6 +565,7 @@ const CreateProductPage = () => {
                         Product Name<sup>*</sup>
                       </label>
                       <input
+                        name="name"
                         className="form-control"
                         type="text"
                         value={name}
@@ -516,7 +621,7 @@ const CreateProductPage = () => {
                         onChange={handleInputChange}
                       />
                       <p style={{ color: "red" }} hidden={isPriceValid}>
-                        Discounted price must be less than the sale price
+                        Discounted Price must be less than the Sale Price
                       </p>
                     </div>
                     <div className="form-group form-group--select">
@@ -572,12 +677,13 @@ const CreateProductPage = () => {
                       <label>
                         Short Description<sup>*</sup>
                       </label>
-                      <input
-                        required
-                        className="form-control"
-                        type="text"
-                        maxLength={100}
-                        onChange={(e) => setShortDescription(e.target.value)}
+                      <SunEditor
+                        height="100px"
+                        onChange={(val) => setShortDescription(val)}
+                        setOptions={{
+                          buttonList: short_buttonList,
+                          maxCharCount: 100,
+                        }}
                       />
                     </div>
 
@@ -588,6 +694,9 @@ const CreateProductPage = () => {
                       <SunEditor
                         height="200px"
                         onChange={(val) => setDescription(val)}
+                        setOptions={{
+                          buttonList,
+                        }}
                       />
                     </div>
                   </div>
@@ -599,56 +708,8 @@ const CreateProductPage = () => {
                   <div className="ps-block__content">
                     <div className="form-group">
                       <div className="form-group--nest">
-                        {/* Video */}
+                        {renderVideo()}
 
-                        <div style={{ width: 200, height: 200 }}>
-                          {!videoUrl ? (
-                            <>
-                              <input
-                                id="video"
-                                type="file"
-                                accept="video/*"
-                                onChange={videoHandler}
-                                required
-                                multiple
-                                hidden
-                              />
-                              <label
-                                htmlFor="video"
-                                className="btn border btn-lg"
-                                style={{
-                                  paddingTop: 12,
-                                  padding: "3%",
-                                  backgroundColor: "#ededed",
-                                }}
-                              >
-                                <i
-                                  className="fa fa-file-video-o"
-                                  style={{ fontSize: 38 }}
-                                  aria-hidden="true"
-                                ></i>
-                                <br />
-                                <br />
-                                <span>Add A Video</span>
-                              </label>
-                            </>
-                          ) : (
-                            <>
-                              <video
-                                id="video"
-                                src={videoUrl}
-                                controls
-                                width="200px"
-                                height="200px"
-                              />
-
-                              <button onClick={removeVideo}>
-                                Delete video
-                              </button>
-                            </>
-                          )}
-                        </div>
-                        {/* Images */}
                         {renderProductImages(3)}
                       </div>
                     </div>
@@ -670,7 +731,7 @@ const CreateProductPage = () => {
                       />
                     </div>
 
-                    <div className="form-group">
+                    {/* <div className="form-group">
                       <label>
                         Tags<sup>*</sup>
                       </label>
@@ -678,20 +739,10 @@ const CreateProductPage = () => {
                         name="tags"
                         className="form-control"
                         type="text"
-                        placeholder="E.g. shoe adidas ..."
+                        placeholder="Enter tags as space seperated values e.g. adidas shoes ..."
                         value={tags}
                         onChange={(e) => setTags(e.target.value)}
                       />
-                    </div>
-                    {/* <div className="form-group form-group--select">
-                      <label>Stock Status</label>
-                      <div className="form-group__content">
-                        <select className="ps-select" title="Status">
-                          <option value="1">In stock</option>
-                          <option value="2">Out of stock</option>
-                          <option value="3">On backorder</option>
-                        </select>
-                      </div>
                     </div> */}
                   </div>
 
@@ -700,26 +751,6 @@ const CreateProductPage = () => {
                     <Progress type="line" percent={uploading.progress} />
                   </div>
                 </figure>
-                {/* <figure className="ps-block--form-box">
-                  <figcaption>Meta</figcaption>
-                  <div className="ps-block__content">
-                    <div className="form-group form-group--select">
-                      <label>Brand</label>
-                      <div className="form-group__content">
-                        <select className="ps-select" title="Brand">
-                          <option value="1">Brand 1</option>
-                          <option value="2">Brand 2</option>
-                          <option value="3">Brand 3</option>
-                          <option value="4">Brand 4</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <label>Tags</label>
-                      <input className="form-control" type="text" />
-                    </div>
-                  </div>
-                </figure> */}
               </div>
             </div>
           </div>
