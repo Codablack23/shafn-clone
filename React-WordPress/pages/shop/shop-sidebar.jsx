@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-import BreadCrumb from '~/components/elements/BreadCrumb';
 import { getProductsByCategory } from '~/store/product/action';
 import { WPGetProducts } from '~/store/wp/action';
 
@@ -70,28 +69,9 @@ const WPShopSidebarPage = ({ query }) => {
         };
     }, [dispatch]);
 
-    const breadCrumb = [
-        {
-            text: 'Home',
-            url: '/',
-        },
-        {
-            text: categoryName ? (
-                <span
-                    dangerouslySetInnerHTML={{
-                        __html: `${categoryName}`,
-                    }}
-                />
-            ) : (
-                'Shop'
-            ),
-        },
-    ];
-
     return (
         <WPLayout title="Shop Sidebar">
             <div className="ps-page--shop">
-                <BreadCrumb breacrumb={breadCrumb} />
                 <div className="container">
                     <div className="ps-layout--shop" id="shop-sidebar">
                         <div className="ps-layout__left">
@@ -106,7 +86,7 @@ const WPShopSidebarPage = ({ query }) => {
                                 <h1>Shop Sidebar</h1>
                                 <ShopSidebarBanner />
                             </div>
-                            <WPShopProducts sidebar={true}/>
+                            <WPShopProducts sidebar={true} />
                         </div>
                     </div>
                 </div>

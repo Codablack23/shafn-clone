@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-import BreadCrumb from '~/components/elements/BreadCrumb';
 import { getProductsByCategory } from '~/store/product/action';
 import { WPGetProducts } from '~/store/wp/action';
 import ShopBanner from '~/components/partials/shop/ShopBanner';
@@ -70,42 +69,23 @@ const WPShopDefaultPage = ({ query }) => {
         };
     }, [dispatch]);
 
-    const breadCrumb = [
-        {
-            text: 'Home',
-            url: '/',
-        },
-        {
-            text: categoryName ? (
-                <span
-                    dangerouslySetInnerHTML={{
-                        __html: `${categoryName}`,
-                    }}
-                />
-            ) : (
-                'Shop Default'
-            ),
-        },
-    ];
-
     return (
         <WPLayout title="Shop">
             <div className="ps-page--shop">
-                <BreadCrumb breacrumb={breadCrumb} layout="container"/>
                 <div className="container">
-                    <ShopBanner/>
-                    <ShopBrands/>
-                    <WPShopCategories sidebar={true}/>
+                    <ShopBanner />
+                    <ShopBrands />
+                    <WPShopCategories sidebar={true} />
                     <div className="ps-layout--shop">
                         <div className="ps-layout__left">
                             <WPWidgetCategories
                                 activeID={query && query.category}
                             />
-                            <WPWidgetBrand/>
-                            <WPWidgetFilterByPrices/>
+                            <WPWidgetBrand />
+                            <WPWidgetFilterByPrices />
                         </div>
                         <div className="ps-layout__right">
-                            <WPShopProducts sidebar={true}/>
+                            <WPShopProducts sidebar={true} />
                         </div>
                     </div>
                 </div>

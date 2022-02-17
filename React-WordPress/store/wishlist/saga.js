@@ -6,14 +6,14 @@ import {
     updateWishlistListSuccess,
 } from './action';
 
-const modalSuccess = type => {
+const modalSuccess = (type) => {
     notification[type]({
         message: 'Added to wishlisht!',
         description: 'This product has been added to wishlist!',
     });
 };
 
-const modalWarning = type => {
+const modalWarning = (type) => {
     notification[type]({
         message: 'Removed from wishlist',
         description: 'This product has been removed from wishlist!',
@@ -39,7 +39,7 @@ function* addItemToWishlistSaga(payload) {
         );
 
         let existItem = localWishlist.wishlistItems.find(
-            item => item.id === product.id
+            (item) => item.id === product.id
         );
 
         if (!existItem) {
@@ -56,10 +56,13 @@ function* addItemToWishlistSaga(payload) {
 function* removeItemWishlistSaga(payload) {
     try {
         const { product } = payload;
+
         let localWishlist = JSON.parse(
             JSON.parse(localStorage.getItem('persist:martfury')).wishlist
         );
-        let index = localWishlist.wishlistItems.indexOf(product);
+        let index = localWishlist.wishlistItems.findIndex(
+            (item) => item.id === product.id
+        );
         localWishlist.wishlistTotal = localWishlist.wishlistTotal - 1;
         let removedwishlist= localWishlist.wishlistItems.filter(item=>item.id != product.id);
         localWishlist.wishlistItems = removedwishlist

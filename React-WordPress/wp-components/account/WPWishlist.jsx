@@ -15,8 +15,13 @@ class WPWishlist extends Component {
 
     handleRemoveWishListItem = (e, product) => {
         e.preventDefault();
+
         this.props.dispatch(removeWishlistItem(product));
     };
+
+    // call = (product) => {
+    //     this.props.dispatch(removeWishlistItem(product));
+    // };
 
     render() {
         const { wishlistItems } = this.props;
@@ -57,6 +62,7 @@ class WPWishlist extends Component {
                     </td>
                 </tr>
             ));
+
             wishlistView = (
                 <div className="table-responsive">
                     <table className="table ps-table--whishlist">
