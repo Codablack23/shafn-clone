@@ -61,7 +61,8 @@ function* removeItemWishlistSaga(payload) {
         );
         let index = localWishlist.wishlistItems.indexOf(product);
         localWishlist.wishlistTotal = localWishlist.wishlistTotal - 1;
-        localWishlist.wishlistItems.splice(index, 1);
+        let removedwishlist= localWishlist.wishlistItems.filter(item=>item.id != product.id);
+        localWishlist.wishlistItems = removedwishlist
         yield put(updateWishlistListSuccess(localWishlist));
         modalWarning('warning');
     } catch (err) {

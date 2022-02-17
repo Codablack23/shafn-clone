@@ -118,7 +118,7 @@ const WPModuleProductInformation = ({
                 <div className="w-100 w3-center m-auto">
                 <figure>
                     <figcaption>Quantity</figcaption>
-                    <div className="form-group--number rounded-pill border-none 0 w3-light-grey w3-center" style={{width:"90%",border:"none"}}>
+                    <div className="form-group--number rounded-pill border-none 0 w3-light-grey w3-center" style={{width:"300px",border:"none"}}>
                         <button className="up" onClick={handleIncreaseItemQty}>
                             <i className="fa fa-plus"></i>
                         </button>
@@ -139,7 +139,7 @@ const WPModuleProductInformation = ({
                  </div>
                 <div className="w3-center mt-2 d-none d-lg-block">
                 <Button 
-                  width={"90%"}
+                  width={"300px"}
                   classes={`w3-0309A5 btn-hover`}
                   hoverColor="white"
                   eventHandler={handleAddItemToCart}
@@ -155,7 +155,7 @@ const WPModuleProductInformation = ({
                 <Link href="/account/checkout">
                     
                 <Button 
-                  width={"90%"}
+                  width={"300px"}
                   classes={`w3-orange btn-hover`}
                   eventHandler={handleAddToCheckoutItems}
                   text="Buy Now"

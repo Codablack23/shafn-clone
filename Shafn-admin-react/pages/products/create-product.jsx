@@ -10,7 +10,7 @@ import Slider from "react-slick";
 import { toggleDrawerMenu } from "~/store/app/action";
 import { WPDomain } from "~/repositories/Repository";
 import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
-
+import { CustomModal,CustomSlider } from "~/components/elements/custom/index";
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
 });
@@ -42,15 +42,7 @@ const CreateProductPage = () => {
     status: "",
     progress: 0,
   });
-  
-  const settings = {
-    className: "center",
-    centerMode: true,
-    infinite: true,
-    centerPadding: "60px",
-    slidesToShow: 1,
-    speed: 500
-  };
+  const [imgId,setImgId]=useState('')
   const videoHandler = (e) => {
     e.persist();
 
@@ -170,16 +162,20 @@ const CreateProductPage = () => {
                    height: "100%",
                    margin:"2% auto"
                   }}
-                onClick={() => setViewProducts(true)}
+                onClick={() => {setViewProducts(true); setImgId(image.id)}}
               >
-                <img src={image.url} style={styles.image} />
+                <img src={image.url} style={{...styles.image}} />
 
                 <div
-                  className="ps-btn ps-btn--sm"
+                  className="btn fw-5"
                   style={styles.imageDel}
                   onClick={removeImage.bind(this, image.id)}
                 >
-                  x
+                <i
+                 style={{
+                  fontSize:18
+                }}
+                className="bi bi-trash text-danger"></i>
                 </div>
               </div>
             )}
@@ -821,55 +817,16 @@ const CreateProductPage = () => {
       </section>
 
       {/* Products Viewer */}
-      <Modal
-        centered
-        bodyStyle={{
-          height:"65vh"
-        }}
-        visible={viewProducts}
-        wrapClassName="bg-none p-2"
-        onCancel={() => setViewProducts((current) => !current)}
-        okButtonProps={{ hidden: true }}
-        cancelButtonProps={{ hidden: true }}
-        width={"65%"}
+      <CustomModal
+      isOpen={viewProducts}
+      toggleModal={()=>{setViewProducts(current=>!current)}}
       >
-     <Slider {...{
-      dots: true,
-      className: "text-center bg-none",
-      infinite: true,
-      centerMode: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      adaptiveHeight: true,
-      style:{
-        minHeight:"65vh"
-      }
-    }}>
-          <div className="bg-light w-100 p-2"
-          style={{
-            minHeight:"65vh"
-          }}>
-          
-          </div>
-          <div>
-            <h3>2</h3>
-          </div>
-          <div>
-            <h3>3</h3>
-          </div>
-          <div>
-            <h3>4</h3>
-          </div>
-          <div>
-            <h3>5</h3>
-          </div>
-          <div>
-            <h3>6</h3>
-          </div>
-        </Slider>
-
-      </Modal>
+       <CustomSlider
+       images={selectedImages}
+       imgIndex={imgId}
+       video={videoUrl}
+       />
+      </CustomModal>
     </ContainerDefault>
   );
 };
@@ -889,11 +846,15 @@ let styles = {
     marginBottom: 10,
     position: "relative",
   },
-  image: { width: 200, maxHeight: 300 },
+  image: {
+     width: 200,
+     maxHeight: "20vh",
+     objectFit:"cover"
+     },
   imageDel: {
     position: "absolute",
     fontSize: 15,
-    top: 5,
+    bottom: 5,
     right: 5,
     width: 10,
     height: 30,
