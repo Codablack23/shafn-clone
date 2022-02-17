@@ -37,9 +37,9 @@ const TableProjectItems = () => {
         </td>
         <td>
           <p className="ps-item-categories">
-            {item.categories.map((cat) => (
-              <a href="#" key={cat.name}>
-                {cat.name}
+            {item.categories.map((category) => (
+              <a href="#" key={category.name}>
+                {category.name}
               </a>
             ))}
           </p>

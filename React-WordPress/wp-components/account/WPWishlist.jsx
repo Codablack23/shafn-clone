@@ -14,40 +14,48 @@ class WPWishlist extends Component {
 
     handleRemoveWishListItem = (e, product) => {
         e.preventDefault();
+
         this.props.dispatch(removeWishlistItem(product));
     };
+
+    // call = (product) => {
+    //     this.props.dispatch(removeWishlistItem(product));
+    // };
 
     render() {
         const { wishlistItems } = this.props;
         // views
         let wishlistView;
         if (wishlistItems && wishlistItems.length > 0) {
-            const items = wishlistItems.map((product) => (
-                <tr key={product.id}>
-                    <td>
-                        <WPProductCart product={product} />
-                    </td>
-                    <td className="price">${product.price}</td>
-                    <td>{product.store.name}</td>
-                    <td>
-                        <a
-                            className="ps-btn ps-btn--sm mr-2"
-                            href=""
-                            onClick={(e) =>
-                                this.handleAddItemToCart(e, product)
-                            }>
-                            Add to cart
-                        </a>
-                        <a
-                            href="#"
-                            onClick={(e) =>
-                                this.handleRemoveWishListItem(e, product)
-                            }>
-                            <i className="icon-cross"></i>
-                        </a>
-                    </td>
-                </tr>
-            ));
+            const items = wishlistItems.map((product) => {
+                // this.call(product);
+                return (
+                    <tr key={product.id}>
+                        <td>
+                            <WPProductCart product={product} />
+                        </td>
+                        <td className="price">${product.price}</td>
+                        <td>{product.store.name}</td>
+                        <td>
+                            <a
+                                className="ps-btn ps-btn--sm mr-2"
+                                href=""
+                                onClick={(e) =>
+                                    this.handleAddItemToCart(e, product)
+                                }>
+                                Add to cart
+                            </a>
+                            <a
+                                href="#"
+                                onClick={(e) =>
+                                    this.handleRemoveWishListItem(e, product)
+                                }>
+                                <i className="icon-cross"></i>
+                            </a>
+                        </td>
+                    </tr>
+                );
+            });
             wishlistView = (
                 <div className="table-responsive">
                     <table className="table ps-table--whishlist">

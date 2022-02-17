@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import Router, { useRouter } from 'next/router';
-import BreadCrumb from '../../components/elements/BreadCrumb';
 import WPProductDetail from '~/wp-components/elements/products/WPProductDetail';
 import WPProductRepository from '~/repositories/WP/WPProductRepository';
 import WPHeaderProduct from '~/wp-components/shared/headers/WPHeaderProduct';
@@ -82,15 +81,6 @@ const WPProductDetailPage = ({ pid }) => {
 
     // View area
     let productView, headerView;
-    const breadCrumb = [
-        {
-            text: 'Home',
-            url: '/',
-        },
-        {
-            text: product ? product.name : 'loading...',
-        },
-    ];
     if (loading || product === null) {
         headerView = <WPHeaderDefault />;
         productView = <SkeletonProductDetail />;
@@ -107,7 +97,6 @@ const WPProductDetailPage = ({ pid }) => {
     return (
         <WPLayoutProductDetail title={product ? product.name : 'Loading...'}>
             {headerView}
-            <BreadCrumb breacrumb={breadCrumb} layout="fullwidth" />
             <div className="ps-page--product">
                 <div className="ps-container">
                     <div className="ps-page__container">

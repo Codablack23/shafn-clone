@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import BreadCrumb from '~/components/elements/BreadCrumb';
 import { getProductsByCategory } from '~/store/product/action';
 import { WPGetProducts } from '~/store/wp/action';
 import WPProductRepository from '~/repositories/WP/WPProductRepository';
@@ -73,15 +72,6 @@ const WPSearchPage = ({ query }) => {
         getProductResult();
     }, []);
 
-    const breadCrumb = [
-        {
-            text: 'Home',
-            url: '/',
-        },
-        {
-            text: 'Search',
-        },
-    ];
     let producItemView, countProductsView;
 
     if (!loading) {
@@ -112,7 +102,6 @@ const WPSearchPage = ({ query }) => {
     return (
         <WPLayout title="Search Result">
             <div className="ps-page--shop">
-                <BreadCrumb breacrumb={breadCrumb} layout="container" />
                 <div className="container">
                     <section className="ps-search-result">
                         <div className="ps-section__header">

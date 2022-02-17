@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-import BreadCrumb from '~/components/elements/BreadCrumb';
 import { getProductsByCategory } from '~/store/product/action';
 import { WPGetProducts } from '~/store/wp/action';
 import ShopBanner from '~/components/partials/shop/ShopBanner';
@@ -71,28 +70,9 @@ const WPShopPage = ({ query }) => {
         };
     }, [dispatch]);
 
-    const breadCrumb = [
-        {
-            text: 'Home',
-            url: '/',
-        },
-        {
-            text: categoryName ? (
-                <span
-                    dangerouslySetInnerHTML={{
-                        __html: `${categoryName}`,
-                    }}
-                />
-            ) : (
-                'Shop'
-            ),
-        },
-    ];
-
     return (
         <WPLayoutFullwidth title="Shop">
             <div className="ps-page--shop">
-                <BreadCrumb breacrumb={breadCrumb} layout="fullwidth" />
                 <div className="ps-container">
                     <ShopBanner />
                     <ShopBrands />
