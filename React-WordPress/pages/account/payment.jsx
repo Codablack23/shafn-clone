@@ -6,23 +6,6 @@ import WPLayout from '~/wp-components/layouts/WPLayout';
 import WPPayment from '~/wp-components/account/WPPayment';
 
 const PaymentPage = () => {
-    const breadCrumb = [
-        {
-            text: 'Home',
-            url: '/',
-        },
-        {
-            text: 'Shopping Cart',
-            url: '/account/shopping-cart',
-        },
-        {
-            text: 'Checkout Information',
-            url: '/account/checkout',
-        },
-        {
-            text: 'Payment',
-        },
-    ];
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getCart());
@@ -31,7 +14,6 @@ const PaymentPage = () => {
     return (
         <WPLayout>
             <div className="ps-page--simple">
-                <BreadCrumb breacrumb={breadCrumb} />
                 <WPPayment />
             </div>
         </WPLayout>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import Router from 'next/router';
-import BreadCrumb from '~/components/elements/BreadCrumb';
 import WPStoreInformation from '~/wp-components/store/WPStoreInformation';
 import WPVendorRepository from '~/repositories/WP/WPVendorRepository';
 import SkeletonVendorInformation from '~/components/elements/skeletons/SkeletonVendorInformation';
@@ -16,20 +15,6 @@ const WPStorePage = ({ query }) => {
     const [storeID, setStoreID] = useState(null);
     const [storeProfile, setStoreProfile] = useState(null);
     const [storeProducts, setStoreProducts] = useState(null);
-
-    const breadCrumb = [
-        {
-            text: 'Home',
-            url: '/',
-        },
-        {
-            text: 'Vendors',
-            url: '/vendor',
-        },
-        {
-            text: storeProfile ? storeProfile.store_name : 'store detail',
-        },
-    ];
 
     async function getVendorInformations(id) {
         const profile = await WPVendorRepository.getStoreByID(id);
@@ -83,7 +68,6 @@ const WPStorePage = ({ query }) => {
     return (
         <WPLayout title={storeProfile ? storeProfile.store_name : 'Loading...'}>
             <div className="ps-page--single ps-page--vendor">
-                <BreadCrumb breacrumb={breadCrumb} />
                 <div className="ps-vendor-store">
                     <div className="container">
                         <div className="ps-section__container">
