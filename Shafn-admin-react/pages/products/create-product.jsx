@@ -485,6 +485,7 @@ const CreateProductPage = () => {
     let isPrimaryImageSelected = imageFiles
       .map((el) => el.id)
       .includes("img-1");
+      
     if (!isPrimaryImageSelected) return "Primary Image is required!";
 
     return "VALID";
