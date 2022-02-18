@@ -5,6 +5,7 @@ import MenuSidebar from '~/components/shared/menus/MenuSidebar';
 import WidgetEarningSidebar from '~/components/shared/widgets/WidgetEarningSidebar';
 import WidgetUserWelcome from '~/components/shared/widgets/WidgetUserWelcome';
 import HeaderDashboard from '~/components/shared/headers/HeaderDashboard';
+import { CustomModal } from "~/components/elements/custom/index";
 
 const ContainerDefault = ({ children, title }) => {
     let titleView;
@@ -20,6 +21,7 @@ const ContainerDefault = ({ children, title }) => {
                 <title>{titleView}</title>
             </Head>
             <main className="ps-main">
+               
                 <div className="ps-main__sidebar">
                     <div className="ps-sidebar">
                         <div className="ps-sidebar__top">

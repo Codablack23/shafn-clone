@@ -115,8 +115,8 @@ class WPModuleProductDetailThumbnail extends Component {
         }
 
         return (
-            <div className="ps-product__thumbnail" data-vertical="true">
-                <figure>
+            <div className="ps-product__thumbnail" data-vertical="true" >
+                <figure >
                     <div className="ps-wrapper">
                         <Slider
                             {...gallerySetting}

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { formatCurrency } from '~/utilities/product-helper';
 import { addItem } from '~/store/cart/action';
 import { addCheckoutItem } from '~/store/checkout-items/action';
+import { addItemToWishlist } from '~/store/wishlist/action';
 // import ModuleProductDetailSharing from '~/components/elements/detail/modules/elements/ModuleProductDetailSharing';
 
 import {
@@ -12,6 +13,7 @@ import {
     WPProductDetailRatingView,
     WPProductDetailShortDescView,
     WPProductDetailTagsView,
+    Button
 } from '~/utilities/WPHelpers';
 
 const WPModuleProductDetailInformation = ({
@@ -51,6 +53,10 @@ const WPModuleProductDetailInformation = ({
         if (quantity > 1) {
             setQuantity(quantity - 1);
         }
+    };
+    const handleAddItemToWishlist = (e) => {
+        e.preventDefault();
+        dispatch(addItemToWishlist(product));
     };
 
     const handleRenderPrice = (product) => {
@@ -94,7 +100,7 @@ const WPModuleProductDetailInformation = ({
         if (product.store) {
             productVendorView = (
                 <p>
-                    Sold By:
+                    SOLD BY:
                     <Link href="/shop">
                         <a className="ml-2">
                             <strong> {product.store.shop_name}</strong>
@@ -107,22 +113,19 @@ const WPModuleProductDetailInformation = ({
 
     return (
         <div className="ps-product__info">
-            {!isWidget && <h1>{product?.name}</h1>}
-            <div className="ps-product__meta">
-                {brandView}
-                {ratingView}
-            </div>
+            {!isWidget && <p style={{fontSize:20}}>{product?.name}</p>}
             {productPriceView}
-
+            <hr className="w3-lightgrey" />
             <div className="ps-product__desc">
                 {productVendorView}
                 {shortDescView}
             </div>
             {children}
-            <div className="ps-product__shopping">
+             <div className="d-block d-lg-none m-auto w3-center" style={{minWidth:"60%"}}>
+                <div className="">
                 <figure>
                     <figcaption>Quantity</figcaption>
-                    <div className="form-group--number">
+                    <div className="form-group--number rounded-pill border-none 0 w3-light-grey w3-center" style={{width:250,border:"none"}}>
                         <button className="up" onClick={handleIncreaseItemQty}>
                             <i className="fa fa-plus"></i>
                         </button>
@@ -139,21 +142,47 @@ const WPModuleProductDetailInformation = ({
                         />
                     </div>
                 </figure>
-                
-                <a
-                    className="ps-btn ps-btn--black d-md-inline d-block ml-4 mb--3 mt-5 mt-md-0"
-                    href="#"
-                    onClick={handleAddItemToCart}>
-                    Add to cart
-                </a>
+                </div>
+                 </div>
+                <div className="mt-2 d-block w3-center d-lg-none">
+ 
+                <Button 
+                  width={250}
+                  classes={`w3-0309A5 btn-hover`}
+                  hoverColor="white"
+                  eventHandler={handleAddItemToCart}
+                  text="Add to cart"
+                /><br/>
+
                 <Link href="/account/checkout">
-                    <a className="ps-btn d-md-inline d-block ml-2 mt-1" onClick={handleAddToCheckoutItems}>
-                        Buy Now
-                    </a>
+                    <Button 
+                    width={250}
+                    classes={`w3-orange btn-hover`}
+                    eventHandler={handleAddToCheckoutItems}
+                    text="Buy Now"
+                    />
                 </Link>
-            </div>
+                </div>
+                {/* <button 
+                className="btn rounded-pill btn-lg btn-hover w3-light-grey p-3 pl-4 pr-4 w3-border w3-border-white w3-hover-border-grey w3-hover-none" 
+                style={{minWidth:250}}
+                onClick={handleAddItemToWishlist}
+                >
+                    Add To WatchList
+                </button> */}
+                <div className="text-center text-lg-left">
+                   <Button 
+                   width={250}
+                   classes={`w3-light-grey btn-hover`}
+                   hoverBorder="grey"
+                   hoverBg="none"
+                   hoverColor="grey"
+                   eventHandler={handleAddItemToWishlist}
+                   text="Add to WishLIst"
+                /><br/>
+                </div>
             <div className="ps-product__specification">
-                <Link href="/page/blank">
+                {/* <Link href="/page/blank">
                     <a className="report">Report Abuse</a>
                 </Link>
                 <p>
@@ -162,7 +191,7 @@ const WPModuleProductDetailInformation = ({
                 <p className="categories">
                     <strong> Categories:</strong>
                     {categoriesView}
-                </p>
+                </p> */}
                 {/* <p className="tags">
                     <strong>Tags: </strong>
                     {tagsView}
