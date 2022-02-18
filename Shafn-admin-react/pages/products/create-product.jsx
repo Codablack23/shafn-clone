@@ -10,7 +10,7 @@ import Slider from "react-slick";
 import { toggleDrawerMenu } from "~/store/app/action";
 import { WPDomain } from "~/repositories/Repository";
 import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
-
+import { CustomModal,CustomSlider } from "~/components/elements/custom/index";
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
 });
@@ -91,6 +91,7 @@ const CreateProductPage = () => {
     progress: 0,
   });
 
+  const [imgId,setImgId]=useState('')
   const handleInputChange = (e) => {
     let name = e.target.name;
     let val = e.target.value;
@@ -113,7 +114,6 @@ const CreateProductPage = () => {
       setQty(Number(val));
     }
   };
-
   const videoHandler = (e) => {
     e.persist();
 
@@ -253,9 +253,9 @@ const CreateProductPage = () => {
         let image = selectedImages.find((img) => img.id === `img-${i + 1}`);
 
         return (
-          <div key={i} style={{ width: 200, height: 200 }}>
+          <div className="" key={i} style={{...styles.filesSelect}}>
             {image === undefined ? (
-              <div>
+              <>
                 <input
                   id={`img-${i + 1}`}
                   type="file"
@@ -266,38 +266,50 @@ const CreateProductPage = () => {
                 />
                 <label
                   htmlFor={`img-${i + 1}`}
-                  className="btn border btn-lg"
+                  className="btn border m-2 p-3 btn-lg"
                   style={{
-                    paddingTop: 12,
-                    padding: "3%",
-                    backgroundColor: "#ededed",
+                    display:"block",
+                    minwidth:"90%",
+                    minHeight:"20vh",
+                    margin:"auto",
+                    borderColor:"lightgrey",
                   }}
                 >
-                  {i === 0 ? <p>Primary</p> : null}
+                
+                  <span>Add A Photo</span>
+                  <br />
+                  <br />
                   <i
-                    className="fa fa-file-image-o "
+                    className="fa fa-file-image-o text-secondary"
                     style={{ fontSize: 38 }}
                     aria-hidden="true"
-                  ></i>
-                  <br />
-                  <br />
-                  <span>Add A Photo</span>
+                  ></i><br />
+                  {i === 0 ?<span> <span>Primary</span></span>: null}
                 </label>
-              </div>
+              </>
             ) : (
               <div
                 key={image.id}
-                style={{ position: "relative", width: "100%", height: "100%" }}
-                onClick={() => setViewProducts(true)}
+                style={{
+                   position: "relative",
+                   width: "90%",
+                   height: "100%",
+                   margin:"2% auto"
+                  }}
+                onClick={() => {setViewProducts(true); setImgId(image.id)}}
               >
-                <img src={image.url} style={styles.image} />
+                <img src={image.url} style={{...styles.image}} />
 
                 <div
-                  className="ps-btn ps-btn--sm"
+                  className="btn fw-5"
                   style={styles.imageDel}
                   onClick={removeImage.bind(this, image.id)}
                 >
-                  x
+                <i
+                 style={{
+                  fontSize:18
+                }}
+                className="bi bi-trash text-danger"></i>
                 </div>
               </div>
             )}
@@ -709,10 +721,114 @@ const CreateProductPage = () => {
                   <div className="ps-block__content">
                     <div className="form-group">
                       <div className="form-group--nest">
-                        {renderVideo()}
+                        {/* Video */}
+                        <div style={styles.filesStyles}>
+                          <div className="m-2" style={{...styles.filesSelect}}>
+                          {!videoUrl ? (
+                            <>
+                              <input
+                                id="video"
+                                type="file"
+                                accept="video/*"
+                                onChange={videoHandler}
+                                required
+                                multiple
+                                hidden
+                              />
+                              <label
+                                htmlFor="video"
+                                className="btn btn-lg p-3"
+                                style={{
+                                  display:"block",
+                                  minwidth:"90%",
+                                  minHeight:"20vh",
+                                  borderColor:"lightgrey",
+                                  margin:"auto"
+                                }}
+                              >
+                                <span>Add A Video</span>
+                                <br />
+                                <br />
+                              
+                                <i
+                                  className="fa fa-file-video-o text-secondary"
+                                  style={{ fontSize: 38 }}
+                                  aria-hidden="true"
+                                ></i>
+                              </label>
+                            </>
+                          ) : (
+                            <>
+                              <video
+                                id="video"
+                                src={videoUrl}
+                                controls
+                                width="200px"
+                                height="200px"
+                              />
 
-                        {renderProductImages(3)}
-                      </div>
+                              <button onClick={removeVideo}>
+                                Delete video
+                              </button>
+                            </>
+                          )}
+                          </div>
+                          {renderProductImages(9)}
+                        </div>
+                        {/* <div  
+                           className="d-flex"
+                           style={{flexWrap:"wrap", width: 200, height: 200 }}>
+                          {!videoUrl ? (
+                            <>
+                              <input
+                                id="video"
+                                type="file"
+                                accept="video/*"
+                                onChange={videoHandler}
+                                required
+                                multiple
+                                hidden
+                              />
+                              <label
+                                htmlFor="video"
+                                className="btn border btn-lg"
+                                style={{
+                                  paddingTop: 12,
+                                  padding: "3%",
+                                  backgroundColor: "#ededed",
+                                  marginRight:"2%",
+                                }}
+                              >
+                                <i
+                                  className="fa fa-file-video-o"
+                                  style={{ fontSize: 38 }}
+                                  aria-hidden="true"
+                                ></i>
+                                <br />
+                                <br />
+                                <span>Add A Video</span>
+                              </label>
+                            </>
+                          ) : (
+                            <>
+                              <video
+                                id="video"
+                                src={videoUrl}
+                                controls
+                                width="200px"
+                                height="200px"
+                              />
+
+                              <button onClick={removeVideo}>
+                                Delete video
+                              </button>
+                            </>
+                          )}
+                        </div>
+                        {/* Images *
+                        {renderProductImages(6)}*/}
+                      </div> 
+
                     </div>
                   </div>
                 </figure>
@@ -782,15 +898,16 @@ const CreateProductPage = () => {
       </section>
 
       {/* Products Viewer */}
-      <Modal
-        centered
-        visible={viewProducts}
-        onCancel={() => setViewProducts((current) => !current)}
-        okButtonProps={{ hidden: true }}
-        cancelButtonProps={{ hidden: true }}
+      <CustomModal
+      isOpen={viewProducts}
+      toggleModal={()=>{setViewProducts(current=>!current)}}
       >
-        <div>Add Product Video and Images slider here</div>
-      </Modal>
+       <CustomSlider
+       images={selectedImages}
+       imgIndex={imgId}
+       video={videoUrl}
+       />
+      </CustomModal>
     </ContainerDefault>
   );
 };
@@ -810,11 +927,15 @@ let styles = {
     marginBottom: 10,
     position: "relative",
   },
-  image: { width: 200, maxHeight: 300 },
+  image: {
+     width: 200,
+     maxHeight: "20vh",
+     objectFit:"cover"
+     },
   imageDel: {
     position: "absolute",
     fontSize: 15,
-    top: 5,
+    bottom: 5,
     right: 5,
     width: 10,
     height: 30,
@@ -823,4 +944,15 @@ let styles = {
     justifyContent: "center",
     alignItems: "center",
   },
+  filesStyles:{
+    display:"flex",
+    flexWrap:"wrap",
+    width:"100%",
+    justifyContent:"center"
+  },
+  fileSelect:{
+    minWidth:'33%',
+    minHeight:"30vh",
+    marginRight:'2%'
+  }
 };

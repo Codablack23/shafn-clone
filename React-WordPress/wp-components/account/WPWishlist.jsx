@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { addItem } from '~/store/cart/action';
 import { removeWishlistItem } from '~/store/wishlist/action';
 import WPProductCart from '~/wp-components/elements/products/WPProductCart';
+import { Button } from '~/utilities/WPHelpers'
 class WPWishlist extends Component {
     constructor(props) {
         super(props);
@@ -24,38 +25,44 @@ class WPWishlist extends Component {
 
     render() {
         const { wishlistItems } = this.props;
+        console.log(wishlistItems)
         // views
         let wishlistView;
         if (wishlistItems && wishlistItems.length > 0) {
-            const items = wishlistItems.map((product) => {
-                // this.call(product);
-                return (
-                    <tr key={product.id}>
-                        <td>
-                            <WPProductCart product={product} />
-                        </td>
-                        <td className="price">${product.price}</td>
-                        <td>{product.store.name}</td>
-                        <td>
-                            <a
-                                className="ps-btn ps-btn--sm mr-2"
-                                href=""
-                                onClick={(e) =>
-                                    this.handleAddItemToCart(e, product)
-                                }>
-                                Add to cart
-                            </a>
-                            <a
-                                href="#"
-                                onClick={(e) =>
-                                    this.handleRemoveWishListItem(e, product)
-                                }>
-                                <i className="icon-cross"></i>
-                            </a>
-                        </td>
-                    </tr>
-                );
-            });
+            const items = wishlistItems.map((product) => (
+                <tr key={product.id}>
+                    <td>
+                        <WPProductCart product={product} />
+                    </td>
+                    <td className="price">${product.price}</td>
+                    <td>{product.store.name}</td>
+                    <td>
+                        <Button 
+                        width={150}
+                        classes={`w3-0309A5 btn-hover`}
+                        hoverColor="white"
+                        eventHandler={(e)=>{this.handleAddItemToCart(e, product)}}
+                        text="Add to cart"
+                        />
+                        {/* <a
+                            className="ps-btn ps-btn--sm mr-2"
+                            href=""
+                            onClick={(e) =>
+                                this.handleAddItemToCart(e, product)
+                            }>
+                            Add to cart
+                        </a> */}
+                        <a
+                            href="#"
+                            onClick={(e) =>
+                                this.handleRemoveWishListItem(e, product)
+                            }>
+                            <i className="icon-cross"></i>
+                        </a>
+                    </td>
+                </tr>
+            ));
+
             wishlistView = (
                 <div className="table-responsive">
                     <table className="table ps-table--whishlist">
