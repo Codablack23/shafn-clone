@@ -13,7 +13,7 @@ import {
     WPProductDetailRatingView,
     WPProductDetailShortDescView,
     WPProductDetailTagsView,
-    Button
+    Button,
 } from '~/utilities/WPHelpers';
 
 const WPModuleProductDetailInformation = ({
@@ -22,7 +22,6 @@ const WPModuleProductDetailInformation = ({
     variant,
     isWidget,
 }) => {
-    console.log(variant);
     const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(1);
 
@@ -113,7 +112,7 @@ const WPModuleProductDetailInformation = ({
 
     return (
         <div className="ps-product__info">
-            {!isWidget && <p style={{fontSize:20}}>{product?.name}</p>}
+            {!isWidget && <p style={{ fontSize: 20 }}>{product?.name}</p>}
             {productPriceView}
             <hr className="w3-lightgrey" />
             <div className="ps-product__desc">
@@ -121,66 +120,74 @@ const WPModuleProductDetailInformation = ({
                 {shortDescView}
             </div>
             {children}
-             <div className="d-block d-lg-none m-auto w3-center" style={{minWidth:"60%"}}>
+            <div
+                className="d-block d-lg-none m-auto w3-center"
+                style={{ minWidth: '60%' }}>
                 <div className="">
-                <figure>
-                    <figcaption>Quantity</figcaption>
-                    <div className="form-group--number rounded-pill border-none 0 w3-light-grey w3-center" style={{width:250,border:"none"}}>
-                        <button className="up" onClick={handleIncreaseItemQty}>
-                            <i className="fa fa-plus"></i>
-                        </button>
-                        <button
-                            className="down"
-                            onClick={handleDecreaseItemQty}>
-                            <i className="fa fa-minus"></i>
-                        </button>
-                        <input
-                            className="form-control"
-                            type="text"
-                            placeholder={quantity}
-                            disabled
-                        />
-                    </div>
-                </figure>
+                    <figure>
+                        <figcaption>Quantity</figcaption>
+                        <div
+                            className="form-group--number rounded-pill border-none 0 w3-light-grey w3-center"
+                            style={{ width: 250, border: 'none' }}>
+                            <button
+                                className="up"
+                                onClick={handleIncreaseItemQty}>
+                                <i className="fa fa-plus"></i>
+                            </button>
+                            <button
+                                className="down"
+                                onClick={handleDecreaseItemQty}>
+                                <i className="fa fa-minus"></i>
+                            </button>
+                            <input
+                                className="form-control"
+                                type="text"
+                                placeholder={quantity}
+                                disabled
+                            />
+                        </div>
+                    </figure>
                 </div>
-                 </div>
-                <div className="mt-2 d-block w3-center d-lg-none">
- 
-                <Button 
-                  width={250}
-                  classes={`w3-0309A5 btn-hover`}
-                  hoverColor="white"
-                  eventHandler={handleAddItemToCart}
-                  text="Add to cart"
-                /><br/>
+            </div>
+            <div className="mt-2 d-block w3-center d-lg-none">
+                <Button
+                    width={250}
+                    classes={`w3-0309A5 btn-hover`}
+                    hoverColor="white"
+                    eventHandler={handleAddItemToCart}
+                    text="Add to cart"
+                />
+                <br />
 
                 <Link href="/account/checkout">
-                    <Button 
-                    width={250}
-                    classes={`w3-orange btn-hover`}
-                    eventHandler={handleAddToCheckoutItems}
-                    text="Buy Now"
-                    />
+                    <a onClick={handleAddToCheckoutItems}>
+                        <Button
+                            width={250}
+                            classes={`w3-orange btn-hover`}
+                            text="Buy Now"
+                        />
+                    </a>
                 </Link>
-                </div>
-                {/* <button 
+            </div>
+            {/* <button 
                 className="btn rounded-pill btn-lg btn-hover w3-light-grey p-3 pl-4 pr-4 w3-border w3-border-white w3-hover-border-grey w3-hover-none" 
                 style={{minWidth:250}}
                 onClick={handleAddItemToWishlist}
                 >
                     Add To WatchList
                 </button> */}
-                <div className="text-center text-lg-left">
-                   <Button 
-                   width={250}
-                   classes={`w3-light-grey btn-hover`}
-                   hoverBorder="grey"
-                   hoverBg="none"
-                   hoverColor="grey"
-                   eventHandler={handleAddItemToWishlist}
-                   text="Add to WishLIst"
-                /><br/>
-                </div>
+            <div className="text-center text-lg-left">
+                <Button
+                    width={250}
+                    classes={`w3-light-grey btn-hover`}
+                    hoverBorder="grey"
+                    hoverBg="none"
+                    hoverColor="grey"
+                    eventHandler={handleAddItemToWishlist}
+                    text="Add to WishLIst"
+                />
+                <br />
+            </div>
             <div className="ps-product__specification">
                 {/* <Link href="/page/blank">
                     <a className="report">Report Abuse</a>

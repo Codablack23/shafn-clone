@@ -9,8 +9,10 @@ import { notification, Modal, Progress } from "antd";
 import Slider from "react-slick";
 import { toggleDrawerMenu } from "~/store/app/action";
 import { WPDomain } from "~/repositories/Repository";
+import SettingsRepository from "~/repositories/SettingsRepository";
+import ProductRepository from "~/repositories/ProductRepository";
 import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
-import { CustomModal,CustomSlider } from "~/components/elements/custom/index";
+import { CustomModal, CustomSlider } from "~/components/elements/custom/index";
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
 });
@@ -91,7 +93,8 @@ const CreateProductPage = () => {
     progress: 0,
   });
 
-  const [imgId,setImgId]=useState('')
+  const [imgId, setImgId] = useState("");
+
   const handleInputChange = (e) => {
     let name = e.target.name;
     let val = e.target.value;
@@ -156,37 +159,28 @@ const CreateProductPage = () => {
     let image = e.target.files[0];
     let type = image.type.split("/").pop();
 
-    if (image) {
-      if (
-        type === "jpeg" ||
-        type === "jpg" ||
-        type === "png" ||
-        type === "gif"
-      ) {
-        const imgFile = {
-          id: e.target.id,
-          file: image,
-        };
-        setImageFiles((current) =>
-          imgFile.id === "img-1"
-            ? [imgFile, ...current]
-            : current.concat(imgFile)
-        );
+    if (type === "jpeg" || type === "jpg" || type === "png" || type === "gif") {
+      const imgFile = {
+        id: e.target.id,
+        file: image,
+      };
+      setImageFiles((current) =>
+        imgFile.id === "img-1" ? [imgFile, ...current] : current.concat(imgFile)
+      );
 
-        const img = {
-          id: e.target.id,
-          url: URL.createObjectURL(image),
-        };
+      const img = {
+        id: e.target.id,
+        url: URL.createObjectURL(image),
+      };
 
-        setSelectedImages((current) => current.concat(img));
+      setSelectedImages((current) => current.concat(img));
 
-        URL.revokeObjectURL(image);
-      } else {
-        notification["error"]({
-          message: "Invalid image type!",
-          description: "Image must be a jpg, png or gif",
-        });
-      }
+      URL.revokeObjectURL(image);
+    } else {
+      notification["error"]({
+        message: "Invalid image type!",
+        description: "Image must be a jpg, png or gif",
+      });
     }
   };
 
@@ -253,7 +247,7 @@ const CreateProductPage = () => {
         let image = selectedImages.find((img) => img.id === `img-${i + 1}`);
 
         return (
-          <div className="" key={i} style={{...styles.filesSelect}}>
+          <div className="" key={i} style={{ ...styles.filesSelect }}>
             {image === undefined ? (
               <>
                 <input
@@ -268,14 +262,13 @@ const CreateProductPage = () => {
                   htmlFor={`img-${i + 1}`}
                   className="btn border m-2 p-3 btn-lg"
                   style={{
-                    display:"block",
-                    minwidth:"90%",
-                    minHeight:"20vh",
-                    margin:"auto",
-                    borderColor:"lightgrey",
+                    display: "block",
+                    minwidth: "90%",
+                    minHeight: "20vh",
+                    margin: "auto",
+                    borderColor: "lightgrey",
                   }}
                 >
-                
                   <span>Add A Photo</span>
                   <br />
                   <br />
@@ -283,33 +276,43 @@ const CreateProductPage = () => {
                     className="fa fa-file-image-o text-secondary"
                     style={{ fontSize: 38 }}
                     aria-hidden="true"
-                  ></i><br />
-                  {i === 0 ?<span> <span>Primary</span></span>: null}
+                  ></i>
+                  <br />
+                  {i === 0 ? (
+                    <span>
+                      {" "}
+                      <span>Primary</span>
+                    </span>
+                  ) : null}
                 </label>
               </>
             ) : (
               <div
                 key={image.id}
                 style={{
-                   position: "relative",
-                   width: "90%",
-                   height: "100%",
-                   margin:"2% auto"
-                  }}
-                onClick={() => {setViewProducts(true); setImgId(image.id)}}
+                  position: "relative",
+                  width: "90%",
+                  height: "100%",
+                  margin: "2% auto",
+                }}
+                onClick={() => {
+                  setViewProducts(true);
+                  setImgId(image.id);
+                }}
               >
-                <img src={image.url} style={{...styles.image}} />
+                <img src={image.url} style={{ ...styles.image }} />
 
                 <div
                   className="btn fw-5"
                   style={styles.imageDel}
                   onClick={removeImage.bind(this, image.id)}
                 >
-                <i
-                 style={{
-                  fontSize:18
-                }}
-                className="bi bi-trash text-danger"></i>
+                  <i
+                    style={{
+                      fontSize: 18,
+                    }}
+                    className="bi bi-trash text-danger"
+                  ></i>
                 </div>
               </div>
             )}
@@ -359,127 +362,6 @@ const CreateProductPage = () => {
       });
   };
 
-  const uploadImages = (video = "") => {
-    let auth_token = localStorage.getItem("auth_token");
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth_token}`,
-      },
-      onUploadProgress: (progressEvent) => {
-        const percent = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        );
-
-        setUploading({
-          status: "Uploading Images",
-          progress: percent,
-        });
-      },
-    };
-
-    let images = [];
-    let imgFiles = imageFiles.map((img) => img.file);
-
-    imgFiles.forEach((file, index, arr) => {
-      let formData = new FormData();
-
-      formData.append("file", file);
-
-      axios
-        .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
-        .then((res) => {
-          images.push({ src: res.data.source_url, position: index });
-
-          if (images.length === imageFiles.length) {
-            createProduct(images, video);
-          }
-        })
-        .catch((err) => {
-          arr.length = index + 1;
-          notification["error"]({
-            message:
-              "Some images did not upload!. Check your data connection and try again.",
-          });
-
-          setUploading({
-            status: "",
-            progress: 0,
-          });
-        });
-    });
-  };
-
-  const createProduct = (images = [], video) => {
-    let auth_token = localStorage.getItem("auth_token");
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth_token}`,
-      },
-      onUploadProgress: (progressEvent) => {
-        const percent = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        );
-
-        setUploading({
-          status: "Uploading Product",
-          progress: percent,
-        });
-      },
-    };
-
-    let slug = `${name
-      .replace(/[^a-zA-Z0-9-_]/g, " ")
-      .replace(/  +/g, " ")
-      .replace(/ /g, "-")}`.trim();
-
-    const product = {
-      name,
-      slug,
-      type,
-      price: discountedPrice.trim() || price.trim(),
-      regular_price: price.trim(),
-      sale_price: discountedPrice.trim(),
-      short_description: shortDescription.trim(),
-      description: description.trim(),
-      categories: category,
-      stock_quantity: qty,
-      sku,
-      manage_stock: true,
-      images,
-      external_url: video, // TO-DO: To be removed
-      // tags: tags.toLowerCase().replace(/  +/g, " ").split(" "),
-    };
-
-    // Upload Product
-    axios
-      .post(`${WPDomain}/wp-json/dokan/v1/products/`, product, config)
-      .then((res) => {
-        notification["success"]({
-          message: "Product Uploaded Successfully",
-        });
-
-        setTimeout(() => {
-          Router.reload(window.location.pathname);
-        }, 1500);
-      })
-      .catch((err) => {
-        notification["error"]({
-          message: "Product Upload Failed",
-          description:
-            err.response === undefined
-              ? "Check your data connection and try again."
-              : err.response.data.message,
-        });
-
-        setUploading({
-          status: "",
-          progress: 0,
-        });
-      });
-  };
-
   const validateInputs = () => {
     if (!name) return "Product Name is required!";
     if (!price) return "Sale Price is required!";
@@ -497,7 +379,7 @@ const CreateProductPage = () => {
     let isPrimaryImageSelected = imageFiles
       .map((el) => el.id)
       .includes("img-1");
-      
+
     if (!isPrimaryImageSelected) return "Primary Image is required!";
 
     return "VALID";
@@ -506,20 +388,42 @@ const CreateProductPage = () => {
   const handleOnSubmit = (e) => {
     e.preventDefault();
 
-    const upload = () => {
-      setUploading((current) => ({ ...current, status: "Uploading" }));
+    // const upload = () => {
+    //   setUploading((current) => ({ ...current, status: "Uploading" }));
 
-      if (videoFile !== "") {
-        uploadVideo();
-      } else {
-        uploadImages(); // product is uploaded in here
-      }
-    };
+    //   if (videoFile !== "") {
+    //     uploadVideo();
+    //   } else {
+    //     uploadImages();
+    //   }
+    // };
 
     let result = validateInputs();
 
     if (result === "VALID") {
-      upload();
+      setUploading((current) => ({ ...current, status: "Uploading" }));
+
+      let slug = `${name
+        .replace(/[^a-zA-Z0-9-_]/g, " ")
+        .replace(/  +/g, " ")
+        .replace(/ /g, "-")}`.trim();
+
+      const product = {
+        name,
+        slug,
+        type,
+        price: discountedPrice.trim() || price.trim(),
+        regular_price: price.trim(),
+        sale_price: discountedPrice.trim(),
+        short_description: shortDescription.trim(),
+        description: description.trim(),
+        categories: category,
+        stock_quantity: qty,
+        sku,
+        manage_stock: true,
+      };
+
+      ProductRepository.createProduct(imageFiles, product, setUploading);
     } else {
       notification["error"]({
         message: result,
@@ -527,31 +431,21 @@ const CreateProductPage = () => {
     }
   };
 
-  const getStorename = (token) => {
-    axios
-      .get(`${WPDomain}/wp-json/dokan/v1/settings`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        if (!res.data.store_name.trim()) {
-          notification["error"]({
-            message: "You must have a Store Name to upload a product.",
-          });
-          setTimeout(() => Router.push("/settings"), 2000);
-        }
-      })
-      .catch((err) => {
-        return;
-      });
-  };
-
   useEffect(() => {
     dispatch(toggleDrawerMenu(false));
-    let auth_token = localStorage.getItem("auth_token");
 
-    getStorename(auth_token);
+    const getStorename = async () => {
+      const storename = await SettingsRepository.getStorename();
+
+      if (!storename) {
+        notification["error"]({
+          message: "You must have a Store Name to upload a product.",
+        });
+        setTimeout(() => Router.push("/settings"), 2000);
+      }
+
+      getStorename();
+    };
   }, []);
 
   return (
@@ -586,27 +480,6 @@ const CreateProductPage = () => {
                         required
                       />
                     </div>
-
-                    {/* <div className="form-group">
-                      <label>
-                        Reference<sup>*</sup>
-                      </label>
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Enter product Reference..."
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>
-                        Product Summary<sup>*</sup>
-                      </label>
-                      <text-area
-                        className="form-control"
-                        rows="6"
-                        placeholder="Enter product description..."
-                      ></text-area>
-                    </div> */}
                     <div className="form-group">
                       <label>
                         Sale Price<sup>*</sup>
@@ -717,118 +590,68 @@ const CreateProductPage = () => {
               </div>
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                 <figure className="ps-block--form-box">
-                  <figcaption>Product Files</figcaption>
+                  <figcaption>Product Images</figcaption>
                   <div className="ps-block__content">
                     <div className="form-group">
                       <div className="form-group--nest">
                         {/* Video */}
                         <div style={styles.filesStyles}>
-                          <div className="m-2" style={{...styles.filesSelect}}>
-                          {!videoUrl ? (
-                            <>
-                              <input
-                                id="video"
-                                type="file"
-                                accept="video/*"
-                                onChange={videoHandler}
-                                required
-                                multiple
-                                hidden
-                              />
-                              <label
-                                htmlFor="video"
-                                className="btn btn-lg p-3"
-                                style={{
-                                  display:"block",
-                                  minwidth:"90%",
-                                  minHeight:"20vh",
-                                  borderColor:"lightgrey",
-                                  margin:"auto"
-                                }}
-                              >
-                                <span>Add A Video</span>
-                                <br />
-                                <br />
-                              
-                                <i
-                                  className="fa fa-file-video-o text-secondary"
-                                  style={{ fontSize: 38 }}
-                                  aria-hidden="true"
-                                ></i>
-                              </label>
-                            </>
-                          ) : (
-                            <>
-                              <video
-                                id="video"
-                                src={videoUrl}
-                                controls
-                                width="200px"
-                                height="200px"
-                              />
+                          {/* <div
+                            className="m-2"
+                            style={{ ...styles.filesSelect }}
+                          >
+                            {!videoUrl ? (
+                              <>
+                                <input
+                                  id="video"
+                                  type="file"
+                                  accept="video/*"
+                                  onChange={videoHandler}
+                                  required
+                                  multiple
+                                  hidden
+                                />
+                                <label
+                                  htmlFor="video"
+                                  className="btn btn-lg p-3"
+                                  style={{
+                                    display: "block",
+                                    minwidth: "90%",
+                                    minHeight: "20vh",
+                                    borderColor: "lightgrey",
+                                    margin: "auto",
+                                  }}
+                                >
+                                  <span>Add A Video</span>
+                                  <br />
+                                  <br />
 
-                              <button onClick={removeVideo}>
-                                Delete video
-                              </button>
-                            </>
-                          )}
-                          </div>
-                          {renderProductImages(9)}
+                                  <i
+                                    className="fa fa-file-video-o text-secondary"
+                                    style={{ fontSize: 38 }}
+                                    aria-hidden="true"
+                                  ></i>
+                                </label>
+                              </>
+                            ) : (
+                              <>
+                                <video
+                                  id="video"
+                                  src={videoUrl}
+                                  controls
+                                  width="200px"
+                                  height="200px"
+                                />
+
+                                <button onClick={removeVideo}>
+                                  Delete video
+                                </button>
+                              </>
+                            )}
+                          </div> */}
+                          {renderProductImages(10)}
                         </div>
-                        {/* <div  
-                           className="d-flex"
-                           style={{flexWrap:"wrap", width: 200, height: 200 }}>
-                          {!videoUrl ? (
-                            <>
-                              <input
-                                id="video"
-                                type="file"
-                                accept="video/*"
-                                onChange={videoHandler}
-                                required
-                                multiple
-                                hidden
-                              />
-                              <label
-                                htmlFor="video"
-                                className="btn border btn-lg"
-                                style={{
-                                  paddingTop: 12,
-                                  padding: "3%",
-                                  backgroundColor: "#ededed",
-                                  marginRight:"2%",
-                                }}
-                              >
-                                <i
-                                  className="fa fa-file-video-o"
-                                  style={{ fontSize: 38 }}
-                                  aria-hidden="true"
-                                ></i>
-                                <br />
-                                <br />
-                                <span>Add A Video</span>
-                              </label>
-                            </>
-                          ) : (
-                            <>
-                              <video
-                                id="video"
-                                src={videoUrl}
-                                controls
-                                width="200px"
-                                height="200px"
-                              />
-
-                              <button onClick={removeVideo}>
-                                Delete video
-                              </button>
-                            </>
-                          )}
-                        </div>
-                        {/* Images *
-                        {renderProductImages(6)}*/}
-                      </div> 
-
+                      </div>
                     </div>
                   </div>
                 </figure>
@@ -898,16 +721,18 @@ const CreateProductPage = () => {
       </section>
 
       {/* Products Viewer */}
-      <CustomModal
-      isOpen={viewProducts}
-      toggleModal={()=>{setViewProducts(current=>!current)}}
+      {/* <CustomModal
+        isOpen={viewProducts}
+        toggleModal={() => {
+          setViewProducts((current) => !current);
+        }}
       >
-       <CustomSlider
-       images={selectedImages}
-       imgIndex={imgId}
-       video={videoUrl}
-       />
-      </CustomModal>
+        <CustomSlider
+          images={selectedImages}
+          imgIndex={imgId}
+          video={videoUrl}
+        />
+      </CustomModal> */}
     </ContainerDefault>
   );
 };
@@ -928,10 +753,10 @@ let styles = {
     position: "relative",
   },
   image: {
-     width: 200,
-     maxHeight: "20vh",
-     objectFit:"cover"
-     },
+    width: 200,
+    maxHeight: "20vh",
+    objectFit: "cover",
+  },
   imageDel: {
     position: "absolute",
     fontSize: 15,
@@ -944,15 +769,15 @@ let styles = {
     justifyContent: "center",
     alignItems: "center",
   },
-  filesStyles:{
-    display:"flex",
-    flexWrap:"wrap",
-    width:"100%",
-    justifyContent:"center"
+  filesStyles: {
+    display: "flex",
+    flexWrap: "wrap",
+    width: "100%",
+    justifyContent: "center",
   },
-  fileSelect:{
-    minWidth:'33%',
-    minHeight:"30vh",
-    marginRight:'2%'
-  }
+  fileSelect: {
+    minWidth: "33%",
+    minHeight: "30vh",
+    marginRight: "2%",
+  },
 };
