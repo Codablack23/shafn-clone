@@ -45,9 +45,15 @@ const FormAccountSettings = () => {
   };
 
   const selectCountry = (e) => {
-    setAddr(e.target.name, e.target.value);
-    const stateList = data.filter((coun) => coun.name == e.target.value);
-    setStates(stateList[0].states);
+    if (e.target.value) {
+      setAddr(e.target.name, e.target.value);
+      const stateList = data.filter(
+        (country) => country.name == e.target.value
+      );
+      setStates(stateList[0].states);
+    } else {
+      setStates([]);
+    }
   };
 
   const renderCountries = () => {
@@ -267,23 +273,6 @@ const FormAccountSettings = () => {
               value={address.street_2}
               onChange={(e) => setAddr(e.target.name, e.target.value)}
             />
-            <p style={styles.addrHeader}>City</p>
-            <input
-              className="form-control"
-              type="text"
-              name="city"
-              placeholder="Town/City"
-              value={address.city}
-              onChange={(e) => setAddr(e.target.name, e.target.value)}
-            />
-            <p style={styles.addrHeader}>Post/ZIP Code</p>
-            <input
-              className="form-control"
-              type="number"
-              name="zip"
-              value={address.zip}
-              onChange={(e) => setAddr(e.target.name, e.target.value)}
-            />
             <p style={styles.addrHeader}>Country</p>
             <div className="form-group form-group--select">
               <div className="form-group__content">
@@ -300,7 +289,6 @@ const FormAccountSettings = () => {
                 </select>
               </div>
             </div>
-            {/* add state */}
             <p style={styles.addrHeader}>State</p>
             <div className="form-group form-group--select">
               <div className="form-group__content">
@@ -321,6 +309,23 @@ const FormAccountSettings = () => {
                 </select>
               </div>
             </div>
+            <p style={styles.addrHeader}>City</p>
+            <input
+              className="form-control"
+              type="text"
+              name="city"
+              placeholder="Town/City"
+              value={address.city}
+              onChange={(e) => setAddr(e.target.name, e.target.value)}
+            />
+            <p style={styles.addrHeader}>Post/ZIP Code</p>
+            <input
+              className="form-control"
+              type="number"
+              name="zip"
+              value={address.zip}
+              onChange={(e) => setAddr(e.target.name, e.target.value)}
+            />
           </div>
         </div>
 

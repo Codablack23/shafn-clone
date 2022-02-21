@@ -79,8 +79,6 @@ const CreateProductPage = () => {
   const [sku, setSku] = useState("");
   const [tags, setTags] = useState("");
 
-  const [videoFile, setVideoFile] = useState("");
-  const [videoUrl, setVideoUrl] = useState("");
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
 
@@ -117,41 +115,6 @@ const CreateProductPage = () => {
       setQty(Number(val));
     }
   };
-  const videoHandler = (e) => {
-    e.persist();
-
-    let video = e.target.files[0];
-    if (e.target.accept === "video/*" && video) {
-      let size = e.target.files[0].size / 1024 ** 2;
-
-      let reader = new FileReader();
-
-      reader.onload = () => {
-        let vid = new Audio(reader.result);
-        vid.onloadedmetadata = () => {
-          if (size <= 20 && vid.duration <= 30) {
-            const url = URL.createObjectURL(video);
-
-            setVideoFile(video);
-            setVideoUrl(url);
-
-            URL.revokeObjectURL(video);
-          } else {
-            notification["error"]({
-              message:
-                "Video must not exceed a duration of 30secs and a size of 20MB",
-            });
-          }
-        };
-      };
-
-      reader.readAsDataURL(video);
-    } else {
-      notification["error"]({
-        message: "Not a video file!",
-      });
-    }
-  };
 
   const imageHandler = (e) => {
     e.persist();
@@ -184,61 +147,10 @@ const CreateProductPage = () => {
     }
   };
 
-  const removeVideo = () => {
-    setVideoUrl("");
-    setVideoFile("");
-  };
   const removeImage = (id) => {
     setSelectedImages((current) => current.filter((img) => img.id !== id));
     setImageFiles((current) => current.filter((img) => img.id !== id));
   };
-
-  const renderVideo = () => (
-    <div style={{ width: 200, height: 200 }}>
-      {!videoUrl ? (
-        <>
-          <input
-            id="video"
-            type="file"
-            accept="video/*"
-            onChange={videoHandler}
-            required
-            hidden
-          />
-          <label
-            htmlFor="video"
-            className="btn border btn-lg"
-            style={{
-              paddingTop: 12,
-              padding: "3%",
-              backgroundColor: "#ededed",
-            }}
-          >
-            <i
-              className="fa fa-file-video-o"
-              style={{ fontSize: 38 }}
-              aria-hidden="true"
-            ></i>
-            <br />
-            <br />
-            <span>Add A Video</span>
-          </label>
-        </>
-      ) : (
-        <>
-          <video
-            id="video"
-            src={videoUrl}
-            controls
-            width="200px"
-            height="200px"
-          />
-
-          <button onClick={removeVideo}>Delete video</button>
-        </>
-      )}
-    </div>
-  );
 
   const renderProductImages = (num) => {
     return Array(num)
@@ -321,47 +233,6 @@ const CreateProductPage = () => {
       });
   };
 
-  const uploadVideo = () => {
-    let auth_token = localStorage.getItem("auth_token");
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth_token}`,
-      },
-      onUploadProgress: (progressEvent) => {
-        const percent = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        );
-
-        setUploading({
-          status: "Uploading Video",
-          progress: percent,
-        });
-      },
-    };
-
-    let formData = new FormData();
-
-    formData.append("file", videoFile);
-
-    axios
-      .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
-      .then((res) => {
-        uploadImages(res.data.source_url);
-      })
-      .catch((err) => {
-        notification["error"]({
-          message:
-            "Video could not be uploaded!. Check your data connection and try again.",
-        });
-
-        setUploading({
-          status: "",
-          progress: 0,
-        });
-      });
-  };
-
   const validateInputs = () => {
     if (!name) return "Product Name is required!";
     if (!price) return "Sale Price is required!";
@@ -387,16 +258,6 @@ const CreateProductPage = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-
-    // const upload = () => {
-    //   setUploading((current) => ({ ...current, status: "Uploading" }));
-
-    //   if (videoFile !== "") {
-    //     uploadVideo();
-    //   } else {
-    //     uploadImages();
-    //   }
-    // };
 
     let result = validateInputs();
 
@@ -594,61 +455,7 @@ const CreateProductPage = () => {
                   <div className="ps-block__content">
                     <div className="form-group">
                       <div className="form-group--nest">
-                        {/* Video */}
                         <div style={styles.filesStyles}>
-                          {/* <div
-                            className="m-2"
-                            style={{ ...styles.filesSelect }}
-                          >
-                            {!videoUrl ? (
-                              <>
-                                <input
-                                  id="video"
-                                  type="file"
-                                  accept="video/*"
-                                  onChange={videoHandler}
-                                  required
-                                  multiple
-                                  hidden
-                                />
-                                <label
-                                  htmlFor="video"
-                                  className="btn btn-lg p-3"
-                                  style={{
-                                    display: "block",
-                                    minwidth: "90%",
-                                    minHeight: "20vh",
-                                    borderColor: "lightgrey",
-                                    margin: "auto",
-                                  }}
-                                >
-                                  <span>Add A Video</span>
-                                  <br />
-                                  <br />
-
-                                  <i
-                                    className="fa fa-file-video-o text-secondary"
-                                    style={{ fontSize: 38 }}
-                                    aria-hidden="true"
-                                  ></i>
-                                </label>
-                              </>
-                            ) : (
-                              <>
-                                <video
-                                  id="video"
-                                  src={videoUrl}
-                                  controls
-                                  width="200px"
-                                  height="200px"
-                                />
-
-                                <button onClick={removeVideo}>
-                                  Delete video
-                                </button>
-                              </>
-                            )}
-                          </div> */}
                           {renderProductImages(10)}
                         </div>
                       </div>
