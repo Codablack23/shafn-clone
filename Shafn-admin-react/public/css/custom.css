@@ -13,6 +13,7 @@
     margin:auto;
     padding: 1%;
     height: 80vh;
+    max-width: 80%;
 }
 .custom-modal-container .close-btn-container{
     position: absolute;
