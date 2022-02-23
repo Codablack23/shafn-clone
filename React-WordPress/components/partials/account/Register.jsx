@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import Router from 'next/router';
-import axios from 'axios';
-import { Form, Input, notification } from 'antd';
+import { Form, Input } from 'antd';
 import { login } from '../../../store/auth/action';
-import { connect, useDispatch } from 'react-redux';
-import { WPDomain } from '~/repositories/WP/WPRepository';
+import { useDispatch } from 'react-redux';
+import WPAuthRepository from '~/repositories/WP/WPAuthRepository';
 
 function Register() {
     const dispatch = useDispatch();
@@ -18,29 +16,25 @@ function Register() {
     const [isVendor, setIsVendor] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         setIsLoading(true);
-        const adLog = {
-            username: process.env.username,
-            password: process.env.password,
+
+        let user = {
+            username,
+            email,
+            password,
         };
 
-        let regData;
-
         if (isVendor) {
-            regData = {
-                username,
-                email,
-                password,
+            user = {
+                ...user,
                 first_name: firstname,
                 last_name: lastname,
                 roles: ['seller'],
             };
         } else {
-            regData = {
-                username,
-                email,
-                password,
+            user = {
+                ...user,
                 roles: ['customer'],
             };
         }
@@ -49,103 +43,19 @@ function Register() {
             store_name: storename,
         };
 
-        let adminToken;
+        const dispatchLogin = () => {
+            dispatch(login());
+        };
 
-        // Get admin token
-        axios
-            .post(`${WPDomain}/wp-json/jwt-auth/v1/token`, adLog)
-            .then((res) => {
-                adminToken = res.data.token;
-
-                // Register user
-                axios
-                    .post(`${WPDomain}/wp-json/wp/v2/users`, regData, {
-                        headers: {
-                            Authorization: `Bearer ${adminToken}`,
-                        },
-                    })
-                    .then((res) => {
-                        const userLog = {
-                            username: email,
-                            password,
-                        };
-
-                        // Get user token
-                        axios
-                            .post(
-                                `${WPDomain}/wp-json/jwt-auth/v1/token`,
-                                userLog,
-                                {
-                                    headers: {
-                                        Authorization: `Bearer ${adminToken}`,
-                                    },
-                                }
-                            )
-                            .then((res) => {
-                                const userToken = res.data.token;
-
-                                if (isVendor) {
-                                    // Update store data
-                                    axios
-                                        .put(
-                                            `${WPDomain}/wp-json/dokan/v1/settings`,
-                                            storeData,
-                                            {
-                                                headers: {
-                                                    Authorization: `Bearer ${userToken}`,
-                                                },
-                                            }
-                                        )
-                                        .then((res) => {
-                                            notification['success']({
-                                                message:
-                                                    'Registration Successful!',
-                                            });
-                                            window.location.assign(
-                                                `http://localhost:5500/${userToken}`
-                                            );
-                                            setIsLoading(false);
-                                        })
-                                        .catch((err) => {
-                                            errResponse(err);
-                                        });
-                                } else {
-                                    localStorage.setItem(
-                                        'auth_token',
-                                        userToken
-                                    );
-                                    dispatch(login());
-                                    Router.push('/');
-                                    setIsLoading(false);
-                                }
-                            })
-                            .catch((err) => {
-                                errResponse(err);
-                            });
-                    })
-                    .catch((err) => {
-                        errResponse(err);
-                    });
-            })
-            .catch((err) => {
-                errResponse(err);
-            });
+        WPAuthRepository.register(
+            user,
+            storeData,
+            isVendor,
+            dispatchLogin,
+            setIsLoading
+        );
     };
 
-    const errResponse = (err) => {
-        if (err.response === undefined) {
-            notification['error']({
-                message: 'Registration Failed',
-                description: String(err),
-            });
-        } else {
-            notification['error']({
-                message: 'Registration Failed',
-                description: err.response.data.message,
-            });
-        }
-        setIsLoading(false);
-    };
     return (
         <div className="ps-my-account">
             <div className="container">

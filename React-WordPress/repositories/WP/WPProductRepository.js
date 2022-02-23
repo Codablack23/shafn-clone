@@ -9,17 +9,16 @@ import {
 } from '~/repositories/WP/WPRepository';
 import Repository, { serializeQuery } from '~/repositories/Repository';
 
+const settings = {
+    async: true,
+    crossDomain: true,
+    url: 'http://shafn.com/wp-json/dokan/v1/stores',
+    method: 'GET',
+    headers: {
+        'Cache-Control': 'no-cache',
+    },
+};
 
-    const settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": "http://shafn.com/wp-json/dokan/v1/stores",
-        "method": "GET",
-        "headers": {
-        "Cache-Control": "no-cache",
-            }
-    }
-  
 //   $.ajax(settings).done(function (response) {
 //     console.log(response);
 //   });
@@ -32,8 +31,8 @@ class WPProductRepository {
     //For example, if you want to get data for a section, do the following:
     async getSectionProducts() {
         const queries = {
-            per_page: 20
-        }
+            per_page: 20,
+        };
 
         const WPProducts = await WPProductRepository.getProducts(queries);
         setProductItems(WPProducts.items);
@@ -41,7 +40,6 @@ class WPProductRepository {
         useEffect(() => {
             getSectionProducts();
         }, []);
-    
     }
     async getProductsByIds(payload) {
         const endPoint = `${baseDomain}/products?${payload}`;
@@ -55,7 +53,6 @@ class WPProductRepository {
             .catch((error) => ({ error: JSON.stringify(error) }));
         return response;
     }
-
 
     async getProducts(payload) {
         let enpoint;
@@ -132,7 +129,9 @@ class WPProductRepository {
                     return data;
                 } else return null;
             })
-            .catch((error) => ({ error: JSON.stringify(error) }));
+            .catch((error) => {
+                return null;
+            });
         return reponse;
     }
 

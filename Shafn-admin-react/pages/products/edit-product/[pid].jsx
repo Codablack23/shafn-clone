@@ -10,6 +10,7 @@ import Router from "next/router";
 import { CompatSource } from "webpack-sources";
 import { ColorPicker, useColor } from "react-color-palette";
 import { WPDomain } from "~/repositories/Repository";
+import ProductRepository from "~/repositories/ProductRepository";
 import "react-color-palette/lib/css/styles.css";
 import { v4 as uuid } from "uuid";
 import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
@@ -759,126 +760,10 @@ const EditProductPage = ({ pid }) => {
         });
       })
       .catch((err) => {
-        console.log(err);
         notification["error"]({
           message: "Varitions Could not be Added",
           description: "Check your data connection and try again.",
         });
-      });
-  };
-
-  const uploadImages = () => {
-    let auth_token = localStorage.getItem("auth_token");
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth_token}`,
-      },
-      onUploadProgress: (progressEvent) => {
-        const percent = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        );
-
-        setUploading({
-          status: "Uploading Images",
-          progress: percent,
-        });
-      },
-    };
-
-    let images = [];
-    let imgFiles = imageFiles.map((img) => img.file);
-
-    imgFiles.forEach((file, index, arr) => {
-      // Check if it's an already uploaded image
-
-      if (typeof file === "string") {
-        images.push({ src: file, position: index });
-        if (images.length === imageFiles.length) {
-          editProduct(images);
-        }
-      } else {
-        let formData = new FormData();
-
-        formData.append("file", file);
-
-        axios
-          .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
-          .then((res) => {
-            images.push({ src: res.data.source_url, position: index });
-
-            if (images.length === imageFiles.length) {
-              editProduct(images);
-            }
-          })
-          .catch((err) => {
-            arr.length = index + 1;
-            notification["error"]({
-              message:
-                "Some images did not upload!. Check your data connection and try again.",
-            });
-
-            setUploading({
-              status: "",
-              progress: 0,
-            });
-          });
-      }
-    });
-  };
-
-  const editProduct = (images) => {
-    let auth_token = localStorage.getItem("auth_token");
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth_token}`,
-      },
-      onUploadProgress: (progressEvent) => {
-        const percent = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        );
-
-        setUploading({
-          status: "Uploading Product",
-          progress: percent,
-        });
-      },
-    };
-
-    let slug = `${product.name
-      .replace(/[^a-zA-Z0-9-_]/g, " ")
-      .replace(/  +/g, " ")
-      .split(" ")
-      .join("-")}`.trim();
-
-    let in_stock = product.in_stock === true || product.in_stock === "true";
-
-    const productData = {
-      ...product,
-      slug,
-      images,
-      in_stock,
-      price: product.price || product.regular_price,
-      stock_quantity: !in_stock ? 0 : Number(product.stock_quantity),
-      // attributes,
-      // variations: variations.map((v) => v.id),
-    };
-
-    axios
-      .put(`${WPDomain}/wp-json/dokan/v1/products/${pid}`, productData, config)
-      .then((res) => {
-        notification["success"]({
-          message: "Product Updated Successfully",
-        });
-        Router.push("/products");
-      })
-      .catch((err) => {
-        notification["error"]({
-          message: "Product Upload Failed",
-          description: "Check your data connection and try again.",
-        });
-        setIsUploading(false);
       });
   };
 
@@ -915,7 +800,7 @@ const EditProductPage = ({ pid }) => {
 
     if (result === "VALID") {
       setUploading((current) => ({ ...current, status: "Uploading" }));
-      uploadImages(); // product is uploaded in here
+      ProductRepository.editProduct(pid, imageFiles, product, setUploading);
     } else {
       notification["error"]({
         message: result,
@@ -924,35 +809,27 @@ const EditProductPage = ({ pid }) => {
   };
 
   useEffect(() => {
-    // Get product
-    let auth_token = localStorage.getItem("auth_token");
+    const getProduct = async () => {
+      const product = await ProductRepository.getProductByID(pid);
 
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth_token}`,
-      },
-    };
+      if (product) {
+        setProduct(product);
 
-    axios
-      .get(`${WPDomain}/wp-json/dokan/v1/products/${pid}`, config)
-      .then((res) => {
-        setProduct(res.data);
-
-        let imageFiles = Array.from(res.data.images).map((img, i) => ({
+        let imageFiles = Array.from(product.images).map((img, i) => ({
           id: `img-${i + 1}`,
           file: img.src,
         }));
 
-        let selectedImages = Array.from(res.data.images).map((img, i) => ({
+        let selectedImages = Array.from(product.images).map((img, i) => ({
           id: `img-${i + 1}`,
           url: img.src,
         }));
         setImageFiles(imageFiles);
         setSelectedImages(selectedImages);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      }
+    };
+
+    getProduct();
 
     dispatch(toggleDrawerMenu(false));
   }, []);
