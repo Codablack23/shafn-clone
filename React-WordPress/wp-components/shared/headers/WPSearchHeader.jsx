@@ -172,17 +172,24 @@ const WPSearchHeader = () => {
 
     return (
         <form
-            className="ps-form--quick-search"
+            className="ps-form--quick-search rounded-pill"
             method="get"
             action="/"
             onSubmit={handleSubmit}>
-            <div className="ps-form__categories">
-                <select className="form-control">{selectOptionView}</select>
+            <div className="ps-form__categories  rounded-pill">
+                <select className="form-control"
+                style={{
+                    backgroundColor:'#2A3147',
+                    color:'white',
+                    borderTopLeftRadius:30,
+                    borderBottomLeftRadius:30
+                }}
+                >{selectOptionView}</select>
             </div>
             <div className="ps-form__input">
                 <input
                     ref={inputEl}
-                    className="form-control"
+                    className="form-control bg-light"
                     type="text"
                     value={keyword}
                     placeholder="I'm shopping for..."
@@ -191,7 +198,20 @@ const WPSearchHeader = () => {
                 {clearTextView}
                 {loadingView}
             </div>
-            <button onClick={handleSubmit}>Search</button>
+            <button onClick={handleSubmit} 
+            style={{
+                backgroundColor:'#2A3147',
+                borderTopRightRadius:30,
+                borderBottomRightRadius:30,
+                minWidth:'150px'
+            }}
+            >
+            <i 
+            className="fa fa-search" 
+            ariaHidden="true"
+            style={{fontSize:'20px'}}
+            ></i>
+            </button>
             <div
                 className={`ps-panel--search-result${
                     isSearch ? ' active ' : ''

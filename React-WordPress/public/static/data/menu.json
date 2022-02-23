@@ -245,6 +245,61 @@
             "url": "/shop"
         },
         {
+            "icon": "icon-shirt",
+            "text": "Clothing & Apparel",
+            "url": "/shop"
+        },
+        {
+            "icon": "icon-lampshade",
+            "text": "Home, Garden & Kitchen",
+            "url": "/shop"
+        },
+        {
+            "icon": "icon-heart-pulse",
+            "text": "Health & Beauty",
+            "url": "/shop"
+        },
+        {
+            "icon": "icon-diamond2",
+            "text": "Jewelry & Watches",
+            "url": "/shop"
+        },
+        {
+            "icon": "icon-baby-bottle",
+            "text": "Babies & Moms",
+            "url": "/shop"
+        },
+        {
+            "icon": "icon-baseball",
+            "text": "Sport & Outdoor",
+            "url": "/shop"
+        },
+        {
+            "icon": "icon-smartphone",
+            "text": "Phones & Accessories",
+            "url": "/shop"
+        },
+        {
+            "icon": "icon-book2",
+            "text": "Books & Office",
+            "url": "/shop"
+        },
+        {
+            "icon": "icon-car-siren",
+            "text": "Cars & Motocycles",
+            "url": "/shop"
+        },
+        {
+            "icon": "icon-wrench",
+            "text": "Home Improments",
+            "url": "/shop"
+        },
+        {
+            "icon": "icon-tag",
+            "text": "Vouchers & Services",
+            "url": "/shop"
+        },
+        {
             "icon": "icon-laundry",
             "text": "Consumer Electronic",
             "url": "/shop",
@@ -309,26 +364,6 @@
             ]
         },
         {
-            "icon": "icon-shirt",
-            "text": "Clothing & Apparel",
-            "url": "/shop"
-        },
-        {
-            "icon": "icon-lampshade",
-            "text": "Home, Garden & Kitchen",
-            "url": "/shop"
-        },
-        {
-            "icon": "icon-heart-pulse",
-            "text": "Health & Beauty",
-            "url": "/shop"
-        },
-        {
-            "icon": "icon-diamond2",
-            "text": "Yewelry & Watches",
-            "url": "/shop"
-        },
-        {
             "icon": "icon-desktop",
             "text": "Computer & Technology",
             "url": "/shop",
@@ -377,41 +412,6 @@
                     ]
                 }
             ]
-        },
-        {
-            "icon": "icon-baby-bottle",
-            "text": "Babies & Moms",
-            "url": "/shop"
-        },
-        {
-            "icon": "icon-baseball",
-            "text": "Sport & Outdoor",
-            "url": "/shop"
-        },
-        {
-            "icon": "icon-smartphone",
-            "text": "Phones & Accessories",
-            "url": "/shop"
-        },
-        {
-            "icon": "icon-book2",
-            "text": "Books & Office",
-            "url": "/shop"
-        },
-        {
-            "icon": "icon-car-siren",
-            "text": "Cars & Motocycles",
-            "url": "/shop"
-        },
-        {
-            "icon": "icon-wrench",
-            "text": "Home Improments",
-            "url": "/shop"
-        },
-        {
-            "icon": "icon-tag",
-            "text": "Vouchers & Services",
-            "url": "/shop"
         }
     ]
 }

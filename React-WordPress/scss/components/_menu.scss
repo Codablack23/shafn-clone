@@ -110,7 +110,7 @@
 
 .mega-menu {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: row wrap;
     justify-content: space-between;
     padding: 15px 10px 10px;
     background-color: #fff;
@@ -130,7 +130,7 @@
     }
 
     .mega-menu__column {
-        min-width: 180px;
+        width:85vw;
     }
 
     .mega-menu__list {
@@ -347,11 +347,15 @@
     .menu__content {
         position: absolute;
         top: 100%;
+        width: 100%;
         left: 0;
         z-index: 100;
         z-index: 1000;
         min-width: 100%;
         padding-top: 2px;
+        display:flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
         @include hidden;
         transition: all 0.3s ease;
         @include transform(scale3d(1, 1, 0) translateY(30px));
@@ -360,7 +364,10 @@
     .menu--dropdown {
         background-color: #fff;
         border: 1px solid #d3d3d3;
-        min-width: 260px;
+        min-width: 210vh;
+        min-height: 20vh;
+        display:flex;
+        flex-wrap: wrap;
     }
 
     &:hover {
@@ -376,6 +383,9 @@
         margin: 0;
         padding: 0;
         list-style-type: none;
+        display:flex;
+        flex-wrap: wrap;
+        width:90vw
     }
 
     > li {
@@ -396,12 +406,15 @@
         &.has-mega-menu {
             .mega-menu {
                 position: absolute;
-                top: 0;
-                left: 100%;
-                width: auto;
-                min-width: 530px;
+                top: 20vh;
+                left:0;
+                min-width: 100vw;
+                max-width:100vh;
                 @include hidden;
                 border-left: none;
+                li{
+                    margin-right:30px;
+                }
             }
         }
 

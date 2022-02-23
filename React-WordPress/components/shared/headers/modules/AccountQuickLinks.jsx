@@ -67,12 +67,21 @@ class AccountQuickLinks extends Component {
         } else {
             return (
                 <div className="ps-block--user-header">
-                    <div className="ps-block__left">
-                        <i className="icon-user"></i>
-                    </div>
                     <div className="ps-block__right">
-                        <Link href="/account/login">
-                            <a>Login</a>
+                        <Link href="/account/login" >
+                          <span className='w3-hover-lightgrey' style={{
+                        cursor:'pointer'
+                        }}>
+                          <i 
+                           className="icon-user"
+                           style={{
+                             fontSize:'22px',
+                             cursor:'pointer',
+                             color:'#2A3147'
+                            }}
+                           >
+                           </i>
+                           </span>
                         </Link>
                         {/* <Link href="/account/register">
                             <a>Register</a>
