@@ -7,7 +7,7 @@ import WPMobileHeaderActions from '~/wp-components/shared/mobile/WPMobileHeaderA
 
 const WPHeaderMobile = () => {
     return (
-        <header className="header header--mobile">
+        <header className="header header--mobile bg-white">
             <div className="header__top">
                 <div className="header__left">
                     <p>Welcome to Martfury Online Shopping Store !</p>
@@ -33,15 +33,17 @@ const WPHeaderMobile = () => {
                     </ul>
                 </div>
             </div>
-            <div className="navigation--mobile">
-                <div className="navigation__left">
+            <div className="navigation--mobile bg-white">
+                <div className="navigation__left bg-white">
                     <Link href="/">
-                        <a className="ps-logo">
-                            <img
-                                src="/static/img/logo_light.png"
-                                alt="martfury"
-                            />
-                        </a>
+                    <a className="ps-logo" 
+                    style={{
+                    color:'#2A3147',
+                    fontSize:'30px',
+                    fontWeight:900
+                    }}>
+                     ShafN
+                    </a>
                     </Link>
                 </div>
                 <WPMobileHeaderActions />

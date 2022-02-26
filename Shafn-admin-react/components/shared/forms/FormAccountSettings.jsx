@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Router from "next/router";
 import { notification } from "antd";
-
+import 'react-phone-number-input/style.css'
 import { WPDomain } from "~/repositories/Repository";
 import { allStates } from "~/utilities/stateList";
+import PhoneInput from 'react-phone-number-input'
 
 const FormAccountSettings = () => {
   const { data } = allStates;
@@ -31,12 +32,15 @@ const FormAccountSettings = () => {
     //Display Image
     e.persist();
     if (e.target.files) {
-      let img = e.target.files[0];
-      setImgFile(img);
+      let selected_img = e.target.files[0];
+      setImgFile(selected_img);
+      setImg(URL.createObjectURL(selected_img));
+      URL.revokeObjectURL(selected_img);
 
-      setImg(URL.createObjectURL(img));
-
-      URL.revokeObjectURL(img);
+      console.log(selected_img)
+      console.log(URL.createObjectURL(selected_img))
+      console.log(imgFile)
+      console.log(img)
     }
   };
 
@@ -68,7 +72,7 @@ const FormAccountSettings = () => {
     e.preventDefault();
 
     setIsUploading(true);
-
+    console.log(number)
     let auth_token = localStorage.getItem("auth_token");
 
     const config = {
@@ -213,6 +217,7 @@ const FormAccountSettings = () => {
                 id="image-picker"
                 type="file"
                 accept="image/*"
+                onChange={imageHandler}
                 required
                 multiple
                 hidden
@@ -221,7 +226,9 @@ const FormAccountSettings = () => {
                 htmlFor="image-picker"
                 style={{ ...styles.imgPicker, paddingTop: 12 }}
               >
-                <img src={img.toString()} alt="" style={styles.img} />
+               <div className="bg-dark" style={{...styles.imgCover}}>
+               <img src={img} alt="" style={styles.img} />
+               </div>
                 <span
                   style={{
                     position: "absolute",
@@ -332,13 +339,22 @@ const FormAccountSettings = () => {
         <div className="col-sm-6">
           <div className="form-group">
             <label>Phone No.</label>
-            <input
+            {/* <input
               name="stock_quantity"
               className="form-control"
               type="number"
               placeholder="+123456..."
               value={number}
               onChange={(e) => setNumber(e.target.value)}
+            /><br/> */}
+            <PhoneInput
+             defaultCountry="NG"
+            countryCallingCodeEditable={false}
+            placeholder="+123456..."
+            international
+            countryCallingCodeEditable={false}
+            value={number}
+            onChange={setNumber}
             />
           </div>
 
@@ -412,10 +428,17 @@ const styles = {
     height: 150,
     borderRadius: 75,
     marginBottom: 20,
+    objectFit:'contain'
   },
   addrHeader: {
     marginTop: 10,
   },
+  imgCover:{
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    marginBottom: 20,
+  }
 };
 
 export default FormAccountSettings;

@@ -730,3 +730,23 @@ textarea.form-control {
     }
   }
 }
+.PhoneInput {
+	/* This is done to stretch the contents of this component. */
+	display: flex;
+	align-items: center;
+}
+
+.PhoneInputInput {
+	/* The phone number input stretches to fill all empty space */
+	flex: 1;
+	/* The phone number input should shrink
+	   to make room for the extension input */
+	min-width: 0;
+	border: 1px solid lightgrey;
+	min-height: 45px;
+	padding: 1%;
+	transition: all ease 0.2s;
+}
+.PhoneInputInput:focus {
+	border:1px solid orange;
+}

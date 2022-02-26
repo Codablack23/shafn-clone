@@ -24,7 +24,7 @@ class WPNavigationDefault extends Component {
 
     render() {
         return (
-            <nav className="navigation">
+            <nav className="navigation bg-white">
                 <div className="ps-container">
                     <div className="navigation__left">
                         <MenuCategoriesDropdown />

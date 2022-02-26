@@ -53,8 +53,12 @@ const Logo = ({ type }) => {
     }
     return (
         <Link href={data.url}>
-            <a className="ps-logo">
-                <img src={data.img} alt="" />
+            <a className="ps-logo" style={{
+               color:'#2A3147',
+               fontSize:'30px',
+               fontWeight:900
+            }}>
+               ShafN
             </a>
         </Link>
     );
