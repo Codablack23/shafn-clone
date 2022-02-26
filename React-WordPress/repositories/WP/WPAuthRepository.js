@@ -8,6 +8,16 @@ class WPAuthRepository {
         this.callback = callback;
     }
 
+    errorResponse(err) {
+        notification['error']({
+            message: 'Registration Failed',
+            description:
+                err.response === undefined
+                    ? String(err)
+                    : err.response.data.message,
+        });
+    }
+
     async register(user, storeData, isVendor, dispatchLogin, setIsLoading) {
         const adminLogin = {
             username: process.env.username,
@@ -74,18 +84,7 @@ class WPAuthRepository {
                 }
             }
         } catch (err) {
-            console.log(err);
-            if (err.response === undefined) {
-                notification['error']({
-                    message: 'Registration Failed',
-                    description: String(err),
-                });
-            } else {
-                notification['error']({
-                    message: 'Registration Failed',
-                    description: err.response.data.message,
-                });
-            }
+            this.errorResponse(err);
             setIsLoading(false);
         }
     }
@@ -108,17 +107,7 @@ class WPAuthRepository {
             }
             setIsLoading(false);
         } catch (err) {
-            if (err.response === undefined) {
-                notification['error']({
-                    message: 'Registration Failed',
-                    description: String(err),
-                });
-            } else {
-                notification['error']({
-                    message: 'Registration Failed',
-                    description: err.response.data.message,
-                });
-            }
+            this.errorResponse(err);
 
             setIsLoading(false);
         }

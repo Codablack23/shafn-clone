@@ -4,7 +4,7 @@ import ContainerDefault from "~/components/layouts/ContainerDefault";
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import { Modal, notification, Progress } from "antd";
+import { notification, Progress } from "antd";
 import { toggleDrawerMenu } from "~/store/app/action";
 import Router from "next/router";
 import { CompatSource } from "webpack-sources";
@@ -13,7 +13,9 @@ import { WPDomain } from "~/repositories/Repository";
 import ProductRepository from "~/repositories/ProductRepository";
 import "react-color-palette/lib/css/styles.css";
 import { v4 as uuid } from "uuid";
-import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
+import "suneditor/dist/css/suneditor.min.css";
+
+import Attributes from "~/components/elements/products/Attributes";
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
@@ -73,12 +75,12 @@ const EditProductPage = ({ pid }) => {
   const [product, setProduct] = useState({
     name: "",
     attributes: [],
+    variations: [],
     price: "",
     regular_price: "",
     sale_price: "",
     short_description: "",
     description: "",
-    variations: [],
     categories: "",
     stock_quantity: 0,
     sku: "",
@@ -101,8 +103,6 @@ const EditProductPage = ({ pid }) => {
   const [variations, setVariations] = useState([]);
   const [variation, setVariation] = useState({});
   const [singleVariation, setSingleVariation] = useState("single");
-
-  const [videoUrl, setVideoUrl] = useState("");
 
   const [isPriceValid, setIsPriceValid] = useState(true);
   const [uploading, setUploading] = useState({
@@ -205,46 +205,6 @@ const EditProductPage = ({ pid }) => {
     setImageFiles((current) => current.filter((img) => img.id !== id));
   };
 
-  const renderVideo = () => (
-    <div style={{ width: 200, height: 200 }}>
-      {!videoUrl ? (
-        <>
-          <input id="video" type="file" accept="video/*" required hidden />
-          <label
-            htmlFor="video"
-            className="btn border btn-lg"
-            style={{
-              paddingTop: 12,
-              padding: "3%",
-              backgroundColor: "#ededed",
-            }}
-          >
-            <i
-              className="fa fa-file-video-o"
-              style={{ fontSize: 38 }}
-              aria-hidden="true"
-            ></i>
-            <br />
-            <br />
-            <span>Add A Video</span>
-          </label>
-        </>
-      ) : (
-        <>
-          <video
-            id="video"
-            src={videoUrl}
-            controls
-            width="200px"
-            height="200px"
-          />
-
-          <button>Delete video</button>
-        </>
-      )}
-    </div>
-  );
-
   const renderProductImages = (num) => {
     return Array(num)
       .fill("")
@@ -304,270 +264,12 @@ const EditProductPage = ({ pid }) => {
       });
   };
 
-  // variations Logic
-  const addVariations = (varType) => {
-    if (varType == "single" || variations.length < 50) {
-      var new_id = uuid().slice(0, 3);
-      var varObj = {
-        id: new_id,
-        regular_price: price,
-        sku: "",
-        attributes: createVariationAttributes(),
-        in_stock: true,
-      };
-      setVariations((current) => [...current, varObj]);
-      console.log(variation);
-      // }else{
-      //   addVariationFromAttributes()
-    }
-    //  console.log(variations)
-  };
-  const createVariationAttributes = (value = {}) => {
-    var attrArray = [];
-    attributes.forEach((att, id) => {
-      attrArray.push({
-        id: id,
-        name: att.name.toLowerCase(),
-        option: value[att.name.toLowerCase()],
-      });
-    });
-    return attrArray;
-  };
-  // const addVariationFromAttributes=()=>{
-  //   const sizes=attributes.filter(att=>att.name=="Size" && att.variation==true)[0].options
-  //   const colors=attributes.filter(att=>att.name=="Color" && att.variation==true)[0].options
-  //   const attArray=attributes.map(att=>{
-  //     if(att.variation==true){
-  //       return att.name
-  //     }
-  //   })
-  //   var prev_id
-  //   const allvariations=[]
-  //   sizes.forEach((size)=>{
-  //    colors.forEach((color)=>{
-  //       prev_id=uuid().slice(0,3)
-
-  //       const variationObject = {
-  //         id:prev_id,
-  //         regular_price:price,
-  //         slug:size+color,
-  //         sku:"",
-  //         attributes:createVariationAttributes({color,size}),
-  //         in_stock:true
-  //       }
-
-  //      if(!variations.map((attr) => attr.slug).includes(variationObject.slug)){
-  //        allvariations.push(variationObject)
-  //      }
-  //    })
-
-  //   })
-  //  setVariations(current=>[...current,...allvariations])
-  //  console.log(attributes)
-  //  console.log(attArray)
-
-  //  attArray.forEach(att=>{
-  //      attributes.forEach(a=>{
-  //        if(a.name==att){
-  //          console.log(a.options)
-  //        }
-  //      })
-  //  })
-  // }
-  const removeVariation = (id) => {
-    setVariations((current) => current.filter((vari) => vari.id !== id));
-  };
-  const renderVarAttributes = (attName) => {
-    return attributes.map((att) => {
-      if (att.name == attName) {
-        return att.options.map((options) => (
-          <option key={options} value={options}>
-            {options}
-          </option>
-        ));
-      }
-    });
-  };
-  const updateVariationAtt = (id, key, value) => {
-    const varList = [...variations];
-    var updated = [];
-
-    if (varList.length > 0) {
-      updated = [...varList.filter((v) => v.id == id)[0].attributes];
-      updated.forEach((up) => {
-        if (up.name == key) {
-          up.option = value;
-        }
-      });
-      // console.log(attributes)
-    }
-  };
-  const updateVariations = (id, key, value) => {
-    const varList = [...variations];
-    var updated = [];
-    if (varList.length > 0) {
-      updated = varList.map((v) => {
-        if (v.id == id) {
-          v[key] = value;
-        }
-        return v;
-      });
-      setVariation(updated);
-      // console.log(variations)
-    }
-  };
-  const stockStatus = (stock) => (stock == "in stock" ? true : false);
-  const renderAttSelection = (params) =>
-    attributes.map((att) => {
-      return (
-        <select
-          key={att.name}
-          onChange={(e) => {
-            updateVariationAtt(
-              params.id,
-              att.name.toLowerCase(),
-              e.target.value
-            );
-          }}
-          value={
-            params.attributes.filter(
-              (attr) => attr.name == att.name.toLowerCase()
-            )[0].option
-          }
-          className="mr-3 border border-white rounded p-2"
-          style={{ width: `${100 / attributes.length - 5}%` }}
-          name="size"
-          id=""
-        >
-          {renderVarAttributes(att.name)}
-        </select>
-      );
-    });
-
-  const renderVariation = () => {
-    if (variations.length > 0) {
-      return variations.map((vari) => (
-        <div key={vari.id} className="variations-List mt-5 rounded">
-          <header className="d-flex justify-content-between bg-light p-3">
-            <div style={{ width: "15%" }}>
-              <h4>{vari.id}</h4>
-            </div>
-            <div style={{ width: "70%" }}>{renderAttSelection(vari)}</div>
-            <div
-              className="d-flex justify-content-end"
-              style={{ width: "15%" }}
-            >
-              <span className="btn">
-                <span
-                  style={{ fontSize: 15 }}
-                  data-bs-toggle="collapse"
-                  href={`#collapse${vari.id}`}
-                >
-                  <i className="fa fa-caret-down" aria-hidden="true"></i>
-                </span>
-              </span>
-              <span
-                style={{ cursor: "pointer" }}
-                className="text-danger small mt-2 ml-2"
-                onClick={() => {
-                  removeVariation(vari.id);
-                }}
-              >
-                Remove
-              </span>
-            </div>
-          </header>
-          <div className="collapse" id={`collapse${vari.id}`}>
-            <div className="card card-body container">
-              <div className="row pl-4 p-2">
-                <div className="col-12 col-md-6 p-2">
-                  <label htmlFor="">Variation Price</label>
-                  <br />
-                  <input
-                    onChange={(e) => {
-                      updateVariations(
-                        vari.id,
-                        "regular_price",
-                        e.target.value
-                      );
-                    }}
-                    style={{ ...styles.variationInput }}
-                    className="p-2"
-                    placeholder=""
-                    value={vari.regular_price}
-                    type="number"
-                  />
-                </div>
-                <div className="col-12 col-md-6 p-2">
-                  <label htmlFor="">SKU</label>
-                  <br />
-                  <input
-                    onChange={(e) => {
-                      updateVariations(vari.id, "sku", e.target.value);
-                    }}
-                    style={{ ...styles.variationInput }}
-                    className="p-2"
-                    value={vari.sku}
-                    type="text"
-                  />
-                </div>
-              </div>
-              <div className="row p-2">
-                <div className="col-12 pr-3 pl-3">
-                  <label htmlFor="">Stock Status</label>
-                  <select
-                    value={vari.in_stock == true ? "in stock" : "out of stock"}
-                    style={{ ...styles.variationInput, width: "94%" }}
-                    onChange={(e) => {
-                      updateVariations(
-                        vari.id,
-                        "in_stock",
-                        stockStatus(e.target.value)
-                      );
-                    }}
-                    className="p-2 bg-white"
-                    type="text"
-                  >
-                    <option value="in stock">In Stock</option>
-                    <option value="out of stock">Out Of Stock</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      ));
-    }
-  };
-  // end of variation Logic
-
-  const addAttr = () => {
-    if (attr) {
-      setAttributes((current) => {
-        if (current.map((attr) => attr.name).includes(attr)) {
-          return current;
-        } else {
-          return current.concat({
-            name: attr,
-            options: [],
-            visible: true,
-            variation: false,
-          });
-        }
-      });
-
-      setAttr("");
-    }
-  };
-
   const renderAttributes = () => {
     return attributes.map((attr, index) => (
       <div key={index} style={styles.attrWrapper}>
         <div className="ps-btn--gray" style={styles.header}>
           <span style={{ fontWeight: "bold" }}>{attr.name}</span>
-          <span onClick={() => removeAttr(attr.name)} style={styles.removeBtn}>
-            Remove
-          </span>
+          <span style={styles.removeBtn}>Remove</span>
         </div>
         {/* Name */}
         <div>
@@ -582,7 +284,6 @@ const EditProductPage = ({ pid }) => {
                 type="checkbox"
                 id={"visible" + index}
                 name="visible"
-                onChange={() => toggleAttrVisibility(attr.name)}
               />
               <label htmlFor={"visible" + index} style={{ color: "black" }}>
                 Visible on the product page
@@ -597,7 +298,6 @@ const EditProductPage = ({ pid }) => {
                 type="checkbox"
                 id={"variation" + index}
                 name="variation"
-                onChange={() => toggleAttrVariation(attr.name)}
               />
               <label htmlFor={"variation" + index} style={{ color: "black" }}>
                 Used for variations
@@ -715,58 +415,6 @@ const EditProductPage = ({ pid }) => {
     );
   };
 
-  const toggleAttrVisibility = (name) => {
-    setAttributes((attr) =>
-      attr.map((item) => {
-        if (item.name !== name) return item;
-        return {
-          ...item,
-          visible: !item.visible,
-        };
-      })
-    );
-  };
-
-  const toggleAttrVariation = (name) => {
-    setAttributes((attr) =>
-      attr.map((item) => {
-        if (item.name !== name) return item;
-        return {
-          ...item,
-          variation: !item.variation,
-        };
-      })
-    );
-  };
-
-  const saveVariations = () => {
-    let auth_token = localStorage.getItem("auth_token");
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth_token}`,
-      },
-    };
-
-    axios
-      .put(
-        `${WPDomain}/wp-json/wc/v3/products/${pid}/variations`,
-        variations,
-        config
-      )
-      .then((res) => {
-        notification["success"]({
-          message: "variations Added Successfully",
-        });
-      })
-      .catch((err) => {
-        notification["error"]({
-          message: "Varitions Could not be Added",
-          description: "Check your data connection and try again.",
-        });
-      });
-  };
-
   const validateInputs = () => {
     if (!product.name) return "Product Name is required!";
     if (!product.regular_price) return "Sale Price is required!";
@@ -810,22 +458,26 @@ const EditProductPage = ({ pid }) => {
 
   useEffect(() => {
     const getProduct = async () => {
-      const product = await ProductRepository.getProductByID(pid);
+      try {
+        const product = await ProductRepository.getProductByID(pid);
 
-      if (product) {
-        setProduct(product);
+        if (product) {
+          setProduct(product);
 
-        let imageFiles = Array.from(product.images).map((img, i) => ({
-          id: `img-${i + 1}`,
-          file: img.src,
-        }));
+          let imageFiles = Array.from(product.images).map((img, i) => ({
+            id: `img-${i + 1}`,
+            file: img.src,
+          }));
 
-        let selectedImages = Array.from(product.images).map((img, i) => ({
-          id: `img-${i + 1}`,
-          url: img.src,
-        }));
-        setImageFiles(imageFiles);
-        setSelectedImages(selectedImages);
+          let selectedImages = Array.from(product.images).map((img, i) => ({
+            id: `img-${i + 1}`,
+            url: img.src,
+          }));
+          setImageFiles(imageFiles);
+          setSelectedImages(selectedImages);
+        }
+      } catch (err) {
+        console.log(err);
       }
     };
 
@@ -1048,8 +700,6 @@ const EditProductPage = ({ pid }) => {
                         {renderProductImages(3)}
                       </div>
                     </div>
-
-                    {/* <div style={styles.imagesWrapper}>{renderImages()}</div> */}
                   </div>
                 </figure>
 
@@ -1215,6 +865,20 @@ const EditProductPage = ({ pid }) => {
                 ) : null} */}
               </div>
             </div>
+
+            {product.type === "variable" ? (
+              <div>
+                <figure className="ps-block--form-box">
+                  <figcaption>Attributes and Variations</figcaption>
+                  <div className="ps-block__content">
+                    <Attributes
+                      productAttributes={product.attributes}
+                      setProduct={setProduct}
+                    />
+                  </div>
+                </figure>
+              </div>
+            ) : null}
           </div>
 
           <div className="ps-form__bottom">
