@@ -8,7 +8,6 @@ import SkeletonWidgetBrands from '~/components/elements/skeletons/SkeletonWidget
 const WPWidgetCategories = ({ activeID }) => {
     const [loading, setLoading] = useState(true);
     const [categoryItems, setCategoryItems] = useState(null);
-    console.log(activeID);
     async function getCategoryItems() {
         const queries = {
             pages: 1,
@@ -37,9 +36,7 @@ const WPWidgetCategories = ({ activeID }) => {
                 <Link href={`/shop?category=${item.id}`}>
                     <a
                         className={
-                             activeID === item.id.toString()
-                                ? 'active'
-                                : ''
+                            activeID === item.id.toString() ? 'active' : ''
                         }
                         dangerouslySetInnerHTML={{
                             __html: `${item.name}`,
