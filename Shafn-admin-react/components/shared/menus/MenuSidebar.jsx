@@ -45,7 +45,7 @@ const MenuSidebar = () => {
           className={router.pathname === item.url ? "active" : ""}
         >
           <Link href={item.url}>
-            <a>
+            <a className="w3-text-orange">
               <i className={item.icon}></i>
               {item.text}
             </a>

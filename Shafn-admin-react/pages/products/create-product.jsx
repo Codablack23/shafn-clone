@@ -179,17 +179,16 @@ const CreateProductPage = () => {
                   required
                   hidden
                 />
-                <label
+              <div className="m-1 border p-3 text-center"
+               style={{
+                width: "22vh",
+                minHeight: "22vh",
+                margin: "2% auto",
+              }}
+              >
+              <label
                   htmlFor={`img-${i + 1}`}
-                  className="btn border m-1 ml-2 p-3 btn-lg"
-                  style={{
-                    display: "block",
-                    minwidth: "100px",
-                    minHeight: "20vh",
-                    borderRadius: 0,
-                    margin: "auto",
-                    borderColor: "lightgrey",
-                  }}
+                  className=""
                 >
                   <span>Add A Photo</span>
                   <br />
@@ -207,6 +206,7 @@ const CreateProductPage = () => {
                     </span>
                   ) : null}
                 </label>
+              </div>
               </>
             ) : (
               <div
@@ -214,8 +214,8 @@ const CreateProductPage = () => {
                 className="m-1 bg-dark"
                 style={{
                   position: "relative",
-                  width: "100px",
-                  minHeight: "20vh",
+                  width: "22vh",
+                  minHeight: "22vh",
                   margin: "2% auto",
                 }}
               >
@@ -228,7 +228,7 @@ const CreateProductPage = () => {
                 />
 
                 <div
-                  className="btn fw-5"
+                  className="btn fw-5 p-3"
                   style={styles.imageDel}
                   onClick={() => {
                     removeImage(image.id);
@@ -239,7 +239,7 @@ const CreateProductPage = () => {
                     style={{
                       fontSize: 18,
                     }}
-                    className="bi bi-trash text-danger"
+                    className="bi bi-trash text-dark"
                   ></i>
                 </div>
               </div>
@@ -472,7 +472,7 @@ const CreateProductPage = () => {
                     <div className="form-group">
                       <div className="form-group--nest">
                         <div style={styles.filesStyles}>
-                          {renderProductImages(10)}
+                          {renderProductImages(9)}
                         </div>
                       </div>
                     </div>
@@ -589,8 +589,8 @@ let styles = {
     position: "relative",
   },
   image: {
-    width: "100px",
-    height: "20vh",
+    width: "22vh",
+    height: "22vh",
     objectFit: "cover",
     cursor: "pointer",
   },
@@ -601,7 +601,10 @@ let styles = {
     right: 5,
     width: 10,
     height: 30,
-    borderRadius: 50,
+    borderRadius: 75,
+    background:'rgba(250,250,250)',
+    width:'30px',
+    height:'30px',
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

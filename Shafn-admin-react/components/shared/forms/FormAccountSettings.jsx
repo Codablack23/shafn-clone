@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Router from "next/router";
 import { notification } from "antd";
-import 'react-phone-number-input/style.css'
 import { WPDomain } from "~/repositories/Repository";
 import { allStates } from "~/utilities/stateList";
 import PhoneInput from 'react-phone-number-input'
