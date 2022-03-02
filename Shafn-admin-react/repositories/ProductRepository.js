@@ -53,14 +53,14 @@ class ProductRepository {
     return response;
   }
 
-  async createProduct(imageFiles, product, setUploading) {
+  async createProduct(payload) {
     let auth_token = localStorage.getItem("auth_token");
     const uploadProgress = (progressEvent, status) => {
       const percent = Math.round(
         (progressEvent.loaded * 100) / progressEvent.total
       );
 
-      setUploading({
+      payload.setUploading({
         status,
         progress: percent,
       });
@@ -77,7 +77,7 @@ class ProductRepository {
       };
 
       let images = [];
-      let imgFiles = imageFiles.map((img) => img.file);
+      let imgFiles = payload.imageFiles.map((img) => img.file);
 
       imgFiles.forEach((file, index, arr) => {
         let formData = new FormData();
@@ -89,7 +89,7 @@ class ProductRepository {
           .then((res) => {
             images.push({ src: res.data.source_url, position: index });
 
-            if (images.length === imageFiles.length) {
+            if (images.length === payload.imageFiles.length) {
               uploadProduct(images);
             }
           })
@@ -100,7 +100,7 @@ class ProductRepository {
                 "Some images did not upload!. Check your data connection and try again.",
             });
 
-            setUploading({
+            payload.setUploading({
               status: "",
               progress: 0,
             });
@@ -121,7 +121,7 @@ class ProductRepository {
       };
 
       const productData = {
-        ...product,
+        ...payload.product,
         images,
       };
 
@@ -146,7 +146,7 @@ class ProductRepository {
                 : err.response.data.message,
           });
 
-          setUploading({
+          payload.setUploading({
             status: "",
             progress: 0,
           });
@@ -266,6 +266,61 @@ class ProductRepository {
           setIsUploading(false);
         });
     };
+  }
+
+  async getAttributes() {
+        let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    const attributes = axios
+      .get(`${WPDomain}/wp-json/dokan/v1/products/attributes`, config)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        return;
+      });
+
+    const values = Array.from(attributes).map(attribute => {
+      let terms = this.getAttributeValuesByID(attribute.id).then(res => res.data).catch(err => {
+        return
+      })
+
+      return terms
+
+    })
+
+    const userAttributes = Array.from(attributes).map((attribute, index) => ({
+      name: attribute.name,
+      options: values[index]
+    }))
+
+
+    return userAttributes
+  }
+
+    async getAttributeValuesByID(id) {
+        let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    const response = axios
+      .get(`${WPDomain}/wp-json/dokan/v1/products/attributes/${id}/terms`, config)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        return;
+      });
+
+    return response;
   }
 }
 

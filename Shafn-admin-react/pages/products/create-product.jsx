@@ -4,11 +4,8 @@ import Router from "next/router";
 import ContainerDefault from "~/components/layouts/ContainerDefault";
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
 import { useDispatch } from "react-redux";
-import axios from "axios";
-import { notification, Modal, Progress } from "antd";
-import Slider from "react-slick";
+import { notification, Progress, Spin } from "antd";
 import { toggleDrawerMenu } from "~/store/app/action";
-import { WPDomain } from "~/repositories/Repository";
 import SettingsRepository from "~/repositories/SettingsRepository";
 import ProductRepository from "~/repositories/ProductRepository";
 import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
@@ -300,7 +297,7 @@ const CreateProductPage = () => {
         manage_stock: true,
       };
 
-      ProductRepository.createProduct(imageFiles, product, setUploading);
+      ProductRepository.createProduct({ imageFiles, product, setUploading });
     } else {
       notification["error"]({
         message: result,
@@ -523,16 +520,7 @@ const CreateProductPage = () => {
               className="ps-btn"
               onClick={handleOnSubmit}
             >
-              {uploading.status ? (
-                <img
-                  src={require("../../public/img/Interwind-loader.svg")}
-                  alt="Uploading..."
-                  width={40}
-                  height={30}
-                />
-              ) : (
-                "Submit"
-              )}
+              Submit
             </button>
           </div>
         </form>
