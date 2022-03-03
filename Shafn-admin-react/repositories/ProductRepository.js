@@ -239,6 +239,13 @@ class ProductRepository {
 
       let in_stock = product.in_stock === true || product.in_stock === "true";
 
+      let attributes = product.attributes.map((attribute) => ({
+        name: attribute.name,
+        options: attribute.options,
+        visible: attribute.visible,
+        variation: attribute.variation,
+      }));
+
       const productData = {
         ...product,
         slug,
@@ -246,7 +253,7 @@ class ProductRepository {
         in_stock,
         price: product.price || product.regular_price,
         stock_quantity: !in_stock ? 0 : Number(product.stock_quantity),
-        // attributes,
+        attributes,
         // variations: variations.map((v) => v.id),
       };
 
@@ -268,15 +275,15 @@ class ProductRepository {
     };
   }
 
-  async getAttributes() {
-        let auth_token = localStorage.getItem("auth_token");
+  async getUserAttributes() {
+    let auth_token = localStorage.getItem("auth_token");
     const config = {
       headers: {
         Authorization: `Bearer ${auth_token}`,
       },
     };
 
-    const attributes = axios
+    const attributes = await axios
       .get(`${WPDomain}/wp-json/dokan/v1/products/attributes`, config)
       .then((res) => {
         return res.data;
@@ -285,43 +292,31 @@ class ProductRepository {
         return;
       });
 
-    const values = Array.from(attributes).map(attribute => {
-      let terms = this.getAttributeValuesByID(attribute.id).then(res => res.data).catch(err => {
-        return
-      })
+    let values = [];
 
-      return terms
-
-    })
+    for (const attribute of Array.from(attributes)) {
+      await axios
+        .get(
+          `${WPDomain}/wp-json/dokan/v1/products/attributes/${attribute.id}/terms`,
+          config
+        )
+        .then((res) => {
+          values.push(res.data);
+        })
+        .catch((err) => {
+          return;
+        });
+    }
 
     const userAttributes = Array.from(attributes).map((attribute, index) => ({
       name: attribute.name,
-      options: values[index]
-    }))
+      values: values[index],
+    }));
 
-
-    return userAttributes
+    return userAttributes;
   }
 
-    async getAttributeValuesByID(id) {
-        let auth_token = localStorage.getItem("auth_token");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth_token}`,
-      },
-    };
-
-    const response = axios
-      .get(`${WPDomain}/wp-json/dokan/v1/products/attributes/${id}/terms`, config)
-      .then((res) => {
-        return res.data;
-      })
-      .catch((err) => {
-        return;
-      });
-
-    return response;
-  }
+  async saveAttributes(attributes) {}
 }
 
 export default new ProductRepository();

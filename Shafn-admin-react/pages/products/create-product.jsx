@@ -176,34 +176,37 @@ const CreateProductPage = () => {
                   required
                   hidden
                 />
-              <div className="m-1 border p-3 text-center"
-               style={{
-                width: "22vh",
-                minHeight: "22vh",
-                margin: "2% auto",
-              }}
-              >
-              <label
-                  htmlFor={`img-${i + 1}`}
-                  className=""
-                >
-                  <span>Add A Photo</span>
-                  <br />
-                  <br />
-                  <i
-                    className="fa fa-file-image-o text-secondary"
-                    style={{ fontSize: 38 }}
-                    aria-hidden="true"
-                  ></i>
-                  <br />
-                  {i === 0 ? (
-                    <span>
-                      {" "}
-                      <span>Primary</span>
-                    </span>
-                  ) : null}
+
+                <label htmlFor={`img-${i + 1}`} className="">
+                  <div
+                    className="m-1 border p-3 text-center"
+                    style={{
+                      width: "22vh",
+                      minHeight: "22vh",
+                      margin: "2% auto",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span>Add A Photo</span>
+                    <br />
+                    <br />
+                    <i
+                      className="fa fa-file-image-o text-secondary"
+                      style={{ fontSize: 38, marginTop: 10, marginBottom: 10 }}
+                      aria-hidden="true"
+                    ></i>
+                    <br />
+                    {i === 0 ? (
+                      <span>
+                        {" "}
+                        <span>Primary</span>
+                      </span>
+                    ) : null}
+                  </div>
                 </label>
-              </div>
               </>
             ) : (
               <div
@@ -234,9 +237,12 @@ const CreateProductPage = () => {
                 >
                   <i
                     style={{
-                      fontSize: 18,
+                      fontSize: 15,
+                      marginLeft: 7,
+                      marginTop: 5,
+                      color: "white",
                     }}
-                    className="bi bi-trash text-dark"
+                    className="bi bi-trash"
                   ></i>
                 </div>
               </div>
@@ -305,21 +311,21 @@ const CreateProductPage = () => {
     }
   };
 
+  const getStorename = async () => {
+    const storename = await SettingsRepository.getStorename();
+
+    if (!storename) {
+      notification["error"]({
+        message: "You must have a Store Name to upload a product.",
+      });
+      setTimeout(() => Router.push("/settings"), 2000);
+    }
+  };
+
   useEffect(() => {
     dispatch(toggleDrawerMenu(false));
 
-    const getStorename = async () => {
-      const storename = await SettingsRepository.getStorename();
-
-      if (!storename) {
-        notification["error"]({
-          message: "You must have a Store Name to upload a product.",
-        });
-        setTimeout(() => Router.push("/settings"), 2000);
-      }
-
-      getStorename();
-    };
+    getStorename();
   }, []);
 
   return (
@@ -585,14 +591,13 @@ let styles = {
   imageDel: {
     position: "absolute",
     fontSize: 15,
-    bottom: 5,
-    right: 5,
-    width: 10,
-    height: 30,
-    borderRadius: 75,
-    background:'rgba(250,250,250)',
-    width:'30px',
-    height:'30px',
+    bottom: 0,
+    right: 0,
+    borderTopLeftRadius: 75,
+
+    background: "rgba(250,0,0)",
+    width: "30px",
+    height: "30px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

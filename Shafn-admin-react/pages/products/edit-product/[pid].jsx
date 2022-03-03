@@ -15,7 +15,7 @@ import "react-color-palette/lib/css/styles.css";
 import { v4 as uuid } from "uuid";
 import "suneditor/dist/css/suneditor.min.css";
 
-import Attributes from "~/components/elements/products/Attributes";
+import ProductAttributes from "~/components/elements/products/ProductAttributes";
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
@@ -95,14 +95,10 @@ const EditProductPage = ({ pid }) => {
 
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
-  const [attributes, setAttributes] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
   const [color, setColor] = useColor("hex", "#aabbcc");
   const [attr, setAttr] = useState(null);
   // variation attributes states
-  const [variations, setVariations] = useState([]);
-  const [variation, setVariation] = useState({});
-  const [singleVariation, setSingleVariation] = useState("single");
 
   const [isPriceValid, setIsPriceValid] = useState(true);
   const [uploading, setUploading] = useState({
@@ -175,26 +171,24 @@ const EditProductPage = ({ pid }) => {
       ) {
         const imgFile = {
           id: e.target.id,
-          file: e.target.files[0],
+          file: image,
         };
         setImageFiles((current) =>
-          imgFile.id === "img-1"
-            ? [imgFile, ...current]
-            : current.concat(imgFile)
+          imgFile.id === "img-1" ? [imgFile, ...current] : [...current, imgFile]
         );
 
         const img = {
           id: e.target.id,
-          url: URL.createObjectURL(e.target.files[0]),
+          url: URL.createObjectURL(image),
         };
 
         setSelectedImages((current) => current.concat(img));
 
-        URL.revokeObjectURL(e.target.files[0]);
+        URL.revokeObjectURL(image);
       } else {
         notification["error"]({
           message: "Invalid image type!",
-          description: "Image must be a jpg, png or gif",
+          description: "Image type must be jpg, png or gif",
         });
       }
     }
@@ -264,157 +258,6 @@ const EditProductPage = ({ pid }) => {
       });
   };
 
-  const renderAttributes = () => {
-    return attributes.map((attr, index) => (
-      <div key={index} style={styles.attrWrapper}>
-        <div className="ps-btn--gray" style={styles.header}>
-          <span style={{ fontWeight: "bold" }}>{attr.name}</span>
-          <span style={styles.removeBtn}>Remove</span>
-        </div>
-        {/* Name */}
-        <div>
-          <p style={{ fontWeight: "bold", marginTop: 5 }}>Name</p>
-          <hr />
-          <p style={{ fontWeight: "bold" }}>{attr.name}</p>{" "}
-          <div className="form-group">
-            <div className="ps-checkbox">
-              <input
-                checked={attr.visible}
-                className="form-control"
-                type="checkbox"
-                id={"visible" + index}
-                name="visible"
-              />
-              <label htmlFor={"visible" + index} style={{ color: "black" }}>
-                Visible on the product page
-              </label>
-            </div>
-          </div>{" "}
-          <div className="form-group">
-            <div className="ps-checkbox">
-              <input
-                checked={attr.variation}
-                className="form-control"
-                type="checkbox"
-                id={"variation" + index}
-                name="variation"
-              />
-              <label htmlFor={"variation" + index} style={{ color: "black" }}>
-                Used for variations
-              </label>
-            </div>
-          </div>
-        </div>
-        {/* Value(s) */}
-
-        {attr.name === "Color" ? (
-          <>
-            {renderColorAttrOptions(attr.name, attr.options)}
-            <ColorPicker
-              width={250}
-              height={100}
-              color={color}
-              onChange={setColor}
-              hideHSV
-              hideRGB
-              dark
-            />
-            <button
-              type="button"
-              className="ps-btn ps-btn--gray"
-              style={{ marginTop: 10 }}
-              onClick={() => addAttrOption(attr.name, color.hex)}
-            >
-              Add Color
-            </button>
-          </>
-        ) : (
-          <div>
-            <p style={{ fontWeight: "bold" }}>Value(s)</p>
-            {renderAttrOptions(attr.name, attr.options)}
-            <div className="form-group form-group--select">
-              <div className="form-group__content">
-                <select
-                  className="ps-select"
-                  title="Values"
-                  onChange={(e) => {
-                    e.persist();
-                    addAttrOption(attr.name, e.target.value);
-                  }}
-                >
-                  <option value="">Select Values</option>
-                  <option value="XS">XS</option>
-                  <option value="S">S</option>
-                  <option value="M">M</option>
-                  <option value="L">L</option>
-                  <option value="XL">XL</option>
-                  <option value="XXL">XXL</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    ));
-  };
-
-  const renderAttrOptions = (name, options) => {
-    return options.map((option, index) => (
-      <label
-        key={index}
-        className="ps-btn--gray"
-        style={styles.attrVal}
-        onClick={() => removeAttrOption(name, option)}
-      >
-        <span>x</span> {option}
-      </label>
-    ));
-  };
-
-  const renderColorAttrOptions = (name, options) => {
-    return options.map((option, index) => (
-      <span
-        key={index}
-        className="ps-btn"
-        style={{
-          backgroundColor: option,
-        }}
-        onClick={() => removeAttrOption(name, option)}
-      ></span>
-    ));
-  };
-
-  const removeAttr = (name) => {
-    setAttributes((attr) => attr.filter((item) => item.name !== name));
-  };
-
-  const addAttrOption = (name, option) => {
-    setAttributes((attr) =>
-      attr.map((item) => {
-        if (item.name !== name) return item;
-        return {
-          ...item,
-          options:
-            !option || item.options.includes(option)
-              ? item.options
-              : [...item.options, option],
-        };
-      })
-    );
-  };
-
-  const removeAttrOption = (name, option) => {
-    setAttributes((attr) =>
-      attr.map((item) => {
-        if (item.name !== name) return item;
-        return {
-          ...item,
-          options: item.options.filter((opt) => opt !== option),
-        };
-      })
-    );
-  };
-
   const validateInputs = () => {
     if (!product.name) return "Product Name is required!";
     if (!product.regular_price) return "Sale Price is required!";
@@ -456,31 +299,39 @@ const EditProductPage = ({ pid }) => {
     }
   };
 
-  useEffect(() => {
-    const getProduct = async () => {
-      try {
-        const product = await ProductRepository.getProductByID(pid);
+  const getProduct = async () => {
+    try {
+      const product = await ProductRepository.getProductByID(pid);
 
-        if (product) {
-          setProduct(product);
+      if (product) {
+        let modifiedAttributes = product.attributes.map((attribute) => ({
+          ...attribute,
+          type: "select",
+          error: "",
+        }));
+        setProduct({
+          ...product,
+          attributes: modifiedAttributes,
+        });
 
-          let imageFiles = Array.from(product.images).map((img, i) => ({
-            id: `img-${i + 1}`,
-            file: img.src,
-          }));
+        let imageFiles = Array.from(product.images).map((img, index) => ({
+          id: `img-${index + 1}`,
+          file: img.src,
+        }));
 
-          let selectedImages = Array.from(product.images).map((img, i) => ({
-            id: `img-${i + 1}`,
-            url: img.src,
-          }));
-          setImageFiles(imageFiles);
-          setSelectedImages(selectedImages);
-        }
-      } catch (err) {
-        console.log(err);
+        let selectedImages = Array.from(product.images).map((img, index) => ({
+          id: `img-${index + 1}`,
+          url: img.src,
+        }));
+        setImageFiles(imageFiles);
+        setSelectedImages(selectedImages);
       }
-    };
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
+  useEffect(() => {
     getProduct();
 
     dispatch(toggleDrawerMenu(false));
@@ -871,7 +722,7 @@ const EditProductPage = ({ pid }) => {
                 <figure className="ps-block--form-box">
                   <figcaption>Attributes and Variations</figcaption>
                   <div className="ps-block__content">
-                    <Attributes
+                    <ProductAttributes
                       productAttributes={product.attributes}
                       setProduct={setProduct}
                     />
