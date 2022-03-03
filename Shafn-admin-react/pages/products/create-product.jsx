@@ -180,15 +180,7 @@ const CreateProductPage = () => {
                 <label htmlFor={`img-${i + 1}`} className="">
                   <div
                     className="m-1 border p-3 text-center"
-                    style={{
-                      width: "22vh",
-                      minHeight: "22vh",
-                      margin: "2% auto",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
+                    style={styles.imageSelectBox}
                   >
                     <span>Add A Photo</span>
                     <br />
@@ -569,18 +561,14 @@ const CreateProductPage = () => {
 export default CreateProductPage;
 
 let styles = {
-  imagesWrapper: { display: "flex", flexWrap: "wrap" },
-  imageContainer: {
+  imageSelectBox: {
+    width: "22vh",
+    minHeight: "22vh",
+    margin: "2% auto",
     display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: "column",
+    justifyContent: "center",
     alignItems: "center",
-    width: 200,
-    maxHeight: 300,
-    backgroundColor: "black",
-    marginLeft: 20,
-    marginBottom: 10,
-    position: "relative",
   },
   image: {
     width: "22vh",
