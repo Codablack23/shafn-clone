@@ -94,8 +94,7 @@
     transition:all ease 0.2s;
     background: lightgrey;
   }
-  
-  .active,
+
   .demo:hover {
       transform: scale(1.2);
   }
