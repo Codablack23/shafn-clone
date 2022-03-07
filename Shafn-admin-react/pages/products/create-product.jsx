@@ -8,9 +8,10 @@ import { notification, Progress, Spin } from "antd";
 import { toggleDrawerMenu } from "~/store/app/action";
 import SettingsRepository from "~/repositories/SettingsRepository";
 import ProductRepository from "~/repositories/ProductRepository";
-import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
 import Lightbox from "react-image-lightbox";
+import ReactHtmlParser from "react-html-parser";
 import "react-image-lightbox/style.css"; //
+import "suneditor/dist/css/suneditor.min.css";
 
 import { CustomModal, CustomSlider } from "~/components/elements/custom/index";
 const SunEditor = dynamic(() => import("suneditor-react"), {
@@ -68,6 +69,8 @@ let buttonList = [
 const CreateProductPage = () => {
   const dispatch = useDispatch();
 
+  const [categories, setCategories] = useState([]);
+
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [discountedPrice, setDiscountedPrice] = useState("");
@@ -77,7 +80,6 @@ const CreateProductPage = () => {
   const [type, setType] = useState("simple");
   const [qty, setQty] = useState("");
   const [sku, setSku] = useState("");
-  const [tags, setTags] = useState("");
 
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
@@ -314,10 +316,17 @@ const CreateProductPage = () => {
     }
   };
 
+  const getCategories = async () => {
+    const categories = await ProductRepository.getCategories();
+
+    setCategories(categories);
+  };
+
   useEffect(() => {
     dispatch(toggleDrawerMenu(false));
 
     getStorename();
+    getCategories();
   }, []);
 
   return (
@@ -354,7 +363,7 @@ const CreateProductPage = () => {
                     </div>
                     <div className="form-group">
                       <label>
-                        Sale Price<sup>*</sup>
+                        Regular Price<sup>*</sup>
                       </label>
                       <input
                         name="regular_price"
@@ -397,21 +406,11 @@ const CreateProductPage = () => {
                           }
                         >
                           <option value="">Select a category</option>
-                          <option value="17">Accessories</option>
-                          <option value="56">--Jewelries</option>
-                          <option value="21">Art</option>
-                          <option value="22">Fabrics</option>
-                          <option value="26">--Kente</option>
-                          <option value="27">--Wax print</option>
-                          <option value="16">Fashion</option>
-                          <option value="24">--Clothes</option>
-                          <option value="25">--Shoes</option>
-                          <option value="67">----Canvas</option>
-                          <option value="23">--Socks</option>
-                          <option value="18">Home &amp; Living</option>
-                          <option value="20">Toys &amp; Entertainment</option>
-                          <option value="19">Wedding &amp; Party</option>
-                          <option value="15">Uncategorized</option>
+                          {categories.map((category) => (
+                            <option value={category.id}>
+                              {ReactHtmlParser(category.name)}
+                            </option>
+                          ))}
                         </select>
                       </div>
                     </div>
@@ -488,20 +487,6 @@ const CreateProductPage = () => {
                         onChange={(e) => setSku(e.target.value)}
                       />
                     </div>
-
-                    {/* <div className="form-group">
-                      <label>
-                        Tags<sup>*</sup>
-                      </label>
-                      <input
-                        name="tags"
-                        className="form-control"
-                        type="text"
-                        placeholder="Enter tags as space seperated values e.g. adidas shoes ..."
-                        value={tags}
-                        onChange={(e) => setTags(e.target.value)}
-                      />
-                    </div> */}
                   </div>
                 </figure>
               </div>
@@ -583,7 +568,7 @@ let styles = {
     right: 0,
     borderTopLeftRadius: 75,
 
-    background: "rgba(250,0,0)",
+    background: "rgba(250,250,250)",
     width: "30px",
     height: "30px",
     display: "flex",

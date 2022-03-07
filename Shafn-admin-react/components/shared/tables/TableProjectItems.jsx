@@ -57,12 +57,12 @@ const TableProjectItems = () => {
     });
   }
 
-  useEffect(() => {
-    const getProducts = async () => {
-      const products = await ProductRepository.getProducts();
-      setProductItems(products);
-    };
+  const getProducts = async () => {
+    const products = await ProductRepository.getProducts();
+    setProductItems(products);
+  };
 
+  useEffect(() => {
     getProducts();
   }, []);
   return (

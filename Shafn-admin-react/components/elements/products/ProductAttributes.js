@@ -82,29 +82,41 @@ const ProductAttributes = ({ productAttributes, setProduct }) => {
     modifyAttribute(productAttributes.map(modify));
   };
 
-  const toggleVisibility = (id) => {
+  const toggleProp = (id, name) => {
     const toggle = (attribute) =>
       attribute.id === id
         ? {
             ...attribute,
-            visible: !attribute.visible,
+            [name]: !attribute[name],
           }
         : attribute;
 
     modifyAttribute(productAttributes.map(toggle));
   };
 
-  const toggleVariation = (id) => {
-    const toggle = (attribute) =>
-      attribute.id === id
-        ? {
-            ...attribute,
-            variation: !attribute.variation,
-          }
-        : attribute;
+  // const toggleVisibility = (id) => {
+  //   const toggle = (attribute) =>
+  //     attribute.id === id
+  //       ? {
+  //           ...attribute,
+  //           visible: !attribute.visible,
+  //         }
+  //       : attribute;
 
-    modifyAttribute(productAttributes.map(toggle));
-  };
+  //   modifyAttribute(productAttributes.map(toggle));
+  // };
+
+  // const toggleVariation = (id) => {
+  //   const toggle = (attribute) =>
+  //     attribute.id === id
+  //       ? {
+  //           ...attribute,
+  //           variation: !attribute.variation,
+  //         }
+  //       : attribute;
+
+  //   modifyAttribute(productAttributes.map(toggle));
+  // };
 
   const addOption = (id, option) => {
     const modify = (attribute) =>
@@ -195,7 +207,7 @@ const ProductAttributes = ({ productAttributes, setProduct }) => {
   const renderAttributes = () => {
     return productAttributes.map((attribute) => {
       let defaultOptions = [];
-      if (attribute.type === "select") {
+      if (attribute.type === "select" && userAttributes.length > 0) {
         defaultOptions = userAttributes.find(
           (attr) => attr.name.toLowerCase() === attribute.name.toLowerCase()
         ).values;
@@ -214,8 +226,9 @@ const ProductAttributes = ({ productAttributes, setProduct }) => {
           error={attribute.error}
           changeName={changeName}
           addOption={addOption}
-          toggleVisibility={toggleVisibility}
-          toggleVariation={toggleVariation}
+          // toggleVisibility={toggleVisibility}
+          // toggleVariation={toggleVariation}
+          toggleProp={toggleProp}
           removeOption={removeOption}
           selectAllOptions={selectAllOptions}
           clearOptions={clearOptions}

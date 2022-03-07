@@ -3,19 +3,15 @@ import dynamic from "next/dynamic";
 import ContainerDefault from "~/components/layouts/ContainerDefault";
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
 import { useDispatch } from "react-redux";
-import axios from "axios";
 import { notification, Progress } from "antd";
 import { toggleDrawerMenu } from "~/store/app/action";
-import Router from "next/router";
-import { CompatSource } from "webpack-sources";
-import { ColorPicker, useColor } from "react-color-palette";
-import { WPDomain } from "~/repositories/Repository";
 import ProductRepository from "~/repositories/ProductRepository";
+import ReactHtmlParser from "react-html-parser";
 import "react-color-palette/lib/css/styles.css";
-import { v4 as uuid } from "uuid";
 import "suneditor/dist/css/suneditor.min.css";
 
 import ProductAttributes from "~/components/elements/products/ProductAttributes";
+import ProductVariations from "~/components/elements/products/ProductVariations";
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
@@ -93,12 +89,11 @@ const EditProductPage = ({ pid }) => {
     type: "simple",
   });
 
+  const [categories, setCategories] = useState([]);
+
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
-  const [color, setColor] = useColor("hex", "#aabbcc");
-  const [attr, setAttr] = useState(null);
-  // variation attributes states
 
   const [isPriceValid, setIsPriceValid] = useState(true);
   const [uploading, setUploading] = useState({
@@ -108,7 +103,7 @@ const EditProductPage = ({ pid }) => {
 
   const handleInputChange = (e) => {
     let name = e.target.name;
-    let val = e.target.value;
+    let value = e.target.value;
     let fieldNames = [
       "regular_price",
       "price",
@@ -119,23 +114,23 @@ const EditProductPage = ({ pid }) => {
       "sold_individually",
       "categories",
     ];
-    if (name === "regular_price" && !isNaN(val)) {
-      setProduct((current) => ({ ...current, [name]: val }));
+    if (name === "regular_price" && !isNaN(value)) {
+      setProduct((current) => ({ ...current, [name]: value }));
     }
 
-    if (name === "price" && !isNaN(val)) {
-      if (Number(val) >= Number(product.regular_price)) {
+    if (name === "price" && !isNaN(value)) {
+      if (Number(value) >= Number(product.regular_price)) {
         setIsPriceValid(false);
         setTimeout(() => {
           setIsPriceValid(true);
         }, 4000);
       } else {
-        setProduct((current) => ({ ...current, [name]: val }));
+        setProduct((current) => ({ ...current, [name]: value }));
       }
     }
 
-    if (name === "stock_quantity" && Number.isInteger(Number(val))) {
-      setProduct((current) => ({ ...current, [name]: val }));
+    if (name === "stock_quantity" && Number.isInteger(Number(value))) {
+      setProduct((current) => ({ ...current, [name]: value }));
     }
 
     if (
@@ -148,11 +143,11 @@ const EditProductPage = ({ pid }) => {
     }
 
     if (name === "categories") {
-      setProduct((current) => ({ ...current, [name]: [{ id: val }] }));
+      setProduct((current) => ({ ...current, [name]: [{ id: value }] }));
     }
 
     if (!fieldNames.includes(name)) {
-      setProduct((current) => ({ ...current, [name]: val }));
+      setProduct((current) => ({ ...current, [name]: value }));
     }
   };
 
@@ -323,6 +318,7 @@ const EditProductPage = ({ pid }) => {
           id: `img-${index + 1}`,
           url: img.src,
         }));
+
         setImageFiles(imageFiles);
         setSelectedImages(selectedImages);
       }
@@ -331,8 +327,16 @@ const EditProductPage = ({ pid }) => {
     }
   };
 
+  const getCategories = async () => {
+    const categories = await ProductRepository.getCategories();
+
+    setCategories(categories);
+  };
+
   useEffect(() => {
     getProduct();
+
+    getCategories();
 
     dispatch(toggleDrawerMenu(false));
   }, []);
@@ -419,7 +423,7 @@ const EditProductPage = ({ pid }) => {
 
                     <div className="form-group">
                       <label>
-                        Sale Price<sup>*</sup>
+                        Regular Price<sup>*</sup>
                       </label>
                       <input
                         name="regular_price"
@@ -458,21 +462,11 @@ const EditProductPage = ({ pid }) => {
                           onChange={handleInputChange}
                         >
                           <option value="">Select a category</option>
-                          <option value="17">Accessories</option>
-                          <option value="56">--Jewelries</option>
-                          <option value="21">Art</option>
-                          <option value="22">Fabrics</option>
-                          <option value="26">--Kente</option>
-                          <option value="27">--Wax print</option>
-                          <option value="16">Fashion</option>
-                          <option value="24">--Clothes</option>
-                          <option value="25">--Shoes</option>
-                          <option value="67">----Canvas</option>
-                          <option value="23">--Socks</option>
-                          <option value="18">Home &amp; Living</option>
-                          <option value="20">Toys &amp; Entertainment</option>
-                          <option value="19">Wedding &amp; Party</option>
-                          <option value="15">Uncategorized</option>
+                          {categories.map((category) => (
+                            <option value={category.id}>
+                              {ReactHtmlParser(category.name)}
+                            </option>
+                          ))}
                         </select>
                       </div>
                     </div>
@@ -504,11 +498,11 @@ const EditProductPage = ({ pid }) => {
                             buttonList: short_buttonList,
                             maxCharCount: 100,
                           }}
-                          onChange={(val) =>
+                          onChange={(value) =>
                             handleInputChange({
                               target: {
                                 name: "short_description",
-                                value: val,
+                                value,
                               },
                             })
                           }
@@ -528,11 +522,11 @@ const EditProductPage = ({ pid }) => {
                           setOptions={{
                             buttonList,
                           }}
-                          onChange={(val) =>
+                          onChange={(value) =>
                             handleInputChange({
                               target: {
                                 name: "description",
-                                value: val,
+                                value,
                               },
                             })
                           }
@@ -624,11 +618,6 @@ const EditProductPage = ({ pid }) => {
                         </label>
                       </div>
                     </div>
-
-                    {/* <div className="form-group">
-                        <label>Tags</label>
-                        <input className="form-control" type="text" />
-                      </div> */}
                   </div>
 
                   <div style={{ marginTop: 100 }}>
@@ -636,84 +625,6 @@ const EditProductPage = ({ pid }) => {
                     <Progress type="line" percent={uploading.progress} />
                   </div>
                 </figure>
-                {/* {type === "variable" ? (
-                  <div>
-                    <figure className="ps-block--form-box">
-                      <figcaption>Attribute and Variation</figcaption>
-                      <div className="ps-block__content">
-                        {renderAttributes()}
-
-                        <hr style={{ borderWidth: 3 }} />
-
-                        <div className="form-group form-group--select">
-                          <div className="form-group__content">
-                            <select
-                              className="ps-select"
-                              title="Attributes"
-                              value={attr}
-                              onChange={(e) => {
-                                e.persist();
-                                setAttr(e.target.value);
-                              }}
-                            >
-                              <option value="">Select Attribute</option>
-                              <option value="Color">Color</option>
-                              <option value="Size">Size</option>
-                            </select>
-                          </div>
-                        </div>
-
-                        <button
-                          type="button"
-                          className="ps-btn ps-btn--gray"
-                          onClick={addAttr}
-                        >
-                          Add
-                        </button>
-                        <button
-                          type="button"
-                          className="ps-btn"
-                          style={{ marginLeft: 10 }}
-                        >
-                          Save
-                        </button>
-                      </div>
-                    </figure>
-                    <div className="p-3">
-                      <div>
-                        <h3>Variations</h3>
-                        <select
-                          style={{ border: "none", borderRadius: 50 }}
-                          className="p-3 bg-light"
-                          name=""
-                          id=""
-                          onChange={(e) => {
-                            setSingleVariation(e.target.value);
-                          }}
-                        >
-                          <option value="single">Add Variation</option> */}
-                {/* <option value="fromAttributes">Create Variation From All Attributes</option> */}
-                {/* </select>
-                        <br />
-                        <span
-                          className="btn ps-btn btn-lg mt-3"
-                          onClick={(e) => addVariations(singleVariation)}
-                        >
-                          Add
-                        </span>
-                        {renderVariation()}
-                      </div>
-                      <span
-                        className="btn ps-btn btn-lg mt-3"
-                        onClick={() => {
-                          saveVariations();
-                        }}
-                      >
-                        Save Variations
-                      </span>
-                    </div>
-                  </div>
-                ) : null} */}
               </div>
             </div>
 
@@ -723,6 +634,11 @@ const EditProductPage = ({ pid }) => {
                   <figcaption>Attributes and Variations</figcaption>
                   <div className="ps-block__content">
                     <ProductAttributes
+                      productAttributes={product.attributes}
+                      setProduct={setProduct}
+                    />
+                    <ProductVariations
+                      productID={pid}
                       productAttributes={product.attributes}
                       setProduct={setProduct}
                     />

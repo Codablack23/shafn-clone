@@ -239,22 +239,28 @@ class ProductRepository {
 
       let in_stock = product.in_stock === true || product.in_stock === "true";
 
-      let attributes = product.attributes.map((attribute) => ({
-        name: attribute.name,
-        options: attribute.options,
-        visible: attribute.visible,
-        variation: attribute.variation,
-      }));
+      let stock_quantity = !in_stock ? 0 : Number(product.stock_quantity);
+
+      let price = product.price || product.regular_price;
+
+      let attributes =
+        product.type === "variable"
+          ? product.attributes.map((attribute) => ({
+              name: attribute.name,
+              options: attribute.options,
+              visible: attribute.visible,
+              variation: attribute.variation,
+            }))
+          : [];
 
       const productData = {
         ...product,
         slug,
         images,
         in_stock,
-        price: product.price || product.regular_price,
-        stock_quantity: !in_stock ? 0 : Number(product.stock_quantity),
+        stock_quantity,
+        price,
         attributes,
-        // variations: variations.map((v) => v.id),
       };
 
       axios
@@ -317,6 +323,74 @@ class ProductRepository {
   }
 
   async saveAttributes(attributes) {}
+
+  async getVariations(productID) {
+    let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    let response = axios
+      .get(`${WPDomain}/wp-json/wc/v3/products/${productID}/variations`, config)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        return;
+      });
+
+    return response;
+  }
+
+  async createVariations(productID, attributes) {
+    let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    let variations = [];
+
+    for (const attributeMix of Array.from(attributes)) {
+      await axios
+        .post(
+          `${WPDomain}/wp-json/wc/v3/products/${productID}/variations`,
+          { attributes: attributeMix },
+          config
+        )
+        .then((res) => {
+          variations.push(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    return variations;
+  }
+
+  async getCategories() {
+    let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    const response = axios
+      .get(`${WPDomain}/wp-json/wc/v3/products/categories`, config)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        return;
+      });
+
+    return response;
+  }
 }
 
 export default new ProductRepository();

@@ -11,8 +11,9 @@ const Attribute = ({
   error,
   changeName,
   addOption,
-  toggleVisibility,
-  toggleVariation,
+  // toggleVisibility,
+  // toggleVariation,
+  toggleProp,
   removeOption,
   selectAllOptions,
   clearOptions,
@@ -83,7 +84,7 @@ const Attribute = ({
                 type="checkbox"
                 id={`visible-${id}`}
                 name="visible"
-                onChange={() => toggleVisibility(id)}
+                onChange={(e) => toggleProp(id, e.target.name)}
               />
               <label htmlFor={`visible-${id}`} style={{ color: "black" }}>
                 Visible on the product page
@@ -98,7 +99,7 @@ const Attribute = ({
                 type="checkbox"
                 id={`variation-${id}`}
                 name="variation"
-                onChange={() => toggleVariation(id)}
+                onChange={(e) => toggleProp(id, e.target.name)}
               />
               <label htmlFor={`variation-${id}`} style={{ color: "black" }}>
                 Used for variations
@@ -148,11 +149,11 @@ const Attribute = ({
                 checked={visible}
                 className="form-control"
                 type="checkbox"
-                id="visible"
+                id={`visible-${id}`}
                 name="visible"
                 onChange={() => toggleVisibility(id)}
               />
-              <label htmlFor="visible" style={{ color: "black" }}>
+              <label htmlFor={`visible-${id}`} style={{ color: "black" }}>
                 Visible on the product page
               </label>
             </div>
@@ -163,11 +164,11 @@ const Attribute = ({
                 checked={variation}
                 className="form-control"
                 type="checkbox"
-                id="variation"
+                id={`variation-${id}`}
                 name="variation"
                 onChange={() => toggleVariation(id)}
               />
-              <label htmlFor="variation" style={{ color: "black" }}>
+              <label htmlFor={`variation-${id}`} style={{ color: "black" }}>
                 Used for variations
               </label>
             </div>
