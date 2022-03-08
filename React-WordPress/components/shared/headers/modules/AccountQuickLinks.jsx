@@ -66,7 +66,7 @@ class AccountQuickLinks extends Component {
             );
         } else {
             return (
-                <div className="ps-block--user-header">
+                <div className="ps-block--user-header mt-3">
                     <div className="ps-block__right">
                         <Link href="/account/login" >
                           <span className='w3-hover-lightgrey' style={{

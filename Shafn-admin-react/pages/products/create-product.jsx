@@ -177,21 +177,19 @@ const CreateProductPage = () => {
                   hidden
                 />
 
-                <label htmlFor={`img-${i + 1}`} className="">
-                  <div
+                <label htmlFor={`img-${i + 1}`}
                     className="m-1 border p-3 text-center"
                     style={{
-                      width: "22vh",
-                      minHeight: "22vh",
+                      width: "20vh",
+                      minHeight: "21vh",
                       margin: "2% auto",
-                      display: "flex",
+                      display: "block",
                       flexDirection: "column",
                       justifyContent: "center",
                       alignItems: "center",
                     }}
                   >
                     <span>Add A Photo</span>
-                    <br />
                     <br />
                     <i
                       className="fa fa-file-image-o text-secondary"
@@ -205,7 +203,6 @@ const CreateProductPage = () => {
                         <span>Primary</span>
                       </span>
                     ) : null}
-                  </div>
                 </label>
               </>
             ) : (
@@ -214,8 +211,8 @@ const CreateProductPage = () => {
                 className="m-1 bg-dark"
                 style={{
                   position: "relative",
-                  width: "22vh",
-                  minHeight: "22vh",
+                  width: "20vh",
+                  minHeight: "20vh",
                   margin: "2% auto",
                 }}
               >
@@ -471,15 +468,9 @@ const CreateProductPage = () => {
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                 <figure className="ps-block--form-box">
                   <figcaption>Product Images</figcaption>
-                  <div className="ps-block__content">
-                    <div className="form-group">
-                      <div className="form-group--nest">
-                        <div style={styles.filesStyles}>
-                          {renderProductImages(9)}
-                        </div>
-                      </div>
+                    <div style={styles.filesStyles}>
+                      {renderProductImages(9)}
                     </div>
-                  </div>
                 </figure>
                 <figure className="ps-block--form-box">
                   <figcaption>Inventory</figcaption>
@@ -583,15 +574,15 @@ let styles = {
     position: "relative",
   },
   image: {
-    width: "22vh",
-    height: "22vh",
+    width: "20vh",
+    height: "21vh",
     objectFit: "cover",
     cursor: "pointer",
   },
   imageDel: {
     position: "absolute",
     fontSize: 15,
-    bottom: 0,
+    bottom:0,
     right: 0,
     borderTopLeftRadius: 75,
 
