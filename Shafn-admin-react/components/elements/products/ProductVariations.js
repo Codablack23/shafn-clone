@@ -49,17 +49,19 @@ const ProductVariations = ({
   };
 
   const createProductVariations = async () => {
-    if (action === "createVariations") {
-      let attributes = combineAttributes();
-      let variations = await ProductRepository.createVariations(
-        productID,
-        attributes
-      );
-    }
+    // if (action === "createVariations") {
+    //   let attributes = combineAttributes();
+    //   let variations = await ProductRepository.createVariations(
+    //     productID,
+    //     attributes
+    //   );
+    // }
+    alert("Ongoing task...");
   };
 
   const saveVariations = async () => {
-    ProductRepository.saveVariations(productID, variations);
+    // ProductRepository.saveVariations(productID, variations);
+    alert("Ongoing task...");
   };
 
   let currentData = [{ name: 1, option: 1 }];

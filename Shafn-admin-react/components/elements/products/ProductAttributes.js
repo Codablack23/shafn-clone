@@ -225,7 +225,8 @@ const ProductAttributes = ({ productID, productAttributes, setProduct }) => {
   const saveAttributes = () => {
     let errors = productAttributes.filter((attribute) => attribute.error);
     if (errors.length === 0) {
-      ProductRepository.saveAttributes(productID, productAttributes);
+      // ProductRepository.saveAttributes(productID, productAttributes);
+      alert("Ongoing task...")
     }
   };
 
