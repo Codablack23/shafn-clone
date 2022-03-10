@@ -20,6 +20,7 @@ const WPLayoutFullwidth = ({ children, title }) => {
                 <title>{titleView}</title>
             </Head>
             {/* <WPHeaderDefault /> */}
+            <WPHeaderDefault/>
             <WPHeaderMobile />
             <WPNavigationBottom />
             {children}

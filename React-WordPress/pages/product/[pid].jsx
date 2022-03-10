@@ -96,7 +96,7 @@ const WPProductDetailPage = ({ pid }) => {
 
     return (
         <WPLayoutProductDetail title={product ? product.name : 'Loading...'}>
-            {headerView}
+         <WPHeaderDefault />
             <div className="ps-page--product">
                 <div className="ps-container">
                     <div className="ps-page__container">

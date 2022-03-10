@@ -179,27 +179,33 @@ const CreateProductPage = () => {
                   hidden
                 />
 
-                <label htmlFor={`img-${i + 1}`} className="">
-                  <div
-                    className="m-1 border p-3 text-center"
-                    style={styles.imageSelectBox}
-                  >
-                    <span>Add A Photo</span>
-                    <br />
-                    <br />
-                    <i
-                      className="fa fa-file-image-o text-secondary"
-                      style={{ fontSize: 38, marginTop: 10, marginBottom: 10 }}
-                      aria-hidden="true"
-                    ></i>
-                    <br />
-                    {i === 0 ? (
-                      <span>
-                        {" "}
-                        <span>Primary</span>
-                      </span>
-                    ) : null}
-                  </div>
+                <label
+                  htmlFor={`img-${i + 1}`}
+                  className="m-1 border p-3 text-center"
+                  style={{
+                    width: "20vh",
+                    minHeight: "21vh",
+                    margin: "2% auto",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <span>Add A Photo</span>
+                  <br />
+                  <i
+                    className="fa fa-file-image-o text-secondary"
+                    style={{ fontSize: 38, marginTop: 10, marginBottom: 10 }}
+                    aria-hidden="true"
+                  ></i>
+                  <br />
+                  {i === 0 ? (
+                    <span>
+                      {" "}
+                      <span>Primary</span>
+                    </span>
+                  ) : null}
                 </label>
               </>
             ) : (
@@ -208,8 +214,8 @@ const CreateProductPage = () => {
                 className="m-1 bg-dark"
                 style={{
                   position: "relative",
-                  width: "22vh",
-                  minHeight: "22vh",
+                  width: "20vh",
+                  minHeight: "20vh",
                   margin: "2% auto",
                 }}
               >
@@ -462,15 +468,7 @@ const CreateProductPage = () => {
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                 <figure className="ps-block--form-box">
                   <figcaption>Product Images</figcaption>
-                  <div className="ps-block__content">
-                    <div className="form-group">
-                      <div className="form-group--nest">
-                        <div style={styles.filesStyles}>
-                          {renderProductImages(9)}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <div style={styles.filesStyles}>{renderProductImages(9)}</div>
                 </figure>
                 <figure className="ps-block--form-box">
                   <figcaption>Inventory</figcaption>
@@ -546,18 +544,9 @@ const CreateProductPage = () => {
 export default CreateProductPage;
 
 let styles = {
-  imageSelectBox: {
-    width: "22vh",
-    minHeight: "22vh",
-    margin: "2% auto",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  },
   image: {
-    width: "22vh",
-    height: "22vh",
+    width: "20vh",
+    height: "21vh",
     objectFit: "cover",
     cursor: "pointer",
   },
@@ -568,7 +557,7 @@ let styles = {
     right: 0,
     borderTopLeftRadius: 75,
 
-    background: "rgba(250,250,250)",
+    background: "rgba(250,0,0)",
     width: "30px",
     height: "30px",
     display: "flex",
