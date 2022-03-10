@@ -2,9 +2,13 @@ import React, { useState, useEffect } from "react";
 import Variation from "./modules/Variation";
 import ProductRepository from "~/repositories/ProductRepository";
 
-const ProductVariations = ({ productID, productAttributes, setProduct }) => {
-  const [productVariations, setProductVariations] = useState([]);
-  const [selectValue, setSelectValue] = useState("");
+const ProductVariations = ({
+  productID,
+  productAttributes,
+  variations,
+  setVariations,
+}) => {
+  const [action, setAction] = useState("addVariation");
 
   const combineAttributes = () => {
     let variationAttributes = productAttributes
@@ -28,8 +32,8 @@ const ProductVariations = ({ productID, productAttributes, setProduct }) => {
 
       for (let i = 1; i < variationAttributes.length; i++) {
         variationAttributes[i].forEach((element, j) => {
-          output.forEach((el) => {
-            result.push([...el, variationAttributes[i][j]]);
+          output.forEach((variationAttribute) => {
+            result.push([...variationAttribute, variationAttributes[i][j]]);
           });
         });
 
@@ -45,7 +49,7 @@ const ProductVariations = ({ productID, productAttributes, setProduct }) => {
   };
 
   const createProductVariations = async () => {
-    if (selectValue === "createVariation") {
+    if (action === "createVariations") {
       let attributes = combineAttributes();
       let variations = await ProductRepository.createVariations(
         productID,
@@ -54,8 +58,30 @@ const ProductVariations = ({ productID, productAttributes, setProduct }) => {
     }
   };
 
+  const saveVariations = async () => {
+    ProductRepository.saveVariations(productID, variations);
+  };
+
+  let currentData = [{ name: 1, option: 1 }];
+  let newData = [
+    { name: 1, option: 5 },
+    { name: 2, option: 2 },
+  ];
+
+  currentData = newData
+    .map((data) => ({ name: data.name, option: "" }))
+    .map((data) => {
+      let prevData = currentData.find((curData) => curData.name === data.name);
+      return {
+        ...data,
+        option: prevData !== undefined ? prevData.option : "",
+      };
+    });
+
+  // console.log(currentData);
+
   const renderVariations = () =>
-    Array.from(productVariations).map((variation) => (
+    Array.from(variations).map((variation) => (
       <Variation
         key={variation.id}
         id={variation.id}
@@ -70,12 +96,12 @@ const ProductVariations = ({ productID, productAttributes, setProduct }) => {
         regular_price={variation.regular_price}
         price={variation.price}
         stock_quantity={variation.stock_quantity}
-        backorder={variation.backorder}
+        backorders={variation.backorders}
         weight={variation.weight}
         dimensions={variation.dimensions}
         shipping_class={variation.shipping_class}
         description={variation.description}
-        setProductVariations={setProductVariations}
+        setVariations={setVariations}
       />
     ));
 
@@ -86,10 +112,11 @@ const ProductVariations = ({ productID, productAttributes, setProduct }) => {
           <select
             className="ps-select"
             title="Variations"
-            onChange={(e) => setSelectValue(e.target.value)}
+            defaultValue="addVariation"
+            onChange={(e) => setAction(e.target.value)}
           >
             <option value="addVariation">Add Variation</option>
-            <option value="createVariation">
+            <option value="createVariations">
               Create variations from attributes
             </option>
           </select>
@@ -105,6 +132,12 @@ const ProductVariations = ({ productID, productAttributes, setProduct }) => {
       </button>
 
       {renderVariations()}
+
+      {variations.length !== 0 ? (
+        <button type="button" className="ps-btn" onClick={saveVariations}>
+          Save variations
+        </button>
+      ) : null}
     </div>
   );
 };

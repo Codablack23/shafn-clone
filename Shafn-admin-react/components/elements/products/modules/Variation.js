@@ -39,18 +39,19 @@ const Variation = ({
   regular_price,
   price,
   stock_quantity,
-  backorder,
+  backorders,
   weight,
   dimensions,
   shipping_class,
   description,
-  setProductVariations,
+  setVariations,
 }) => {
   const [selectedImage, setSelectedImage] = useState(image.src);
 
   const handleInputChange = (e) => {
     let { name, value } = e.target;
-    let fieldNames = [
+
+    let formNames = [
       "enabled",
       "downloadable",
       "virtual",
@@ -70,24 +71,28 @@ const Variation = ({
       name === "virtual" ||
       name === "manage_stock"
     ) {
-      setProductVariations((variation) =>
-        variation === id
-          ? {
-              ...variation,
-              [name]: !variation[name],
-            }
-          : variation
+      setVariations((variations) =>
+        variations.map((variation) =>
+          variation.id === id
+            ? {
+                ...variation,
+                [name]: !variation[name],
+              }
+            : variation
+        )
       );
     }
 
     if (name === "regular_price" && !isNaN(value)) {
-      setProductVariations((variation) =>
-        variation === id
-          ? {
-              ...variation,
-              [name]: value,
-            }
-          : variation
+      setVariations((variations) =>
+        variations.map((variation) =>
+          variation.id === id
+            ? {
+                ...variation,
+                [name]: value,
+              }
+            : variation
+        )
       );
     }
 
@@ -99,62 +104,72 @@ const Variation = ({
         // }, 4000);
         alert("Discounted price must be less than the Sale price");
       } else {
-        setProductVariations((variation) =>
-          variation === id
-            ? {
-                ...variation,
-                [name]: value,
-              }
-            : variation
+        setVariations((variations) =>
+          variations.map((variation) =>
+            variation.id === id
+              ? {
+                  ...variation,
+                  [name]: value,
+                }
+              : variation
+          )
         );
       }
     }
 
     if (name === "stock_quantity" && Number.isInteger(Number(value))) {
-      setProductVariations((variation) =>
-        variation === id
-          ? {
-              ...variation,
-              [name]: value,
-            }
-          : variation
+      setVariations((variations) =>
+        variations.map((variation) =>
+          variation.id === id
+            ? {
+                ...variation,
+                [name]: value,
+              }
+            : variation
+        )
       );
     }
 
     if (name === "weight" && !isNaN(value)) {
-      setProductVariations((variation) =>
-        variation === id
-          ? {
-              ...variation,
-              [name]: value,
-            }
-          : variation
+      setVariations((variations) =>
+        variations.map((variation) =>
+          variation.id === id
+            ? {
+                ...variation,
+                [name]: value,
+              }
+            : variation
+        )
       );
     }
 
     if (name.includes("dimension") && !isNaN(value)) {
       let dimensionProp = name.split("_").pop();
-      setProductVariations((variation) =>
-        variation === id
-          ? {
-              ...variation,
-              dimensions: {
-                ...dimensions,
-                [dimensionProp]: value,
-              },
-            }
-          : variation
+      setVariations((variations) =>
+        variations.map((variation) =>
+          variation.id === id
+            ? {
+                ...variation,
+                dimensions: {
+                  ...dimensions,
+                  [dimensionProp]: value,
+                },
+              }
+            : variation
+        )
       );
     }
 
-    if (!fieldNames.includes(name)) {
-      setProductVariations((variation) =>
-        variation === id
-          ? {
-              ...variation,
-              [name]: value,
-            }
-          : variation
+    if (!formNames.includes(name)) {
+      setVariations((variations) =>
+        variations.map((variation) =>
+          variation.id === id
+            ? {
+                ...variation,
+                [name]: value,
+              }
+            : variation
+        )
       );
     }
   };
@@ -173,6 +188,20 @@ const Variation = ({
         type === "gif"
       ) {
         let imgUrl = URL.createObjectURL(image);
+
+        setVariations((variations) =>
+          variations.map((variation) =>
+            variation.id === id
+              ? {
+                  ...variation,
+                  image: {
+                    ...variation.image,
+                    src: image,
+                  },
+                }
+              : variation
+          )
+        );
         setSelectedImage(imgUrl);
 
         URL.revokeObjectURL(image);
@@ -187,6 +216,19 @@ const Variation = ({
 
   const removeImage = () => {
     setSelectedImage("");
+    setVariations((variations) =>
+      variations.map((variation) =>
+        variation.id === id
+          ? {
+              ...variation,
+              image: {
+                ...variation.image,
+                src: "",
+              },
+            }
+          : variation
+      )
+    );
   };
 
   const renderProductImage = () => {
@@ -241,10 +283,17 @@ const Variation = ({
           href={`#collapse-${id}`}
           style={{ width: "100%" }}
         >
-          <span style={{ fontWeight: "bold" }}>#id</span>
+          <span style={{ fontWeight: "bold" }}>#{id}</span>
 
-          {attributes.map((attribute) => (
-            <select name={attribute.name} className="ps-select" title="type">
+          {attributes.map((attribute, index) => (
+            <select
+              key={index}
+              name={attribute.name}
+              className="ps-select"
+              title={attribute.name}
+              defaultValue={attribute.option}
+            >
+              <option value="">Any {attribute.name}</option>
               <option value={attribute.option}>{attribute.option}</option>
             </select>
           ))}
@@ -284,7 +333,7 @@ const Variation = ({
                       type="checkbox"
                       id={`enabled-${id}`}
                       name="enabled"
-                      value={enabled}
+                      checked={enabled}
                       onChange={handleInputChange}
                     />
                     <label htmlFor={`enabled-${id}`} style={{ color: "black" }}>
@@ -300,7 +349,7 @@ const Variation = ({
                       type="checkbox"
                       id={`downloadable-${id}`}
                       name="downloadable"
-                      value={downloadable}
+                      checked={downloadable}
                       onChange={handleInputChange}
                     />
                     <label
@@ -319,7 +368,7 @@ const Variation = ({
                       type="checkbox"
                       id={`virtual-${id}`}
                       name="virtual"
-                      value={virtual}
+                      checked={virtual}
                       onChange={handleInputChange}
                     />
                     <label htmlFor={`virtual-${id}`} style={{ color: "black" }}>
@@ -335,7 +384,7 @@ const Variation = ({
                       type="checkbox"
                       id={`manage_stock-${id}`}
                       name="manage_stock"
-                      value={manage_stock}
+                      checked={manage_stock}
                       onChange={handleInputChange}
                     />
                     <label
@@ -429,10 +478,10 @@ const Variation = ({
             <div className="form-group">
               <label>Allow backorders?</label>
               <input
-                name="backorder"
+                name="backorders"
                 className="form-control"
                 type="text"
-                value={backorder}
+                value={backorders}
                 onChange={handleInputChange}
               />
             </div>

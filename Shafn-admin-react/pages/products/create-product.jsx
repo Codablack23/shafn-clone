@@ -407,7 +407,7 @@ const CreateProductPage = () => {
                         >
                           <option value="">Select a category</option>
                           {categories.map((category) => (
-                            <option value={category.id}>
+                            <option key={category.id} value={category.id}>
                               {ReactHtmlParser(category.name)}
                             </option>
                           ))}
