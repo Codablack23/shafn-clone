@@ -4,7 +4,9 @@ export const CustomModal=({children,isOpen,toggleModal})=>{
        if(isOpen){
         return(
             <div className="custom-modal-container">
-                <div className="close-btn-container"><span className="close-btn text-light" onClick={toggleModal}>Close</span></div>
+                {toggleModal && (
+                 <div className="close-btn-container"><span className="close-btn text-light" onClick={toggleModal}>Close</span></div>
+                )}
                 <div className="custom-modal-content">
                     {children}
                 </div>

@@ -12,6 +12,9 @@ import { WPDomain } from "~/repositories/Repository";
 import SettingsRepository from "~/repositories/SettingsRepository";
 import ProductRepository from "~/repositories/ProductRepository";
 import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
+import Lightbox from "react-image-lightbox";
+import "react-image-lightbox/style.css"; //
+
 import { CustomModal, CustomSlider } from "~/components/elements/custom/index";
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
@@ -91,7 +94,7 @@ const CreateProductPage = () => {
     progress: 0,
   });
 
-  const [imgId, setImgId] = useState("");
+  const [index, setIndex] = useState("");
 
   const handleInputChange = (e) => {
     let name = e.target.name;
@@ -152,6 +155,12 @@ const CreateProductPage = () => {
     setImageFiles((current) => current.filter((img) => img.id !== id));
   };
 
+  const viewImage = (id) => {
+    setViewProducts(true);
+    let imgIndex = selectedImages.findIndex((img) => img.id === id);
+    setIndex(imgIndex);
+  };
+
   const renderProductImages = (num) => {
     return Array(num)
       .fill("")
@@ -172,11 +181,12 @@ const CreateProductPage = () => {
                 />
                 <label
                   htmlFor={`img-${i + 1}`}
-                  className="btn border m-2 p-3 btn-lg"
+                  className="btn border m-1 ml-2 p-3 btn-lg"
                   style={{
                     display: "block",
-                    minwidth: "90%",
+                    minwidth: "100px",
                     minHeight: "20vh",
+                    borderRadius: 0,
                     margin: "auto",
                     borderColor: "lightgrey",
                   }}
@@ -201,23 +211,29 @@ const CreateProductPage = () => {
             ) : (
               <div
                 key={image.id}
+                className="m-1 bg-dark"
                 style={{
                   position: "relative",
-                  width: "90%",
-                  height: "100%",
+                  width: "100px",
+                  minHeight: "20vh",
                   margin: "2% auto",
                 }}
-                onClick={() => {
-                  setViewProducts(true);
-                  setImgId(image.id);
-                }}
               >
-                <img src={image.url} style={{ ...styles.image }} />
+                <img
+                  src={image.url}
+                  style={styles.image}
+                  onClick={() => {
+                    viewImage(image.id);
+                  }}
+                />
 
                 <div
                   className="btn fw-5"
                   style={styles.imageDel}
-                  onClick={removeImage.bind(this, image.id)}
+                  onClick={() => {
+                    removeImage(image.id);
+                    setIndex(i - (1 % selectedImages.length));
+                  }}
                 >
                   <i
                     style={{
@@ -263,7 +279,7 @@ const CreateProductPage = () => {
 
     if (result === "VALID") {
       setUploading((current) => ({ ...current, status: "Uploading" }));
-
+      console.log(uploading);
       let slug = `${name
         .replace(/[^a-zA-Z0-9-_]/g, " ")
         .replace(/  +/g, " ")
@@ -492,11 +508,6 @@ const CreateProductPage = () => {
                       />
                     </div> */}
                   </div>
-
-                  <div style={{ marginTop: 100 }}>
-                    <p>{uploading.status}</p>
-                    <Progress type="line" percent={uploading.progress} />
-                  </div>
                 </figure>
               </div>
             </div>
@@ -526,20 +537,38 @@ const CreateProductPage = () => {
           </div>
         </form>
       </section>
-
-      {/* Products Viewer */}
-      {/* <CustomModal
-        isOpen={viewProducts}
-        toggleModal={() => {
-          setViewProducts((current) => !current);
-        }}
-      >
-        <CustomSlider
-          images={selectedImages}
-          imgIndex={imgId}
-          video={videoUrl}
+      {viewProducts && (
+        <Lightbox
+          mainSrc={selectedImages[index].url}
+          nextSrc={selectedImages[(index + 1) % selectedImages.length].url}
+          prevSrc={
+            selectedImages[
+              (index + selectedImages.length - 1) % selectedImages.length
+            ].url
+          }
+          onCloseRequest={() => setViewProducts(false)}
+          onMovePrevRequest={() =>
+            setIndex(
+              (index + selectedImages.length - 1) % selectedImages.length
+            )
+          }
+          onMoveNextRequest={() =>
+            setIndex((index + 1) % selectedImages.length)
+          }
         />
-      </CustomModal> */}
+      )}
+      {/* Products Viewer */}
+      <CustomModal isOpen={uploading.status ? true : false}>
+        <div
+          style={{
+            marginTop: 100,
+            minWidth: "200px",
+          }}
+        >
+          <p className="text-center text-white">{uploading.status}</p>
+          <Progress type="line" percent={uploading.progress} />
+        </div>
+      </CustomModal>
     </ContainerDefault>
   );
 };
@@ -560,9 +589,10 @@ let styles = {
     position: "relative",
   },
   image: {
-    width: 200,
-    maxHeight: "20vh",
+    width: "100px",
+    height: "20vh",
     objectFit: "cover",
+    cursor: "pointer",
   },
   imageDel: {
     position: "absolute",
@@ -575,6 +605,7 @@ let styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    zIndex: 1,
   },
   filesStyles: {
     display: "flex",
