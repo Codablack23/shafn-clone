@@ -468,7 +468,7 @@ const CreateProductPage = () => {
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                 <figure className="ps-block--form-box">
                   <figcaption>Product Images</figcaption>
-                    <div style={styles.filesStyles}>
+                    <div className="pt-3" style={styles.filesStyles}>
                       {renderProductImages(9)}
                     </div>
                 </figure>
