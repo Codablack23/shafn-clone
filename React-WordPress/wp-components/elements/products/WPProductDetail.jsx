@@ -5,7 +5,6 @@ import WPModuleProductDetailInformation from '~/wp-components/elements/products/
 import WPModuleDefaultDescription from '~/wp-components/elements/products/modules/WPModuleDefaultDescription';
 
 const WPProductDetail = ({ product, variations }) => {
-    console.log(product);
     const [selectedSize, setSelectedSize] = useState(null);
     const [selectedColor, setSelectedColor] = useState(null);
     const [activeVariant, setActiveVariant] = useState(null);

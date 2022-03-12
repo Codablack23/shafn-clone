@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 import DropdownAction from "~/components/elements/basic/DropdownAction";
-import { WPDomain } from "~/repositories/Repository";
 import ProductRepository from "~/repositories/ProductRepository";
 
-const TableProjectItems = () => {
+const TableProjectItems = (setUploadingProgress) => {
   const [productItems, setProductItems] = useState(null);
 
   let tableItems;
@@ -50,19 +48,19 @@ const TableProjectItems = () => {
           </td>
           <td>{item.date_created}</td>
           <td>
-            <DropdownAction productID={item.id} />
+            <DropdownAction productID={item.id} uploadingProgress={setUploadingProgress} />
           </td>
         </tr>
       );
     });
   }
 
-  useEffect(() => {
-    const getProducts = async () => {
-      const products = await ProductRepository.getProducts();
-      setProductItems(products);
-    };
+  const getProducts = async () => {
+    const products = await ProductRepository.getProducts();
+    setProductItems(products);
+  };
 
+  useEffect(() => {
     getProducts();
   }, []);
   return (

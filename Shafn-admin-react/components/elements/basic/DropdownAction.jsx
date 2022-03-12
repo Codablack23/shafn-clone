@@ -3,17 +3,22 @@ import { Dropdown, Menu, notification } from "antd";
 import axios from "axios";
 import Router from "next/router";
 
-const DropdownAction = ({ productID }) => {
+const DropdownAction = ({ productID,uploadingProgress }) => {
   const goToEditPage = () => {
     Router.push(`/products/edit-product/${productID}`);
   };
 
   const deleteProduct = (id) => {
     let auth_token = localStorage.getItem("auth_token");
-
     const config = {
       headers: {
         Authorization: `Bearer ${auth_token}`,
+      },
+      onUploadProgress:function(progressEvent){
+        let percent = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
+        console.log(percent)
+        uploadingProgress(percent, "Uploading Product");
+      
       },
     };
 
@@ -22,7 +27,7 @@ const DropdownAction = ({ productID }) => {
       .then((res) => {
         notification["success"]({
           message: "Product Deleted!",
-        });
+        });        
         window.location.reload();
       })
       .catch((err) => {

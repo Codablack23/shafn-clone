@@ -3,7 +3,7 @@ import ProductRepository from "~/repositories/ProductRepository";
 import { v4 as uuid } from "uuid";
 import Attribute from "./modules/Attribute";
 
-const ProductAttributes = ({ productAttributes, setProduct }) => {
+const ProductAttributes = ({ productID, productAttributes, setProduct }) => {
   const [userAttributes, setUserAttributes] = useState([]);
   const [name, setName] = useState("");
 
@@ -22,7 +22,7 @@ const ProductAttributes = ({ productAttributes, setProduct }) => {
           id: uuid(),
           name,
           options: [],
-          visible: false,
+          visible: true,
           variation: false,
           type: "select",
         };
@@ -34,7 +34,7 @@ const ProductAttributes = ({ productAttributes, setProduct }) => {
         id: uuid(),
         name,
         options: [],
-        visible: false,
+        visible: true,
         variation: false,
         type: "custom",
       };
@@ -51,7 +51,7 @@ const ProductAttributes = ({ productAttributes, setProduct }) => {
         id: uuid(),
         name,
         options: [],
-        visible: false,
+        visible: true,
         variation: false,
       };
 
@@ -82,24 +82,12 @@ const ProductAttributes = ({ productAttributes, setProduct }) => {
     modifyAttribute(productAttributes.map(modify));
   };
 
-  const toggleVisibility = (id) => {
+  const toggleProp = (id, name) => {
     const toggle = (attribute) =>
       attribute.id === id
         ? {
             ...attribute,
-            visible: !attribute.visible,
-          }
-        : attribute;
-
-    modifyAttribute(productAttributes.map(toggle));
-  };
-
-  const toggleVariation = (id) => {
-    const toggle = (attribute) =>
-      attribute.id === id
-        ? {
-            ...attribute,
-            variation: !attribute.variation,
+            [name]: !attribute[name],
           }
         : attribute;
 
@@ -194,17 +182,25 @@ const ProductAttributes = ({ productAttributes, setProduct }) => {
 
   const renderAttributes = () => {
     return productAttributes.map((attribute) => {
+      let userAttribute;
+      let attributeID = null;
       let defaultOptions = [];
-      if (attribute.type === "select") {
-        defaultOptions = userAttributes.find(
+      if (attribute.type === "select" && userAttributes.length > 0) {
+        userAttribute = userAttributes.find(
           (attr) => attr.name.toLowerCase() === attribute.name.toLowerCase()
-        ).values;
+        );
+
+        attributeID = userAttribute.id;
+      }
+      if (userAttribute !== undefined) {
+        defaultOptions = userAttribute.values;
       }
 
       return (
         <Attribute
           key={attribute.id}
           id={attribute.id}
+          attributeID={attributeID}
           type={attribute.type}
           name={attribute.name}
           options={attribute.options}
@@ -214,8 +210,7 @@ const ProductAttributes = ({ productAttributes, setProduct }) => {
           error={attribute.error}
           changeName={changeName}
           addOption={addOption}
-          toggleVisibility={toggleVisibility}
-          toggleVariation={toggleVariation}
+          toggleProp={toggleProp}
           removeOption={removeOption}
           selectAllOptions={selectAllOptions}
           clearOptions={clearOptions}
@@ -228,11 +223,11 @@ const ProductAttributes = ({ productAttributes, setProduct }) => {
   };
 
   const saveAttributes = () => {
-    // let errors = productAttributes.filter((attribute) => attribute.error);
-    // if (errors.length === 0) {
-    //   ProductRepository.saveAttributes(productAttributes);
-    // }
-    alert("Attributes will be saved!");
+    let errors = productAttributes.filter((attribute) => attribute.error);
+    if (errors.length === 0) {
+      // ProductRepository.saveAttributes(productID, productAttributes);
+      alert("Ongoing task...")
+    }
   };
 
   const getUserAttributes = async () => {
@@ -272,11 +267,11 @@ const ProductAttributes = ({ productAttributes, setProduct }) => {
         className="ps-btn ps-btn--gray"
         onClick={addAttribute}
       >
-        Add
+        Add attribute
       </button>
 
       <button type="button" className="ps-btn" onClick={saveAttributes}>
-        Save
+        Save attributes
       </button>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import ContainerDefault from "~/components/layouts/ContainerDefault";
 import Pagination from "~/components/elements/basic/Pagination";
 import TableProjectItems from "~/components/shared/tables/TableProjectItems";
@@ -11,6 +11,10 @@ import { toggleDrawerMenu } from "~/store/app/action";
 const { Option } = Select;
 const ProductPage = () => {
   const dispatch = useDispatch();
+  const [uploading, setUploading] = useState({
+    status: "",
+    progress: 0,
+  });
 
   useEffect(() => {
     dispatch(toggleDrawerMenu(false));
@@ -90,7 +94,13 @@ const ProductPage = () => {
           </div>
         </div>
         <div className="ps-section__content">
-          <TableProjectItems />
+          <TableProjectItems setUploadingProgress ={(percent,status)=>{
+             setUploading({
+               progress:percent,
+               status
+             })
+             console.log(uploading)
+          }} />
         </div>
         <div className="ps-section__footer">
           <p>Show 10 in 30 items.</p>

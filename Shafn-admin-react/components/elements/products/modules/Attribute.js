@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 const Attribute = ({
   id,
+  attributeID,
   type,
   name,
   options,
@@ -11,8 +12,7 @@ const Attribute = ({
   error,
   changeName,
   addOption,
-  toggleVisibility,
-  toggleVariation,
+  toggleProp,
   removeOption,
   selectAllOptions,
   clearOptions,
@@ -83,7 +83,7 @@ const Attribute = ({
                 type="checkbox"
                 id={`visible-${id}`}
                 name="visible"
-                onChange={() => toggleVisibility(id)}
+                onChange={(e) => toggleProp(id, e.target.name)}
               />
               <label htmlFor={`visible-${id}`} style={{ color: "black" }}>
                 Visible on the product page
@@ -98,7 +98,7 @@ const Attribute = ({
                 type="checkbox"
                 id={`variation-${id}`}
                 name="variation"
-                onChange={() => toggleVariation(id)}
+                onChange={(e) => toggleProp(id, e.target.name)}
               />
               <label htmlFor={`variation-${id}`} style={{ color: "black" }}>
                 Used for variations
@@ -148,11 +148,11 @@ const Attribute = ({
                 checked={visible}
                 className="form-control"
                 type="checkbox"
-                id="visible"
+                id={`visible-${id}`}
                 name="visible"
-                onChange={() => toggleVisibility(id)}
+                onChange={(e) => toggleProp(id, e.target.name)}
               />
-              <label htmlFor="visible" style={{ color: "black" }}>
+              <label htmlFor={`visible-${id}`} style={{ color: "black" }}>
                 Visible on the product page
               </label>
             </div>
@@ -163,11 +163,11 @@ const Attribute = ({
                 checked={variation}
                 className="form-control"
                 type="checkbox"
-                id="variation"
+                id={`variation-${id}`}
                 name="variation"
-                onChange={() => toggleVariation(id)}
+                onChange={(e) => toggleProp(id, e.target.name)}
               />
-              <label htmlFor="variation" style={{ color: "black" }}>
+              <label htmlFor={`variation-${id}`} style={{ color: "black" }}>
                 Used for variations
               </label>
             </div>
@@ -192,13 +192,13 @@ const Attribute = ({
               name="options"
               className="form-control"
               type="text"
-              list="options"
+              list={`options-${id}`}
               placeholder='Enter some text, or some attributes by "|" seperated values'
               value={option}
               onChange={handleOptionChange}
             />
 
-            <datalist id="options">
+            <datalist id={`options-${id}`}>
               {defaultOptions.map((option, i) => (
                 <option key={i} value={option.name} />
               ))}
@@ -219,6 +219,10 @@ const Attribute = ({
             onClick={() => clearOptions(id)}
           >
             Select none
+          </button>
+
+          <button type="button" className="ps-btn ps-btn--gray">
+            Add new
           </button>
         </div>
       </div>

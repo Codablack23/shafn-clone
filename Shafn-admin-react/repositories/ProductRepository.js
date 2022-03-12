@@ -66,6 +66,49 @@ class ProductRepository {
       });
     };
 
+    const uploadProduct = (images) => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${auth_token}`,
+        },
+        onUploadProgress: (progressEvent) => {
+          uploadProgress(progressEvent, "Uploading Product");
+        },
+      };
+
+      const productData = {
+        ...payload.product,
+        images,
+      };
+
+      // Upload Product
+      axios
+        .post(`${WPDomain}/wp-json/dokan/v1/products/`, productData, config)
+        .then((res) => {
+          notification["success"]({
+            message: "Product Uploaded Successfully",
+          });
+
+          setTimeout(() => {
+            Router.reload(window.location.pathname);
+          }, 1500);
+        })
+        .catch((err) => {
+          notification["error"]({
+            message: "Product Upload Failed",
+            description:
+              err.response === undefined
+                ? "Check your data connection and try again."
+                : err.response.data.message,
+          });
+
+          payload.setUploading({
+            status: "",
+            progress: 0,
+          });
+        });
+    };
+
     const uploadImages = () => {
       const config = {
         headers: {
@@ -109,49 +152,6 @@ class ProductRepository {
     };
 
     uploadImages();
-
-    const uploadProduct = (images) => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${auth_token}`,
-        },
-        onUploadProgress: (progressEvent) => {
-          uploadProgress(progressEvent, "Uploading Product");
-        },
-      };
-
-      const productData = {
-        ...payload.product,
-        images,
-      };
-
-      // Upload Product
-      axios
-        .post(`${WPDomain}/wp-json/dokan/v1/products/`, productData, config)
-        .then((res) => {
-          notification["success"]({
-            message: "Product Uploaded Successfully",
-          });
-
-          setTimeout(() => {
-            Router.reload(window.location.pathname);
-          }, 1500);
-        })
-        .catch((err) => {
-          notification["error"]({
-            message: "Product Upload Failed",
-            description:
-              err.response === undefined
-                ? "Check your data connection and try again."
-                : err.response.data.message,
-          });
-
-          payload.setUploading({
-            status: "",
-            progress: 0,
-          });
-        });
-    };
   }
 
   async editProduct(id, imageFiles, product, setUploading) {
@@ -166,6 +166,65 @@ class ProductRepository {
         status,
         progress: percent,
       });
+    };
+
+    const uploadProduct = (images) => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${auth_token}`,
+        },
+        onUploadProgress: (progressEvent) => {
+          uploadProgress(progressEvent, "Uploading Product");
+        },
+      };
+
+      let slug = `${product.name
+        .replace(/[^a-zA-Z0-9-_]/g, " ")
+        .replace(/  +/g, " ")
+        .split(" ")
+        .join("-")}`.trim();
+
+      let in_stock = product.in_stock === true || product.in_stock === "true";
+
+      let stock_quantity = !in_stock ? 0 : Number(product.stock_quantity);
+
+      let price = product.price || product.regular_price;
+
+      let attributes =
+        product.type === "variable"
+          ? product.attributes.map((attribute) => ({
+              name: attribute.name,
+              options: attribute.options,
+              visible: attribute.visible,
+              variation: attribute.variation,
+            }))
+          : [];
+
+      const productData = {
+        ...product,
+        slug,
+        images,
+        in_stock,
+        stock_quantity,
+        price,
+        attributes,
+      };
+
+      axios
+        .put(`${WPDomain}/wp-json/dokan/v1/products/${id}`, productData, config)
+        .then((res) => {
+          notification["success"]({
+            message: "Product Updated Successfully",
+          });
+          Router.push("/products");
+        })
+        .catch((err) => {
+          notification["error"]({
+            message: "Product Upload Failed",
+            description: "Check your data connection and try again.",
+          });
+          setIsUploading(false);
+        });
     };
 
     const uploadImages = () => {
@@ -220,59 +279,6 @@ class ProductRepository {
     };
 
     uploadImages();
-
-    const uploadProduct = (images) => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${auth_token}`,
-        },
-        onUploadProgress: (progressEvent) => {
-          uploadProgress(progressEvent, "Uploading Product");
-        },
-      };
-
-      let slug = `${product.name
-        .replace(/[^a-zA-Z0-9-_]/g, " ")
-        .replace(/  +/g, " ")
-        .split(" ")
-        .join("-")}`.trim();
-
-      let in_stock = product.in_stock === true || product.in_stock === "true";
-
-      let attributes = product.attributes.map((attribute) => ({
-        name: attribute.name,
-        options: attribute.options,
-        visible: attribute.visible,
-        variation: attribute.variation,
-      }));
-
-      const productData = {
-        ...product,
-        slug,
-        images,
-        in_stock,
-        price: product.price || product.regular_price,
-        stock_quantity: !in_stock ? 0 : Number(product.stock_quantity),
-        attributes,
-        // variations: variations.map((v) => v.id),
-      };
-
-      axios
-        .put(`${WPDomain}/wp-json/dokan/v1/products/${id}`, productData, config)
-        .then((res) => {
-          notification["success"]({
-            message: "Product Updated Successfully",
-          });
-          Router.push("/products");
-        })
-        .catch((err) => {
-          notification["error"]({
-            message: "Product Upload Failed",
-            description: "Check your data connection and try again.",
-          });
-          setIsUploading(false);
-        });
-    };
   }
 
   async getUserAttributes() {
@@ -309,6 +315,7 @@ class ProductRepository {
     }
 
     const userAttributes = Array.from(attributes).map((attribute, index) => ({
+      id: attribute.id,
       name: attribute.name,
       values: values[index],
     }));
@@ -316,7 +323,253 @@ class ProductRepository {
     return userAttributes;
   }
 
-  async saveAttributes(attributes) {}
+  async saveAttributes(productID, productAttributes) {
+    let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    // Update product type and attributes
+    let attributes = productAttributes.map((attribute) => ({
+      name: attribute.name,
+      options: attribute.options,
+      visible: attribute.visible,
+      variation: attribute.variation,
+    }));
+
+    let product = await axios.put(
+      `${WPDomain}/wp-json/dokan/v1/products/${productID}`,
+      { type: "variable", attributes },
+      config
+    );
+    // Save/Update user attributes
+
+    // let userAttributes = await this.getUserAttributes();
+
+    // console.log("Old Attributes: ", userAttributes);
+
+    // for (const attribute of Array.from(productAttributes)) {
+    //   let currentAttr = userAttributes.find(
+    //     (attr) => attr.name.toLowerCase() === attribute.name.toLowerCase()
+    //   );
+    //   if (currentAttr !== undefined) {
+    //     for (const value of Array.from(attribute.value)) {
+    //       let isValueAdded = currentAttr.values.includes(value);
+    //       if (!isValueAdded) {
+    //         await axios.post(
+    //           `${WPDomain}/wp-json/dokan/v1/products/attributes/${currentAttr.id}/terms`,
+    //           { name: value },
+    //           config
+    //         );
+    //       }
+    //     }
+    //   } else {
+    //     await axios
+    //       .post(
+    //         `${WPDomain}/wp-json/dokan/v1/products/attributes`,
+    //         { name: attribute.name },
+    //         config
+    //       )
+    //       .then((res) => {
+    //         attribute.values.forEach((value) => {
+    //           axios.post(
+    //             `${WPDomain}/wp-json/dokan/v1/products/attributes/${res.data.id}/terms`,
+    //             { name: value },
+    //             config
+    //           );
+    //         });
+    //       });
+    //   }
+    // }
+
+    // let userAttr = await this.getUserAttributes();
+
+    // console.log("New Attributes: ", userAttr);
+
+    // Update all variation 'attributes' property
+
+    let variations = await this.getVariations(productID);
+
+    const updateVariationAttributes = (variation) => ({
+      ...variation,
+      attributes: productAttributes.map((attribute) => {
+        let prevAttribute = variation.attributes.find(
+          (attr) => attr.name === attribute.name
+        );
+        let newAttribute = {
+          name: attribute.name,
+          option: prevAttribute !== undefined ? prevAttribute.option : "",
+        };
+
+        return newAttribute;
+      }),
+    });
+
+    variations = variations.map(updateVariationAttributes);
+
+    // Update variations
+    let newVariations = [];
+    for (const variation of Array.from(variations)) {
+      await axios
+        .put(
+          `${WPDomain}/wp-json/wc/v3/products/${productID}/variations/${variation.id}`,
+          variationData,
+          config
+        )
+        .then((res) => {
+          newVariations.push(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    console.log(newVariations);
+  }
+
+  async getVariations(productID) {
+    let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    let response = axios
+      .get(`${WPDomain}/wp-json/wc/v3/products/${productID}/variations`, config)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        return;
+      });
+
+    return response;
+  }
+
+  async createVariations(productID, attributes) {
+    let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    let variations = [];
+
+    for (const attributeMix of Array.from(attributes)) {
+      await axios
+        .post(
+          `${WPDomain}/wp-json/wc/v3/products/${productID}/variations`,
+          { attributes: attributeMix },
+          config
+        )
+        .then((res) => {
+          variations.push(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    return variations;
+  }
+
+  async saveVariations(productID, variations) {
+    let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    let productVariations = [];
+
+    const updateVariation = (variation, image) => {
+      let in_stock =
+        variation.in_stock === true || variation.in_stock === "true";
+
+      let stock_quantity = !in_stock ? 0 : Number(variation.stock_quantity);
+
+      let price = variation.price || variation.regular_price;
+
+      const variationData = {
+        ...variation,
+        in_stock,
+        stock_quantity,
+        price,
+        image,
+      };
+
+      axios
+        .put(
+          `${WPDomain}/wp-json/wc/v3/products/${productID}/variations/${variation.id}`,
+          variationData,
+          config
+        )
+        .then((res) => {
+          productVariations.push(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    for (const variation of Array.from(variations)) {
+      // Upload Image
+      if (typeof variation.image.src === "string") {
+        updateVariation(variation, variation.image);
+      } else {
+        let formData = new FormData();
+
+        formData.append("file", variation.image.src);
+
+        await axios
+          .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
+          .then((res) => {
+            let image = { src: res.data.source_url };
+
+            updateVariation(variation, image);
+          })
+          .catch((err) => {
+            arr.length = index + 1;
+            notification["error"]({
+              message:
+                "Some images did not upload!. Check your data connection and try again.",
+            });
+
+            setUploading({
+              status: "",
+              progress: 0,
+            });
+          });
+      }
+    }
+
+    console.log("Variations: ", productVariations);
+  }
+
+  async getCategories() {
+    let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    const response = axios
+      .get(`${WPDomain}/wp-json/wc/v3/products/categories`, config)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        return;
+      });
+
+    return response;
+  }
 }
 
 export default new ProductRepository();
