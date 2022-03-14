@@ -7,11 +7,14 @@ const ProductVariations = ({
   productAttributes,
   variations,
   setVariations,
+  setProduct,
 }) => {
   const [action, setAction] = useState("addVariation");
 
-  const combineAttributes = () => {
-    let variationAttributes = productAttributes
+  const pairAttributes = async () => {
+    const product = await ProductRepository.getProductByID(productID);
+
+    let variationAttributes = product.attributes
       .filter(
         (attribute) =>
           attribute.name && attribute.variation && attribute.options.length > 0
@@ -23,64 +26,115 @@ const ProductVariations = ({
         }))
       );
 
-    let output = [];
+    let attributePairs = [];
 
     if (variationAttributes.length > 1) {
-      output = variationAttributes[0].map((el) => [el]);
+      attributePairs = variationAttributes[0].map((el) => [el]);
 
-      let result = [];
+      let newAttributePairs = [];
 
       for (let i = 1; i < variationAttributes.length; i++) {
         variationAttributes[i].forEach((element, j) => {
-          output.forEach((variationAttribute) => {
-            result.push([...variationAttribute, variationAttributes[i][j]]);
+          attributePairs.forEach((attributePair) => {
+            newAttributePairs.push([
+              ...attributePair,
+              variationAttributes[i][j],
+            ]);
           });
         });
 
-        output = result;
-        result = [];
+        attributePairs = newAttributePairs;
+        newAttributePairs = [];
       }
     }
     if (variationAttributes.length === 1) {
-      output = variationAttributes[0].map((attribute) => [attribute]);
+      attributePairs = variationAttributes[0].map((attribute) => [attribute]);
     }
 
-    return output;
+    return attributePairs;
   };
 
-  const createProductVariations = async () => {
-    // if (action === "createVariations") {
-    //   let attributes = combineAttributes();
-    //   let variations = await ProductRepository.createVariations(
-    //     productID,
-    //     attributes
-    //   );
-    // }
-    alert("Ongoing task...");
+  const removeExistingAttributePairs = async () => {
+    let attributePairs = await pairAttributes();
+    let existingAttributePairs = variations.map((variation) =>
+      variation.attributes.map((attribute) => attribute.option)
+    );
+
+    let newAttributePairs = [];
+
+    for (const attributePair of Array.from(attributePairs)) {
+      let exists = false;
+
+      // Check if attribute pair exists in a variation
+      for (const existingPair of Array.from(existingAttributePairs)) {
+        if (attributePair.length !== existingPair.length) continue;
+
+        let optionsMatch = true;
+
+        // Check if attribute pair options matches the pair options of existing attributes
+        for (const attribute of Array.from(attributePair)) {
+          if (!existingPair.includes(attribute.option)) {
+            optionsMatch = false;
+            break;
+          }
+        }
+
+        if (optionsMatch) {
+          exists = true;
+          break;
+        }
+      }
+
+      if (!exists) newAttributePairs.push(attributePair);
+    }
+
+    return newAttributePairs;
+  };
+
+  const createVariations = async () => {
+    if (action === "createVariations") {
+      let attributePairs = await pairAttributes();
+
+      // let attributePairs = await removeExistingAttributePairs();
+
+      let newVariations = await ProductRepository.createVariations(
+        productID,
+        attributePairs
+      );
+
+      setVariations((variations) => [...newVariations, ...variations]);
+    }
+
+    if (action === "addVariation") {
+      // let attributePairs = await removeExistingAttributePairs();
+
+      // console.log("Pairs:", attributePairs)
+      const product = await ProductRepository.getProductByID(productID);
+
+      let attributePair = Array.from(product.attributes).map((attribute) => ({
+        name: attribute.name,
+        option: "",
+      }));
+
+      let variation = await ProductRepository.createVariations(productID, [
+        attributePair,
+      ]);
+
+      setVariations((variations) => [...variation, ...variations]);
+    }
   };
 
   const saveVariations = async () => {
-    // ProductRepository.saveVariations(productID, variations);
-    alert("Ongoing task...");
+    let productVariations = await ProductRepository.saveVariations(
+      productID,
+      variations
+    );
+
+    setProduct((product) => ({
+      ...product,
+      variations: productVariations,
+    }));
   };
-
-  let currentData = [{ name: 1, option: 1 }];
-  let newData = [
-    { name: 1, option: 5 },
-    { name: 2, option: 2 },
-  ];
-
-  currentData = newData
-    .map((data) => ({ name: data.name, option: "" }))
-    .map((data) => {
-      let prevData = currentData.find((curData) => curData.name === data.name);
-      return {
-        ...data,
-        option: prevData !== undefined ? prevData.option : "",
-      };
-    });
-
-  // console.log(currentData);
 
   const renderVariations = () =>
     Array.from(variations).map((variation) => (
@@ -103,6 +157,8 @@ const ProductVariations = ({
         dimensions={variation.dimensions}
         shipping_class={variation.shipping_class}
         description={variation.description}
+        productID={productID}
+        productAttributes={productAttributes}
         setVariations={setVariations}
       />
     ));
@@ -128,7 +184,7 @@ const ProductVariations = ({
       <button
         type="button"
         className="ps-btn ps-btn--gray"
-        onClick={createProductVariations}
+        onClick={createVariations}
       >
         Go
       </button>
