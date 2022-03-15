@@ -10,10 +10,11 @@ import SettingsRepository from "~/repositories/SettingsRepository";
 import ProductRepository from "~/repositories/ProductRepository";
 import Lightbox from "react-image-lightbox";
 import ReactHtmlParser from "react-html-parser";
-import "react-image-lightbox/style.css"; //
+import Select from "react-select";
+import "react-image-lightbox/style.css";
 import "suneditor/dist/css/suneditor.min.css";
 
-import { CustomModal, CustomSlider } from "~/components/elements/custom/index";
+import { CustomModal } from "~/components/elements/custom/index";
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
 });
@@ -70,6 +71,7 @@ const CreateProductPage = () => {
   const dispatch = useDispatch();
 
   const [categories, setCategories] = useState([]);
+  const [productTags, setProductTags] = useState([]);
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -77,9 +79,9 @@ const CreateProductPage = () => {
   const [shortDescription, setShortDescription] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
-  const [type, setType] = useState("simple");
   const [qty, setQty] = useState("");
   const [sku, setSku] = useState("");
+  const [tags, setTags] = useState([]);
 
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
@@ -93,6 +95,7 @@ const CreateProductPage = () => {
     progress: 0,
   });
 
+  const [tag, setTag] = useState("");
   const [index, setIndex] = useState("");
 
   const handleInputChange = (e) => {
@@ -291,7 +294,7 @@ const CreateProductPage = () => {
       const product = {
         name,
         slug,
-        type,
+        type: "simple",
         price: discountedPrice.trim() || price.trim(),
         regular_price: price.trim(),
         sale_price: discountedPrice.trim(),
@@ -300,6 +303,7 @@ const CreateProductPage = () => {
         categories: category,
         stock_quantity: qty,
         sku,
+        tags,
         manage_stock: true,
       };
 
@@ -328,11 +332,19 @@ const CreateProductPage = () => {
     setCategories(categories);
   };
 
+  const getTags = async () => {
+    const tags = await ProductRepository.getTags();
+
+    let productTags = tags.map((tag) => ({ value: tag.id, label: tag.name }));
+    setProductTags(productTags);
+  };
+
   useEffect(() => {
     dispatch(toggleDrawerMenu(false));
 
     getStorename();
     getCategories();
+    getTags();
   }, []);
 
   return (
@@ -483,6 +495,25 @@ const CreateProductPage = () => {
                         type="text"
                         value={sku}
                         onChange={(e) => setSku(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label>
+                        Tags<sup>*</sup>
+                      </label>
+
+                      <Select
+                        isMulti
+                        name="tags"
+                        placeholder="Select product tags"
+                        options={productTags}
+                        onChange={(options) => {
+                          let tags = options.map((option) => ({
+                            id: option.value,
+                          }));
+                          setTags(tags);
+                        }}
                       />
                     </div>
                   </div>

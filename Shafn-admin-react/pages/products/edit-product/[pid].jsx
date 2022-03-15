@@ -7,6 +7,7 @@ import { notification, Progress, Spin } from "antd";
 import { toggleDrawerMenu } from "~/store/app/action";
 import ProductRepository from "~/repositories/ProductRepository";
 import ReactHtmlParser from "react-html-parser";
+import Select from "react-select";
 import "react-color-palette/lib/css/styles.css";
 import "suneditor/dist/css/suneditor.min.css";
 
@@ -87,9 +88,12 @@ const EditProductPage = ({ pid }) => {
     manage_stock: false,
     sold_individually: false,
     type: "simple",
+    tags: [],
   });
 
   const [categories, setCategories] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [attributes, setAttributes] = useState([]);
   const [variations, setVariations] = useState([]);
 
   const [imageFiles, setImageFiles] = useState([]);
@@ -114,9 +118,10 @@ const EditProductPage = ({ pid }) => {
       "manage_stock",
       "sold_individually",
       "categories",
+      "tags",
     ];
     if (name === "regular_price" && !isNaN(value)) {
-      setProduct((current) => ({ ...current, [name]: value }));
+      setProduct((product) => ({ ...product, [name]: value }));
     }
 
     if (name === "price" && !isNaN(value)) {
@@ -126,12 +131,12 @@ const EditProductPage = ({ pid }) => {
           setIsPriceValid(true);
         }, 4000);
       } else {
-        setProduct((current) => ({ ...current, [name]: value }));
+        setProduct((product) => ({ ...product, [name]: value }));
       }
     }
 
     if (name === "stock_quantity" && Number.isInteger(Number(value))) {
-      setProduct((current) => ({ ...current, [name]: value }));
+      setProduct((product) => ({ ...product, [name]: value }));
     }
 
     if (
@@ -140,15 +145,20 @@ const EditProductPage = ({ pid }) => {
       name === "manage_stock" ||
       name === "sold_individually"
     ) {
-      setProduct((current) => ({ ...current, [name]: !current[name] }));
+      setProduct((product) => ({ ...product, [name]: !product[name] }));
     }
 
     if (name === "categories") {
-      setProduct((current) => ({ ...current, [name]: [{ id: value }] }));
+      setProduct((product) => ({ ...product, [name]: [{ id: value }] }));
+    }
+
+    if (name === "tags") {
+      let _tags = value.map((tag) => ({ id: tag.value }));
+      setProduct((product) => ({ ...product, [name]: _tags }));
     }
 
     if (!formNames.includes(name)) {
-      setProduct((current) => ({ ...current, [name]: value }));
+      setProduct((product) => ({ ...product, [name]: value }));
     }
   };
 
@@ -300,15 +310,16 @@ const EditProductPage = ({ pid }) => {
       const product = await ProductRepository.getProductByID(pid);
 
       if (product) {
-        let modifiedAttributes = product.attributes.map((attribute) => ({
+        setProduct(product);
+
+        let modifiedAttributes = product.attributes.map((attribute, index) => ({
           ...attribute,
+          id: index,
           type: "select",
           error: "",
         }));
-        setProduct({
-          ...product,
-          attributes: modifiedAttributes,
-        });
+
+        setAttributes(modifiedAttributes);
 
         let imageFiles = Array.from(product.images).map((img, index) => ({
           id: `img-${index + 1}`,
@@ -334,23 +345,31 @@ const EditProductPage = ({ pid }) => {
     setCategories(categories);
   };
 
+  const getTags = async () => {
+    const tags = await ProductRepository.getTags();
+
+    let _tags = tags.map((tag) => ({ value: tag.id, label: tag.name }));
+    setTags(_tags);
+  };
+
   const getVariations = async () => {
     const variations = await ProductRepository.getVariations(pid);
 
     setVariations(variations);
   };
 
-  const updateVariations = async (attributes) => {};
-
   useEffect(() => {
     getProduct();
 
     getCategories();
 
+    getTags();
+
     getVariations();
 
     dispatch(toggleDrawerMenu(false));
   }, []);
+
   return (
     <ContainerDefault title="Edit product">
       <HeaderDashboard title="Edit Product" description="ShafN Edit Product " />
@@ -578,6 +597,7 @@ const EditProductPage = ({ pid }) => {
                           onChange={handleInputChange}
                         />
                       </div>
+
                       <div className="form-group form-group--select">
                         <label>
                           Stock Status<sup>*</sup>
@@ -632,6 +652,31 @@ const EditProductPage = ({ pid }) => {
                           </label>
                         </div>
                       </div>
+
+                      <div className="form-group">
+                        <label>
+                          Tags<sup>*</sup>
+                        </label>
+
+                        <Select
+                          isMulti
+                          name="tags"
+                          placeholder="Select product tags"
+                          defaultValue={product.tags.map((tag) => ({
+                            value: tag.id,
+                            label: tag.name,
+                          }))}
+                          options={tags}
+                          onChange={(value) =>
+                            handleInputChange({
+                              target: {
+                                name: "tags",
+                                value,
+                              },
+                            })
+                          }
+                        />
+                      </div>
                     </div>
 
                     <div style={{ marginTop: 100 }}>
@@ -649,15 +694,20 @@ const EditProductPage = ({ pid }) => {
                     <div className="ps-block__content">
                       <ProductAttributes
                         productID={pid}
-                        productAttributes={product.attributes}
+                        attributes={attributes}
+                        setAttributes={setAttributes}
+                        setVariations={setVariations}
                         setProduct={setProduct}
                       />
-                      <ProductVariations
-                        productID={pid}
-                        productAttributes={product.attributes}
-                        variations={variations}
-                        setVariations={setVariations}
-                      />
+                      {product.attributes.length > 0 ? (
+                        <ProductVariations
+                          productID={pid}
+                          productAttributes={product.attributes}
+                          variations={variations}
+                          setVariations={setVariations}
+                          setProduct={setProduct}
+                        />
+                      ) : null}
                     </div>
                   </figure>
                 </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { notification } from "antd";
+import ProductRepository from "~/repositories/ProductRepository";
 import "suneditor/dist/css/suneditor.min.css";
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
@@ -44,6 +45,8 @@ const Variation = ({
   dimensions,
   shipping_class,
   description,
+  productID,
+  productAttributes,
   setVariations,
 }) => {
   const [selectedImage, setSelectedImage] = useState(image.src);
@@ -51,6 +54,7 @@ const Variation = ({
   const handleInputChange = (e) => {
     let { name, value } = e.target;
 
+    let attributeNames = attributes.map((attribute) => attribute.name);
     let formNames = [
       "enabled",
       "downloadable",
@@ -64,6 +68,23 @@ const Variation = ({
       "dimension_width",
       "dimension_height",
     ];
+
+    if (attributeNames.includes(name)) {
+      setVariations((variations) =>
+        variations.map((variation) =>
+          variation.id === id
+            ? {
+                ...variation,
+                attributes: variation.attributes.map((attribute) =>
+                  attribute.name === name
+                    ? { ...attribute, option: value }
+                    : attribute
+                ),
+              }
+            : variation
+        )
+      );
+    }
 
     if (
       name === "enabled" ||
@@ -214,23 +235,6 @@ const Variation = ({
     }
   };
 
-  const removeImage = () => {
-    setSelectedImage("");
-    setVariations((variations) =>
-      variations.map((variation) =>
-        variation.id === id
-          ? {
-              ...variation,
-              image: {
-                ...variation.image,
-                src: "",
-              },
-            }
-          : variation
-      )
-    );
-  };
-
   const renderProductImage = () => {
     return (
       <div style={{ width: 200, height: 200 }}>
@@ -275,6 +279,52 @@ const Variation = ({
     );
   };
 
+  const removeImage = () => {
+    setSelectedImage("");
+    setVariations((variations) =>
+      variations.map((variation) =>
+        variation.id === id
+          ? {
+              ...variation,
+              image: {
+                ...variation.image,
+                src: "",
+              },
+            }
+          : variation
+      )
+    );
+  };
+
+  const removeVariation = async () => {
+    let response = await ProductRepository.deleteVariation(productID, id);
+
+    if (response) {
+      setVariations((variations) =>
+        variations.filter((variation) => variation.id !== id)
+      );
+    }
+  };
+
+  const renderAttributeOptions = (attributeName, attributeOption) => {
+    let attribute = productAttributes.find(
+      (productAttribute) => productAttribute.name === attributeName
+    );
+
+    if (attribute !== undefined) {
+      let options = attribute.options.map((option) => (
+        <option
+          key={option}
+          value={option}
+          disabled={option === attributeOption ? true : false}
+        >
+          {option}
+        </option>
+      ));
+      return options;
+    }
+  };
+
   return (
     <div className="variations-List mt-5 rounded">
       <header className="d-flex justify-content-between bg-light p-3">
@@ -294,7 +344,7 @@ const Variation = ({
               defaultValue={attribute.option}
             >
               <option value="">Any {attribute.name}</option>
-              <option value={attribute.option}>{attribute.option}</option>
+              {renderAttributeOptions(attribute.name, attribute.option)}
             </select>
           ))}
         </div>
@@ -311,6 +361,7 @@ const Variation = ({
           <span
             style={{ cursor: "pointer" }}
             className="text-danger small mt-2 ml-2"
+            onClick={removeVariation}
           >
             Remove
           </span>
