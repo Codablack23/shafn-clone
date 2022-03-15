@@ -16,19 +16,19 @@ const WPHeaderDefault = () => {
     }, []);
     return (
         <header
-            className="header header--1"
+            className="header bg-white"
             data-sticky="true"
             id="headerSticky">
-            <div className="header__top">
-                <div className="ps-container">
-                    <div className="header__left">
+            <div className="header__top bg-white">
+                <div className="ps-container bg-white">
+                    <div className="header__left bg-white">
                         <Logo />
                         <MenuCategoriesDropdown />
                     </div>
-                    <div className="header__center">
+                    <div className="header__center bg-white">
                         <WPSearchHeader />
                     </div>
-                    <div className="header__right">
+                    <div className="header__right bg-white">
                         <WPHeaderActions />
                     </div>
                 </div>

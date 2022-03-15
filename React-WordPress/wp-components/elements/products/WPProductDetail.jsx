@@ -78,7 +78,10 @@ const WPProductDetail = ({ product, variations }) => {
                             className={`ps-variant ps-variant--size w3-circle ${
                                 selectedColor === item.toLowerCase() && 'active'
                             }`}
-                            style={{ backgroundColor: item.toLowerCase() ,borderRadius:20}}
+                            style={{
+                                backgroundColor: item.toLowerCase(),
+                                borderRadius: 20,
+                            }}
                             onClick={(e) => handleChangeColor(item)}
                             key={index}>
                             {/* <span
@@ -115,9 +118,10 @@ const WPProductDetail = ({ product, variations }) => {
         );
     } else {
         return (
-            <div className="ps-product--detail ps-product--fullwidth" style={{paddingBottom:0}}>
+            <div
+                className="ps-product--detail ps-product--fullwidth"
+                style={{ paddingBottom: 0 }}>
                 <div className="ps-product__header">
-
                     <WPModuleProductDetailThumbnail
                         product={product}
                         variant={activeVariant}
@@ -130,9 +134,8 @@ const WPProductDetail = ({ product, variations }) => {
                             {sizesView}
                         </>
                     </WPModuleProductDetailInformation>
-                    </div>
-                    <DefaultDescription />
-              
+                </div>
+                <DefaultDescription />
             </div>
         );
     }

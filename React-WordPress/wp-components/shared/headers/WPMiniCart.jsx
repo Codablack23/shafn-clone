@@ -67,12 +67,15 @@ class WPMiniCart extends Component {
 
         return (
             <div className="ps-cart--mini">
-                <a className="header__extra" href="#">
-                    <i className="icon-bag2"></i>
+                <span className="header__extra w3-hover-lightgrey" href="#">
+                    <i className="icon-bag2" style={{
+                        fontSize:'22px',
+                        color:'#2A3147',
+                    }}></i>
                     <span>
                         <i>{cartTotal ? cartTotal : 0}</i>
                     </span>
-                </a>
+                </span>
                 {cartItemsView}
             </div>
         );

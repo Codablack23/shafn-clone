@@ -53,62 +53,18 @@ class ProductRepository {
     return response;
   }
 
-  async createProduct(imageFiles, product, setUploading) {
+  async createProduct(payload) {
     let auth_token = localStorage.getItem("auth_token");
     const uploadProgress = (progressEvent, status) => {
       const percent = Math.round(
         (progressEvent.loaded * 100) / progressEvent.total
       );
 
-      setUploading({
+      payload.setUploading({
         status,
         progress: percent,
       });
     };
-
-    const uploadImages = () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${auth_token}`,
-        },
-        onUploadProgress: (progressEvent) => {
-          uploadProgress(progressEvent, "Uploading Images");
-        },
-      };
-
-      let images = [];
-      let imgFiles = imageFiles.map((img) => img.file);
-
-      imgFiles.forEach((file, index, arr) => {
-        let formData = new FormData();
-
-        formData.append("file", file);
-
-        axios
-          .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
-          .then((res) => {
-            images.push({ src: res.data.source_url, position: index });
-
-            if (images.length === imageFiles.length) {
-              uploadProduct(images);
-            }
-          })
-          .catch((err) => {
-            arr.length = index + 1;
-            notification["error"]({
-              message:
-                "Some images did not upload!. Check your data connection and try again.",
-            });
-
-            setUploading({
-              status: "",
-              progress: 0,
-            });
-          });
-      });
-    };
-
-    uploadImages();
 
     const uploadProduct = (images) => {
       const config = {
@@ -121,7 +77,7 @@ class ProductRepository {
       };
 
       const productData = {
-        ...product,
+        ...payload.product,
         images,
       };
 
@@ -146,12 +102,56 @@ class ProductRepository {
                 : err.response.data.message,
           });
 
-          setUploading({
+          payload.setUploading({
             status: "",
             progress: 0,
           });
         });
     };
+
+    const uploadImages = () => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${auth_token}`,
+        },
+        onUploadProgress: (progressEvent) => {
+          uploadProgress(progressEvent, "Uploading Images");
+        },
+      };
+
+      let images = [];
+      let imgFiles = payload.imageFiles.map((img) => img.file);
+
+      imgFiles.forEach((file, index, arr) => {
+        let formData = new FormData();
+
+        formData.append("file", file);
+
+        axios
+          .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
+          .then((res) => {
+            images.push({ src: res.data.source_url, position: index });
+
+            if (images.length === payload.imageFiles.length) {
+              uploadProduct(images);
+            }
+          })
+          .catch((err) => {
+            arr.length = index + 1;
+            notification["error"]({
+              message:
+                "Some images did not upload!. Check your data connection and try again.",
+            });
+
+            payload.setUploading({
+              status: "",
+              progress: 0,
+            });
+          });
+      });
+    };
+
+    uploadImages();
   }
 
   async editProduct(id, imageFiles, product, setUploading) {
@@ -166,6 +166,65 @@ class ProductRepository {
         status,
         progress: percent,
       });
+    };
+
+    const uploadProduct = (images) => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${auth_token}`,
+        },
+        onUploadProgress: (progressEvent) => {
+          uploadProgress(progressEvent, "Uploading Product");
+        },
+      };
+
+      let slug = `${product.name
+        .replace(/[^a-zA-Z0-9-_]/g, " ")
+        .replace(/  +/g, " ")
+        .split(" ")
+        .join("-")}`.trim();
+
+      let in_stock = product.in_stock === true || product.in_stock === "true";
+
+      let stock_quantity = !in_stock ? 0 : Number(product.stock_quantity);
+
+      let price = product.price || product.regular_price;
+
+      let attributes =
+        product.type === "variable"
+          ? product.attributes.map((attribute) => ({
+              name: attribute.name,
+              options: attribute.options,
+              visible: attribute.visible,
+              variation: attribute.variation,
+            }))
+          : [];
+
+      const productData = {
+        ...product,
+        slug,
+        images,
+        in_stock,
+        stock_quantity,
+        price,
+        attributes,
+      };
+
+      axios
+        .put(`${WPDomain}/wp-json/dokan/v1/products/${id}`, productData, config)
+        .then((res) => {
+          notification["success"]({
+            message: "Product Updated Successfully",
+          });
+          Router.push("/products");
+        })
+        .catch((err) => {
+          notification["error"]({
+            message: "Product Upload Failed",
+            description: "Check your data connection and try again.",
+          });
+          setIsUploading(false);
+        });
     };
 
     const uploadImages = () => {
@@ -220,52 +279,296 @@ class ProductRepository {
     };
 
     uploadImages();
+  }
 
-    const uploadProduct = (images) => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${auth_token}`,
-        },
-        onUploadProgress: (progressEvent) => {
-          uploadProgress(progressEvent, "Uploading Product");
-        },
-      };
+  async getUserAttributes() {
+    let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
 
-      let slug = `${product.name
-        .replace(/[^a-zA-Z0-9-_]/g, " ")
-        .replace(/  +/g, " ")
-        .split(" ")
-        .join("-")}`.trim();
+    const attributes = await axios
+      .get(`${WPDomain}/wp-json/dokan/v1/products/attributes`, config)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        return;
+      });
 
-      let in_stock = product.in_stock === true || product.in_stock === "true";
+    let values = [];
 
-      const productData = {
-        ...product,
-        slug,
-        images,
+    for (const attribute of Array.from(attributes)) {
+      await axios
+        .get(
+          `${WPDomain}/wp-json/dokan/v1/products/attributes/${attribute.id}/terms`,
+          config
+        )
+        .then((res) => {
+          values.push(res.data);
+        })
+        .catch((err) => {
+          return;
+        });
+    }
+
+    const userAttributes = Array.from(attributes).map((attribute, index) => ({
+      id: attribute.id,
+      name: attribute.name,
+      values: values[index],
+    }));
+
+    return userAttributes;
+  }
+
+  async saveAttributes(productID, productAttributes) {
+    let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    // Update product type and attributes
+    let attributes = productAttributes.map((attribute) => ({
+      name: attribute.name,
+      options: attribute.options,
+      visible: attribute.visible,
+      variation: attribute.variation,
+    }));
+
+    let product = await axios.put(
+      `${WPDomain}/wp-json/dokan/v1/products/${productID}`,
+      { type: "variable", attributes },
+      config
+    );
+    // Save/Update user attributes
+
+    // let userAttributes = await this.getUserAttributes();
+
+    // console.log("Old Attributes: ", userAttributes);
+
+    // for (const attribute of Array.from(productAttributes)) {
+    //   let currentAttr = userAttributes.find(
+    //     (attr) => attr.name.toLowerCase() === attribute.name.toLowerCase()
+    //   );
+    //   if (currentAttr !== undefined) {
+    //     for (const value of Array.from(attribute.value)) {
+    //       let isValueAdded = currentAttr.values.includes(value);
+    //       if (!isValueAdded) {
+    //         await axios.post(
+    //           `${WPDomain}/wp-json/dokan/v1/products/attributes/${currentAttr.id}/terms`,
+    //           { name: value },
+    //           config
+    //         );
+    //       }
+    //     }
+    //   } else {
+    //     await axios
+    //       .post(
+    //         `${WPDomain}/wp-json/dokan/v1/products/attributes`,
+    //         { name: attribute.name },
+    //         config
+    //       )
+    //       .then((res) => {
+    //         attribute.values.forEach((value) => {
+    //           axios.post(
+    //             `${WPDomain}/wp-json/dokan/v1/products/attributes/${res.data.id}/terms`,
+    //             { name: value },
+    //             config
+    //           );
+    //         });
+    //       });
+    //   }
+    // }
+
+    // let userAttr = await this.getUserAttributes();
+
+    // console.log("New Attributes: ", userAttr);
+
+    // Update all variation 'attributes' property
+
+    let variations = await this.getVariations(productID);
+
+    const updateVariationAttributes = (variation) => ({
+      ...variation,
+      attributes: productAttributes.map((attribute) => {
+        let prevAttribute = variation.attributes.find(
+          (attr) => attr.name === attribute.name
+        );
+        let newAttribute = {
+          name: attribute.name,
+          option: prevAttribute !== undefined ? prevAttribute.option : "",
+        };
+
+        return newAttribute;
+      }),
+    });
+
+    variations = variations.map(updateVariationAttributes);
+
+    // Update variations
+    let newVariations = [];
+    for (const variation of Array.from(variations)) {
+      await axios
+        .put(
+          `${WPDomain}/wp-json/wc/v3/products/${productID}/variations/${variation.id}`,
+          variationData,
+          config
+        )
+        .then((res) => {
+          newVariations.push(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    console.log(newVariations);
+  }
+
+  async getVariations(productID) {
+    let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    let response = axios
+      .get(`${WPDomain}/wp-json/wc/v3/products/${productID}/variations`, config)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        return;
+      });
+
+    return response;
+  }
+
+  async createVariations(productID, attributes) {
+    let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    let variations = [];
+
+    for (const attributeMix of Array.from(attributes)) {
+      await axios
+        .post(
+          `${WPDomain}/wp-json/wc/v3/products/${productID}/variations`,
+          { attributes: attributeMix },
+          config
+        )
+        .then((res) => {
+          variations.push(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    return variations;
+  }
+
+  async saveVariations(productID, variations) {
+    let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    let productVariations = [];
+
+    const updateVariation = (variation, image) => {
+      let in_stock =
+        variation.in_stock === true || variation.in_stock === "true";
+
+      let stock_quantity = !in_stock ? 0 : Number(variation.stock_quantity);
+
+      let price = variation.price || variation.regular_price;
+
+      const variationData = {
+        ...variation,
         in_stock,
-        price: product.price || product.regular_price,
-        stock_quantity: !in_stock ? 0 : Number(product.stock_quantity),
-        // attributes,
-        // variations: variations.map((v) => v.id),
+        stock_quantity,
+        price,
+        image,
       };
 
       axios
-        .put(`${WPDomain}/wp-json/dokan/v1/products/${id}`, productData, config)
+        .put(
+          `${WPDomain}/wp-json/wc/v3/products/${productID}/variations/${variation.id}`,
+          variationData,
+          config
+        )
         .then((res) => {
-          notification["success"]({
-            message: "Product Updated Successfully",
-          });
-          Router.push("/products");
+          productVariations.push(res.data);
         })
         .catch((err) => {
-          notification["error"]({
-            message: "Product Upload Failed",
-            description: "Check your data connection and try again.",
-          });
-          setIsUploading(false);
+          console.log(err);
         });
     };
+
+    for (const variation of Array.from(variations)) {
+      // Upload Image
+      if (typeof variation.image.src === "string") {
+        updateVariation(variation, variation.image);
+      } else {
+        let formData = new FormData();
+
+        formData.append("file", variation.image.src);
+
+        await axios
+          .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
+          .then((res) => {
+            let image = { src: res.data.source_url };
+
+            updateVariation(variation, image);
+          })
+          .catch((err) => {
+            arr.length = index + 1;
+            notification["error"]({
+              message:
+                "Some images did not upload!. Check your data connection and try again.",
+            });
+
+            setUploading({
+              status: "",
+              progress: 0,
+            });
+          });
+      }
+    }
+
+    console.log("Variations: ", productVariations);
+  }
+
+  async getCategories() {
+    let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    const response = axios
+      .get(`${WPDomain}/wp-json/wc/v3/products/categories`, config)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        return;
+      });
+
+    return response;
   }
 }
 

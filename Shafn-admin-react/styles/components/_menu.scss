@@ -190,10 +190,12 @@
 .menu {
     margin: 0;
     padding: 0;
-
+    
     > li {
         display: block;
-
+        &.active-link{
+            color: orange!important;
+        }
         > a {
             position: relative;
             display: block;
@@ -225,20 +227,13 @@
             &:hover,
             &.active {
                 color: $color-1st;
-
-                &:after {
-                    @include show;
-                }
             }
         }
         &.active {
             a {
                 color: $color-1st;
-
-                &:after {
-                    @include show;
-                }
             }
         }
+      
     }
 }

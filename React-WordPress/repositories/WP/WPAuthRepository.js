@@ -74,18 +74,13 @@ class WPAuthRepository {
                 }
             }
         } catch (err) {
-            console.log(err);
-            if (err.response === undefined) {
-                notification['error']({
-                    message: 'Registration Failed',
-                    description: String(err),
-                });
-            } else {
-                notification['error']({
-                    message: 'Registration Failed',
-                    description: err.response.data.message,
-                });
-            }
+            notification['error']({
+                message: 'Registration Failed',
+                description:
+                    err.response === undefined
+                        ? String(err)
+                        : err.response.data.message,
+            });
             setIsLoading(false);
         }
     }
@@ -108,17 +103,13 @@ class WPAuthRepository {
             }
             setIsLoading(false);
         } catch (err) {
-            if (err.response === undefined) {
-                notification['error']({
-                    message: 'Registration Failed',
-                    description: String(err),
-                });
-            } else {
-                notification['error']({
-                    message: 'Registration Failed',
-                    description: err.response.data.message,
-                });
-            }
+            notification['error']({
+                message: 'Login Failed',
+                description:
+                    err.response === undefined
+                        ? String(err)
+                        : err.response.data.message,
+            });
 
             setIsLoading(false);
         }

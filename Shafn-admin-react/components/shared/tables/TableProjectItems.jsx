@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 import DropdownAction from "~/components/elements/basic/DropdownAction";
-import { WPDomain } from "~/repositories/Repository";
 import ProductRepository from "~/repositories/ProductRepository";
 
 const TableProjectItems = () => {
@@ -57,12 +55,12 @@ const TableProjectItems = () => {
     });
   }
 
-  useEffect(() => {
-    const getProducts = async () => {
-      const products = await ProductRepository.getProducts();
-      setProductItems(products);
-    };
+  const getProducts = async () => {
+    const products = await ProductRepository.getProducts();
+    setProductItems(products);
+  };
 
+  useEffect(() => {
     getProducts();
   }, []);
   return (

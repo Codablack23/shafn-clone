@@ -69,12 +69,12 @@ const TableOrdersItems = () => {
     });
   }
 
-  useEffect(() => {
-    const getOrders = async () => {
-      const orders = await OrdersRepository.getOrders();
-      setOrderItems(orders);
-    };
+  const getOrders = async () => {
+    const orders = await OrdersRepository.getOrders();
+    setOrderItems(orders);
+  };
 
+  useEffect(() => {
     getOrders();
   }, []);
 

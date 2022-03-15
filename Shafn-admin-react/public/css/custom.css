@@ -95,11 +95,6 @@
     background: lightgrey;
   }
   
-  .active,
-  .demo:hover {
-      transform: scale(1.2);
-  }
-
 .slider-thumbnails{
     margin: auto;
     position: absolute;
