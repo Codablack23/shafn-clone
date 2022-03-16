@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { notification } from "antd";
 import Variation from "./modules/Variation";
 import ProductRepository from "~/repositories/ProductRepository";
 
@@ -93,22 +94,29 @@ const ProductVariations = ({
 
   const createVariations = async () => {
     if (action === "createVariations") {
-      let attributePairs = await pairAttributes();
-
-      // let attributePairs = await removeExistingAttributePairs();
+      let attributePairs = await removeExistingAttributePairs();
 
       let newVariations = await ProductRepository.createVariations(
         productID,
         attributePairs
       );
 
+      if (newVariations) {
+        if (newVariations.length === 0) {
+          notification["warning"]({
+            message: "All Attributes Pair already exists",
+          });
+        } else {
+          notification["success"]({
+            message: `${newVariations.length} Variations Added!`,
+          });
+        }
+      }
+
       setVariations((variations) => [...newVariations, ...variations]);
     }
 
     if (action === "addVariation") {
-      // let attributePairs = await removeExistingAttributePairs();
-
-      // console.log("Pairs:", attributePairs)
       const product = await ProductRepository.getProductByID(productID);
 
       let attributePair = Array.from(product.attributes).map((attribute) => ({
@@ -129,6 +137,12 @@ const ProductVariations = ({
       productID,
       variations
     );
+
+    if (productVariations) {
+      notification["success"]({
+        message: `Variations Saved Successfully`,
+      });
+    }
 
     setProduct((product) => ({
       ...product,

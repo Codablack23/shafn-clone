@@ -335,7 +335,8 @@ class ProductRepository {
     };
 
     // Update product type and attributes
-    let attributes = productAttributes.map((attribute) => ({
+    let attributes = productAttributes.map((attribute, index) => ({
+      id: index,
       name: attribute.name,
       options: attribute.options,
       visible: attribute.visible,
@@ -523,6 +524,12 @@ class ProductRepository {
       let in_stock =
         variation.in_stock === true || variation.in_stock === "true";
 
+      // Manage_stock data type is boolean but defau;t value is string "parant"
+      let manage_stock =
+        typeof variation.manage_stock === "string"
+          ? false
+          : variation.manage_stock;
+
       let stock_quantity = !in_stock ? 0 : Number(variation.stock_quantity);
 
       let price = variation.price || variation.regular_price;
@@ -530,6 +537,7 @@ class ProductRepository {
       const variationData = {
         ...variation,
         in_stock,
+        manage_stock,
         stock_quantity,
         price,
         image,

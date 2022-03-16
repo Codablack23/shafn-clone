@@ -16,9 +16,9 @@ const SettingsPage = () => {
       <section className="ps-dashboard ps-items-listing">
         <div className="ps-section__left">
           <section className="ps-card">
-            <div className="ps-card__header">
+            {/* <div className="ps-card__header">
               <h4>Account Settings</h4>
-            </div>
+            </div> */}
             <div className="ps-card__content">
               <FormAccountSettings />
             </div>

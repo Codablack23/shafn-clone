@@ -22,6 +22,7 @@ const WPStorePage = ({ query }) => {
             id,
             { per_page: 12 }
         );
+
         if (profile && vendorProducts) {
             await setStoreProfile(profile);
             await setStoreProducts(vendorProducts);

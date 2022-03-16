@@ -285,7 +285,7 @@ const CreateProductPage = () => {
 
     if (result === "VALID") {
       setUploading((current) => ({ ...current, status: "Uploading" }));
-      console.log(uploading);
+
       let slug = `${name
         .replace(/[^a-zA-Z0-9-_]/g, " ")
         .replace(/  +/g, " ")

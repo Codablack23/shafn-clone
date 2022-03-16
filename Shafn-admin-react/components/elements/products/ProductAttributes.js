@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProductRepository from "~/repositories/ProductRepository";
 import { v4 as uuid } from "uuid";
+import { notification } from "antd";
 import Attribute from "./modules/Attribute";
 
 const ProductAttributes = ({
@@ -58,23 +59,30 @@ const ProductAttributes = ({
         setAttributes
       );
 
-      setProduct((product) => ({
-        ...product,
-        attributes: response.attributes,
-      }));
+      if (response) {
+        console.log(response.attributes);
+        notification["success"]({
+          message: "Attributes Saved Successfully",
+        });
 
-      setVariations((variations) =>
-        variations.map((variation) => {
-          let newVariationData = response.newVariations.find(
-            (newVariation) => newVariation.id === variation.id
-          );
+        setProduct((product) => ({
+          ...product,
+          attributes: response.attributes,
+        }));
 
-          return {
-            ...variation,
-            attributes: newVariationData.attributes,
-          };
-        })
-      );
+        setVariations((variations) =>
+          variations.map((variation) => {
+            let newVariationData = response.newVariations.find(
+              (newVariation) => newVariation.id === variation.id
+            );
+
+            return {
+              ...variation,
+              attributes: newVariationData.attributes,
+            };
+          })
+        );
+      }
     }
   };
 

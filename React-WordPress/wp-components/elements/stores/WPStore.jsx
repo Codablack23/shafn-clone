@@ -21,7 +21,8 @@ const WPStore = ({ store }) => {
                     </div>
                     <p>
                         {store.address.street_1} {store.address.city}{' '}
-                        {store.address.state} US, {store.address.zip}
+                        {store.address.state} {store.address.zip},{' '}
+                        {store.address.country}
                     </p>
                     <p>
                         <i className="icon-telephone"></i>{' '}
