@@ -13,7 +13,7 @@ import ReactHtmlParser from "react-html-parser";
 import "react-image-lightbox/style.css"; //
 import "suneditor/dist/css/suneditor.min.css";
 
-import { CustomModal, CustomSlider } from "~/components/elements/custom/index";
+import { CustomModal} from "~/components/elements/custom/index";
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
 });
