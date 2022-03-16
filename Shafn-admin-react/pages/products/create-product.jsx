@@ -95,7 +95,6 @@ const CreateProductPage = () => {
     progress: 0,
   });
 
-  const [tag, setTag] = useState("");
   const [index, setIndex] = useState("");
 
   const handleInputChange = (e) => {

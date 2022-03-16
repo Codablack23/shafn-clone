@@ -8,6 +8,7 @@ import { toggleDrawerMenu } from "~/store/app/action";
 import ProductRepository from "~/repositories/ProductRepository";
 import ReactHtmlParser from "react-html-parser";
 import Select from "react-select";
+import Lightbox from "react-image-lightbox";
 import "react-color-palette/lib/css/styles.css";
 import "suneditor/dist/css/suneditor.min.css";
 
@@ -99,6 +100,9 @@ const EditProductPage = ({ pid }) => {
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
+
+  const [viewProducts, setViewProducts] = useState(false);
+  const [index, setIndex] = useState("");
 
   const [isPriceValid, setIsPriceValid] = useState(true);
   const [uploading, setUploading] = useState({
@@ -715,10 +719,10 @@ const EditProductPage = ({ pid }) => {
             </div>
 
             <div className="ps-form__bottom">
-              <a className="ps-btn ps-btn--black" href="products.html">
+              {/* <a className="ps-btn ps-btn--black" href="products.html">
                 Back
               </a>
-              <button className="ps-btn ps-btn--gray">Cancel</button>
+              <button className="ps-btn ps-btn--gray">Cancel</button> */}
               <button
                 disabled={isUploading}
                 type="submit"
