@@ -1,38 +1,25 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import ContainerDefault from "~/components/layouts/ContainerDefault";
 import Pagination from "~/components/elements/basic/Pagination";
 import TableProjectItems from "~/components/shared/tables/TableProjectItems";
-import { Select, notification,Progress } from "antd";
+import { Select, Spin } from "antd";
 import Link from "next/link";
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
 import { connect, useDispatch } from "react-redux";
 import { toggleDrawerMenu } from "~/store/app/action";
-import { CustomModal} from "~/components/elements/custom/index";
+import { CustomModal } from "~/components/elements/custom/index";
 
 const { Option } = Select;
 const ProductPage = () => {
   const dispatch = useDispatch();
-  const [uploading, setUploading] = useState({
-    status: "",
-    progress: 0,
-  });
 
   useEffect(() => {
     dispatch(toggleDrawerMenu(false));
   }, []);
   return (
     <ContainerDefault title="Products">
-      <CustomModal isOpen={uploading.status?true:false}>
-          <div
-            style={{
-              marginTop: '10%',
-              minWidth: "200px",
-              textAlign:"center"
-            }}
-          >
-            <p className="text-center text-white">{uploading.status}</p>
-            <Progress type="circle" percent={70} />
-          </div>
+      <CustomModal isOpen={false}>
+        <Spin />
       </CustomModal>
       <HeaderDashboard title="Products" description="ShafN Product Listing " />
       <section className="ps-items-listing">
@@ -107,13 +94,7 @@ const ProductPage = () => {
           </div>
         </div>
         <div className="ps-section__content">
-          <TableProjectItems setUploadingProgress ={(percent,status)=>{
-             setUploading({
-               progress:percent,
-               status
-             })
-             console.log(uploading)
-          }} />
+          <TableProjectItems />
         </div>
         <div className="ps-section__footer">
           <p>Show 10 in 30 items.</p>
