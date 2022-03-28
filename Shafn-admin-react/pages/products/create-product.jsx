@@ -71,7 +71,7 @@ const CreateProductPage = () => {
   const dispatch = useDispatch();
 
   const [categories, setCategories] = useState([]);
-  const [productTags, setProductTags] = useState([]);
+  const [tagOptions, setTagOptions] = useState([]);
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -82,13 +82,15 @@ const CreateProductPage = () => {
   const [qty, setQty] = useState("");
   const [sku, setSku] = useState("");
   const [tags, setTags] = useState([]);
+  const [newTag, setNewTag] = useState("");
 
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
 
   const [viewProducts, setViewProducts] = useState(false);
-
   const [isPriceValid, setIsPriceValid] = useState(true);
+  const [showNewTagInputField, setShowNewTagInputField] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [uploading, setUploading] = useState({
     status: "",
@@ -254,6 +256,22 @@ const CreateProductPage = () => {
       });
   };
 
+  const addTag = async () => {
+    try {
+      let tag = await ProductRepository.addTag(newTag);
+
+      let tagOption = { value: tag.id, label: tag.name };
+
+      setTagOptions((tagOptions) => [...tagOptions, tagOption]);
+    } catch (err) {
+      notification["error"]({
+        message: "Failed To Add Tag",
+        description:
+          err.response === undefined ? String(err) : err.response.data.message,
+      });
+    }
+  };
+
   const validateInputs = () => {
     if (!name) return "Product Name is required!";
     if (!price) return "Sale Price is required!";
@@ -334,8 +352,8 @@ const CreateProductPage = () => {
   const getTags = async () => {
     const tags = await ProductRepository.getTags();
 
-    let productTags = tags.map((tag) => ({ value: tag.id, label: tag.name }));
-    setProductTags(productTags);
+    let tagOptions = tags.map((tag) => ({ value: tag.id, label: tag.name }));
+    setTagOptions(tagOptions);
   };
 
   useEffect(() => {
@@ -506,7 +524,7 @@ const CreateProductPage = () => {
                         isMulti
                         name="tags"
                         placeholder="Select product tags"
-                        options={productTags}
+                        options={tagOptions}
                         onChange={(options) => {
                           let tags = options.map((option) => ({
                             id: option.value,
@@ -514,6 +532,13 @@ const CreateProductPage = () => {
                           setTags(tags);
                         }}
                       />
+
+                      <button
+                        className="ps-btn ps-btn--gray"
+                        onClick={() => setShowNewTagInputField(true)}
+                      >
+                        Add New
+                      </button>
                     </div>
                   </div>
                 </figure>
@@ -521,7 +546,7 @@ const CreateProductPage = () => {
             </div>
           </div>
           <div className="ps-form__bottom">
-            <a className="ps-btn ps-btn--black" href="products.html">
+            <a className="ps-btn ps-btn--black" href="/">
               Back
             </a>
             <button className="ps-btn ps-btn--gray">Cancel</button>
@@ -566,6 +591,39 @@ const CreateProductPage = () => {
         >
           <p className="text-center text-white">{uploading.status}</p>
           <Progress type="line" percent={uploading.progress} />
+        </div>
+      </CustomModal>
+      {/* New Tag Input Field */}
+      <CustomModal isOpen={showNewTagInputField}>
+        <div
+          className="form-group"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <label>
+            New Tag<sup>*</sup>
+          </label>
+          <input
+            name="new tag"
+            className="form-control"
+            type="text"
+            value={newTag}
+            onChange={(e) => setNewTag(e.target.value)}
+          />
+
+          <button
+            className="ps-btn"
+            onClick={() => setShowNewTagInputField(false)}
+          >
+            Cancel
+          </button>
+
+          <button className="ps-btn ps-btn--gray" onClick={addTag}>
+            Add
+          </button>
         </div>
       </CustomModal>
     </ContainerDefault>

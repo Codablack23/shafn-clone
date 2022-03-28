@@ -14,6 +14,7 @@ import "suneditor/dist/css/suneditor.min.css";
 
 import ProductAttributes from "~/components/elements/products/ProductAttributes";
 import ProductVariations from "~/components/elements/products/ProductVariations";
+import { CustomModal } from "~/components/elements/custom/index";
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
@@ -93,7 +94,8 @@ const EditProductPage = ({ pid }) => {
   });
 
   const [categories, setCategories] = useState([]);
-  const [tags, setTags] = useState([]);
+  const [tagOptions, setTagOptions] = useState([]);
+  const [newTag, setNewTag] = useState("");
   const [attributes, setAttributes] = useState([]);
   const [variations, setVariations] = useState([]);
 
@@ -104,6 +106,7 @@ const EditProductPage = ({ pid }) => {
   const [viewProducts, setViewProducts] = useState(false);
   const [index, setIndex] = useState("");
 
+  const [showNewTagInputField, setShowNewTagInputField] = useState(false);
   const [isPriceValid, setIsPriceValid] = useState(true);
   const [uploading, setUploading] = useState({
     status: "",
@@ -268,6 +271,22 @@ const EditProductPage = ({ pid }) => {
       });
   };
 
+  const addTag = async () => {
+    try {
+      let tag = await ProductRepository.addTag(newTag);
+
+      let tagOption = { value: tag.id, label: tag.name };
+
+      setTagOptions((tagOptions) => [...tagOptions, tagOption]);
+    } catch (err) {
+      notification["error"]({
+        message: "Failed To Add Tag",
+        description:
+          err.response === undefined ? String(err) : err.response.data.message,
+      });
+    }
+  };
+
   const validateInputs = () => {
     if (!product.name) return "Product Name is required!";
     if (!product.regular_price) return "Sale Price is required!";
@@ -352,8 +371,8 @@ const EditProductPage = ({ pid }) => {
   const getTags = async () => {
     const tags = await ProductRepository.getTags();
 
-    let _tags = tags.map((tag) => ({ value: tag.id, label: tag.name }));
-    setTags(_tags);
+    let tagOptions = tags.map((tag) => ({ value: tag.id, label: tag.name }));
+    setTagOptions(tagOptions);
   };
 
   const getVariations = async () => {
@@ -670,7 +689,7 @@ const EditProductPage = ({ pid }) => {
                             value: tag.id,
                             label: tag.name,
                           }))}
-                          options={tags}
+                          options={tagOptions}
                           onChange={(value) =>
                             handleInputChange({
                               target: {
@@ -680,6 +699,13 @@ const EditProductPage = ({ pid }) => {
                             })
                           }
                         />
+
+                        <button
+                          className="ps-btn ps-btn--gray"
+                          onClick={() => setShowNewTagInputField(true)}
+                        >
+                          Add New
+                        </button>
                       </div>
                     </div>
 
@@ -746,6 +772,40 @@ const EditProductPage = ({ pid }) => {
       ) : (
         <Spin />
       )}
+
+      {/* New Tag Input Field */}
+      <CustomModal isOpen={showNewTagInputField}>
+        <div
+          className="form-group"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <label>
+            New Tag<sup>*</sup>
+          </label>
+          <input
+            name="new tag"
+            className="form-control"
+            type="text"
+            value={newTag}
+            onChange={(e) => setNewTag(e.target.value)}
+          />
+
+          <button
+            className="ps-btn"
+            onClick={() => setShowNewTagInputField(false)}
+          >
+            Cancel
+          </button>
+
+          <button className="ps-btn ps-btn--gray" onClick={addTag}>
+            Add
+          </button>
+        </div>
+      </CustomModal>
     </ContainerDefault>
   );
 };

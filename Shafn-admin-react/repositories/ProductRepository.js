@@ -639,6 +639,41 @@ class ProductRepository {
 
     return response;
   }
+
+  async addTag(name) {
+    const adminLogin = {
+      username: process.env.username,
+      password: process.env.password,
+    };
+
+    let admin = await axios.post(
+      `${WPDomain}/wp-json/jwt-auth/v1/token`,
+      adminLogin
+    );
+
+    let config = {
+      headers: {
+        Authorization: `Bearer ${admin.data.token}`,
+      },
+    };
+
+    const response = axios
+      .post(
+        `${WPDomain}/wp-json/wc/v3/products/tags`,
+        {
+          name,
+        },
+        config
+      )
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        return;
+      });
+
+    return response;
+  }
 }
 
 export default new ProductRepository();
