@@ -15,11 +15,7 @@ import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css"; //
 import ProductAttributes from "~/components/elements/products/ProductAttributes";
 import ProductVariations from "~/components/elements/products/ProductVariations";
-<<<<<<< HEAD
 import { CustomModal} from "~/components/elements/custom/index";
-=======
-import { CustomModal } from "~/components/elements/custom/index";
->>>>>>> 5e2ae9d782afedef7e37c206e92208942217caf1
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
@@ -107,15 +103,7 @@ const EditProductPage = ({ pid }) => {
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
-<<<<<<< HEAD
   const [index, setIndex] = useState("");
-=======
-
-  const [viewProducts, setViewProducts] = useState(false);
-  const [index, setIndex] = useState("");
-
-  const [showNewTagInputField, setShowNewTagInputField] = useState(false);
->>>>>>> 5e2ae9d782afedef7e37c206e92208942217caf1
   const [isPriceValid, setIsPriceValid] = useState(true);
   const [uploading, setUploading] = useState({
     status: "",
