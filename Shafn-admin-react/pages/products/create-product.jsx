@@ -8,11 +8,13 @@ import { notification, Progress, Spin } from "antd";
 import { toggleDrawerMenu } from "~/store/app/action";
 import SettingsRepository from "~/repositories/SettingsRepository";
 import ProductRepository from "~/repositories/ProductRepository";
-import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
 import Lightbox from "react-image-lightbox";
-import "react-image-lightbox/style.css"; //
+import ReactHtmlParser from "react-html-parser";
+import Select from "react-select";
+import "react-image-lightbox/style.css";
+import "suneditor/dist/css/suneditor.min.css";
 
-import { CustomModal, CustomSlider } from "~/components/elements/custom/index";
+import { CustomModal } from "~/components/elements/custom/index";
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
 });
@@ -68,23 +70,27 @@ let buttonList = [
 const CreateProductPage = () => {
   const dispatch = useDispatch();
 
+  const [categories, setCategories] = useState([]);
+  const [tagOptions, setTagOptions] = useState([]);
+
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [discountedPrice, setDiscountedPrice] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
-  const [type, setType] = useState("simple");
   const [qty, setQty] = useState("");
   const [sku, setSku] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState([]);
+  const [newTag, setNewTag] = useState("");
 
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
 
   const [viewProducts, setViewProducts] = useState(false);
-
   const [isPriceValid, setIsPriceValid] = useState(true);
+  const [showNewTagInputField, setShowNewTagInputField] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [uploading, setUploading] = useState({
     status: "",
@@ -176,24 +182,25 @@ const CreateProductPage = () => {
                   required
                   hidden
                 />
+
                 <label
                   htmlFor={`img-${i + 1}`}
-                  className="btn border m-1 ml-2 p-3 btn-lg"
+                  className="m-1 border p-3 text-center"
                   style={{
-                    display: "block",
-                    minwidth: "100px",
-                    minHeight: "20vh",
-                    borderRadius: 0,
-                    margin: "auto",
-                    borderColor: "lightgrey",
+                    width: "20vh",
+                    minHeight: "21vh",
+                    margin: "2% auto",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                 >
                   <span>Add A Photo</span>
                   <br />
-                  <br />
                   <i
                     className="fa fa-file-image-o text-secondary"
-                    style={{ fontSize: 38 }}
+                    style={{ fontSize: 38, marginTop: 10, marginBottom: 10 }}
                     aria-hidden="true"
                   ></i>
                   <br />
@@ -211,7 +218,7 @@ const CreateProductPage = () => {
                 className="m-1 bg-dark"
                 style={{
                   position: "relative",
-                  width: "100px",
+                  width: "20vh",
                   minHeight: "20vh",
                   margin: "2% auto",
                 }}
@@ -225,7 +232,7 @@ const CreateProductPage = () => {
                 />
 
                 <div
-                  className="btn fw-5"
+                  className="btn fw-5 p-3"
                   style={styles.imageDel}
                   onClick={() => {
                     removeImage(image.id);
@@ -234,9 +241,12 @@ const CreateProductPage = () => {
                 >
                   <i
                     style={{
-                      fontSize: 18,
+                      fontSize: 15,
+                      marginLeft: 7,
+                      marginTop: 5,
+                      color: "white",
                     }}
-                    className="bi bi-trash text-danger"
+                    className="bi bi-trash"
                   ></i>
                 </div>
               </div>
@@ -244,6 +254,22 @@ const CreateProductPage = () => {
           </div>
         );
       });
+  };
+
+  const addTag = async () => {
+    try {
+      let tag = await ProductRepository.addTag(newTag);
+
+      let tagOption = { value: tag.id, label: tag.name };
+
+      setTagOptions((tagOptions) => [...tagOptions, tagOption]);
+    } catch (err) {
+      notification["error"]({
+        message: "Failed To Add Tag",
+        description:
+          err.response === undefined ? String(err) : err.response.data.message,
+      });
+    }
   };
 
   const validateInputs = () => {
@@ -276,7 +302,7 @@ const CreateProductPage = () => {
 
     if (result === "VALID") {
       setUploading((current) => ({ ...current, status: "Uploading" }));
-      console.log(uploading);
+
       let slug = `${name
         .replace(/[^a-zA-Z0-9-_]/g, " ")
         .replace(/  +/g, " ")
@@ -285,7 +311,7 @@ const CreateProductPage = () => {
       const product = {
         name,
         slug,
-        type,
+        type: "simple",
         price: discountedPrice.trim() || price.trim(),
         regular_price: price.trim(),
         sale_price: discountedPrice.trim(),
@@ -294,6 +320,7 @@ const CreateProductPage = () => {
         categories: category,
         stock_quantity: qty,
         sku,
+        tags,
         manage_stock: true,
       };
 
@@ -305,21 +332,36 @@ const CreateProductPage = () => {
     }
   };
 
+  const getStorename = async () => {
+    const storename = await SettingsRepository.getStorename();
+
+    if (!storename) {
+      notification["error"]({
+        message: "You must have a Store Name to upload a product.",
+      });
+      setTimeout(() => Router.push("/settings"), 2000);
+    }
+  };
+
+  const getCategories = async () => {
+    const categories = await ProductRepository.getCategories();
+
+    setCategories(categories);
+  };
+
+  const getTags = async () => {
+    const tags = await ProductRepository.getTags();
+
+    let tagOptions = tags.map((tag) => ({ value: tag.id, label: tag.name }));
+    setTagOptions(tagOptions);
+  };
+
   useEffect(() => {
     dispatch(toggleDrawerMenu(false));
 
-    const getStorename = async () => {
-      const storename = await SettingsRepository.getStorename();
-
-      if (!storename) {
-        notification["error"]({
-          message: "You must have a Store Name to upload a product.",
-        });
-        setTimeout(() => Router.push("/settings"), 2000);
-      }
-
-      getStorename();
-    };
+    getStorename();
+    getCategories();
+    getTags();
   }, []);
 
   return (
@@ -356,7 +398,7 @@ const CreateProductPage = () => {
                     </div>
                     <div className="form-group">
                       <label>
-                        Sale Price<sup>*</sup>
+                        Regular Price<sup>*</sup>
                       </label>
                       <input
                         name="regular_price"
@@ -399,21 +441,11 @@ const CreateProductPage = () => {
                           }
                         >
                           <option value="">Select a category</option>
-                          <option value="17">Accessories</option>
-                          <option value="56">--Jewelries</option>
-                          <option value="21">Art</option>
-                          <option value="22">Fabrics</option>
-                          <option value="26">--Kente</option>
-                          <option value="27">--Wax print</option>
-                          <option value="16">Fashion</option>
-                          <option value="24">--Clothes</option>
-                          <option value="25">--Shoes</option>
-                          <option value="67">----Canvas</option>
-                          <option value="23">--Socks</option>
-                          <option value="18">Home &amp; Living</option>
-                          <option value="20">Toys &amp; Entertainment</option>
-                          <option value="19">Wedding &amp; Party</option>
-                          <option value="15">Uncategorized</option>
+                          {categories.map((category) => (
+                            <option key={category.id} value={category.id}>
+                              {ReactHtmlParser(category.name)}
+                            </option>
+                          ))}
                         </select>
                       </div>
                     </div>
@@ -465,15 +497,7 @@ const CreateProductPage = () => {
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                 <figure className="ps-block--form-box">
                   <figcaption>Product Images</figcaption>
-                  <div className="ps-block__content">
-                    <div className="form-group">
-                      <div className="form-group--nest">
-                        <div style={styles.filesStyles}>
-                          {renderProductImages(10)}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <div style={styles.filesStyles}>{renderProductImages(9)}</div>
                 </figure>
                 <figure className="ps-block--form-box">
                   <figcaption>Inventory</figcaption>
@@ -491,26 +515,38 @@ const CreateProductPage = () => {
                       />
                     </div>
 
-                    {/* <div className="form-group">
+                    <div className="form-group">
                       <label>
                         Tags<sup>*</sup>
                       </label>
-                      <input
+
+                      <Select
+                        isMulti
                         name="tags"
-                        className="form-control"
-                        type="text"
-                        placeholder="Enter tags as space seperated values e.g. adidas shoes ..."
-                        value={tags}
-                        onChange={(e) => setTags(e.target.value)}
+                        placeholder="Select product tags"
+                        options={tagOptions}
+                        onChange={(options) => {
+                          let tags = options.map((option) => ({
+                            id: option.value,
+                          }));
+                          setTags(tags);
+                        }}
                       />
-                    </div> */}
+
+                      <button
+                        className="ps-btn ps-btn--gray"
+                        onClick={() => setShowNewTagInputField(true)}
+                      >
+                        Add New
+                      </button>
+                    </div>
                   </div>
                 </figure>
               </div>
             </div>
           </div>
           <div className="ps-form__bottom">
-            <a className="ps-btn ps-btn--black" href="products.html">
+            <a className="ps-btn ps-btn--black" href="/">
               Back
             </a>
             <button className="ps-btn ps-btn--gray">Cancel</button>
@@ -557,39 +593,61 @@ const CreateProductPage = () => {
           <Progress type="line" percent={uploading.progress} />
         </div>
       </CustomModal>
+      {/* New Tag Input Field */}
+      <CustomModal isOpen={showNewTagInputField}>
+        <div
+          className="form-group"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <label>
+            New Tag<sup>*</sup>
+          </label>
+          <input
+            name="new tag"
+            className="form-control"
+            type="text"
+            value={newTag}
+            onChange={(e) => setNewTag(e.target.value)}
+          />
+
+          <button
+            className="ps-btn"
+            onClick={() => setShowNewTagInputField(false)}
+          >
+            Cancel
+          </button>
+
+          <button className="ps-btn ps-btn--gray" onClick={addTag}>
+            Add
+          </button>
+        </div>
+      </CustomModal>
     </ContainerDefault>
   );
 };
 export default CreateProductPage;
 
 let styles = {
-  imagesWrapper: { display: "flex", flexWrap: "wrap" },
-  imageContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: 200,
-    maxHeight: 300,
-    backgroundColor: "black",
-    marginLeft: 20,
-    marginBottom: 10,
-    position: "relative",
-  },
   image: {
-    width: "100px",
-    height: "20vh",
+    width: "20vh",
+    height: "21vh",
     objectFit: "cover",
     cursor: "pointer",
   },
   imageDel: {
     position: "absolute",
     fontSize: 15,
-    bottom: 5,
-    right: 5,
-    width: 10,
-    height: 30,
-    borderRadius: 50,
+    bottom: 0,
+    right: 0,
+    borderTopLeftRadius: 75,
+
+    background: "rgba(250,0,0)",
+    width: "30px",
+    height: "30px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

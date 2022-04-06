@@ -172,6 +172,8 @@ class WPProductRepository {
                 console.log(JSON.stringify(error.message));
                 return null;
             });
+
+        console.log(reponse);
         return reponse;
     }
 
@@ -187,6 +189,25 @@ class WPProductRepository {
                 return response.data;
             })
             .catch((error) => ({ error: JSON.stringify(error) }));
+        return reponse;
+    }
+
+    async getCategories() {
+        const enpoint = `wp-json/wc/v3/products/categories?${serializeQuery({
+            ...oathInfo,
+        })}`;
+        const reponse = await WPRepository.get(`${WPDomain}/${enpoint}`)
+            .then((response) => {
+                if (response.data) {
+                    return response.data;
+                } else {
+                    return null;
+                }
+            })
+            .catch((error) => {
+                console.log(JSON.stringify(error.message));
+                return null;
+            });
         return reponse;
     }
 

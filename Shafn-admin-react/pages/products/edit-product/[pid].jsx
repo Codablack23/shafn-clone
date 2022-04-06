@@ -3,19 +3,18 @@ import dynamic from "next/dynamic";
 import ContainerDefault from "~/components/layouts/ContainerDefault";
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
 import { useDispatch } from "react-redux";
-import axios from "axios";
-import { notification, Progress } from "antd";
+import { notification, Progress, Spin } from "antd";
 import { toggleDrawerMenu } from "~/store/app/action";
-import Router from "next/router";
-import { CompatSource } from "webpack-sources";
-import { ColorPicker, useColor } from "react-color-palette";
-import { WPDomain } from "~/repositories/Repository";
 import ProductRepository from "~/repositories/ProductRepository";
+import ReactHtmlParser from "react-html-parser";
+import Select from "react-select";
+import Lightbox from "react-image-lightbox";
 import "react-color-palette/lib/css/styles.css";
-import { v4 as uuid } from "uuid";
 import "suneditor/dist/css/suneditor.min.css";
 
-import Attributes from "~/components/elements/products/Attributes";
+import ProductAttributes from "~/components/elements/products/ProductAttributes";
+import ProductVariations from "~/components/elements/products/ProductVariations";
+import { CustomModal } from "~/components/elements/custom/index";
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
@@ -91,19 +90,23 @@ const EditProductPage = ({ pid }) => {
     manage_stock: false,
     sold_individually: false,
     type: "simple",
+    tags: [],
   });
+
+  const [categories, setCategories] = useState([]);
+  const [tagOptions, setTagOptions] = useState([]);
+  const [newTag, setNewTag] = useState("");
+  const [attributes, setAttributes] = useState([]);
+  const [variations, setVariations] = useState([]);
 
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
-  const [attributes, setAttributes] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
-  const [color, setColor] = useColor("hex", "#aabbcc");
-  const [attr, setAttr] = useState(null);
-  // variation attributes states
-  const [variations, setVariations] = useState([]);
-  const [variation, setVariation] = useState({});
-  const [singleVariation, setSingleVariation] = useState("single");
 
+  const [viewProducts, setViewProducts] = useState(false);
+  const [index, setIndex] = useState("");
+
+  const [showNewTagInputField, setShowNewTagInputField] = useState(false);
   const [isPriceValid, setIsPriceValid] = useState(true);
   const [uploading, setUploading] = useState({
     status: "",
@@ -112,8 +115,8 @@ const EditProductPage = ({ pid }) => {
 
   const handleInputChange = (e) => {
     let name = e.target.name;
-    let val = e.target.value;
-    let fieldNames = [
+    let value = e.target.value;
+    let formNames = [
       "regular_price",
       "price",
       "stock_quantity",
@@ -122,24 +125,25 @@ const EditProductPage = ({ pid }) => {
       "manage_stock",
       "sold_individually",
       "categories",
+      "tags",
     ];
-    if (name === "regular_price" && !isNaN(val)) {
-      setProduct((current) => ({ ...current, [name]: val }));
+    if (name === "regular_price" && !isNaN(value)) {
+      setProduct((product) => ({ ...product, [name]: value }));
     }
 
-    if (name === "price" && !isNaN(val)) {
-      if (Number(val) >= Number(product.regular_price)) {
+    if (name === "price" && !isNaN(value)) {
+      if (Number(value) >= Number(product.regular_price)) {
         setIsPriceValid(false);
         setTimeout(() => {
           setIsPriceValid(true);
         }, 4000);
       } else {
-        setProduct((current) => ({ ...current, [name]: val }));
+        setProduct((product) => ({ ...product, [name]: value }));
       }
     }
 
-    if (name === "stock_quantity" && Number.isInteger(Number(val))) {
-      setProduct((current) => ({ ...current, [name]: val }));
+    if (name === "stock_quantity" && Number.isInteger(Number(value))) {
+      setProduct((product) => ({ ...product, [name]: value }));
     }
 
     if (
@@ -148,15 +152,20 @@ const EditProductPage = ({ pid }) => {
       name === "manage_stock" ||
       name === "sold_individually"
     ) {
-      setProduct((current) => ({ ...current, [name]: !current[name] }));
+      setProduct((product) => ({ ...product, [name]: !product[name] }));
     }
 
     if (name === "categories") {
-      setProduct((current) => ({ ...current, [name]: [{ id: val }] }));
+      setProduct((product) => ({ ...product, [name]: [{ id: value }] }));
     }
 
-    if (!fieldNames.includes(name)) {
-      setProduct((current) => ({ ...current, [name]: val }));
+    if (name === "tags") {
+      let _tags = value.map((tag) => ({ id: tag.value }));
+      setProduct((product) => ({ ...product, [name]: _tags }));
+    }
+
+    if (!formNames.includes(name)) {
+      setProduct((product) => ({ ...product, [name]: value }));
     }
   };
 
@@ -175,26 +184,24 @@ const EditProductPage = ({ pid }) => {
       ) {
         const imgFile = {
           id: e.target.id,
-          file: e.target.files[0],
+          file: image,
         };
         setImageFiles((current) =>
-          imgFile.id === "img-1"
-            ? [imgFile, ...current]
-            : current.concat(imgFile)
+          imgFile.id === "img-1" ? [imgFile, ...current] : [...current, imgFile]
         );
 
         const img = {
           id: e.target.id,
-          url: URL.createObjectURL(e.target.files[0]),
+          url: URL.createObjectURL(image),
         };
 
         setSelectedImages((current) => current.concat(img));
 
-        URL.revokeObjectURL(e.target.files[0]);
+        URL.revokeObjectURL(image);
       } else {
         notification["error"]({
           message: "Invalid image type!",
-          description: "Image must be a jpg, png or gif",
+          description: "Image type must be jpg, png or gif",
         });
       }
     }
@@ -264,155 +271,20 @@ const EditProductPage = ({ pid }) => {
       });
   };
 
-  const renderAttributes = () => {
-    return attributes.map((attr, index) => (
-      <div key={index} style={styles.attrWrapper}>
-        <div className="ps-btn--gray" style={styles.header}>
-          <span style={{ fontWeight: "bold" }}>{attr.name}</span>
-          <span style={styles.removeBtn}>Remove</span>
-        </div>
-        {/* Name */}
-        <div>
-          <p style={{ fontWeight: "bold", marginTop: 5 }}>Name</p>
-          <hr />
-          <p style={{ fontWeight: "bold" }}>{attr.name}</p>{" "}
-          <div className="form-group">
-            <div className="ps-checkbox">
-              <input
-                checked={attr.visible}
-                className="form-control"
-                type="checkbox"
-                id={"visible" + index}
-                name="visible"
-              />
-              <label htmlFor={"visible" + index} style={{ color: "black" }}>
-                Visible on the product page
-              </label>
-            </div>
-          </div>{" "}
-          <div className="form-group">
-            <div className="ps-checkbox">
-              <input
-                checked={attr.variation}
-                className="form-control"
-                type="checkbox"
-                id={"variation" + index}
-                name="variation"
-              />
-              <label htmlFor={"variation" + index} style={{ color: "black" }}>
-                Used for variations
-              </label>
-            </div>
-          </div>
-        </div>
-        {/* Value(s) */}
+  const addTag = async () => {
+    try {
+      let tag = await ProductRepository.addTag(newTag);
 
-        {attr.name === "Color" ? (
-          <>
-            {renderColorAttrOptions(attr.name, attr.options)}
-            <ColorPicker
-              width={250}
-              height={100}
-              color={color}
-              onChange={setColor}
-              hideHSV
-              hideRGB
-              dark
-            />
-            <button
-              type="button"
-              className="ps-btn ps-btn--gray"
-              style={{ marginTop: 10 }}
-              onClick={() => addAttrOption(attr.name, color.hex)}
-            >
-              Add Color
-            </button>
-          </>
-        ) : (
-          <div>
-            <p style={{ fontWeight: "bold" }}>Value(s)</p>
-            {renderAttrOptions(attr.name, attr.options)}
-            <div className="form-group form-group--select">
-              <div className="form-group__content">
-                <select
-                  className="ps-select"
-                  title="Values"
-                  onChange={(e) => {
-                    e.persist();
-                    addAttrOption(attr.name, e.target.value);
-                  }}
-                >
-                  <option value="">Select Values</option>
-                  <option value="XS">XS</option>
-                  <option value="S">S</option>
-                  <option value="M">M</option>
-                  <option value="L">L</option>
-                  <option value="XL">XL</option>
-                  <option value="XXL">XXL</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    ));
-  };
+      let tagOption = { value: tag.id, label: tag.name };
 
-  const renderAttrOptions = (name, options) => {
-    return options.map((option, index) => (
-      <label
-        key={index}
-        className="ps-btn--gray"
-        style={styles.attrVal}
-        onClick={() => removeAttrOption(name, option)}
-      >
-        <span>x</span> {option}
-      </label>
-    ));
-  };
-
-  const renderColorAttrOptions = (name, options) => {
-    return options.map((option, index) => (
-      <span
-        key={index}
-        className="ps-btn"
-        style={{
-          backgroundColor: option,
-        }}
-        onClick={() => removeAttrOption(name, option)}
-      ></span>
-    ));
-  };
-
-  const removeAttr = (name) => {
-    setAttributes((attr) => attr.filter((item) => item.name !== name));
-  };
-
-  const addAttrOption = (name, option) => {
-    setAttributes((attr) =>
-      attr.map((item) => {
-        if (item.name !== name) return item;
-        return {
-          ...item,
-          options:
-            !option || item.options.includes(option)
-              ? item.options
-              : [...item.options, option],
-        };
-      })
-    );
-  };
-
-  const removeAttrOption = (name, option) => {
-    setAttributes((attr) =>
-      attr.map((item) => {
-        if (item.name !== name) return item;
-        return {
-          ...item,
-          options: item.options.filter((opt) => opt !== option),
-        };
-      })
-    );
+      setTagOptions((tagOptions) => [...tagOptions, tagOption]);
+    } catch (err) {
+      notification["error"]({
+        message: "Failed To Add Tag",
+        description:
+          err.response === undefined ? String(err) : err.response.data.message,
+      });
+    }
   };
 
   const validateInputs = () => {
@@ -456,456 +328,484 @@ const EditProductPage = ({ pid }) => {
     }
   };
 
-  useEffect(() => {
-    const getProduct = async () => {
-      try {
-        const product = await ProductRepository.getProductByID(pid);
+  const getProduct = async () => {
+    try {
+      const product = await ProductRepository.getProductByID(pid);
 
-        if (product) {
-          setProduct(product);
+      if (product) {
+        setProduct(product);
 
-          let imageFiles = Array.from(product.images).map((img, i) => ({
-            id: `img-${i + 1}`,
-            file: img.src,
-          }));
+        let modifiedAttributes = product.attributes.map((attribute, index) => ({
+          ...attribute,
+          id: index,
+          type: "select",
+          error: "",
+        }));
 
-          let selectedImages = Array.from(product.images).map((img, i) => ({
-            id: `img-${i + 1}`,
-            url: img.src,
-          }));
-          setImageFiles(imageFiles);
-          setSelectedImages(selectedImages);
-        }
-      } catch (err) {
-        console.log(err);
+        setAttributes(modifiedAttributes);
+
+        let imageFiles = Array.from(product.images).map((img, index) => ({
+          id: `img-${index + 1}`,
+          file: img.src,
+        }));
+
+        let selectedImages = Array.from(product.images).map((img, index) => ({
+          id: `img-${index + 1}`,
+          url: img.src,
+        }));
+
+        setImageFiles(imageFiles);
+        setSelectedImages(selectedImages);
       }
-    };
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
+  const getCategories = async () => {
+    const categories = await ProductRepository.getCategories();
+
+    setCategories(categories);
+  };
+
+  const getTags = async () => {
+    const tags = await ProductRepository.getTags();
+
+    let tagOptions = tags.map((tag) => ({ value: tag.id, label: tag.name }));
+    setTagOptions(tagOptions);
+  };
+
+  const getVariations = async () => {
+    const variations = await ProductRepository.getVariations(pid);
+
+    setVariations(variations);
+  };
+
+  useEffect(() => {
     getProduct();
+
+    getCategories();
+
+    getTags();
+
+    getVariations();
 
     dispatch(toggleDrawerMenu(false));
   }, []);
+
   return (
     <ContainerDefault title="Edit product">
       <HeaderDashboard title="Edit Product" description="ShafN Edit Product " />
-      <section className="ps-new-item">
-        <form
-          className="ps-form ps-form--new-product"
-          action=""
-          method="get"
-          onSubmit={handleOnSubmit}
-        >
-          <div className="ps-form__content">
-            <div className="row">
-              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                <figure className="ps-block--form-box">
-                  <figcaption>General</figcaption>
-                  <div className="ps-block__content">
-                    <div className="form-group">
-                      <label>
-                        Product Name<sup>*</sup>
-                      </label>
-                      <input
-                        name="name"
-                        className="form-control"
-                        type="text"
-                        placeholder="Enter product name..."
-                        value={product.name}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </div>
-                    <div className="form-group form-group--select">
-                      <label>
-                        Type<sup>*</sup>
-                      </label>
-                      <div className="form-group__content">
-                        <select
-                          name="type"
-                          className="ps-select"
-                          title="type"
-                          value={product.type}
-                          onChange={handleInputChange}
-                        >
-                          <option value="simple">Simple</option>
-                          <option value="variable">Variable</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <div className="ps-checkbox">
-                        <input
-                          checked={product.downloadable}
-                          className="form-control"
-                          type="checkbox"
-                          id="downloadable"
-                          name="downloadable"
-                          onChange={handleInputChange}
-                        />
-                        <label
-                          htmlFor="downloadable"
-                          style={{ color: "black" }}
-                        >
-                          Downloadable
+      {product.name ? (
+        <section className="ps-new-item">
+          <form
+            className="ps-form ps-form--new-product"
+            action=""
+            method="get"
+            onSubmit={handleOnSubmit}
+          >
+            <div className="ps-form__content">
+              <div className="row">
+                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                  <figure className="ps-block--form-box">
+                    <figcaption>General</figcaption>
+                    <div className="ps-block__content">
+                      <div className="form-group">
+                        <label>
+                          Product Name<sup>*</sup>
                         </label>
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <div className="ps-checkbox">
                         <input
-                          checked={product.virtual}
+                          name="name"
                           className="form-control"
-                          type="checkbox"
-                          id="virtual"
-                          name="virtual"
+                          type="text"
+                          placeholder="Enter product name..."
+                          value={product.name}
                           onChange={handleInputChange}
+                          required
                         />
-                        <label htmlFor="virtual" style={{ color: "black" }}>
-                          Virtual
+                      </div>
+                      <div className="form-group form-group--select">
+                        <label>
+                          Type<sup>*</sup>
                         </label>
-                      </div>
-                    </div>
-
-                    <div className="form-group">
-                      <label>
-                        Sale Price<sup>*</sup>
-                      </label>
-                      <input
-                        name="regular_price"
-                        className="form-control"
-                        type="text"
-                        value={product.regular_price}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>
-                        Discounted Price<sup>*</sup>
-                      </label>
-                      <input
-                        name="price"
-                        className="form-control"
-                        type="text"
-                        value={product.price}
-                        onChange={handleInputChange}
-                      />
-                      <p style={{ color: "red" }} hidden={isPriceValid}>
-                        Discounted price must be less than the Sale price
-                      </p>
-                    </div>
-                    <div className="form-group form-group--select">
-                      <label>
-                        Category<sup>*</sup>
-                      </label>
-                      <div className="form-group__content">
-                        <select
-                          name="categories"
-                          className="ps-select"
-                          title="Category"
-                          value={product.categories && product.categories[0].id}
-                          onChange={handleInputChange}
-                        >
-                          <option value="">Select a category</option>
-                          <option value="17">Accessories</option>
-                          <option value="56">--Jewelries</option>
-                          <option value="21">Art</option>
-                          <option value="22">Fabrics</option>
-                          <option value="26">--Kente</option>
-                          <option value="27">--Wax print</option>
-                          <option value="16">Fashion</option>
-                          <option value="24">--Clothes</option>
-                          <option value="25">--Shoes</option>
-                          <option value="67">----Canvas</option>
-                          <option value="23">--Socks</option>
-                          <option value="18">Home &amp; Living</option>
-                          <option value="20">Toys &amp; Entertainment</option>
-                          <option value="19">Wedding &amp; Party</option>
-                          <option value="15">Uncategorized</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="form-group">
-                      <label>
-                        Sale Quantity<sup>*</sup>
-                      </label>
-                      <input
-                        name="stock_quantity"
-                        className="form-control"
-                        type="text"
-                        required
-                        value={product.stock_quantity}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label>
-                        Short Description<sup>*</sup>
-                      </label>
-
-                      {product.short_description && (
-                        <SunEditor
-                          height="100px"
-                          defaultValue={product.short_description}
-                          setOptions={{
-                            buttonList: short_buttonList,
-                            maxCharCount: 100,
-                          }}
-                          onChange={(val) =>
-                            handleInputChange({
-                              target: {
-                                name: "short_description",
-                                value: val,
-                              },
-                            })
-                          }
-                        />
-                      )}
-                    </div>
-
-                    <div className="form-group">
-                      <label>
-                        Product Description<sup>*</sup>
-                      </label>
-
-                      {product.short_description && (
-                        <SunEditor
-                          height="200px"
-                          defaultValue={product.description}
-                          setOptions={{
-                            buttonList,
-                          }}
-                          onChange={(val) =>
-                            handleInputChange({
-                              target: {
-                                name: "description",
-                                value: val,
-                              },
-                            })
-                          }
-                        />
-                      )}
-                    </div>
-                  </div>
-                </figure>
-              </div>
-              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                <figure className="ps-block--form-box">
-                  <figcaption>Product Images</figcaption>
-                  <div className="ps-block__content">
-                    <div className="form-group">
-                      <div className="form-group--nest">
-                        {renderProductImages(3)}
-                      </div>
-                    </div>
-                  </div>
-                </figure>
-
-                <figure className="ps-block--form-box">
-                  <figcaption>Inventory</figcaption>
-                  <div className="ps-block__content">
-                    <div className="form-group">
-                      <label>
-                        SKU<sup>*</sup>
-                      </label>
-                      <input
-                        name="sku"
-                        className="form-control"
-                        type="text"
-                        placeholder=""
-                        value={product.sku}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div className="form-group form-group--select">
-                      <label>
-                        Stock Status<sup>*</sup>
-                      </label>
-                      <div className="form-group__content">
-                        <select
-                          name="in_stock"
-                          className="ps-select"
-                          title="Status"
-                          value={String(product.in_stock)}
-                          onChange={handleInputChange}
-                        >
-                          <option value="true">In Stock</option>
-                          <option value="false">Out of Stock</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <div className="ps-checkbox">
-                        <input
-                          checked={product.manage_stock}
-                          className="form-control"
-                          type="checkbox"
-                          id="manage_stock"
-                          name="manage_stock"
-                          onChange={handleInputChange}
-                        />
-                        <label
-                          htmlFor="manage_stock"
-                          style={{ color: "black" }}
-                        >
-                          Enable product stock management
-                        </label>
-                      </div>
-                    </div>
-                    <div className="form-group">
-                      <div className="ps-checkbox">
-                        <input
-                          checked={product.sold_individually}
-                          className="form-control"
-                          type="checkbox"
-                          id="sold_individually"
-                          name="sold_individually"
-                          onChange={handleInputChange}
-                        />
-                        <label
-                          htmlFor="sold_individually"
-                          style={{ color: "black" }}
-                        >
-                          Allow only one quantity of this product to be bought
-                          in a single order
-                        </label>
-                      </div>
-                    </div>
-
-                    {/* <div className="form-group">
-                        <label>Tags</label>
-                        <input className="form-control" type="text" />
-                      </div> */}
-                  </div>
-
-                  <div style={{ marginTop: 100 }}>
-                    <p>{uploading.status}</p>
-                    <Progress type="line" percent={uploading.progress} />
-                  </div>
-                </figure>
-                {/* {type === "variable" ? (
-                  <div>
-                    <figure className="ps-block--form-box">
-                      <figcaption>Attribute and Variation</figcaption>
-                      <div className="ps-block__content">
-                        {renderAttributes()}
-
-                        <hr style={{ borderWidth: 3 }} />
-
-                        <div className="form-group form-group--select">
-                          <div className="form-group__content">
-                            <select
-                              className="ps-select"
-                              title="Attributes"
-                              value={attr}
-                              onChange={(e) => {
-                                e.persist();
-                                setAttr(e.target.value);
-                              }}
-                            >
-                              <option value="">Select Attribute</option>
-                              <option value="Color">Color</option>
-                              <option value="Size">Size</option>
-                            </select>
-                          </div>
+                        <div className="form-group__content">
+                          <select
+                            name="type"
+                            className="ps-select"
+                            title="type"
+                            value={product.type}
+                            onChange={handleInputChange}
+                          >
+                            <option value="simple">Simple</option>
+                            <option value="variable">Variable</option>
+                          </select>
                         </div>
+                      </div>
+                      <div className="form-group">
+                        <div className="ps-checkbox">
+                          <input
+                            checked={product.downloadable}
+                            className="form-control"
+                            type="checkbox"
+                            id="downloadable"
+                            name="downloadable"
+                            onChange={handleInputChange}
+                          />
+                          <label
+                            htmlFor="downloadable"
+                            style={{ color: "black" }}
+                          >
+                            Downloadable
+                          </label>
+                        </div>
+                      </div>
+                      <div className="form-group">
+                        <div className="ps-checkbox">
+                          <input
+                            checked={product.virtual}
+                            className="form-control"
+                            type="checkbox"
+                            id="virtual"
+                            name="virtual"
+                            onChange={handleInputChange}
+                          />
+                          <label htmlFor="virtual" style={{ color: "black" }}>
+                            Virtual
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="form-group">
+                        <label>
+                          Regular Price<sup>*</sup>
+                        </label>
+                        <input
+                          name="regular_price"
+                          className="form-control"
+                          type="text"
+                          value={product.regular_price}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>
+                          Discounted Price<sup>*</sup>
+                        </label>
+                        <input
+                          name="price"
+                          className="form-control"
+                          type="text"
+                          value={product.price}
+                          onChange={handleInputChange}
+                        />
+                        <p style={{ color: "red" }} hidden={isPriceValid}>
+                          Discounted price must be less than the Sale price
+                        </p>
+                      </div>
+                      <div className="form-group form-group--select">
+                        <label>
+                          Category<sup>*</sup>
+                        </label>
+                        <div className="form-group__content">
+                          <select
+                            name="categories"
+                            className="ps-select"
+                            title="Category"
+                            value={
+                              product.categories && product.categories[0].id
+                            }
+                            onChange={handleInputChange}
+                          >
+                            <option value="">Select a category</option>
+                            {categories.map((category) => (
+                              <option key={category.id} value={category.id}>
+                                {ReactHtmlParser(category.name)}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="form-group">
+                        <label>
+                          Sale Quantity<sup>*</sup>
+                        </label>
+                        <input
+                          name="stock_quantity"
+                          className="form-control"
+                          type="text"
+                          required
+                          value={product.stock_quantity}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label>
+                          Short Description<sup>*</sup>
+                        </label>
+
+                        {product.short_description && (
+                          <SunEditor
+                            height="100px"
+                            defaultValue={product.short_description}
+                            setOptions={{
+                              buttonList: short_buttonList,
+                              maxCharCount: 100,
+                            }}
+                            onChange={(value) =>
+                              handleInputChange({
+                                target: {
+                                  name: "short_description",
+                                  value,
+                                },
+                              })
+                            }
+                          />
+                        )}
+                      </div>
+
+                      <div className="form-group">
+                        <label>
+                          Product Description<sup>*</sup>
+                        </label>
+
+                        {product.short_description && (
+                          <SunEditor
+                            height="200px"
+                            defaultValue={product.description}
+                            setOptions={{
+                              buttonList,
+                            }}
+                            onChange={(value) =>
+                              handleInputChange({
+                                target: {
+                                  name: "description",
+                                  value,
+                                },
+                              })
+                            }
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </figure>
+                </div>
+                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                  <figure className="ps-block--form-box">
+                    <figcaption>Product Images</figcaption>
+                    <div className="ps-block__content">
+                      <div className="form-group">
+                        <div className="form-group--nest">
+                          {renderProductImages(3)}
+                        </div>
+                      </div>
+                    </div>
+                  </figure>
+
+                  <figure className="ps-block--form-box">
+                    <figcaption>Inventory</figcaption>
+                    <div className="ps-block__content">
+                      <div className="form-group">
+                        <label>
+                          SKU<sup>*</sup>
+                        </label>
+                        <input
+                          name="sku"
+                          className="form-control"
+                          type="text"
+                          placeholder=""
+                          value={product.sku}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+
+                      <div className="form-group form-group--select">
+                        <label>
+                          Stock Status<sup>*</sup>
+                        </label>
+                        <div className="form-group__content">
+                          <select
+                            name="in_stock"
+                            className="ps-select"
+                            title="Status"
+                            value={String(product.in_stock)}
+                            onChange={handleInputChange}
+                          >
+                            <option value="true">In Stock</option>
+                            <option value="false">Out of Stock</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="form-group">
+                        <div className="ps-checkbox">
+                          <input
+                            checked={product.manage_stock}
+                            className="form-control"
+                            type="checkbox"
+                            id="manage_stock"
+                            name="manage_stock"
+                            onChange={handleInputChange}
+                          />
+                          <label
+                            htmlFor="manage_stock"
+                            style={{ color: "black" }}
+                          >
+                            Enable product stock management
+                          </label>
+                        </div>
+                      </div>
+                      <div className="form-group">
+                        <div className="ps-checkbox">
+                          <input
+                            checked={product.sold_individually}
+                            className="form-control"
+                            type="checkbox"
+                            id="sold_individually"
+                            name="sold_individually"
+                            onChange={handleInputChange}
+                          />
+                          <label
+                            htmlFor="sold_individually"
+                            style={{ color: "black" }}
+                          >
+                            Allow only one quantity of this product to be bought
+                            in a single order
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="form-group">
+                        <label>
+                          Tags<sup>*</sup>
+                        </label>
+
+                        <Select
+                          isMulti
+                          name="tags"
+                          placeholder="Select product tags"
+                          defaultValue={product.tags.map((tag) => ({
+                            value: tag.id,
+                            label: tag.name,
+                          }))}
+                          options={tagOptions}
+                          onChange={(value) =>
+                            handleInputChange({
+                              target: {
+                                name: "tags",
+                                value,
+                              },
+                            })
+                          }
+                        />
 
                         <button
-                          type="button"
                           className="ps-btn ps-btn--gray"
-                          onClick={addAttr}
+                          onClick={() => setShowNewTagInputField(true)}
                         >
-                          Add
-                        </button>
-                        <button
-                          type="button"
-                          className="ps-btn"
-                          style={{ marginLeft: 10 }}
-                        >
-                          Save
+                          Add New
                         </button>
                       </div>
-                    </figure>
-                    <div className="p-3">
-                      <div>
-                        <h3>Variations</h3>
-                        <select
-                          style={{ border: "none", borderRadius: 50 }}
-                          className="p-3 bg-light"
-                          name=""
-                          id=""
-                          onChange={(e) => {
-                            setSingleVariation(e.target.value);
-                          }}
-                        >
-                          <option value="single">Add Variation</option> */}
-                {/* <option value="fromAttributes">Create Variation From All Attributes</option> */}
-                {/* </select>
-                        <br />
-                        <span
-                          className="btn ps-btn btn-lg mt-3"
-                          onClick={(e) => addVariations(singleVariation)}
-                        >
-                          Add
-                        </span>
-                        {renderVariation()}
-                      </div>
-                      <span
-                        className="btn ps-btn btn-lg mt-3"
-                        onClick={() => {
-                          saveVariations();
-                        }}
-                      >
-                        Save Variations
-                      </span>
                     </div>
-                  </div>
-                ) : null} */}
+
+                    <div style={{ marginTop: 100 }}>
+                      <p>{uploading.status}</p>
+                      <Progress type="line" percent={uploading.progress} />
+                    </div>
+                  </figure>
+                </div>
               </div>
+
+              {product.type === "variable" ? (
+                <div>
+                  <figure className="ps-block--form-box">
+                    <figcaption>Attributes and Variations</figcaption>
+                    <div className="ps-block__content">
+                      <ProductAttributes
+                        productID={pid}
+                        attributes={attributes}
+                        setAttributes={setAttributes}
+                        setVariations={setVariations}
+                        setProduct={setProduct}
+                      />
+                      {product.attributes.length > 0 ? (
+                        <ProductVariations
+                          productID={pid}
+                          productAttributes={product.attributes}
+                          variations={variations}
+                          setVariations={setVariations}
+                          setProduct={setProduct}
+                        />
+                      ) : null}
+                    </div>
+                  </figure>
+                </div>
+              ) : null}
             </div>
 
-            {product.type === "variable" ? (
-              <div>
-                <figure className="ps-block--form-box">
-                  <figcaption>Attributes and Variations</figcaption>
-                  <div className="ps-block__content">
-                    <Attributes
-                      productAttributes={product.attributes}
-                      setProduct={setProduct}
-                    />
-                  </div>
-                </figure>
-              </div>
-            ) : null}
-          </div>
+            <div className="ps-form__bottom">
+              {/* <a className="ps-btn ps-btn--black" href="products.html">
+                Back
+              </a>
+              <button className="ps-btn ps-btn--gray">Cancel</button> */}
+              <button
+                disabled={isUploading}
+                type="submit"
+                className="ps-btn"
+                onClick={handleOnSubmit}
+              >
+                {isUploading ? (
+                  <img
+                    src={require("../../../public/img/Interwind-loader.svg")}
+                    alt="Uploading..."
+                    width={40}
+                    height={30}
+                  />
+                ) : (
+                  "Update"
+                )}
+              </button>
+            </div>
+          </form>
+        </section>
+      ) : (
+        <Spin />
+      )}
 
-          <div className="ps-form__bottom">
-            <a className="ps-btn ps-btn--black" href="products.html">
-              Back
-            </a>
-            <button className="ps-btn ps-btn--gray">Cancel</button>
-            <button
-              disabled={isUploading}
-              type="submit"
-              className="ps-btn"
-              onClick={handleOnSubmit}
-            >
-              {isUploading ? (
-                <img
-                  src={require("../../../public/img/Interwind-loader.svg")}
-                  alt="Uploading..."
-                  width={40}
-                  height={30}
-                />
-              ) : (
-                "Update"
-              )}
-            </button>
-          </div>
-        </form>
-      </section>
+      {/* New Tag Input Field */}
+      <CustomModal isOpen={showNewTagInputField}>
+        <div
+          className="form-group"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <label>
+            New Tag<sup>*</sup>
+          </label>
+          <input
+            name="new tag"
+            className="form-control"
+            type="text"
+            value={newTag}
+            onChange={(e) => setNewTag(e.target.value)}
+          />
+
+          <button
+            className="ps-btn"
+            onClick={() => setShowNewTagInputField(false)}
+          >
+            Cancel
+          </button>
+
+          <button className="ps-btn ps-btn--gray" onClick={addTag}>
+            Add
+          </button>
+        </div>
+      </CustomModal>
     </ContainerDefault>
   );
 };
