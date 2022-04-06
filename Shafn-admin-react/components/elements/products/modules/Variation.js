@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import { notification } from "antd";
+import ProductRepository from "~/repositories/ProductRepository";
 import "suneditor/dist/css/suneditor.min.css";
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
@@ -44,6 +45,8 @@ const Variation = ({
   dimensions,
   shipping_class,
   description,
+  productID,
+  productAttributes,
   setVariations,
 }) => {
   const [selectedImage, setSelectedImage] = useState(image.src);
@@ -51,6 +54,7 @@ const Variation = ({
   const handleInputChange = (e) => {
     let { name, value } = e.target;
 
+    let attributeNames = attributes.map((attribute) => attribute.name);
     let formNames = [
       "enabled",
       "downloadable",
@@ -64,6 +68,23 @@ const Variation = ({
       "dimension_width",
       "dimension_height",
     ];
+
+    if (attributeNames.includes(name)) {
+      setVariations((variations) =>
+        variations.map((variation) =>
+          variation.id === id
+            ? {
+                ...variation,
+                attributes: variation.attributes.map((attribute) =>
+                  attribute.name === name
+                    ? { ...attribute, option: value }
+                    : attribute
+                ),
+              }
+            : variation
+        )
+      );
+    }
 
     if (
       name === "enabled" ||
@@ -214,75 +235,39 @@ const Variation = ({
     }
   };
 
-  const removeImage = () => {
-    setSelectedImage("");
-    setVariations((variations) =>
-      variations.map((variation) =>
-        variation.id === id
-          ? {
-              ...variation,
-              image: {
-                ...variation.image,
-                src: "",
-              },
-            }
-          : variation
-      )
-    );
+  const removeVariation = async () => {
+    let response = await ProductRepository.deleteVariation(productID, id);
+
+    if (response) {
+      setVariations((variations) =>
+        variations.filter((variation) => variation.id !== id)
+      );
+    }
   };
 
-  const renderProductImage = () => {
-    return (
-      <div style={{ width: 200, height: 200 }}>
-        {!selectedImage ? (
-          <>
-            <input
-              id="img"
-              type="file"
-              accept="image/*"
-              required
-              hidden
-              onChange={imageHandler}
-            />
-
-            <label htmlFor="img">
-              <div
-                className="m-1 border p-3 text-center"
-                style={styles.imageSelectBox}
-              >
-                <i
-                  className="fa fa-file-image-o text-secondary"
-                  style={{ fontSize: 50, marginTop: 10, marginBottom: 10 }}
-                  aria-hidden="true"
-                ></i>
-              </div>
-            </label>
-          </>
-        ) : (
-          <div style={{ position: "relative", width: "100%", height: "100%" }}>
-            <img src={selectedImage} style={styles.image} />
-
-            <div
-              className="ps-btn ps-btn--sm"
-              style={styles.imageDel}
-              onClick={removeImage}
-            >
-              x
-            </div>
-          </div>
-        )}
-      </div>
+  const renderAttributeOptions = (attributeName, attributeOption) => {
+    let attribute = productAttributes.find(
+      (productAttribute) => productAttribute.name === attributeName
     );
+
+    if (attribute !== undefined) {
+      let options = attribute.options.map((option) => (
+        <option
+          key={option}
+          value={option}
+          disabled={option === attributeOption ? true : false}
+        >
+          {option}
+        </option>
+      ));
+      return options;
+    }
   };
 
   return (
     <div className="variations-List mt-5 rounded">
       <header className="d-flex justify-content-between bg-light p-3">
-        <div
-          data-bs-toggle="collapse"
-          href={`#collapse-${id}`}
-          style={{ width: "100%" }}
-        >
+        <div className="d-flex">
           <span style={{ fontWeight: "bold" }}>#{id}</span>
 
           {attributes.map((attribute, index) => (
@@ -292,12 +277,18 @@ const Variation = ({
               className="ps-select"
               title={attribute.name}
               defaultValue={attribute.option}
+              onChange={handleInputChange}
             >
               <option value="">Any {attribute.name}</option>
-              <option value={attribute.option}>{attribute.option}</option>
+              {renderAttributeOptions(attribute.name, attribute.option)}
             </select>
           ))}
         </div>
+        <div
+          data-bs-toggle="collapse"
+          href={`#collapse-${id}`}
+          style={{ width: "100%" }}
+        />
         <div className="d-flex justify-content-end">
           <span
             className="btn"
@@ -311,6 +302,7 @@ const Variation = ({
           <span
             style={{ cursor: "pointer" }}
             className="text-danger small mt-2 ml-2"
+            onClick={removeVariation}
           >
             Remove
           </span>
@@ -322,7 +314,41 @@ const Variation = ({
           <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
             <div className="row">
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                {renderProductImage()}
+                <input
+                  id={`img-${id}`}
+                  type="file"
+                  accept="image/*"
+                  required
+                  hidden
+                  onChange={imageHandler}
+                />
+
+                <div
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                    height: "100%",
+                  }}
+                >
+                  <img src={selectedImage} style={styles.image} />
+
+                  <label htmlFor={`img-${id}`} style={{ paddingTop: 12 }}>
+                    <span
+                      style={{
+                        position: "absolute",
+                        bottom: 20,
+                        right: 10,
+                      }}
+                      className="text-warning"
+                    >
+                      <i
+                        className="fa fa-camera"
+                        aria-hidden="true"
+                        style={{ fontSize: 30, cursor: "pointer" }}
+                      ></i>
+                    </span>
+                  </label>
+                </div>
               </div>
 
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
@@ -614,7 +640,6 @@ let styles = {
     width: "22vh",
     height: "22vh",
     objectFit: "cover",
-    cursor: "pointer",
   },
   imageDel: {
     position: "absolute",

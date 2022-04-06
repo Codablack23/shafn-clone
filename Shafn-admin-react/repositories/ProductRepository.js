@@ -200,6 +200,8 @@ class ProductRepository {
             }))
           : [];
 
+      let tags = product.tags.map((tag) => ({ id: tag.id }));
+
       const productData = {
         ...product,
         slug,
@@ -208,6 +210,7 @@ class ProductRepository {
         stock_quantity,
         price,
         attributes,
+        tags,
       };
 
       axios
@@ -332,18 +335,69 @@ class ProductRepository {
     };
 
     // Update product type and attributes
-    let attributes = productAttributes.map((attribute) => ({
+    let attributes = productAttributes.map((attribute, index) => ({
+      id: index,
       name: attribute.name,
       options: attribute.options,
       visible: attribute.visible,
       variation: attribute.variation,
     }));
 
-    let product = await axios.put(
-      `${WPDomain}/wp-json/dokan/v1/products/${productID}`,
-      { type: "variable", attributes },
-      config
-    );
+    let product = await axios
+      .put(
+        `${WPDomain}/wp-json/dokan/v1/products/${productID}`,
+        { type: "variable", attributes },
+        config
+      )
+      .catch((err) => console.log(err));
+
+    // Update all variation 'attributes' property
+
+    let variations = await this.getVariations(productID);
+
+    const updateVariationAttributes = (variation) => {
+      let newAttributes = productAttributes
+        .filter((attribute) => attribute.variation)
+        .map((attribute) => {
+          let prevAttribute = variation.attributes.find(
+            (attr) => attr.name === attribute.name
+          );
+          let newAttribute = {
+            name: attribute.name,
+            option: prevAttribute !== undefined ? prevAttribute.option : "",
+          };
+
+          return newAttribute;
+        });
+
+      return {
+        ...variation,
+        attributes: newAttributes,
+      };
+    };
+
+    variations = variations.map(updateVariationAttributes);
+
+    // Update variations
+    let newVariations = [];
+
+    for (const variation of Array.from(variations)) {
+      await axios
+        .put(
+          `${WPDomain}/wp-json/wc/v3/products/${productID}/variations/${variation.id}`,
+          { attributes: variation.attributes },
+          config
+        )
+        .then((res) => {
+          newVariations.push(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    return { attributes: product.data.attributes, newVariations };
+
     // Save/Update user attributes
 
     // let userAttributes = await this.getUserAttributes();
@@ -387,46 +441,6 @@ class ProductRepository {
     // let userAttr = await this.getUserAttributes();
 
     // console.log("New Attributes: ", userAttr);
-
-    // Update all variation 'attributes' property
-
-    let variations = await this.getVariations(productID);
-
-    const updateVariationAttributes = (variation) => ({
-      ...variation,
-      attributes: productAttributes.map((attribute) => {
-        let prevAttribute = variation.attributes.find(
-          (attr) => attr.name === attribute.name
-        );
-        let newAttribute = {
-          name: attribute.name,
-          option: prevAttribute !== undefined ? prevAttribute.option : "",
-        };
-
-        return newAttribute;
-      }),
-    });
-
-    variations = variations.map(updateVariationAttributes);
-
-    // Update variations
-    let newVariations = [];
-    for (const variation of Array.from(variations)) {
-      await axios
-        .put(
-          `${WPDomain}/wp-json/wc/v3/products/${productID}/variations/${variation.id}`,
-          variationData,
-          config
-        )
-        .then((res) => {
-          newVariations.push(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-
-    console.log(newVariations);
   }
 
   async getVariations(productID) {
@@ -449,7 +463,7 @@ class ProductRepository {
     return response;
   }
 
-  async createVariations(productID, attributes) {
+  async createVariations(productID, attributePairs) {
     let auth_token = localStorage.getItem("auth_token");
     const config = {
       headers: {
@@ -459,11 +473,11 @@ class ProductRepository {
 
     let variations = [];
 
-    for (const attributeMix of Array.from(attributes)) {
+    for (const attributePair of Array.from(attributePairs)) {
       await axios
         .post(
           `${WPDomain}/wp-json/wc/v3/products/${productID}/variations`,
-          { attributes: attributeMix },
+          { attributes: attributePair },
           config
         )
         .then((res) => {
@@ -475,6 +489,25 @@ class ProductRepository {
     }
 
     return variations;
+  }
+
+  async deleteVariation(productID, variationID) {
+    let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    let response = axios
+      .delete(
+        `${WPDomain}/wp-json/wc/v3/products/${productID}/variations/${variationID}`,
+        config
+      )
+      .then((res) => res)
+      .catch((err) => console.log(err));
+
+    return response;
   }
 
   async saveVariations(productID, variations) {
@@ -491,6 +524,12 @@ class ProductRepository {
       let in_stock =
         variation.in_stock === true || variation.in_stock === "true";
 
+      // Manage_stock data type is boolean but defau;t value is string "parant"
+      let manage_stock =
+        typeof variation.manage_stock === "string"
+          ? false
+          : variation.manage_stock;
+
       let stock_quantity = !in_stock ? 0 : Number(variation.stock_quantity);
 
       let price = variation.price || variation.regular_price;
@@ -498,6 +537,7 @@ class ProductRepository {
       const variationData = {
         ...variation,
         in_stock,
+        manage_stock,
         stock_quantity,
         price,
         image,
@@ -548,7 +588,16 @@ class ProductRepository {
       }
     }
 
-    console.log("Variations: ", productVariations);
+    let variationsIdList = productVariations.map((variation) => variation.id);
+    let product = await axios
+      .put(
+        `${WPDomain}/wp-json/dokan/v1/products/${productID}`,
+        { variations: variationsIdList },
+        config
+      )
+      .catch((err) => console.log(err));
+
+    return product.data.variations;
   }
 
   async getCategories() {
@@ -561,6 +610,61 @@ class ProductRepository {
 
     const response = axios
       .get(`${WPDomain}/wp-json/wc/v3/products/categories`, config)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        return;
+      });
+
+    return response;
+  }
+
+  async getTags() {
+    let auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    const response = axios
+      .get(`${WPDomain}/wp-json/wc/v3/products/tags`, config)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        return;
+      });
+
+    return response;
+  }
+
+  async addTag(name) {
+    const adminLogin = {
+      username: process.env.username,
+      password: process.env.password,
+    };
+
+    let admin = await axios.post(
+      `${WPDomain}/wp-json/jwt-auth/v1/token`,
+      adminLogin
+    );
+
+    let config = {
+      headers: {
+        Authorization: `Bearer ${admin.data.token}`,
+      },
+    };
+
+    const response = axios
+      .post(
+        `${WPDomain}/wp-json/wc/v3/products/tags`,
+        {
+          name,
+        },
+        config
+      )
       .then((res) => {
         return res.data;
       })

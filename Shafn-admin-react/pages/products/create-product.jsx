@@ -10,10 +10,15 @@ import SettingsRepository from "~/repositories/SettingsRepository";
 import ProductRepository from "~/repositories/ProductRepository";
 import Lightbox from "react-image-lightbox";
 import ReactHtmlParser from "react-html-parser";
-import "react-image-lightbox/style.css"; //
+import Select from "react-select";
+import "react-image-lightbox/style.css";
 import "suneditor/dist/css/suneditor.min.css";
 
+<<<<<<< HEAD
 import { CustomModal} from "~/components/elements/custom/index";
+=======
+import { CustomModal } from "~/components/elements/custom/index";
+>>>>>>> 5e2ae9d782afedef7e37c206e92208942217caf1
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
 });
@@ -70,6 +75,7 @@ const CreateProductPage = () => {
   const dispatch = useDispatch();
 
   const [categories, setCategories] = useState([]);
+  const [tagOptions, setTagOptions] = useState([]);
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -77,16 +83,18 @@ const CreateProductPage = () => {
   const [shortDescription, setShortDescription] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
-  const [type, setType] = useState("simple");
   const [qty, setQty] = useState("");
   const [sku, setSku] = useState("");
+  const [tags, setTags] = useState([]);
+  const [newTag, setNewTag] = useState("");
 
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
 
   const [viewProducts, setViewProducts] = useState(false);
-
   const [isPriceValid, setIsPriceValid] = useState(true);
+  const [showNewTagInputField, setShowNewTagInputField] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [uploading, setUploading] = useState({
     status: "",
@@ -251,6 +259,22 @@ const CreateProductPage = () => {
       });
   };
 
+  const addTag = async () => {
+    try {
+      let tag = await ProductRepository.addTag(newTag);
+
+      let tagOption = { value: tag.id, label: tag.name };
+
+      setTagOptions((tagOptions) => [...tagOptions, tagOption]);
+    } catch (err) {
+      notification["error"]({
+        message: "Failed To Add Tag",
+        description:
+          err.response === undefined ? String(err) : err.response.data.message,
+      });
+    }
+  };
+
   const validateInputs = () => {
     if (!name) return "Product Name is required!";
     if (!price) return "Sale Price is required!";
@@ -281,7 +305,7 @@ const CreateProductPage = () => {
 
     if (result === "VALID") {
       setUploading((current) => ({ ...current, status: "Uploading" }));
-      console.log(uploading);
+
       let slug = `${name
         .replace(/[^a-zA-Z0-9-_]/g, " ")
         .replace(/  +/g, " ")
@@ -290,7 +314,7 @@ const CreateProductPage = () => {
       const product = {
         name,
         slug,
-        type,
+        type: "simple",
         price: discountedPrice.trim() || price.trim(),
         regular_price: price.trim(),
         sale_price: discountedPrice.trim(),
@@ -299,6 +323,7 @@ const CreateProductPage = () => {
         categories: category,
         stock_quantity: qty,
         sku,
+        tags,
         manage_stock: true,
       };
 
@@ -327,11 +352,19 @@ const CreateProductPage = () => {
     setCategories(categories);
   };
 
+  const getTags = async () => {
+    const tags = await ProductRepository.getTags();
+
+    let tagOptions = tags.map((tag) => ({ value: tag.id, label: tag.name }));
+    setTagOptions(tagOptions);
+  };
+
   useEffect(() => {
     dispatch(toggleDrawerMenu(false));
 
     getStorename();
     getCategories();
+    getTags();
   }, []);
 
   return (
@@ -487,13 +520,39 @@ const CreateProductPage = () => {
                         onChange={(e) => setSku(e.target.value)}
                       />
                     </div>
+
+                    <div className="form-group">
+                      <label>
+                        Tags<sup>*</sup>
+                      </label>
+
+                      <Select
+                        isMulti
+                        name="tags"
+                        placeholder="Select product tags"
+                        options={tagOptions}
+                        onChange={(options) => {
+                          let tags = options.map((option) => ({
+                            id: option.value,
+                          }));
+                          setTags(tags);
+                        }}
+                      />
+
+                      <button
+                        className="ps-btn ps-btn--gray"
+                        onClick={() => setShowNewTagInputField(true)}
+                      >
+                        Add New
+                      </button>
+                    </div>
                   </div>
                 </figure>
               </div>
             </div>
           </div>
           <div className="ps-form__bottom">
-            <a className="ps-btn ps-btn--black" href="products.html">
+            <a className="ps-btn ps-btn--black" href="/">
               Back
             </a>
             <button className="ps-btn ps-btn--gray">Cancel</button>
@@ -538,6 +597,39 @@ const CreateProductPage = () => {
         >
           <p className="text-center text-white">{uploading.status}</p>
           <Progress type="line" percent={uploading.progress} />
+        </div>
+      </CustomModal>
+      {/* New Tag Input Field */}
+      <CustomModal isOpen={showNewTagInputField}>
+        <div
+          className="form-group"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <label>
+            New Tag<sup>*</sup>
+          </label>
+          <input
+            name="new tag"
+            className="form-control"
+            type="text"
+            value={newTag}
+            onChange={(e) => setNewTag(e.target.value)}
+          />
+
+          <button
+            className="ps-btn"
+            onClick={() => setShowNewTagInputField(false)}
+          >
+            Cancel
+          </button>
+
+          <button className="ps-btn ps-btn--gray" onClick={addTag}>
+            Add
+          </button>
         </div>
       </CustomModal>
     </ContainerDefault>

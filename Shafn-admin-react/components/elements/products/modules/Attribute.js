@@ -220,10 +220,6 @@ const Attribute = ({
           >
             Select none
           </button>
-
-          <button type="button" className="ps-btn ps-btn--gray">
-            Add new
-          </button>
         </div>
       </div>
     );

@@ -5,14 +5,16 @@
 * Updated at: n/a
 
 * */
-const withPlugins = require('next-compose-plugins');
-const withImages = require('next-images');
+const withPlugins = require("next-compose-plugins");
+const withImages = require("next-images");
 
 const nextSettings = {
-    env: {
-        title: 'ShafN',
-        titleDescription: 'Admin Template',
-    },
+  env: {
+    title: "ShafN",
+    titleDescription: "Admin Template",
+    username: "floppiessofficial@gmail.com",
+    password: "ShafN2021",
+  },
 };
 
 module.exports = withPlugins([withImages(), nextSettings]);
