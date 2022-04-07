@@ -144,7 +144,15 @@ function Login() {
                                         className="google handles"
                                         href="#"
                                         onClick={handleFeatureWillUpdate}>
-                                        <span><i className="fa fa-google-plus"></i></span>
+                                        <span>  
+                                            <img
+                                            style={
+                                                {
+                                                    objectFit:"contain"
+                                                }
+                                            }
+                                            src='/icons/google.svg'/>
+                                        </span>
                                         <span>Continue With Google</span>
                                     </a>
                                 </li>
