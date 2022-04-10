@@ -10,7 +10,6 @@ const DropdownAction = ({ productID }) => {
 
   const deleteProduct = (id) => {
     let auth_token = localStorage.getItem("auth_token");
-
     const config = {
       headers: {
         Authorization: `Bearer ${auth_token}`,

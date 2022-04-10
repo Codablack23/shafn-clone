@@ -11,7 +11,7 @@ import Select from "react-select";
 import Lightbox from "react-image-lightbox";
 import "react-color-palette/lib/css/styles.css";
 import "suneditor/dist/css/suneditor.min.css";
-
+import "react-image-lightbox/style.css"; //
 import ProductAttributes from "~/components/elements/products/ProductAttributes";
 import ProductVariations from "~/components/elements/products/ProductVariations";
 import { CustomModal } from "~/components/elements/custom/index";
@@ -207,9 +207,16 @@ const EditProductPage = ({ pid }) => {
     }
   };
 
-  const removeImage = (id) => {
+  const removeImage = (e, id) => {
+    e.stopPropagation();
     setSelectedImages((current) => current.filter((img) => img.id !== id));
     setImageFiles((current) => current.filter((img) => img.id !== id));
+  };
+
+  const viewImage = (id) => {
+    setViewProducts(true);
+    let imgIndex = selectedImages.findIndex((img) => img.id === id);
+    setIndex(imgIndex);
   };
 
   const renderProductImages = (num) => {
@@ -219,7 +226,7 @@ const EditProductPage = ({ pid }) => {
         let image = selectedImages.find((img) => img.id === `img-${i + 1}`);
 
         return (
-          <div key={i} style={{ width: 200, height: 200 }}>
+          <div key={i} style={{ ...styles.filesSelect }}>
             {image === undefined ? (
               <div>
                 <input
@@ -232,37 +239,60 @@ const EditProductPage = ({ pid }) => {
                 />
                 <label
                   htmlFor={`img-${i + 1}`}
-                  className="btn border btn-lg"
+                  className="m-1 border p-3 text-center"
                   style={{
-                    paddingTop: 12,
-                    padding: "3%",
-                    backgroundColor: "#ededed",
+                    width: "20vh",
+                    height: "21vh",
+                    margin: "2% auto",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                 >
-                  {i === 0 ? <p>Primary</p> : null}
+                  <span>Add A Photo</span>
+                  <br />
                   <i
-                    className="fa fa-file-image-o "
-                    style={{ fontSize: 38 }}
+                    className="fa fa-file-image-o text-secondary"
+                    style={{ fontSize: 38, marginTop: 10, marginBottom: 10 }}
                     aria-hidden="true"
                   ></i>
                   <br />
-                  <br />
-                  <span>Add A Photo</span>
+                  {i === 0 ? <p>Primary</p> : null}
                 </label>
               </div>
             ) : (
               <div
                 key={image.id}
-                style={{ position: "relative", width: "100%", height: "100%" }}
+                className="m-1 bg-dark"
+                style={{
+                  position: "relative",
+                  width: "20vh",
+                  minHeight: "20vh",
+                  margin: "2% auto",
+                }}
+                onClick={() => {
+                  viewImage(image.id);
+                }}
               >
                 <img src={image.url} style={styles.image} />
 
                 <div
                   className="ps-btn ps-btn--sm"
                   style={styles.imageDel}
-                  onClick={() => removeImage(image.id)}
+                  onClick={(e) => {
+                    removeImage(e, image.id);
+                  }}
                 >
-                  x
+                  <i
+                    style={{
+                      fontSize: 15,
+                      marginLeft: 7,
+                      marginTop: 5,
+                      color: "white",
+                    }}
+                    className="bi bi-trash"
+                  ></i>
                 </div>
               </div>
             )}
@@ -595,12 +625,8 @@ const EditProductPage = ({ pid }) => {
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                   <figure className="ps-block--form-box">
                     <figcaption>Product Images</figcaption>
-                    <div className="ps-block__content">
-                      <div className="form-group">
-                        <div className="form-group--nest">
-                          {renderProductImages(3)}
-                        </div>
-                      </div>
+                    <div className="pt-3" style={styles.filesStyles}>
+                      {renderProductImages(9)}
                     </div>
                   </figure>
 
@@ -708,11 +734,6 @@ const EditProductPage = ({ pid }) => {
                         </button>
                       </div>
                     </div>
-
-                    <div style={{ marginTop: 100 }}>
-                      <p>{uploading.status}</p>
-                      <Progress type="line" percent={uploading.progress} />
-                    </div>
                   </figure>
                 </div>
               </div>
@@ -768,6 +789,38 @@ const EditProductPage = ({ pid }) => {
               </button>
             </div>
           </form>
+          {viewProducts && (
+            <Lightbox
+              mainSrc={selectedImages[index].url}
+              nextSrc={selectedImages[(index + 1) % selectedImages.length].url}
+              prevSrc={
+                selectedImages[
+                  (index + selectedImages.length - 1) % selectedImages.length
+                ].url
+              }
+              onCloseRequest={() => setViewProducts(false)}
+              onMovePrevRequest={() =>
+                setIndex(
+                  (index + selectedImages.length - 1) % selectedImages.length
+                )
+              }
+              onMoveNextRequest={() =>
+                setIndex((index + 1) % selectedImages.length)
+              }
+            />
+          )}
+
+          <CustomModal isOpen={uploading.status ? true : false}>
+            <div
+              style={{
+                marginTop: 100,
+                minWidth: "200px",
+              }}
+            >
+              <p className="text-center text-white">{uploading.status}</p>
+              <Progress type="line" percent={uploading.progress} />
+            </div>
+          </CustomModal>
         </section>
       ) : (
         <Spin />
@@ -839,18 +892,37 @@ let styles = {
     marginBottom: 10,
     position: "relative",
   },
-  image: { width: 200, maxHeight: 300 },
+  image: {
+    width: "20vh",
+    height: "21vh",
+    objectFit: "cover",
+    cursor: "pointer",
+  },
   imageDel: {
     position: "absolute",
     fontSize: 15,
-    top: 5,
-    right: 5,
-    width: 10,
-    height: 30,
-    borderRadius: 50,
+    bottom: 0,
+    right: 0,
+    borderTopLeftRadius: 75,
+
+    background: "rgba(250,0,0)",
+    width: "30px",
+    height: "30px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    zIndex: 1,
+  },
+  filesStyles: {
+    display: "flex",
+    flexWrap: "wrap",
+    width: "100%",
+    justifyContent: "center",
+  },
+  fileSelect: {
+    minWidth: "33%",
+    minHeight: "30vh",
+    marginRight: "2%",
   },
   attrWrapper: { marginBottom: 20 },
   header: {

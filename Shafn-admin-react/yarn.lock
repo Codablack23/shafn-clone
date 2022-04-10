@@ -1847,9 +1847,15 @@
   "version" "1.13.1"
 
 "binary-extensions@^2.0.0":
+<<<<<<< HEAD
   "integrity" "sha512-1Yj8h9Q+QDF5FzhMs/c9+6UntbD5MkRfRwac8DoEm9ZfUBZ7tZ55YcGVAzEe4bXsdQHEk+s9S5wsOKVdZrw0tQ=="
   "resolved" "https://registry.npmjs.org/binary-extensions/-/binary-extensions-2.1.0.tgz"
   "version" "2.1.0"
+=======
+  "integrity" "sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA=="
+  "resolved" "https://registry.npmjs.org/binary-extensions/-/binary-extensions-2.2.0.tgz"
+  "version" "2.2.0"
+>>>>>>> goodluck
 
 "bluebird@^3.5.5":
   "integrity" "sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg=="
@@ -3156,9 +3162,15 @@
   "version" "1.0.0"
 
 "fscreen@^1.0.1":
+<<<<<<< HEAD
   "integrity" "sha1-xMUdltgZ11oZ1yjg30Rfm+m7mE8="
   "resolved" "https://registry.npmjs.org/fscreen/-/fscreen-1.0.2.tgz"
   "version" "1.0.2"
+=======
+  "integrity" "sha512-hlq4+BU0hlPmwsFjwGGzZ+OZ9N/wq9Ljg/sq3pX+2CD7hrJsX9tJgWWK/wiNTFM212CLHWhicOoqwXyZGGetJg=="
+  "resolved" "https://registry.npmjs.org/fscreen/-/fscreen-1.2.0.tgz"
+  "version" "1.2.0"
+>>>>>>> goodluck
 
 "function-bind@^1.1.1":
   "integrity" "sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A=="
@@ -5188,10 +5200,17 @@
     "react-is" "^16.12.0"
     "shallowequal" "^1.1.0"
 
+<<<<<<< HEAD
 "rc-virtual-list@^3.0.1", "rc-virtual-list@^3.2.0":
   "integrity" "sha512-OepvZDQGUbQQBFk5m2Ds32rfO/tSj9gZkLbzwaIw/hwGgvatDmW+j97YQvFkUQp/XDgdSGcfFfj/6XTKpz0J4g=="
   "resolved" "https://registry.npmjs.org/rc-virtual-list/-/rc-virtual-list-3.2.2.tgz"
   "version" "3.2.2"
+=======
+"rc-virtual-list@^3.2.0", "rc-virtual-list@^3.4.1":
+  "integrity" "sha512-OyVrrPvvFcHvV0ssz5EDZ+7Rf5qLat/+mmujjchNw5FfbJWNDwkpQ99EcVE6+FtNRmX9wFa1LGNpZLUTvp/4GQ=="
+  "resolved" "https://registry.npmjs.org/rc-virtual-list/-/rc-virtual-list-3.4.2.tgz"
+  "version" "3.4.2"
+>>>>>>> goodluck
   dependencies:
     "classnames" "^2.2.6"
     "rc-resize-observer" "^0.2.3"
@@ -5698,16 +5717,22 @@
   "version" "1.5.1"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> goodluck
 "resize-observer-polyfill@1.5.0":
   "integrity" "sha512-M2AelyJDVR/oLnToJLtuDJRBBWUGUvvGigj1411hXhAdyFWqMaqHp7TixW3FpiLuVaikIcR1QL+zqoJoZlOgpg=="
   "resolved" "https://registry.npmjs.org/resize-observer-polyfill/-/resize-observer-polyfill-1.5.0.tgz"
   "version" "1.5.0"
+<<<<<<< HEAD
 =======
 "resolve-from@^4.0.0":
   "integrity" "sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g=="
   "resolved" "https://registry.npmjs.org/resolve-from/-/resolve-from-4.0.0.tgz"
   "version" "4.0.0"
 >>>>>>> 1ed626c9fb4e3a982a5472b3c18e6d68175b2606
+=======
+>>>>>>> goodluck
 
 "resolve-pathname@^3.0.0":
   "integrity" "sha512-C7rARubxI8bXFNB/hqcp/4iUeIXJhJZvFPFPiSPRnhU5UPxzMFIl+2E6yY6c4k9giDJAhtV+enfA+G89N6Csng=="
