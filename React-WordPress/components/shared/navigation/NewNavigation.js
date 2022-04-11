@@ -1,7 +1,4 @@
 import Link from 'next/link'
-import { useEffect ,useState} from 'react'
-import ReactHtmlParser from "react-html-parser"
-import ProductRepository from '~/repositories/ProductRepository'
 
 const Categories = [
  {id: 17, name: 'Accessories', slug: 'jewelry-accessories',} ,
@@ -17,25 +14,16 @@ const Categories = [
  
 ]
  export default function HeaderNav(){
-      async function getCategories (){
-       const categories = await ProductRepository.getProductCategories()
-       setCategories(categories)
-    }
-    const [categories,setCategories] = useState([])
-
-    useEffect(()=>{
-      getCategories()
-    },[])
     return(
         <nav className="custom--navigation">
             <ul className="nav--list">
                <li>
                  <Link href="/shop">
-                 <a  className="nav--link">Shop</a>
+                 <a  className="nav--link shop">Shop</a>
                  </Link>
                </li>
             </ul>
-            <ul className="nav--list nav-center">
+            <ul className="nav--list nav--center">
               {Categories.length > 0 ?
                   Categories.map(category=>(
                   <li>
@@ -46,7 +34,7 @@ const Categories = [
                   ))
                  :null}
             </ul>
-            <ul className="nav--list nav--right">
+            {/* <ul className="nav--list nav--right">
              <li>
                 <Link href="/account/register">
                     <a>Sell on shafN</a>
@@ -57,7 +45,7 @@ const Categories = [
                     <a>Tract your order</a>
                 </Link>
              </li>
-            </ul>
+            </ul> */}
         </nav>
     )
 }

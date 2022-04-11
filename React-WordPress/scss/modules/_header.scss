@@ -709,17 +709,22 @@
     .nav--list{
         display: flex;
         li{
+            > .shop{
+                color:$color-1st;
+                font-size: 17px;
+            }
             &:hover{
                 > * {
                  color:$color-1st;
                 }
             }
-            margin-right:0.7em ;
+            margin:auto 0.7em ;
         }
     }
-    .nav-center{
+    .nav--center{
        margin:auto;
        text-align: center;
+       justify-content: space-between;
        li{
            margin: auto 0.7em;
        }

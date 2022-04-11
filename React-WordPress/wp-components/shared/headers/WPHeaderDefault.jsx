@@ -24,7 +24,7 @@ const WPHeaderDefault = () => {
                 <div className="ps-container bg-white">
                     <div className="header__left bg-white">
                         <Logo />
-                        {/* <MenuCategoriesDropdown /> */}
+                        <MenuCategoriesDropdown />
                     </div>
                     <div className="header__center bg-white">
                         <WPSearchHeader />
