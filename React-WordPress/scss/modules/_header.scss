@@ -702,3 +702,29 @@
     }
 }
 
+.custom--navigation{
+    display: flex;
+    width: 100%;
+    padding:0.8em 2.2em;
+    .nav--list{
+        display: flex;
+        li{
+            &:hover{
+                > * {
+                 color:$color-1st;
+                }
+            }
+            margin-right:0.7em ;
+        }
+    }
+    .nav-center{
+       margin:auto;
+       text-align: center;
+       li{
+           margin: auto 0.7em;
+       }
+    }
+    .nav--right{
+     margin-left: auto;
+    }
+}

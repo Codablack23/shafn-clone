@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-
+import HeaderNav from '~/components/shared/navigation/NewNavigation';
 import { stickyHeader } from '~/utilities/common-helpers';
 import Logo from '~/components/elements/common/Logo';
 import MenuCategoriesDropdown from '~/components/shared/menus/MenuCategoriesDropdown';
@@ -7,6 +7,7 @@ import SearchHeader from '~/components/shared/headers/modules/SearchHeader';
 import WPNavigationDefault from '~/wp-components/shared/navigations/WPNavigationDefault';
 import WPHeaderActions from '~/wp-components/shared/headers/WPHeaderActions';
 import WPSearchHeader from '~/wp-components/shared/headers/WPSearchHeader';
+
 
 const WPHeaderDefault = () => {
     useEffect(() => {
@@ -23,7 +24,7 @@ const WPHeaderDefault = () => {
                 <div className="ps-container bg-white">
                     <div className="header__left bg-white">
                         <Logo />
-                        <MenuCategoriesDropdown />
+                        {/* <MenuCategoriesDropdown /> */}
                     </div>
                     <div className="header__center bg-white">
                         <WPSearchHeader />
@@ -33,7 +34,8 @@ const WPHeaderDefault = () => {
                     </div>
                 </div>
             </div>
-            <WPNavigationDefault />
+            {/* <WPNavigationDefault /> */}
+            <HeaderNav/>
         </header>
     );
 };
