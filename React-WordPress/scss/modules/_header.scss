@@ -709,14 +709,14 @@
     .nav--list{
         display: flex;
         li{
-            > .shop{
-                color:$color-1st;
-                font-size: 17px;
+            .shop{
+                margin-right: 1.4em;
             }
-            &:hover{
-                > * {
-                 color:$color-1st;
-                }
+            > *{
+                color: #000000;
+                line-height: 20px;
+                font-weight: 400;
+                font-size: 16px;
             }
             margin:auto 0.7em ;
         }

@@ -106,6 +106,11 @@ const FooterWidgets = () => (
                     <a className="text-white">Vendor Stores</a>
                 </Link>
                 </p>
+                <p>
+                <Link href="/account/order-tracking">
+                    <a className="text-white">Tract your order</a>
+                </Link>
+                </p>
             </ul>
         </aside>
     </div>

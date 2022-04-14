@@ -235,12 +235,12 @@ const FormAccountSettings = () => {
 
               <div
                 className="bg-dark"
-                style={{ width: "100%", height: "20vh" }}
+                style={{ width: "100%", height: "25vh" }}
               >
                 <img
                   src={banner}
                   alt=""
-                  style={{ width: "100%", height: "100%" }}
+                  style={{ width: "100%", height: "100%",objectFit:"cover" }}
                 />
               </div>
 
@@ -402,7 +402,6 @@ const FormAccountSettings = () => {
               countryCallingCodeEditable={false}
               placeholder="+123456..."
               international
-              countryCallingCodeEditable={false}
               value={number}
               onChange={setNumber}
             />
@@ -482,10 +481,13 @@ const styles = {
     marginTop: 10,
   },
   imgCover: {
-    width: 150,
-    height: 150,
+    width:'22vh',
+    height: '22vh',
     borderRadius: 75,
+    border:"3px solid white",
+    marginTop:"-6em",
     marginBottom: 20,
+    marginLeft:'1em'
   },
 };
 
