@@ -4,7 +4,7 @@ import Router from "next/router";
 import { notification } from "antd";
 import { WPDomain } from "~/repositories/Repository";
 import { allStates } from "~/utilities/stateList";
-import PhoneInput from 'react-phone-number-input'
+import PhoneInput from "react-phone-number-input";
 
 const FormAccountSettings = () => {
   const { data } = allStates;
@@ -21,25 +21,44 @@ const FormAccountSettings = () => {
   const [number, setNumber] = useState("");
   const [showEmail, setShowEmail] = useState("");
   const [enableTNC, setEnableTNC] = useState("");
-  const [img, setImg] = useState("");
+  const [banner, setBanner] = useState("");
+  const [profileImage, setProfileImage] = useState("");
 
-  const [imgFile, setImgFile] = useState("");
+  const [bannerFile, setBannerFile] = useState("");
+  const [profileImageFile, setProfileImageFile] = useState("");
 
   const [isUploading, setIsUploading] = useState(false);
 
   const imageHandler = (e) => {
-    //Display Image
     e.persist();
-    if (e.target.files) {
-      let selected_img = e.target.files[0];
-      setImgFile(selected_img);
-      setImg(URL.createObjectURL(selected_img));
-      URL.revokeObjectURL(selected_img);
 
-      console.log(selected_img)
-      console.log(URL.createObjectURL(selected_img))
-      console.log(imgFile)
-      console.log(img)
+    let name = e.target.name;
+    let image = e.target.files[0];
+    let type = image.type.split("/").pop();
+
+    if (image) {
+      if (
+        type === "jpeg" ||
+        type === "jpg" ||
+        type === "png" ||
+        type === "gif"
+      ) {
+        let imgUrl = URL.createObjectURL(image);
+
+        if (name === "profileImage") {
+          setProfileImage(imgUrl);
+          setProfileImageFile(image);
+        } else {
+          setBanner(imgUrl);
+          setBannerFile(image);
+        }
+        URL.revokeObjectURL(image);
+      } else {
+        notification["error"]({
+          message: "Invalid image type!",
+          description: "Image type must be jpg, png or gif",
+        });
+      }
     }
   };
 
@@ -67,11 +86,11 @@ const FormAccountSettings = () => {
     ));
   };
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
 
     setIsUploading(true);
-    console.log(number)
+
     let auth_token = localStorage.getItem("auth_token");
 
     const config = {
@@ -80,127 +99,117 @@ const FormAccountSettings = () => {
       },
     };
 
-    if (imgFile) {
-      let formData = new FormData();
+    try {
+      let settings = {
+        store_name: name,
+        address,
+        phone: number,
+        show_email: showEmail,
+        enable_tnc: enableTNC,
+      };
+      let banner = null;
+      let profileImage = null;
+      let vendor = null;
 
-      formData.append("file", imgFile);
+      if (bannerFile) {
+        let formData = new FormData();
+        formData.append("file", bannerFile);
 
-      axios
-        .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
-        .then((res) => {
-          updateProfilePic(res.data.id, config);
-        })
-        .catch((err) => {
+        // Upload Banner
+        banner = await axios
+          .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
+          .then((res) => res.data);
+      } else banner = false;
+
+      if (profileImageFile) {
+        let formData = new FormData();
+        formData.append("file", profileImageFile);
+
+        // Upload Image
+        profileImage = await axios
+          .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
+          .then((res) => res.data);
+      } else profileImage = false;
+
+      let user = await axios
+        .get(`${WPDomain}/wp-json/wp/v2/users/me`, config)
+        .then((res) => res.data);
+
+      if (user) {
+        if (banner && profileImage) {
+          vendor = await axios.put(
+            `${WPDomain}/wp-json/dokan/v1/stores/${user.id}`,
+            { ...settings, banner_id: banner.id, gravatar_id: profileImage.id },
+            config
+          );
+        } else if (banner) {
+          vendor = await axios.put(
+            `${WPDomain}/wp-json/dokan/v1/stores/${user.id}`,
+            { ...settings, banner_id: banner.id },
+            config
+          );
+        } else if (profileImage) {
+          vendor = await axios.put(
+            `${WPDomain}/wp-json/dokan/v1/stores/${user.id}`,
+            { ...settings, gravatar_id: profileImage.id },
+            config
+          );
+        } else {
+          vendor = await axios.put(
+            `${WPDomain}/wp-json/dokan/v1/stores/${user.id}`,
+            settings,
+            config
+          );
+        }
+
+        if (vendor) {
           setIsUploading(false);
-          notification["error"]({
-            message: "Settings Failed To Update",
-            description: "Check your data connection and try again.",
+          notification["success"]({
+            message: "Settings Updated Successfully",
           });
-        });
-    } else {
-      updateSettings(config);
+          Router.reload(window.location.pathname);
+        }
+      }
+    } catch (err) {
+      setIsUploading(false);
+      notification["error"]({
+        message: "Settings Failed To Update",
+        description: "Check your data connection and try again.",
+      });
     }
   };
 
-  const updateProfilePic = (imgID, config) => {
-    // Get user id
-    axios
-      .get(`${WPDomain}/wp-json/wp/v2/users/me`, config)
-      .then((res) => {
-        // Update user profile picture
-        axios
-          .put(
-            `${WPDomain}/wp-json/dokan/v1/stores/${res.data.id}`,
-            { gravatar_id: imgID },
-            config
-          )
-          .then((res) => {
-            updateSettings(config);
-          })
-          .catch((err) => {
-            setIsUploading(false);
-            notification["error"]({
-              message: "Settings Failed To Update",
-              description: "Check your data connection and try again.",
-            });
-          });
-      })
-      .catch((err) => {
-        setIsUploading(false);
-        notification["error"]({
-          message: "Settings Failed To Update",
-          description: "Check your data connection and try again.",
-        });
-      });
-  };
+  const getSettings = async () => {
+    try {
+      let auth_token = localStorage.getItem("auth_token");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${auth_token}`,
+        },
+      };
 
-  const updateSettings = (config) => {
-    let settings = {
-      store_name: name,
-      address,
-      phone: number,
-      show_email: showEmail,
-      enable_tnc: enableTNC,
-    };
+      let user = await axios
+        .get(`${WPDomain}/wp-json/wp/v2/users/me`, config)
+        .then((res) => res.data);
 
-    axios
-      .put(`${WPDomain}/wp-json/dokan/v1/settings`, settings, config)
-      .then((res) => {
-        setIsUploading(false);
-        notification["success"]({
-          message: "Settings Updated Successfully",
-        });
-        Router.reload(window.location.pathname);
-      })
-      .catch((err) => {
-        setIsUploading(false);
-        notification["error"]({
-          message: "Settings Failed To Update",
-          description: "Check your data connection and try again.",
-        });
-      });
+      let vendor = await axios
+        .get(`${WPDomain}/wp-json/dokan/v1/stores/${user.id}`, config)
+        .then((res) => res.data);
+
+      setProfileImage(vendor.gravatar);
+      setBanner(vendor.banner);
+      setName(vendor.store_name);
+      setAddress(vendor.address);
+      setNumber(vendor.phone);
+      setShowEmail(vendor.show_email);
+      setEnableTNC(vendor.toc_enabled);
+    } catch (err) {
+      console.log("Settings Error: ", err);
+    }
   };
 
   useEffect(() => {
-    let auth_token = localStorage.getItem("auth_token");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth_token}`,
-      },
-    };
-
-    // Get user settings
-    axios
-      .get(`${WPDomain}/wp-json/dokan/v1/settings`, config)
-      .then((res) => {
-        let user = res.data;
-        setName(user.store_name);
-        setAddress(user.address);
-        setNumber(user.phone);
-        setShowEmail(user.show_email);
-        setEnableTNC(user.enable_tnc);
-      })
-      .catch((err) => {
-        return;
-      });
-
-    // Get user id
-    axios
-      .get(`${WPDomain}/wp-json/wp/v2/users/me`, config)
-      .then((res) => {
-        // Get user profile picture
-        axios
-          .get(`${WPDomain}/wp-json/dokan/v1/stores/${res.data.id}`, config)
-          .then((res) => {
-            setImg(res.data.gravatar);
-          })
-          .catch((err) => {
-            return;
-          });
-      })
-      .catch((err) => {
-        return;
-      });
+    getSettings();
   }, []);
   return (
     <form
@@ -210,10 +219,12 @@ const FormAccountSettings = () => {
     >
       <div className="row">
         <div className="col-sm-12">
+          {/* Banner */}
           <div className="form-group">
             <div className="form-group--nest">
               <input
-                id="image-picker"
+                name="banner"
+                id="banner-picker"
                 type="file"
                 accept="image/*"
                 onChange={imageHandler}
@@ -221,13 +232,62 @@ const FormAccountSettings = () => {
                 multiple
                 hidden
               />
+
+              <div
+                className="bg-dark"
+                style={{ width: "100%", height: "25vh" }}
+              >
+                <img
+                  src={banner}
+                  alt=""
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+              </div>
+
               <label
-                htmlFor="image-picker"
+                htmlFor="banner-picker"
                 style={{ ...styles.imgPicker, paddingTop: 12 }}
               >
-               <div className="bg-dark" style={{...styles.imgCover}}>
-               <img src={img} alt="" style={styles.img} />
-               </div>
+                <span
+                  style={{
+                    position: "absolute",
+                    bottom: 10,
+                    right: 10,
+                  }}
+                  className="text-warning"
+                >
+                  <i
+                    className="fa fa-camera"
+                    aria-hidden="true"
+                    style={{ fontSize: 30, cursor: "pointer" }}
+                  ></i>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          {/* Profile Image */}
+          <div className="form-group">
+            <div className="form-group--nest">
+              <input
+                name="profileImage"
+                id="profileImage-picker"
+                type="file"
+                accept="image/*"
+                onChange={imageHandler}
+                required
+                multiple
+                hidden
+              />
+
+              <div className="bg-dark" style={{ ...styles.imgCover }}>
+                <img src={profileImage} alt="" style={styles.img} />
+              </div>
+
+              <label
+                htmlFor="profileImage-picker"
+                style={{ ...styles.imgPicker, paddingTop: 12 }}
+              >
                 <span
                   style={{
                     position: "absolute",
@@ -239,7 +299,6 @@ const FormAccountSettings = () => {
                   <i
                     className="fa fa-camera"
                     aria-hidden="true"
-                    onClick={imageHandler}
                     style={{ fontSize: 30, cursor: "pointer" }}
                   ></i>
                 </span>
@@ -287,7 +346,7 @@ const FormAccountSettings = () => {
                   className="ps-select"
                   title="countries"
                   style={{ width: "100%" }}
-                  defaultValue={address.country}
+                  value={address.country}
                   onChange={(e) => selectCountry(e)}
                 >
                   <option value="">Select Country</option>
@@ -303,7 +362,7 @@ const FormAccountSettings = () => {
                   className="ps-select"
                   title="countries"
                   style={{ width: "100%" }}
-                  defaultValue={address.country}
+                  value={address.state}
                   onChange={(e) => setAddr(e.target.name, e.target.value)}
                 >
                   <option value="">Select State</option>
@@ -338,22 +397,13 @@ const FormAccountSettings = () => {
         <div className="col-sm-6">
           <div className="form-group">
             <label>Phone No.</label>
-            {/* <input
-              name="stock_quantity"
-              className="form-control"
-              type="number"
-              placeholder="+123456..."
-              value={number}
-              onChange={(e) => setNumber(e.target.value)}
-            /><br/> */}
             <PhoneInput
-             defaultCountry="NG"
-            countryCallingCodeEditable={false}
-            placeholder="+123456..."
-            international
-            countryCallingCodeEditable={false}
-            value={number}
-            onChange={setNumber}
+              defaultCountry="NG"
+              countryCallingCodeEditable={false}
+              placeholder="+123456..."
+              international
+              value={number}
+              onChange={setNumber}
             />
           </div>
 
@@ -395,7 +445,7 @@ const FormAccountSettings = () => {
         </div>
       </div>
       <div className="ps-form__submit text-center">
-        <button className="ps-btn ps-btn--gray mr-3">Cancel</button>
+        {/* <button className="ps-btn ps-btn--gray mr-3">Cancel</button> */}
         <button
           disabled={isUploading}
           type="submit"
@@ -423,21 +473,22 @@ const styles = {
     position: "relative",
   },
   img: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-    marginBottom: 20,
-    objectFit:'contain'
+    width: "100%",
+    height: "100%",
+    borderRadius: 100,
   },
   addrHeader: {
     marginTop: 10,
   },
-  imgCover:{
-    width: 150,
-    height: 150,
-    borderRadius: 75,
+  imgCover: {
+    width: "15vh",
+    height: "15vh",
+    borderRadius: 100,
+    border: "3px solid white",
+    marginTop: "-6em",
     marginBottom: 20,
-  }
+    marginLeft: "2em",
+  },
 };
 
 export default FormAccountSettings;

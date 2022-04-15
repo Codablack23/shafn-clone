@@ -7,13 +7,14 @@ import { notification, Progress, Spin } from "antd";
 import { toggleDrawerMenu } from "~/store/app/action";
 import ProductRepository from "~/repositories/ProductRepository";
 import ReactHtmlParser from "react-html-parser";
+import Select from "react-select";
+import Lightbox from "react-image-lightbox";
 import "react-color-palette/lib/css/styles.css";
 import "suneditor/dist/css/suneditor.min.css";
-import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css"; //
 import ProductAttributes from "~/components/elements/products/ProductAttributes";
 import ProductVariations from "~/components/elements/products/ProductVariations";
-import { CustomModal} from "~/components/elements/custom/index";
+import { CustomModal } from "~/components/elements/custom/index";
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
@@ -89,15 +90,20 @@ const EditProductPage = ({ pid }) => {
     manage_stock: false,
     sold_individually: false,
     type: "simple",
+    tags: [],
   });
 
   const [categories, setCategories] = useState([]);
+  const [tagOptions, setTagOptions] = useState([]);
+  const [newTag, setNewTag] = useState("");
+  const [attributes, setAttributes] = useState([]);
   const [variations, setVariations] = useState([]);
   const [viewProducts, setViewProducts] = useState(false);
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
   const [index, setIndex] = useState("");
+  const [showNewTagInputField, setShowNewTagInputField] = useState(false);
   const [isPriceValid, setIsPriceValid] = useState(true);
   const [uploading, setUploading] = useState({
     status: "",
@@ -116,9 +122,10 @@ const EditProductPage = ({ pid }) => {
       "manage_stock",
       "sold_individually",
       "categories",
+      "tags",
     ];
     if (name === "regular_price" && !isNaN(value)) {
-      setProduct((current) => ({ ...current, [name]: value }));
+      setProduct((product) => ({ ...product, [name]: value }));
     }
 
     if (name === "price" && !isNaN(value)) {
@@ -128,12 +135,12 @@ const EditProductPage = ({ pid }) => {
           setIsPriceValid(true);
         }, 4000);
       } else {
-        setProduct((current) => ({ ...current, [name]: value }));
+        setProduct((product) => ({ ...product, [name]: value }));
       }
     }
 
     if (name === "stock_quantity" && Number.isInteger(Number(value))) {
-      setProduct((current) => ({ ...current, [name]: value }));
+      setProduct((product) => ({ ...product, [name]: value }));
     }
 
     if (
@@ -142,15 +149,20 @@ const EditProductPage = ({ pid }) => {
       name === "manage_stock" ||
       name === "sold_individually"
     ) {
-      setProduct((current) => ({ ...current, [name]: !current[name] }));
+      setProduct((product) => ({ ...product, [name]: !product[name] }));
     }
 
     if (name === "categories") {
-      setProduct((current) => ({ ...current, [name]: [{ id: value }] }));
+      setProduct((product) => ({ ...product, [name]: [{ id: value }] }));
+    }
+
+    if (name === "tags") {
+      let _tags = value.map((tag) => ({ id: tag.value }));
+      setProduct((product) => ({ ...product, [name]: _tags }));
     }
 
     if (!formNames.includes(name)) {
-      setProduct((current) => ({ ...current, [name]: value }));
+      setProduct((product) => ({ ...product, [name]: value }));
     }
   };
 
@@ -256,7 +268,7 @@ const EditProductPage = ({ pid }) => {
                   margin: "2% auto",
                 }}
                 onClick={() => {
-                    viewImage(image.id);
+                  viewImage(image.id);
                 }}
               >
                 <img src={image.url} style={styles.image} />
@@ -284,6 +296,22 @@ const EditProductPage = ({ pid }) => {
           </div>
         );
       });
+  };
+
+  const addTag = async () => {
+    try {
+      let tag = await ProductRepository.addTag(newTag);
+
+      let tagOption = { value: tag.id, label: tag.name };
+
+      setTagOptions((tagOptions) => [...tagOptions, tagOption]);
+    } catch (err) {
+      notification["error"]({
+        message: "Failed To Add Tag",
+        description:
+          err.response === undefined ? String(err) : err.response.data.message,
+      });
+    }
   };
 
   const validateInputs = () => {
@@ -332,15 +360,16 @@ const EditProductPage = ({ pid }) => {
       const product = await ProductRepository.getProductByID(pid);
 
       if (product) {
-        let modifiedAttributes = product.attributes.map((attribute) => ({
+        setProduct(product);
+
+        let modifiedAttributes = product.attributes.map((attribute, index) => ({
           ...attribute,
+          id: index,
           type: "select",
           error: "",
         }));
-        setProduct({
-          ...product,
-          attributes: modifiedAttributes,
-        });
+
+        setAttributes(modifiedAttributes);
 
         let imageFiles = Array.from(product.images).map((img, index) => ({
           id: `img-${index + 1}`,
@@ -366,23 +395,31 @@ const EditProductPage = ({ pid }) => {
     setCategories(categories);
   };
 
+  const getTags = async () => {
+    const tags = await ProductRepository.getTags();
+
+    let tagOptions = tags.map((tag) => ({ value: tag.id, label: tag.name }));
+    setTagOptions(tagOptions);
+  };
+
   const getVariations = async () => {
     const variations = await ProductRepository.getVariations(pid);
 
     setVariations(variations);
   };
 
-  const updateVariations = async (attributes) => {};
-
   useEffect(() => {
     getProduct();
 
     getCategories();
 
+    getTags();
+
     getVariations();
 
     dispatch(toggleDrawerMenu(false));
   }, []);
+
   return (
     <ContainerDefault title="Edit product">
       <HeaderDashboard title="Edit Product" description="ShafN Edit Product " />
@@ -606,6 +643,7 @@ const EditProductPage = ({ pid }) => {
                           onChange={handleInputChange}
                         />
                       </div>
+
                       <div className="form-group form-group--select">
                         <label>
                           Stock Status<sup>*</sup>
@@ -660,8 +698,39 @@ const EditProductPage = ({ pid }) => {
                           </label>
                         </div>
                       </div>
-                    </div>
 
+                      <div className="form-group">
+                        <label>
+                          Tags<sup>*</sup>
+                        </label>
+
+                        <Select
+                          isMulti
+                          name="tags"
+                          placeholder="Select product tags"
+                          defaultValue={product.tags.map((tag) => ({
+                            value: tag.id,
+                            label: tag.name,
+                          }))}
+                          options={tagOptions}
+                          onChange={(value) =>
+                            handleInputChange({
+                              target: {
+                                name: "tags",
+                                value,
+                              },
+                            })
+                          }
+                        />
+
+                        <button
+                          className="ps-btn ps-btn--gray"
+                          onClick={() => setShowNewTagInputField(true)}
+                        >
+                          Add New
+                        </button>
+                      </div>
+                    </div>
                   </figure>
                 </div>
               </div>
@@ -673,15 +742,20 @@ const EditProductPage = ({ pid }) => {
                     <div className="ps-block__content">
                       <ProductAttributes
                         productID={pid}
-                        productAttributes={product.attributes}
+                        attributes={attributes}
+                        setAttributes={setAttributes}
+                        setVariations={setVariations}
                         setProduct={setProduct}
                       />
-                      <ProductVariations
-                        productID={pid}
-                        productAttributes={product.attributes}
-                        variations={variations}
-                        setVariations={setVariations}
-                      />
+                      {product.attributes.length > 0 ? (
+                        <ProductVariations
+                          productID={pid}
+                          productAttributes={product.attributes}
+                          variations={variations}
+                          setVariations={setVariations}
+                          setProduct={setProduct}
+                        />
+                      ) : null}
                     </div>
                   </figure>
                 </div>
@@ -689,10 +763,10 @@ const EditProductPage = ({ pid }) => {
             </div>
 
             <div className="ps-form__bottom">
-              <a className="ps-btn ps-btn--black" href="products.html">
+              {/* <a className="ps-btn ps-btn--black" href="products.html">
                 Back
               </a>
-              <button className="ps-btn ps-btn--gray">Cancel</button>
+              <button className="ps-btn ps-btn--gray">Cancel</button> */}
               <button
                 disabled={isUploading}
                 type="submit"
@@ -713,40 +787,75 @@ const EditProductPage = ({ pid }) => {
             </div>
           </form>
           {viewProducts && (
-        <Lightbox
-          mainSrc={selectedImages[index].url}
-          nextSrc={selectedImages[(index + 1) % selectedImages.length].url}
-          prevSrc={
-            selectedImages[
-              (index + selectedImages.length - 1) % selectedImages.length
-            ].url
-          }
-          onCloseRequest={() => setViewProducts(false)}
-          onMovePrevRequest={() =>
-            setIndex(
-              (index + selectedImages.length - 1) % selectedImages.length
-            )
-          }
-          onMoveNextRequest={() =>
-            setIndex((index + 1) % selectedImages.length)
-          }
-          />)}
-          
+            <Lightbox
+              mainSrc={selectedImages[index].url}
+              nextSrc={selectedImages[(index + 1) % selectedImages.length].url}
+              prevSrc={
+                selectedImages[
+                  (index + selectedImages.length - 1) % selectedImages.length
+                ].url
+              }
+              onCloseRequest={() => setViewProducts(false)}
+              onMovePrevRequest={() =>
+                setIndex(
+                  (index + selectedImages.length - 1) % selectedImages.length
+                )
+              }
+              onMoveNextRequest={() =>
+                setIndex((index + 1) % selectedImages.length)
+              }
+            />
+          )}
+
           <CustomModal isOpen={uploading.status ? true : false}>
-              <div
-                style={{
-                  marginTop: 100,
-                  minWidth: "200px",
-                }}
-              >
-                <p className="text-center text-white">{uploading.status}</p>
-                <Progress type="line" percent={uploading.progress} />
-              </div>
-        </CustomModal>
+            <div
+              style={{
+                marginTop: 100,
+                minWidth: "200px",
+              }}
+            >
+              <p className="text-center text-white">{uploading.status}</p>
+              <Progress type="line" percent={uploading.progress} />
+            </div>
+          </CustomModal>
         </section>
       ) : (
         <Spin />
       )}
+
+      {/* New Tag Input Field */}
+      <CustomModal isOpen={showNewTagInputField}>
+        <div
+          className="form-group"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <label>
+            New Tag<sup>*</sup>
+          </label>
+          <input
+            name="new tag"
+            className="form-control"
+            type="text"
+            value={newTag}
+            onChange={(e) => setNewTag(e.target.value)}
+          />
+
+          <button
+            className="ps-btn"
+            onClick={() => setShowNewTagInputField(false)}
+          >
+            Cancel
+          </button>
+
+          <button className="ps-btn ps-btn--gray" onClick={addTag}>
+            Add
+          </button>
+        </div>
+      </CustomModal>
     </ContainerDefault>
   );
 };

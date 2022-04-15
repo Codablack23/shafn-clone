@@ -1,19 +1,26 @@
 import React, { useEffect, useState } from "react";
 import ProductRepository from "~/repositories/ProductRepository";
 import { v4 as uuid } from "uuid";
+import { notification } from "antd";
 import Attribute from "./modules/Attribute";
 
-const ProductAttributes = ({ productID, productAttributes, setProduct }) => {
+const ProductAttributes = ({
+  productID,
+  attributes,
+  setAttributes,
+  setVariations,
+  setProduct,
+}) => {
   const [userAttributes, setUserAttributes] = useState([]);
   const [name, setName] = useState("");
 
-  const modifyAttribute = (newAttribute) => {
-    setProduct((product) => ({ ...product, attributes: newAttribute }));
+  const modifyAttribute = (newAttributes) => {
+    setAttributes(newAttributes);
   };
 
   const addAttribute = () => {
     if (name) {
-      let isSelected = productAttributes
+      let isSelected = attributes
         .map((attribute) => attribute.name)
         .includes(name);
 
@@ -27,7 +34,7 @@ const ProductAttributes = ({ productID, productAttributes, setProduct }) => {
           type: "select",
         };
 
-        modifyAttribute([newAttribute, ...productAttributes]);
+        modifyAttribute([newAttribute, ...attributes]);
       }
     } else {
       let newAttribute = {
@@ -39,35 +46,49 @@ const ProductAttributes = ({ productID, productAttributes, setProduct }) => {
         type: "custom",
       };
 
-      modifyAttribute([newAttribute, ...productAttributes]);
+      modifyAttribute([newAttribute, ...attributes]);
     }
+  };
 
-    let isSelected = productAttributes
-      .map((attribute) => attribute.name)
-      .includes(name);
+  const saveAttributes = async () => {
+    let errors = attributes.filter((attribute) => attribute.error);
+    if (errors.length === 0) {
+      let response = await ProductRepository.saveAttributes(
+        productID,
+        attributes,
+        setAttributes
+      );
 
-    if (!isSelected) {
-      let newAttribute = {
-        id: uuid(),
-        name,
-        options: [],
-        visible: true,
-        variation: false,
-      };
+      if (response) {
+        console.log(response.attributes);
+        notification["success"]({
+          message: "Attributes Saved Successfully",
+        });
 
-      if (name) {
-        newAttribute.type = "select";
-      } else {
-        newAttribute.type = "custom";
+        setProduct((product) => ({
+          ...product,
+          attributes: response.attributes,
+        }));
+
+        setVariations((variations) =>
+          variations.map((variation) => {
+            let newVariationData = response.newVariations.find(
+              (newVariation) => newVariation.id === variation.id
+            );
+
+            return {
+              ...variation,
+              attributes: newVariationData.attributes,
+            };
+          })
+        );
       }
-
-      modifyAttribute([newAttribute, ...productAttributes]);
     }
   };
 
   const removeAttribute = (id) => {
     const filter = (attribute) => attribute.id !== id;
-    modifyAttribute(productAttributes.filter(filter));
+    modifyAttribute(attributes.filter(filter));
   };
 
   const changeName = (id, name) => {
@@ -79,7 +100,7 @@ const ProductAttributes = ({ productID, productAttributes, setProduct }) => {
           }
         : attribute;
 
-    modifyAttribute(productAttributes.map(modify));
+    modifyAttribute(attributes.map(modify));
   };
 
   const toggleProp = (id, name) => {
@@ -91,7 +112,7 @@ const ProductAttributes = ({ productID, productAttributes, setProduct }) => {
           }
         : attribute;
 
-    modifyAttribute(productAttributes.map(toggle));
+    modifyAttribute(attributes.map(toggle));
   };
 
   const addOption = (id, option) => {
@@ -106,7 +127,7 @@ const ProductAttributes = ({ productID, productAttributes, setProduct }) => {
           }
         : attribute;
 
-    modifyAttribute(productAttributes.map(modify));
+    modifyAttribute(attributes.map(modify));
   };
 
   const removeOption = (id, _option) => {
@@ -118,7 +139,7 @@ const ProductAttributes = ({ productID, productAttributes, setProduct }) => {
           }
         : attribute;
 
-    modifyAttribute(productAttributes.map(modify));
+    modifyAttribute(attributes.map(modify));
   };
 
   const selectAllOptions = (id, name) => {
@@ -135,7 +156,7 @@ const ProductAttributes = ({ productID, productAttributes, setProduct }) => {
             }
           : attribute;
 
-      modifyAttribute(productAttributes.map(modify));
+      modifyAttribute(attributes.map(modify));
     }
   };
 
@@ -148,11 +169,11 @@ const ProductAttributes = ({ productID, productAttributes, setProduct }) => {
           }
         : attribute;
 
-    modifyAttribute(productAttributes.map(modify));
+    modifyAttribute(attributes.map(modify));
   };
 
   const checkForDuplicatedAttributeName = (name) => {
-    let duplicates = productAttributes.filter(
+    let duplicates = attributes.filter(
       (attribute) =>
         attribute.name.toLowerCase().trim() === name.toLowerCase().trim()
     );
@@ -170,18 +191,26 @@ const ProductAttributes = ({ productID, productAttributes, setProduct }) => {
           }
         : attribute;
 
-    modifyAttribute(productAttributes.map(modify));
+    modifyAttribute(attributes.map(modify));
   };
 
-  const renderAttributeNames = () =>
-    userAttributes.map((attribute, i) => (
-      <option key={i} value={attribute.name}>
-        {attribute.name}
-      </option>
-    ));
+  const renderAttributeNames = () => {
+    let selectedNames = attributes.map((attribute) =>
+      attribute.name.toLowerCase()
+    );
+
+    return userAttributes.map((attribute, i) => {
+      let isNameSelected = selectedNames.includes(attribute.name.toLowerCase());
+      return (
+        <option key={i} value={attribute.name} disabled={isNameSelected}>
+          {attribute.name}
+        </option>
+      );
+    });
+  };
 
   const renderAttributes = () => {
-    return productAttributes.map((attribute) => {
+    return attributes.map((attribute, i) => {
       let userAttribute;
       let attributeID = null;
       let defaultOptions = [];
@@ -198,7 +227,7 @@ const ProductAttributes = ({ productID, productAttributes, setProduct }) => {
 
       return (
         <Attribute
-          key={attribute.id}
+          key={i}
           id={attribute.id}
           attributeID={attributeID}
           type={attribute.type}
@@ -220,14 +249,6 @@ const ProductAttributes = ({ productID, productAttributes, setProduct }) => {
         />
       );
     });
-  };
-
-  const saveAttributes = () => {
-    let errors = productAttributes.filter((attribute) => attribute.error);
-    if (errors.length === 0) {
-      // ProductRepository.saveAttributes(productID, productAttributes);
-      alert("Ongoing task...")
-    }
   };
 
   const getUserAttributes = async () => {

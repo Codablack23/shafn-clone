@@ -37,7 +37,7 @@ function Login() {
     };
 
     return (
-        <div className="ps-my-account" style={{ paddingTop: 100 }}>
+        <div className="ps-my-account" style={{ paddingTop: 10}}>
             <div className="container">
                 <Form
                     className="ps-form--account"
@@ -45,7 +45,7 @@ function Login() {
                     <ul className="ps-tab-list">
                         <li className="active">
                             <Link href="/account/login">
-                                <a>Login</a>
+                                <a>ShafN</a>
                             </Link>
                         </li>
                     </ul>
@@ -54,7 +54,7 @@ function Login() {
                         id="sign-in"
                         style={{ boxShadow: '0px 0px 10px #cdcdcd' }}>
                         <div className="ps-form__content">
-                            <h5>Log In Your Account</h5>
+                            <h5>Sign In</h5>
                             <div className="form-group">
                                 <Form.Item
                                     name="email"
@@ -106,14 +106,19 @@ function Login() {
                                         name="remember-me"
                                     />
                                     <label htmlFor="remember-me">
-                                        Rememeber me
+                                        Remember me
                                     </label>
                                 </div>
                             </div>
                             <div className="form-group submit">
                                 <button
                                     type="submit"
-                                    className="ps-btn ps-btn--fullwidth">
+                                    className="ps-btn ps-btn--fullwidth"
+                                    style={{
+                                        borderRadius:"15px"
+                                    }}
+                                    >
+                                  
                                     {isLoading ? (
                                         <img
                                             src={require('../../../public/static/img/Interwind-loader.svg')}
@@ -122,31 +127,45 @@ function Login() {
                                             height={30}
                                         />
                                     ) : (
-                                        'Login'
+                                        'Continue'
                                     )}
                                 </button>
                             </div>
                         </div>
                         <div className="ps-form__footer">
-                            <p>Connect with:</p>
-                            <ul className="ps-list--social">
+                            <div className='or'>
+                                <hr/>
+                                  <p>OR</p>
+                                <hr/>
+                            </div>
+                            <ul className="social-links">
                                 <li>
                                     <a
-                                        className="facebook"
+                                        className="google handles"
                                         href="#"
                                         onClick={handleFeatureWillUpdate}>
-                                        <i className="fa fa-facebook"></i>
+                                        <span>  
+                                            <img
+                                            style={
+                                                {
+                                                    objectFit:"contain"
+                                                }
+                                            }
+                                            src='/icons/google.svg'/>
+                                        </span>
+                                        <span>Continue With Google</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a
-                                        className="google"
-                                        href="#"
-                                        onClick={handleFeatureWillUpdate}>
-                                        <i className="fa fa-google-plus"></i>
+                                    className="facebook handles"
+                                    href="#"
+                                    onClick={handleFeatureWillUpdate}>
+                                      <span><i className="fa fa-facebook w3-text-blue"></i></span>
+                                      <span>Continue With Facebok</span>
                                     </a>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <a
                                         className="twitter"
                                         href="#"
@@ -161,7 +180,7 @@ function Login() {
                                         onClick={handleFeatureWillUpdate}>
                                         <i className="fa fa-instagram"></i>
                                     </a>
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
                     </div>

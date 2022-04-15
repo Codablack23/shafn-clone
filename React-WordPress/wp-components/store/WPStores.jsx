@@ -15,6 +15,7 @@ const WPStores = () => {
             per_page: 8,
         };
         const WPStores = await WPVendorRepository.getStores(params);
+
         if (WPStores) {
             setTimeout(function () {
                 setLoading(false);
