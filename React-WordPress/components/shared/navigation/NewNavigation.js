@@ -7,14 +7,10 @@ const Categories = [
  {id: 74, name: 'Books', slug: 'books',} ,
  {id: 17, name: 'Accessories', slug: 'jewelry-accessories',} ,
  {id: 21, name: 'Art', slug: 'art',} ,
-
  {id: 78, name: 'Bath & Body', slug: 'bath-body', },
- 
  {id: 77, name: 'Beauty Sets', slug: 'beauty-sets', },
-
  {id: 67, name: 'Canvas', slug: 'canvas', },
  {id: 24, name: 'Clothes', slug: 'clothes', },
-
  {id: 79, name: 'Essential Oils', slug: 'essential-oils'}, 
  
 ]
@@ -24,7 +20,6 @@ const Categories = [
 }
 
  export default function HeaderNav(){
-     getProducts()
     return(
         <nav className="custom--navigation">
             <ul className="nav--list nav--center">
