@@ -240,7 +240,7 @@ const FormAccountSettings = () => {
                 <img
                   src={banner}
                   alt=""
-                  style={{ width: "100%", height: "100%",objectFit:"cover" }}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
               </div>
 
@@ -251,7 +251,7 @@ const FormAccountSettings = () => {
                 <span
                   style={{
                     position: "absolute",
-                    bottom: 20,
+                    bottom: 10,
                     right: 10,
                   }}
                   className="text-warning"
@@ -481,13 +481,13 @@ const styles = {
     marginTop: 10,
   },
   imgCover: {
-    width:'22vh',
-    height: '22vh',
-    borderRadius: 75,
-    border:"3px solid white",
-    marginTop:"-6em",
+    width: "15vh",
+    height: "15vh",
+    borderRadius: 100,
+    border: "3px solid white",
+    marginTop: "-6em",
     marginBottom: 20,
-    marginLeft:'1em'
+    marginLeft: "2em",
   },
 };
 

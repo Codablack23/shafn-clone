@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import DropdownAction from "~/components/elements/basic/DropdownAction";
 import ProductRepository from "~/repositories/ProductRepository";
 
-const TableProjectItems = (setUploadingProgress) => {
+const TableProjectItems = () => {
   const [productItems, setProductItems] = useState(null);
 
   let tableItems;
@@ -48,7 +48,7 @@ const TableProjectItems = (setUploadingProgress) => {
           </td>
           <td>{item.date_created}</td>
           <td>
-            <DropdownAction productID={item.id} uploadingProgress={setUploadingProgress} />
+            <DropdownAction productID={item.id} />
           </td>
         </tr>
       );

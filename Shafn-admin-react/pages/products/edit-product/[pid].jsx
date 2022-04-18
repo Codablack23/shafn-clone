@@ -14,7 +14,7 @@ import "suneditor/dist/css/suneditor.min.css";
 import "react-image-lightbox/style.css"; //
 import ProductAttributes from "~/components/elements/products/ProductAttributes";
 import ProductVariations from "~/components/elements/products/ProductVariations";
-import { CustomModal} from "~/components/elements/custom/index";
+import { CustomModal } from "~/components/elements/custom/index";
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
@@ -103,6 +103,7 @@ const EditProductPage = ({ pid }) => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
   const [index, setIndex] = useState("");
+  const [showNewTagInputField, setShowNewTagInputField] = useState(false);
   const [isPriceValid, setIsPriceValid] = useState(true);
   const [uploading, setUploading] = useState({
     status: "",
@@ -268,7 +269,7 @@ const EditProductPage = ({ pid }) => {
                   margin: "2% auto",
                 }}
                 onClick={() => {
-                    viewImage(image.id);
+                  viewImage(image.id);
                 }}
               >
                 <img src={image.url} style={styles.image} />
@@ -731,7 +732,6 @@ const EditProductPage = ({ pid }) => {
                         </button>
                       </div>
                     </div>
-
                   </figure>
                 </div>
               </div>
@@ -788,36 +788,37 @@ const EditProductPage = ({ pid }) => {
             </div>
           </form>
           {viewProducts && (
-        <Lightbox
-          mainSrc={selectedImages[index].url}
-          nextSrc={selectedImages[(index + 1) % selectedImages.length].url}
-          prevSrc={
-            selectedImages[
-              (index + selectedImages.length - 1) % selectedImages.length
-            ].url
-          }
-          onCloseRequest={() => setViewProducts(false)}
-          onMovePrevRequest={() =>
-            setIndex(
-              (index + selectedImages.length - 1) % selectedImages.length
-            )
-          }
-          onMoveNextRequest={() =>
-            setIndex((index + 1) % selectedImages.length)
-          }
-          />)}
-          
+            <Lightbox
+              mainSrc={selectedImages[index].url}
+              nextSrc={selectedImages[(index + 1) % selectedImages.length].url}
+              prevSrc={
+                selectedImages[
+                  (index + selectedImages.length - 1) % selectedImages.length
+                ].url
+              }
+              onCloseRequest={() => setViewProducts(false)}
+              onMovePrevRequest={() =>
+                setIndex(
+                  (index + selectedImages.length - 1) % selectedImages.length
+                )
+              }
+              onMoveNextRequest={() =>
+                setIndex((index + 1) % selectedImages.length)
+              }
+            />
+          )}
+
           <CustomModal isOpen={uploading.status ? true : false}>
-              <div
-                style={{
-                  marginTop: 100,
-                  minWidth: "200px",
-                }}
-              >
-                <p className="text-center text-white">{uploading.status}</p>
-                <Progress type="line" percent={uploading.progress} />
-              </div>
-        </CustomModal>
+            <div
+              style={{
+                marginTop: 100,
+                minWidth: "200px",
+              }}
+            >
+              <p className="text-center text-white">{uploading.status}</p>
+              <Progress type="line" percent={uploading.progress} />
+            </div>
+          </CustomModal>
         </section>
       ) : (
         <Spin />
