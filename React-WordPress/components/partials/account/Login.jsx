@@ -162,7 +162,7 @@ function Login() {
                                     href="#"
                                     onClick={handleFeatureWillUpdate}>
                                       <span><i className="fa fa-facebook w3-text-blue"></i></span>
-                                      <span>Continue With Facebok</span>
+                                      <span>Continue With Facebook</span>
                                     </a>
                                 </li>
                                 {/* <li>
