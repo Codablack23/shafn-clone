@@ -702,3 +702,34 @@
     }
 }
 
+.custom--navigation{
+    display: flex;
+    width: 100%;
+    padding:0.8em 2.2em;
+    .nav--list{
+        display: flex;
+        li{
+            .shop{
+                margin-right: 1.4em;
+            }
+            > *{
+                color: #000000;
+                line-height: 20px;
+                font-weight: 400;
+                font-size: 16px;
+            }
+            margin:auto 0.7em ;
+        }
+    }
+    .nav--center{
+       margin:auto;
+       text-align: center;
+       justify-content: space-between;
+       li{
+           margin: auto 0.7em;
+       }
+    }
+    .nav--right{
+     margin-left: auto;
+    }
+}

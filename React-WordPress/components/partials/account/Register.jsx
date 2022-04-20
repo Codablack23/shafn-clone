@@ -65,7 +65,7 @@ function Register() {
                     <ul className="ps-tab-list">
                         <li className="active">
                             <Link href="/account/register">
-                                <a>Register</a>
+                                <a>ShafN</a>
                             </Link>
                         </li>
                     </ul>
@@ -205,7 +205,7 @@ function Register() {
                                 </>
                             )}
 
-                            <div className="form-group">
+                            {/* <div className="form-group">
                                 <div className="ps-checkbox">
                                     <input
                                         checked={!isVendor}
@@ -221,7 +221,7 @@ function Register() {
                                         I am a customer
                                     </label>
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div className="form-group">
                                 <div className="ps-checkbox">
@@ -244,7 +244,13 @@ function Register() {
                             <div className="form-group submit">
                                 <button
                                     type="submit"
-                                    className="ps-btn ps-btn--fullwidth">
+                                    className="ps-btn ps-btn--fullwidth"
+                                    style={
+                                        {
+                                            borderRadius:"15px"
+                                        }
+                                    }
+                                    >
                                     {isLoading ? (
                                         <img
                                             src={require('../../../public/static/img/Interwind-loader.svg')}
@@ -259,8 +265,8 @@ function Register() {
                             </div>
                         </div>
                         <div className="ps-form__footer">
-                            <p>Connect with:</p>
-                            <ul className="ps-list--social">
+                            {/* <p>Connect with:</p> */}
+                            {/* <ul className="ps-list--social">
                                 <li>
                                     <a className="facebook" href="#">
                                         <i className="fa fa-facebook"></i>
@@ -281,7 +287,7 @@ function Register() {
                                         <i className="fa fa-instagram"></i>
                                     </a>
                                 </li>
-                            </ul>
+                            </ul> */}
                         </div>
                     </div>
                 </Form>
