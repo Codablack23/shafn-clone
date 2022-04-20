@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ContainerDefault from "~/components/layouts/ContainerDefault";
 import Pagination from "~/components/elements/basic/Pagination";
 import TableProjectItems from "~/components/shared/tables/TableProjectItems";
-import { Select, notification } from "antd";
+import { Select, Spin } from "antd";
 import Link from "next/link";
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
 import { connect, useDispatch } from "react-redux";
 import { toggleDrawerMenu } from "~/store/app/action";
+import { CustomModal } from "~/components/elements/custom/index";
 
 const { Option } = Select;
 const ProductPage = () => {
@@ -17,6 +18,9 @@ const ProductPage = () => {
   }, []);
   return (
     <ContainerDefault title="Products">
+      <CustomModal isOpen={false}>
+        <Spin />
+      </CustomModal>
       <HeaderDashboard title="Products" description="ShafN Product Listing " />
       <section className="ps-items-listing">
         <div className="ps-section__actions">

@@ -14,7 +14,7 @@ const nextSettings = {
         title: 'ShafN',
         titleDescription: 'ShafN We are here to serve you',
         username: 'floppiessofficial@gmail.com',
-        password: 'ShafN2021',
+        password: '_1511sf$1@/2',
     },
 };
 
