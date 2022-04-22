@@ -611,6 +611,7 @@ class ProductRepository {
     const response = axios
       .get(`${WPDomain}/wp-json/wc/v3/products/categories`, config)
       .then((res) => {
+        console.log(res.data)
         return res.data;
       })
       .catch((err) => {

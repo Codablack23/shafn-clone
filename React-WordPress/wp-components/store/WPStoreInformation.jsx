@@ -4,6 +4,8 @@ import Rating from '~/components/elements/Rating';
 const WPStoreInformation = ({ store }) => {
     // views
     let storeBannerView;
+    let storeGravatarView;
+
     if (store.banner) {
         storeBannerView = <img src={store.banner} alt={store.store_name} />;
     } else {
@@ -12,9 +14,18 @@ const WPStoreInformation = ({ store }) => {
         );
     }
 
+    if (store.gravatar) {
+        storeGravatarView = <img src={store.gravatar} alt={store.store_name} />;
+    } else {
+        storeGravatarView = (
+            <img src="/static/img/vendor/vendor-store.jpg" alt="martfury" />
+        );
+    }
+
     return (
         <div className="ps-block--vendor">
             <div className="ps-block__thumbnail">{storeBannerView}</div>
+            <div className="ps-block__thumbnail">{storeGravatarView}</div>
             <div className="ps-block__container">
                 <div className="ps-block__header">
                     <h4>{store.store_name}</h4>
