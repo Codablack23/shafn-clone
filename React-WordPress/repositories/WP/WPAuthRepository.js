@@ -89,7 +89,12 @@ class WPAuthRepository {
         try {
             let user = await axios.post(
                 `${WPDomain}/wp-json/jwt-auth/v1/token`,
-                loginData
+                loginData,
+                {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                    },
+                }
             );
 
             if (user.data.user_role[0] === 'customer') {
@@ -103,6 +108,7 @@ class WPAuthRepository {
             }
             setIsLoading(false);
         } catch (err) {
+            console.log(err);
             notification['error']({
                 message: 'Login Failed',
                 description:

@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Form, Input } from 'antd';
 import { login } from '../../../store/auth/action';
 import { useDispatch } from 'react-redux';
 import WPAuthRepository from '~/repositories/WP/WPAuthRepository';
+import FacebookLogin from 'react-facebook-login';
+import { GoogleLogin } from 'react-google-login';
+// import { gapi } from 'gapi-script';
 
 function Register() {
     const dispatch = useDispatch();
@@ -55,6 +58,17 @@ function Register() {
             setIsLoading
         );
     };
+
+    // useEffect(() => {
+    //     const start = () => {
+    //         gapi.client.init({
+    //             clientId: process.env.google_clientID,
+    //             scope: '',
+    //         });
+    //     };
+
+    //     gapi.load('client:auth2', start);
+    // });
 
     return (
         <div className="ps-my-account">
@@ -262,6 +276,65 @@ function Register() {
                             </div>
                         </div>
                         <div className="ps-form__footer">
+                            <div className="or">
+                                <hr />
+                                <p>OR</p>
+                                <hr />
+                            </div>
+                            <ul className="social-links">
+                                <GoogleLogin
+                                    clientId={process.env.google_clientID}
+                                    render={() => (
+                                        <li>
+                                            <a
+                                                className="google handles"
+                                                href="#">
+                                                <span>
+                                                    <img
+                                                        style={{
+                                                            objectFit:
+                                                                'contain',
+                                                        }}
+                                                        src="/icons/google.svg"
+                                                    />
+                                                </span>
+                                                <span>
+                                                    Continue With Google
+                                                </span>
+                                            </a>
+                                        </li>
+                                    )}
+                                    // onSuccess={(res) =>
+                                    //     console.log('Success: ', res)
+                                    // }
+                                    // onFailure={(res) =>
+                                    //     console.log('Failure: ', res)
+                                    // }
+                                    cookiePolicy={'single_host_origin'}
+                                />
+
+                                <FacebookLogin
+                                    appId={process.env.fb_appID}
+                                    autoLoad={true}
+                                    fields="name,email,picture"
+                                    onClick={(res) =>
+                                        console.log('FB_Click: ', res)
+                                    }
+                                    callback={(res) =>
+                                        console.log('FB_Result: ', res)
+                                    }
+                                />
+
+                                {/* <li>
+                                    <a className="facebook handles" href="#">
+                                        <span>
+                                            <i className="fa fa-facebook w3-text-blue"></i>
+                                        </span>
+                                        <span>Continue With Facebook</span>
+                                    </a>
+                                </li> */}
+                            </ul>
+
                             {/* <p>Connect with:</p> */}
                             {/* <ul className="ps-list--social">
                                 <li>
