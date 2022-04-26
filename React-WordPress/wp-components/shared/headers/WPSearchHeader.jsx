@@ -96,7 +96,8 @@ const WPSearchHeader = () => {
 
     function handleSubmit(e) {
         e.preventDefault();
-        Router.push(`/search?keyword=${keyword}`);
+        // Router.push();
+        location.assign(`/search?keyword=${keyword}`)
     }
 
     useEffect(() => {
