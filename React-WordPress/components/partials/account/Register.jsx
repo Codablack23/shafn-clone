@@ -315,7 +315,6 @@ function Register() {
 
                                 <FacebookLogin
                                     appId={process.env.fb_appID}
-                                    autoLoad={true}
                                     fields="name,email,picture"
                                     onClick={(res) =>
                                         console.log('FB_Click: ', res)
