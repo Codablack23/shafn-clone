@@ -39,11 +39,11 @@ const Index = () => {
     return (
         <WPLayoutHomeDefault title="Multipurpose Marketplace React Ecommerce Template">
             <HomeBanner />
-            <SiteFeatures />
+            {/* <SiteFeatures /> */}
             <WPDealOfDay />
             <HomeAdsColumns />
             <HomeDefaultTopCategories />
-            <HomeAds />
+            {/* <HomeAds /> */}
             <WPProductList categoryID={202} title="Clothing & Apparel" />
             <WPProductList categoryID={205} title="Consumer Electronics" />
             <WPProductList categoryID={203} title="Home, Garden & Kitchen" />
