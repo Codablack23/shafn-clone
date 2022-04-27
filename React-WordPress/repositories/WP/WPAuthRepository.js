@@ -89,12 +89,7 @@ class WPAuthRepository {
         try {
             let user = await axios.post(
                 `${WPDomain}/wp-json/jwt-auth/v1/token`,
-                loginData,
-                {
-                    headers: {
-                        'Access-Control-Allow-Origin': '*',
-                    },
-                }
+                loginData
             );
 
             if (user.data.user_role[0] === 'customer') {
