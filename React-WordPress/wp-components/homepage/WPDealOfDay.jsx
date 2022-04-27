@@ -58,8 +58,11 @@ const WPDealOfDay = () => {
         <div className="ps-deal-of-day">
             <div className="ps-container">
                 <div className="ps-section__header">
-                    <div className="ps-block--countdown-deal">
-                        {/* <div className="ps-block__left">
+                    <Link href="/shop">
+                        <a>View all</a>
+                    </Link>
+                    {/* <div className="ps-block--countdown-deal"> */}
+                    {/* <div className="ps-block__left">
                             <h3>Deal of the day</h3>
                         </div>
                         <div className="ps-block__right">
@@ -71,11 +74,8 @@ const WPDealOfDay = () => {
                                 />
                             </figure>
                         </div> */}
-                        <Link href="/shop">
-                        <a>View all</a>
-                    </Link>
-                    </div>
-                    
+
+                    {/* </div> */}
                 </div>
                 <div className="ps-section__content">{productItemsView}</div>
             </div>

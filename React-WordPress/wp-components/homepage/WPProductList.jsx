@@ -109,14 +109,14 @@ const WPProductList = ({ categoryID, title }) => {
             <div className="ps-container">
                 <div className="ps-section__header">
                     <h3>{title}</h3>
-                    <ul className="ps-section__links">
+                    {/* <ul className="ps-section__links">
                         {sectionLinksView}
                         <li>
                             <Link href={`/shop?category=${categoryID}`}>
                                 <a>View All</a>
                             </Link>
                         </li>
-                    </ul>
+                    </ul> */}
                 </div>
                 <div className="ps-section__content">{productItemsView}</div>
             </div>

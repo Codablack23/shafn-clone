@@ -167,6 +167,7 @@
         position: relative;
         overflow: hidden;
         transition: all 0.5s;
+        margin-top: 20px;
 
         a {
             display: block;
@@ -255,12 +256,6 @@
 
     @include media('<sm') {
         padding: 0;
-
-        .ps-product__thumbnail {
-            img {
-                height: 100px;
-            }
-        }
     }
 }
 
