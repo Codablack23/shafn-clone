@@ -14,9 +14,10 @@ const WPDealOfDay = () => {
     async function getSectionProducts() {
         const params = {
             pages: 1,
-            per_page: 8,
+            per_page: 15,
         };
         const WPProducts = await WPProductRepository.getProducts(params);
+
         if (WPProducts) {
             setTimeout(function () {
                 setLoading(false);
@@ -57,12 +58,12 @@ const WPDealOfDay = () => {
     return (
         <div className="ps-deal-of-day">
             <div className="ps-container">
-                <div className="ps-section__header">
+                {/* <div className="ps-section__header">
                     <Link href="/shop">
                         <a>View all</a>
-                    </Link>
-                    {/* <div className="ps-block--countdown-deal"> */}
-                    {/* <div className="ps-block__left">
+                    </Link> */}
+                {/* <div className="ps-block--countdown-deal"> */}
+                {/* <div className="ps-block__left">
                             <h3>Deal of the day</h3>
                         </div>
                         <div className="ps-block__right">
@@ -75,8 +76,9 @@ const WPDealOfDay = () => {
                             </figure>
                         </div> */}
 
-                    {/* </div> */}
-                </div>
+                {/* </div> */}
+                {/* </div> */}
+                <hr />
                 <div className="ps-section__content">{productItemsView}</div>
             </div>
         </div>

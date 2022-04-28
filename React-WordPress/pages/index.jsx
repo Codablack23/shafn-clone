@@ -44,9 +44,9 @@ const Index = () => {
             <HomeAdsColumns />
             <HomeDefaultTopCategories />
             {/* <HomeAds /> */}
-            <WPProductList categoryID={202} title="Clothing & Apparel" />
-            <WPProductList categoryID={205} title="Consumer Electronics" />
-            <WPProductList categoryID={203} title="Home, Garden & Kitchen" />
+            <WPProductList categoryID={21} title="Art" />
+            <WPProductList categoryID={24} title="Clothes" />
+            <WPProductList categoryID={70} title="Clothing" />
             {/* <DownLoadApp /> */}
             <WPNewArrivals />
             <Newletters />
