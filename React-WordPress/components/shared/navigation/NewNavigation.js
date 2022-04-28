@@ -1,5 +1,5 @@
-import Link from 'next/link'
-import ProductRepository from '~/repositories/ProductRepository'
+import Link from 'next/link';
+import ProductRepository from '~/repositories/ProductRepository';
 
 const Categories = [
  {id: 70, name: 'Clothing', slug: 'clothing',} ,
@@ -15,28 +15,29 @@ const Categories = [
  
 ]
 
- async function getProducts(){
-  console.log(await ProductRepository.getProductCategories())
-}
+
+// async function getProducts() {
+//     console.log(await ProductRepository.getProductCategories());
+// }
 
  export default function HeaderNav(){
     return(
         <nav className="custom--navigation">
             <ul className="nav--list nav--center">
-               <li>
-                 <Link href="/shop">
-                 <a  className="nav--link shop">Shop</a>
-                 </Link>
-               </li>
-              {Categories.length > 0 ?
-                  Categories.map(category=>(
-                  <li>
-                    <Link href={`/shop/?category=${category.id}`}>
-                    <a  className="nav--link">{category.name}</a>
+                <li>
+                    <Link href="/shop">
+                        <a className="nav--link shop">Shop</a>
                     </Link>
-                   </li>   
-                  ))
-                 :null}
+                </li>
+                {Categories.length > 0
+                    ? Categories.map((category) => (
+                          <li>
+                              <Link href={`/shop/?category=${category.id}`}>
+                                  <a className="nav--link">{category.name}</a>
+                              </Link>
+                          </li>
+                      ))
+                    : null}
             </ul>
             {/* <ul className="nav--list nav--right">
              <li>
@@ -51,5 +52,5 @@ const Categories = [
              </li>
             </ul> */}
         </nav>
-    )
+    );
 }

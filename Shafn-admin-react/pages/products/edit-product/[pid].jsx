@@ -98,10 +98,12 @@ const EditProductPage = ({ pid }) => {
   const [newTag, setNewTag] = useState("");
   const [attributes, setAttributes] = useState([]);
   const [variations, setVariations] = useState([]);
-  const [viewProducts, setViewProducts] = useState(false);
+
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
+
+  const [viewProducts, setViewProducts] = useState(false);
   const [index, setIndex] = useState("");
   const [showNewTagInputField, setShowNewTagInputField] = useState(false);
   const [isPriceValid, setIsPriceValid] = useState(true);
@@ -109,7 +111,6 @@ const EditProductPage = ({ pid }) => {
     status: "",
     progress: 0,
   });
-  const [showNewTagInputField, setShowNewTagInputField] = useState(false);
 
   const handleInputChange = (e) => {
     let name = e.target.name;
@@ -205,7 +206,8 @@ const EditProductPage = ({ pid }) => {
     }
   };
 
-  const removeImage = (id) => {
+  const removeImage = (e, id) => {
+    e.stopPropagation();
     setSelectedImages((current) => current.filter((img) => img.id !== id));
     setImageFiles((current) => current.filter((img) => img.id !== id));
   };
@@ -250,8 +252,8 @@ const EditProductPage = ({ pid }) => {
                   <span>Add A Photo</span>
                   <br />
                   <i
-                    className="fa fa-file-image-o "
-                    style={{ fontSize: 38 }}
+                    className="fa fa-file-image-o text-secondary"
+                    style={{ fontSize: 38, marginTop: 10, marginBottom: 10 }}
                     aria-hidden="true"
                   ></i>
                   <br />
@@ -277,9 +279,8 @@ const EditProductPage = ({ pid }) => {
                 <div
                   className="ps-btn ps-btn--sm"
                   style={styles.imageDel}
-                  onClick={() => {
-                    removeImage(image.id);
-                    setIndex(i - (1 % selectedImages.length));
+                  onClick={(e) => {
+                    removeImage(e, image.id);
                   }}
                 >
                   <i
