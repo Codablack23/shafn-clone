@@ -96,7 +96,8 @@ const WPSearchHeader = () => {
 
     function handleSubmit(e) {
         e.preventDefault();
-        Router.push(`/search?keyword=${keyword}`);
+        // Router.push();
+        location.assign(`/search?keyword=${keyword}`)
     }
 
     useEffect(() => {
@@ -197,8 +198,8 @@ const WPSearchHeader = () => {
                     placeholder="I'm shopping for..."
                     onChange={(e) => setKeyword(e.target.value)}
                 />
-                {clearTextView}
-                {loadingView}
+                {/* {clearTextView}
+                {loadingView} */}
             </div>
             <button
                 onClick={handleSubmit}
@@ -213,13 +214,13 @@ const WPSearchHeader = () => {
                     aria-hidden="true"
                     style={{ fontSize: '20px' }}></i>
             </button>
-            <div
+            {/* <div
                 className={`ps-panel--search-result${
                     isSearch ? ' active ' : ''
                 }`}>
                 <div className="ps-panel__content">{productItemsView}</div>
                 {loadMoreView}
-            </div>
+            </div> */}
         </form>
     );
 };

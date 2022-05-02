@@ -113,6 +113,7 @@ const EditProductPage = ({ pid }) => {
     status: "",
     progress: 0,
   });
+  const [showNewTagInputField, setShowNewTagInputField] = useState(false);
 
   const handleInputChange = (e) => {
     let name = e.target.name;
@@ -728,7 +729,7 @@ const EditProductPage = ({ pid }) => {
                         />
 
                         <button
-                          className="ps-btn ps-btn--gray"
+                          className="ps-btn mt-4"
                           onClick={() => setShowNewTagInputField(true)}
                         >
                           Add New
@@ -829,49 +830,47 @@ const EditProductPage = ({ pid }) => {
 
       {/* New Tag Input Field */}
       <CustomModal isOpen={showNewTagInputField}>
-        <div className="row">
+      <div className="row">
           <div className="col-12 col-md-3"></div>
           <div className="col-12 col-md-6">
-            <div
-              className="form-group bg-white p-5"
-              style={{
-                borderRadius: "7px",
-                width: "95%",
-                margin: "100px auto 0 auto",
-              }}
-            >
-              <label
-                style={{
-                  fontSize: "18px",
-                  fontWeight: "500",
-                }}
-              >
-                New Tag<sup>*</sup>
-              </label>
-              <input
-                name="new tag"
-                className="form-control"
-                type="text"
-                value={newTag}
-                onChange={(e) => setNewTag(e.target.value)}
-              />
-              <br />
+          <div
+          className="form-group bg-white p-5"
+          style={{
+            borderRadius:"7px",
+            width:'95%',
+            margin:'100px auto 0 auto'
+          }}
+        >
+        <label style={
+        {
+          fontSize:"18px",
+          fontWeight:"500"
+        }
+        }>
+            New Tag<sup>*</sup>
+          </label>
+          <input
+            name="new tag"
+            className="form-control"
+            type="text"
+            value={newTag}
+            onChange={(e) => setNewTag(e.target.value)}
+          /><br/>
+         <div class="d-flex w-100 justify-content-around">
+          <button
+            className="ps-btn"
+            onClick={() => setShowNewTagInputField(false)}
+          >
+            Cancel
+          </button>
 
-              <div class="d-flex w-100 justify-content-around">
-                <button
-                  className="ps-btn"
-                  onClick={() => setShowNewTagInputField(false)}
-                >
-                  Cancel
-                </button>
-
-                <button className="ps-btn ps-btn--gray" onClick={addTag}>
-                  Add
-                </button>
-              </div>
-            </div>
+          <button className="ps-btn ps-btn--gray" onClick={addTag}>
+            Add
+          </button>
           </div>
-          <div className="col-12 col-md-3"></div>
+        </div>
+        </div>
+        <div className="col-12 col-md-3"></div>
         </div>
       </CustomModal>
     </ContainerDefault>
