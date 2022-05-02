@@ -728,7 +728,7 @@ const EditProductPage = ({ pid }) => {
                         />
 
                         <button
-                          className="ps-btn ps-btn--gray"
+                          className="ps-btn mt-4"
                           onClick={() => setShowNewTagInputField(true)}
                         >
                           Add New
@@ -856,7 +856,6 @@ const EditProductPage = ({ pid }) => {
                 onChange={(e) => setNewTag(e.target.value)}
               />
               <br />
-
               <div class="d-flex w-100 justify-content-around">
                 <button
                   className="ps-btn"

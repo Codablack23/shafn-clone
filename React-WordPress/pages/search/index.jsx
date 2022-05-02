@@ -60,6 +60,9 @@ const WPSearchPage = ({ query }) => {
                     250
                 );
             }
+            else{
+                setLoading(false);
+            }
         }
 
         /* router.events.on('routeChangeStart', getProductOnChangeURL);
