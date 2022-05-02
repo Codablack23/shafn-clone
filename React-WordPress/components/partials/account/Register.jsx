@@ -4,7 +4,7 @@ import { Form, Input } from 'antd';
 import { login } from '../../../store/auth/action';
 import { useDispatch } from 'react-redux';
 import WPAuthRepository from '~/repositories/WP/WPAuthRepository';
-import FacebookLogin from 'react-facebook-login';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { GoogleLogin } from 'react-google-login';
 // import { gapi } from 'gapi-script';
 
@@ -159,6 +159,7 @@ function Register() {
                                 </Form.Item>
                             </div>
 
+                            {/* Extra data from vendors only */}
                             {isVendor && (
                                 <>
                                     <div className="form-group">
@@ -315,23 +316,31 @@ function Register() {
 
                                 <FacebookLogin
                                     appId={process.env.fb_appID}
+                                    // autoLoad={true}
                                     fields="name,email,picture"
-                                    onClick={(res) =>
-                                        console.log('FB_Click: ', res)
-                                    }
-                                    callback={(res) =>
-                                        console.log('FB_Result: ', res)
-                                    }
+                                    onClick={(res) => {
+                                        console.log('FB_Click: ');
+                                        console.log(res);
+                                    }}
+                                    callback={(res) => {
+                                        console.log('FB_Result: ');
+                                        console.log(res);
+                                    }}
+                                    render={(renderProps) => (
+                                        <li>
+                                            <a
+                                                className="facebook handles"
+                                                href="#">
+                                                <span>
+                                                    <i className="fa fa-facebook w3-text-blue"></i>
+                                                </span>
+                                                <span>
+                                                    Continue With Facebook
+                                                </span>
+                                            </a>
+                                        </li>
+                                    )}
                                 />
-
-                                {/* <li>
-                                    <a className="facebook handles" href="#">
-                                        <span>
-                                            <i className="fa fa-facebook w3-text-blue"></i>
-                                        </span>
-                                        <span>Continue With Facebook</span>
-                                    </a>
-                                </li> */}
                             </ul>
 
                             {/* <p>Connect with:</p> */}

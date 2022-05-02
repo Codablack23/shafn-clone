@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { login } from '../../../store/auth/action';
 import WPAuthRepository from '~/repositories/WP/WPAuthRepository';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import { GoogleLogin } from 'react-google-login';
 
 import { Form, Input, notification } from 'antd';
 import { connect, useDispatch } from 'react-redux';
@@ -37,7 +39,7 @@ function Login() {
     };
 
     return (
-        <div className="ps-my-account" style={{ paddingTop: 10}}>
+        <div className="ps-my-account" style={{ paddingTop: 10 }}>
             <div className="container">
                 <Form
                     className="ps-form--account"
@@ -115,10 +117,8 @@ function Login() {
                                     type="submit"
                                     className="ps-btn ps-btn--fullwidth"
                                     style={{
-                                        borderRadius:"15px"
-                                    }}
-                                    >
-                                  
+                                        borderRadius: '15px',
+                                    }}>
                                     {isLoading ? (
                                         <img
                                             src={require('../../../public/static/img/Interwind-loader.svg')}
@@ -133,38 +133,71 @@ function Login() {
                             </div>
                         </div>
                         <div className="ps-form__footer">
-                            <div className='or'>
-                                <hr/>
-                                  <p>OR</p>
-                                <hr/>
+                            <div className="or">
+                                <hr />
+                                <p>OR</p>
+                                <hr />
                             </div>
                             <ul className="social-links">
-                                <li>
-                                    <a
-                                        className="google handles"
-                                        href="#"
-                                        onClick={handleFeatureWillUpdate}>
-                                        <span>  
-                                            <img
-                                            style={
-                                                {
-                                                    objectFit:"contain"
-                                                }
-                                            }
-                                            src='/icons/google.svg'/>
-                                        </span>
-                                        <span>Continue With Google</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                    className="facebook handles"
-                                    href="#"
-                                    onClick={handleFeatureWillUpdate}>
-                                      <span><i className="fa fa-facebook w3-text-blue"></i></span>
-                                      <span>Continue With Facebook</span>
-                                    </a>
-                                </li>
+                                <GoogleLogin
+                                    clientId={process.env.google_clientID}
+                                    render={() => (
+                                        <li>
+                                            <a
+                                                className="google handles"
+                                                href="#">
+                                                <span>
+                                                    <img
+                                                        style={{
+                                                            objectFit:
+                                                                'contain',
+                                                        }}
+                                                        src="/icons/google.svg"
+                                                    />
+                                                </span>
+                                                <span>
+                                                    Continue With Google
+                                                </span>
+                                            </a>
+                                        </li>
+                                    )}
+                                    // onSuccess={(res) =>
+                                    //     console.log('Success: ', res)
+                                    // }
+                                    // onFailure={(res) =>
+                                    //     console.log('Failure: ', res)
+                                    // }
+                                    cookiePolicy={'single_host_origin'}
+                                />
+
+                                <FacebookLogin
+                                    appId={process.env.fb_appID}
+                                    // autoLoad={true}
+                                    fields="name,email,picture"
+                                    onClick={(res) => {
+                                        console.log('FB_Click: ');
+                                        console.log(res);
+                                    }}
+                                    callback={(res) => {
+                                        console.log('FB_Result: ');
+                                        console.log(res);
+                                    }}
+                                    render={(renderProps) => (
+                                        <li>
+                                            <a
+                                                className="facebook handles"
+                                                href="#">
+                                                <span>
+                                                    <i className="fa fa-facebook w3-text-blue"></i>
+                                                </span>
+                                                <span>
+                                                    Continue With Facebook
+                                                </span>
+                                            </a>
+                                        </li>
+                                    )}
+                                />
+
                                 {/* <li>
                                     <a
                                         className="twitter"

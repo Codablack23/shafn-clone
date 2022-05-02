@@ -203,6 +203,7 @@ const CreateProductPage = () => {
                     style={{ fontSize: 38, marginTop: 10, marginBottom: 10 }}
                     aria-hidden="true"
                   ></i>
+                  <br />
                   {i === 0 ? <p>Primary</p> : null}
                 </label>
               </>
