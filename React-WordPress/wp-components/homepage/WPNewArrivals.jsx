@@ -78,14 +78,14 @@ const WPNewArrivals = () => {
             <div className="ps-container">
                 <div className="ps-section__header">
                     <h3>Hot New Arrivals</h3>
-                    <ul className="ps-section__links">
+                    {/* <ul className="ps-section__links">
                         {categoriedView}
                         <li>
                             <Link href="/shop">
                                 <a>View All</a>
                             </Link>
                         </li>
-                    </ul>
+                    </ul> */}
                 </div>
                 <div className="ps-section__content">
                     <div className="row">{productsView}</div>

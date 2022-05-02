@@ -125,7 +125,7 @@ const FormAccountSettings = () => {
         let formData = new FormData();
         formData.append("file", profileImageFile);
 
-        // Upload Image
+        // Upload Profile Image
         profileImage = await axios
           .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
           .then((res) => res.data);

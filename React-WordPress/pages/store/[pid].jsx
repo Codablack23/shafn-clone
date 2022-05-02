@@ -49,6 +49,7 @@ const WPStorePage = ({ query }) => {
 
     // Views
     let storeInformationView, storeProductsView;
+
     if (!loading) {
         storeInformationView = <WPStoreInformation store={storeProfile} />;
         if (storeProducts) {

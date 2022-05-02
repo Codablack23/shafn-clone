@@ -14,7 +14,7 @@ import Select from "react-select";
 import "react-image-lightbox/style.css";
 import "suneditor/dist/css/suneditor.min.css";
 
-import { CustomModal} from "~/components/elements/custom/index";
+import { CustomModal } from "~/components/elements/custom/index";
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
 });
@@ -90,7 +90,6 @@ const CreateProductPage = () => {
   const [viewProducts, setViewProducts] = useState(false);
   const [isPriceValid, setIsPriceValid] = useState(true);
   const [showNewTagInputField, setShowNewTagInputField] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const [uploading, setUploading] = useState({
     status: "",
@@ -153,7 +152,8 @@ const CreateProductPage = () => {
     }
   };
 
-  const removeImage = (id) => {
+  const removeImage = (e, id) => {
+    e.stopPropagation();
     setSelectedImages((current) => current.filter((img) => img.id !== id));
     setImageFiles((current) => current.filter((img) => img.id !== id));
   };
@@ -203,12 +203,8 @@ const CreateProductPage = () => {
                     style={{ fontSize: 38, marginTop: 10, marginBottom: 10 }}
                     aria-hidden="true"
                   ></i>
-                  {i === 0 ? (
-                    <span>
-                      {" "}
-                      <span>Primary</span>
-                    </span>
-                  ) : null}
+                  <br />
+                  {i === 0 ? <p>Primary</p> : null}
                 </label>
               </>
             ) : (
@@ -233,9 +229,8 @@ const CreateProductPage = () => {
                 <div
                   className="btn fw-5 p-3"
                   style={styles.imageDel}
-                  onClick={() => {
-                    removeImage(image.id);
-                    setIndex(i - (1 % selectedImages.length));
+                  onClick={(e) => {
+                    removeImage(e, image.id);
                   }}
                 >
                   <i
@@ -256,7 +251,7 @@ const CreateProductPage = () => {
   };
 
   const addTag = async () => {
-    setShowNewTagInputField(false)
+    setShowNewTagInputField(false);
     try {
       let tag = await ProductRepository.addTag(newTag);
 
@@ -497,10 +492,9 @@ const CreateProductPage = () => {
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                 <figure className="ps-block--form-box">
                   <figcaption>Product Images</figcaption>
-                    <div className="pt-3" style={styles.filesStyles}>
-                      {renderProductImages(9)}
-                    </div>
-
+                  <div className="pt-3" style={styles.filesStyles}>
+                    {renderProductImages(9)}
+                  </div>
                 </figure>
                 <figure className="ps-block--form-box">
                   <figcaption>Inventory</figcaption>
@@ -588,10 +582,9 @@ const CreateProductPage = () => {
       <CustomModal isOpen={uploading.status ? true : false}>
         <div
           style={{
-            margin:"100px auto 0 auto",
+            margin: "100px auto 0 auto",
             minWidth: "400px",
-            maxWidth:"600px",
-            
+            maxWidth: "600px",
           }}
         >
           <p className="text-center text-white">{uploading.status}</p>
@@ -600,50 +593,50 @@ const CreateProductPage = () => {
       </CustomModal>
       {/* New Tag Input Field */}
       <CustomModal isOpen={showNewTagInputField}>
-       <div className="row">
+        <div className="row">
           <div className="col-12 col-md-3"></div>
           <div className="col-12 col-md-6">
-          <div
-          className="form-group bg-white p-5"
-          style={{
-            borderRadius:"7px",
-            width:'95%',
-            margin:'100px auto 0 auto'
-          }}
-        >
-          <label style={
-            {
-              fontSize:"18px",
-              fontWeight:"500"
-            }
-          }>
-            New Tag<sup>*</sup>
-          </label>
-          <input
-            name="new tag"
-            className="form-control"
-            type="text"
-            value={newTag}
-            onChange={(e) => setNewTag(e.target.value)}
-          /><br/>
+            <div
+              className="form-group bg-white p-5"
+              style={{
+                borderRadius: "7px",
+                width: "95%",
+                margin: "100px auto 0 auto",
+              }}
+            >
+              <label
+                style={{
+                  fontSize: "18px",
+                  fontWeight: "500",
+                }}
+              >
+                New Tag<sup>*</sup>
+              </label>
+              <input
+                name="new tag"
+                className="form-control"
+                type="text"
+                value={newTag}
+                onChange={(e) => setNewTag(e.target.value)}
+              />
+              <br />
 
-         <div class="d-flex w-100 justify-content-around">
-         <button
-            className="ps-btn"
-            onClick={() => setShowNewTagInputField(false)}
-          >
-            Cancel
-          </button>
+              <div class="d-flex w-100 justify-content-around">
+                <button
+                  className="ps-btn"
+                  onClick={() => setShowNewTagInputField(false)}
+                >
+                  Cancel
+                </button>
 
-          <button className="ps-btn ps-btn--gray" onClick={addTag}>
-            Add
-          </button>
-         </div>
-        </div>
+                <button className="ps-btn ps-btn--gray" onClick={addTag}>
+                  Add
+                </button>
+              </div>
+            </div>
           </div>
           <div className="col-12 col-md-3"></div>
-       </div>
-
+        </div>
       </CustomModal>
     </ContainerDefault>
   );

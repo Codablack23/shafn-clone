@@ -8,7 +8,6 @@ import WPNavigationDefault from '~/wp-components/shared/navigations/WPNavigation
 import WPHeaderActions from '~/wp-components/shared/headers/WPHeaderActions';
 import WPSearchHeader from '~/wp-components/shared/headers/WPSearchHeader';
 
-
 const WPHeaderDefault = () => {
     useEffect(() => {
         if (process.browser) {
@@ -35,7 +34,7 @@ const WPHeaderDefault = () => {
                 </div>
             </div>
             {/* <WPNavigationDefault /> */}
-            <HeaderNav/>
+            <HeaderNav />
         </header>
     );
 };

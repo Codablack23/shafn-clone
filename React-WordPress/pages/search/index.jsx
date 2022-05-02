@@ -107,9 +107,9 @@ const WPSearchPage = ({ query }) => {
             <div className="ps-page--shop">
                 <div className="container">
                     <section className="ps-search-result">
-                        <div className="ps-section__header">
+                        {/* <div className="ps-section__header">
                             <h3>Result for: "{keyword}"</h3>
-                        </div>
+                        </div> */}
                         <div className="ps-section__content">
                             {producItemView}
                         </div>
