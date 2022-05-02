@@ -1,47 +1,46 @@
-import Link from 'next/link'
-import ProductRepository from '~/repositories/ProductRepository'
+import Link from 'next/link';
+import ProductRepository from '~/repositories/ProductRepository';
 
 const Categories = [
- {id: 70, name: 'Clothing', slug: 'clothing',} ,
- {id: 73, name: 'Beauty & Cosmetics', slug: 'beauty-cosmetic',} ,
- {id: 74, name: 'Books', slug: 'books',} ,
- {id: 17, name: 'Accessories', slug: 'jewelry-accessories',} ,
- {id: 21, name: 'Art', slug: 'art',} ,
+    { id: 70, name: 'Clothing', slug: 'clothing' },
+    { id: 73, name: 'Beauty & Cosmetics', slug: 'beauty-cosmetic' },
+    { id: 74, name: 'Books', slug: 'books' },
+    { id: 17, name: 'Accessories', slug: 'jewelry-accessories' },
+    { id: 21, name: 'Art', slug: 'art' },
 
- {id: 78, name: 'Bath & Body', slug: 'bath-body', },
- 
- {id: 77, name: 'Beauty Sets', slug: 'beauty-sets', },
+    { id: 78, name: 'Bath & Body', slug: 'bath-body' },
 
- {id: 67, name: 'Canvas', slug: 'canvas', },
- {id: 24, name: 'Clothes', slug: 'clothes', },
+    { id: 77, name: 'Beauty Sets', slug: 'beauty-sets' },
 
- {id: 79, name: 'Essential Oils', slug: 'essential-oils'}, 
- 
-]
+    { id: 67, name: 'Canvas', slug: 'canvas' },
+    { id: 24, name: 'Clothes', slug: 'clothes' },
 
- async function getProducts(){
-  console.log(await ProductRepository.getProductCategories())
-}
+    { id: 79, name: 'Essential Oils', slug: 'essential-oils' },
+];
 
- export default function HeaderNav(){
-     getProducts()
-    return(
+// async function getProducts() {
+//     console.log(await ProductRepository.getProductCategories());
+// }
+
+export default function HeaderNav() {
+    // getProducts();
+    return (
         <nav className="custom--navigation">
             <ul className="nav--list nav--center">
-               <li>
-                 <Link href="/shop">
-                 <a  className="nav--link shop">Shop</a>
-                 </Link>
-               </li>
-              {Categories.length > 0 ?
-                  Categories.map(category=>(
-                  <li>
-                    <Link href={`/shop/?category=${category.id}`}>
-                    <a  className="nav--link">{category.name}</a>
+                <li>
+                    <Link href="/shop">
+                        <a className="nav--link shop">Shop</a>
                     </Link>
-                   </li>   
-                  ))
-                 :null}
+                </li>
+                {Categories.length > 0
+                    ? Categories.map((category) => (
+                          <li>
+                              <Link href={`/shop/?category=${category.id}`}>
+                                  <a className="nav--link">{category.name}</a>
+                              </Link>
+                          </li>
+                      ))
+                    : null}
             </ul>
             {/* <ul className="nav--list nav--right">
              <li>
@@ -56,5 +55,5 @@ const Categories = [
              </li>
             </ul> */}
         </nav>
-    )
+    );
 }
