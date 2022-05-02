@@ -26,9 +26,9 @@ class WPCompare extends Component {
         return (
             <div className="ps-compare ps-section--shopping">
                 <div className="container">
-                    <div className="ps-section__header">
+                    {/* <div className="ps-section__header">
                         <h1>Compare Product</h1>
-                    </div>
+                    </div> */}
                     <div className="ps-section__content">
                         {compareItems && compareItems.length === 0 ? (
                             <div className="alert alert-danger" role="alert">
