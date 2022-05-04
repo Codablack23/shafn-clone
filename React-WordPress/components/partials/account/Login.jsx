@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { login } from '../../../store/auth/action';
 import WPAuthRepository from '~/repositories/WP/WPAuthRepository';
@@ -6,7 +6,7 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import { GoogleLogin } from 'react-google-login';
 
 import { Form, Input, notification } from 'antd';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 function Login() {
     const dispatch = useDispatch();
@@ -37,6 +37,15 @@ function Login() {
 
         WPAuthRepository.login(loginData, dispatchLogin, setIsLoading);
     };
+
+    useEffect(() => {
+        const { gapi, loadAuth2 } = require('gapi-script');
+        const loadGoogleAuth = async () => {
+            let auth2 = await loadAuth2(gapi, process.env.google_clientID, '');
+        };
+
+        loadGoogleAuth();
+    }, []);
 
     return (
         <div className="ps-my-account" style={{ paddingTop: 10 }}>
@@ -141,8 +150,19 @@ function Login() {
                             <ul className="social-links">
                                 <GoogleLogin
                                     clientId={process.env.google_clientID}
-                                    render={() => (
-                                        <li>
+                                    jsSrc="https://accounts.google.com/gsi/client"
+                                    uxMode="redirect"
+                                    onSuccess={(res) => {
+                                        console.log('Google_Result: ');
+                                        console.log(res.profileObj);
+                                    }}
+                                    onFailure={(res) => {
+                                        console.log('Google_Failure: ');
+                                        console.log(res);
+                                    }}
+                                    cookiePolicy={'single_host_origin'}
+                                    render={(renderProps) => (
+                                        <li onClick={renderProps.onClick}>
                                             <a
                                                 className="google handles"
                                                 href="#">
@@ -161,29 +181,17 @@ function Login() {
                                             </a>
                                         </li>
                                     )}
-                                    // onSuccess={(res) =>
-                                    //     console.log('Success: ', res)
-                                    // }
-                                    // onFailure={(res) =>
-                                    //     console.log('Failure: ', res)
-                                    // }
-                                    cookiePolicy={'single_host_origin'}
                                 />
 
                                 <FacebookLogin
                                     appId={process.env.fb_appID}
-                                    // autoLoad={true}
                                     fields="name,email,picture"
-                                    onClick={(res) => {
-                                        console.log('FB_Click: ');
-                                        console.log(res);
-                                    }}
                                     callback={(res) => {
                                         console.log('FB_Result: ');
                                         console.log(res);
                                     }}
                                     render={(renderProps) => (
-                                        <li>
+                                        <li onClick={renderProps.onClick}>
                                             <a
                                                 className="facebook handles"
                                                 href="#">

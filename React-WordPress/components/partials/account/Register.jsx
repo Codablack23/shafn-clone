@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux';
 import WPAuthRepository from '~/repositories/WP/WPAuthRepository';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { GoogleLogin } from 'react-google-login';
-// import { gapi } from 'gapi-script';
 
 function Register() {
     const dispatch = useDispatch();
@@ -59,16 +58,14 @@ function Register() {
         );
     };
 
-    // useEffect(() => {
-    //     const start = () => {
-    //         gapi.client.init({
-    //             clientId: process.env.google_clientID,
-    //             scope: '',
-    //         });
-    //     };
+    useEffect(() => {
+        const { gapi, loadAuth2 } = require('gapi-script');
+        const loadGoogleAuth = async () => {
+            let auth2 = await loadAuth2(gapi, process.env.google_clientID, '');
+        };
 
-    //     gapi.load('client:auth2', start);
-    // });
+        loadGoogleAuth();
+    }, []);
 
     return (
         <div className="ps-my-account">
@@ -285,8 +282,19 @@ function Register() {
                             <ul className="social-links">
                                 <GoogleLogin
                                     clientId={process.env.google_clientID}
-                                    render={() => (
-                                        <li>
+                                    jsSrc="https://accounts.google.com/gsi/client"
+                                    uxMode="redirect"
+                                    onSuccess={(res) => {
+                                        console.log('Google_Result: ');
+                                        console.log(res.profileObj);
+                                    }}
+                                    onFailure={(res) => {
+                                        console.log('Google_Failure: ');
+                                        console.log(res);
+                                    }}
+                                    cookiePolicy={'single_host_origin'}
+                                    render={(renderProps) => (
+                                        <li onClick={renderProps.onClick}>
                                             <a
                                                 className="google handles"
                                                 href="#">
@@ -305,29 +313,17 @@ function Register() {
                                             </a>
                                         </li>
                                     )}
-                                    // onSuccess={(res) =>
-                                    //     console.log('Success: ', res)
-                                    // }
-                                    // onFailure={(res) =>
-                                    //     console.log('Failure: ', res)
-                                    // }
-                                    cookiePolicy={'single_host_origin'}
                                 />
 
                                 <FacebookLogin
                                     appId={process.env.fb_appID}
-                                    // autoLoad={true}
                                     fields="name,email,picture"
-                                    onClick={(res) => {
-                                        console.log('FB_Click: ');
-                                        console.log(res);
-                                    }}
                                     callback={(res) => {
                                         console.log('FB_Result: ');
                                         console.log(res);
                                     }}
                                     render={(renderProps) => (
-                                        <li>
+                                        <li onClick={renderProps.onClick}>
                                             <a
                                                 className="facebook handles"
                                                 href="#">
