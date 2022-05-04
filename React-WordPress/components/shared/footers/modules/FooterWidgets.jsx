@@ -29,11 +29,6 @@ const FooterWidgets = () => (
                 </li>
                 <li>
                     <Link href="/page/blank">
-                        <a className="text-white">Term & Condition</a>
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/page/blank">
                         <a className="text-white">Shipping</a>
                     </Link>
                 </li>
@@ -98,33 +93,26 @@ const FooterWidgets = () => (
                     </Link>
                 </li>
                 <p>
-
                     <i className="icon-store"></i>
-                <Link href="/vendors/become-a-vendor">
-                    <a className="text-white">Become A Vendor</a>
-                </Link>
+                    <Link href="/vendors/become-a-vendor">
+                        <a className="text-white">Become A Vendor</a>
+                    </Link>
                 </p>
                 <p>
                     <Link href="/vendors">
                         <a className="text-white">Vendor Stores</a>
                     </Link>
-
                 </p>
                 <p>
                     <Link href="/account/order-tracking">
                         <a className="text-white">Track your order</a>
                     </Link>
                 </p>
-                <p>
 
                 <p>
-                <Link href="/account/register">
-                    <a>Sell on shafN</a>
-                </Link>
-                </p>
-                <Link href="/account/order-tracking">
-                    <a className="text-white">Tract your order</a>
-                </Link>
+                    <Link href="/account/register">
+                        <a>Sell on shafN</a>
+                    </Link>
                 </p>
             </ul>
         </aside>
