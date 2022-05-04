@@ -93,8 +93,7 @@ const FooterWidgets = () => (
                     </Link>
                 </li>
                 <p>
-                    <i className="icon-store"></i>
-                    <Link href="/vendors/become-a-vendor">
+                     <Link href="/vendors/become-a-vendor">
                         <a className="text-white">Become A Vendor</a>
                     </Link>
                 </p>
