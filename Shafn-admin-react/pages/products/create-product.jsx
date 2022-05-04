@@ -90,7 +90,6 @@ const CreateProductPage = () => {
   const [viewProducts, setViewProducts] = useState(false);
   const [isPriceValid, setIsPriceValid] = useState(true);
   const [showNewTagInputField, setShowNewTagInputField] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const [uploading, setUploading] = useState({
     status: "",
@@ -153,7 +152,8 @@ const CreateProductPage = () => {
     }
   };
 
-  const removeImage = (id) => {
+  const removeImage = (e, id) => {
+    e.stopPropagation();
     setSelectedImages((current) => current.filter((img) => img.id !== id));
     setImageFiles((current) => current.filter((img) => img.id !== id));
   };
@@ -203,12 +203,8 @@ const CreateProductPage = () => {
                     style={{ fontSize: 38, marginTop: 10, marginBottom: 10 }}
                     aria-hidden="true"
                   ></i>
-                  {i === 0 ? (
-                    <span>
-                      {" "}
-                      <span>Primary</span>
-                    </span>
-                  ) : null}
+                  <br />
+                  {i === 0 ? <p>Primary</p> : null}
                 </label>
               </>
             ) : (
@@ -233,9 +229,8 @@ const CreateProductPage = () => {
                 <div
                   className="btn fw-5 p-3"
                   style={styles.imageDel}
-                  onClick={() => {
-                    removeImage(image.id);
-                    setIndex(i - (1 % selectedImages.length));
+                  onClick={(e) => {
+                    removeImage(e, image.id);
                   }}
                 >
                   <i

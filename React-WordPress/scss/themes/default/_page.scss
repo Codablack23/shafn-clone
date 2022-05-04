@@ -26,7 +26,7 @@
                 display: block;
             }
         }
-        
+
         .ps-container {
             display: flex;
             height: 100%;
@@ -75,14 +75,14 @@
                 }
             }
         }
-        
+
         @media screen and (max-width: 1200px) {
             .ps-section__left {
                 height: 300px;
             }
         }
 
-        @include media("<xs") {
+        @include media('<xs') {
             .ps-section__left {
                 height: 150px;
             }
@@ -190,4 +190,3 @@
         }
     }
 }
-

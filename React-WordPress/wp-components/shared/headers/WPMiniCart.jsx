@@ -40,11 +40,12 @@ class WPMiniCart extends Component {
                         </h3>
                         <figure>
                             <Link href="/account/shopping-cart">
-                                <a className="ps-btn">View Cart</a>
+                                <a className="w3-orange rounded" style={style}>View Cart</a>
                             </Link>
                             <Link href="/account/checkout">
                                 <a
-                                    className="ps-btn"
+                                    className="w3-orange rounded"
+                                    style={style}
                                     onClick={() =>
                                         this.handleAddToCheckoutItems()
                                     }>
@@ -83,3 +84,9 @@ class WPMiniCart extends Component {
 }
 
 export default connect((state) => state.cart)(WPMiniCart);
+
+const style ={
+    minWidth:"140px",
+    padding:"0.8em",
+    textAlign:"center"
+}

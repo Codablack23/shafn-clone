@@ -103,6 +103,7 @@ class WPAuthRepository {
             }
             setIsLoading(false);
         } catch (err) {
+            console.log(err);
             notification['error']({
                 message: 'Login Failed',
                 description:

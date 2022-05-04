@@ -113,7 +113,7 @@ const WPShopProducts = (props) => {
     return (
         <div className="ps-shopping">
             <h1>{WPLoading}</h1>
-            <div className="ps-shopping__header">
+            {/* <div className="ps-shopping__header">
                 {countProductsView}
                 <div className="ps-shopping__actions">
                     <select className="ps-select form-control">
@@ -139,7 +139,7 @@ const WPShopProducts = (props) => {
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div> */}
             <div className="ps-shopping__content">{producItemView}</div>
             {sectionPaginationView}
         </div>

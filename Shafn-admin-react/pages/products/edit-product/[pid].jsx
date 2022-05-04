@@ -11,7 +11,9 @@ import Select from "react-select";
 import Lightbox from "react-image-lightbox";
 import "react-color-palette/lib/css/styles.css";
 import "suneditor/dist/css/suneditor.min.css";
-import "react-image-lightbox/style.css"; //
+import "react-image-lightbox/style.css";
+
+import ProductImages from "~/components/elements/products/ProductImages";
 import ProductAttributes from "~/components/elements/products/ProductAttributes";
 import ProductVariations from "~/components/elements/products/ProductVariations";
 import { CustomModal } from "~/components/elements/custom/index";
@@ -98,10 +100,12 @@ const EditProductPage = ({ pid }) => {
   const [newTag, setNewTag] = useState("");
   const [attributes, setAttributes] = useState([]);
   const [variations, setVariations] = useState([]);
-  const [viewProducts, setViewProducts] = useState(false);
+
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
+
+  const [viewProducts, setViewProducts] = useState(false);
   const [index, setIndex] = useState("");
   const [showNewTagInputField, setShowNewTagInputField] = useState(false);
   const [isPriceValid, setIsPriceValid] = useState(true);
@@ -157,8 +161,8 @@ const EditProductPage = ({ pid }) => {
     }
 
     if (name === "tags") {
-      let _tags = value.map((tag) => ({ id: tag.value }));
-      setProduct((product) => ({ ...product, [name]: _tags }));
+      let tags = value.map((tag) => ({ id: tag.value }));
+      setProduct((product) => ({ ...product, [name]: tags }));
     }
 
     if (!formNames.includes(name)) {
@@ -204,7 +208,8 @@ const EditProductPage = ({ pid }) => {
     }
   };
 
-  const removeImage = (id) => {
+  const removeImage = (e, id) => {
+    e.stopPropagation();
     setSelectedImages((current) => current.filter((img) => img.id !== id));
     setImageFiles((current) => current.filter((img) => img.id !== id));
   };
@@ -249,8 +254,8 @@ const EditProductPage = ({ pid }) => {
                   <span>Add A Photo</span>
                   <br />
                   <i
-                    className="fa fa-file-image-o "
-                    style={{ fontSize: 38 }}
+                    className="fa fa-file-image-o text-secondary"
+                    style={{ fontSize: 38, marginTop: 10, marginBottom: 10 }}
                     aria-hidden="true"
                   ></i>
                   <br />
@@ -276,9 +281,8 @@ const EditProductPage = ({ pid }) => {
                 <div
                   className="ps-btn ps-btn--sm"
                   style={styles.imageDel}
-                  onClick={() => {
-                    removeImage(image.id);
-                    setIndex(i - (1 % selectedImages.length));
+                  onClick={(e) => {
+                    removeImage(e, image.id);
                   }}
                 >
                   <i
@@ -724,7 +728,7 @@ const EditProductPage = ({ pid }) => {
                         />
 
                         <button
-                          className="ps-btn ps-btn--gray"
+                          className="ps-btn mt-4"
                           onClick={() => setShowNewTagInputField(true)}
                         >
                           Add New
@@ -825,35 +829,48 @@ const EditProductPage = ({ pid }) => {
 
       {/* New Tag Input Field */}
       <CustomModal isOpen={showNewTagInputField}>
-        <div
-          className="form-group"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <label>
-            New Tag<sup>*</sup>
-          </label>
-          <input
-            name="new tag"
-            className="form-control"
-            type="text"
-            value={newTag}
-            onChange={(e) => setNewTag(e.target.value)}
-          />
+        <div className="row">
+          <div className="col-12 col-md-3"></div>
+          <div className="col-12 col-md-6">
+            <div
+              className="form-group bg-white p-5"
+              style={{
+                borderRadius: "7px",
+                width: "95%",
+                margin: "100px auto 0 auto",
+              }}
+            >
+              <label
+                style={{
+                  fontSize: "18px",
+                  fontWeight: "500",
+                }}
+              >
+                New Tag<sup>*</sup>
+              </label>
+              <input
+                name="new tag"
+                className="form-control"
+                type="text"
+                value={newTag}
+                onChange={(e) => setNewTag(e.target.value)}
+              />
+              <br />
+              <div class="d-flex w-100 justify-content-around">
+                <button
+                  className="ps-btn"
+                  onClick={() => setShowNewTagInputField(false)}
+                >
+                  Cancel
+                </button>
 
-          <button
-            className="ps-btn"
-            onClick={() => setShowNewTagInputField(false)}
-          >
-            Cancel
-          </button>
-
-          <button className="ps-btn ps-btn--gray" onClick={addTag}>
-            Add
-          </button>
+                <button className="ps-btn ps-btn--gray" onClick={addTag}>
+                  Add
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-md-3"></div>
         </div>
       </CustomModal>
     </ContainerDefault>

@@ -7,7 +7,9 @@ const FooterWidgets = () => (
             <h4 className="widget-title text-white">Contact us</h4>
             <div className="widget_content">
                 <p>
-                    <a href="mailto:info@shafn.com<" className="text-white">info@shafn.com</a>
+                    <a href="mailto:info@shafn.com<" className="text-white">
+                        info@shafn.com
+                    </a>
                 </p>
             </div>
         </aside>
@@ -96,17 +98,30 @@ const FooterWidgets = () => (
                     </Link>
                 </li>
                 <p>
+
                     <i className="icon-store"></i>
-                <Link href="/vendor/become-a-vendor">
+                <Link href="/vendors/become-a-vendor">
                     <a className="text-white">Become A Vendor</a>
                 </Link>
                 </p>
                 <p>
-                  <Link href="/vendors">
-                    <a className="text-white">Vendor Stores</a>
-                </Link>
+                    <Link href="/vendors">
+                        <a className="text-white">Vendor Stores</a>
+                    </Link>
+
                 </p>
                 <p>
+                    <Link href="/account/order-tracking">
+                        <a className="text-white">Track your order</a>
+                    </Link>
+                </p>
+                <p>
+
+                <p>
+                <Link href="/account/register">
+                    <a>Sell on shafN</a>
+                </Link>
+                </p>
                 <Link href="/account/order-tracking">
                     <a className="text-white">Tract your order</a>
                 </Link>
