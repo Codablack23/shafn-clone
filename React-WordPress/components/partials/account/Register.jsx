@@ -18,7 +18,7 @@ function Register() {
     const [isVendor, setIsVendor] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = async () => {
+    const handleRegistration = (type = 'form', oauth) => {
         setIsLoading(true);
 
         let user = {
@@ -27,13 +27,30 @@ function Register() {
             password,
         };
 
-        if (isVendor) {
+        if (type === 'oauth') {
             user = {
-                ...user,
-                first_name: firstname,
-                last_name: lastname,
-                roles: ['seller'],
+                username: oauth.email,
+                email: oauth.email,
+                password: oauth.password,
             };
+        }
+
+        if (isVendor) {
+            if (type === 'oauth') {
+                user = {
+                    ...user,
+                    first_name: oauth.firstname,
+                    last_name: oauth.lastname,
+                    roles: ['seller'],
+                };
+            } else {
+                user = {
+                    ...user,
+                    first_name: firstname,
+                    last_name: lastname,
+                    roles: ['seller'],
+                };
+            }
         } else {
             user = {
                 ...user,
@@ -45,17 +62,19 @@ function Register() {
             store_name: storename,
         };
 
-        const dispatchLogin = () => {
-            dispatch(login());
-        };
+        if (!isLoading) {
+            const dispatchLogin = () => {
+                dispatch(login());
+            };
 
-        WPAuthRepository.register(
-            user,
-            storeData,
-            isVendor,
-            dispatchLogin,
-            setIsLoading
-        );
+            WPAuthRepository.register(
+                user,
+                storeData,
+                isVendor,
+                dispatchLogin,
+                setIsLoading
+            );
+        }
     };
 
     useEffect(() => {
@@ -72,7 +91,7 @@ function Register() {
             <div className="container">
                 <Form
                     className="ps-form--account"
-                    onFinish={!isLoading && handleSubmit}>
+                    onFinish={!isLoading && handleRegistration}>
                     <ul className="ps-tab-list">
                         <li className="active">
                             <Link href="/account/register">
@@ -259,7 +278,8 @@ function Register() {
                                     className="ps-btn ps-btn--fullwidth"
                                     style={{
                                         borderRadius: '15px',
-                                    }}>
+                                    }}
+                                    disabled={isLoading}>
                                     {isLoading ? (
                                         <img
                                             src={require('../../../public/static/img/Interwind-loader.svg')}
@@ -284,10 +304,14 @@ function Register() {
                                     clientId={process.env.google_clientID}
                                     jsSrc="https://accounts.google.com/gsi/client"
                                     uxMode="redirect"
-                                    onSuccess={(res) => {
-                                        console.log('Google_Result: ');
-                                        console.log(res.profileObj);
-                                    }}
+                                    onSuccess={(res) =>
+                                        handleRegistration('oauth', {
+                                            email: res.profileObj.email,
+                                            password: res.profileObj.googleId,
+                                            firstname: res.profileObj.givenName,
+                                            lastname: res.profileObj.familyName,
+                                        })
+                                    }
                                     onFailure={(res) => {
                                         console.log('Google_Failure: ');
                                         console.log(res);
