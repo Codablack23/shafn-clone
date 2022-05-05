@@ -10,7 +10,6 @@ const nextSettings = {
         google_clientID:
             '652023039992-oj4618l3ombdnpb168umti2a5nehi6ha.apps.googleusercontent.com',
         fb_appID: '1188145718594459',
-        HTTPS: true,
     },
 };
 

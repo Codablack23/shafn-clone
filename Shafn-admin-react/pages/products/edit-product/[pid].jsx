@@ -805,11 +805,7 @@ const EditProductPage = ({ pid }) => {
 
       {/* New Tag Input Field */}
       <CustomModal isOpen={showNewTagInputField}>
-<<<<<<< HEAD
       <div className="row">
-=======
-        <div className="row">
->>>>>>> 47c01250aafd0bc6a3bd331836bfb0d9cb21a216
           <div className="col-12 col-md-3"></div>
           <div className="col-12 col-md-6">
             <div

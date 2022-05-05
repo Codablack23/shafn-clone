@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { addItem } from '~/store/cart/action';
 import { removeWishlistItem } from '~/store/wishlist/action';
 import WPProductCart from '~/wp-components/elements/products/WPProductCart';
-import { Button } from '~/utilities/WPHelpers'
+import { Button } from '~/utilities/WPHelpers';
 class WPWishlist extends Component {
     constructor(props) {
         super(props);
@@ -25,7 +25,7 @@ class WPWishlist extends Component {
 
     render() {
         const { wishlistItems } = this.props;
-        console.log(wishlistItems)
+        console.log(wishlistItems);
         // views
         let wishlistView;
         if (wishlistItems && wishlistItems.length > 0) {
@@ -37,12 +37,14 @@ class WPWishlist extends Component {
                     <td className="price">${product.price}</td>
                     <td>{product.store.name}</td>
                     <td>
-                        <Button 
-                        width={150}
-                        classes={`w3-0309A5 btn-hover`}
-                        hoverColor="white"
-                        eventHandler={(e)=>{this.handleAddItemToCart(e, product)}}
-                        text="Add to cart"
+                        <Button
+                            width={150}
+                            classes={`w3-0309A5 btn-hover`}
+                            hoverColor="white"
+                            eventHandler={(e) => {
+                                this.handleAddItemToCart(e, product);
+                            }}
+                            text="Add to cart"
                         />
                         {/* <a
                             className="ps-btn ps-btn--sm mr-2"
@@ -88,9 +90,9 @@ class WPWishlist extends Component {
         return (
             <div className="ps-section--shopping ps-whishlist">
                 <div className="container">
-                    <div className="ps-section__header">
+                    {/* <div className="ps-section__header">
                         <h1>Wishlist</h1>
-                    </div>
+                    </div> */}
                     <div className="ps-section__content">{wishlistView}</div>
                 </div>
             </div>

@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux';
 import WPAuthRepository from '~/repositories/WP/WPAuthRepository';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { GoogleLogin } from 'react-google-login';
-// import { gapi } from 'gapi-script';
 
 function Register() {
     const dispatch = useDispatch();
@@ -19,7 +18,7 @@ function Register() {
     const [isVendor, setIsVendor] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = async () => {
+    const handleRegistration = (type = 'form', oauth) => {
         setIsLoading(true);
 
         let user = {
@@ -28,13 +27,30 @@ function Register() {
             password,
         };
 
-        if (isVendor) {
+        if (type === 'oauth') {
             user = {
-                ...user,
-                first_name: firstname,
-                last_name: lastname,
-                roles: ['seller'],
+                username: oauth.email,
+                email: oauth.email,
+                password: oauth.password,
             };
+        }
+
+        if (isVendor) {
+            if (type === 'oauth') {
+                user = {
+                    ...user,
+                    first_name: oauth.firstname,
+                    last_name: oauth.lastname,
+                    roles: ['seller'],
+                };
+            } else {
+                user = {
+                    ...user,
+                    first_name: firstname,
+                    last_name: lastname,
+                    roles: ['seller'],
+                };
+            }
         } else {
             user = {
                 ...user,
@@ -46,36 +62,36 @@ function Register() {
             store_name: storename,
         };
 
-        const dispatchLogin = () => {
-            dispatch(login());
-        };
+        if (!isLoading) {
+            const dispatchLogin = () => {
+                dispatch(login());
+            };
 
-        WPAuthRepository.register(
-            user,
-            storeData,
-            isVendor,
-            dispatchLogin,
-            setIsLoading
-        );
+            WPAuthRepository.register(
+                user,
+                storeData,
+                isVendor,
+                dispatchLogin,
+                setIsLoading
+            );
+        }
     };
 
-    // useEffect(() => {
-    //     const start = () => {
-    //         gapi.client.init({
-    //             clientId: process.env.google_clientID,
-    //             scope: '',
-    //         });
-    //     };
+    useEffect(() => {
+        const { gapi, loadAuth2 } = require('gapi-script');
+        const loadGoogleAuth = async () => {
+            let auth2 = await loadAuth2(gapi, process.env.google_clientID, '');
+        };
 
-    //     gapi.load('client:auth2', start);
-    // });
+        loadGoogleAuth();
+    }, []);
 
     return (
         <div className="ps-my-account">
             <div className="container">
                 <Form
                     className="ps-form--account"
-                    onFinish={!isLoading && handleSubmit}>
+                    onFinish={!isLoading && handleRegistration}>
                     <ul className="ps-tab-list">
                         <li className="active">
                             <Link href="/account/register">
@@ -262,7 +278,8 @@ function Register() {
                                     className="ps-btn ps-btn--fullwidth"
                                     style={{
                                         borderRadius: '15px',
-                                    }}>
+                                    }}
+                                    disabled={isLoading}>
                                     {isLoading ? (
                                         <img
                                             src={require('../../../public/static/img/Interwind-loader.svg')}
@@ -285,8 +302,23 @@ function Register() {
                             <ul className="social-links">
                                 <GoogleLogin
                                     clientId={process.env.google_clientID}
-                                    render={() => (
-                                        <li>
+                                    jsSrc="https://accounts.google.com/gsi/client"
+                                    uxMode="redirect"
+                                    onSuccess={(res) =>
+                                        handleRegistration('oauth', {
+                                            email: res.profileObj.email,
+                                            password: res.profileObj.googleId,
+                                            firstname: res.profileObj.givenName,
+                                            lastname: res.profileObj.familyName,
+                                        })
+                                    }
+                                    onFailure={(res) => {
+                                        console.log('Google_Failure: ');
+                                        console.log(res);
+                                    }}
+                                    cookiePolicy={'single_host_origin'}
+                                    render={(renderProps) => (
+                                        <li onClick={renderProps.onClick}>
                                             <a
                                                 className="google handles"
                                                 href="#">
@@ -305,29 +337,17 @@ function Register() {
                                             </a>
                                         </li>
                                     )}
-                                    // onSuccess={(res) =>
-                                    //     console.log('Success: ', res)
-                                    // }
-                                    // onFailure={(res) =>
-                                    //     console.log('Failure: ', res)
-                                    // }
-                                    cookiePolicy={'single_host_origin'}
                                 />
 
                                 <FacebookLogin
                                     appId={process.env.fb_appID}
-                                    // autoLoad={true}
                                     fields="name,email,picture"
-                                    onClick={(res) => {
-                                        console.log('FB_Click: ');
-                                        console.log(res);
-                                    }}
                                     callback={(res) => {
                                         console.log('FB_Result: ');
                                         console.log(res);
                                     }}
                                     render={(renderProps) => (
-                                        <li>
+                                        <li onClick={renderProps.onClick}>
                                             <a
                                                 className="facebook handles"
                                                 href="#">

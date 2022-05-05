@@ -2,10 +2,6 @@ import Link from 'next/link';
 import ProductRepository from '~/repositories/ProductRepository';
 
 const Categories = [
-<<<<<<< HEAD
-=======
-
->>>>>>> 47c01250aafd0bc6a3bd331836bfb0d9cb21a216
  {id: 70, name: 'Clothing', slug: 'clothing',} ,
  {id: 73, name: 'Beauty & Cosmetics', slug: 'beauty-cosmetic',} ,
  {id: 74, name: 'Books', slug: 'books',} ,
@@ -18,25 +14,10 @@ const Categories = [
  {id: 79, name: 'Essential Oils', slug: 'essential-oils'}, 
  
 ]
-<<<<<<< HEAD
-
-=======
->>>>>>> 47c01250aafd0bc6a3bd331836bfb0d9cb21a216
-
-// async function getProducts() {
-//     console.log(await ProductRepository.getProductCategories());
-// }
-
-<<<<<<< HEAD
- export default function HeaderNav(){
-    return(
-=======
 
 export default function HeaderNav() {
     // getProducts();
     return (
-
->>>>>>> 47c01250aafd0bc6a3bd331836bfb0d9cb21a216
         <nav className="custom--navigation">
             <ul className="nav--list nav--center">
                 <li>

@@ -7,9 +7,9 @@ const WPShipping = () => {
     return (
         <div className="ps-checkout ps-section--shopping">
             <div className="container">
-                <div className="ps-section__header">
+                {/* <div className="ps-section__header">
                     <h1>Shipping Information</h1>
-                </div>
+                </div> */}
                 <div className="ps-section__content">
                     <div className="row">
                         <div className="col-xl-8 col-lg-8 col-md-12 col-sm-12">

@@ -2,6 +2,7 @@ import Router from 'next/router';
 import { notification } from 'antd';
 import { WPDomain } from '~/repositories/WP/WPRepository';
 import axios from 'axios';
+import ReactHtmlParser from 'react-html-parser';
 
 class WPAuthRepository {
     constructor(callback) {
@@ -78,8 +79,8 @@ class WPAuthRepository {
                 message: 'Registration Failed',
                 description:
                     err.response === undefined
-                        ? String(err)
-                        : err.response.data.message,
+                        ? ReactHtmlParser(String(err))
+                        : ReactHtmlParser(err.response.data.message),
             });
             setIsLoading(false);
         }
@@ -103,13 +104,12 @@ class WPAuthRepository {
             }
             setIsLoading(false);
         } catch (err) {
-            console.log(err);
             notification['error']({
                 message: 'Login Failed',
                 description:
                     err.response === undefined
-                        ? String(err)
-                        : err.response.data.message,
+                        ? ReactHtmlParser(String(err))
+                        : ReactHtmlParser(err.response.data.message),
             });
 
             setIsLoading(false);
