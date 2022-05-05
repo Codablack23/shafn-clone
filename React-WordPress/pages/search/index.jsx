@@ -51,7 +51,7 @@ const WPSearchPage = ({ query }) => {
             };
             setLoading(true);
             const WPProducts = await WPProductRepository.getProducts(queries);
-            if (WPProducts) {
+            if (WPProducts || WPProducts === null) {
                 setProducts(WPProducts);
                 setTimeout(
                     function () {
@@ -75,7 +75,7 @@ const WPSearchPage = ({ query }) => {
         getProductResult();
     }, []);
 
-    let producItemView, countProductsView;
+    let productItemView, countProductsView;
 
     if (!loading) {
         if (products && products.items) {
@@ -84,9 +84,9 @@ const WPSearchPage = ({ query }) => {
                     <WPProduct product={item} />
                 </div>
             ));
-            producItemView = <div className="row">{productItems}</div>;
+            productItemView = <div className="row">{productItems}</div>;
         } else {
-            producItemView = (
+            productItemView = (
                 <div className="ps-not-found text-center pt-100 pb-100">
                     <img src="static/img/404.png" className="mb-20" />
                     <h3>No Product Found.</h3>
@@ -99,7 +99,7 @@ const WPSearchPage = ({ query }) => {
                 <SkeletonProduct />
             </div>
         ));
-        producItemView = <div className="row">{skeletonItems}</div>;
+        productItemView = <div className="row">{skeletonItems}</div>;
     }
 
     return (
@@ -107,11 +107,11 @@ const WPSearchPage = ({ query }) => {
             <div className="ps-page--shop">
                 <div className="container">
                     <section className="ps-search-result">
-                        <div className="ps-section__header">
+                        {/* <div className="ps-section__header">
                             <h3>Result for: "{keyword}"</h3>
-                        </div>
+                        </div> */}
                         <div className="ps-section__content">
-                            {producItemView}
+                            {productItemView}
                         </div>
                     </section>
                 </div>

@@ -11,7 +11,9 @@ import Select from "react-select";
 import Lightbox from "react-image-lightbox";
 import "react-color-palette/lib/css/styles.css";
 import "suneditor/dist/css/suneditor.min.css";
-import "react-image-lightbox/style.css"; //
+import "react-image-lightbox/style.css";
+
+import ProductImages from "~/components/elements/products/ProductImages";
 import ProductAttributes from "~/components/elements/products/ProductAttributes";
 import ProductVariations from "~/components/elements/products/ProductVariations";
 import { CustomModal } from "~/components/elements/custom/index";
@@ -159,8 +161,8 @@ const EditProductPage = ({ pid }) => {
     }
 
     if (name === "tags") {
-      let _tags = value.map((tag) => ({ id: tag.value }));
-      setProduct((product) => ({ ...product, [name]: _tags }));
+      let tags = value.map((tag) => ({ id: tag.value }));
+      setProduct((product) => ({ ...product, [name]: tags }));
     }
 
     if (!formNames.includes(name)) {
@@ -803,7 +805,11 @@ const EditProductPage = ({ pid }) => {
 
       {/* New Tag Input Field */}
       <CustomModal isOpen={showNewTagInputField}>
+<<<<<<< HEAD
       <div className="row">
+=======
+        <div className="row">
+>>>>>>> 47c01250aafd0bc6a3bd331836bfb0d9cb21a216
           <div className="col-12 col-md-3"></div>
           <div className="col-12 col-md-6">
             <div
@@ -820,7 +826,6 @@ const EditProductPage = ({ pid }) => {
                 onChange={(e) => setNewTag(e.target.value)}
               />
               <br />
-
               <div class="d-flex w-100 justify-content-around">
                 <button
                   className="ps-btn"

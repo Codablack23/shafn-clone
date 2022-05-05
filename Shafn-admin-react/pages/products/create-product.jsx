@@ -193,6 +193,7 @@ const CreateProductPage = () => {
                     className="fa fa-file-image-o text-secondary"
                     aria-hidden="true"
                   ></i>
+                  <br />
                   {i === 0 ? <p>Primary</p> : null}
                 </label>
               </>

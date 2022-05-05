@@ -75,7 +75,7 @@ const WPShopPage = ({ query }) => {
             <div className="ps-page--shop">
                 <div className="ps-container">
                     <ShopBanner />
-                    <ShopBrands />
+                    {/* <ShopBrands /> */}
                     <WPShopCategories />
                     <div className="ps-layout--shop">
                         <div className="ps-layout__left">
