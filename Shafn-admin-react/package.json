@@ -7,8 +7,8 @@
   },
   "scripts": {
     "dev": "next dev -p 5500",
-    "build": "build --output public",
-    "start": "next start -p 3002"
+    "build": "build",
+    "start": "next start"
   },
   "dependencies": {
     "antd": "^4.5.2",
