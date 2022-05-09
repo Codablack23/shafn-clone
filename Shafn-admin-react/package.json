@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "next dev -p 5500",
     "build": "build --output public",
-    "start": "next start -p 3002"
+    "start": "next start -p 3002",
+    "vercel-build": "npm run prepare && next build"
   },
   "dependencies": {
     "antd": "^4.5.2",
