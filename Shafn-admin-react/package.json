@@ -6,9 +6,9 @@
     "name": "shafn"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "build",
-    "start": "next start"
+    "dev": "next dev -p 5500",
+    "build": "build --output public",
+    "start": "next start -p 3002"
   },
   "dependencies": {
     "antd": "^4.5.2",
