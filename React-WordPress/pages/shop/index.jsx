@@ -34,7 +34,7 @@ const WPShopPage = ({ query }) => {
         if (nextPid !== '' && isNaN(parseInt(nextPid)) === false) {
             const queries = {
                 page: 1,
-                per_page: 18,
+                per_page: 24,
                 category: nextPid,
             };
             dispatch(WPGetProducts(queries));
@@ -42,7 +42,7 @@ const WPShopPage = ({ query }) => {
         } else {
             const queries = {
                 page: 1,
-                per_page: 18,
+                per_page: 24,
             };
             dispatch(WPGetProducts(queries));
         }
@@ -52,7 +52,7 @@ const WPShopPage = ({ query }) => {
         if (query) {
             const queries = {
                 page: 1,
-                per_page: 18,
+                per_page: 24,
             };
             dispatch(WPGetProducts(queries));
 
@@ -82,7 +82,7 @@ const WPShopPage = ({ query }) => {
                             <WPWidgetCategories
                                 activeID={query && query.category}
                             />
-                            <WPWidgetBrand />
+                            {/* <WPWidgetBrand /> */}
                             <WPWidgetFilterByPrices />
                         </div>
                         <div className="ps-layout__right">
