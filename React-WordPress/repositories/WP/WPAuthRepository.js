@@ -94,10 +94,11 @@ class WPAuthRepository {
             );
 
             if (user.data.user_role[0] === 'customer') {
-                localStorage.setItem('auth_token', user.data.token);
+                localStorage.setItem('customer_token', user.data.token);
                 dispatchLogin();
                 Router.push('/');
             } else {
+                localStorage.setItem('vendor_token', user.data.token);
                 window.location.assign(
                     `http://localhost:5500/${user.data.token}`
                 );

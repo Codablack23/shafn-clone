@@ -342,6 +342,7 @@ function Register() {
                                 <FacebookLogin
                                     appId={process.env.fb_appID}
                                     fields="name,email,picture"
+                                    scope="email"
                                     callback={(res) => {
                                         console.log('FB_Result: ');
                                         console.log(res);
@@ -362,30 +363,6 @@ function Register() {
                                     )}
                                 />
                             </ul>
-
-                            {/* <p>Connect with:</p> */}
-                            {/* <ul className="ps-list--social">
-                                <li>
-                                    <a className="facebook" href="#">
-                                        <i className="fa fa-facebook"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="google" href="#">
-                                        <i className="fa fa-google-plus"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="twitter" href="#">
-                                        <i className="fa fa-twitter"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="instagram" href="#">
-                                        <i className="fa fa-instagram"></i>
-                                    </a>
-                                </li>
-                            </ul> */}
                         </div>
                     </div>
                 </Form>

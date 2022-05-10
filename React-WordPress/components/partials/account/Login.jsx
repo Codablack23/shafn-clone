@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { login } from '../../../store/auth/action';
 import WPAuthRepository from '~/repositories/WP/WPAuthRepository';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-// import { FacebookProvider, Login as FacebookLogin } from 'react-facebook';
 import { GoogleLogin } from 'react-google-login';
 
 import { Form, Input, notification } from 'antd';
@@ -43,7 +42,7 @@ function Login() {
     useEffect(() => {
         const { gapi, loadAuth2 } = require('gapi-script');
         const loadGoogleAuth = async () => {
-            let auth2 = await loadAuth2(gapi, process.env.google_clientID, '');
+            await loadAuth2(gapi, process.env.google_clientID, '');
         };
 
         loadGoogleAuth();
@@ -216,44 +215,6 @@ function Login() {
                                         </li>
                                     )}
                                 />
-
-                                {/* <FacebookProvider appId={process.env.fb_appID}>
-                                    <FacebookLogin
-                                        scope="email"
-                                        onCompleted={(res) => {
-                                            handleLogin(
-                                                'oauth',
-                                                res.email,
-                                                res.userID
-                                            )
-                                            console.log('FB_Result: ');
-                                            console.log(res);
-                                        }}
-                                        onError={(res) => {
-                                            console.log('FB_Error: ');
-                                            console.log(res);
-                                        }}>
-                                        {({
-                                            loading,
-                                            handleClick,
-                                            error,
-                                            data,
-                                        }) => (
-                                            <li onClick={handleClick}>
-                                                <a
-                                                    className="facebook handles"
-                                                    href="#">
-                                                    <span>
-                                                        <i className="fa fa-facebook w3-text-blue"></i>
-                                                    </span>
-                                                    <span>
-                                                        Continue With Facebook
-                                                    </span>
-                                                </a>
-                                            </li>
-                                        )}
-                                    </FacebookLogin>
-                                </FacebookProvider> */}
                             </ul>
                         </div>
                     </div>
