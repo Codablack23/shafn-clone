@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev -p 5500",
-    "build": "next build",
+    "build": "build --output public",
     "start": "next start -p 3002"
   },
   "dependencies": {
