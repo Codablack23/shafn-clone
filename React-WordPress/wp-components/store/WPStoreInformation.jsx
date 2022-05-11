@@ -24,7 +24,7 @@ const WPStoreInformation = ({ store }) => {
     }
 
     return (
-        <div className="ps-block--vendor w3-white">
+        <div className="ps-block--vendor m-md-0 m-sm-auto w3-white">
             {/* <div className="ps-block__thumbnail">{storeBannerView}</div>
             <div className="ps-block__thumbnail">{storeGravatarView}</div> */}
             <div className="ps-block__container w3-white">
