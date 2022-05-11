@@ -36,4 +36,41 @@
     }
 }
 
+.custom-banner{
+    width: 100%;
+    background-color: #F5F5F5;
+    border-radius: 7px;
+    margin-bottom: 50px;
+    min-height: 40vh;
+    position: relative;
+    img{
+        position: absolute;
+        width: 100%;
+        height: 40vh;
+        object-fit: cover;
+        border-radius: 7px;
+    }
+    .img-profile-container{
+        position: absolute;
+        width: 15vh;
+        height: 15vh;
+        background: white;
+        border-radius: 50%;
+        left: 7.5vh;
+        bottom:-7.5vh;
+        img{
+         width:100%;
+         object-fit: cover;
+         height: 15vh;
+         border-radius: 50%;
+        }
+    }
+    .change-image-container{
+        position: absolute;
+        min-width: 15vh;
+        min-height: 15vh;
+        top: 20px;
+        right: 20px;
 
+    }
+}

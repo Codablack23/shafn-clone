@@ -43,22 +43,28 @@ const WPProductDetail = ({ product, variations }) => {
 
             if (WPProductSizes) {
                 const sizeItems = WPProductSizes.options.map((item, index) => (
-                    <div
+                    <option
+                       value={item}
                         className={`ps-variant ps-variant--size ${
                             selectedSize === item.toLowerCase() && 'active'
                         }`}
                         onClick={(e) => handleChangeSize(item)}
                         key={index}>
-                        <span className="ps-variant__size text-uppercase">
                             {item}
-                        </span>
-                    </div>
+                    </option>
                 ));
                 sizesView = (
                     <div className="ps-product__variations">
                         <figure>
                             <figcaption>Size</figcaption>
-                            {sizeItems}
+                            <select 
+                            value={selectedSize}
+                            className="rounded-pill p-3 w3-light-grey custom--select"
+                            onChange={(e)=>{handleChangeSize(e.target.value)}}
+                            style={{minWidth:'250px'}}
+                            >
+                                {sizeItems}
+                            </select>
                         </figure>
                     </div>
                 );
