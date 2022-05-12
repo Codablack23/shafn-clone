@@ -30,18 +30,18 @@ const WPModuleDefaultDescription = ({product})=>  {
                     <TabPane tab="Specification" key="2">
                         <PartialSpecification />
                     </TabPane>
-                    <TabPane tab="Vendor" key="3">
+                    {/* <TabPane tab="Vendor" key="3">
                         <PartialVendor />
-                    </TabPane>
+                    </TabPane> */}
                     <TabPane tab="Reviews (1)" key="4">
                         <PartialReview />
                     </TabPane>
                     <TabPane tab="Questions and Answers" key="5">
                         Content of Tab Pane 3
                     </TabPane>
-                    <TabPane tab="More Offers" key="6">
+                    {/* <TabPane tab="More Offers" key="6">
                         <PartialOffer />
-                    </TabPane>
+                    </TabPane> */}
                 </Tabs>
             </div>
         </div>

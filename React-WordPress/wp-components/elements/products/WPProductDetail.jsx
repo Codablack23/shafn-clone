@@ -56,15 +56,18 @@ const WPProductDetail = ({ product, variations }) => {
                 sizesView = (
                     <div className="ps-product__variations">
                         <figure>
-                            <figcaption>Size</figcaption>
+                            <p className='text-center text-lg-left'>Size</p>
+                            <div className="rounded-pill m-auto m-lg-0 custom--select"
+                        
+                            >
                             <select 
                             value={selectedSize}
-                            className="rounded-pill p-3 w3-light-grey custom--select"
                             onChange={(e)=>{handleChangeSize(e.target.value)}}
-                            style={{minWidth:'250px'}}
                             >
                                 {sizeItems}
                             </select>
+                            </div>
+                         
                         </figure>
                     </div>
                 );
@@ -119,7 +122,7 @@ const WPProductDetail = ({ product, variations }) => {
                     <WPModuleProductDetailThumbnail product={product} />
                     <WPModuleProductDetailInformation product={product} />
                 </div>
-                <WPModuleDefaultDescription />
+                <WPModuleDefaultDescription product={product}/>
             </div>
         );
     } else {
@@ -141,7 +144,7 @@ const WPProductDetail = ({ product, variations }) => {
                         </>
                     </WPModuleProductDetailInformation>
                 </div>
-                <DefaultDescription />
+                <DefaultDescription product={product}/>
             </div>
         );
     }

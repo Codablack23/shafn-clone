@@ -5,10 +5,25 @@ const { TabPane } = Tabs;
 
 import PartialDescription from './PartialDescription';
 import PartialSpecification from './PartialSpecification';
-import PartialVendor from './PartialVendor';
 import PartialReview from './PartialReview';
-import PartialOffer from './PartialOffer';
 
+function DescView({product}){
+    let descView;
+    if (product) {
+        if (product.description) {
+            descView = <div className="ps-document">
+                <div dangerouslySetInnerHTML={{
+                    __html: `${product.description}`,
+                }}>
+                </div>
+            </div>
+        }
+    }
+    else {
+        descView = <p><i>This product hasn't description.</i></p>
+    }
+    return descView
+}
 class DefaultDescription extends Component {
     constructor(props) {
         super(props);
@@ -19,22 +34,16 @@ class DefaultDescription extends Component {
                 <div className="ps-product__content ps-tab-root">
                     <Tabs defaultActiveKey="1">
                         <TabPane tab="Description" key="1">
-                            <PartialDescription />
+                            <DescView product={this.props.product}/>
                         </TabPane>
                         <TabPane tab="Specification" key="2">
                             <PartialSpecification />
-                        </TabPane>
-                        <TabPane tab="Vendor" key="3">
-                            <PartialVendor />
                         </TabPane>
                         <TabPane tab="Reviews (1)" key="4">
                             <PartialReview />
                         </TabPane>
                         <TabPane tab="Questions and Answers" key="5">
                             Content of Tab Pane 3
-                        </TabPane>
-                        <TabPane tab="More Offers" key="6">
-                            <PartialOffer />
                         </TabPane>
                     </Tabs>
                 </div>
