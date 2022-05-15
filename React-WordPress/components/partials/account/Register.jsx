@@ -4,8 +4,7 @@ import { Form, Input } from 'antd';
 import { login } from '../../../store/auth/action';
 import { useDispatch } from 'react-redux';
 import WPAuthRepository from '~/repositories/WP/WPAuthRepository';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import { GoogleLogin } from 'react-google-login';
+import OAuth from './modules/OAuth';
 
 function Register() {
     const dispatch = useDispatch();
@@ -70,7 +69,6 @@ function Register() {
             WPAuthRepository.register(
                 user,
                 storeData,
-                isVendor,
                 dispatchLogin,
                 setIsLoading
             );
@@ -299,70 +297,16 @@ function Register() {
                                 <p>OR</p>
                                 <hr />
                             </div>
-                            <ul className="social-links">
-                                <GoogleLogin
-                                    clientId={process.env.google_clientID}
-                                    jsSrc="https://accounts.google.com/gsi/client"
-                                    uxMode="redirect"
-                                    onSuccess={(res) =>
-                                        handleRegistration('oauth', {
-                                            email: res.profileObj.email,
-                                            password: res.profileObj.googleId,
-                                            firstname: res.profileObj.givenName,
-                                            lastname: res.profileObj.familyName,
-                                        })
-                                    }
-                                    onFailure={(res) => {
-                                        console.log('Google_Failure: ');
-                                        console.log(res);
-                                    }}
-                                    cookiePolicy={'single_host_origin'}
-                                    render={(renderProps) => (
-                                        <li onClick={renderProps.onClick}>
-                                            <a
-                                                className="google handles"
-                                                href="#">
-                                                <span>
-                                                    <img
-                                                        style={{
-                                                            objectFit:
-                                                                'contain',
-                                                        }}
-                                                        src="/icons/google.svg"
-                                                    />
-                                                </span>
-                                                <span>
-                                                    Continue With Google
-                                                </span>
-                                            </a>
-                                        </li>
-                                    )}
-                                />
-
-                                <FacebookLogin
-                                    appId={process.env.fb_appID}
-                                    fields="name,email,picture"
-                                    scope="email"
-                                    callback={(res) => {
-                                        console.log('FB_Result: ');
-                                        console.log(res);
-                                    }}
-                                    render={(renderProps) => (
-                                        <li onClick={renderProps.onClick}>
-                                            <a
-                                                className="facebook handles"
-                                                href="#">
-                                                <span>
-                                                    <i className="fa fa-facebook w3-text-blue"></i>
-                                                </span>
-                                                <span>
-                                                    Continue With Facebook
-                                                </span>
-                                            </a>
-                                        </li>
-                                    )}
-                                />
-                            </ul>
+                            <OAuth
+                                onSuccess={(user) =>
+                                    handleRegistration('oauth', {
+                                        email: user.email,
+                                        password: user.id,
+                                        firstname: user.firstname,
+                                        lastname: user.lastname,
+                                    })
+                                }
+                            />
                         </div>
                     </div>
                 </Form>
