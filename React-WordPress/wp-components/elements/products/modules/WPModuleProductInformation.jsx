@@ -176,6 +176,32 @@ const WPModuleProductInformation = ({
                     </a>
                 </Link>
             </div>
+           
+            <div className="share m-3">
+            <p className="w3-text-grey">SHARE</p>
+            <div className="flex">
+                <Link href={"https://facebook.com"}>
+                    <a className="social-link">
+                    <i className="bi bi-facebook"></i>
+                    </a>
+                </Link>
+                <Link href={"https://instagram.com"}>
+                    <a className="social-link">
+                    <i className="bi bi-instagram"></i>
+                    </a>
+                </Link>
+                <Link href={"https://twitter.com"}>
+                    <a className="social-link">
+                    <i className="bi bi-twitter"></i>
+                    </a>
+                </Link>
+                <Link href={"https://pinterest.com"}>
+                    <a className="social-link">
+                    <i className="bi bi-pinterest"></i>
+                    </a>
+                </Link>
+            </div>
+            </div>
         </div>
     );
 };

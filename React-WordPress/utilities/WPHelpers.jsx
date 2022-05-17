@@ -189,7 +189,7 @@ export function WPProductDetailShortDescView(product) {
         view = (
             <div>
                 <p>
-                    <i>This product hasn't short description.</i>
+                    <i>This product does'nt have a short description.</i>
                 </p>
             </div>
         );

@@ -227,7 +227,7 @@ const EditProductPage = ({ pid }) => {
         let image = selectedImages.find((img) => img.id === `img-${i + 1}`);
 
         return (
-          <div key={i} style={{ ...styles.filesSelect }}>
+          <div key={i}>
             {image === undefined ? (
               <div>
                 <input
@@ -240,22 +240,12 @@ const EditProductPage = ({ pid }) => {
                 />
                 <label
                   htmlFor={`img-${i + 1}`}
-                  className="m-1 border p-3 text-center"
-                  style={{
-                    width: "20vh",
-                    height: "21vh",
-                    margin: "2% auto",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
+                  className="m-1 border p-3 text-center select-product-img-container"
                 >
                   <span>Add A Photo</span>
                   <br />
                   <i
                     className="fa fa-file-image-o text-secondary"
-                    style={{ fontSize: 38, marginTop: 10, marginBottom: 10 }}
                     aria-hidden="true"
                   ></i>
                   <br />
@@ -265,35 +255,20 @@ const EditProductPage = ({ pid }) => {
             ) : (
               <div
                 key={image.id}
-                className="m-1 bg-dark"
-                style={{
-                  position: "relative",
-                  width: "20vh",
-                  minHeight: "20vh",
-                  margin: "2% auto",
-                }}
+                className="m-1 bg-dark selected-img-container"
                 onClick={() => {
                   viewImage(image.id);
                 }}
               >
-                <img src={image.url} style={styles.image} />
+                <img src={image.url}/>
 
                 <div
-                  className="ps-btn ps-btn--sm"
-                  style={styles.imageDel}
+                  className="ps-btn ps-btn--sm del-img-btn"
                   onClick={(e) => {
                     removeImage(e, image.id);
                   }}
                 >
-                  <i
-                    style={{
-                      fontSize: 15,
-                      marginLeft: 7,
-                      marginTop: 5,
-                      color: "white",
-                    }}
-                    className="bi bi-trash"
-                  ></i>
+                  <i className="bi bi-trash"></i>
                 </div>
               </div>
             )}
@@ -483,8 +458,8 @@ const EditProductPage = ({ pid }) => {
                             onChange={handleInputChange}
                           />
                           <label
+                            className="text-black"
                             htmlFor="downloadable"
-                            style={{ color: "black" }}
                           >
                             Downloadable
                           </label>
@@ -500,7 +475,7 @@ const EditProductPage = ({ pid }) => {
                             name="virtual"
                             onChange={handleInputChange}
                           />
-                          <label htmlFor="virtual" style={{ color: "black" }}>
+                          <label htmlFor="virtual" className="text-black">
                             Virtual
                           </label>
                         </div>
@@ -530,7 +505,7 @@ const EditProductPage = ({ pid }) => {
                           value={product.price}
                           onChange={handleInputChange}
                         />
-                        <p style={{ color: "red" }} hidden={isPriceValid}>
+                        <p className="text-danger" hidden={isPriceValid}>
                           Discounted price must be less than the Sale price
                         </p>
                       </div>
@@ -626,7 +601,7 @@ const EditProductPage = ({ pid }) => {
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                   <figure className="ps-block--form-box">
                     <figcaption>Product Images</figcaption>
-                    <div className="pt-3" style={styles.filesStyles}>
+                    <div className="pt-3 product-img-container">
                       {renderProductImages(9)}
                     </div>
                   </figure>
@@ -677,7 +652,7 @@ const EditProductPage = ({ pid }) => {
                           />
                           <label
                             htmlFor="manage_stock"
-                            style={{ color: "black" }}
+                            className="text-black"
                           >
                             Enable product stock management
                           </label>
@@ -695,7 +670,7 @@ const EditProductPage = ({ pid }) => {
                           />
                           <label
                             htmlFor="sold_individually"
-                            style={{ color: "black" }}
+                            className="text-black"
                           >
                             Allow only one quantity of this product to be bought
                             in a single order
@@ -812,15 +787,16 @@ const EditProductPage = ({ pid }) => {
           )}
 
           <CustomModal isOpen={uploading.status ? true : false}>
-            <div
-              style={{
-                marginTop: 100,
-                minWidth: "200px",
-              }}
-            >
-              <p className="text-center text-white">{uploading.status}</p>
-              <Progress type="line" percent={uploading.progress} />
-            </div>
+          <div className="row">
+          <div className="col-12 col-md-3"></div>
+          <div className="col-12 col-md-6 mt-5">
+           <div className="mt-5">
+            <p className="text-center text-white">{uploading.status}</p>
+            <Progress type="line" percent={uploading.progress} />
+           </div>
+          </div>
+          <div className="col-12 col-md-3"></div>
+        </div>
           </CustomModal>
         </section>
       ) : (
@@ -829,23 +805,13 @@ const EditProductPage = ({ pid }) => {
 
       {/* New Tag Input Field */}
       <CustomModal isOpen={showNewTagInputField}>
-        <div className="row">
+      <div className="row">
           <div className="col-12 col-md-3"></div>
           <div className="col-12 col-md-6">
             <div
-              className="form-group bg-white p-5"
-              style={{
-                borderRadius: "7px",
-                width: "95%",
-                margin: "100px auto 0 auto",
-              }}
+              className="form-group bg-white p-5 new-tag-dialog"
             >
-              <label
-                style={{
-                  fontSize: "18px",
-                  fontWeight: "500",
-                }}
-              >
+              <label className="">
                 New Tag<sup>*</sup>
               </label>
               <input
@@ -882,76 +848,3 @@ EditProductPage.getInitialProps = async ({ query }) => {
 };
 
 export default EditProductPage;
-
-let styles = {
-  variationSelect: {
-    border: "none",
-  },
-  variationBtnSubmit: {
-    minWidth: 120,
-  },
-  variationInput: {
-    border: "1px solid lightgrey",
-    borderRadius: 8,
-  },
-  imagesWrapper: { display: "flex", flexWrap: "wrap" },
-  imageContainer: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: 200,
-    maxHeight: 300,
-    backgroundColor: "black",
-    marginLeft: 20,
-    marginBottom: 10,
-    position: "relative",
-  },
-  image: {
-    width: "20vh",
-    height: "21vh",
-    objectFit: "cover",
-    cursor: "pointer",
-  },
-  imageDel: {
-    position: "absolute",
-    fontSize: 15,
-    bottom: 0,
-    right: 0,
-    borderTopLeftRadius: 75,
-
-    background: "rgba(250,0,0)",
-    width: "30px",
-    height: "30px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 1,
-  },
-  filesStyles: {
-    display: "flex",
-    flexWrap: "wrap",
-    width: "100%",
-    justifyContent: "center",
-  },
-  fileSelect: {
-    minWidth: "33%",
-    minHeight: "30vh",
-    marginRight: "2%",
-  },
-  attrWrapper: { marginBottom: 20 },
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 10,
-  },
-  removeBtn: { color: "red", cursor: "pointer" },
-  attrVal: {
-    padding: 5,
-    marginBottom: 10,
-    marginLeft: 10,
-    fontWeight: "bold",
-    cursor: "pointer",
-    color: "#888",
-  },
-};

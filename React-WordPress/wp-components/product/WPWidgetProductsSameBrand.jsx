@@ -14,7 +14,7 @@ const WPWidgetProductsSameBrand = ({ products }) => {
     }
     return (
         <aside className="widget widget_same-brand d-none d-lg-block">
-            <h3>Same Brand</h3>
+            <h3 className='text-center bg-white'>Same Brand</h3>
             <div className="widget__content">{productItemsView}</div>
         </aside>
     );
