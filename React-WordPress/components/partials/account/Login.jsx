@@ -38,15 +38,6 @@ function Login() {
         }
     };
 
-    useEffect(() => {
-        const { gapi, loadAuth2 } = require('gapi-script');
-        const loadGoogleAuth = async () => {
-            await loadAuth2(gapi, process.env.google_clientID, '');
-        };
-
-        loadGoogleAuth();
-    }, []);
-
     return (
         <div className="ps-my-account" style={{ paddingTop: 10 }}>
             <div className="container">

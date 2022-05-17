@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { notification } from 'antd';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { GoogleLogin } from 'react-google-login';
 
 const OAuth = ({ onSuccess }) => {
-    const handleOAth = (id, email, firstname = '', lastname = '') => {
+    const handleOnSuccess = (id, email, firstname = '', lastname = '') => {
         if (email) {
             onSuccess({ id, email, firstname, lastname });
         } else {
@@ -16,6 +16,15 @@ const OAuth = ({ onSuccess }) => {
         }
     };
 
+    useEffect(() => {
+        const { gapi, loadAuth2 } = require('gapi-script');
+        const loadGoogleAuth = async () => {
+            let auth2 = await loadAuth2(gapi, process.env.google_clientID, '');
+        };
+
+        loadGoogleAuth();
+    }, []);
+
     return (
         <ul className="social-links">
             <GoogleLogin
@@ -24,19 +33,21 @@ const OAuth = ({ onSuccess }) => {
                 uxMode="redirect"
                 onSuccess={(res) => {
                     const user = res.profileObj;
-                    handleOAth(
+                    handleOnSuccess(
                         user.googleId,
                         user.email,
                         user.givenName,
                         user.familyName
                     );
                 }}
-                onFailure={(error) => {
-                    notification['error']({
-                        message: 'Google login failed!',
-                        description:
-                            'Please check your network connectivity and try again!',
-                    });
+                onFailure={({ error }) => {
+                    if (error !== 'popup_closed_by_user') {
+                        notification['error']({
+                            message: 'Google login failed!',
+                            description:
+                                'Please check your network connectivity and try again!',
+                        });
+                    }
                 }}
                 cookiePolicy={'single_host_origin'}
                 render={(renderProps) => (
@@ -60,7 +71,9 @@ const OAuth = ({ onSuccess }) => {
                 appId={process.env.fb_appID}
                 fields="name,email,picture"
                 scope="email"
-                callback={(res) => handleOAth(res.id, res?.email)}
+                callback={(res) => {
+                    // handleOnSuccess(res.id, res?.email);
+                }}
                 onFailure={(error) => {
                     notification['error']({
                         message: 'Facebook login failed!',
