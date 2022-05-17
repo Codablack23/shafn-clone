@@ -4,10 +4,21 @@ import Router from 'next/router';
 import WPStoreInformation from '~/wp-components/store/WPStoreInformation';
 import WPVendorRepository from '~/repositories/WP/WPVendorRepository';
 import SkeletonVendorInformation from '~/components/elements/skeletons/SkeletonVendorInformation';
+import { SkeletonBanner } from '~/components/elements/skeletons/SkeletonVendorInformation';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import WPVendorProducts from '~/wp-components/store/WPVendorProducts';
 import { generateTempArray } from '~/utilities/common-helpers';
 import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct';
+
+const Banner=({store})=>
+ (   <div className="custom-banner">
+        <img src={store.banner}/>
+        <div className="img-profile-container">
+        <img src={store.gravatar}/>
+        </div>
+    </div>)
+
+
 
 const WPStorePage = ({ query }) => {
     const dispatch = useDispatch();
@@ -48,10 +59,11 @@ const WPStorePage = ({ query }) => {
     }, [dispatch]);
 
     // Views
-    let storeInformationView, storeProductsView;
+    let storeInformationView, storeProductsView, bannerView;
 
     if (!loading) {
         storeInformationView = <WPStoreInformation store={storeProfile} />;
+        bannerView = <Banner store={storeProfile}/>
         if (storeProducts) {
             storeProductsView = (
                 <WPVendorProducts products={storeProducts} id={storeID} />
@@ -59,6 +71,7 @@ const WPStorePage = ({ query }) => {
         }
     } else {
         storeInformationView = <SkeletonVendorInformation />;
+        bannerView =<SkeletonBanner/>
         const skeletonItems = generateTempArray(8).map((item) => (
             <div className="col-lg-3 col-md-4 col-sm-6 col-6" key={item}>
                 <SkeletonProduct />
@@ -72,6 +85,7 @@ const WPStorePage = ({ query }) => {
             <div className="ps-page--single ps-page--vendor">
                 <div className="ps-vendor-store">
                     <div className="container">
+                        {bannerView}
                         <div className="ps-section__container">
                             <div className="ps-section__left">
                                 {storeInformationView}

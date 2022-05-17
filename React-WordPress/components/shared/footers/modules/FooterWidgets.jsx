@@ -93,9 +93,11 @@ const FooterWidgets = () => (
                     </Link>
                 </li>
                 <p>
-                     <Link href="/vendors/become-a-vendor">
-                        <a className="text-white">Become A Vendor</a>
-                    </Link>
+
+                    <i className="icon-store"></i>
+                <Link href="/vendors/become-a-vendor">
+                    <a className="text-white">Become A Vendor</a>
+                </Link>
                 </p>
                 <p>
                     <Link href="/vendors">
@@ -107,7 +109,6 @@ const FooterWidgets = () => (
                         <a className="text-white">Track your order</a>
                     </Link>
                 </p>
-
                 <p>
                     <Link href="/account/register">
                         <a>Sell on shafN</a>

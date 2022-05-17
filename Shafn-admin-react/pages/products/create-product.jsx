@@ -171,7 +171,7 @@ const CreateProductPage = () => {
         let image = selectedImages.find((img) => img.id === `img-${i + 1}`);
 
         return (
-          <div className="" key={i} style={{ ...styles.filesSelect }}>
+          <div className="" key={i}>
             {image === undefined ? (
               <>
                 <input
@@ -185,22 +185,12 @@ const CreateProductPage = () => {
 
                 <label
                   htmlFor={`img-${i + 1}`}
-                  className="m-1 border p-3 text-center"
-                  style={{
-                    width: "20vh",
-                    height: "21vh",
-                    margin: "2% auto",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
+                  className="m-1 border p-3 text-center select-product-img-container"
                 >
                   <span>Add A Photo</span>
                   <br />
                   <i
                     className="fa fa-file-image-o text-secondary"
-                    style={{ fontSize: 38, marginTop: 10, marginBottom: 10 }}
                     aria-hidden="true"
                   ></i>
                   <br />
@@ -210,36 +200,22 @@ const CreateProductPage = () => {
             ) : (
               <div
                 key={image.id}
-                className="m-1 bg-dark"
-                style={{
-                  position: "relative",
-                  width: "20vh",
-                  minHeight: "20vh",
-                  margin: "2% auto",
-                }}
+                className="m-1 bg-dark selected-img-container"
               >
                 <img
                   src={image.url}
-                  style={styles.image}
                   onClick={() => {
                     viewImage(image.id);
                   }}
                 />
 
                 <div
-                  className="btn fw-5 p-3"
-                  style={styles.imageDel}
+                  className="btn fw-5 p-3 del-img-btn"
                   onClick={(e) => {
                     removeImage(e, image.id);
                   }}
                 >
                   <i
-                    style={{
-                      fontSize: 15,
-                      marginLeft: 7,
-                      marginTop: 5,
-                      color: "white",
-                    }}
                     className="bi bi-trash"
                   ></i>
                 </div>
@@ -492,7 +468,7 @@ const CreateProductPage = () => {
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                 <figure className="ps-block--form-box">
                   <figcaption>Product Images</figcaption>
-                  <div className="pt-3" style={styles.filesStyles}>
+                  <div className="pt-3 product-img-container">
                     {renderProductImages(9)}
                   </div>
                 </figure>
@@ -580,15 +556,15 @@ const CreateProductPage = () => {
       )}
       {/* Products Viewer */}
       <CustomModal isOpen={uploading.status ? true : false}>
-        <div
-          style={{
-            margin: "100px auto 0 auto",
-            minWidth: "400px",
-            maxWidth: "600px",
-          }}
-        >
-          <p className="text-center text-white">{uploading.status}</p>
-          <Progress type="line" percent={uploading.progress} />
+        <div className="row">
+          <div className="col-12 col-md-3"></div>
+          <div className="col-12 col-md-6 mt-5">
+           <div className="mt-5">
+            <p className="text-center text-white">{uploading.status}</p>
+            <Progress type="line" percent={uploading.progress} />
+           </div>
+          </div>
+          <div className="col-12 col-md-3"></div>
         </div>
       </CustomModal>
       {/* New Tag Input Field */}
@@ -597,19 +573,9 @@ const CreateProductPage = () => {
           <div className="col-12 col-md-3"></div>
           <div className="col-12 col-md-6">
             <div
-              className="form-group bg-white p-5"
-              style={{
-                borderRadius: "7px",
-                width: "95%",
-                margin: "100px auto 0 auto",
-              }}
+              className="form-group bg-white p-5 new-tag-dialog"
             >
-              <label
-                style={{
-                  fontSize: "18px",
-                  fontWeight: "500",
-                }}
-              >
+              <label className="">
                 New Tag<sup>*</sup>
               </label>
               <input
@@ -643,37 +609,3 @@ const CreateProductPage = () => {
 };
 export default CreateProductPage;
 
-let styles = {
-  image: {
-    width: "20vh",
-    height: "21vh",
-    objectFit: "cover",
-    cursor: "pointer",
-  },
-  imageDel: {
-    position: "absolute",
-    fontSize: 15,
-    bottom: 0,
-    right: 0,
-    borderTopLeftRadius: 75,
-
-    background: "rgba(250,0,0)",
-    width: "30px",
-    height: "30px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 1,
-  },
-  filesStyles: {
-    display: "flex",
-    flexWrap: "wrap",
-    width: "100%",
-    justifyContent: "center",
-  },
-  fileSelect: {
-    minWidth: "33%",
-    minHeight: "30vh",
-    marginRight: "2%",
-  },
-};
