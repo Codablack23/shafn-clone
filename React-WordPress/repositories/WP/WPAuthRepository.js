@@ -96,8 +96,10 @@ class WPAuthRepository {
                     notification['success']({
                         message: 'Registration Successful!',
                     });
-                    localStorage.setItem('customer_token', loggedUser.token);
-                    dispatchLogin();
+                    dispatchLogin({
+                        email: loggedUser.user_email,
+                        token: loggedUser.token,
+                    });
                     Router.push('/');
                     setIsLoading(false);
                 }
@@ -114,23 +116,26 @@ class WPAuthRepository {
         }
     }
 
-    async login(loginData, dispatchLogin, setIsLoading) {
+    async login(userLogs, dispatchLogin, setIsLoading) {
         try {
-            let user = await this.getUserByLogs(loginData);
+            let loggedUser = await this.getUserByLogs(userLogs);
 
-            if (user.user_role[0] === 'customer') {
+            if (loggedUser.user_role[0] === 'customer') {
                 notification['success']({
                     message: 'Login Successful!',
                 });
-                localStorage.setItem('customer_token', user.token);
-                dispatchLogin();
+                dispatchLogin({
+                    email: loggedUser.user_email,
+                    token: loggedUser.token,
+                });
                 Router.push('/');
             } else {
                 notification['success']({
                     message: 'Login Successful!',
                 });
-                localStorage.setItem('vendor_token', user.token);
-                window.location.assign(`http://localhost:5500/${user.token}`);
+                window.location.assign(
+                    `http://localhost:5500/${loggedUser.token}`
+                );
             }
             setIsLoading(false);
         } catch (err) {

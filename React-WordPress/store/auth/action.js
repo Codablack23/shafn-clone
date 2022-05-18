@@ -6,12 +6,12 @@ export const actionTypes = {
     CHECK_AUTHORIZATION: 'CHECK_AUTHORIZATION',
 };
 
-export function login() {
-    return { type: actionTypes.LOGIN_REQUEST };
+export function login(user) {
+    return { type: actionTypes.LOGIN_REQUEST, user };
 }
 
-export function loginSuccess() {
-    return { type: actionTypes.LOGIN_SUCCESS };
+export function loginSuccess(payload) {
+    return { type: actionTypes.LOGIN_SUCCESS, payload };
 }
 
 export function logOut() {

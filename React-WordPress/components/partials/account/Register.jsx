@@ -62,8 +62,8 @@ function Register() {
         };
 
         if (!isLoading) {
-            const dispatchLogin = () => {
-                dispatch(login());
+            const dispatchLogin = (user) => {
+                dispatch(login(user));
             };
 
             WPAuthRepository.register(

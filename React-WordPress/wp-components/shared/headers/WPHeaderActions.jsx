@@ -13,7 +13,7 @@ class WPHeaderActions extends Component {
         const { compare, wishlist, auth } = this.props;
         // Views
         let accountView;
-        if (auth.isLoggedIn && Boolean(auth.isLoggedIn) === true) {
+        if (auth.isLoggedIn) {
             accountView = <AccountQuickLinks isLoggedIn={true} />;
         } else {
             accountView = <AccountQuickLinks isLoggedIn={false} />;

@@ -58,7 +58,7 @@ class AccountQuickLinks extends Component {
                                 }}></i>
                         </span>
                     </Link>
-                    {/* <div className="ps-block__content">
+                    <div className="ps-block__content">
                         <ul className="ps-list--arrow">
                             {accountLinks.map((link) => (
                                 <li key={link.text}>
@@ -75,7 +75,7 @@ class AccountQuickLinks extends Component {
                                 </a>
                             </li>
                         </ul>
-                    </div> */}
+                    </div>
                 </div>
             );
         } else {

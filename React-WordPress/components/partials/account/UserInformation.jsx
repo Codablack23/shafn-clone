@@ -1,10 +1,29 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Link from 'next/link';
-import { Form, Input, Radio, DatePicker } from 'antd';
+import Router from 'next/router';
+import { Form, Input, Radio, DatePicker, notification } from 'antd';
+import { logOut } from '../../../store/auth/action';
 
 class UserInformation extends Component {
     constructor(props) {
         super(props);
+        this.auth = this.props.auth;
+    }
+
+    handleLogout = (e) => {
+        e.preventDefault();
+        this.props.dispatch(logOut());
+        Router.push('/');
+    };
+
+    componentDidMount() {
+        if (!this.auth.isLoggedIn) {
+            Router.push('/');
+            notification['info']({
+                message: 'You are not logged in',
+            });
+        }
     }
 
     render() {
@@ -52,7 +71,7 @@ class UserInformation extends Component {
                                         {/* <img src="/static/img/users/3.jpg" /> */}
                                         <figure>
                                             <figcaption>Hello</figcaption>
-                                            <p>username@gmail.com</p>
+                                            <p>{this.auth.email}</p>
                                         </figure>
                                     </div>
                                     <div className="ps-widget__content">
@@ -77,12 +96,13 @@ class UserInformation extends Component {
                                                 </li>
                                             ))}
                                             <li>
-                                                <Link href="/account/my-account">
-                                                    <a>
-                                                        <i className="icon-power-switch"></i>
-                                                        Logout
-                                                    </a>
-                                                </Link>
+                                                <a
+                                                    onClick={this.handleLogout.bind(
+                                                        this
+                                                    )}>
+                                                    <i className="icon-power-switch"></i>
+                                                    Logout
+                                                </a>
                                             </li>
                                         </ul>
                                     </div>
@@ -205,4 +225,8 @@ class UserInformation extends Component {
     }
 }
 
-export default UserInformation;
+const mapStateToProps = (state) => {
+    return state;
+};
+
+export default connect(mapStateToProps)(UserInformation);
