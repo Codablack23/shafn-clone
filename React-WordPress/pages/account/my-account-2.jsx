@@ -10,7 +10,7 @@ class MyAccountPage2 extends Component {
 
     componentDidMount() {
         setTimeout(() => {
-            containerRef.current.scrollIntoView({ behavior: 'smooth' });
+            this.containerRef.current.scrollIntoView({ behavior: 'smooth' });
         }, 250);
     }
     render() {

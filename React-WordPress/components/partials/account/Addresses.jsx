@@ -14,11 +14,11 @@ class Addresses extends Component {
                 url: '/account/user-information',
                 icon: 'icon-user',
             },
-            {
-                text: 'Notifications',
-                url: '/account/notifications',
-                icon: 'icon-alarm-ringing',
-            },
+            // {
+            //     text: 'Notifications',
+            //     url: '/account/notifications',
+            //     icon: 'icon-alarm-ringing',
+            // },
             {
                 text: 'Invoices',
                 url: '/account/invoices',
@@ -30,11 +30,11 @@ class Addresses extends Component {
                 icon: 'icon-map-marker',
                 active: true,
             },
-            {
-                text: 'Recent Viewed Product',
-                url: '/account/recent-viewed-product',
-                icon: 'icon-store',
-            },
+            // {
+            //     text: 'Recent Viewed Product',
+            //     url: '/account/recent-viewed-product',
+            //     icon: 'icon-store',
+            // },
             {
                 text: 'Wishlist',
                 url: '/account/wishlist',
@@ -49,7 +49,7 @@ class Addresses extends Component {
                             <div className="ps-section__left">
                                 <aside className="ps-widget--account-dashboard">
                                     <div className="ps-widget__header">
-                                        <img src="/static/img/users/3.jpg" />
+                                        {/* <img src="/static/img/users/3.jpg" /> */}
                                         <figure>
                                             <figcaption>Hello</figcaption>
                                             <p>username@gmail.com</p>
@@ -57,7 +57,7 @@ class Addresses extends Component {
                                     </div>
                                     <div className="ps-widget__content">
                                         <ul>
-                                            {accountLinks.map(link => (
+                                            {accountLinks.map((link) => (
                                                 <li
                                                     key={link.text}
                                                     className={
