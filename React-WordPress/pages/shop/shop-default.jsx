@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { getProductsByCategory } from '~/store/product/action';
@@ -14,6 +14,7 @@ import WPLayout from '~/wp-components/layouts/WPLayout';
 import WPShopCategories from '~/wp-components/shop/WPShopCategories';
 
 const WPShopDefaultPage = ({ query }) => {
+    const containerRef = useRef(null);
     const dispatch = useDispatch();
     const router = useRouter();
     const [categoryName, setCategoryName] = useState(null);
@@ -48,6 +49,10 @@ const WPShopDefaultPage = ({ query }) => {
     }
 
     useEffect(() => {
+        setTimeout(() => {
+            containerRef.current.scrollIntoView({ behavior: 'smooth' });
+        }, 250);
+
         if (query) {
             const queries = {
                 page: 1,
@@ -70,27 +75,29 @@ const WPShopDefaultPage = ({ query }) => {
     }, [dispatch]);
 
     return (
-        <WPLayout title="Shop">
-            <div className="ps-page--shop">
-                <div className="container">
-                    <ShopBanner />
-                    <ShopBrands />
-                    <WPShopCategories sidebar={true} />
-                    <div className="ps-layout--shop">
-                        <div className="ps-layout__left">
-                            <WPWidgetCategories
-                                activeID={query && query.category}
-                            />
-                            <WPWidgetBrand />
-                            <WPWidgetFilterByPrices />
-                        </div>
-                        <div className="ps-layout__right">
-                            <WPShopProducts sidebar={true} />
+        <div ref={containerRef}>
+            <WPLayout title="Shop">
+                <div className="ps-page--shop">
+                    <div className="container">
+                        <ShopBanner />
+                        <ShopBrands />
+                        <WPShopCategories sidebar={true} />
+                        <div className="ps-layout--shop">
+                            <div className="ps-layout__left">
+                                <WPWidgetCategories
+                                    activeID={query && query.category}
+                                />
+                                <WPWidgetBrand />
+                                <WPWidgetFilterByPrices />
+                            </div>
+                            <div className="ps-layout__right">
+                                <WPShopProducts sidebar={true} />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </WPLayout>
+            </WPLayout>
+        </div>
     );
 };
 

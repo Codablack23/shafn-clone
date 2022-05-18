@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import Router, { useRouter } from 'next/router';
 import WPProductDetail from '~/wp-components/elements/products/WPProductDetail';
@@ -13,6 +13,9 @@ import WPHeaderDefault from '~/wp-components/shared/headers/WPHeaderDefault';
 
 const WPProductDetailPage = ({ pid }) => {
     const router = useRouter();
+
+    const containerRef = useRef(null);
+
     const [product, setProduct] = useState(null);
     const [productVariations, setProductVariations] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -59,6 +62,10 @@ const WPProductDetailPage = ({ pid }) => {
     }
 
     useEffect(() => {
+        setTimeout(() => {
+            containerRef.current.scrollIntoView({ behavior: 'smooth' });
+        }, 250);
+
         if (isNaN(pid)) {
             Router.push('/page/page-404');
         }
@@ -95,26 +102,29 @@ const WPProductDetailPage = ({ pid }) => {
     }
 
     return (
-        <WPLayoutProductDetail title={product ? product.name : 'Loading...'}>
-         <WPHeaderDefault />
-            <div className="ps-page--product">
-                <div className="ps-container">
-                    <div className="ps-page__container">
-                        <div className="ps-page__left">{productView}</div>
-                        <div className="" style={{ width: '100%' }}>
-                            <WPProductWidgets product={product}>
-                                <WPWidgetProductsSameBrand
-                                    products={relatedProducts}
-                                    isVariant={true}
-                                    product
-                                />
-                            </WPProductWidgets>
+        <div ref={containerRef}>
+            <WPLayoutProductDetail
+                title={product ? product.name : 'Loading...'}>
+                <WPHeaderDefault />
+                <div className="ps-page--product">
+                    <div className="ps-container">
+                        <div className="ps-page__container">
+                            <div className="ps-page__left">{productView}</div>
+                            <div className="" style={{ width: '100%' }}>
+                                <WPProductWidgets product={product}>
+                                    <WPWidgetProductsSameBrand
+                                        products={relatedProducts}
+                                        isVariant={true}
+                                        product
+                                    />
+                                </WPProductWidgets>
+                            </div>
                         </div>
+                        <WPRelatedProducts products={relatedProducts} />
                     </div>
-                    <WPRelatedProducts products={relatedProducts} />
                 </div>
-            </div>
-        </WPLayoutProductDetail>
+            </WPLayoutProductDetail>
+        </div>
     );
 };
 

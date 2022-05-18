@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import WPStores from '~/wp-components/store/WPStores';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 
 const VendorPage = () => {
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        setTimeout(() => {
+            containerRef.current.scrollIntoView({ behavior: 'smooth' });
+        }, 250);
+    }, []);
     return (
-        <WPLayout title="Vendors">
-            <div className="ps-page--single ps-page--vendor">
-                <WPStores />
-            </div>
-        </WPLayout>
+        <div ref={containerRef}>
+            <WPLayout title="Vendors">
+                <div className="ps-page--single ps-page--vendor">
+                    <WPStores />
+                </div>
+            </WPLayout>
+        </div>
     );
 };
 
