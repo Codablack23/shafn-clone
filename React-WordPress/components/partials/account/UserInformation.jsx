@@ -1,10 +1,29 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Link from 'next/link';
-import { Form, Input, Radio, DatePicker } from 'antd';
+import Router from 'next/router';
+import { Form, Input, Radio, DatePicker, notification } from 'antd';
+import { logOut } from '../../../store/auth/action';
 
 class UserInformation extends Component {
     constructor(props) {
         super(props);
+        this.auth = this.props.auth;
+    }
+
+    handleLogout = (e) => {
+        e.preventDefault();
+        this.props.dispatch(logOut());
+        Router.push('/');
+    };
+
+    componentDidMount() {
+        if (!this.auth.isLoggedIn) {
+            Router.push('/');
+            notification['info']({
+                message: 'You are not logged in',
+            });
+        }
     }
 
     render() {
@@ -15,11 +34,11 @@ class UserInformation extends Component {
                 icon: 'icon-user',
                 active: true,
             },
-            {
-                text: 'Notifications',
-                url: '/account/notifications',
-                icon: 'icon-alarm-ringing',
-            },
+            // {
+            //     text: 'Notifications',
+            //     url: '/account/notifications',
+            //     icon: 'icon-alarm-ringing',
+            // },
             {
                 text: 'Invoices',
                 url: '/account/invoices',
@@ -30,11 +49,11 @@ class UserInformation extends Component {
                 url: '/account/addresses',
                 icon: 'icon-map-marker',
             },
-            {
-                text: 'Recent Viewed Product',
-                url: '/account/recent-viewed-product',
-                icon: 'icon-store',
-            },
+            // {
+            //     text: 'Recent Viewed Product',
+            //     url: '/account/recent-viewed-product',
+            //     icon: 'icon-store',
+            // },
             {
                 text: 'Wishlist',
                 url: '/account/wishlist',
@@ -49,15 +68,15 @@ class UserInformation extends Component {
                             <div className="ps-section__left">
                                 <aside className="ps-widget--account-dashboard">
                                     <div className="ps-widget__header">
-                                        <img src="/static/img/users/3.jpg" />
+                                        {/* <img src="/static/img/users/3.jpg" /> */}
                                         <figure>
                                             <figcaption>Hello</figcaption>
-                                            <p>username@gmail.com</p>
+                                            <p>{this.auth.email}</p>
                                         </figure>
                                     </div>
                                     <div className="ps-widget__content">
                                         <ul>
-                                            {accountLinks.map(link => (
+                                            {accountLinks.map((link) => (
                                                 <li
                                                     key={link.text}
                                                     className={
@@ -77,12 +96,13 @@ class UserInformation extends Component {
                                                 </li>
                                             ))}
                                             <li>
-                                                <Link href="/account/my-account">
-                                                    <a>
-                                                        <i className="icon-power-switch"></i>
-                                                        Logout
-                                                    </a>
-                                                </Link>
+                                                <a
+                                                    onClick={this.handleLogout.bind(
+                                                        this
+                                                    )}>
+                                                    <i className="icon-power-switch"></i>
+                                                    Logout
+                                                </a>
                                             </li>
                                         </ul>
                                     </div>
@@ -205,4 +225,8 @@ class UserInformation extends Component {
     }
 }
 
-export default UserInformation;
+const mapStateToProps = (state) => {
+    return state;
+};
+
+export default connect(mapStateToProps)(UserInformation);

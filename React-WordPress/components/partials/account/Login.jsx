@@ -30,22 +30,13 @@ function Login() {
                 };
             }
 
-            const dispatchLogin = () => {
-                dispatch(login());
+            const dispatchLogin = (user) => {
+                dispatch(login(user));
             };
 
             WPAuthRepository.login(loginData, dispatchLogin, setIsLoading);
         }
     };
-
-    useEffect(() => {
-        const { gapi, loadAuth2 } = require('gapi-script');
-        const loadGoogleAuth = async () => {
-            await loadAuth2(gapi, process.env.google_clientID, '');
-        };
-
-        loadGoogleAuth();
-    }, []);
 
     return (
         <div className="ps-my-account" style={{ paddingTop: 10 }}>

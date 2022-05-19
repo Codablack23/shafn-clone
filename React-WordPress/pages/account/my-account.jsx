@@ -6,15 +6,23 @@ import WPLayout from '~/wp-components/layouts/WPLayout';
 class MyAccountPage extends Component {
     constructor(props) {
         super(props);
+        this.containerRef = React.createRef(null);
     }
 
+    componentDidMount() {
+        setTimeout(() => {
+            this.containerRef.current.scrollIntoView({ behavior: 'smooth' });
+        }, 250);
+    }
     render() {
         return (
-            <WPLayout>
-                <div className="ps-page--my-account">
-                    <MyAccount />
-                </div>
-            </WPLayout>
+            <div ref={this.containerRef}>
+                <WPLayout>
+                    <div className="ps-page--my-account">
+                        <MyAccount />
+                    </div>
+                </WPLayout>
+            </div>
         );
     }
 }

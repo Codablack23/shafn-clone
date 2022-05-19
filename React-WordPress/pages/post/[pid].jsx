@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import RelatedPosts from '../../components/partials/post/RelatedPosts';
 import PostComments from '../../components/partials/post/PostComments';
 import { connect } from 'react-redux';
@@ -8,6 +8,7 @@ import WPLayout from '~/wp-components/layouts/WPLayout';
 import SkeletonSinglePost from '~/components/elements/skeletons/SkeletonSinglePost';
 
 const WPSinglePost = ({ query }) => {
+    const containerRef = useRef(null);
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -22,6 +23,10 @@ const WPSinglePost = ({ query }) => {
     }
 
     useEffect(() => {
+        setTimeout(() => {
+            containerRef.current.scrollIntoView({ behavior: 'smooth' });
+        }, 250);
+
         const { pid } = query;
 
         if (query) {
@@ -47,13 +52,16 @@ const WPSinglePost = ({ query }) => {
     }
 
     return (
-        <WPLayout title={!loading && post ? post.title.rendered : 'Single post'}>
-            {singlePostView}
-            <div className="container">
-                <RelatedPosts />
-                <PostComments />
-            </div>
-        </WPLayout>
+        <div ref={containerRef}>
+            <WPLayout
+                title={!loading && post ? post.title.rendered : 'Single post'}>
+                {singlePostView}
+                <div className="container">
+                    <RelatedPosts />
+                    <PostComments />
+                </div>
+            </WPLayout>
+        </div>
     );
 };
 

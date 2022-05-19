@@ -1,16 +1,26 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Newsletters from '~/components/partials/commons/Newletters';
 import Addresses from '~/components/partials/account/Addresses';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 
 const MyAccountPage = () => {
+    const containerRef = useRef(null);
+
+    useEffect(() => {
+        setTimeout(() => {
+            containerRef.current.scrollIntoView({ behavior: 'smooth' });
+        }, 250);
+    }, []);
+
     return (
-        <WPLayout title="Address">
-            <div className="ps-page--my-account">
-                <Addresses />
-            </div>
-            <Newsletters layout="container" />
-        </WPLayout>
+        <div ref={containerRef}>
+            <WPLayout title="Address">
+                <div className="ps-page--my-account">
+                    <Addresses />
+                </div>
+                <Newsletters layout="container" />
+            </WPLayout>
+        </div>
     );
 };
 

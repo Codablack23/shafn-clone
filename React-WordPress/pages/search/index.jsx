@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { getProductsByCategory } from '~/store/product/action';
 import { WPGetProducts } from '~/store/wp/action';
@@ -9,6 +9,7 @@ import { generateTempArray } from '~/utilities/common-helpers';
 import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct';
 
 const WPSearchPage = ({ query }) => {
+    const containerRef = useRef(null);
     const [keyword, setKeyword] = useState(null);
     const [products, setProducts] = useState(null);
     const [loading, setLoading] = useState(null);
@@ -59,8 +60,7 @@ const WPSearchPage = ({ query }) => {
                     }.bind(this),
                     250
                 );
-            }
-            else{
+            } else {
                 setLoading(false);
             }
         }
@@ -72,6 +72,10 @@ const WPSearchPage = ({ query }) => {
          };*/
     }
     useEffect(() => {
+        setTimeout(() => {
+            containerRef.current.scrollIntoView({ behavior: 'smooth' });
+        }, 250);
+
         getProductResult();
     }, []);
 
@@ -88,7 +92,7 @@ const WPSearchPage = ({ query }) => {
         } else {
             productItemView = (
                 <div className="ps-not-found text-center pt-100 pb-100">
-                    <img src="static/img/404.png" className="mb-20" />
+                    {/* <img src="static/img/404.png" className="mb-20" /> */}
                     <h3>No Product Found.</h3>
                 </div>
             );
@@ -103,20 +107,22 @@ const WPSearchPage = ({ query }) => {
     }
 
     return (
-        <WPLayout title="Search Result">
-            <div className="ps-page--shop">
-                <div className="container">
-                    <section className="ps-search-result">
-                        {/* <div className="ps-section__header">
+        <div ref={containerRef}>
+            <WPLayout title="Search Result">
+                <div className="ps-page--shop">
+                    <div className="container">
+                        <section className="ps-search-result">
+                            {/* <div className="ps-section__header">
                             <h3>Result for: "{keyword}"</h3>
                         </div> */}
-                        <div className="ps-section__content">
-                            {productItemView}
-                        </div>
-                    </section>
+                            <div className="ps-section__content">
+                                {productItemView}
+                            </div>
+                        </section>
+                    </div>
                 </div>
-            </div>
-        </WPLayout>
+            </WPLayout>
+        </div>
     );
 };
 

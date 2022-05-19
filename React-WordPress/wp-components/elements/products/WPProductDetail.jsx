@@ -43,22 +43,31 @@ const WPProductDetail = ({ product, variations }) => {
 
             if (WPProductSizes) {
                 const sizeItems = WPProductSizes.options.map((item, index) => (
-                    <div
+                    <option
+                       value={item}
                         className={`ps-variant ps-variant--size ${
                             selectedSize === item.toLowerCase() && 'active'
                         }`}
                         onClick={(e) => handleChangeSize(item)}
                         key={index}>
-                        <span className="ps-variant__size text-uppercase">
                             {item}
-                        </span>
-                    </div>
+                    </option>
                 ));
                 sizesView = (
                     <div className="ps-product__variations">
                         <figure>
-                            <figcaption>Size</figcaption>
-                            {sizeItems}
+                            <p className='text-center text-lg-left'>Size</p>
+                            <div className="rounded-pill m-auto m-lg-0 custom--select"
+                        
+                            >
+                            <select 
+                            value={selectedSize}
+                            onChange={(e)=>{handleChangeSize(e.target.value)}}
+                            >
+                                {sizeItems}
+                            </select>
+                            </div>
+                         
                         </figure>
                     </div>
                 );
@@ -113,7 +122,7 @@ const WPProductDetail = ({ product, variations }) => {
                     <WPModuleProductDetailThumbnail product={product} />
                     <WPModuleProductDetailInformation product={product} />
                 </div>
-                <WPModuleDefaultDescription />
+                <WPModuleDefaultDescription product={product}/>
             </div>
         );
     } else {
@@ -135,7 +144,7 @@ const WPProductDetail = ({ product, variations }) => {
                         </>
                     </WPModuleProductDetailInformation>
                 </div>
-                <DefaultDescription />
+                <DefaultDescription product={product}/>
             </div>
         );
     }

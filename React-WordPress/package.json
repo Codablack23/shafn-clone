@@ -3,7 +3,13 @@
     "version": "1.4.0",
     "private": true,
     "scripts": {
+<<<<<<< HEAD
         "dev": "next dev",
+||||||| 7bb2c3f
+        "dev": " node server.js next dev",
+=======
+        "dev": "node server.js next dev",
+>>>>>>> 71f6f3aefe3467b6c1903690a5685138e8d4e568
         "build": "next build",
         "start": "next start"
     },
@@ -27,7 +33,6 @@
         "react-cookie": "^4.1.1",
         "react-custom-scrollbars": "^4.2.1",
         "react-dom": "^16.13.1",
-        "react-facebook": "^8.1.4",
         "react-facebook-login": "^4.1.1",
         "react-google-login": "^5.2.2",
         "react-html-parser": "^2.0.2",

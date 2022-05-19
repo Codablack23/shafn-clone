@@ -18,10 +18,10 @@ class AccountQuickLinks extends Component {
                 text: 'Account Information',
                 url: '/account/user-information',
             },
-            {
-                text: 'Notifications',
-                url: '/account/notifications',
-            },
+            // {
+            //     text: 'Notifications',
+            //     url: '/account/notifications',
+            // },
             {
                 text: 'Invoices',
                 url: '/account/invoices',
@@ -30,10 +30,10 @@ class AccountQuickLinks extends Component {
                 text: 'Address',
                 url: '/account/addresses',
             },
-            {
-                text: 'Recent Viewed Product',
-                url: '/account/recent-viewed-product',
-            },
+            // {
+            //     text: 'Recent Viewed Product',
+            //     url: '/account/recent-viewed-product',
+            // },
             {
                 text: 'Wishlist',
                 url: '/account/wishlist',
@@ -42,8 +42,22 @@ class AccountQuickLinks extends Component {
         const { isLoggedIn } = this.props;
         if (isLoggedIn === true) {
             return (
-                <div className="ps-block--user-account">
-                    <i className="icon-user"></i>
+                <div className="ps-block--user-account mt-3">
+                    <Link href="/account/user-information">
+                        <span
+                            className="w3-hover-lightgrey"
+                            style={{
+                                cursor: 'pointer',
+                            }}>
+                            <i
+                                className="icon-user"
+                                style={{
+                                    fontSize: '22px',
+                                    cursor: 'pointer',
+                                    color: '#2A3147',
+                                }}></i>
+                        </span>
+                    </Link>
                     <div className="ps-block__content">
                         <ul className="ps-list--arrow">
                             {accountLinks.map((link) => (
@@ -68,20 +82,20 @@ class AccountQuickLinks extends Component {
             return (
                 <div className="ps-block--user-header mt-3">
                     <div className="ps-block__right">
-                        <Link href="/account/login" >
-                          <span className='w3-hover-lightgrey' style={{
-                        cursor:'pointer'
-                        }}>
-                          <i 
-                           className="icon-user"
-                           style={{
-                             fontSize:'22px',
-                             cursor:'pointer',
-                             color:'#2A3147'
-                            }}
-                           >
-                           </i>
-                           </span>
+                        <Link href="/account/login">
+                            <span
+                                className="w3-hover-lightgrey"
+                                style={{
+                                    cursor: 'pointer',
+                                }}>
+                                <i
+                                    className="icon-user"
+                                    style={{
+                                        fontSize: '22px',
+                                        cursor: 'pointer',
+                                        color: '#2A3147',
+                                    }}></i>
+                            </span>
                         </Link>
                         {/* <Link href="/account/register">
                             <a>Register</a>

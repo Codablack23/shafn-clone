@@ -17,9 +17,9 @@ const modalWarning = (type) => {
     });
 };
 
-function* loginSaga() {
+function* loginSaga(user) {
     try {
-        yield put(loginSuccess());
+        yield put(loginSuccess(user));
         modalSuccess('success');
     } catch (err) {
         console.log(err);

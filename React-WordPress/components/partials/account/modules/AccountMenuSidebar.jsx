@@ -4,7 +4,7 @@ import Link from 'next/link';
 const AccountMenuSidebar = ({ data }) => (
     <aside className="ps-widget--account-dashboard">
         <div className="ps-widget__header">
-            <img src="/static/img/users/3.jpg" />
+            {/* <img src="/static/img/users/3.jpg" /> */}
             <figure>
                 <figcaption>Hello</figcaption>
                 <p>username@gmail.com</p>
@@ -12,7 +12,7 @@ const AccountMenuSidebar = ({ data }) => (
         </div>
         <div className="ps-widget__content">
             <ul>
-                {data.map(link => (
+                {data.map((link) => (
                     <li key={link.text} className={link.active ? 'active' : ''}>
                         <Link href={link.url}>
                             <a>

@@ -36,14 +36,15 @@ const WPHeaderMobile = () => {
             <div className="navigation--mobile bg-white">
                 <div className="navigation__left bg-white">
                     <Link href="/">
-                    <a className="ps-logo" 
-                    style={{
-                    color:'#2A3147',
-                    fontSize:'30px',
-                    fontWeight:900
-                    }}>
-                     ShafN
-                    </a>
+                        <a
+                            className="ps-logo"
+                            style={{
+                                color: '#2A3147',
+                                fontSize: '30px',
+                                fontWeight: 900,
+                            }}>
+                            ShafN
+                        </a>
                     </Link>
                 </div>
                 <WPMobileHeaderActions />

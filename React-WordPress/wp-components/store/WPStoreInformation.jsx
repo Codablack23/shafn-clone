@@ -1,5 +1,6 @@
 import React from 'react';
 import Rating from '~/components/elements/Rating';
+import Link from 'next/link'
 
 const WPStoreInformation = ({ store }) => {
     // views
@@ -23,10 +24,10 @@ const WPStoreInformation = ({ store }) => {
     }
 
     return (
-        <div className="ps-block--vendor">
-            <div className="ps-block__thumbnail">{storeBannerView}</div>
-            <div className="ps-block__thumbnail">{storeGravatarView}</div>
-            <div className="ps-block__container">
+        <div className="ps-block--vendor m-md-0 m-sm-auto w3-white">
+            {/* <div className="ps-block__thumbnail">{storeBannerView}</div>
+            <div className="ps-block__thumbnail">{storeGravatarView}</div> */}
+            <div className="ps-block__container w3-white">
                 <div className="ps-block__header">
                     <h4>{store.store_name}</h4>
                     <Rating />
@@ -41,42 +42,47 @@ const WPStoreInformation = ({ store }) => {
                         {store.address.city}, {store.address.state},{' '}
                         {store.address.country},{store.address.zip}
                     </p>
-                    <figure>
-                        <figcaption>Follow us on social</figcaption>
-                        <ul className="ps-list--social-color">
-                            <li>
-                                <a className="facebook" href="#">
-                                    <i className="fa fa-facebook"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a className="twitter" href="#">
-                                    <i className="fa fa-twitter"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a className="linkedin" href="#">
-                                    <i className="fa fa-linkedin"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a className="feed" href="#">
-                                    <i className="fa fa-feed"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </figure>
                 </div>
                 <div className="ps-block__footer">
-                    <p>
+                    {/* <p>
                         Call us directly
                         <strong>{store.phone}</strong>
-                    </p>
-                    <p>or Or if you have any question</p>
-                    <a className="ps-btn ps-btn--fullwidth" href="">
+                    </p> */}
+                    {/* <p>or Or if you have any question</p> */}
+                    <a className="ps-btn ps-btn--fullwidth" href="" style={{borderRadius:"30px"}}>
                         Contact Seller
                     </a>
                 </div>
+                <div className="share m-3">
+            <p className="w3-text-grey">Share on social media</p>
+            <div className="d-flex justify-content-between">
+                <Link href={"https://facebook.com"}>
+                    <a className="social-link">
+                    <i className="bi bi-facebook"></i>
+                    </a>
+                </Link>
+                <Link href={"https://instagram.com"}>
+                    <a className="social-link">
+                    <i className="bi bi-instagram"></i>
+                    </a>
+                </Link>
+                <Link href={"https://twitter.com"}>
+                    <a className="social-link">
+                    <i className="bi bi-twitter"></i>
+                    </a>
+                </Link>
+                <Link href={"https://twitter.com"}>
+                    <a className="social-link">
+                    <i className="bi bi-linkedin" style={{color:'#0A66C2'}}></i>
+                    </a>
+                </Link>
+                <Link href={"https://pinterest.com"}>
+                    <a className="social-link">
+                    <i className="bi bi-pinterest"></i>
+                    </a>
+                </Link>
+            </div>
+            </div>
             </div>
         </div>
     );

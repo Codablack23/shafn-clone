@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { getProductsByCategory } from '~/store/product/action';
@@ -14,6 +14,7 @@ import WPLayout from '~/wp-components/layouts/WPLayout';
 import ShopSidebarBanner from '~/components/partials/shop/ShopSidebarBanner';
 
 const WPShopSidebarPage = ({ query }) => {
+    const containerRef = useEffect(null);
     const dispatch = useDispatch();
     const router = useRouter();
     const [categoryName, setCategoryName] = useState(null);
@@ -48,6 +49,10 @@ const WPShopSidebarPage = ({ query }) => {
     }
 
     useEffect(() => {
+        setTimeout(() => {
+            containerRef.current.scrollIntoView({ behavior: 'smooth' });
+        }, 250);
+
         if (query) {
             const queries = {
                 page: 1,
@@ -70,28 +75,30 @@ const WPShopSidebarPage = ({ query }) => {
     }, [dispatch]);
 
     return (
-        <WPLayout title="Shop Sidebar">
-            <div className="ps-page--shop">
-                <div className="container">
-                    <div className="ps-layout--shop" id="shop-sidebar">
-                        <div className="ps-layout__left">
-                            <WPWidgetCategories
-                                activeID={query && query.category}
-                            />
-                            <WPWidgetBrand />
-                            <WPWidgetFilterByPrices />
-                        </div>
-                        <div className="ps-layout__right">
-                            <div className="ps-page__header">
-                                <h1>Shop Sidebar</h1>
-                                <ShopSidebarBanner />
+        <div ref={containerRef}>
+            <WPLayout title="Shop Sidebar">
+                <div className="ps-page--shop">
+                    <div className="container">
+                        <div className="ps-layout--shop" id="shop-sidebar">
+                            <div className="ps-layout__left">
+                                <WPWidgetCategories
+                                    activeID={query && query.category}
+                                />
+                                <WPWidgetBrand />
+                                <WPWidgetFilterByPrices />
                             </div>
-                            <WPShopProducts sidebar={true} />
+                            <div className="ps-layout__right">
+                                <div className="ps-page__header">
+                                    <h1>Shop Sidebar</h1>
+                                    <ShopSidebarBanner />
+                                </div>
+                                <WPShopProducts sidebar={true} />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </WPLayout>
+            </WPLayout>
+        </div>
     );
 };
 

@@ -62,8 +62,8 @@ function Register() {
         };
 
         if (!isLoading) {
-            const dispatchLogin = () => {
-                dispatch(login());
+            const dispatchLogin = (user) => {
+                dispatch(login(user));
             };
 
             WPAuthRepository.register(
@@ -74,15 +74,6 @@ function Register() {
             );
         }
     };
-
-    useEffect(() => {
-        const { gapi, loadAuth2 } = require('gapi-script');
-        const loadGoogleAuth = async () => {
-            let auth2 = await loadAuth2(gapi, process.env.google_clientID, '');
-        };
-
-        loadGoogleAuth();
-    }, []);
 
     return (
         <div className="ps-my-account">
