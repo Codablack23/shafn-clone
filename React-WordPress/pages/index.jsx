@@ -12,9 +12,10 @@ import WPLayoutHomeDefault from '~/wp-components/layouts/WPLayoutHomeDefault';
 import WPNewArrivals from '~/wp-components/homepage/WPNewArrivals';
 import WPDealOfDay from '~/wp-components/homepage/WPDealOfDay';
 import WPProductList from '~/wp-components/homepage/WPProductList';
+import WPRecentlyViewed from '~/wp-components/homepage/WPRecentlyViewed';
 import { getBannersBySlugs, getPromotionsBySlugs } from '~/store/media/action';
 
-const Index = () => {
+const Index = (auth) => {
     const dispatch = useDispatch();
     useEffect(() => {
         const collectionsSlug = [
@@ -49,9 +50,14 @@ const Index = () => {
             <WPProductList categoryID={70} title="Clothing" />
             {/* <DownLoadApp /> */}
             <WPNewArrivals />
+
+            {auth.isLoggedIn && <WPRecentlyViewed />}
+
             <Newletters />
         </WPLayoutHomeDefault>
     );
 };
 
-export default connect()(Index);
+const mapStateToProps = (state) => state.auth;
+
+export default connect(mapStateToProps)(Index);

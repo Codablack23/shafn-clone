@@ -9,9 +9,13 @@ class MyAccountPage2 extends Component {
     }
 
     componentDidMount() {
-        setTimeout(() => {
-            this.containerRef.current.scrollIntoView({ behavior: 'smooth' });
-        }, 250);
+        if (this.containerRef.current) {
+            setTimeout(() => {
+                this.containerRef.current.scrollIntoView({
+                    behavior: 'smooth',
+                });
+            }, 250);
+        }
     }
     render() {
         return (

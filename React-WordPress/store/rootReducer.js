@@ -11,6 +11,7 @@ import collection from './collection/reducer';
 import media from './media/reducer';
 import app from './app/reducer';
 import wp from './wp/reducer';
+import recentlyViewedProducts from './recently-viewed-products/reducer';
 
 export default combineReducers({
     auth,
@@ -25,4 +26,5 @@ export default combineReducers({
     media,
     app,
     wp,
+    recentlyViewedProducts,
 });
