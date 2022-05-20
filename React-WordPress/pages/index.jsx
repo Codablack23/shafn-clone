@@ -5,7 +5,7 @@ import SiteFeatures from '~/components/partials/homepage/home-default/SiteFeatur
 import HomeAdsColumns from '~/components/partials/homepage/home-default/HomeAdsColumns';
 import HomeAds from '~/components/partials/homepage/home-default/HomeAds';
 // import DownLoadApp from '~/components/partials/commons/DownLoadApp';
-import Newletters from '~/components/partials/commons/Newletters';
+// import Newletters from '~/components/partials/commons/Newletters';
 import HomeDefaultTopCategories from '~/components/partials/homepage/home-default/HomeDefaultTopCategories';
 import { getCollections } from '~/store/collection/action';
 import WPLayoutHomeDefault from '~/wp-components/layouts/WPLayoutHomeDefault';
@@ -53,7 +53,7 @@ const Index = (auth) => {
 
             {auth.isLoggedIn && <WPRecentlyViewed />}
 
-            <Newletters />
+            {/* <Newletters /> */}
         </WPLayoutHomeDefault>
     );
 };
