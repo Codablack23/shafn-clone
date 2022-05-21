@@ -3,14 +3,17 @@ import ContactInfo from '~/components/partials/page/ContactInfo';
 import ContactForm from '~/components/partials/page/ContactForm';
 import ContactMap from '~/components/partials/page/ContactMap';
 import WPLayout from '~/wp-components/layouts/WPLayout';
+import Newsletters from '~/components/partials/commons/Newletters';
 
 const ContactUsPage = () => {
     const containerRef = useRef(null);
 
     useEffect(() => {
-        setTimeout(() => {
-            containerRef.current.scrollIntoView({ behavior: 'smooth' });
-        }, 250);
+        if (containerRef.current) {
+            setTimeout(() => {
+                containerRef.current.scrollIntoView({ behavior: 'smooth' });
+            }, 250);
+        }
     }, []);
 
     return (
@@ -21,6 +24,7 @@ const ContactUsPage = () => {
                     <ContactInfo />
                     <ContactForm />
                 </div>
+                <Newsletters layout="container" />
             </WPLayout>
         </div>
     );

@@ -23,9 +23,11 @@ const WPSinglePost = ({ query }) => {
     }
 
     useEffect(() => {
-        setTimeout(() => {
-            containerRef.current.scrollIntoView({ behavior: 'smooth' });
-        }, 250);
+        if (containerRef.current) {
+            setTimeout(() => {
+                containerRef.current.scrollIntoView({ behavior: 'smooth' });
+            }, 250);
+        }
 
         const { pid } = query;
 

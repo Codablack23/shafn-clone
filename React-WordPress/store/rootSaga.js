@@ -11,6 +11,7 @@ import CollectionSaga from './collection/saga';
 import MediaSaga from './media/saga';
 import AppSaga from './app/saga';
 import WPSaga from './wp/saga';
+import RecentlyViewedProducts from './recently-viewed-products/saga';
 
 export default function* rootSaga() {
     yield all([
@@ -26,5 +27,6 @@ export default function* rootSaga() {
         MediaSaga(),
         AppSaga(),
         WPSaga(),
+        RecentlyViewedProducts(),
     ]);
 }

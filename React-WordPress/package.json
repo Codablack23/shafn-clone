@@ -4,12 +4,18 @@
     "private": true,
     "scripts": {
 <<<<<<< HEAD
+<<<<<<< HEAD
         "dev": "next dev",
 ||||||| 7bb2c3f
         "dev": " node server.js next dev",
 =======
         "dev": "node server.js next dev",
 >>>>>>> 71f6f3aefe3467b6c1903690a5685138e8d4e568
+||||||| 71f6f3a
+        "dev": "node server.js next dev",
+=======
+        "dev": "next dev",
+>>>>>>> 5486c92db61478053329ec452a5b4129049f7f8c
         "build": "next build",
         "start": "next start"
     },

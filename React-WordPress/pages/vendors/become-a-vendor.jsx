@@ -5,16 +5,18 @@ import VendorMileStone from '~/components/partials/vendor/VendorMileStone';
 import VendorBestFees from '~/components/partials/vendor/VendorBestFees';
 import VendorTestimonials from '~/components/partials/vendor/VendorTestimonials';
 import VendorFaqs from '~/components/partials/vendor/VendorFaqs';
-import Newletters from '~/components/partials/commons/Newletters';
+// import Newletters from '~/components/partials/commons/Newletters';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 
 const BecomeAVendorPage = () => {
     const containerRef = useRef(null);
 
     useEffect(() => {
-        setTimeout(() => {
-            containerRef.current.scrollIntoView({ behavior: 'smooth' });
-        }, 250);
+        if (containerRef.current) {
+            setTimeout(() => {
+                containerRef.current.scrollIntoView({ behavior: 'smooth' });
+            }, 250);
+        }
     }, []);
     return (
         <div ref={containerRef}>
@@ -27,7 +29,7 @@ const BecomeAVendorPage = () => {
                     <VendorTestimonials />
                     <VendorFaqs />
                     <VendorBanner />
-                    <Newletters layout="container" />
+                    {/* <Newletters layout="container" /> */}
                 </div>
             </WPLayout>
         </div>

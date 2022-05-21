@@ -17,7 +17,7 @@ const WPProductHorizontal = ({ product }) => {
     return (
         <div className="ps-product--horizontal">
             <div className="ps-product__thumbnail hover-popup">
-                <Link href="/shop">
+                <Link href="/product/[pid]" as={`/product/${query}`}>
                     <a>{thumbnailImage}</a>
                 </Link>
             </div>

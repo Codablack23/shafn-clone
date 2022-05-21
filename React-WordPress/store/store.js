@@ -6,7 +6,7 @@ import storage from 'redux-persist/lib/storage';
 import rootReducer from './rootReducer';
 import rootSaga from './rootSaga';
 
-const bindMiddleware = middleware => {
+const bindMiddleware = (middleware) => {
     if (process.env.NODE_ENV !== 'production') {
         const { composeWithDevTools } = require('redux-devtools-extension');
         return composeWithDevTools(applyMiddleware(...middleware));
@@ -17,7 +17,13 @@ const bindMiddleware = middleware => {
 const persistConfig = {
     key: 'martfury',
     storage,
-    whitelist: ['cart', 'compare', 'auth', 'wishlist'],
+    whitelist: [
+        'cart',
+        'compare',
+        'auth',
+        'wishlist',
+        'recentlyViewedProducts',
+    ],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

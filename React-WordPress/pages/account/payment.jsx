@@ -9,9 +9,11 @@ const PaymentPage = () => {
     const containerRef = useRef(null);
     const dispatch = useDispatch();
     useEffect(() => {
-        setTimeout(() => {
-            containerRef.current.scrollIntoView({ behavior: 'smooth' });
-        }, 250);
+        if (containerRef.current) {
+            setTimeout(() => {
+                containerRef.current.scrollIntoView({ behavior: 'smooth' });
+            }, 250);
+        }
         dispatch(getCart());
     }, [dispatch]);
 

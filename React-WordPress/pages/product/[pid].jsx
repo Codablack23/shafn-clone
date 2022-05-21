@@ -11,7 +11,10 @@ import WPProductWidgets from '~/wp-components/product/WPProductWidgets';
 import WPLayoutProductDetail from '~/wp-components/layouts/WPLayoutProductDetail';
 import WPHeaderDefault from '~/wp-components/shared/headers/WPHeaderDefault';
 
+import { addRecentlyViewedProduct } from '~/store/recently-viewed-products/action';
+
 const WPProductDetailPage = ({ pid }) => {
+    const dispatch = useDispatch();
     const router = useRouter();
 
     const containerRef = useRef(null);
@@ -41,12 +44,14 @@ const WPProductDetailPage = ({ pid }) => {
                     setProductVariations(WPPRroductVariations);
                 }
             }
-            setTimeout(
-                function () {
-                    setLoading(false);
-                }.bind(this),
-                250
-            );
+
+            /* NOTE: This throws an error when uncommented */
+            // setTimeout(
+            //     function () {
+            //         setLoading(false);
+            //     }.bind(this),
+            //     250
+            // );
         } else {
             await router.push('/page/page-404', '/404');
         }
@@ -62,9 +67,11 @@ const WPProductDetailPage = ({ pid }) => {
     }
 
     useEffect(() => {
-        setTimeout(() => {
-            containerRef.current.scrollIntoView({ behavior: 'smooth' });
-        }, 250);
+        if (containerRef.current) {
+            setTimeout(() => {
+                containerRef.current.scrollIntoView({ behavior: 'smooth' });
+            }, 250);
+        }
 
         if (isNaN(pid)) {
             Router.push('/page/page-404');
@@ -76,7 +83,9 @@ const WPProductDetailPage = ({ pid }) => {
                 'shop-recommend-items',
                 'widget_same_brand',
             ];
-            getProduct(pid);
+            getProduct(pid)
+                .then((res) => dispatch(addRecentlyViewedProduct(res)))
+                .catch((err) => console.log(err));
         }
 
         router.events.on('routeChangeStart', getProductOnChangeURL);
