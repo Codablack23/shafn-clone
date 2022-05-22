@@ -7,7 +7,7 @@ export const wp = 'https://shafn.com';
 const authorization_prefix = 'Bearer ';
 
 export const customHeaders = {
-    "Accept": 'application/json',
+    Accept: 'application/json',
     /* Authorization: authorization_prefix + token || undefined*/
     /*auth: {
         "username": "ck_a1afc51ff351c0c57c490de46c158cb372e5dae7",
@@ -22,12 +22,11 @@ export default axios.create({
     headers: customHeaders,
 });
 
-export const serializeQuery = query => {
+export const serializeQuery = (query) => {
     return Object.keys(query)
         .map(
-            key =>
+            (key) =>
                 `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`
         )
         .join('&');
 };
-
