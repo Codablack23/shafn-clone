@@ -39,19 +39,16 @@ const WPProductDetailPage = ({ pid }) => {
                     await WPProductRepository.getProductVariantsByID(productID);
 
                 if (WPPRroductVariations) {
-                    // console.log('Product::', WPProduct);
-                    // console.log('Variations::', WPPRroductVariations);
                     setProductVariations(WPPRroductVariations);
                 }
             }
 
-            /* NOTE: This throws an error when uncommented */
-            // setTimeout(
-            //     function () {
-            //         setLoading(false);
-            //     }.bind(this),
-            //     250
-            // );
+            setTimeout(
+                function () {
+                    setLoading(false);
+                }.bind(this),
+                250
+            );
         } else {
             await router.push('/page/page-404', '/404');
         }
@@ -63,6 +60,7 @@ const WPProductDetailPage = ({ pid }) => {
         if (nextPid !== '' && isNaN(parseInt(nextPid)) === false) {
             setLoading(true);
             await getProduct(nextPid);
+            setLoading(false);
         }
     }
 
@@ -96,7 +94,7 @@ const WPProductDetailPage = ({ pid }) => {
     }, []);
 
     // View area
-    let productView, headerView;
+    let productView, headerView, widgetView;
     if (loading || product === null) {
         headerView = <WPHeaderDefault />;
         productView = <SkeletonProductDetail />;
@@ -107,6 +105,15 @@ const WPProductDetailPage = ({ pid }) => {
                 product={product}
                 variations={productVariations && productVariations}
             />
+        );
+        widgetView = (
+            <WPProductWidgets product={product}>
+                <WPWidgetProductsSameBrand
+                    products={relatedProducts}
+                    isVariant={true}
+                    product
+                />
+            </WPProductWidgets>
         );
     }
 
@@ -120,13 +127,7 @@ const WPProductDetailPage = ({ pid }) => {
                         <div className="ps-page__container">
                             <div className="ps-page__left">{productView}</div>
                             <div className="" style={{ width: '100%' }}>
-                                <WPProductWidgets product={product}>
-                                    <WPWidgetProductsSameBrand
-                                        products={relatedProducts}
-                                        isVariant={true}
-                                        product
-                                    />
-                                </WPProductWidgets>
+                                {widgetView}
                             </div>
                         </div>
                         <WPRelatedProducts products={relatedProducts} />
