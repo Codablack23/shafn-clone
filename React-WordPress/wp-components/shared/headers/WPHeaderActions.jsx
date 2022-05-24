@@ -20,7 +20,7 @@ class WPHeaderActions extends Component {
         }
         return (
             <div className="header__actions" >
-              <div className="w-50 d-flex justify-content-between" style={{
+              <div className="w-100 d-flex justify-content-between" style={{
                   alignItems:'center'
               }}>
                 <Link href="/account/compare">
