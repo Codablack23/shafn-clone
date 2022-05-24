@@ -5,7 +5,6 @@ import { formatCurrency } from '~/utilities/product-helper';
 import { addItem } from '~/store/cart/action';
 import { addCheckoutItem } from '~/store/checkout-items/action';
 import { addItemToWishlist } from '~/store/wishlist/action';
-// import ModuleProductDetailSharing from '~/components/elements/detail/modules/elements/ModuleProductDetailSharing';
 
 import {
     WPProductDetailBrandView,
@@ -15,6 +14,13 @@ import {
     WPProductDetailTagsView,
     Button,
 } from '~/utilities/WPHelpers';
+
+import {
+    FacebookShareButton,
+    TwitterShareButton,
+    PinterestShareButton,
+    LinkedinShareButton,
+} from 'react-share';
 
 const WPModuleProductInformation = ({
     product,
@@ -176,31 +182,39 @@ const WPModuleProductInformation = ({
                     </a>
                 </Link>
             </div>
-           
+
             <div className="share m-3">
-            <p className="w3-text-grey">SHARE</p>
-            <div className="flex">
-                <Link href={"https://facebook.com"}>
-                    <a className="social-link">
-                    <i className="bi bi-facebook"></i>
-                    </a>
-                </Link>
-                <Link href={"https://instagram.com"}>
-                    <a className="social-link">
-                    <i className="bi bi-instagram"></i>
-                    </a>
-                </Link>
-                <Link href={"https://twitter.com"}>
-                    <a className="social-link">
-                    <i className="bi bi-twitter"></i>
-                    </a>
-                </Link>
-                <Link href={"https://pinterest.com"}>
-                    <a className="social-link">
-                    <i className="bi bi-pinterest"></i>
-                    </a>
-                </Link>
-            </div>
+                <p className="w3-text-grey">SHARE</p>
+                <div className="flex">
+                    <FacebookShareButton
+                        url="https://www.shafn.com"
+                        quote={product.description}>
+                        <a className="social-link">
+                            <i className="bi bi-facebook"></i>
+                        </a>
+                    </FacebookShareButton>
+                    <TwitterShareButton
+                        url="https://www.shafn.com"
+                        title={product.name}>
+                        <a className="social-link">
+                            <i className="bi bi-twitter"></i>
+                        </a>
+                    </TwitterShareButton>
+                    <LinkedinShareButton
+                        url="https://www.shafn.com"
+                        title={product.name}>
+                        <a className="social-link">
+                            <i
+                                className="bi bi-linkedin"
+                                style={{ color: '#0073B1' }}></i>
+                        </a>
+                    </LinkedinShareButton>
+                    <PinterestShareButton url="https://www.shafn.com">
+                        <a className="social-link">
+                            <i className="bi bi-pinterest"></i>
+                        </a>
+                    </PinterestShareButton>
+                </div>
             </div>
         </div>
     );
