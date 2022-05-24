@@ -10,11 +10,19 @@ import { Form, Input, notification } from 'antd';
 import { useDispatch } from 'react-redux';
 
 function Login() {
+    
     const dispatch = useDispatch();
-
+    const [passVisibility,setPassVisibility] = useState(false)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+
+    function togglePasswordVisibilty(){
+        let e = document.querySelector('.passVis')
+        e.classList.toggle("bi-eye-fill")
+        e.classList.toggle("bi-eye-slash-fill")
+        setPassVisibility(prev=>!prev)
+     }
 
     const handleLogin = (type = 'form', oauth) => {
         setIsLoading(true);
@@ -98,16 +106,32 @@ function Login() {
                                                 'Please input your password!',
                                         },
                                     ]}>
-                                    <Input
+                                  <div className="form-control align-items-center d-flex justify-content-between">
+                                  <input
                                         name="password"
-                                        className="form-control"
-                                        type="password"
+                                        type={`${passVisibility?"test":"password"}`}
                                         placeholder="Password..."
                                         value={password}
                                         onChange={(e) =>
                                             setPassword(e.target.value)
                                         }
+                                        style={{
+                                            border:"none",
+                                            outline:"none"
+                                        }}
                                     />
+                                    <button
+                                    type='button'
+                                    onClick={togglePasswordVisibilty}
+                                      style={{
+                                        border:"none",
+                                        outline:"none",
+                                        cursor:"pointer",
+                                        background:"none"
+                                    }}>
+                                        <i className="passVis bi bi-eye-fill" style={{fontSize:"20px"}}></i>
+                                    </button>
+                                  </div>
                                 </Form.Item>
                             </div>
                             <div className="form-group">

@@ -2,16 +2,17 @@ import Link from 'next/link';
 import ProductRepository from '~/repositories/ProductRepository';
 
 const Categories = [
- {id: 70, name: 'Clothing', slug: 'clothing',} ,
+ {id: 16, name: 'Fashion', slug: 'fashion',} ,
+ {id: 24, name: 'Clothing', slug: 'clothing',} ,
+ {id: 22, name: 'Fabrics', slug: 'fabrics',} ,
  {id: 73, name: 'Beauty & Cosmetics', slug: 'beauty-cosmetic',} ,
  {id: 74, name: 'Books', slug: 'books',} ,
+ {id: 71, name: 'Groceries', slug: 'groceries',} ,
+ {id: 18, name: 'Home & Living', slug: 'home-living',} ,
+ {id: 20, name: 'Toys & Entertainment', slug: 'toys-entertainment',} ,
  {id: 17, name: 'Accessories', slug: 'jewelry-accessories',} ,
  {id: 21, name: 'Art', slug: 'art',} ,
- {id: 78, name: 'Bath & Body', slug: 'bath-body', },
- {id: 77, name: 'Beauty Sets', slug: 'beauty-sets', },
- {id: 67, name: 'Canvas', slug: 'canvas', },
- {id: 24, name: 'Clothes', slug: 'clothes', },
- {id: 79, name: 'Essential Oils', slug: 'essential-oils'}, 
+ {id: 19, name: 'Wedding & Party', slug: 'wedding-party'}, 
  
 ]
 
@@ -22,7 +23,7 @@ export default function HeaderNav() {
             <ul className="nav--list nav--center">
                 <li>
                     <Link href="/shop">
-                        <a className="nav--link shop">Shop</a>
+                        <a className="shop">Shop</a>
                     </Link>
                 </li>
                 {Categories.length > 0
