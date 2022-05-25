@@ -23,10 +23,6 @@ class WPHeaderActions extends Component {
               <div className="w-100 d-flex justify-content-between" style={{
                   alignItems:'center'
               }}>
-                <Link href="/account/compare">
-                    <span className="header__extra w3-hover-lightgrey" style={{
-                        cursor:'pointer'
-                    }}>
                     <Link href="/account/compare">
                         <span
                             className="header__extra w3-hover-lightgrey"
