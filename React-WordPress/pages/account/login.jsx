@@ -1,28 +1,17 @@
-import React, { useEffect, useRef } from 'react';
-import BreadCrumb from '~/components/elements/BreadCrumb';
+import React from 'react';
 import Login from '~/components/partials/account/Login';
+import { scrollPageToTop } from '~/utilities/common-helpers';
 
 import WPLayout from '~/wp-components/layouts/WPLayout';
 
-const LoginPage = () => {
-    const containerRef = useRef(null);
-
-    useEffect(() => {
-        if (containerRef.current) {
-            setTimeout(() => {
-                containerRef.current.scrollIntoView({ behavior: 'smooth' });
-            }, 250);
-        }
-    }, []);
-    return (
-        <div ref={containerRef}>
-            <WPLayout title="Login">
-                <div className="ps-page--my-account">
-                    <Login />
-                </div>
-            </WPLayout>
-        </div>
-    );
-};
+const LoginPage = () => (
+    <div ref={scrollPageToTop}>
+        <WPLayout title="Login">
+            <div className="ps-page--my-account">
+                <Login />
+            </div>
+        </WPLayout>
+    </div>
+);
 
 export default LoginPage;

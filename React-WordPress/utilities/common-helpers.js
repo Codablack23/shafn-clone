@@ -22,3 +22,8 @@ export const generateTempArray = (maxItems) => {
     }
     return result;
 };
+
+export const scrollPageToTop = (element) => {
+    if (!element) return;
+    element.scrollIntoView({ behavior: 'smooth' });
+};

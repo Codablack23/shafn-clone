@@ -1,31 +1,19 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import FaqsContent from '../../components/partials/page/FaqsContent';
-// import Newletters from '../../components/partials/commons/Newletters';
 import WPLayout from '~/wp-components/layouts/WPLayout';
+import { scrollPageToTop } from '~/utilities/common-helpers';
 
-const FaqsPage = () => {
-    const containerRef = useRef(null);
-
-    useEffect(() => {
-        if (containerRef.current) {
-            setTimeout(() => {
-                containerRef.current.scrollIntoView({ behavior: 'smooth' });
-            }, 250);
-        }
-    }, []);
-
-    return (
-        <div ref={containerRef}>
-            <WPLayout title="FAQ">
-                <div className="ps-page--single">
-                    <div className="container">
-                        <FaqsContent />
-                    </div>
+const FaqsPage = () => (
+    <div ref={scrollPageToTop}>
+        <WPLayout title="FAQ">
+            <div className="ps-page--single">
+                <div className="container">
+                    <FaqsContent />
                 </div>
-                {/* <Newletters layout="container" /> */}
-            </WPLayout>
-        </div>
-    );
-};
+            </div>
+            {/* <Newletters layout="container" /> */}
+        </WPLayout>
+    </div>
+);
 
 export default FaqsPage;

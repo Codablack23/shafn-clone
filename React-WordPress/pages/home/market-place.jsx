@@ -7,18 +7,12 @@ import MarketPlaceSiteFeatures from '~/components/partials/homepage/marketplace/
 import MarketPlaceHomeBanner from '~/components/partials/homepage/marketplace/MartketPlaceHomeBanner';
 import { getCategories, getCollections } from '~/store/collection/action';
 import WPLayoutHomeMarketPlace from '~/wp-components/layouts/WPLayoutHomeMarketPlace';
+import { scrollPageToTop } from '~/utilities/common-helpers';
 
 const HomeMarketPlacePage = () => {
-    const containerRef = useRef(null);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (containerRef.current) {
-            setTimeout(() => {
-                containerRef.current.scrollIntoView({ behavior: 'smooth' });
-            }, 250);
-        }
-
         const collectionsSlug = ['deal-of-the-day'];
         const categoriesSlug = [
             'clothing-and-parel',
@@ -32,7 +26,7 @@ const HomeMarketPlacePage = () => {
     }, []);
 
     return (
-        <div className="site-content" ref={containerRef}>
+        <div className="site-content" ref={scrollPageToTop}>
             <WPLayoutHomeMarketPlace title="Home Marketplace 1">
                 <main id="homepage-3">
                     <MarketPlaceHomeBanner />

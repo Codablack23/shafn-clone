@@ -1,28 +1,17 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import RecentViewedProducts from '~/components/partials/account/RecentViewedProducts';
+import { scrollPageToTop } from '~/utilities/common-helpers';
 
 import WPLayout from '~/wp-components/layouts/WPLayout';
 
-const RecentViewedProductsPage = () => {
-    const containerRef = useRef(null);
-
-    useEffect(() => {
-        if (containerRef.current) {
-            setTimeout(() => {
-                containerRef.current.scrollIntoView({ behavior: 'smooth' });
-            }, 250);
-        }
-    }, []);
-
-    return (
-        <div ref={containerRef}>
-            <WPLayout>
-                <div className="ps-page--my-account">
-                    <RecentViewedProducts />
-                </div>
-            </WPLayout>
-        </div>
-    );
-};
+const RecentViewedProductsPage = () => (
+    <div ref={scrollPageToTop}>
+        <WPLayout>
+            <div className="ps-page--my-account">
+                <RecentViewedProducts />
+            </div>
+        </WPLayout>
+    </div>
+);
 
 export default RecentViewedProductsPage;

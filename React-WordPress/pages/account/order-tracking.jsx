@@ -1,28 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import OrderTracking from '~/components/partials/account/OrderTracking';
-import BreadCrumb from '~/components/elements/BreadCrumb';
 import WPLayout from '~/wp-components/layouts/WPLayout';
+import { scrollPageToTop } from '~/utilities/common-helpers';
 
-const OrderTrackingPage = () => {
-    const containerRef = useRef(null);
-
-    useEffect(() => {
-        if (containerRef.current) {
-            setTimeout(() => {
-                containerRef.current.scrollIntoView({ behavior: 'smooth' });
-            }, 250);
-        }
-    }, []);
-
-    return (
-        <div ref={containerRef}>
-            <WPLayout title="Order Tracking">
-                <div className="ps-page--simple">
-                    <OrderTracking />
-                </div>
-            </WPLayout>
-        </div>
-    );
-};
+const OrderTrackingPage = () => (
+    <div ref={scrollPageToTop}>
+        <WPLayout title="Order Tracking">
+            <div className="ps-page--simple">
+                <OrderTracking />
+            </div>
+        </WPLayout>
+    </div>
+);
 
 export default OrderTrackingPage;

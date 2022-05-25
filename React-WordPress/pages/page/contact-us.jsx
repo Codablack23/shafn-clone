@@ -1,33 +1,22 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import ContactInfo from '~/components/partials/page/ContactInfo';
 import ContactForm from '~/components/partials/page/ContactForm';
 import ContactMap from '~/components/partials/page/ContactMap';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import Newsletters from '~/components/partials/commons/Newletters';
+import { scrollPageToTop } from '~/utilities/common-helpers';
 
-const ContactUsPage = () => {
-    const containerRef = useRef(null);
-
-    useEffect(() => {
-        if (containerRef.current) {
-            setTimeout(() => {
-                containerRef.current.scrollIntoView({ behavior: 'smooth' });
-            }, 250);
-        }
-    }, []);
-
-    return (
-        <div ref={containerRef}>
-            <WPLayout title="Contact">
-                <div className="ps-page--single" id="contact-us">
-                    <ContactMap />
-                    <ContactInfo />
-                    <ContactForm />
-                </div>
-                <Newsletters layout="container" />
-            </WPLayout>
-        </div>
-    );
-};
+const ContactUsPage = () => (
+    <div ref={scrollPageToTop}>
+        <WPLayout title="Contact">
+            <div className="ps-page--single" id="contact-us">
+                <ContactMap />
+                <ContactInfo />
+                <ContactForm />
+            </div>
+            <Newsletters layout="container" />
+        </WPLayout>
+    </div>
+);
 
 export default ContactUsPage;

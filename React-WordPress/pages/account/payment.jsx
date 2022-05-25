@@ -1,24 +1,18 @@
-import React, { useEffect, useRef } from 'react';
-import BreadCrumb from '~/components/elements/BreadCrumb';
+import React, { useEffect } from 'react';
 import { useDispatch, connect } from 'react-redux';
 import { getCart } from '~/store/cart/action';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import WPPayment from '~/wp-components/account/WPPayment';
+import { scrollPageToTop } from '~/utilities/common-helpers';
 
 const PaymentPage = () => {
-    const containerRef = useRef(null);
     const dispatch = useDispatch();
     useEffect(() => {
-        if (containerRef.current) {
-            setTimeout(() => {
-                containerRef.current.scrollIntoView({ behavior: 'smooth' });
-            }, 250);
-        }
         dispatch(getCart());
     }, [dispatch]);
 
     return (
-        <div ref={containerRef}>
+        <div ref={scrollPageToTop}>
             <WPLayout>
                 <div className="ps-page--simple">
                     <WPPayment />

@@ -1,15 +1,14 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getProductsByCategory } from '~/store/product/action';
 import { WPGetProducts } from '~/store/wp/action';
 import WPProductRepository from '~/repositories/WP/WPProductRepository';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import WPProduct from '~/wp-components/elements/products/WPProduct';
-import { generateTempArray } from '~/utilities/common-helpers';
+import { generateTempArray, scrollPageToTop } from '~/utilities/common-helpers';
 import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct';
 
 const WPSearchPage = ({ query }) => {
-    const containerRef = useRef(null);
     const [keyword, setKeyword] = useState(null);
     const [products, setProducts] = useState(null);
     const [loading, setLoading] = useState(null);
@@ -72,12 +71,6 @@ const WPSearchPage = ({ query }) => {
          };*/
     }
     useEffect(() => {
-        if (containerRef.current) {
-            setTimeout(() => {
-                containerRef.current.scrollIntoView({ behavior: 'smooth' });
-            }, 250);
-        }
-
         getProductResult();
     }, []);
 
@@ -109,7 +102,7 @@ const WPSearchPage = ({ query }) => {
     }
 
     return (
-        <div ref={containerRef}>
+        <div ref={scrollPageToTop}>
             <WPLayout title="Search Result">
                 <div className="ps-page--shop">
                     <div className="container">

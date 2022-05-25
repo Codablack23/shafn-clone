@@ -52,7 +52,7 @@ const OAuth = ({ onSuccess }) => {
                 cookiePolicy={'single_host_origin'}
                 render={(renderProps) => (
                     <li onClick={renderProps.onClick}>
-                        <a className="google handles" href="#">
+                        <a className="google handles">
                             <span>
                                 <img
                                     style={{
@@ -83,7 +83,7 @@ const OAuth = ({ onSuccess }) => {
                 }}
                 render={(renderProps) => (
                     <li onClick={renderProps.onClick}>
-                        <a className="facebook handles" href="#">
+                        <a className="facebook handles">
                             <span>
                                 <i className="fa fa-facebook w3-text-blue"></i>
                             </span>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import Router from 'next/router';
 import WPStoreInformation from '~/wp-components/store/WPStoreInformation';
@@ -7,7 +7,7 @@ import SkeletonVendorInformation from '~/components/elements/skeletons/SkeletonV
 import { SkeletonBanner } from '~/components/elements/skeletons/SkeletonVendorInformation';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import WPVendorProducts from '~/wp-components/store/WPVendorProducts';
-import { generateTempArray } from '~/utilities/common-helpers';
+import { generateTempArray, scrollPageToTop } from '~/utilities/common-helpers';
 import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct';
 
 const Banner = ({ store }) => (
@@ -21,7 +21,7 @@ const Banner = ({ store }) => (
 
 const WPStorePage = ({ query }) => {
     const dispatch = useDispatch();
-    const containerRef = useRef(null);
+
     const [loading, setLoading] = useState(true);
     const [storeID, setStoreID] = useState(null);
     const [storeProfile, setStoreProfile] = useState(null);
@@ -47,12 +47,6 @@ const WPStorePage = ({ query }) => {
     }
 
     useEffect(() => {
-        if (containerRef.current) {
-            setTimeout(() => {
-                containerRef.current.scrollIntoView({ behavior: 'smooth' });
-            }, 250);
-        }
-
         if (query) {
             const { pid } = query;
             if (!isNaN(pid)) {
@@ -87,7 +81,7 @@ const WPStorePage = ({ query }) => {
     }
 
     return (
-        <div ref={containerRef}>
+        <div ref={scrollPageToTop}>
             <WPLayout
                 title={storeProfile ? storeProfile.store_name : 'Loading...'}>
                 <div className="ps-page--single ps-page--vendor">

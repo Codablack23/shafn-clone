@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import Router, { useRouter } from 'next/router';
 import WPProductDetail from '~/wp-components/elements/products/WPProductDetail';
@@ -12,12 +12,11 @@ import WPLayoutProductDetail from '~/wp-components/layouts/WPLayoutProductDetail
 import WPHeaderDefault from '~/wp-components/shared/headers/WPHeaderDefault';
 
 import { addRecentlyViewedProduct } from '~/store/recently-viewed-products/action';
+import { scrollPageToTop } from '~/utilities/common-helpers';
 
 const WPProductDetailPage = ({ pid }) => {
     const dispatch = useDispatch();
     const router = useRouter();
-
-    const containerRef = useRef(null);
 
     const [product, setProduct] = useState(null);
     const [productVariations, setProductVariations] = useState(null);
@@ -65,12 +64,6 @@ const WPProductDetailPage = ({ pid }) => {
     }
 
     useEffect(() => {
-        if (containerRef.current) {
-            setTimeout(() => {
-                containerRef.current.scrollIntoView({ behavior: 'smooth' });
-            }, 250);
-        }
-
         if (isNaN(pid)) {
             Router.push('/page/page-404');
         }
@@ -118,7 +111,7 @@ const WPProductDetailPage = ({ pid }) => {
     }
 
     return (
-        <div ref={containerRef}>
+        <div ref={scrollPageToTop}>
             <WPLayoutProductDetail
                 title={product ? product.name : 'Loading...'}>
                 <WPHeaderDefault />

@@ -1,28 +1,16 @@
-import React, { useEffect, useRef } from 'react';
-import Compare from '~/components/partials/account/Compare';
+import React from 'react';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import WPCompare from '~/wp-components/account/WPCompare';
+import { scrollPageToTop } from '~/utilities/common-helpers';
 
-const ComparePage = () => {
-    const containerRef = useRef(null);
-
-    useEffect(() => {
-        if (containerRef.current) {
-            setTimeout(() => {
-                containerRef.current.scrollIntoView({ behavior: 'smooth' });
-            }, 250);
-        }
-    }, []);
-
-    return (
-        <div ref={containerRef}>
-            <WPLayout title="Compare">
-                <div className="ps-page--simple">
-                    <WPCompare />
-                </div>
-            </WPLayout>
-        </div>
-    );
-};
+const ComparePage = () => (
+    <div ref={scrollPageToTop}>
+        <WPLayout title="Compare">
+            <div className="ps-page--simple">
+                <WPCompare />
+            </div>
+        </WPLayout>
+    </div>
+);
 
 export default ComparePage;

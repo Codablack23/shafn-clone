@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { getProductsByCategory } from '~/store/product/action';
@@ -12,9 +12,9 @@ import WPShopProducts from '~/wp-components/shop/WPShopProducts';
 import WPProductRepository from '~/repositories/WP/WPProductRepository';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import WPShopCategories from '~/wp-components/shop/WPShopCategories';
+import { scrollPageToTop } from '~/utilities/common-helpers';
 
 const WPShopDefaultPage = ({ query }) => {
-    const containerRef = useRef(null);
     const dispatch = useDispatch();
     const router = useRouter();
     const [categoryName, setCategoryName] = useState(null);
@@ -49,12 +49,6 @@ const WPShopDefaultPage = ({ query }) => {
     }
 
     useEffect(() => {
-        if (containerRef.current) {
-            setTimeout(() => {
-                containerRef.current.scrollIntoView({ behavior: 'smooth' });
-            }, 250);
-        }
-
         if (query) {
             const queries = {
                 page: 1,
@@ -77,7 +71,7 @@ const WPShopDefaultPage = ({ query }) => {
     }, [dispatch]);
 
     return (
-        <div ref={containerRef}>
+        <div ref={scrollPageToTop}>
             <WPLayout title="Shop">
                 <div className="ps-page--shop">
                     <div className="container">

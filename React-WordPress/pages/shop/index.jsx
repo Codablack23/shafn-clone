@@ -1,23 +1,23 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { getProductsByCategory } from '~/store/product/action';
 import { WPGetProducts } from '~/store/wp/action';
 import ShopBanner from '~/components/partials/shop/ShopBanner';
-import ShopCategories from '~/components/partials/shop/ShopCategories';
-import ShopBrands from '~/components/partials/shop/ShopBrands';
+
 import WPWidgetCategories from '~/wp-components/shop/WPWidgetCategories';
-import WPWidgetBrand from '~/wp-components/shop/WPWidgetBrand';
+
 import WPWidgetFilterByPrices from '~/wp-components/shop/WPWidgetFilterByPrices';
 import WPShopProducts from '~/wp-components/shop/WPShopProducts';
 import WPProductRepository from '~/repositories/WP/WPProductRepository';
 import WPLayoutFullwidth from '~/wp-components/layouts/WPLayoutFullwidth';
 import WPShopCategories from '~/wp-components/shop/WPShopCategories';
+import { scrollPageToTop } from '~/utilities/common-helpers';
 
 const WPShopPage = ({ query }) => {
     const dispatch = useDispatch();
     const router = useRouter();
-    const containerRef = useRef(null);
+
     const [categoryName, setCategoryName] = useState(null);
 
     async function getCategory(id) {
@@ -50,12 +50,6 @@ const WPShopPage = ({ query }) => {
     }
 
     useEffect(() => {
-        if (containerRef.current) {
-            setTimeout(() => {
-                containerRef.current.scrollIntoView({ behavior: 'smooth' });
-            }, 250);
-        }
-
         if (query) {
             const queries = {
                 page: 1,
@@ -78,7 +72,7 @@ const WPShopPage = ({ query }) => {
     }, [dispatch]);
 
     return (
-        <div ref={containerRef}>
+        <div ref={scrollPageToTop}>
             <WPLayoutFullwidth title="Shop">
                 <div className="ps-page--shop">
                     <div className="ps-container">

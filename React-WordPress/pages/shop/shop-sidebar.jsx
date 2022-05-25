@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { getProductsByCategory } from '~/store/product/action';
@@ -12,9 +12,9 @@ import WPProductRepository from '~/repositories/WP/WPProductRepository';
 
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import ShopSidebarBanner from '~/components/partials/shop/ShopSidebarBanner';
+import { scrollPageToTop } from '~/utilities/common-helpers';
 
 const WPShopSidebarPage = ({ query }) => {
-    const containerRef = useEffect(null);
     const dispatch = useDispatch();
     const router = useRouter();
     const [categoryName, setCategoryName] = useState(null);
@@ -49,12 +49,6 @@ const WPShopSidebarPage = ({ query }) => {
     }
 
     useEffect(() => {
-        if (containerRef.current) {
-            setTimeout(() => {
-                containerRef.current.scrollIntoView({ behavior: 'smooth' });
-            }, 250);
-        }
-
         if (query) {
             const queries = {
                 page: 1,
@@ -77,7 +71,7 @@ const WPShopSidebarPage = ({ query }) => {
     }, [dispatch]);
 
     return (
-        <div ref={containerRef}>
+        <div ref={scrollPageToTop}>
             <WPLayout title="Shop Sidebar">
                 <div className="ps-page--shop">
                     <div className="container">
