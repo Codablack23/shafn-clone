@@ -92,8 +92,8 @@ function* getProductByBrand({ payload }) {
             payload
         );
         const products = [];
-        brands.forEach(brand => {
-            brand.products.forEach(product => {
+        brands.forEach((brand) => {
+            brand.products.forEach((product) => {
                 products.push(product);
             });
         });

@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import ProductRepository from '~/repositories/ProductRepository';
+import React from 'react';
 
 const Categories = [
+
  {id: 16, name: 'Fashion', slug: 'fashion',} ,
  {id: 24, name: 'Clothing', slug: 'clothing',} ,
  {id: 22, name: 'Fabrics', slug: 'fabrics',} ,
@@ -16,6 +18,7 @@ const Categories = [
  
 ]
 
+
 export default function HeaderNav() {
     // getProducts();
     return (
@@ -28,7 +31,7 @@ export default function HeaderNav() {
                 </li>
                 {Categories.length > 0
                     ? Categories.map((category) => (
-                          <li>
+                          <li key={category.id}>
                               <Link href={`/shop/?category=${category.id}`}>
                                   <a className="nav--link">{category.name}</a>
                               </Link>

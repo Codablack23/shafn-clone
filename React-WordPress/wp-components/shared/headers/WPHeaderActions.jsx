@@ -13,7 +13,7 @@ class WPHeaderActions extends Component {
         const { compare, wishlist, auth } = this.props;
         // Views
         let accountView;
-        if (auth.isLoggedIn && Boolean(auth.isLoggedIn) === true) {
+        if (auth.isLoggedIn) {
             accountView = <AccountQuickLinks isLoggedIn={true} />;
         } else {
             accountView = <AccountQuickLinks isLoggedIn={false} />;
@@ -27,30 +27,42 @@ class WPHeaderActions extends Component {
                     <span className="header__extra w3-hover-lightgrey" style={{
                         cursor:'pointer'
                     }}>
-                    <i className="fa fa-bell-o" aria-hidden="true"
-                        style={{
-                            fontSize:'22px',
-                            color:'#2A3147',
-                        }}></i>
-                        <span>
-                            <i>{compare && compare.compareTotal}</i>
+                    <Link href="/account/compare">
+                        <span
+                            className="header__extra w3-hover-lightgrey"
+                            style={{
+                                cursor: 'pointer',
+                            }}>
+                            <i
+                                className="fa fa-bell-o"
+                                aria-hidden="true"
+                                style={{
+                                    fontSize: '22px',
+                                    color: '#2A3147',
+                                }}></i>
+                            <span>
+                                <i>{compare && compare.compareTotal}</i>
+                            </span>
                         </span>
-                    </span>
-                </Link>
-                <Link href="/account/wishlist">
-                    <span className="header__extra w3-hover-lightgrey" style={{
-                        cursor:'pointer'
-                    }}>
-                        <i className="icon-heart" style={{
-                            fontSize:'22px',
-                            color:'#2A3147'
-                        }}></i>
-                        <span>
-                            <i>{wishlist.wishlistTotal}</i>
+                    </Link>
+                    <Link href="/account/wishlist">
+                        <span
+                            className="header__extra w3-hover-lightgrey"
+                            style={{
+                                cursor: 'pointer',
+                            }}>
+                            <i
+                                className="icon-heart"
+                                style={{
+                                    fontSize: '22px',
+                                    color: '#2A3147',
+                                }}></i>
+                            <span>
+                                <i>{wishlist.wishlistTotal}</i>
+                            </span>
                         </span>
-                    </span>
-                </Link>
-                {/* <Link href="/">
+                    </Link>
+                    {/* <Link href="/">
                     <a className="header__extra">
                         <i className="fa fa-bell"></i>
                         <span>
@@ -58,9 +70,9 @@ class WPHeaderActions extends Component {
                         </span>
                     </a>
                 </Link> */}
-                <WPMiniCart />
-                {accountView}
-              </div>
+                    <WPMiniCart />
+                    {accountView}
+                </div>
             </div>
         );
     }

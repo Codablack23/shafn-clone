@@ -13,6 +13,7 @@ import ReactHtmlParser from "react-html-parser";
 import Select from "react-select";
 import "react-image-lightbox/style.css";
 import "suneditor/dist/css/suneditor.min.css";
+import ImageSelectTiles from "~/components/elements/products/ImageSelectTiles";
 
 import { CustomModal } from "~/components/elements/custom/index";
 const SunEditor = dynamic(() => import("suneditor-react"), {
@@ -84,10 +85,7 @@ const CreateProductPage = () => {
   const [tags, setTags] = useState([]);
   const [newTag, setNewTag] = useState("");
 
-  const [imageFiles, setImageFiles] = useState([]);
-  const [selectedImages, setSelectedImages] = useState([]);
-
-  const [viewProducts, setViewProducts] = useState(false);
+  const [images, setImages] = useState([]);
   const [isPriceValid, setIsPriceValid] = useState(true);
   const [showNewTagInputField, setShowNewTagInputField] = useState(false);
 
@@ -95,8 +93,6 @@ const CreateProductPage = () => {
     status: "",
     progress: 0,
   });
-
-  const [index, setIndex] = useState("");
 
   const handleInputChange = (e) => {
     let name = e.target.name;
@@ -119,111 +115,6 @@ const CreateProductPage = () => {
     if (name === "stock_quantity" && Number.isInteger(Number(val))) {
       setQty(Number(val));
     }
-  };
-
-  const imageHandler = (e) => {
-    e.persist();
-
-    let image = e.target.files[0];
-    let type = image.type.split("/").pop();
-
-    if (type === "jpeg" || type === "jpg" || type === "png" || type === "gif") {
-      const imgFile = {
-        id: e.target.id,
-        file: image,
-      };
-      setImageFiles((current) =>
-        imgFile.id === "img-1" ? [imgFile, ...current] : current.concat(imgFile)
-      );
-
-      const img = {
-        id: e.target.id,
-        url: URL.createObjectURL(image),
-      };
-
-      setSelectedImages((current) => current.concat(img));
-
-      URL.revokeObjectURL(image);
-    } else {
-      notification["error"]({
-        message: "Invalid image type!",
-        description: "Image must be a jpg, png or gif",
-      });
-    }
-  };
-
-  const removeImage = (e, id) => {
-    e.stopPropagation();
-    setSelectedImages((current) => current.filter((img) => img.id !== id));
-    setImageFiles((current) => current.filter((img) => img.id !== id));
-  };
-
-  const viewImage = (id) => {
-    setViewProducts(true);
-    let imgIndex = selectedImages.findIndex((img) => img.id === id);
-    setIndex(imgIndex);
-  };
-
-  const renderProductImages = (num) => {
-    return Array(num)
-      .fill("")
-      .map((el, i) => {
-        let image = selectedImages.find((img) => img.id === `img-${i + 1}`);
-
-        return (
-          <div className="" key={i}>
-            {image === undefined ? (
-              <>
-                <input
-                  id={`img-${i + 1}`}
-                  type="file"
-                  accept="image/*"
-                  onChange={imageHandler}
-                  required
-                  hidden
-                />
-
-                <label
-                  htmlFor={`img-${i + 1}`}
-                  className="m-1 border p-3 text-center select-product-img-container"
-                >
-                  <span>Add A Photo</span>
-                  <br />
-                  <i
-                    className="fa fa-file-image-o text-secondary"
-                    aria-hidden="true"
-                  ></i>
-                  <br />
-                  {i === 0 ? <p>Primary</p> : null}
-                </label>
-              </>
-            ) : (
-              <div
-                key={image.id}
-                className="m-1 bg-dark selected-img-container"
-              >
-                <img
-                  src={image.url}
-                  onClick={() => {
-                    viewImage(image.id);
-                  }}
-                />
-
-                <div
-                  className="btn fw-5 p-3 del-img-btn"
-                  onClick={(e) => {
-                    removeImage(e, image.id);
-                  }}
-                >
-                  <i
-                    className="bi bi-trash"
-                  ></i>
-                </div>
-              </div>
-            )}
-          </div>
-        );
-      });
   };
 
   const addTag = async () => {
@@ -257,9 +148,7 @@ const CreateProductPage = () => {
     if (Number(qty) <= 0) return "Sale Quantity must be greater than 0";
     if (!shortDescription) return "Short Description is required!";
 
-    let isPrimaryImageSelected = imageFiles
-      .map((el) => el.id)
-      .includes("img-1");
+    let isPrimaryImageSelected = images.map((img) => img.id).includes("img-1");
 
     if (!isPrimaryImageSelected) return "Primary Image is required!";
 
@@ -295,7 +184,7 @@ const CreateProductPage = () => {
         manage_stock: true,
       };
 
-      ProductRepository.createProduct({ imageFiles, product, setUploading });
+      ProductRepository.createProduct({ images, product, setUploading });
     } else {
       notification["error"]({
         message: result,
@@ -469,7 +358,22 @@ const CreateProductPage = () => {
                 <figure className="ps-block--form-box">
                   <figcaption>Product Images</figcaption>
                   <div className="pt-3 product-img-container">
-                    {renderProductImages(9)}
+                    <ImageSelectTiles
+                      numOfTiles={9}
+                      defaultImages={[]}
+                      onSelect={(file) =>
+                        setImages((current) =>
+                          file.id === "img-1"
+                            ? [file, ...current]
+                            : [...current, file]
+                        )
+                      }
+                      onDelete={(id) =>
+                        setImages((current) =>
+                          current.filter((img) => img.id !== id)
+                        )
+                      }
+                    />
                   </div>
                 </figure>
                 <figure className="ps-block--form-box">
@@ -534,35 +438,15 @@ const CreateProductPage = () => {
           </div>
         </form>
       </section>
-      {viewProducts && (
-        <Lightbox
-          mainSrc={selectedImages[index].url}
-          nextSrc={selectedImages[(index + 1) % selectedImages.length].url}
-          prevSrc={
-            selectedImages[
-              (index + selectedImages.length - 1) % selectedImages.length
-            ].url
-          }
-          onCloseRequest={() => setViewProducts(false)}
-          onMovePrevRequest={() =>
-            setIndex(
-              (index + selectedImages.length - 1) % selectedImages.length
-            )
-          }
-          onMoveNextRequest={() =>
-            setIndex((index + 1) % selectedImages.length)
-          }
-        />
-      )}
       {/* Products Viewer */}
       <CustomModal isOpen={uploading.status ? true : false}>
         <div className="row">
           <div className="col-12 col-md-3"></div>
           <div className="col-12 col-md-6 mt-5">
-           <div className="mt-5">
-            <p className="text-center text-white">{uploading.status}</p>
-            <Progress type="line" percent={uploading.progress} />
-           </div>
+            <div className="mt-5">
+              <p className="text-center text-white">{uploading.status}</p>
+              <Progress type="line" percent={uploading.progress} />
+            </div>
           </div>
           <div className="col-12 col-md-3"></div>
         </div>
@@ -572,9 +456,7 @@ const CreateProductPage = () => {
         <div className="row">
           <div className="col-12 col-md-3"></div>
           <div className="col-12 col-md-6">
-            <div
-              className="form-group bg-white p-5 new-tag-dialog"
-            >
+            <div className="form-group bg-white p-5 new-tag-dialog">
               <label className="">
                 New Tag<sup>*</sup>
               </label>
@@ -608,4 +490,3 @@ const CreateProductPage = () => {
   );
 };
 export default CreateProductPage;
-

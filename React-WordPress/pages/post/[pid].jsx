@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import RelatedPosts from '../../components/partials/post/RelatedPosts';
 import PostComments from '../../components/partials/post/PostComments';
-import { connect } from 'react-redux';
 import WPPostRepository from '~/repositories/WP/WPPostRepository';
 import WPPostDetail from '~/wp-components/elements/posts/WPPostDetail';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import SkeletonSinglePost from '~/components/elements/skeletons/SkeletonSinglePost';
+import { scrollPageToTop } from '~/utilities/common-helpers';
 
 const WPSinglePost = ({ query }) => {
     const [post, setPost] = useState(null);
@@ -47,13 +47,16 @@ const WPSinglePost = ({ query }) => {
     }
 
     return (
-        <WPLayout title={!loading && post ? post.title.rendered : 'Single post'}>
-            {singlePostView}
-            <div className="container">
-                <RelatedPosts />
-                <PostComments />
-            </div>
-        </WPLayout>
+        <div ref={scrollPageToTop}>
+            <WPLayout
+                title={!loading && post ? post.title.rendered : 'Single post'}>
+                {singlePostView}
+                <div className="container">
+                    <RelatedPosts />
+                    <PostComments />
+                </div>
+            </WPLayout>
+        </div>
     );
 };
 

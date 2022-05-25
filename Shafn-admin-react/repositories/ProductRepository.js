@@ -1,6 +1,6 @@
 import Router from "next/router";
 import { notification } from "antd";
-import { WPDomain } from "./Repository";
+import { WPDomain, oathInfo, serializeQuery } from "./Repository";
 import axios from "axios";
 
 class ProductRepository {
@@ -8,8 +8,19 @@ class ProductRepository {
     this.callback = callback;
   }
 
-  async getProducts() {
+  async getProducts(payload) {
+    let endpoint;
     let auth_token = localStorage.getItem("auth_token");
+
+    if (payload) {
+      endpoint = `wp-json/dokan/v1/products?${serializeQuery({
+        ...payload,
+        ...oathInfo,
+      })}`;
+    } else {
+      endpoint = "wp-json/dokan/v1/products";
+    }
+
     const config = {
       headers: {
         Authorization: `Bearer ${auth_token}`,
@@ -17,9 +28,16 @@ class ProductRepository {
     };
 
     const response = axios
-      .get(`${WPDomain}/wp-json/dokan/v1/products/`, config)
+      .get(`${WPDomain}/${endpoint}`, config)
       .then((res) => {
-        return res.data;
+        if (res.data && res.data.length > 0) {
+          const data = {
+            items: res.data,
+            totalItems: res.headers["x-wp-total"],
+            totalPages: res.headers["x-wp-totalpages"],
+          };
+          return data;
+        } else return null;
       })
       .catch((err) => {
         return;
@@ -120,7 +138,7 @@ class ProductRepository {
       };
 
       let images = [];
-      let imgFiles = payload.imageFiles.map((img) => img.file);
+      let imgFiles = payload.images.map((img) => img.file);
 
       imgFiles.forEach((file, index, arr) => {
         let formData = new FormData();
@@ -132,7 +150,7 @@ class ProductRepository {
           .then((res) => {
             images.push({ src: res.data.source_url, position: index });
 
-            if (images.length === payload.imageFiles.length) {
+            if (images.length === payload.images.length) {
               uploadProduct(images);
             }
           })
@@ -610,10 +628,7 @@ class ProductRepository {
 
     const response = axios
       .get(`${WPDomain}/wp-json/wc/v3/products/categories`, config)
-      .then((res) => {
-        console.log(res.data)
-        return res.data;
-      })
+      .then((res) => res.data)
       .catch((err) => {
         return;
       });

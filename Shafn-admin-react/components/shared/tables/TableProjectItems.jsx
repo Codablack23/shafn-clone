@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import DropdownAction from "~/components/elements/basic/DropdownAction";
-import ProductRepository from "~/repositories/ProductRepository";
 
-const TableProjectItems = () => {
-  const [productItems, setProductItems] = useState(null);
-
+const TableProjectItems = ({ products }) => {
   let tableItems;
 
-  if (productItems) {
-    tableItems = productItems.map((item, index) => {
+  if (products && products.items) {
+    tableItems = products.items.map((item, index) => {
       let status;
       let badgeView;
       if (item.status === "publish") {
@@ -55,14 +52,6 @@ const TableProjectItems = () => {
     });
   }
 
-  const getProducts = async () => {
-    const products = await ProductRepository.getProducts();
-    setProductItems(products);
-  };
-
-  useEffect(() => {
-    getProducts();
-  }, []);
   return (
     <div className="table-responsive">
       <table className="table ps-table">

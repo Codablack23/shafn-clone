@@ -11,8 +11,13 @@ import WPProductWidgets from '~/wp-components/product/WPProductWidgets';
 import WPLayoutProductDetail from '~/wp-components/layouts/WPLayoutProductDetail';
 import WPHeaderDefault from '~/wp-components/shared/headers/WPHeaderDefault';
 
+import { addRecentlyViewedProduct } from '~/store/recently-viewed-products/action';
+import { scrollPageToTop } from '~/utilities/common-helpers';
+
 const WPProductDetailPage = ({ pid }) => {
+    const dispatch = useDispatch();
     const router = useRouter();
+
     const [product, setProduct] = useState(null);
     const [productVariations, setProductVariations] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -33,11 +38,10 @@ const WPProductDetailPage = ({ pid }) => {
                     await WPProductRepository.getProductVariantsByID(productID);
 
                 if (WPPRroductVariations) {
-                    // console.log('Product::', WPProduct);
-                    // console.log('Variations::', WPPRroductVariations);
                     setProductVariations(WPPRroductVariations);
                 }
             }
+
             setTimeout(
                 function () {
                     setLoading(false);
@@ -55,6 +59,7 @@ const WPProductDetailPage = ({ pid }) => {
         if (nextPid !== '' && isNaN(parseInt(nextPid)) === false) {
             setLoading(true);
             await getProduct(nextPid);
+            setLoading(false);
         }
     }
 
@@ -69,7 +74,9 @@ const WPProductDetailPage = ({ pid }) => {
                 'shop-recommend-items',
                 'widget_same_brand',
             ];
-            getProduct(pid);
+            getProduct(pid)
+                .then((res) => dispatch(addRecentlyViewedProduct(res)))
+                .catch((err) => console.log(err));
         }
 
         router.events.on('routeChangeStart', getProductOnChangeURL);
@@ -80,7 +87,7 @@ const WPProductDetailPage = ({ pid }) => {
     }, []);
 
     // View area
-    let productView, headerView;
+    let productView, headerView, widgetView;
     if (loading || product === null) {
         headerView = <WPHeaderDefault />;
         productView = <SkeletonProductDetail />;
@@ -92,29 +99,35 @@ const WPProductDetailPage = ({ pid }) => {
                 variations={productVariations && productVariations}
             />
         );
+        widgetView = (
+            <WPProductWidgets product={product}>
+                <WPWidgetProductsSameBrand
+                    products={relatedProducts}
+                    isVariant={true}
+                    product
+                />
+            </WPProductWidgets>
+        );
     }
 
     return (
-        <WPLayoutProductDetail title={product ? product.name : 'Loading...'}>
-         <WPHeaderDefault />
-            <div className="ps-page--product">
-                <div className="ps-container">
-                    <div className="ps-page__container">
-                        <div className="ps-page__left">{productView}</div>
-                        <div className="" style={{ width: '100%' }}>
-                            <WPProductWidgets product={product}>
-                                <WPWidgetProductsSameBrand
-                                    products={relatedProducts}
-                                    isVariant={true}
-                                    product
-                                />
-                            </WPProductWidgets>
+        <div ref={scrollPageToTop}>
+            <WPLayoutProductDetail
+                title={product ? product.name : 'Loading...'}>
+                <WPHeaderDefault />
+                <div className="ps-page--product">
+                    <div className="ps-container">
+                        <div className="ps-page__container">
+                            <div className="ps-page__left">{productView}</div>
+                            <div className="" style={{ width: '100%' }}>
+                                {widgetView}
+                            </div>
                         </div>
+                        <WPRelatedProducts products={relatedProducts} />
                     </div>
-                    <WPRelatedProducts products={relatedProducts} />
                 </div>
-            </div>
-        </WPLayoutProductDetail>
+            </WPLayoutProductDetail>
+        </div>
     );
 };
 

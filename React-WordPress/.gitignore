@@ -12,11 +12,9 @@
 /.next/
 /out/
 
-# ssl
-/ssl
-
 # production
 /build
+next.config.js
 
 # misc
 .DS_Store

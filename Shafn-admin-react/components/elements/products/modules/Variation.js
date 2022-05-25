@@ -28,33 +28,19 @@ let buttonList = [
 ];
 
 const Variation = ({
-  id,
-  attributes,
-  image,
-  enabled,
-  downloadable,
-  virtual,
-  manage_stock,
-  sku,
-  in_stock,
-  regular_price,
-  price,
-  stock_quantity,
-  backorders,
-  weight,
-  dimensions,
-  shipping_class,
-  description,
+  variation,
   productID,
   productAttributes,
   setVariations,
 }) => {
-  const [selectedImage, setSelectedImage] = useState(image.src);
+  const [selectedImage, setSelectedImage] = useState(variation.image.src);
 
   const handleInputChange = (e) => {
     let { name, value } = e.target;
 
-    let attributeNames = attributes.map((attribute) => attribute.name);
+    let attributeNames = variation.attributes.map(
+      (attribute) => attribute.name
+    );
     let formNames = [
       "enabled",
       "downloadable",
@@ -71,17 +57,17 @@ const Variation = ({
 
     if (attributeNames.includes(name)) {
       setVariations((variations) =>
-        variations.map((variation) =>
-          variation.id === id
+        variations.map((_variation) =>
+          _variation.id === variation.id
             ? {
-                ...variation,
-                attributes: variation.attributes.map((attribute) =>
+                ..._variation,
+                attributes: _variation.attributes.map((attribute) =>
                   attribute.name === name
                     ? { ...attribute, option: value }
                     : attribute
                 ),
               }
-            : variation
+            : _variation
         )
       );
     }
@@ -93,32 +79,32 @@ const Variation = ({
       name === "manage_stock"
     ) {
       setVariations((variations) =>
-        variations.map((variation) =>
-          variation.id === id
+        variations.map((_variation) =>
+          _variation.id === variation.id
             ? {
-                ...variation,
-                [name]: !variation[name],
+                ..._variation,
+                [name]: !_variation[name],
               }
-            : variation
+            : _variation
         )
       );
     }
 
     if (name === "regular_price" && !isNaN(value)) {
       setVariations((variations) =>
-        variations.map((variation) =>
-          variation.id === id
+        variations.map((_variation) =>
+          _variation.id === variation.id
             ? {
-                ...variation,
+                ..._variation,
                 [name]: value,
               }
-            : variation
+            : _variation
         )
       );
     }
 
     if (name === "price" && !isNaN(value)) {
-      if (Number(value) >= Number(regular_price)) {
+      if (Number(value) >= Number(variation.regular_price)) {
         // setIsPriceValid(false);
         // setTimeout(() => {
         //   setIsPriceValid(true);
@@ -126,13 +112,13 @@ const Variation = ({
         alert("Discounted price must be less than the Sale price");
       } else {
         setVariations((variations) =>
-          variations.map((variation) =>
-            variation.id === id
+          variations.map((_variation) =>
+            _variation.id === variation.id
               ? {
-                  ...variation,
+                  ..._variation,
                   [name]: value,
                 }
-              : variation
+              : _variation
           )
         );
       }
@@ -140,26 +126,26 @@ const Variation = ({
 
     if (name === "stock_quantity" && Number.isInteger(Number(value))) {
       setVariations((variations) =>
-        variations.map((variation) =>
-          variation.id === id
+        variations.map((_variation) =>
+          _variation.id === variation.id
             ? {
-                ...variation,
+                ..._variation,
                 [name]: value,
               }
-            : variation
+            : _variation
         )
       );
     }
 
     if (name === "weight" && !isNaN(value)) {
       setVariations((variations) =>
-        variations.map((variation) =>
-          variation.id === id
+        variations.map((_variation) =>
+          _variation.id === variation.id
             ? {
-                ...variation,
+                ..._variation,
                 [name]: value,
               }
-            : variation
+            : _variation
         )
       );
     }
@@ -167,29 +153,29 @@ const Variation = ({
     if (name.includes("dimension") && !isNaN(value)) {
       let dimensionProp = name.split("_").pop();
       setVariations((variations) =>
-        variations.map((variation) =>
-          variation.id === id
+        variations.map((_variation) =>
+          _variation.id === variation.id
             ? {
-                ...variation,
+                ..._variation,
                 dimensions: {
-                  ...dimensions,
+                  ...variation.dimensions,
                   [dimensionProp]: value,
                 },
               }
-            : variation
+            : _variation
         )
       );
     }
 
     if (!formNames.includes(name)) {
       setVariations((variations) =>
-        variations.map((variation) =>
-          variation.id === id
+        variations.map((_variation) =>
+          _variation.id === variation.id
             ? {
-                ...variation,
+                ..._variation,
                 [name]: value,
               }
-            : variation
+            : _variation
         )
       );
     }
@@ -211,16 +197,16 @@ const Variation = ({
         let imgUrl = URL.createObjectURL(image);
 
         setVariations((variations) =>
-          variations.map((variation) =>
-            variation.id === id
+          variations.map((_variation) =>
+            _variation.id === variation.id
               ? {
-                  ...variation,
+                  ..._variation,
                   image: {
-                    ...variation.image,
+                    ..._variation.image,
                     src: image,
                   },
                 }
-              : variation
+              : _variation
           )
         );
         setSelectedImage(imgUrl);
@@ -236,11 +222,14 @@ const Variation = ({
   };
 
   const removeVariation = async () => {
-    let response = await ProductRepository.deleteVariation(productID, id);
+    let response = await ProductRepository.deleteVariation(
+      productID,
+      variation.id
+    );
 
     if (response) {
       setVariations((variations) =>
-        variations.filter((variation) => variation.id !== id)
+        variations.filter((_variation) => _variation.id !== variation.id)
       );
     }
   };
@@ -268,9 +257,9 @@ const Variation = ({
     <div className="variations-List mt-5 rounded">
       <header className="d-flex justify-content-between bg-light p-3">
         <div className="d-flex">
-          <span style={{ fontWeight: "bold" }}>#{id}</span>
+          <span style={{ fontWeight: "bold" }}>#{variation.id}</span>
 
-          {attributes.map((attribute, index) => (
+          {variation.attributes.map((attribute, index) => (
             <select
               key={index}
               name={attribute.name}
@@ -286,14 +275,14 @@ const Variation = ({
         </div>
         <div
           data-bs-toggle="collapse"
-          href={`#collapse-${id}`}
+          href={`#collapse-${variation.id}`}
           style={{ width: "100%" }}
         />
         <div className="d-flex justify-content-end">
           <span
             className="btn"
             data-bs-toggle="collapse"
-            href={`#collapse-${id}`}
+            href={`#collapse-${variation.id}`}
           >
             <span style={{ fontSize: 15 }}>
               <i className="fa fa-caret-down" aria-hidden="true"></i>
@@ -309,13 +298,13 @@ const Variation = ({
         </div>
       </header>
 
-      <div className="collapse" id={`collapse-${id}`}>
+      <div className="collapse" id={`collapse-${variation.id}`}>
         <div className="row">
           <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
             <div className="row">
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
                 <input
-                  id={`img-${id}`}
+                  id={`img-${variation.id}`}
                   type="file"
                   accept="image/*"
                   required
@@ -332,7 +321,10 @@ const Variation = ({
                 >
                   <img src={selectedImage} style={styles.image} />
 
-                  <label htmlFor={`img-${id}`} style={{ paddingTop: 12 }}>
+                  <label
+                    htmlFor={`img-${variation.id}`}
+                    style={{ paddingTop: 12 }}
+                  >
                     <span
                       style={{
                         position: "absolute",
@@ -357,12 +349,15 @@ const Variation = ({
                     <input
                       className="form-control"
                       type="checkbox"
-                      id={`enabled-${id}`}
+                      id={`enabled-${variation.id}`}
                       name="enabled"
-                      checked={enabled}
+                      checked={variation.enabled}
                       onChange={handleInputChange}
                     />
-                    <label htmlFor={`enabled-${id}`} style={{ color: "black" }}>
+                    <label
+                      htmlFor={`enabled-${variation.id}`}
+                      style={{ color: "black" }}
+                    >
                       Enabled
                     </label>
                   </div>
@@ -373,13 +368,13 @@ const Variation = ({
                     <input
                       className="form-control"
                       type="checkbox"
-                      id={`downloadable-${id}`}
+                      id={`downloadable-${variation.id}`}
                       name="downloadable"
-                      checked={downloadable}
+                      checked={variation.downloadable}
                       onChange={handleInputChange}
                     />
                     <label
-                      htmlFor={`downloadable-${id}`}
+                      htmlFor={`downloadable-${variation.id}`}
                       style={{ color: "black" }}
                     >
                       Downloadable
@@ -392,12 +387,15 @@ const Variation = ({
                     <input
                       className="form-control"
                       type="checkbox"
-                      id={`virtual-${id}`}
+                      id={`virtual-${variation.id}`}
                       name="virtual"
-                      checked={virtual}
+                      checked={variation.virtual}
                       onChange={handleInputChange}
                     />
-                    <label htmlFor={`virtual-${id}`} style={{ color: "black" }}>
+                    <label
+                      htmlFor={`virtual-${variation.id}`}
+                      style={{ color: "black" }}
+                    >
                       Virtual
                     </label>
                   </div>
@@ -408,13 +406,13 @@ const Variation = ({
                     <input
                       className="form-control"
                       type="checkbox"
-                      id={`manage_stock-${id}`}
+                      id={`manage_stock-${variation.id}`}
                       name="manage_stock"
-                      checked={manage_stock}
+                      checked={variation.manage_stock}
                       onChange={handleInputChange}
                     />
                     <label
-                      htmlFor={`manage_stock-${id}`}
+                      htmlFor={`manage_stock-${variation.id}`}
                       style={{ color: "black" }}
                     >
                       Manage stock?
@@ -431,7 +429,7 @@ const Variation = ({
                 name="sku"
                 className="form-control"
                 type="text"
-                value={sku}
+                value={variation.sku}
                 onChange={handleInputChange}
               />
             </div>
@@ -443,7 +441,7 @@ const Variation = ({
                   name="in_stock"
                   className="ps-select"
                   title="Status"
-                  value={in_stock}
+                  value={variation.in_stock}
                   onChange={handleInputChange}
                 >
                   <option value="true">In Stock</option>
@@ -464,7 +462,7 @@ const Variation = ({
                 type="text"
                 placeholder="Variation price (required)"
                 required
-                value={regular_price}
+                value={variation.regular_price}
                 onChange={handleInputChange}
               />
             </div>
@@ -477,7 +475,7 @@ const Variation = ({
                 name="price"
                 className="form-control"
                 type="text"
-                value={price}
+                value={variation.price}
                 onChange={handleInputChange}
               />
             </div>
@@ -494,7 +492,7 @@ const Variation = ({
                 type="text"
                 placeholder="Variation price (required)"
                 required
-                value={stock_quantity}
+                value={variation.stock_quantity}
                 onChange={handleInputChange}
               />
             </div>
@@ -507,7 +505,7 @@ const Variation = ({
                 name="backorders"
                 className="form-control"
                 type="text"
-                value={backorders}
+                value={variation.backorders}
                 onChange={handleInputChange}
               />
             </div>
@@ -523,7 +521,7 @@ const Variation = ({
                 className="form-control"
                 type="text"
                 placeholder="0"
-                value={weight}
+                value={variation.weight}
                 onChange={handleInputChange}
               />
             </div>
@@ -539,7 +537,7 @@ const Variation = ({
                     className="form-control"
                     type="text"
                     placeholder="0"
-                    value={dimensions.length}
+                    value={variation.dimensions.length}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -550,7 +548,7 @@ const Variation = ({
                     className="form-control"
                     type="text"
                     placeholder="0"
-                    value={dimensions.width}
+                    value={variation.dimensions.width}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -561,7 +559,7 @@ const Variation = ({
                     className="form-control"
                     type="text"
                     placeholder="0"
-                    value={dimensions.height}
+                    value={variation.dimensions.height}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -577,7 +575,7 @@ const Variation = ({
               name="shipping_class"
               className="ps-select"
               title="Shipping class"
-              value={shipping_class}
+              value={variation.shipping_class}
               onChange={handleInputChange}
             >
               <option value="Same as parent">Same as parent</option>
@@ -587,10 +585,10 @@ const Variation = ({
 
         <div className="form-group">
           <label>Variation Description</label>
-          {description && (
+          {variation.description && (
             <SunEditor
               height="200px"
-              defaultValue={description}
+              defaultValue={variation.description}
               setOptions={{
                 buttonList,
               }}
@@ -611,10 +609,13 @@ const Variation = ({
             <input
               className="form-control"
               type="checkbox"
-              id={`wholesale-${id}`}
+              id={`wholesale-${variation.id}`}
               name="wholesale"
             />
-            <label htmlFor={`wholesale-${id}`} style={{ color: "black" }}>
+            <label
+              htmlFor={`wholesale-${variation.id}`}
+              style={{ color: "black" }}
+            >
               Enable wholesale for this product
             </label>
           </div>

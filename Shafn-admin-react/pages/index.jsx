@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Router from "next/router";
 import CardRecentOrders from "~/components/shared/cards/CardRecentOrders";
 import CardSaleReport from "~/components/shared/cards/CardSaleReport";
 import CardEarning from "~/components/shared/cards/CardEarning";
@@ -8,9 +9,13 @@ import { useDispatch } from "react-redux";
 import { toggleDrawerMenu } from "~/store/app/action";
 import CardTopCountries from "~/components/shared/cards/CardTopCountries";
 
-const Index = () => {
+const Index = ({ query }) => {
   const dispatch = useDispatch();
   useEffect(() => {
+    // if (query && query.auth_token) {
+    //   localStorage.setItem("auth_token", query.auth_token);
+    //   Router.push("/");
+    // }
     dispatch(toggleDrawerMenu(false));
   }, []);
 
@@ -35,6 +40,10 @@ const Index = () => {
       </section>
     </ContainerDashboard>
   );
+};
+
+Index.getInitialProps = async ({ query }) => {
+  return { query: query };
 };
 
 export default Index;

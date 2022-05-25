@@ -1,20 +1,52 @@
 import React, { useEffect, useState } from "react";
 import ContainerDefault from "~/components/layouts/ContainerDefault";
-import Pagination from "~/components/elements/basic/Pagination";
 import TableProjectItems from "~/components/shared/tables/TableProjectItems";
-import { Select, Spin } from "antd";
+import { Select, Spin, Pagination } from "antd";
 import Link from "next/link";
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
 import { connect, useDispatch } from "react-redux";
 import { toggleDrawerMenu } from "~/store/app/action";
 import { CustomModal } from "~/components/elements/custom/index";
+import ProductRepository from "~/repositories/ProductRepository";
 
 const { Option } = Select;
 const ProductPage = () => {
   const dispatch = useDispatch();
 
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [products, setProducts] = useState([]);
+
+  const handlePagination = async (page, pageSize) => {
+    setCurrentPage(page);
+    const params = {
+      page: page,
+      per_page: pageSize,
+    };
+    setLoading(true);
+    const products = await ProductRepository.getProducts(params);
+    setProducts(products);
+    setTimeout(
+      function () {
+        setLoading(false);
+      }.bind(this),
+      500
+    );
+  };
+
+  const getProducts = async () => {
+    const params = {
+      page: 1,
+      per_page: 10,
+    };
+    const products = await ProductRepository.getProducts(params);
+    setProducts(products);
+    setLoading(false);
+  };
+
   useEffect(() => {
     dispatch(toggleDrawerMenu(false));
+    getProducts();
   }, []);
   return (
     <ContainerDefault title="Products">
@@ -94,11 +126,17 @@ const ProductPage = () => {
           </div>
         </div>
         <div className="ps-section__content">
-          <TableProjectItems />
+          <TableProjectItems products={products} />
         </div>
         <div className="ps-section__footer">
           <p>Show 10 in 30 items.</p>
-          <Pagination />
+          <Pagination
+            total={products && products.totalItems}
+            pageSize={10}
+            responsive={true}
+            current={currentPage}
+            onChange={handlePagination}
+          />
         </div>
       </section>
     </ContainerDefault>

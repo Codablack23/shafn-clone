@@ -1,6 +1,12 @@
 import React from 'react';
 import Rating from '~/components/elements/Rating';
-import Link from 'next/link'
+import Link from 'next/link';
+import {
+    FacebookShareButton,
+    TwitterShareButton,
+    PinterestShareButton,
+    LinkedinShareButton,
+} from 'react-share';
 
 const WPStoreInformation = ({ store }) => {
     // views
@@ -49,40 +55,40 @@ const WPStoreInformation = ({ store }) => {
                         <strong>{store.phone}</strong>
                     </p> */}
                     {/* <p>or Or if you have any question</p> */}
-                    <a className="ps-btn ps-btn--fullwidth" href="" style={{borderRadius:"30px"}}>
+                    <a
+                        className="ps-btn ps-btn--fullwidth"
+                        href=""
+                        style={{ borderRadius: '30px' }}>
                         Contact Seller
                     </a>
                 </div>
                 <div className="share m-3">
-            <p className="w3-text-grey">Share on social media</p>
-            <div className="d-flex justify-content-between">
-                <Link href={"https://facebook.com"}>
-                    <a className="social-link">
-                    <i className="bi bi-facebook"></i>
-                    </a>
-                </Link>
-                <Link href={"https://instagram.com"}>
-                    <a className="social-link">
-                    <i className="bi bi-instagram"></i>
-                    </a>
-                </Link>
-                <Link href={"https://twitter.com"}>
-                    <a className="social-link">
-                    <i className="bi bi-twitter"></i>
-                    </a>
-                </Link>
-                <Link href={"https://twitter.com"}>
-                    <a className="social-link">
-                    <i className="bi bi-linkedin" style={{color:'#0A66C2'}}></i>
-                    </a>
-                </Link>
-                <Link href={"https://pinterest.com"}>
-                    <a className="social-link">
-                    <i className="bi bi-pinterest"></i>
-                    </a>
-                </Link>
-            </div>
-            </div>
+                    <p className="w3-text-grey">Share on social media</p>
+                    <div className="d-flex justify-content-between">
+                        <FacebookShareButton url="https://www.shafn.com">
+                            <a className="social-link">
+                                <i className="bi bi-facebook"></i>
+                            </a>
+                        </FacebookShareButton>
+                        <TwitterShareButton url="https://www.shafn.com">
+                            <a className="social-link">
+                                <i className="bi bi-twitter"></i>
+                            </a>
+                        </TwitterShareButton>
+                        <LinkedinShareButton url="https://www.shafn.com">
+                            <a className="social-link">
+                                <i
+                                    className="bi bi-linkedin"
+                                    style={{ color: '#0073B1' }}></i>
+                            </a>
+                        </LinkedinShareButton>
+                        <PinterestShareButton url="https://www.shafn.com">
+                            <a className="social-link">
+                                <i className="bi bi-pinterest"></i>
+                            </a>
+                        </PinterestShareButton>
+                    </div>
+                </div>
             </div>
         </div>
     );

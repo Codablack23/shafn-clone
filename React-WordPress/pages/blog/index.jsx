@@ -1,9 +1,10 @@
 import React from 'react';
+import { scrollPageToTop } from '~/utilities/common-helpers';
 import WPBlogGrid from '~/wp-components/blog/WPBlogGrid';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 
-const BlogGridPage = () => {
-    return (
+const BlogGridPage = () => (
+    <div ref={scrollPageToTop}>
         <WPLayout title="Blog">
             <div className="ps-page--blog">
                 <div className="container">
@@ -14,7 +15,7 @@ const BlogGridPage = () => {
                 </div>
             </div>
         </WPLayout>
-    );
-};
+    </div>
+);
 
 export default BlogGridPage;

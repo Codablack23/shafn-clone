@@ -4,8 +4,7 @@ import { Form, Input } from 'antd';
 import { login } from '../../../store/auth/action';
 import { useDispatch } from 'react-redux';
 import WPAuthRepository from '~/repositories/WP/WPAuthRepository';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import { GoogleLogin } from 'react-google-login';
+import OAuth from './modules/OAuth';
 
 function Register() {
     const dispatch = useDispatch();
@@ -71,28 +70,18 @@ function Register() {
         };
 
         if (!isLoading) {
-            const dispatchLogin = () => {
-                dispatch(login());
+            const dispatchLogin = (user) => {
+                dispatch(login(user));
             };
 
             WPAuthRepository.register(
                 user,
                 storeData,
-                isVendor,
                 dispatchLogin,
                 setIsLoading
             );
         }
     };
-
-    useEffect(() => {
-        const { gapi, loadAuth2 } = require('gapi-script');
-        const loadGoogleAuth = async () => {
-            let auth2 = await loadAuth2(gapi, process.env.google_clientID, '');
-        };
-
-        loadGoogleAuth();
-    }, []);
 
     return (
         <div className="ps-my-account">
@@ -324,93 +313,16 @@ function Register() {
                                 <p>OR</p>
                                 <hr />
                             </div>
-                            <ul className="social-links">
-                                <GoogleLogin
-                                    clientId={process.env.google_clientID}
-                                    jsSrc="https://accounts.google.com/gsi/client"
-                                    uxMode="redirect"
-                                    onSuccess={(res) =>
-                                        handleRegistration('oauth', {
-                                            email: res.profileObj.email,
-                                            password: res.profileObj.googleId,
-                                            firstname: res.profileObj.givenName,
-                                            lastname: res.profileObj.familyName,
-                                        })
-                                    }
-                                    onFailure={(res) => {
-                                        console.log('Google_Failure: ');
-                                        console.log(res);
-                                    }}
-                                    cookiePolicy={'single_host_origin'}
-                                    render={(renderProps) => (
-                                        <li onClick={renderProps.onClick}>
-                                            <a
-                                                className="google handles"
-                                                href="#">
-                                                <span>
-                                                    <img
-                                                        style={{
-                                                            objectFit:
-                                                                'contain',
-                                                        }}
-                                                        src="/icons/google.svg"
-                                                    />
-                                                </span>
-                                                <span>
-                                                    Continue With Google
-                                                </span>
-                                            </a>
-                                        </li>
-                                    )}
-                                />
-
-                                <FacebookLogin
-                                    appId={process.env.fb_appID}
-                                    fields="name,email,picture"
-                                    callback={(res) => {
-                                        console.log('FB_Result: ');
-                                        console.log(res);
-                                    }}
-                                    render={(renderProps) => (
-                                        <li onClick={renderProps.onClick}>
-                                            <a
-                                                className="facebook handles"
-                                                href="#">
-                                                <span>
-                                                    <i className="fa fa-facebook w3-text-blue"></i>
-                                                </span>
-                                                <span>
-                                                    Continue With Facebook
-                                                </span>
-                                            </a>
-                                        </li>
-                                    )}
-                                />
-                            </ul>
-
-                            {/* <p>Connect with:</p> */}
-                            {/* <ul className="ps-list--social">
-                                <li>
-                                    <a className="facebook" href="#">
-                                        <i className="fa fa-facebook"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="google" href="#">
-                                        <i className="fa fa-google-plus"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="twitter" href="#">
-                                        <i className="fa fa-twitter"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="instagram" href="#">
-                                        <i className="fa fa-instagram"></i>
-                                    </a>
-                                </li>
-                            </ul> */}
+                            <OAuth
+                                onSuccess={(user) =>
+                                    handleRegistration('oauth', {
+                                        email: user.email,
+                                        password: user.id,
+                                        firstname: user.firstname,
+                                        lastname: user.lastname,
+                                    })
+                                }
+                            />
                         </div>
                     </div>
                 </Form>

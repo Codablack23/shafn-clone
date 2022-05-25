@@ -228,15 +228,8 @@ const ProductAttributes = ({
       return (
         <Attribute
           key={i}
-          id={attribute.id}
-          attributeID={attributeID}
-          type={attribute.type}
-          name={attribute.name}
-          options={attribute.options}
+          attribute={attribute}
           defaultOptions={defaultOptions}
-          visible={attribute.visible}
-          variation={attribute.variation}
-          error={attribute.error}
           changeName={changeName}
           addOption={addOption}
           toggleProp={toggleProp}

@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { login } from '../../../store/auth/action';
 import WPAuthRepository from '~/repositories/WP/WPAuthRepository';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-// import { FacebookProvider, Login as FacebookLogin } from 'react-facebook';
-import { GoogleLogin } from 'react-google-login';
+import OAuth from './modules/OAuth';
 
-import { Form, Input, notification } from 'antd';
+import { Form, Input } from 'antd';
 import { useDispatch } from 'react-redux';
 
 function Login() {
@@ -40,22 +38,13 @@ function Login() {
                 };
             }
 
-            const dispatchLogin = () => {
-                dispatch(login());
+            const dispatchLogin = (user) => {
+                dispatch(login(user));
             };
 
             WPAuthRepository.login(loginData, dispatchLogin, setIsLoading);
         }
     };
-
-    useEffect(() => {
-        const { gapi, loadAuth2 } = require('gapi-script');
-        const loadGoogleAuth = async () => {
-            let auth2 = await loadAuth2(gapi, process.env.google_clientID, '');
-        };
-
-        loadGoogleAuth();
-    }, []);
 
     return (
         <div className="ps-my-account" style={{ paddingTop: 10 }}>
@@ -174,111 +163,14 @@ function Login() {
                                 <p>OR</p>
                                 <hr />
                             </div>
-                            <ul className="social-links">
-                                <GoogleLogin
-                                    clientId={process.env.google_clientID}
-                                    jsSrc="https://accounts.google.com/gsi/client"
-                                    uxMode="redirect"
-                                    onSuccess={(res) =>
-                                        handleLogin('oauth', {
-                                            email: res.profileObj.email,
-                                            password: res.profileObj.googleId,
-                                        })
-                                    }
-                                    onFailure={(res) => {
-                                        console.log('Google_Failure: ');
-                                        console.log(res);
-                                    }}
-                                    cookiePolicy={'single_host_origin'}
-                                    render={(renderProps) => (
-                                        <li onClick={renderProps.onClick}>
-                                            <a
-                                                className="google handles"
-                                                href="#">
-                                                <span>
-                                                    <img
-                                                        style={{
-                                                            objectFit:
-                                                                'contain',
-                                                        }}
-                                                        src="/icons/google.svg"
-                                                    />
-                                                </span>
-                                                <span>
-                                                    Continue With Google
-                                                </span>
-                                            </a>
-                                        </li>
-                                    )}
-                                />
-
-                                <FacebookLogin
-                                    appId={process.env.fb_appID}
-                                    fields="name,email"
-                                    scope="email"
-                                    callback={(res) => {
-                                        // handleLogin(
-                                        //     'oauth',
-                                        //     res.email,
-                                        //     res.userID
-                                        // )
-                                        console.log('FB_Result: ');
-                                        console.log(res);
-                                    }}
-                                    render={(renderProps) => (
-                                        <li onClick={renderProps.onClick}>
-                                            <a
-                                                className="facebook handles"
-                                                href="#">
-                                                <span>
-                                                    <i className="fa fa-facebook w3-text-blue"></i>
-                                                </span>
-                                                <span>
-                                                    Continue With Facebook
-                                                </span>
-                                            </a>
-                                        </li>
-                                    )}
-                                />
-
-                                {/* <FacebookProvider appId={process.env.fb_appID}>
-                                    <FacebookLogin
-                                        scope="email"
-                                        onCompleted={(res) => {
-                                            handleLogin(
-                                                'oauth',
-                                                res.email,
-                                                res.userID
-                                            )
-                                            console.log('FB_Result: ');
-                                            console.log(res);
-                                        }}
-                                        onError={(res) => {
-                                            console.log('FB_Error: ');
-                                            console.log(res);
-                                        }}>
-                                        {({
-                                            loading,
-                                            handleClick,
-                                            error,
-                                            data,
-                                        }) => (
-                                            <li onClick={handleClick}>
-                                                <a
-                                                    className="facebook handles"
-                                                    href="#">
-                                                    <span>
-                                                        <i className="fa fa-facebook w3-text-blue"></i>
-                                                    </span>
-                                                    <span>
-                                                        Continue With Facebook
-                                                    </span>
-                                                </a>
-                                            </li>
-                                        )}
-                                    </FacebookLogin>
-                                </FacebookProvider> */}
-                            </ul>
+                            <OAuth
+                                onSuccess={(user) =>
+                                    handleLogin('oauth', {
+                                        email: user.email,
+                                        password: user.id,
+                                    })
+                                }
+                            />
                         </div>
                     </div>
                 </Form>
