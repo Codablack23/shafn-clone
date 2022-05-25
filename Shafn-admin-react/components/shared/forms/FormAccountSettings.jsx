@@ -29,20 +29,16 @@ const FormAccountSettings = () => {
 
   const [isUploading, setIsUploading] = useState(false);
 
-  const imageHandler = (e) => {
+  const handleImageSelection = (e) => {
     e.persist();
 
     let name = e.target.name;
     let image = e.target.files[0];
     let type = image.type.split("/").pop();
+    let allowedTypes = ["jpeg", "jpg", "png", "gif"];
 
     if (image) {
-      if (
-        type === "jpeg" ||
-        type === "jpg" ||
-        type === "png" ||
-        type === "gif"
-      ) {
+      if (allowedTypes.includes(type)) {
         let imgUrl = URL.createObjectURL(image);
 
         if (name === "profileImage") {
@@ -233,7 +229,7 @@ const FormAccountSettings = () => {
                 id="banner-picker"
                 type="file"
                 accept="image/*"
-                onChange={imageHandler}
+                onChange={handleImageSelection}
                 required
                 multiple
                 hidden
@@ -280,7 +276,7 @@ const FormAccountSettings = () => {
                 id="profileImage-picker"
                 type="file"
                 accept="image/*"
-                onChange={imageHandler}
+                onChange={handleImageSelection}
                 required
                 multiple
                 hidden

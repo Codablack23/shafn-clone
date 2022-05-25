@@ -138,7 +138,7 @@ class ProductRepository {
       };
 
       let images = [];
-      let imgFiles = payload.imageFiles.map((img) => img.file);
+      let imgFiles = payload.images.map((img) => img.file);
 
       imgFiles.forEach((file, index, arr) => {
         let formData = new FormData();
@@ -150,7 +150,7 @@ class ProductRepository {
           .then((res) => {
             images.push({ src: res.data.source_url, position: index });
 
-            if (images.length === payload.imageFiles.length) {
+            if (images.length === payload.images.length) {
               uploadProduct(images);
             }
           })
@@ -628,10 +628,7 @@ class ProductRepository {
 
     const response = axios
       .get(`${WPDomain}/wp-json/wc/v3/products/categories`, config)
-      .then((res) => {
-        console.log(res.data);
-        return res.data;
-      })
+      .then((res) => res.data)
       .catch((err) => {
         return;
       });
