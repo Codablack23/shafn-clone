@@ -296,7 +296,7 @@ function Register() {
                                     disabled={isLoading}>
                                     {isLoading ? (
                                         <img
-                                            src={require('../../../public/static/img/Interwind-loader.svg')}
+                                            src='/static/img/Interwind-loader.svg'
                                             alt="Loading..."
                                             width={50}
                                             height={30}
