@@ -102,11 +102,9 @@ const EditProductPage = ({ pid }) => {
   const [variations, setVariations] = useState([]);
 
   const [images, setImages] = useState([]);
-  const [selectedImages, setSelectedImages] = useState([]);
+  const [currentImages, setCurrentImages] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
 
-  const [viewProducts, setViewProducts] = useState(false);
-  const [index, setIndex] = useState("");
   const [showNewTagInputField, setShowNewTagInputField] = useState(false);
   const [isPriceValid, setIsPriceValid] = useState(true);
   const [uploading, setUploading] = useState({
@@ -246,13 +244,13 @@ const EditProductPage = ({ pid }) => {
           file: img.src,
         }));
 
-        let selectedImages = Array.from(product.images).map((img, index) => ({
+        let currentImages = Array.from(product.images).map((img, index) => ({
           id: `img-${index + 1}`,
           url: img.src,
         }));
 
         setImages(images);
-        setSelectedImages(selectedImages);
+        setCurrentImages(currentImages);
       }
     } catch (err) {
       console.log(err);
@@ -492,12 +490,12 @@ const EditProductPage = ({ pid }) => {
                     <div className="pt-3 product-img-container">
                       <ImageSelectTiles
                         numOfTiles={9}
-                        defaultImages={selectedImages}
-                        onSelect={(file) =>
+                        defaultImages={currentImages}
+                        onSelect={(img) =>
                           setImages((current) =>
-                            file.id === "img-1"
-                              ? [file, ...current]
-                              : [...current, file]
+                            img.id === "img-1"
+                              ? [img, ...current]
+                              : [...current, img]
                           )
                         }
                         onDelete={(id) =>
@@ -652,26 +650,6 @@ const EditProductPage = ({ pid }) => {
               </button>
             </div>
           </form>
-          {viewProducts && (
-            <Lightbox
-              mainSrc={selectedImages[index].url}
-              nextSrc={selectedImages[(index + 1) % selectedImages.length].url}
-              prevSrc={
-                selectedImages[
-                  (index + selectedImages.length - 1) % selectedImages.length
-                ].url
-              }
-              onCloseRequest={() => setViewProducts(false)}
-              onMovePrevRequest={() =>
-                setIndex(
-                  (index + selectedImages.length - 1) % selectedImages.length
-                )
-              }
-              onMoveNextRequest={() =>
-                setIndex((index + 1) % selectedImages.length)
-              }
-            />
-          )}
 
           <CustomModal isOpen={uploading.status ? true : false}>
             <div className="row">

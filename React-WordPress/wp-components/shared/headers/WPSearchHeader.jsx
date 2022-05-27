@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import WPProductSearchResult from '~/wp-components/elements/products/WPProductSearchResult';
 import WPProductRepository from '~/repositories/WP/WPProductRepository';
+import WPSpeechRecognition from './modules/WPSpeechRecognition';
 import { Spin } from 'antd';
 
 const exampleCategories = [
@@ -97,7 +98,7 @@ const WPSearchHeader = () => {
     function handleSubmit(e) {
         e.preventDefault();
         // Router.push();
-        location.assign(`/search?keyword=${keyword}`)
+        location.assign(`/search?keyword=${keyword}`);
     }
 
     useEffect(() => {
@@ -202,6 +203,7 @@ const WPSearchHeader = () => {
                 {loadingView} */}
             </div>
             <button
+                title="Search"
                 onClick={handleSubmit}
                 style={{
                     backgroundColor: '#2A3147',
@@ -214,6 +216,9 @@ const WPSearchHeader = () => {
                     aria-hidden="true"
                     style={{ fontSize: '20px' }}></i>
             </button>
+            <WPSpeechRecognition
+                onListening={(transcript) => setKeyword(transcript)}
+            />
             {/* <div
                 className={`ps-panel--search-result${
                     isSearch ? ' active ' : ''
