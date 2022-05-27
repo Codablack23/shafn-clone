@@ -21,14 +21,11 @@ const WPHeaderDefault = () => {
             id="headerSticky">
             <div className="header__top bg-white">
                 <div className="ps-container bg-white">
-                    <div className="header__left bg-white">
-                        <Logo />
-                        <MenuCategoriesDropdown />
-                    </div>
-                    <div className="header__center bg-white">
-                        <WPSearchHeader />
-                    </div>
-                    <div className="header__right bg-white">
+                    <div className="custom-header-center bg-white">
+                        <Logo/>
+                        <div className="custom-header-search">
+                         <WPSearchHeader />
+                        </div>
                         <WPHeaderActions />
                     </div>
                 </div>

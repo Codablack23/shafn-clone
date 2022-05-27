@@ -16,6 +16,14 @@ function Register() {
     const [storename, setStorename] = useState('');
     const [isVendor, setIsVendor] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [passVisibility,setPassVisibility] = useState(false)
+
+    function togglePasswordVisibilty(){
+        let e = document.querySelector('.passVis')
+        e.classList.toggle("bi-eye-fill")
+        e.classList.toggle("bi-eye-slash-fill")
+        setPassVisibility(prev=>!prev)
+     }
 
     const handleRegistration = (type = 'form', oauth) => {
         setIsLoading(true);
@@ -152,15 +160,32 @@ function Register() {
                                                 'Password must contain at least 8 characters with at least one uppercase letter, one lowercase letter, one number and one special character(allowed characters => #, ?, !, @, $, %, ^, &, *, -)',
                                         },
                                     ]}>
-                                    <Input
-                                        className="form-control"
-                                        type="password"
+                                     <div className="form-control align-items-center d-flex justify-content-between">
+                                  <input
+                                        name="password"
+                                        type={`${passVisibility?"test":"password"}`}
                                         placeholder="Password..."
                                         value={password}
                                         onChange={(e) =>
                                             setPassword(e.target.value)
                                         }
+                                        style={{
+                                            border:"none",
+                                            outline:"none"
+                                        }}
                                     />
+                                    <button
+                                    type='button'
+                                    onClick={togglePasswordVisibilty}
+                                      style={{
+                                        border:"none",
+                                        outline:"none",
+                                        cursor:"pointer",
+                                        background:"none"
+                                    }}>
+                                        <i className="passVis bi bi-eye-fill" style={{fontSize:"20px"}}></i>
+                                    </button>
+                                  </div>
                                 </Form.Item>
                             </div>
 
@@ -271,7 +296,7 @@ function Register() {
                                     disabled={isLoading}>
                                     {isLoading ? (
                                         <img
-                                            src={require('../../../public/static/img/Interwind-loader.svg')}
+                                            src='/static/img/Interwind-loader.svg'
                                             alt="Loading..."
                                             width={50}
                                             height={30}

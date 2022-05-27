@@ -19,12 +19,10 @@ class WPHeaderActions extends Component {
             accountView = <AccountQuickLinks isLoggedIn={false} />;
         }
         return (
-            <div className="header__actions">
-                <div
-                    className="w-50 d-flex justify-content-between"
-                    style={{
-                        alignItems: 'center',
-                    }}>
+            <div className="header__actions" >
+              <div className="w-100 d-flex justify-content-between" style={{
+                  alignItems:'center'
+              }}>
                     <Link href="/account/compare">
                         <span
                             className="header__extra w3-hover-lightgrey"
