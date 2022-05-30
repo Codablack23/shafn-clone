@@ -7,21 +7,21 @@ import SkeletonVendorInformation from '~/components/elements/skeletons/SkeletonV
 import { SkeletonBanner } from '~/components/elements/skeletons/SkeletonVendorInformation';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import WPVendorProducts from '~/wp-components/store/WPVendorProducts';
-import { generateTempArray } from '~/utilities/common-helpers';
+import { generateTempArray, scrollPageToTop } from '~/utilities/common-helpers';
 import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct';
 
-const Banner=({store})=>
- (   <div className="custom-banner">
-        <img src={store.banner}/>
+const Banner = ({ store }) => (
+    <div className="custom-banner">
+        <img src={store.banner} />
         <div className="img-profile-container">
-        <img src={store.gravatar}/>
+            <img src={store.gravatar} />
         </div>
-    </div>)
-
-
+    </div>
+);
 
 const WPStorePage = ({ query }) => {
     const dispatch = useDispatch();
+
     const [loading, setLoading] = useState(true);
     const [storeID, setStoreID] = useState(null);
     const [storeProfile, setStoreProfile] = useState(null);
@@ -63,7 +63,7 @@ const WPStorePage = ({ query }) => {
 
     if (!loading) {
         storeInformationView = <WPStoreInformation store={storeProfile} />;
-        bannerView = <Banner store={storeProfile}/>
+        bannerView = <Banner store={storeProfile} />;
         if (storeProducts) {
             storeProductsView = (
                 <WPVendorProducts products={storeProducts} id={storeID} />
@@ -71,7 +71,7 @@ const WPStorePage = ({ query }) => {
         }
     } else {
         storeInformationView = <SkeletonVendorInformation />;
-        bannerView =<SkeletonBanner/>
+        bannerView = <SkeletonBanner />;
         const skeletonItems = generateTempArray(8).map((item) => (
             <div className="col-lg-3 col-md-4 col-sm-6 col-6" key={item}>
                 <SkeletonProduct />
@@ -81,23 +81,26 @@ const WPStorePage = ({ query }) => {
     }
 
     return (
-        <WPLayout title={storeProfile ? storeProfile.store_name : 'Loading...'}>
-            <div className="ps-page--single ps-page--vendor">
-                <div className="ps-vendor-store">
-                    <div className="container">
-                        {bannerView}
-                        <div className="ps-section__container">
-                            <div className="ps-section__left">
-                                {storeInformationView}
-                            </div>
-                            <div className="ps-section__right">
-                                {storeProductsView}
+        <div ref={scrollPageToTop}>
+            <WPLayout
+                title={storeProfile ? storeProfile.store_name : 'Loading...'}>
+                <div className="ps-page--single ps-page--vendor">
+                    <div className="ps-vendor-store">
+                        <div className="container">
+                            {bannerView}
+                            <div className="ps-section__container">
+                                <div className="ps-section__left">
+                                    {storeInformationView}
+                                </div>
+                                <div className="ps-section__right">
+                                    {storeProductsView}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </WPLayout>
+            </WPLayout>
+        </div>
     );
 };
 

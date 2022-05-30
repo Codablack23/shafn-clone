@@ -12,6 +12,7 @@ import WPProductRepository from '~/repositories/WP/WPProductRepository';
 
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import ShopSidebarBanner from '~/components/partials/shop/ShopSidebarBanner';
+import { scrollPageToTop } from '~/utilities/common-helpers';
 
 const WPShopSidebarPage = ({ query }) => {
     const dispatch = useDispatch();
@@ -70,28 +71,30 @@ const WPShopSidebarPage = ({ query }) => {
     }, [dispatch]);
 
     return (
-        <WPLayout title="Shop Sidebar">
-            <div className="ps-page--shop">
-                <div className="container">
-                    <div className="ps-layout--shop" id="shop-sidebar">
-                        <div className="ps-layout__left">
-                            <WPWidgetCategories
-                                activeID={query && query.category}
-                            />
-                            <WPWidgetBrand />
-                            <WPWidgetFilterByPrices />
-                        </div>
-                        <div className="ps-layout__right">
-                            <div className="ps-page__header">
-                                <h1>Shop Sidebar</h1>
-                                <ShopSidebarBanner />
+        <div ref={scrollPageToTop}>
+            <WPLayout title="Shop Sidebar">
+                <div className="ps-page--shop">
+                    <div className="container">
+                        <div className="ps-layout--shop" id="shop-sidebar">
+                            <div className="ps-layout__left">
+                                <WPWidgetCategories
+                                    activeID={query && query.category}
+                                />
+                                <WPWidgetBrand />
+                                <WPWidgetFilterByPrices />
                             </div>
-                            <WPShopProducts sidebar={true} />
+                            <div className="ps-layout__right">
+                                <div className="ps-page__header">
+                                    <h1>Shop Sidebar</h1>
+                                    <ShopSidebarBanner />
+                                </div>
+                                <WPShopProducts sidebar={true} />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </WPLayout>
+            </WPLayout>
+        </div>
     );
 };
 

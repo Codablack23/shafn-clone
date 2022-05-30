@@ -1,15 +1,8 @@
 import React, { useState } from "react";
 
 const Attribute = ({
-  id,
-  attributeID,
-  type,
-  name,
-  options,
+  attribute,
   defaultOptions,
-  visible,
-  variation,
-  error,
   changeName,
   addOption,
   toggleProp,
@@ -25,7 +18,7 @@ const Attribute = ({
 
   const handleNameChange = (e) => {
     setAttributeName(e.target.value);
-    changeName(id, e.target.value);
+    changeName(attribute.id, e.target.value);
   };
 
   const handleOptionChange = (e) => {
@@ -33,7 +26,7 @@ const Attribute = ({
     let lastCharacter = value[value.length - 1];
 
     if (lastCharacter === "|" && option) {
-      addOption(id, option.trim());
+      addOption(attribute.id, option.trim());
       setOption("");
     } else {
       setOption(value);
@@ -51,7 +44,7 @@ const Attribute = ({
       error = "";
     }
 
-    handleError(id, error);
+    handleError(attribute.id, error);
   };
 
   const renderCustomAttribute = () => {
@@ -65,27 +58,30 @@ const Attribute = ({
             className="form-control"
             type="text"
             placeholder="Enter attribute name"
-            value={name}
+            value={attribute.name}
             onChange={handleNameChange}
             onBlur={validateName}
             required
           />
 
-          <p style={{ color: "red" }} hidden={error ? false : true}>
-            {error}
+          <p style={{ color: "red" }} hidden={attribute.error ? false : true}>
+            {attribute.error}
           </p>
 
           <div className="form-group">
             <div className="ps-checkbox">
               <input
-                checked={visible}
+                checked={attribute.visible}
                 className="form-control"
                 type="checkbox"
-                id={`visible-${id}`}
+                id={`visible-${attribute.id}`}
                 name="visible"
-                onChange={(e) => toggleProp(id, e.target.name)}
+                onChange={(e) => toggleProp(attribute.id, e.target.name)}
               />
-              <label htmlFor={`visible-${id}`} style={{ color: "black" }}>
+              <label
+                htmlFor={`visible-${attribute.id}`}
+                style={{ color: "black" }}
+              >
                 Visible on the product page
               </label>
             </div>
@@ -93,14 +89,17 @@ const Attribute = ({
           <div className="form-group">
             <div className="ps-checkbox">
               <input
-                checked={variation}
+                checked={attribute.variation}
                 className="form-control"
                 type="checkbox"
-                id={`variation-${id}`}
+                id={`variation-${attribute.id}`}
                 name="variation"
-                onChange={(e) => toggleProp(id, e.target.name)}
+                onChange={(e) => toggleProp(attribute.id, e.target.name)}
               />
-              <label htmlFor={`variation-${id}`} style={{ color: "black" }}>
+              <label
+                htmlFor={`variation-${attribute.id}`}
+                style={{ color: "black" }}
+              >
                 Used for variations
               </label>
             </div>
@@ -111,10 +110,10 @@ const Attribute = ({
           <h5>Option(s)</h5>
 
           <div>
-            {options.map((option, i) => (
+            {attribute.options.map((option, i) => (
               <span
                 key={i}
-                onClick={() => removeOption(id, option)}
+                onClick={() => removeOption(attribute.id, option)}
                 style={{ marginRight: 10 }}
               >
                 x{option}
@@ -140,19 +139,22 @@ const Attribute = ({
       <div className="row">
         <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
           <h5>Name</h5>
-          <h5>{name}</h5>
+          <h5>{attribute.name}</h5>
 
           <div className="form-group">
             <div className="ps-checkbox">
               <input
-                checked={visible}
+                checked={attribute.visible}
                 className="form-control"
                 type="checkbox"
-                id={`visible-${id}`}
+                id={`visible-${attribute.id}`}
                 name="visible"
-                onChange={(e) => toggleProp(id, e.target.name)}
+                onChange={(e) => toggleProp(attribute.id, e.target.name)}
               />
-              <label htmlFor={`visible-${id}`} style={{ color: "black" }}>
+              <label
+                htmlFor={`visible-${attribute.id}`}
+                style={{ color: "black" }}
+              >
                 Visible on the product page
               </label>
             </div>
@@ -160,14 +162,17 @@ const Attribute = ({
           <div className="form-group">
             <div className="ps-checkbox">
               <input
-                checked={variation}
+                checked={attribute.variation}
                 className="form-control"
                 type="checkbox"
-                id={`variation-${id}`}
+                id={`variation-${attribute.id}`}
                 name="variation"
-                onChange={(e) => toggleProp(id, e.target.name)}
+                onChange={(e) => toggleProp(attribute.id, e.target.name)}
               />
-              <label htmlFor={`variation-${id}`} style={{ color: "black" }}>
+              <label
+                htmlFor={`variation-${attribute.id}`}
+                style={{ color: "black" }}
+              >
                 Used for variations
               </label>
             </div>
@@ -178,10 +183,10 @@ const Attribute = ({
           <h5>Option(s)</h5>
 
           <div>
-            {options.map((option, i) => (
+            {attribute.options.map((option, i) => (
               <span
                 key={i}
-                onClick={() => removeOption(id, option)}
+                onClick={() => removeOption(attribute.id, option)}
                 style={{ marginRight: 10 }}
               >
                 x{option}
@@ -192,13 +197,13 @@ const Attribute = ({
               name="options"
               className="form-control"
               type="text"
-              list={`options-${id}`}
+              list={`options-${attribute.id}`}
               placeholder='Enter some text, or some attributes by "|" seperated values'
               value={option}
               onChange={handleOptionChange}
             />
 
-            <datalist id={`options-${id}`}>
+            <datalist id={`options-${attribute.id}`}>
               {defaultOptions.map((option, i) => (
                 <option key={i} value={option.name} />
               ))}
@@ -208,7 +213,7 @@ const Attribute = ({
           <button
             type="button"
             className="ps-btn ps-btn--gray"
-            onClick={() => selectAllOptions(id, name)}
+            onClick={() => selectAllOptions(attribute.id, attribute.name)}
           >
             Select all
           </button>
@@ -216,7 +221,7 @@ const Attribute = ({
           <button
             type="button"
             className="ps-btn ps-btn--gray"
-            onClick={() => clearOptions(id)}
+            onClick={() => clearOptions(attribute.id)}
           >
             Select none
           </button>
@@ -230,16 +235,16 @@ const Attribute = ({
       <header className="d-flex justify-content-between bg-light p-3">
         <div
           data-bs-toggle="collapse"
-          href={`#collapse-${id}`}
+          href={`#collapse-${attribute.id}`}
           style={{ width: "100%" }}
         >
-          {name}
+          {attribute.name}
         </div>
         <div className="d-flex justify-content-end">
           <span
             className="btn"
             data-bs-toggle="collapse"
-            href={`#collapse-${id}`}
+            href={`#collapse-${attribute.id}`}
           >
             <span style={{ fontSize: 15 }}>
               <i className="fa fa-caret-down" aria-hidden="true"></i>
@@ -248,15 +253,17 @@ const Attribute = ({
           <span
             style={{ cursor: "pointer" }}
             className="text-danger small mt-2 ml-2"
-            onClick={() => removeAttribute(id)}
+            onClick={() => removeAttribute(attribute.id)}
           >
             Remove
           </span>
         </div>
       </header>
 
-      <div className="collapse" id={`collapse-${id}`}>
-        {type === "custom" ? renderCustomAttribute() : renderSelectAttribute()}
+      <div className="collapse" id={`collapse-${attribute.id}`}>
+        {attribute.type === "custom"
+          ? renderCustomAttribute()
+          : renderSelectAttribute()}
       </div>
     </div>
   );

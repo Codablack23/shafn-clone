@@ -29,6 +29,14 @@ export async function fetchData(query) {
   return response;
 }
 
+const username = "ck_a1afc51ff351c0c57c490de46c158cb372e5dae7";
+const password = "cs_0f193ce5d8accbb6286ecc6675d1c78d1181c1f5";
+
+export const oathInfo = {
+  consumer_key: username,
+  consumer_secret: password,
+};
+
 export const serializeQuery = (query) => {
   return Object.keys(query)
     .map(

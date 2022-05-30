@@ -4,19 +4,20 @@ import { useRouter } from 'next/router';
 import { getProductsByCategory } from '~/store/product/action';
 import { WPGetProducts } from '~/store/wp/action';
 import ShopBanner from '~/components/partials/shop/ShopBanner';
-import ShopCategories from '~/components/partials/shop/ShopCategories';
-import ShopBrands from '~/components/partials/shop/ShopBrands';
+
 import WPWidgetCategories from '~/wp-components/shop/WPWidgetCategories';
-import WPWidgetBrand from '~/wp-components/shop/WPWidgetBrand';
+
 import WPWidgetFilterByPrices from '~/wp-components/shop/WPWidgetFilterByPrices';
 import WPShopProducts from '~/wp-components/shop/WPShopProducts';
 import WPProductRepository from '~/repositories/WP/WPProductRepository';
 import WPLayoutFullwidth from '~/wp-components/layouts/WPLayoutFullwidth';
 import WPShopCategories from '~/wp-components/shop/WPShopCategories';
+import { scrollPageToTop } from '~/utilities/common-helpers';
 
 const WPShopPage = ({ query }) => {
     const dispatch = useDispatch();
     const router = useRouter();
+
     const [categoryName, setCategoryName] = useState(null);
 
     async function getCategory(id) {
@@ -34,7 +35,7 @@ const WPShopPage = ({ query }) => {
         if (nextPid !== '' && isNaN(parseInt(nextPid)) === false) {
             const queries = {
                 page: 1,
-                per_page: 18,
+                per_page: 24,
                 category: nextPid,
             };
             dispatch(WPGetProducts(queries));
@@ -42,7 +43,7 @@ const WPShopPage = ({ query }) => {
         } else {
             const queries = {
                 page: 1,
-                per_page: 18,
+                per_page: 24,
             };
             dispatch(WPGetProducts(queries));
         }
@@ -52,7 +53,7 @@ const WPShopPage = ({ query }) => {
         if (query) {
             const queries = {
                 page: 1,
-                per_page: 18,
+                per_page: 24,
             };
             dispatch(WPGetProducts(queries));
 
@@ -71,27 +72,29 @@ const WPShopPage = ({ query }) => {
     }, [dispatch]);
 
     return (
-        <WPLayoutFullwidth title="Shop">
-            <div className="ps-page--shop">
-                <div className="ps-container">
-                    <ShopBanner />
-                    {/* <ShopBrands /> */}
-                    <WPShopCategories />
-                    <div className="ps-layout--shop">
-                        <div className="ps-layout__left">
-                            <WPWidgetCategories
-                                activeID={query && query.category}
-                            />
-                            <WPWidgetBrand />
-                            <WPWidgetFilterByPrices />
-                        </div>
-                        <div className="ps-layout__right">
-                            <WPShopProducts />
+        <div ref={scrollPageToTop}>
+            <WPLayoutFullwidth title="Shop">
+                <div className="ps-page--shop">
+                    <div className="ps-container">
+                        <ShopBanner />
+                        {/* <ShopBrands /> */}
+                        <WPShopCategories />
+                        <div className="ps-layout--shop">
+                            <div className="ps-layout__left">
+                                <WPWidgetCategories
+                                    activeID={query && query.category}
+                                />
+                                {/* <WPWidgetBrand /> */}
+                                <WPWidgetFilterByPrices />
+                            </div>
+                            <div className="ps-layout__right">
+                                <WPShopProducts />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </WPLayoutFullwidth>
+            </WPLayoutFullwidth>
+        </div>
     );
 };
 

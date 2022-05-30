@@ -2,18 +2,25 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { login } from '../../../store/auth/action';
 import WPAuthRepository from '~/repositories/WP/WPAuthRepository';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import { GoogleLogin } from 'react-google-login';
+import OAuth from './modules/OAuth';
 
-import { Form, Input, notification } from 'antd';
+import { Form, Input } from 'antd';
 import { useDispatch } from 'react-redux';
 
 function Login() {
+    
     const dispatch = useDispatch();
-
+    const [passVisibility,setPassVisibility] = useState(false)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+
+    function togglePasswordVisibilty(){
+        let e = document.querySelector('.passVis')
+        e.classList.toggle("bi-eye-fill")
+        e.classList.toggle("bi-eye-slash-fill")
+        setPassVisibility(prev=>!prev)
+     }
 
     const handleLogin = (type = 'form', oauth) => {
         setIsLoading(true);
@@ -31,22 +38,13 @@ function Login() {
                 };
             }
 
-            const dispatchLogin = () => {
-                dispatch(login());
+            const dispatchLogin = (user) => {
+                dispatch(login(user));
             };
 
             WPAuthRepository.login(loginData, dispatchLogin, setIsLoading);
         }
     };
-
-    useEffect(() => {
-        const { gapi, loadAuth2 } = require('gapi-script');
-        const loadGoogleAuth = async () => {
-            await loadAuth2(gapi, process.env.google_clientID, '');
-        };
-
-        loadGoogleAuth();
-    }, []);
 
     return (
         <div className="ps-my-account" style={{ paddingTop: 10 }}>
@@ -97,19 +95,35 @@ function Login() {
                                                 'Please input your password!',
                                         },
                                     ]}>
-                                    <Input
+                                  <div className="form-control align-items-center d-flex justify-content-between">
+                                  <input
                                         name="password"
-                                        className="form-control"
-                                        type="password"
+                                        type={`${passVisibility?"test":"password"}`}
                                         placeholder="Password..."
                                         value={password}
                                         onChange={(e) =>
                                             setPassword(e.target.value)
                                         }
+                                        style={{
+                                            border:"none",
+                                            outline:"none"
+                                        }}
                                     />
+                                    <button
+                                    type='button'
+                                    onClick={togglePasswordVisibilty}
+                                      style={{
+                                        border:"none",
+                                        outline:"none",
+                                        cursor:"pointer",
+                                        background:"none"
+                                    }}>
+                                        <i className="passVis bi bi-eye-fill" style={{fontSize:"20px"}}></i>
+                                    </button>
+                                  </div>
                                 </Form.Item>
                             </div>
-                            <div className="form-group">
+                            <div className="form-group d-flex justify-content-between align-items-center">
                                 <div className="ps-checkbox">
                                     <input
                                         className="form-control"
@@ -121,6 +135,9 @@ function Login() {
                                         Remember me
                                     </label>
                                 </div>
+                                <Link href={"/"}>
+                                    <a >Forgot Password</a>
+                                </Link>
                             </div>
                             <div className="form-group submit">
                                 <button
@@ -132,7 +149,7 @@ function Login() {
                                     disabled={isLoading}>
                                     {isLoading ? (
                                         <img
-                                            src={require('../../../public/static/img/Interwind-loader.svg')}
+                                            src='/static/img/Interwind-loader.svg'
                                             alt="Loading..."
                                             width={50}
                                             height={30}
@@ -149,73 +166,14 @@ function Login() {
                                 <p>OR</p>
                                 <hr />
                             </div>
-                            <ul className="social-links">
-                                <GoogleLogin
-                                    clientId={process.env.google_clientID}
-                                    jsSrc="https://accounts.google.com/gsi/client"
-                                    uxMode="redirect"
-                                    onSuccess={(res) =>
-                                        handleLogin('oauth', {
-                                            email: res.profileObj.email,
-                                            password: res.profileObj.googleId,
-                                        })
-                                    }
-                                    onFailure={(res) => {
-                                        console.log('Google_Failure: ');
-                                        console.log(res);
-                                    }}
-                                    cookiePolicy={'single_host_origin'}
-                                    render={(renderProps) => (
-                                        <li onClick={renderProps.onClick}>
-                                            <a
-                                                className="google handles"
-                                                href="#">
-                                                <span>
-                                                    <img
-                                                        style={{
-                                                            objectFit:
-                                                                'contain',
-                                                        }}
-                                                        src="/icons/google.svg"
-                                                    />
-                                                </span>
-                                                <span>
-                                                    Continue With Google
-                                                </span>
-                                            </a>
-                                        </li>
-                                    )}
-                                />
-
-                                <FacebookLogin
-                                    appId={process.env.fb_appID}
-                                    fields="name,email"
-                                    scope="email"
-                                    callback={(res) => {
-                                        // handleLogin(
-                                        //     'oauth',
-                                        //     res.email,
-                                        //     res.userID
-                                        // )
-                                        console.log('FB_Result: ');
-                                        console.log(res);
-                                    }}
-                                    render={(renderProps) => (
-                                        <li onClick={renderProps.onClick}>
-                                            <a
-                                                className="facebook handles"
-                                                href="#">
-                                                <span>
-                                                    <i className="fa fa-facebook w3-text-blue"></i>
-                                                </span>
-                                                <span>
-                                                    Continue With Facebook
-                                                </span>
-                                            </a>
-                                        </li>
-                                    )}
-                                />
-                            </ul>
+                            <OAuth
+                                onSuccess={(user) =>
+                                    handleLogin('oauth', {
+                                        email: user.email,
+                                        password: user.id,
+                                    })
+                                }
+                            />
                         </div>
                     </div>
                 </Form>

@@ -4,8 +4,7 @@ import { Form, Input } from 'antd';
 import { login } from '../../../store/auth/action';
 import { useDispatch } from 'react-redux';
 import WPAuthRepository from '~/repositories/WP/WPAuthRepository';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import { GoogleLogin } from 'react-google-login';
+import OAuth from './modules/OAuth';
 
 function Register() {
     const dispatch = useDispatch();
@@ -17,6 +16,14 @@ function Register() {
     const [storename, setStorename] = useState('');
     const [isVendor, setIsVendor] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [passVisibility,setPassVisibility] = useState(false)
+
+    function togglePasswordVisibilty(){
+        let e = document.querySelector('.passVis')
+        e.classList.toggle("bi-eye-fill")
+        e.classList.toggle("bi-eye-slash-fill")
+        setPassVisibility(prev=>!prev)
+     }
 
     const handleRegistration = (type = 'form', oauth) => {
         setIsLoading(true);
@@ -63,28 +70,18 @@ function Register() {
         };
 
         if (!isLoading) {
-            const dispatchLogin = () => {
-                dispatch(login());
+            const dispatchLogin = (user) => {
+                dispatch(login(user));
             };
 
             WPAuthRepository.register(
                 user,
                 storeData,
-                isVendor,
                 dispatchLogin,
                 setIsLoading
             );
         }
     };
-
-    useEffect(() => {
-        const { gapi, loadAuth2 } = require('gapi-script');
-        const loadGoogleAuth = async () => {
-            let auth2 = await loadAuth2(gapi, process.env.google_clientID, '');
-        };
-
-        loadGoogleAuth();
-    }, []);
 
     return (
         <div className="ps-my-account">
@@ -163,15 +160,32 @@ function Register() {
                                                 'Password must contain at least 8 characters with at least one uppercase letter, one lowercase letter, one number and one special character(allowed characters => #, ?, !, @, $, %, ^, &, *, -)',
                                         },
                                     ]}>
-                                    <Input
-                                        className="form-control"
-                                        type="password"
+                                     <div className="form-control align-items-center d-flex justify-content-between">
+                                  <input
+                                        name="password"
+                                        type={`${passVisibility?"test":"password"}`}
                                         placeholder="Password..."
                                         value={password}
                                         onChange={(e) =>
                                             setPassword(e.target.value)
                                         }
+                                        style={{
+                                            border:"none",
+                                            outline:"none"
+                                        }}
                                     />
+                                    <button
+                                    type='button'
+                                    onClick={togglePasswordVisibilty}
+                                      style={{
+                                        border:"none",
+                                        outline:"none",
+                                        cursor:"pointer",
+                                        background:"none"
+                                    }}>
+                                        <i className="passVis bi bi-eye-fill" style={{fontSize:"20px"}}></i>
+                                    </button>
+                                  </div>
                                 </Form.Item>
                             </div>
 
@@ -282,7 +296,7 @@ function Register() {
                                     disabled={isLoading}>
                                     {isLoading ? (
                                         <img
-                                            src={require('../../../public/static/img/Interwind-loader.svg')}
+                                            src='/static/img/Interwind-loader.svg'
                                             alt="Loading..."
                                             width={50}
                                             height={30}
@@ -299,70 +313,16 @@ function Register() {
                                 <p>OR</p>
                                 <hr />
                             </div>
-                            <ul className="social-links">
-                                <GoogleLogin
-                                    clientId={process.env.google_clientID}
-                                    jsSrc="https://accounts.google.com/gsi/client"
-                                    uxMode="redirect"
-                                    onSuccess={(res) =>
-                                        handleRegistration('oauth', {
-                                            email: res.profileObj.email,
-                                            password: res.profileObj.googleId,
-                                            firstname: res.profileObj.givenName,
-                                            lastname: res.profileObj.familyName,
-                                        })
-                                    }
-                                    onFailure={(res) => {
-                                        console.log('Google_Failure: ');
-                                        console.log(res);
-                                    }}
-                                    cookiePolicy={'single_host_origin'}
-                                    render={(renderProps) => (
-                                        <li onClick={renderProps.onClick}>
-                                            <a
-                                                className="google handles"
-                                                href="#">
-                                                <span>
-                                                    <img
-                                                        style={{
-                                                            objectFit:
-                                                                'contain',
-                                                        }}
-                                                        src="/icons/google.svg"
-                                                    />
-                                                </span>
-                                                <span>
-                                                    Continue With Google
-                                                </span>
-                                            </a>
-                                        </li>
-                                    )}
-                                />
-
-                                <FacebookLogin
-                                    appId={process.env.fb_appID}
-                                    fields="name,email,picture"
-                                    scope="email"
-                                    callback={(res) => {
-                                        console.log('FB_Result: ');
-                                        console.log(res);
-                                    }}
-                                    render={(renderProps) => (
-                                        <li onClick={renderProps.onClick}>
-                                            <a
-                                                className="facebook handles"
-                                                href="#">
-                                                <span>
-                                                    <i className="fa fa-facebook w3-text-blue"></i>
-                                                </span>
-                                                <span>
-                                                    Continue With Facebook
-                                                </span>
-                                            </a>
-                                        </li>
-                                    )}
-                                />
-                            </ul>
+                            <OAuth
+                                onSuccess={(user) =>
+                                    handleRegistration('oauth', {
+                                        email: user.email,
+                                        password: user.id,
+                                        firstname: user.firstname,
+                                        lastname: user.lastname,
+                                    })
+                                }
+                            />
                         </div>
                     </div>
                 </Form>

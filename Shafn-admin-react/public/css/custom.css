@@ -94,7 +94,9 @@
     transition:all ease 0.2s;
     background: lightgrey;
   }
-  
+  .demo:hover {
+      transform: scale(1.2);
+  }
 .slider-thumbnails{
     margin: auto;
     position: absolute;

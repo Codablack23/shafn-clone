@@ -5,7 +5,7 @@ import { WPGetProducts } from '~/store/wp/action';
 import WPProductRepository from '~/repositories/WP/WPProductRepository';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import WPProduct from '~/wp-components/elements/products/WPProduct';
-import { generateTempArray } from '~/utilities/common-helpers';
+import { generateTempArray, scrollPageToTop } from '~/utilities/common-helpers';
 import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct';
 
 const WPSearchPage = ({ query }) => {
@@ -59,8 +59,7 @@ const WPSearchPage = ({ query }) => {
                     }.bind(this),
                     250
                 );
-            }
-            else{
+            } else {
                 setLoading(false);
             }
         }
@@ -88,7 +87,7 @@ const WPSearchPage = ({ query }) => {
         } else {
             productItemView = (
                 <div className="ps-not-found text-center pt-100 pb-100">
-                    <img src="static/img/404.png" className="mb-20" />
+                    {/* <img src="static/img/404.png" className="mb-20" /> */}
                     <h3>No Product Found.</h3>
                 </div>
             );
@@ -103,20 +102,22 @@ const WPSearchPage = ({ query }) => {
     }
 
     return (
-        <WPLayout title="Search Result">
-            <div className="ps-page--shop">
-                <div className="container">
-                    <section className="ps-search-result">
-                        {/* <div className="ps-section__header">
+        <div ref={scrollPageToTop}>
+            <WPLayout title="Search Result">
+                <div className="ps-page--shop">
+                    <div className="container">
+                        <section className="ps-search-result">
+                            {/* <div className="ps-section__header">
                             <h3>Result for: "{keyword}"</h3>
                         </div> */}
-                        <div className="ps-section__content">
-                            {productItemView}
-                        </div>
-                    </section>
+                            <div className="ps-section__content">
+                                {productItemView}
+                            </div>
+                        </section>
+                    </div>
                 </div>
-            </div>
-        </WPLayout>
+            </WPLayout>
+        </div>
     );
 };
 

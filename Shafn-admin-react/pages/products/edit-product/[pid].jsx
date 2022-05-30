@@ -13,7 +13,7 @@ import "react-color-palette/lib/css/styles.css";
 import "suneditor/dist/css/suneditor.min.css";
 import "react-image-lightbox/style.css";
 
-import ProductImages from "~/components/elements/products/ProductImages";
+import ImageSelectTiles from "~/components/elements/products/ImageSelectTiles";
 import ProductAttributes from "~/components/elements/products/ProductAttributes";
 import ProductVariations from "~/components/elements/products/ProductVariations";
 import { CustomModal } from "~/components/elements/custom/index";
@@ -101,7 +101,7 @@ const EditProductPage = ({ pid }) => {
   const [attributes, setAttributes] = useState([]);
   const [variations, setVariations] = useState([]);
 
-  const [imageFiles, setImageFiles] = useState([]);
+  const [images, setImages] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -170,113 +170,6 @@ const EditProductPage = ({ pid }) => {
     }
   };
 
-  const imageHandler = (e) => {
-    e.persist();
-
-    let image = e.target.files[0];
-    let type = image.type.split("/").pop();
-
-    if (image) {
-      if (
-        type === "jpeg" ||
-        type === "jpg" ||
-        type === "png" ||
-        type === "gif"
-      ) {
-        const imgFile = {
-          id: e.target.id,
-          file: image,
-        };
-        setImageFiles((current) =>
-          imgFile.id === "img-1" ? [imgFile, ...current] : [...current, imgFile]
-        );
-
-        const img = {
-          id: e.target.id,
-          url: URL.createObjectURL(image),
-        };
-
-        setSelectedImages((current) => current.concat(img));
-
-        URL.revokeObjectURL(image);
-      } else {
-        notification["error"]({
-          message: "Invalid image type!",
-          description: "Image type must be jpg, png or gif",
-        });
-      }
-    }
-  };
-
-  const removeImage = (e, id) => {
-    e.stopPropagation();
-    setSelectedImages((current) => current.filter((img) => img.id !== id));
-    setImageFiles((current) => current.filter((img) => img.id !== id));
-  };
-
-  const viewImage = (id) => {
-    setViewProducts(true);
-    let imgIndex = selectedImages.findIndex((img) => img.id === id);
-    setIndex(imgIndex);
-  };
-
-  const renderProductImages = (num) => {
-    return Array(num)
-      .fill("")
-      .map((el, i) => {
-        let image = selectedImages.find((img) => img.id === `img-${i + 1}`);
-
-        return (
-          <div key={i}>
-            {image === undefined ? (
-              <div>
-                <input
-                  id={`img-${i + 1}`}
-                  type="file"
-                  accept="image/*"
-                  required
-                  hidden
-                  onChange={imageHandler}
-                />
-                <label
-                  htmlFor={`img-${i + 1}`}
-                  className="m-1 border p-3 text-center select-product-img-container"
-                >
-                  <span>Add A Photo</span>
-                  <br />
-                  <i
-                    className="fa fa-file-image-o text-secondary"
-                    aria-hidden="true"
-                  ></i>
-                  <br />
-                  {i === 0 ? <p>Primary</p> : null}
-                </label>
-              </div>
-            ) : (
-              <div
-                key={image.id}
-                className="m-1 bg-dark selected-img-container"
-                onClick={() => {
-                  viewImage(image.id);
-                }}
-              >
-                <img src={image.url}/>
-
-                <div
-                  className="ps-btn ps-btn--sm del-img-btn"
-                  onClick={(e) => {
-                    removeImage(e, image.id);
-                  }}
-                >
-                  <i className="bi bi-trash"></i>
-                </div>
-              </div>
-            )}
-          </div>
-        );
-      });
-  };
-
   const addTag = async () => {
     try {
       let tag = await ProductRepository.addTag(newTag);
@@ -311,9 +204,7 @@ const EditProductPage = ({ pid }) => {
       return "Sale Quantity must be greater than 0";
     if (!product.short_description) return "Short Description is required!";
 
-    let isPrimaryImageSelected = imageFiles
-      .map((el) => el.id)
-      .includes("img-1");
+    let isPrimaryImageSelected = images.map((el) => el.id).includes("img-1");
     if (!isPrimaryImageSelected) return "Primary Image is required!";
 
     return "VALID";
@@ -326,7 +217,7 @@ const EditProductPage = ({ pid }) => {
 
     if (result === "VALID") {
       setUploading((current) => ({ ...current, status: "Uploading" }));
-      ProductRepository.editProduct(pid, imageFiles, product, setUploading);
+      ProductRepository.editProduct(pid, images, product, setUploading);
     } else {
       notification["error"]({
         message: result,
@@ -350,7 +241,7 @@ const EditProductPage = ({ pid }) => {
 
         setAttributes(modifiedAttributes);
 
-        let imageFiles = Array.from(product.images).map((img, index) => ({
+        let images = Array.from(product.images).map((img, index) => ({
           id: `img-${index + 1}`,
           file: img.src,
         }));
@@ -360,7 +251,7 @@ const EditProductPage = ({ pid }) => {
           url: img.src,
         }));
 
-        setImageFiles(imageFiles);
+        setImages(images);
         setSelectedImages(selectedImages);
       }
     } catch (err) {
@@ -457,10 +348,7 @@ const EditProductPage = ({ pid }) => {
                             name="downloadable"
                             onChange={handleInputChange}
                           />
-                          <label
-                            className="text-black"
-                            htmlFor="downloadable"
-                          >
+                          <label className="text-black" htmlFor="downloadable">
                             Downloadable
                           </label>
                         </div>
@@ -602,7 +490,22 @@ const EditProductPage = ({ pid }) => {
                   <figure className="ps-block--form-box">
                     <figcaption>Product Images</figcaption>
                     <div className="pt-3 product-img-container">
-                      {renderProductImages(9)}
+                      <ImageSelectTiles
+                        numOfTiles={9}
+                        defaultImages={selectedImages}
+                        onSelect={(file) =>
+                          setImages((current) =>
+                            file.id === "img-1"
+                              ? [file, ...current]
+                              : [...current, file]
+                          )
+                        }
+                        onDelete={(id) =>
+                          setImages((current) =>
+                            current.filter((img) => img.id !== id)
+                          )
+                        }
+                      />
                     </div>
                   </figure>
 
@@ -650,10 +553,7 @@ const EditProductPage = ({ pid }) => {
                             name="manage_stock"
                             onChange={handleInputChange}
                           />
-                          <label
-                            htmlFor="manage_stock"
-                            className="text-black"
-                          >
+                          <label htmlFor="manage_stock" className="text-black">
                             Enable product stock management
                           </label>
                         </div>
@@ -742,26 +642,13 @@ const EditProductPage = ({ pid }) => {
             </div>
 
             <div className="ps-form__bottom">
-              {/* <a className="ps-btn ps-btn--black" href="products.html">
-                Back
-              </a>
-              <button className="ps-btn ps-btn--gray">Cancel</button> */}
               <button
                 disabled={isUploading}
                 type="submit"
                 className="ps-btn"
                 onClick={handleOnSubmit}
               >
-                {isUploading ? (
-                  <img
-                    src={require("../../../public/img/Interwind-loader.svg")}
-                    alt="Uploading..."
-                    width={40}
-                    height={30}
-                  />
-                ) : (
-                  "Update"
-                )}
+                Update
               </button>
             </div>
           </form>
@@ -787,16 +674,16 @@ const EditProductPage = ({ pid }) => {
           )}
 
           <CustomModal isOpen={uploading.status ? true : false}>
-          <div className="row">
-          <div className="col-12 col-md-3"></div>
-          <div className="col-12 col-md-6 mt-5">
-           <div className="mt-5">
-            <p className="text-center text-white">{uploading.status}</p>
-            <Progress type="line" percent={uploading.progress} />
-           </div>
-          </div>
-          <div className="col-12 col-md-3"></div>
-        </div>
+            <div className="row">
+              <div className="col-12 col-md-3"></div>
+              <div className="col-12 col-md-6 mt-5">
+                <div className="mt-5">
+                  <p className="text-center text-white">{uploading.status}</p>
+                  <Progress type="line" percent={uploading.progress} />
+                </div>
+              </div>
+              <div className="col-12 col-md-3"></div>
+            </div>
           </CustomModal>
         </section>
       ) : (
@@ -805,12 +692,10 @@ const EditProductPage = ({ pid }) => {
 
       {/* New Tag Input Field */}
       <CustomModal isOpen={showNewTagInputField}>
-      <div className="row">
+        <div className="row">
           <div className="col-12 col-md-3"></div>
           <div className="col-12 col-md-6">
-            <div
-              className="form-group bg-white p-5 new-tag-dialog"
-            >
+            <div className="form-group bg-white p-5 new-tag-dialog">
               <label className="">
                 New Tag<sup>*</sup>
               </label>

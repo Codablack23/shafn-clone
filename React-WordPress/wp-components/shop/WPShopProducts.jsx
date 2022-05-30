@@ -12,6 +12,7 @@ const WPShopProducts = (props) => {
     const dispatch = useDispatch();
     const [listView, setListView] = useState(true);
     const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
 
     function handleChangeViewMode(event) {
         event.preventDefault();
@@ -19,6 +20,7 @@ const WPShopProducts = (props) => {
     }
 
     function handlePagination(page, pageSize) {
+        setCurrentPage(page);
         const params = {
             page: page,
             per_page: pageSize,
@@ -75,9 +77,9 @@ const WPShopProducts = (props) => {
                     <div className="ps-shopping__footer text-center pt-40">
                         <Pagination
                             total={WPProducts && WPProducts.totalItems}
-                            pageSize={12}
+                            pageSize={24}
                             responsive={true}
-                            defaultCurrent={1}
+                            current={currentPage}
                             onChange={handlePagination}
                         />
                     </div>

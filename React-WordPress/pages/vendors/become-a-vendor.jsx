@@ -5,11 +5,12 @@ import VendorMileStone from '~/components/partials/vendor/VendorMileStone';
 import VendorBestFees from '~/components/partials/vendor/VendorBestFees';
 import VendorTestimonials from '~/components/partials/vendor/VendorTestimonials';
 import VendorFaqs from '~/components/partials/vendor/VendorFaqs';
-import Newletters from '~/components/partials/commons/Newletters';
+// import Newletters from '~/components/partials/commons/Newletters';
 import WPLayout from '~/wp-components/layouts/WPLayout';
+import { scrollPageToTop } from '~/utilities/common-helpers';
 
-const BecomeAVendorPage = () => {
-    return (
+const BecomeAVendorPage = () => (
+    <div ref={scrollPageToTop}>
         <WPLayout title="Become a vendor">
             <div className="ps-page--single">
                 <VendorBanner />
@@ -19,10 +20,10 @@ const BecomeAVendorPage = () => {
                 <VendorTestimonials />
                 <VendorFaqs />
                 <VendorBanner />
-                <Newletters layout="container" />
+                {/* <Newletters layout="container" /> */}
             </div>
         </WPLayout>
-    );
-};
+    </div>
+);
 
 export default BecomeAVendorPage;

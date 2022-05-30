@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .header {
     @extend %list-reset;
 
@@ -5,7 +7,7 @@
         display: inline-block;
         position: relative;
         width: 30px;
-        height: 42px;
+        height: 30px;
         transition: all 0.4s ease;
 
         > i {
@@ -46,8 +48,8 @@
     .header__actions {
         display: flex;
         align-items: center;
-        justify-content: flex-end;
-
+        width: 20%;
+        justify-content: space-between;
         > * {
             margin: 0 20px;
         }
@@ -64,9 +66,22 @@
     }
 
     .header__center {
-        max-width: 100;
+        max-width: 100%;
     }
-
+    .custom-header-center{
+        display: flex;
+        max-width: 93%;
+        margin: auto;
+        align-items: center;
+        justify-content: space-between;
+        .header-item{
+            width: 10%;
+            margin-right: 20px;
+        }
+        .custom-header-search{
+            width: 63%;
+        }
+    }
     .header__right {
         max-width: 370px;
     }
@@ -711,12 +726,13 @@
         li{
             .shop{
                 margin-right: 1.4em;
+                font-size: 16px;
             }
             > *{
                 color: #000000;
                 line-height: 20px;
                 font-weight: 400;
-                font-size: 16px;
+                font-size: 14px;
             }
             margin:auto 0.7em ;
         }

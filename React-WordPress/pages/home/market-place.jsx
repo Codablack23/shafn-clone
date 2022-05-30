@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import MarketPlaceProductBox from '~/components/partials/homepage/marketplace/MarketPlaceProductBox';
 import MarketPlacePromotion from '~/components/partials/homepage/marketplace/MarketPlacePromotions';
@@ -7,6 +7,7 @@ import MarketPlaceSiteFeatures from '~/components/partials/homepage/marketplace/
 import MarketPlaceHomeBanner from '~/components/partials/homepage/marketplace/MartketPlaceHomeBanner';
 import { getCategories, getCollections } from '~/store/collection/action';
 import WPLayoutHomeMarketPlace from '~/wp-components/layouts/WPLayoutHomeMarketPlace';
+import { scrollPageToTop } from '~/utilities/common-helpers';
 
 const HomeMarketPlacePage = () => {
     const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const HomeMarketPlacePage = () => {
     }, []);
 
     return (
-        <div className="site-content">
+        <div className="site-content" ref={scrollPageToTop}>
             <WPLayoutHomeMarketPlace title="Home Marketplace 1">
                 <main id="homepage-3">
                     <MarketPlaceHomeBanner />

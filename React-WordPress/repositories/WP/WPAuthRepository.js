@@ -1,6 +1,6 @@
 import Router from 'next/router';
 import { notification } from 'antd';
-import { WPDomain } from '~/repositories/WP/WPRepository';
+import { WPDomain, WPRepository } from '~/repositories/WP/WPRepository';
 import axios from 'axios';
 import ReactHtmlParser from 'react-html-parser';
 
@@ -9,69 +9,99 @@ class WPAuthRepository {
         this.callback = callback;
     }
 
-    async register(user, storeData, isVendor, dispatchLogin, setIsLoading) {
-        const adminLogin = {
-            username: process.env.username,
-            password: process.env.password,
+    async getUserByLogs(payload) {
+        const endpoint = `${WPDomain}/wp-json/jwt-auth/v1/token`;
+        const response = await axios
+            .post(endpoint, payload)
+            .then((res) => res.data);
+
+        return response;
+    }
+
+    async updateVendorSettings(payload, token) {
+        const endpoint = `${WPDomain}/wp-json/dokan/v1/settings`;
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
         };
+        const response = await axios
+            .put(endpoint, payload, config)
+            .then((res) => res.data);
 
+        return response;
+    }
+
+    async register(user, storeData, dispatchLogin, setIsLoading) {
         try {
-            let admin = await axios.post(
-                `${WPDomain}/wp-json/jwt-auth/v1/token`,
-                adminLogin
-            );
-
-            let config = {
-                headers: {
-                    Authorization: `Bearer ${admin.data.token}`,
-                },
+            const adminLogs = {
+                username: process.env.username,
+                password: process.env.password,
             };
+
+            const admin = await this.getUserByLogs(adminLogs);
 
             // Register User
             let response = await axios.post(
                 `${WPDomain}/wp-json/wp/v2/users`,
                 user,
-                config
+                {
+                    headers: {
+                        Authorization: `Bearer ${admin.token}`,
+                    },
+                }
             );
 
             if (response) {
-                const userLogin = {
+                /*
+                Registeration successful.
+                Handle user roles.
+                */
+                const userLogs = {
                     username: user.email,
                     password: user.password,
                 };
 
-                let response = await axios.post(
-                    `${WPDomain}/wp-json/jwt-auth/v1/token`,
-                    userLogin,
-                    config
-                );
+                let loggedUser = await this.getUserByLogs(userLogs);
 
-                if (isVendor) {
-                    // Update store data
-                    let result = await axios.put(
-                        `${WPDomain}/wp-json/dokan/v1/settings`,
-                        storeData,
-                        {
-                            headers: {
-                                Authorization: `Bearer ${response.data.token}`,
-                            },
-                        }
-                    );
+                if (user.roles[0] === 'seller') {
+                    // Update vendor store name
+                    this.updateVendorSettings(storeData, loggedUser.token)
+                        .then((res) => {
+                            notification['success']({
+                                message: 'Registration Successful!',
+                            });
+                            window.location.assign(
+                                `http://localhost:5500/${loggedUser.token}`
+                            );
+                            setIsLoading(false);
+                        })
+                        .catch((err) => {
+                            notification['error']({
+                                message:
+                                    'Could not update store name. Please check your data connection and update it from your dashboard settings.',
+                                description:
+                                    err.response === undefined
+                                        ? ReactHtmlParser(String(err))
+                                        : ReactHtmlParser(
+                                              err.response.data.message
+                                          ),
+                            });
 
-                    if (result) {
-                        notification['success']({
-                            message: 'Registration Successful!',
+                            window.location.assign(
+                                `http://localhost:5500/${loggedUser.token}`
+                            );
                         });
-                        window.location.assign(
-                            `http://localhost:5500/${response.data.token}`
-                        );
-                        setIsLoading(false);
-                    } else {
-                        localStorage.setItem('auth_token', response.data.token);
-                        dispatchLogin();
-                        Router.push('/');
-                        setIsLoading(false);
-                    }
+                } else {
+                    notification['success']({
+                        message: 'Registration Successful!',
+                    });
+                    dispatchLogin({
+                        email: loggedUser.user_email,
+                        token: loggedUser.token,
+                    });
+                    Router.push('/');
+                    setIsLoading(false);
                 }
             }
         } catch (err) {
@@ -86,21 +116,25 @@ class WPAuthRepository {
         }
     }
 
-    async login(loginData, dispatchLogin, setIsLoading) {
+    async login(userLogs, dispatchLogin, setIsLoading) {
         try {
-            let user = await axios.post(
-                `${WPDomain}/wp-json/jwt-auth/v1/token`,
-                loginData
-            );
+            let loggedUser = await this.getUserByLogs(userLogs);
 
-            if (user.data.user_role[0] === 'customer') {
-                localStorage.setItem('customer_token', user.data.token);
-                dispatchLogin();
+            if (loggedUser.user_role[0] === 'customer') {
+                notification['success']({
+                    message: 'Login Successful!',
+                });
+                dispatchLogin({
+                    email: loggedUser.user_email,
+                    token: loggedUser.token,
+                });
                 Router.push('/');
             } else {
-                localStorage.setItem('vendor_token', user.data.token);
+                notification['success']({
+                    message: 'Login Successful!',
+                });
                 window.location.assign(
-                    `http://localhost:5500/${user.data.token}`
+                    `http://localhost:5500/${loggedUser.token}`
                 );
             }
             setIsLoading(false);
@@ -112,7 +146,6 @@ class WPAuthRepository {
                         ? ReactHtmlParser(String(err))
                         : ReactHtmlParser(err.response.data.message),
             });
-
             setIsLoading(false);
         }
     }

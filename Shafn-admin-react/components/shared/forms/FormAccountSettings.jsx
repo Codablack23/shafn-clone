@@ -29,20 +29,16 @@ const FormAccountSettings = () => {
 
   const [isUploading, setIsUploading] = useState(false);
 
-  const imageHandler = (e) => {
+  const handleImageSelection = (e) => {
     e.persist();
 
     let name = e.target.name;
     let image = e.target.files[0];
     let type = image.type.split("/").pop();
+    let allowedTypes = ["jpeg", "jpg", "png", "gif"];
 
     if (image) {
-      if (
-        type === "jpeg" ||
-        type === "jpg" ||
-        type === "png" ||
-        type === "gif"
-      ) {
+      if (allowedTypes.includes(type)) {
         let imgUrl = URL.createObjectURL(image);
 
         if (name === "profileImage") {
@@ -91,9 +87,9 @@ const FormAccountSettings = () => {
 
     setIsUploading(true);
 
-    let auth_token = localStorage.getItem("auth_token");
+    const auth_token = localStorage.getItem("auth_token");
 
-    const config = {
+    const reqConfig = {
       headers: {
         Authorization: `Bearer ${auth_token}`,
       },
@@ -109,7 +105,6 @@ const FormAccountSettings = () => {
       };
       let banner = null;
       let profileImage = null;
-      let vendor = null;
 
       if (bannerFile) {
         let formData = new FormData();
@@ -117,7 +112,7 @@ const FormAccountSettings = () => {
 
         // Upload Banner
         banner = await axios
-          .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
+          .post(`${WPDomain}/wp-json/wp/v2/media`, formData, reqConfig)
           .then((res) => res.data);
       } else banner = false;
 
@@ -127,42 +122,49 @@ const FormAccountSettings = () => {
 
         // Upload Profile Image
         profileImage = await axios
-          .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
+          .post(`${WPDomain}/wp-json/wp/v2/media`, formData, reqConfig)
           .then((res) => res.data);
       } else profileImage = false;
 
       let user = await axios
-        .get(`${WPDomain}/wp-json/wp/v2/users/me`, config)
+        .get(`${WPDomain}/wp-json/wp/v2/users/me`, reqConfig)
         .then((res) => res.data);
 
       if (user) {
+        let vendor = null;
+
         if (banner && profileImage) {
+          // Both images uploaded
           vendor = await axios.put(
             `${WPDomain}/wp-json/dokan/v1/stores/${user.id}`,
             { ...settings, banner_id: banner.id, gravatar_id: profileImage.id },
-            config
+            reqConfig
           );
         } else if (banner) {
+          // Only banner uploaded
           vendor = await axios.put(
             `${WPDomain}/wp-json/dokan/v1/stores/${user.id}`,
             { ...settings, banner_id: banner.id },
-            config
+            reqConfig
           );
         } else if (profileImage) {
+          // Only profile image uploaded
           vendor = await axios.put(
             `${WPDomain}/wp-json/dokan/v1/stores/${user.id}`,
             { ...settings, gravatar_id: profileImage.id },
-            config
+            reqConfig
           );
         } else {
+          // None uploaded
           vendor = await axios.put(
             `${WPDomain}/wp-json/dokan/v1/stores/${user.id}`,
             settings,
-            config
+            reqConfig
           );
         }
 
         if (vendor) {
+          // Settings updated
           setIsUploading(false);
           notification["success"]({
             message: "Settings Updated Successfully",
@@ -182,18 +184,18 @@ const FormAccountSettings = () => {
   const getSettings = async () => {
     try {
       let auth_token = localStorage.getItem("auth_token");
-      const config = {
+      const reqConfig = {
         headers: {
           Authorization: `Bearer ${auth_token}`,
         },
       };
 
       let user = await axios
-        .get(`${WPDomain}/wp-json/wp/v2/users/me`, config)
+        .get(`${WPDomain}/wp-json/wp/v2/users/me`, reqConfig)
         .then((res) => res.data);
 
       let vendor = await axios
-        .get(`${WPDomain}/wp-json/dokan/v1/stores/${user.id}`, config)
+        .get(`${WPDomain}/wp-json/dokan/v1/stores/${user.id}`, reqConfig)
         .then((res) => res.data);
 
       setProfileImage(vendor.gravatar);
@@ -227,7 +229,7 @@ const FormAccountSettings = () => {
                 id="banner-picker"
                 type="file"
                 accept="image/*"
-                onChange={imageHandler}
+                onChange={handleImageSelection}
                 required
                 multiple
                 hidden
@@ -274,7 +276,7 @@ const FormAccountSettings = () => {
                 id="profileImage-picker"
                 type="file"
                 accept="image/*"
-                onChange={imageHandler}
+                onChange={handleImageSelection}
                 required
                 multiple
                 hidden
@@ -398,7 +400,7 @@ const FormAccountSettings = () => {
           <div className="form-group">
             <label>Phone No.</label>
             <PhoneInput
-              defaultCountry="NG"
+              defaultCountry="US"
               countryCallingCodeEditable={false}
               placeholder="+123456..."
               international
@@ -445,7 +447,6 @@ const FormAccountSettings = () => {
         </div>
       </div>
       <div className="ps-form__submit text-center">
-        {/* <button className="ps-btn ps-btn--gray mr-3">Cancel</button> */}
         <button
           disabled={isUploading}
           type="submit"

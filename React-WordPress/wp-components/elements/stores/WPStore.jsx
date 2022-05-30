@@ -30,8 +30,8 @@ const WPStore = ({ store }) => {
                     </p>
                 </figure>
             </div>
-            <div className="ps-block__author">
-                <a className="ps-block__user" href="#">
+            <div className="ps-block__author p-3">
+                <a className="store-profile" href="#">
                     <img src={store.gravatar} alt="martfury" />
                 </a>
                 <Link href="/store/[pid]" as={`/store/${query}`}>
