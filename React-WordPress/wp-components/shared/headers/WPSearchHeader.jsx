@@ -199,8 +199,11 @@ const WPSearchHeader = () => {
                     placeholder="I'm shopping for..."
                     onChange={(e) => setKeyword(e.target.value)}
                 />
-                {/* {clearTextView}
-                {loadingView} */}
+                <span className="ps-form__action">
+                    <WPSpeechRecognition
+                        onListening={(transcript) => setKeyword(transcript)}
+                    />
+                </span>
             </div>
             <button
                 title="Search"
@@ -216,9 +219,6 @@ const WPSearchHeader = () => {
                     aria-hidden="true"
                     style={{ fontSize: '20px' }}></i>
             </button>
-            <WPSpeechRecognition
-                onListening={(transcript) => setKeyword(transcript)}
-            />
             {/* <div
                 className={`ps-panel--search-result${
                     isSearch ? ' active ' : ''

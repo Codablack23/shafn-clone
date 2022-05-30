@@ -49,10 +49,10 @@ class PanelSearch extends Component {
         return (
             <div className="ps-panel__search-results">
                 <form
-                    className="ps-form--search-mobile"
+                    className="ps-form--search-mobile ps-form--quick-search"
                     action="/"
                     method="get">
-                    <div className="form-group--nest">
+                    <div className="form-group--nest ps-form__input">
                         <input
                             value={keyword}
                             className="form-control"
@@ -60,17 +60,19 @@ class PanelSearch extends Component {
                             placeholder="Search something..."
                             onChange={this.handleSearch}
                         />
-                        <button>
-                            <i className="icon-magnifier"></i>
-                        </button>
-                        <WPSpeechRecognition
-                            onListening={(transcript) =>
-                                this.handleSearch({
-                                    target: { value: transcript },
-                                })
-                            }
-                        />
+                        <span className="ps-form__action">
+                            <WPSpeechRecognition
+                                onListening={(transcript) =>
+                                    this.handleSearch({
+                                        target: { value: transcript },
+                                    })
+                                }
+                            />
+                        </span>
                     </div>
+                    <button>
+                        <i className="icon-magnifier"></i>
+                    </button>
                 </form>
                 {searchResults &&
                     searchResults.map((product) => (
