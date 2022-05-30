@@ -129,7 +129,7 @@ const WPProduct = ({ product }) => {
                     </Link>
                     {priceView}
                     </div>
-                    <button className="hover-show" >
+                    <button className="hover-show" onClick={handleAddItemToCart} >
                         Add To Cart
                     </button>
             </div>
