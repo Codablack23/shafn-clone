@@ -1,9 +1,11 @@
+import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import SpeechRecognition, {
     useSpeechRecognition,
 } from 'react-speech-recognition';
 
 const WPSpeechRecognition = ({ onListening }) => {
+    const router = useRouter();
     const {
         transcript,
         listening,
@@ -11,13 +13,11 @@ const WPSpeechRecognition = ({ onListening }) => {
         browserSupportsSpeechRecognition,
     } = useSpeechRecognition();
 
-    const startListening = (e) => {
-        e.preventDefault();
+    const startListening = () => {
         SpeechRecognition.startListening({ continuous: true });
     };
 
-    const stopListening = (e) => {
-        e.preventDefault();
+    const stopListening = () => {
         SpeechRecognition.stopListening();
         resetTranscript();
     };
@@ -26,17 +26,18 @@ const WPSpeechRecognition = ({ onListening }) => {
 
     if (browserSupportsSpeechRecognition) {
         microphone = listening ? (
-            <button title="Turn off voice search" onClick={stopListening}>
+            <div title="Turn off voice search" onClick={stopListening}>
                 <i className="icon-mic-mute"></i>
-            </button>
+            </div>
         ) : (
-            <button title="Turn on voice search" onClick={startListening}>
+            <div title="Turn on voice search" onClick={startListening}>
                 <i className="icon-mic"></i>
-            </button>
+            </div>
         );
     }
 
     useEffect(() => {
+        router.events.on('routeChangeStart', stopListening);
         if (listening) {
             onListening(transcript);
         }
