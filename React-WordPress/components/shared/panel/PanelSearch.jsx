@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getProductsByKeyword } from '../../../store/product/action';
 import ProductResult from '../../elements/products/ProductSearchResult';
 import { connect } from 'react-redux';
+import WPSpeechRecognition from '~/wp-components/shared/headers/modules/WPSpeechRecognition';
 
 class PanelSearch extends Component {
     constructor(props) {
@@ -30,7 +31,7 @@ class PanelSearch extends Component {
         const keyword = this.state.keyword;
         Router.push(`/search?keyword=${keyword}`);
     }
-    handleSearch(e) {
+    handleSearch = (e) => {
         if (e.target.value !== '') {
             const keyword = e.target.value;
             this.props.dispatch(getProductsByKeyword(keyword));
@@ -41,9 +42,9 @@ class PanelSearch extends Component {
         } else {
             this.setState({ searchPanel: false, searchProducts: [] });
         }
-    }
+    };
     render() {
-        const { searchProducts } = this.state;
+        const { searchProducts, keyword } = this.state;
         const { searchResults } = this.props;
         return (
             <div className="ps-panel__search-results">
@@ -53,14 +54,22 @@ class PanelSearch extends Component {
                     method="get">
                     <div className="form-group--nest">
                         <input
+                            value={keyword}
                             className="form-control"
                             type="text"
                             placeholder="Search something..."
-                            onChange={this.handleSearch.bind(this)}
+                            onChange={this.handleSearch}
                         />
                         <button>
                             <i className="icon-magnifier"></i>
                         </button>
+                        <WPSpeechRecognition
+                            onListening={(transcript) =>
+                                this.handleSearch({
+                                    target: { value: transcript },
+                                })
+                            }
+                        />
                     </div>
                 </form>
                 {searchResults &&
