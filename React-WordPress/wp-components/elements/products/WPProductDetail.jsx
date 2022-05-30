@@ -44,7 +44,7 @@ const WPProductDetail = ({ product, variations }) => {
             if (WPProductSizes) {
                 const sizeItems = WPProductSizes.options.map((item, index) => (
                     <option
-                       value={item}
+                       value={item.toLowerCase()}
                         className={`ps-variant ps-variant--size ${
                             selectedSize === item.toLowerCase() && 'active'
                         }`}

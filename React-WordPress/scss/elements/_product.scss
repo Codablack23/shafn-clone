@@ -21,11 +21,13 @@
 
 .ps-product {
     position: relative;
+    margin-bottom: 10px;
     padding: 20px 20px 0;
     border: 1px solid transparent;
     border-bottom: none;
     @extend %list-reset;
-
+    min-height: 50vh;
+    z-index: 1;
     .ant-rate {
         .ant-rate-star {
             i {
@@ -218,7 +220,6 @@
     }
 
     &:hover {
-        border-color: silver;
 
         .ps-product__thumbnail {
             .ps-product__actions {
@@ -228,7 +229,7 @@
 
         .ps-product__content {
             @include hidden;
-            height: 0;
+            display: none;
 
             &.hover {
                 height: auto;
@@ -2439,4 +2440,25 @@
 
 .ps-product__thumbnail {
     transition: all 0.5s;
+}
+.hover-scale{
+    transition: all ease 0.3s;
+    .hover-show{
+        opacity: 0;
+        transition: all ease 0.2s;
+    }
+    button.hover-show{
+        min-width: 150px;
+        background: #0309A5;
+        color: #fff;
+        padding: 0.8em;
+        border: none;
+        border-radius: 7px;
+       }
+    &:hover{
+        transform: scale(1.07);
+        .hover-show{
+            opacity: 1;
+        }
+    }
 }

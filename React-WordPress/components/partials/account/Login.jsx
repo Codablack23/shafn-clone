@@ -123,7 +123,7 @@ function Login() {
                                   </div>
                                 </Form.Item>
                             </div>
-                            <div className="form-group">
+                            <div className="form-group d-flex justify-content-between align-items-center">
                                 <div className="ps-checkbox">
                                     <input
                                         className="form-control"
@@ -135,6 +135,9 @@ function Login() {
                                         Remember me
                                     </label>
                                 </div>
+                                <Link href={"/"}>
+                                    <a >Forgot Password</a>
+                                </Link>
                             </div>
                             <div className="form-group submit">
                                 <button
