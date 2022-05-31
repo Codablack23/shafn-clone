@@ -27,11 +27,15 @@ const WPSpeechRecognition = ({ onListening }) => {
     if (browserSupportsSpeechRecognition) {
         microphone = listening ? (
             <div title="Turn off voice search" onClick={stopListening}>
-                <i className="icon-mic-mute"></i>
+                <i
+                style={{marginRight:'0.7em'}}
+                className="bi bi-mic-mute font-20"></i>
             </div>
         ) : (
             <div title="Turn on voice search" onClick={startListening}>
-                <i className="icon-mic"></i>
+                <i 
+                 style={{marginRight:'0.7em'}}
+                className="bi bi-mic font-20"></i>
             </div>
         );
     }

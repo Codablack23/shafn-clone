@@ -26,7 +26,6 @@
     border: 1px solid transparent;
     border-bottom: none;
     @extend %list-reset;
-    min-height: 50vh;
     z-index: 1;
     .ant-rate {
         .ant-rate-star {
@@ -2444,7 +2443,7 @@
 .hover-scale{
     transition: all ease 0.3s;
     .hover-show{
-        opacity: 0;
+        display: none;
         transition: all ease 0.2s;
     }
     button.hover-show{
@@ -2458,7 +2457,7 @@
     &:hover{
         transform: scale(1.07);
         .hover-show{
-            opacity: 1;
+            display: block;
         }
     }
 }

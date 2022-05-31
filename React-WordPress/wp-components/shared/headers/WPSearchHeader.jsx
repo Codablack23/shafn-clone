@@ -190,7 +190,7 @@ const WPSearchHeader = () => {
                     {selectOptionView}
                 </select>
             </div>
-            <div className="ps-form__input">
+            <div className="ps-form__input d-flex align-items-center bg-light">
                 <input
                     ref={inputEl}
                     className="form-control bg-light"
@@ -201,6 +201,9 @@ const WPSearchHeader = () => {
                 />
                 {/* {clearTextView}
                 {loadingView} */}
+                <WPSpeechRecognition
+                onListening={(transcript) => setKeyword(transcript)}
+                />
             </div>
             <button
                 title="Search"
@@ -216,9 +219,7 @@ const WPSearchHeader = () => {
                     aria-hidden="true"
                     style={{ fontSize: '20px' }}></i>
             </button>
-            <WPSpeechRecognition
-                onListening={(transcript) => setKeyword(transcript)}
-            />
+          
             {/* <div
                 className={`ps-panel--search-result${
                     isSearch ? ' active ' : ''

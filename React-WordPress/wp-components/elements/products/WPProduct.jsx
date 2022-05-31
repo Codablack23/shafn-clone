@@ -116,12 +116,6 @@ const WPProduct = ({ product }) => {
                     </div>
                     {priceView}
                 </div>
-                <div className="ps-product__content hover">
-                    <Link href="/product/[pid]" as={`/product/${query}`}>
-                        <a className="ps-product__title">{product.name}</a>
-                    </Link>
-                    {priceView}
-                </div>
                 
                 <div className="hover-show">
                     <Link href="/product/[pid]" as={`/product/${query}`}>
@@ -132,7 +126,7 @@ const WPProduct = ({ product }) => {
                     <button className="hover-show" onClick={handleAddItemToCart} >
                         Add To Cart
                     </button>
-            </div>
+               </div>
             <Modal
                 centered
                 footer={null}

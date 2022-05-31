@@ -20,7 +20,7 @@ const WPHeaderDefault = () => {
             data-sticky="true"
             id="headerSticky">
             <div className="header__top bg-white">
-                <div className="ps-container bg-white">
+                <div className="bg-white">
                     <div className="custom-header-center bg-white">
                         <Logo/>
                         <div className="custom-header-search">
