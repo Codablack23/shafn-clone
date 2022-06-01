@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { getProductsByKeyword } from '../../../store/product/action';
 import ProductResult from '../../elements/products/ProductSearchResult';
 import { connect } from 'react-redux';
-import WPSpeechRecognition from '~/wp-components/shared/headers/modules/WPSpeechRecognition';
+import SpeechRecognition from '~/components/elements/SpeechRecognition';
+// import SpeechRecognition from '~/wp-components/shared/headers/modules/SpeechRecognition';
 
 class PanelSearch extends Component {
     constructor(props) {
@@ -61,7 +62,7 @@ class PanelSearch extends Component {
                             onChange={this.handleSearch}
                         />
                         <span className="ps-form__action">
-                            <WPSpeechRecognition
+                            <SpeechRecognition
                                 onListening={(transcript) =>
                                     this.handleSearch({
                                         target: { value: transcript },

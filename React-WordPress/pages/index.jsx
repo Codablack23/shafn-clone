@@ -46,8 +46,8 @@ const Index = (auth) => {
             <HomeDefaultTopCategories />
             {/* <HomeAds /> */}
             <WPProductList categoryID={21} title="Art" />
-            <WPProductList categoryID={24} title="Clothes" />
-            <WPProductList categoryID={70} title="Clothing" />
+            <WPProductList categoryID={24} title="Clothing" />
+            {/* <WPProductList categoryID={70} title="Clothing" /> */}
             {/* <DownLoadApp /> */}
             <WPNewArrivals />
 
