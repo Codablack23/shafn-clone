@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import WPProductSearchResult from '~/wp-components/elements/products/WPProductSearchResult';
 import WPProductRepository from '~/repositories/WP/WPProductRepository';
-import WPSpeechRecognition from './modules/WPSpeechRecognition';
+import SpeechRecognition from '../../../components/elements/SpeechRecognition';
 import { Spin } from 'antd';
 
 const exampleCategories = [
@@ -200,7 +200,7 @@ const WPSearchHeader = () => {
                     onChange={(e) => setKeyword(e.target.value)}
                 />
                 <span className="ps-form__action">
-                    <WPSpeechRecognition
+                    <SpeechRecognition
                         onListening={(transcript) => setKeyword(transcript)}
                     />
                 </span>

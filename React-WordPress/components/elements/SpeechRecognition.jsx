@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import SpeechRecognition, {
+import SR, {
     useSpeechRecognition,
 } from 'react-speech-recognition';
 
-const WPSpeechRecognition = ({ onListening }) => {
+const SpeechRecognition = ({ onListening }) => {
     const router = useRouter();
     const {
         transcript,
@@ -14,11 +14,11 @@ const WPSpeechRecognition = ({ onListening }) => {
     } = useSpeechRecognition();
 
     const startListening = () => {
-        SpeechRecognition.startListening({ continuous: true });
+        SR.startListening({ continuous: true });
     };
 
     const stopListening = () => {
-        SpeechRecognition.stopListening();
+        SR.stopListening();
         resetTranscript();
     };
 
@@ -48,4 +48,4 @@ const WPSpeechRecognition = ({ onListening }) => {
     return microphone;
 };
 
-export default WPSpeechRecognition;
+export default SpeechRecognition;
