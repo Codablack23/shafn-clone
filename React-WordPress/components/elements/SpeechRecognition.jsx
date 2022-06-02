@@ -1,8 +1,6 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import SR, {
-    useSpeechRecognition,
-} from 'react-speech-recognition';
+import SR, { useSpeechRecognition } from 'react-speech-recognition';
 
 const SpeechRecognition = ({ onListening }) => {
     const router = useRouter();
@@ -43,6 +41,10 @@ const SpeechRecognition = ({ onListening }) => {
         if (listening) {
             onListening(transcript);
         }
+
+        return () => {
+            router.events.off('routeChangeStart', stopListening);
+        };
     }, [transcript]);
 
     return microphone;

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { Menu } from 'antd';
-import { menuPrimary } from '../../../public/static/data/menu';
+// import { menuPrimary } from '../../../public/static/data/menu';
+import menu from '../../../public/static/data/menu.json';
 import Link from 'next/link';
 
 const { SubMenu } = Menu;
@@ -38,7 +39,7 @@ class PanelMenu extends Component {
                 openKeys={this.state.openKeys}
                 onOpenChange={this.onOpenChange}
                 className="menu--mobile-2">
-                {menuPrimary.menu_1.map((item) => {
+                {menu.menuPrimary.menu_1.map((item) => {
                     if (item.subMenu) {
                         return (
                             <SubMenu

@@ -8,7 +8,6 @@ import { notification, Progress, Spin } from "antd";
 import { toggleDrawerMenu } from "~/store/app/action";
 import SettingsRepository from "~/repositories/SettingsRepository";
 import ProductRepository from "~/repositories/ProductRepository";
-import Lightbox from "react-image-lightbox";
 import ReactHtmlParser from "react-html-parser";
 import Select from "react-select";
 import "react-image-lightbox/style.css";
@@ -360,7 +359,6 @@ const CreateProductPage = () => {
                   <div className="pt-3 product-img-container">
                     <ImageSelectTiles
                       numOfTiles={9}
-                      defaultImages={[]}
                       onSelect={(file) =>
                         setImages((current) =>
                           file.id === "img-1"
