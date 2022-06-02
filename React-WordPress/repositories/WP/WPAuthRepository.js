@@ -118,24 +118,26 @@ class WPAuthRepository {
 
     async login(userLogs, dispatchLogin, setIsLoading) {
         try {
-            let loggedUser = await this.getUserByLogs(userLogs);
+            let user = await this.getUserByLogs(userLogs);
 
-            if (loggedUser.user_role[0] === 'customer') {
+            let role = user.user_role[0].toLowerCase();
+
+            if (role === 'customer') {
                 notification['success']({
                     message: 'Login Successful!',
                 });
                 dispatchLogin({
-                    email: loggedUser.user_email,
-                    token: loggedUser.token,
+                    email: user.user_email,
+                    token: user.token,
                 });
                 Router.push('/');
-            } else {
+            }
+
+            if (role === 'seller') {
                 notification['success']({
                     message: 'Login Successful!',
                 });
-                window.location.assign(
-                    `http://localhost:5500/${loggedUser.token}`
-                );
+                window.location.assign(`http://localhost:5500/${user.token}`);
             }
             setIsLoading(false);
         } catch (err) {
