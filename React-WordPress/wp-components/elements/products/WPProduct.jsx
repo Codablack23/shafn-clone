@@ -14,6 +14,7 @@ import {
     WPProductThumbnailView,
 } from '~/utilities/WPHelpers';
 
+
 const WPProduct = ({ product }) => {
     const dispatch = useDispatch();
     const [isQuickView, setIsQuickView] = useState(false);
@@ -106,7 +107,7 @@ const WPProduct = ({ product }) => {
                         {product.store && product.store.name}
                     </a>
                 </Link>
-                <div className="ps-product__content">
+                <div className="hover-hide">
                     <Link href="/product/[pid]" as={`/product/${query}`}>
                         <a className="ps-product__title">{product.name}</a>
                     </Link>

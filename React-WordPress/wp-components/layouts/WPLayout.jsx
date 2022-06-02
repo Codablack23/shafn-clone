@@ -4,6 +4,7 @@ import Head from 'next/head';
 import FooterDefault from '~/components/shared/footers/FooterDefault';
 // import Newsletters from '~/components/partials/commons/Newletters';
 import WPHeaderDefault from '~/wp-components/shared/headers/WPHeaderDefault';
+import WPHeaderMobile from '../shared/mobile/WPHeaderMobile';
 // import WPHeaderMarketPlace from '~/wp-components/shared/headers/WPHeaderMarketPlace';
 // import WPHeaderMobile from '~/wp-components/shared/mobile/WPHeaderMobile';
 
@@ -21,6 +22,7 @@ const WPLayout = ({ children, title }) => {
                 <title>{titleView}</title>
             </Head>
             <WPHeaderDefault />
+            <WPHeaderMobile/>
             {/* <WPNavigationBottom /> */}
             {children}
             {/* <Newsletters layout="container" /> */}

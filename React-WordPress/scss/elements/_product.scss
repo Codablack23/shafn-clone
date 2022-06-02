@@ -508,6 +508,7 @@
         .ps-product__content {
             padding-left: 10px;
         }
+        display:block;
     }
 }
 
@@ -2443,8 +2444,17 @@
 .hover-scale{
     transition: all ease 0.3s;
     .hover-show{
-        display: none;
-        transition: all ease 0.2s;
+        position: relative;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: all ease 0s;
+    }
+    .hover-hide{
+        position: relative;
+        max-height: 100px;
+        opacity: 1;
+        transition: all ease 0s;
     }
     button.hover-show{
         min-width: 150px;
@@ -2455,9 +2465,18 @@
         border-radius: 7px;
        }
     &:hover{
+        transition-delay:2s;
         transform: scale(1.07);
+        .hover-hide{
+            transition-delay: 2s;
+            opacity: 0;
+            overflow: hidden;
+            max-height:0px;
+        }
         .hover-show{
-            display: block;
+            transition-delay: 2s;
+            opacity: 1;
+            max-height: 100px;
         }
     }
 }
