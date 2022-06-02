@@ -23,7 +23,7 @@ const WPHeaderDefault = () => {
                 <div className="bg-white">
                     <div className="custom-header-center bg-white">
                         <Logo/>
-                        <div className="custom-header-search">
+                        <div className="custom-header-search header-lg">
                          <WPSearchHeader />
                         </div>
                         <WPHeaderActions />

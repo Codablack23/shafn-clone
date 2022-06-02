@@ -17,7 +17,7 @@ class LanguageSwicher extends Component {
     render() {
         return (
             <div className="ps-dropdown language">
-                <a href="#" onClick={this.handleFeatureWillUpdate.bind(this)}>
+                <a href="#" className='text-white' onClick={this.handleFeatureWillUpdate.bind(this)}>
                     <img src="/static/img/flag/en.png" alt="martfury" />
                     English
                 </a>

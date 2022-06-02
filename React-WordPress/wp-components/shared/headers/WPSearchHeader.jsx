@@ -174,11 +174,15 @@ const WPSearchHeader = () => {
 
     return (
         <form
-            className="ps-form--quick-search rounded-pill"
+            className="d-flex w-100 rounded-pill"
             method="get"
             action="/"
             onSubmit={handleSubmit}>
-            <div className="ps-form__categories  rounded-pill">
+            <div className="rounded-pill"
+                style={{
+                    width:'22.5%'
+                }}      
+                >
                 <select
                     className="form-control"
                     style={{
@@ -186,17 +190,25 @@ const WPSearchHeader = () => {
                         color: 'white',
                         borderTopLeftRadius: 30,
                         borderBottomLeftRadius: 30,
+                        border:'none'
                     }}>
                     {selectOptionView}
                 </select>
             </div>
-            <div className="ps-form__input d-flex align-items-center bg-light">
+            <div className="d-flex align-items-center bg-light" 
+            style={{
+                width:"55%"
+            }}>
+
                 <input
                     ref={inputEl}
                     className="form-control bg-light"
                     type="text"
                     value={keyword}
                     placeholder="I'm shopping for..."
+                    style={{
+                        border:'none'
+                    }}
                     onChange={(e) => setKeyword(e.target.value)}
                 />
                 {/* {clearTextView}
@@ -212,10 +224,11 @@ const WPSearchHeader = () => {
                     backgroundColor: '#2A3147',
                     borderTopRightRadius: 30,
                     borderBottomRightRadius: 30,
-                    minWidth: '150px',
+                    minWidth: '22.5%',
+                    border:'none'
                 }}>
                 <i
-                    className="fa fa-search"
+                    className="fa fa-search text-white"
                     aria-hidden="true"
                     style={{ fontSize: '20px' }}></i>
             </button>
