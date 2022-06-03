@@ -51,7 +51,7 @@ const OAuth = ({ onSuccess }) => {
                 }}
                 cookiePolicy={'single_host_origin'}
                 render={(renderProps) => (
-                    <li onClick={renderProps.onClick}>
+                    <li onClick={renderProps.onClick} style={{cursor: 'pointer'}}>
                         <a className="google handles">
                             <span>
                                 <img
@@ -72,7 +72,7 @@ const OAuth = ({ onSuccess }) => {
                 fields="name,email,picture"
                 scope="email"
                 callback={(res) => {
-                    // handleOnSuccess(res.id, res?.email);
+                    handleOnSuccess(res.id, res?.email);
                 }}
                 onFailure={(error) => {
                     notification['error']({
@@ -82,7 +82,7 @@ const OAuth = ({ onSuccess }) => {
                     });
                 }}
                 render={(renderProps) => (
-                    <li onClick={renderProps.onClick}>
+                    <li onClick={renderProps.onClick} style={{cursor: 'pointer'}}>
                         <a className="facebook handles">
                             <span>
                                 <i className="fa fa-facebook w3-text-blue"></i>
