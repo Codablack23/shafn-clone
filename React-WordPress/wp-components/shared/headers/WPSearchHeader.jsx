@@ -1,13 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import Router from 'next/router';
 import WPProductSearchResult from '~/wp-components/elements/products/WPProductSearchResult';
 import WPProductRepository from '~/repositories/WP/WPProductRepository';
-<<<<<<< HEAD
 import SpeechRecognition from '~/components/elements/SpeechRecognition';
-=======
-import SpeechRecognition from '../../../components/elements/SpeechRecognition';
->>>>>>> a9f4f952c7d341f5e998066a9fefab5706165e0c
 import { Spin } from 'antd';
 
 const exampleCategories = [
