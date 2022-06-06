@@ -72,7 +72,7 @@ const OAuth = ({ onSuccess }) => {
                 fields="name,email,picture"
                 scope="email"
                 callback={(res) => {
-                    // handleOnSuccess(res.id, res?.email);
+                    handleOnSuccess(res.id, res?.email);
                 }}
                 onFailure={(error) => {
                     notification['error']({
