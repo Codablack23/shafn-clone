@@ -7,6 +7,7 @@ import {
     PinterestShareButton,
     LinkedinShareButton,
 } from 'react-share';
+import SocialShareButtons from '~/components/elements/media/SocialShareButtons';
 
 const WPStoreInformation = ({ store }) => {
     // views
@@ -65,28 +66,7 @@ const WPStoreInformation = ({ store }) => {
                 <div className="share m-3">
                     <p className="w3-text-grey">Share on social media</p>
                     <div className="d-flex justify-content-between">
-                        <FacebookShareButton url="https://www.shafn.com">
-                            <a className="social-link">
-                                <i className="bi bi-facebook"></i>
-                            </a>
-                        </FacebookShareButton>
-                        <TwitterShareButton url="https://www.shafn.com">
-                            <a className="social-link">
-                                <i className="bi bi-twitter"></i>
-                            </a>
-                        </TwitterShareButton>
-                        <LinkedinShareButton url="https://www.shafn.com">
-                            <a className="social-link">
-                                <i
-                                    className="bi bi-linkedin"
-                                    style={{ color: '#0073B1' }}></i>
-                            </a>
-                        </LinkedinShareButton>
-                        <PinterestShareButton url="https://www.shafn.com">
-                            <a className="social-link">
-                                <i className="bi bi-pinterest"></i>
-                            </a>
-                        </PinterestShareButton>
+                        <SocialShareButtons url="https://www.shafn.com" />
                     </div>
                 </div>
             </div>
