@@ -8,7 +8,6 @@ import { toggleDrawerMenu } from "~/store/app/action";
 import ProductRepository from "~/repositories/ProductRepository";
 import ReactHtmlParser from "react-html-parser";
 import Select from "react-select";
-import Lightbox from "react-image-lightbox";
 import "react-color-palette/lib/css/styles.css";
 import "suneditor/dist/css/suneditor.min.css";
 import "react-image-lightbox/style.css";

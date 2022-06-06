@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
+import { connect } from 'react-redux';
 
-const FooterWidgets = () => (
+const FooterWidgets = (auth) => (
     <div className="ps-footer__widgets">
         <aside className="widget widget_footer widget_contact-us">
             <h4 className="widget-title text-white">Contact us</h4>
@@ -82,20 +83,22 @@ const FooterWidgets = () => (
                         <a className="text-white">Checkout</a>
                     </Link>
                 </li>
-                <li>
-                    <Link href="/account/user-information">
-                        <a className="text-white">My account</a>
-                    </Link>
-                </li>
+                {auth.isLoggedIn && (
+                    <li>
+                        <Link href="/account/user-information">
+                            <a className="text-white">My account</a>
+                        </Link>
+                    </li>
+                )}
                 <li>
                     <Link href="/shop">
                         <a className="text-white">Shop</a>
                     </Link>
                 </li>
                 <p>
-                <Link href="/vendors/become-a-vendor">
-                    <a className="text-white">Become A Vendor</a>
-                </Link>
+                    <Link href="/vendors/become-a-vendor">
+                        <a className="text-white">Become A Vendor</a>
+                    </Link>
                 </p>
                 <p>
                     <Link href="/vendors">
@@ -117,4 +120,4 @@ const FooterWidgets = () => (
     </div>
 );
 
-export default FooterWidgets;
+export default connect((state) => state.auth)(FooterWidgets);

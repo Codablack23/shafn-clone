@@ -41,6 +41,10 @@ const SpeechRecognition = ({ onListening }) => {
         if (listening) {
             onListening(transcript);
         }
+
+        return () => {
+            router.events.off('routeChangeStart', stopListening);
+        };
     }, [transcript]);
 
     return microphone;

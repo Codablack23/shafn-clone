@@ -3,7 +3,10 @@ import { getProductsByKeyword } from '../../../store/product/action';
 import ProductResult from '../../elements/products/ProductSearchResult';
 import { connect } from 'react-redux';
 import SpeechRecognition from '~/components/elements/SpeechRecognition';
+<<<<<<< HEAD
 // import SpeechRecognition from '~/wp-components/shared/headers/modules/SpeechRecognition';
+=======
+>>>>>>> a9f4f952c7d341f5e998066a9fefab5706165e0c
 
 class PanelSearch extends Component {
     constructor(props) {

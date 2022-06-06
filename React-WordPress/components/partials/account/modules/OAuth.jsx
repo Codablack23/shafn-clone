@@ -19,7 +19,7 @@ const OAuth = ({ onSuccess }) => {
     useEffect(() => {
         const { gapi, loadAuth2 } = require('gapi-script');
         const loadGoogleAuth = async () => {
-            let auth2 = await loadAuth2(gapi, process.env.google_clientID, '');
+            await loadAuth2(gapi, process.env.google_clientID, '');
         };
 
         loadGoogleAuth();
@@ -51,7 +51,7 @@ const OAuth = ({ onSuccess }) => {
                 }}
                 cookiePolicy={'single_host_origin'}
                 render={(renderProps) => (
-                    <li onClick={renderProps.onClick}>
+                    <li onClick={renderProps.onClick} style={{cursor: 'pointer'}}>
                         <a className="google handles">
                             <span>
                                 <img
@@ -82,7 +82,7 @@ const OAuth = ({ onSuccess }) => {
                     });
                 }}
                 render={(renderProps) => (
-                    <li onClick={renderProps.onClick}>
+                    <li onClick={renderProps.onClick} style={{cursor: 'pointer'}}>
                         <a className="facebook handles">
                             <span>
                                 <i className="fa fa-facebook w3-text-blue"></i>
