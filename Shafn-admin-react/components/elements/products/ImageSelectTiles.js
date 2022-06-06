@@ -23,6 +23,7 @@ const Placeholder = ({ index, onSelect }) => (
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        cursor: "pointer",
       }}
     >
       <span>Add A Photo</span>
@@ -158,7 +159,9 @@ const ImageSelectTiles = ({
   );
 
   useEffect(() => {
-    setImages(defaultImages);
+    if (defaultImages) {
+      setImages(defaultImages);
+    }
   }, [defaultImages]);
 
   return (
