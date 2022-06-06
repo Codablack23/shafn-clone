@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Form, Input } from 'antd';
+import { Form, Input, notification } from 'antd';
 import { login } from '../../../store/auth/action';
 import { useDispatch } from 'react-redux';
 import WPAuthRepository from '~/repositories/WP/WPAuthRepository';
 import OAuth from './modules/OAuth';
+import Router from 'next/router';
+import ReactHtmlParser from 'react-html-parser';
 
 function Register() {
     const dispatch = useDispatch();
@@ -25,7 +27,7 @@ function Register() {
         setPassVisibility((prev) => !prev);
     }
 
-    const handleRegistration = (type = 'form', oauth) => {
+    const handleRegistration = async (type = 'form', oauth) => {
         setIsLoading(true);
 
         let user = {
@@ -34,6 +36,11 @@ function Register() {
             password,
         };
 
+        const storeData = {
+            store_name: storename,
+        };
+
+        // Use oauth data if registration is with oauth
         if (type === 'oauth') {
             user = {
                 username: oauth.email,
@@ -44,6 +51,7 @@ function Register() {
 
         if (isVendor) {
             if (type === 'oauth') {
+                 // Use data provided by oauth
                 user = {
                     ...user,
                     first_name: oauth.firstname,
@@ -51,6 +59,7 @@ function Register() {
                     roles: ['seller'],
                 };
             } else {
+                // Use data provided by form
                 user = {
                     ...user,
                     first_name: firstname,
@@ -59,29 +68,82 @@ function Register() {
                 };
             }
         } else {
+            // Set customer role if is registering as customer
             user = {
                 ...user,
                 roles: ['customer'],
             };
         }
 
-        const storeData = {
-            store_name: storename,
-        };
 
         if (!isLoading) {
-            const dispatchLogin = (user) => {
-                dispatch(login(user));
-            };
+            try {
+                const _admin = {
+                    username: process.env.username,
+                    password: process.env.password,
+                };
 
-            WPAuthRepository.register(
-                user,
-                storeData,
-                dispatchLogin,
-                setIsLoading
-            );
+                const _user = {
+                    username: user.email,
+                    password: user.password
+                }
+
+                // Login Admin
+                const admin = await WPAuthRepository.login(_admin);
+
+                // Register user with admin token
+                await WPAuthRepository.register(user, admin.token);
+
+                // Login user
+                const userLogged = await WPAuthRepository.login(_user)
+
+                if(user.roles[0] === 'seller') {
+                    try {
+                        // Update vendor store name
+                        await WPAuthRepository.updateVendorSettings(storeData, userLogged.token)
+
+                        notification['success']({
+                            message: 'Registration Successful!'
+                        });
+    
+                        setIsLoading(false)
+                    } catch(error) {
+                        handleError(error, 'Could not update store name. Please check your data connection and update it from your dashboard settings.')
+                    } finally {
+                        // Go to vendor page
+                        window.location.assign(
+                            `http://localhost:5500/${userLogged.token}`
+                        );
+                    }
+                } else {
+                    notification['success']({
+                        message: 'Registration Successful!'
+                    });
+
+                    dispatch(login({email: userLogged.user_email, token: userLogged.token}))
+
+                    Router.push('/') // Go to homepage
+
+                    setIsLoading(false)
+                }
+
+            } catch (error) {
+                handleError(error, "Registration Failed!");
+            }
         }
     };
+
+    const handleError  = (error, message) => {
+        notification['error']({
+            message,
+            description:
+                error.response === undefined
+                    ? ReactHtmlParser(String(error))
+                    : ReactHtmlParser(error.response.data.message),
+        });
+
+        setIsLoading(false)
+    }
 
     return (
         <div className="ps-my-account">

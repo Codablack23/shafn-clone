@@ -101,11 +101,13 @@ const WPProductDetailPage = ({ pid }) => {
         );
         widgetView = (
             <WPProductWidgets product={product}>
-                <WPWidgetProductsSameBrand
-                    products={relatedProducts}
-                    isVariant={true}
-                    product
-                />
+                {relatedProducts && relatedProducts.length > 0 && (
+                    <WPWidgetProductsSameBrand
+                        products={relatedProducts}
+                        isVariant={true}
+                        product
+                    />
+                )}
             </WPProductWidgets>
         );
     }
@@ -123,7 +125,9 @@ const WPProductDetailPage = ({ pid }) => {
                                 {widgetView}
                             </div>
                         </div>
-                        <WPRelatedProducts products={relatedProducts} />
+                        {relatedProducts && relatedProducts.length > 0 && (
+                            <WPRelatedProducts products={relatedProducts} />
+                        )}
                     </div>
                 </div>
             </WPLayoutProductDetail>

@@ -15,7 +15,7 @@ const WPLayoutHomeDefault = ({ children, title }) => {
     }
 
     return (
-        <div className="martfury">
+        <div className="martfury" id='shafn'>
             <Head>
                 <title>{titleView}</title>
             </Head>

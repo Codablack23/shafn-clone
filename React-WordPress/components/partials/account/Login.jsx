@@ -3,8 +3,9 @@ import Link from 'next/link';
 import { login } from '../../../store/auth/action';
 import WPAuthRepository from '~/repositories/WP/WPAuthRepository';
 import OAuth from './modules/OAuth';
+import ReactHtmlParser from 'react-html-parser';
 
-import { Form, Input } from 'antd';
+import { Form, Input, notification } from 'antd';
 import { useDispatch } from 'react-redux';
 
 function Login() {
@@ -21,29 +22,53 @@ function Login() {
         setPassVisibility((prev) => !prev);
     }
 
-    const handleLogin = (type = 'form', oauth) => {
+    const handleLogin = async (type = 'form', oauth) => {
         setIsLoading(true);
 
         if (!isLoading) {
-            let loginData = {
+            let user = {
                 username: email,
                 password,
             };
 
             if (type === 'oauth') {
-                loginData = {
+                user = {
                     username: oauth.email,
                     password: oauth.password,
                 };
             }
 
-            const dispatchLogin = (user) => {
-                dispatch(login(user));
-            };
+            try {
+                const _user = await WPAuthRepository.login(user)
 
-            WPAuthRepository.login(loginData, dispatchLogin, setIsLoading);
+                const role = _user.user_role[0].toLowerCase();
+
+                if(role === 'customer') {
+                    dispatch(login({email: _user.user_email, token: _user.token}));
+                    Router.push('/')
+                }
+
+                if (role === 'seller') {
+                    window.location.assign(`http://localhost:5500/${_user.token}`);
+                }
+                setIsLoading(false);
+            } catch(error) {
+                handleError(error, "Login Failed!")
+            }
         }
     };
+
+    const handleError = (error, message) => {
+        notification['error']({
+            message,
+            description:
+                error.response === undefined
+                    ? ReactHtmlParser(String(error))
+                    : ReactHtmlParser(error.response.data.message),
+        });
+
+        setIsLoading(false)
+    }
 
     return (
         <div className="ps-my-account" style={{ paddingTop: 10 }}>

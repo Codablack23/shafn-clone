@@ -81,10 +81,14 @@ const WPNavigationBottom = () => {
     );
     const categoriesDrawerView = (
         <div className="ps-panel--wrapper">
-            <div className="ps-panel__header">
+            <div className="ps-panel__header"
+            style={{
+                backgroundColor: '#2A3147',
+            }}
+            >
                 <h3>Categories</h3>
                 <span className="ps-panel__close" onClick={handleDrawerClose}>
-                    <i className="icon-cross"></i>
+                    <i className="icon-cross text-white"></i>
                 </span>
             </div>
             <div className="ps-panel__content">
@@ -123,14 +127,14 @@ const WPNavigationBottom = () => {
                 {drawerView}
             </DrawerMobile>
             <div className="navigation__content">
-                <a
+                {/* <a
                     className={`navigation__item ${
                         activeDrawer.menu === true && 'active'
                     }`}
                     onClick={handleShowMenuDrawer}>
                     <i className="icon-menu"></i>
                     <span> Menu</span>
-                </a>
+                </a> */}
                 <a
                     className={`navigation__item ${
                         activeDrawer.categories === true && 'active'
@@ -139,14 +143,14 @@ const WPNavigationBottom = () => {
                     <i className="icon-list4"></i>
                     <span> Categories</span>
                 </a>
-                <a
+                {/* <a
                     className={`navigation__item ${
                         activeDrawer.search === true && 'active'
                     }`}
                     onClick={handleShowSearchDrawer}>
                     <i className="icon-magnifier"></i>
                     <span> Search</span>
-                </a>
+                </a> */}
                 <Link href="/account/shopping-cart">
                     <a className="navigation__item">
                         <i className="icon-bag2"></i>

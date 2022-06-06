@@ -94,8 +94,8 @@ const WPProduct = ({ product }) => {
     const query = `${product.slug}-${product.id}`.trim();
 
     return (
-        <div className="ps-product ps-product--inner">
-            <div className="ps-product__thumbnail hover-popup">
+        <div className="ps-product ps-product--inner hover-scale">
+            <div className="ps-product__thumbnail">
                 <Link href="/product/[pid]" as={`/product/${query}`}>
                     <a>{thumbnailImage}</a>
                 </Link>
