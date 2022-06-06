@@ -24,15 +24,17 @@ const SpeechRecognition = ({ onListening }) => {
 
     if (browserSupportsSpeechRecognition) {
         microphone = listening ? (
-            <i
-                className="icon-mic-mute"
-                title="Turn off voice search"
-                onClick={stopListening}></i>
+            <div title="Turn off voice search" onClick={stopListening}>
+                <i
+                    style={{ marginRight: '0.7em' }}
+                    className="bi bi-mic-mute font-20"></i>
+            </div>
         ) : (
-            <i
-                className="icon-mic"
-                title="Turn on voice search"
-                onClick={startListening}></i>
+            <div title="Turn on voice search" onClick={startListening}>
+                <i
+                    style={{ marginRight: '0.7em' }}
+                    className="bi bi-mic font-20"></i>
+            </div>
         );
     }
 

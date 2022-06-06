@@ -4,28 +4,44 @@ import Link from 'next/link';
 import AccountQuickLinksMobile from '~/components/shared/headers/modules/AccountQuickLinksMobile';
 
 const WPMobileHeaderActions = (props) => {
-    const { auth } = props;
+    const { auth,compare,wishlist } = props;
     const { cartTotal } = props.cart;
     let quickLinksView;
     if (auth.isLoggedIn && Boolean(auth.isLoggedIn) === true) {
         quickLinksView = <AccountQuickLinksMobile />;
     } else {
         quickLinksView = (
-            <div className="header__extra">
+            <div className="">
                 <Link href="/account/login">
-                    <i className="icon-user"></i>
+                    <i className="icon-user text-white action-links"></i>
                 </Link>
             </div>
         );
     }
 
     return (
-        <div className="navigation__right">
+        <div className="header-mobile-actions">
+             <Link href="/account/compare">
+                <a className="action-links w3-hover-lightgrey">
+                    <i className="fa fa-bell-o text-white" aria-hidden="true"></i>
+                    <span  className='sub'>
+                        {compare && compare.compareTotal}
+                    </span>
+                </a>
+            </Link>
+            <Link href="/account/wishlist">
+                <a className="action-links w3-hover-lightgrey">
+                    <i className="icon-heart text-white"></i>
+                    <span  className='sub'>
+                       {wishlist.wishlistTotal}
+                    </span>
+                </a>
+            </Link> 
             <Link href="/account/shopping-cart">
-                <a className="header__extra">
-                    <i className="icon-bag2"></i>
-                    <span>
-                        <i>{cartTotal ? cartTotal : 0}</i>
+                <a className="action-links">
+                    <i className="icon-bag2 text-white"></i>
+                    <span className='sub'>
+                       {cartTotal ? cartTotal : 0}
                     </span>
                 </a>
             </Link>

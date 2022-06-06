@@ -118,7 +118,10 @@ const WPProductList = ({ categoryID, title }) => {
                         </li>
                     </ul> */}
                 </div>
-                <div style={{minHeight:'100vh',paddding:'1.2em'}}>{productItemsView}</div>
+                <div className="">
+                {productItemsView}
+                </div>
+                {/* <div className="ps-section__content">{productItemsView}</div> */}
             </div>
         </div>
     );

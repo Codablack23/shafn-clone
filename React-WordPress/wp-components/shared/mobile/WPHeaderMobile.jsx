@@ -4,24 +4,33 @@ import CurrencyDropdown from '~/components/shared/headers/modules/CurrencyDropdo
 import LanguageSwicher from '~/components/shared/headers/modules/LanguageSwicher';
 import MobileHeaderActions from '~/components/shared/headers/modules/MobileHeaderActions';
 import WPMobileHeaderActions from '~/wp-components/shared/mobile/WPMobileHeaderActions';
+import WPSearchHeader from '~/wp-components/shared/headers/WPSearchHeader';
+import Logo from '~/components/elements/common/Logo';
 
 const WPHeaderMobile = () => {
     return (
-        <header className="header header--mobile bg-white">
-            <div className="header__top">
-                <div className="header__left">
-                    <p>Welcome to Martfury Online Shopping Store !</p>
+        <header className="header--mobile bg-white">
+            <div className="header-mobile-top w-100" style={{
+                backgroundColor:'#2A3147',
+            }}>
+                <div className="d-flex align-items-center">
+                    <p className='text-white'>
+                        <Logo/>
+                    </p>
                 </div>
-                <div className="header__right">
+                <div className='flex'>
+                <WPMobileHeaderActions />
+                </div>
+                {/* <div className="header__right">
                     <ul className="navigation__extra">
                         <li>
                             <Link href="/vendor/become-a-vendor">
-                                <a>Sell on Martfury</a>
+                                <a className='text-white'>Sell on Martfury</a>
                             </Link>
                         </li>
                         <li>
                             <Link href="/account/order-tracking">
-                                <a>Tract your order</a>
+                                <a className='text-white'>Tract your order</a>
                             </Link>
                         </li>
                         <li>
@@ -31,9 +40,9 @@ const WPHeaderMobile = () => {
                             <LanguageSwicher />
                         </li>
                     </ul>
-                </div>
+                </div> */}
             </div>
-            <div className="navigation--mobile bg-white">
+            {/* <div className="navigation--mobile bg-white">
                 <div className="navigation__left bg-white">
                     <Link href="/">
                         <a
@@ -48,6 +57,9 @@ const WPHeaderMobile = () => {
                     </Link>
                 </div>
                 <WPMobileHeaderActions />
+            </div> */}
+            <div className='search-mobile'>
+                <WPSearchHeader/>
             </div>
         </header>
     );

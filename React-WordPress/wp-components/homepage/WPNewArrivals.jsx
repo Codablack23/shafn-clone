@@ -56,7 +56,7 @@ const WPNewArrivals = () => {
         if (productItems) {
             productsView = productItems.map((item) => (
                 <div
-                    className="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 "
+                    className="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-6 "
                     key={item.id}>
                     <WPProductHorizontal product={item} />
                 </div>

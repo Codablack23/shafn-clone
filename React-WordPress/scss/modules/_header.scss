@@ -2,7 +2,11 @@
 
 .header {
     @extend %list-reset;
-
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #fff;
+    padding-top: 0.5em;
     .header__extra {
         display: inline-block;
         position: relative;
@@ -73,13 +77,13 @@
         max-width: 93%;
         margin: auto;
         align-items: center;
-        justify-content: space-between;
+        justify-content:center;
         .header-item{
             width: 10%;
             margin-right: 20px;
         }
         .custom-header-search{
-            width: 63%;
+            width: 60%;
         }
     }
     .header__right {
@@ -413,14 +417,14 @@
 }
 
 .header--mobile {
-    position: relative;
+    position: sticky;
     top: 0;
     width: 100%;
     left: 0;
     z-index: 9999;
     text-align: center;
     border-bottom: 0 none;
-    background-color: $color-1st;
+    background-color: #2A3147;
     transition: all 0.4s $ease-in-out-quad;
     @include clearfix();
 
@@ -459,7 +463,7 @@
         display: flex;
         flex-flow: row nowrap;
         justify-content: space-between;
-        background-color: #f4f5f5;
+        background-color: #2A3147;
         padding: 15px 30px;
 
         > * {
@@ -716,7 +720,11 @@
         }
     }
 }
-
+.header-top{
+    margin:1em auto;
+    max-width: 1280px;
+    
+}
 .custom--navigation{
     display: flex;
     width: 100%;
@@ -748,4 +756,66 @@
     .nav--right{
      margin-left: auto;
     }
+}
+.font-20{
+    font-size: 20px;
+    font-weight: 600;
+}
+.search-mobile{
+   .search-header-form{
+       height: 80px;
+   }
+    width: 85%;
+    margin: 1em auto;
+    @include media('<sm'){
+        width: 96%;
+    }
+}
+.header-mobile-top{
+    display:flex;
+    align-items:center;
+    padding:1em;
+    border: none;
+    justify-content: space-between;
+    .header-mobile-actions{
+        display: flex;
+        align-items: center;
+        .action-links{
+            margin-right: 0.6em;
+            .sub{
+                position: relative;
+                top: 4px;
+                left: -10px;
+                background-color: white;
+                border-radius: 50%;
+                font-size: 12px;
+                font-weight: 600;
+                color:#2A3147;
+                display: inline-block;
+                height: 20px;
+                width: 20px;
+            }
+          
+        }
+        i{
+            font-size: 22px;
+        }
+        @include media('<md'){
+            .action-links{
+                margin-right: 0.3em;
+            }
+            i{
+                font-size: 20px;
+            }
+        }
+        @include media('<sm'){
+            .action-links{
+                margin-right: 0.1em;
+            }
+            i{
+                font-size: 18px;
+            }
+        }
+    }
+    
 }
