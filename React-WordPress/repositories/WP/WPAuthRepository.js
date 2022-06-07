@@ -6,16 +6,28 @@ class WPAuthRepository {
         this.callback = callback;
     }
 
+    async updateVendorSettings(payload, token) {
+        const endpoint = `${WPDomain}/wp-json/dokan/v1/settings`;
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+        const response = await axios
+            .put(endpoint, payload, config)
+            .then((res) => res.data);
+
+        return response;
+    }
+
     async register(user, adminToken) {
-        let response = await axios.post(
-            `${WPDomain}/wp-json/wp/v2/users`,
-            user,
-            {
-                headers: {
-                    Authorization: `Bearer ${adminToken}`,
-                },
-            }
-        );
+        const endpoint = `${WPDomain}/wp-json/wp/v2/users`;
+        const config = {
+            headers: {
+                Authorization: `Bearer ${adminToken}`,
+            },
+        };
+        const response = await axios.post(endpoint, user, config);
 
         return response;
     }
