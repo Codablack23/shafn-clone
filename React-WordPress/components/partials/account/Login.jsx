@@ -39,21 +39,25 @@ function Login() {
             }
 
             try {
-                const _user = await WPAuthRepository.login(user)
+                const _user = await WPAuthRepository.login(user);
 
                 const role = _user.user_role[0].toLowerCase();
 
-                if(role === 'customer') {
-                    dispatch(login({email: _user.user_email, token: _user.token}));
-                    Router.push('/')
+                if (role === 'customer') {
+                    dispatch(
+                        login({ email: _user.user_email, token: _user.token })
+                    );
+                    Router.push('/');
                 }
 
                 if (role === 'seller') {
-                    window.location.assign(`http://localhost:5500/${_user.token}`);
+                    window.location.assign(
+                        `http://localhost:5500/${_user.token}`
+                    );
                 }
                 setIsLoading(false);
-            } catch(error) {
-                handleError(error, "Login Failed!")
+            } catch (error) {
+                handleError(error, 'Login Failed!');
             }
         }
     };
@@ -67,8 +71,8 @@ function Login() {
                     : ReactHtmlParser(error.response.data.message),
         });
 
-        setIsLoading(false)
-    }
+        setIsLoading(false);
+    };
 
     return (
         <div className="ps-my-account" style={{ paddingTop: 10 }}>
