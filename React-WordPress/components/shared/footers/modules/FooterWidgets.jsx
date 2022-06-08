@@ -53,7 +53,7 @@ const FooterWidgets = (auth) => (
                         <a className="text-white">About Us</a>
                     </Link>
                 </li>
-                <li>
+                {/* <li>
                     <Link href="/page/blank" scroll={false}>
                         <a className="text-white">Affilate</a>
                     </Link>
@@ -62,7 +62,7 @@ const FooterWidgets = (auth) => (
                     <Link href="/page/blank" scroll={false}>
                         <a className="text-white">Career</a>
                     </Link>
-                </li>
+                </li> */}
                 <li>
                     <Link href="/page/contact-us" scroll={false}>
                         <a className="text-white">Contact</a>
