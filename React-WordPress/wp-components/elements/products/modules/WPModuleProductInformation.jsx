@@ -17,19 +17,13 @@ import {
 
 import SocialShareButtons from '~/components/elements/media/SocialShareButtons';
 
-import {
-    FacebookShareButton,
-    TwitterShareButton,
-    PinterestShareButton,
-    LinkedinShareButton,
-} from 'react-share';
-
 const WPModuleProductInformation = ({
     product,
     children,
     variant,
     isWidget,
 }) => {
+    console.log(product.images);
     const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(1);
 
