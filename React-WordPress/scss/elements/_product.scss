@@ -2480,3 +2480,18 @@
         }
     }
 }
+.ps__desc-md{
+    transition: all ease 0.5s;
+    @include media("<sm"){
+        max-height: 10px;
+        overflow: hidden;
+    }
+}
+.ps__read-more{
+    display: none;
+    font-weight: 600;
+    cursor: pointer;
+    @include media("<sm"){
+        display: inline;
+    }
+}
