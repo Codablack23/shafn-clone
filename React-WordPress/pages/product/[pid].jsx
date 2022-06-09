@@ -128,7 +128,7 @@ const WPProductDetailPage = ({ pid }) => {
                         />
                         <meta
                             property="og:url"
-                            content={`${window.location.protocol}//${window.location.hostname}${window.location.pathname}${window.location.search}`}
+                            content={window.location.href}
                         />
                         <meta
                             name="twitter:card"

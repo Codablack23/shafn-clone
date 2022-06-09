@@ -182,9 +182,7 @@ const WPModuleProductInformation = ({
             <div className="share m-3">
                 <p className="w3-text-grey">SHARE</p>
                 <div className="flex">
-                    <SocialShareButtons
-                        url={`${window.location.protocol}//${window.location.hostname}${window.location.pathname}${window.location.search}`}
-                    />
+                    <SocialShareButtons url={window.location.href} />
                 </div>
             </div>
         </div>
