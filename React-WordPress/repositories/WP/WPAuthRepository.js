@@ -20,7 +20,7 @@ class WPAuthRepository {
 
     async login(user) {
         const endpoint = `${WPDomain}/wp-json/jwt-auth/v1/token`;
-        // const endpoint = `${WPDomain}/?rest_route=/simple-jwt-login/v1/auth&email=${user.username}&password=${user.password}`;
+        // const endpoint = `${WPDomain}/?rest_route=/simple-jwt-login/v1/auth`;
         const response = await axios
             .post(endpoint, user)
             .then((res) => res.data);

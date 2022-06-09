@@ -40,21 +40,27 @@ function Login() {
             }
 
             try {
-                const _user = await WPAuthRepository.login(user);
+                const loggedUser = await WPAuthRepository.login(user);
 
-                const role = _user.user_role[0].toLowerCase();
+                const role = loggedUser.user_role[0].toLowerCase();
 
                 if (role === 'customer') {
                     dispatch(
-                        login({ email: _user.user_email, token: _user.token })
+                        login({
+                            email: loggedUser.user_email,
+                            token: loggedUser.token,
+                        })
                     );
                     Router.push('/');
                 }
 
                 if (role === 'seller') {
-                    window.location.assign(
-                        `http://localhost:5500/${_user.token}`
-                    );
+                    const domain =
+                        process.env.NODE_ENV === 'development'
+                            ? 'http://localhost:5500'
+                            : 'https://vendor.shafn.com';
+                    // Go to vendor page
+                    window.location.assign(`${domain}/${loggedUser.token}`);
                 }
                 setIsLoading(false);
             } catch (error) {

@@ -16,6 +16,7 @@ import {
 } from '~/utilities/WPHelpers';
 
 import SocialShareButtons from '~/components/elements/media/SocialShareButtons';
+import { WPDomain } from '~/repositories/WP/WPRepository';
 
 const WPModuleProductInformation = ({
     product,
@@ -23,7 +24,6 @@ const WPModuleProductInformation = ({
     variant,
     isWidget,
 }) => {
-    console.log(product.images);
     const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(1);
 
@@ -182,7 +182,9 @@ const WPModuleProductInformation = ({
             <div className="share m-3">
                 <p className="w3-text-grey">SHARE</p>
                 <div className="flex">
-                    <SocialShareButtons url="https://www.shafn.com" />
+                    <SocialShareButtons
+                        url={`${window.location.protocol}//${window.location.hostname}${window.location.pathname}${window.location.search}`}
+                    />
                 </div>
             </div>
         </div>

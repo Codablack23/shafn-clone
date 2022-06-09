@@ -51,7 +51,7 @@ function Register() {
 
         if (isVendor) {
             if (type === 'oauth') {
-                 // Use data provided by oauth
+                // Use data provided by oauth
                 user = {
                     ...user,
                     first_name: oauth.firstname,
@@ -75,7 +75,6 @@ function Register() {
             };
         }
 
-
         if (!isLoading) {
             try {
                 const _admin = {
@@ -85,8 +84,8 @@ function Register() {
 
                 const _user = {
                     username: user.email,
-                    password: user.password
-                }
+                    password: user.password,
+                };
 
                 // Login Admin
                 const admin = await WPAuthRepository.login(_admin);
@@ -95,45 +94,57 @@ function Register() {
                 await WPAuthRepository.register(user, admin.token);
 
                 // Login user
-                const userLogged = await WPAuthRepository.login(_user)
+                const loggedUser = await WPAuthRepository.login(_user);
 
-                if(user.roles[0] === 'seller') {
+                if (user.roles[0] === 'seller') {
                     try {
                         // Update vendor store name
-                        await WPAuthRepository.updateVendorSettings(storeData, userLogged.token)
+                        await WPAuthRepository.updateVendorSettings(
+                            storeData,
+                            loggedUser.token
+                        );
 
                         notification['success']({
-                            message: 'Registration Successful!'
+                            message: 'Registration Successful!',
                         });
-    
-                        setIsLoading(false)
-                    } catch(error) {
-                        handleError(error, 'Could not update store name. Please check your data connection and update it from your dashboard settings.')
-                    } finally {
-                        // Go to vendor page
-                        window.location.assign(
-                            `http://localhost:5500/${userLogged.token}`
+
+                        setIsLoading(false);
+                    } catch (error) {
+                        handleError(
+                            error,
+                            'Could not update store name. Please check your data connection and update it from your dashboard settings.'
                         );
+                    } finally {
+                        const domain =
+                            process.env.NODE_ENV === 'development'
+                                ? 'http://localhost:5500'
+                                : 'https://vendor.shafn.com';
+                        // Go to vendor page
+                        window.location.assign(`${domain}/${loggedUser.token}`);
                     }
                 } else {
                     notification['success']({
-                        message: 'Registration Successful!'
+                        message: 'Registration Successful!',
                     });
 
-                    dispatch(login({email: userLogged.user_email, token: userLogged.token}))
+                    dispatch(
+                        login({
+                            email: loggedUser.user_email,
+                            token: loggedUser.token,
+                        })
+                    );
 
-                    Router.push('/') // Go to homepage
+                    Router.push('/'); // Go to homepage
 
-                    setIsLoading(false)
+                    setIsLoading(false);
                 }
-
             } catch (error) {
-                handleError(error, "Registration Failed!");
+                handleError(error, 'Registration Failed!');
             }
         }
     };
 
-    const handleError  = (error, message) => {
+    const handleError = (error, message) => {
         notification['error']({
             message,
             description:
@@ -142,8 +153,8 @@ function Register() {
                     : ReactHtmlParser(error.response.data.message),
         });
 
-        setIsLoading(false)
-    }
+        setIsLoading(false);
+    };
 
     return (
         <div className="ps-my-account">
