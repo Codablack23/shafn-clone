@@ -73,11 +73,11 @@ const FooterWidgets = (auth) => (
         <aside className="widget widget_footer">
             <h4 className="widget-title text-white">Bussiness</h4>
             <ul className="ps-list--link">
-                <li>
+                {/* <li>
                     <Link href="/page/about-us" scroll={false}>
                         <a className="text-white">Our Press</a>
                     </Link>
-                </li>
+                </li> */}
                 <li>
                     <Link href="/account/checkout" scroll={false}>
                         <a className="text-white">Checkout</a>
