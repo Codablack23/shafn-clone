@@ -3,46 +3,49 @@ import React from 'react';
 const ContactForm = () => (
     <div className="ps-contact-form">
         <div className="container">
-            <form className="ps-form--contact-us" action="/" method="get">
-                <h3>Get In Touch</h3>
-                <div className="row">
-                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
+            <form className="ps__contact-form" action="/" method="get">
+                <h3>Contact Us</h3>
                         <div className="form-group">
                             <input
-                                className="form-control"
+                                className="form-control w3-light-grey"
                                 type="text"
                                 placeholder="Name *"
+                                style={{
+                                    border:"none"
+                                }}
                             />
                         </div>
-                    </div>
-                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 ">
                         <div className="form-group">
                             <input
-                                className="form-control"
+                                className="form-control w3-light-grey"
                                 type="text"
                                 placeholder="Email *"
+                                style={{
+                                    border:"none"
+                                }}
                             />
                         </div>
-                    </div>
-                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                         <div className="form-group">
                             <input
-                                className="form-control"
+                                className="form-control w3-light-grey"
                                 type="text"
                                 placeholder="Subject *"
+                                style={{
+                                    border:"none"
+                                }}
                             />
                         </div>
-                    </div>
-                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+
                         <div className="form-group">
                             <textarea
-                                className="form-control"
+                                className="form-control w3-light-grey"
                                 rows="5"
+                                style={{
+                                    border:"none"
+                                }}
                                 placeholder="Message"></textarea>
                         </div>
-                    </div>
-                </div>
-                <div className="form-group submit">
+                <div className="form-group submit text-center">
                     <button className="ps-btn">Send message</button>
                 </div>
             </form>

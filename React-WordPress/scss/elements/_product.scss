@@ -2465,16 +2465,13 @@
         border-radius: 7px;
        }
     &:hover{
-        transition-delay:2s;
         transform: scale(1.07);
         .hover-hide{
-            transition-delay: 2s;
             opacity: 0;
             overflow: hidden;
             max-height:0px;
         }
         .hover-show{
-            transition-delay: 2s;
             opacity: 1;
             max-height: 100px;
         }
