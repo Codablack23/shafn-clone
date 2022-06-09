@@ -10,8 +10,8 @@ const ContactUsPage = () => (
     <div ref={scrollPageToTop}>
         <WPLayout title="Contact">
             <div className="ps-page--single" id="contact-us">
-                <ContactMap />
-                <ContactInfo />
+                {/* <ContactMap />
+                <ContactInfo /> */}
                 <ContactForm />
             </div>
             <Newsletters layout="container" />
