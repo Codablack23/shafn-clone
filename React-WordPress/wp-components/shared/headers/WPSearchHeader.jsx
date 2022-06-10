@@ -222,11 +222,12 @@ const WPSearchHeader = () => {
                     {/* <Microphone
                         onListening={(transcript) => setKeyword(transcript)}
                     /> */}
-                    <i
+                    mic
+                    {/* <i
                         title="Turn on voice search"
                         className="bi bi-mic font-20"
                         style={{ marginRight: '0.7em' }}
-                        onClick={() => alert('Not supported!')}></i>
+                        onClick={() => alert('Not supported!')}></i> */}
                 </span>
             </div>
             <button
