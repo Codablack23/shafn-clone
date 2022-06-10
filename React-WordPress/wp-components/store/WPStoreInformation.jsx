@@ -66,7 +66,7 @@ const WPStoreInformation = ({ store }) => {
                 <div className="share m-3">
                     <p className="w3-text-grey">Share on social media</p>
                     <div className="d-flex justify-content-between">
-                        <SocialShareButtons url="https://www.shafn.com" />
+                        {/* <SocialShareButtons url="https://www.shafn.com" /> */}
                     </div>
                 </div>
             </div>
