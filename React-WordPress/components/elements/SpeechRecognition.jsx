@@ -35,7 +35,6 @@ const Microphone = ({ onListening }) => {
     let microphone = null;
 
     if (browserSupportsSpeechRecognition) {
-        alert('Speech Recognition is now supported');
         microphone = listening ? (
             <i
                 title="Turn off voice search"
