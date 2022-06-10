@@ -2483,7 +2483,7 @@
 .ps__desc-md{
     transition: all ease 0.5s;
     @include media("<sm"){
-        max-height: 100px;
+        max-height: 70px;
         overflow: hidden;
     }
 }
