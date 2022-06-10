@@ -32,9 +32,10 @@ const Microphone = ({ onListening }) => {
         resetTranscript();
     };
 
-    let microphone;
+    let microphone = null;
 
     if (browserSupportsSpeechRecognition) {
+        alert('Speech Recognition is now supported');
         microphone = listening ? (
             <i
                 title="Turn off voice search"
@@ -47,14 +48,6 @@ const Microphone = ({ onListening }) => {
                 className="bi bi-mic font-20"
                 style={{ marginRight: '0.7em' }}
                 onClick={startListening}></i>
-        );
-    } else {
-        microphone = (
-            <i
-                title="Turn on voice search"
-                className="bi bi-mic font-20"
-                style={{ marginRight: '0.7em' }}
-                onClick={() => alert('Not supported!')}></i>
         );
     }
 

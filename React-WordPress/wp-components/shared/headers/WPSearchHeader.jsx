@@ -219,15 +219,9 @@ const WPSearchHeader = () => {
                     onChange={(e) => setKeyword(e.target.value)}
                 />
                 <span className="ps-form__action" style={{ cursor: 'pointer' }}>
-                    {/* <Microphone
+                    <Microphone
                         onListening={(transcript) => setKeyword(transcript)}
-                    /> */}
-                    mic
-                    {/* <i
-                        title="Turn on voice search"
-                        className="bi bi-mic font-20"
-                        style={{ marginRight: '0.7em' }}
-                        onClick={() => alert('Not supported!')}></i> */}
+                    />
                 </span>
             </div>
             <button
