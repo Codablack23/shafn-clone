@@ -1,9 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import WPProductSearchResult from '~/wp-components/elements/products/WPProductSearchResult';
 import WPProductRepository from '~/repositories/WP/WPProductRepository';
-import SpeechRecognition from '~/components/elements/SpeechRecognition';
+// import Microphone from '~/components/elements/SpeechRecognition';
 import { Spin } from 'antd';
+
+const Microphone = dynamic(
+    () => import('~/components/elements/SpeechRecognition'),
+    {
+        ssr: false,
+    }
+);
 
 const exampleCategories = [
     'All',
@@ -211,7 +219,7 @@ const WPSearchHeader = () => {
                     onChange={(e) => setKeyword(e.target.value)}
                 />
                 <span className="ps-form__action" style={{ cursor: 'pointer' }}>
-                    <SpeechRecognition
+                    <Microphone
                         onListening={(transcript) => setKeyword(transcript)}
                     />
                 </span>
