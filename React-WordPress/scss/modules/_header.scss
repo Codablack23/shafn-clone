@@ -819,3 +819,16 @@
     }
     
 }
+
+.ps__logo-mobile{
+    display: inline-block;
+    width: 80px;
+    height: 20px;
+    margin-left: 20px;
+    img{
+        width: 100%;
+    }
+    @include media('<sm'){
+        margin-left: 2px;
+    }
+}

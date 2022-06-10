@@ -2485,6 +2485,7 @@
     @include media("<sm"){
         max-height: 70px;
         overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 .ps__read-more{

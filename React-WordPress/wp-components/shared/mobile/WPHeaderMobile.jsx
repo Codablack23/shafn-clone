@@ -15,7 +15,11 @@ const WPHeaderMobile = () => {
             }}>
                 <div className="d-flex align-items-center">
                     <p className='text-white'>
-                        <Logo/>
+                        <Link href={"/"}>
+                            <a className="ps__logo-mobile">
+                                <img src={'/static/img/Logo-dark.png'} alt="" />
+                            </a>
+                        </Link>
                     </p>
                 </div>
                 <div className='flex'>
