@@ -5,8 +5,7 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    background-color: #fff;
-    padding-top: 0.5em;
+    background-color: rgb(255, 255, 255);
     .header__extra {
         display: inline-block;
         position: relative;
@@ -75,6 +74,7 @@
     .custom-header-center{
         display: flex;
         max-width: 93%;
+        max-height: 3.5rem;
         margin: auto;
         align-items: center;
         justify-content:center;
@@ -723,6 +723,7 @@
 .header-top{
     margin:1em auto;
     max-width: 1280px;
+    height:  22px;
     
 }
 .custom--navigation{
@@ -733,7 +734,6 @@
         display: flex;
         li{
             .shop{
-                margin-right: 1.4em;
                 font-size: 16px;
             }
             > *{
