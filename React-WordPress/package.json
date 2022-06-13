@@ -12,6 +12,7 @@
         "@speechly/speech-recognition-polyfill": "^1.1.0",
         "antd": "^4.5.2",
         "axios": "^0.21.4",
+        "bootstrap-icons": "^1.8.3",
         "cors": "^2.8.5",
         "es6-promise": "^4.2.8",
         "gapi-script": "^1.2.0",

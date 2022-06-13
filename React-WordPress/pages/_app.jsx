@@ -11,6 +11,7 @@ import '../scss/style.scss';
 import '../scss/home-default.scss';
 import '../scss/market-place-1.scss';
 import 'slick-carousel/slick/slick.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 /*import '../scss/electronic.scss';
 import '../scss/furniture.scss';
