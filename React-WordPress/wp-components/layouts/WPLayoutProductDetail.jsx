@@ -18,7 +18,7 @@ const WPLayoutProductDetail = ({ children, title = 'Homepage' }) => {
                 <title>{titleView}</title>
             </Head>
             <WPHeaderMobile />
-            {/* <WPNavigationBottom /> */}
+            <WPNavigationBottom />
             {children}
             {/* <Newletters /> */}
             <FooterDefault />

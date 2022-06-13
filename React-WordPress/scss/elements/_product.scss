@@ -2477,3 +2477,19 @@
         }
     }
 }
+.ps__desc-md{
+    transition: all ease 0.5s;
+    @include media("<sm"){
+        max-height: 70px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+.ps__read-more{
+    display: none;
+    font-weight: 600;
+    cursor: pointer;
+    @include media("<sm"){
+        display: inline;
+    }
+}
