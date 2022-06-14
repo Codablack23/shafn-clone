@@ -175,6 +175,7 @@ export function WPProductDetailRatingView(product) {
 }
 
 export function WPProductDetailShortDescView(product) {
+    console.log(window.innerWidth)
     let view;
     if (product?.short_description) {
         view = (
@@ -189,7 +190,7 @@ export function WPProductDetailShortDescView(product) {
         view = (
             <div>
                 <p>
-                    <i>This product does'nt have a short description.</i>
+                    <i>This product doesn't have a short description.</i>
                 </p>
             </div>
         );
