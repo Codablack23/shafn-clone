@@ -172,7 +172,13 @@ function Login() {
                                     </label>
                                 </div>
                                 <Link href={'/'}>
-                                    <a>Forgot Password</a>
+                                    <a
+                                        style={{
+                                            color: '#378fd3',
+                                            fontWeight: 'bold',
+                                        }}>
+                                        Forgot Password
+                                    </a>
                                 </Link>
                             </div>
                             <div className="form-group submit">
