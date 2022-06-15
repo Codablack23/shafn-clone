@@ -41,6 +41,8 @@ function Login() {
             try {
                 const _user = await WPAuthRepository.login(user);
 
+                console.log(_user)
+
                 const role = _user.user_role[0].toLowerCase();
 
                 if (role === 'customer') {

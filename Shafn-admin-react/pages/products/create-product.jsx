@@ -15,6 +15,7 @@ import "suneditor/dist/css/suneditor.min.css";
 import ImageSelectTiles from "~/components/elements/products/ImageSelectTiles";
 
 import { CustomModal } from "~/components/elements/custom/index";
+import FileRepository from "~/repositories/FileRepository";
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
 });
@@ -94,8 +95,8 @@ const CreateProductPage = () => {
   });
 
   const handleInputChange = (e) => {
-    let name = e.target.name;
-    let val = e.target.value;
+    const name = e.target.name;
+    const val = e.target.value;
     if (name === "regular_price" && !isNaN(val)) {
       setPrice(val);
     }
@@ -119,9 +120,9 @@ const CreateProductPage = () => {
   const addTag = async () => {
     setShowNewTagInputField(false);
     try {
-      let tag = await ProductRepository.addTag(newTag);
+      const tag = await ProductRepository.addTag(newTag);
 
-      let tagOption = { value: tag.id, label: tag.name };
+      const tagOption = { value: tag.id, label: tag.name };
 
       setTagOptions((tagOptions) => [...tagOptions, tagOption]);
     } catch (err) {
@@ -147,22 +148,24 @@ const CreateProductPage = () => {
     if (Number(qty) <= 0) return "Sale Quantity must be greater than 0";
     if (!shortDescription) return "Short Description is required!";
 
-    let isPrimaryImageSelected = images.map((img) => img.id).includes("img-1");
+    const isPrimaryImageSelected = images
+      .map((img) => img.id)
+      .includes("img-1");
 
     if (!isPrimaryImageSelected) return "Primary Image is required!";
 
     return "VALID";
   };
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
 
-    let result = validateInputs();
+    const result = validateInputs();
 
     if (result === "VALID") {
       setUploading((current) => ({ ...current, status: "Uploading" }));
 
-      let slug = `${name
+      const slug = `${name
         .replace(/[^a-zA-Z0-9-_]/g, " ")
         .replace(/  +/g, " ")
         .replace(/ /g, "-")}`.trim();
@@ -183,7 +186,41 @@ const CreateProductPage = () => {
         manage_stock: true,
       };
 
-      ProductRepository.createProduct({ images, product, setUploading });
+      // Get image file objects from images array
+      const imageFiles = images.map((img) => img.file);
+
+      const handleUploadProgress = (_progress) => {
+        console.log(`Progress >>> ${_progress} / 100`);
+      };
+
+      const _images = await FileRepository.uploadImages(
+        imageFiles,
+        handleUploadProgress
+      );
+
+      // Only proceed if all images successfully uploaded
+      if (_images.length === imageFiles.length) {
+        try {
+          const _product = { ...product, images: _images };
+
+          await ProductRepository.uploadProduct(_product);
+
+          notification["success"]({
+            message: "Product Uploaded Successfully",
+          });
+
+          setTimeout(() => {
+            Router.reload(window.location.pathname);
+          }, 1500);
+        } catch (error) {
+          notification["error"]({
+            message: "Product failed to upload",
+            description: "Please check your network connection and try again",
+          });
+        }
+      } else {
+        setUploading(false);
+      }
     } else {
       notification["error"]({
         message: result,

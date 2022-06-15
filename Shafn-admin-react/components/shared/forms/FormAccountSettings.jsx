@@ -90,14 +90,15 @@ const FormAccountSettings = () => {
 
     setIsUploading(true);
 
+    const settings = {
+      store_name: name,
+      address,
+      phone: number,
+      show_email: showEmail,
+      enable_tnc: enableTNC,
+    };
+
     try {
-      let settings = {
-        store_name: name,
-        address,
-        phone: number,
-        show_email: showEmail,
-        enable_tnc: enableTNC,
-      };
       let banner = null;
       let profileImage = null;
 
@@ -107,7 +108,7 @@ const FormAccountSettings = () => {
       if (profileImageFile)
         profileImage = await FileRepository.uploadImage(profileImageFile);
 
-      let user = await UserRepository.getUser();
+      const user = await UserRepository.getUser();
 
       if (banner && profileImage) {
         // Both images uploaded

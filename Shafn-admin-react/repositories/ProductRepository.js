@@ -54,121 +54,25 @@ class ProductRepository {
       },
     };
 
-    const response = axios
+    const response = await axios
       .get(`${WPDomain}/wp-json/dokan/v1/products/${id}`, config)
-      .then((res) => {
-        return res.data;
-      })
-      .catch((err) => {
-        notification["error"]({
-          message: "Unable To Get Products",
-          description: "Check your data connection and try again.",
-        });
-        return null;
-      });
+      .then((res) => res.data);
 
     return response;
   }
 
-  async createProduct(payload) {
+  async uploadProduct(product) {
+    let endpoint = `${WPDomain}/wp-json/dokan/v1/products/`;
     let auth_token = localStorage.getItem("auth_token");
-    const uploadProgress = (progressEvent, status) => {
-      const percent = Math.round(
-        (progressEvent.loaded * 100) / progressEvent.total
-      );
-
-      payload.setUploading({
-        status,
-        progress: percent,
-      });
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
     };
 
-    const uploadProduct = (images) => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${auth_token}`,
-        },
-        onUploadProgress: (progressEvent) => {
-          uploadProgress(progressEvent, "Uploading Product");
-        },
-      };
+    const response = await axios.post(endpoint, product, config);
 
-      const productData = {
-        ...payload.product,
-        images,
-      };
-
-      // Upload Product
-      axios
-        .post(`${WPDomain}/wp-json/dokan/v1/products/`, productData, config)
-        .then((res) => {
-          notification["success"]({
-            message: "Product Uploaded Successfully",
-          });
-
-          setTimeout(() => {
-            Router.reload(window.location.pathname);
-          }, 1500);
-        })
-        .catch((err) => {
-          notification["error"]({
-            message: "Product Upload Failed",
-            description:
-              err.response === undefined
-                ? "Check your data connection and try again."
-                : err.response.data.message,
-          });
-
-          payload.setUploading({
-            status: "",
-            progress: 0,
-          });
-        });
-    };
-
-    const uploadImages = () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${auth_token}`,
-        },
-        onUploadProgress: (progressEvent) => {
-          uploadProgress(progressEvent, "Uploading Images");
-        },
-      };
-
-      let images = [];
-      let imgFiles = payload.images.map((img) => img.file);
-
-      imgFiles.forEach((file, index, arr) => {
-        let formData = new FormData();
-
-        formData.append("file", file);
-
-        axios
-          .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
-          .then((res) => {
-            images.push({ src: res.data.source_url, position: index });
-
-            if (images.length === payload.images.length) {
-              uploadProduct(images);
-            }
-          })
-          .catch((err) => {
-            arr.length = index + 1; // break loop
-            notification["error"]({
-              message:
-                "Some images did not upload!. Check your data connection and try again.",
-            });
-
-            payload.setUploading({
-              status: "",
-              progress: 0,
-            });
-          });
-      });
-    };
-
-    uploadImages();
+    return response;
   }
 
   async editProduct(id, imageFiles, product, setUploading) {
@@ -243,7 +147,7 @@ class ProductRepository {
             message: "Product Upload Failed",
             description: "Check your data connection and try again.",
           });
-          setIsUploading(false);
+          setUploading(false);
         });
     };
 

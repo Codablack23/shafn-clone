@@ -8,7 +8,15 @@ class FileRepository {
     this.callback = callback;
   }
 
-  async uploadImage(_image, uploadProgress) {
+  async uploadImage(_image, useProgress) {
+    const handleProgressEvent = (progressEvent) => {
+      const percent = Math.round(
+        (progressEvent.loaded * 100) / progressEvent.total
+      );
+
+      useProgress(percent);
+    };
+
     let formData = new FormData();
     formData.append("file", _image);
 
@@ -22,9 +30,9 @@ class FileRepository {
       },
     };
 
-    if (uploadProgress) {
-      config.headers.onUploadProgress = (progressEvent) => {
-        uploadProgress(progressEvent, "Uploading Image");
+    if (useProgress) {
+      config.onUploadProgress = (progressEvent) => {
+        handleProgressEvent(progressEvent);
       };
     }
 
@@ -35,19 +43,19 @@ class FileRepository {
     return image;
   }
 
-  async uploadImages(_images, uploadProgress) {
+  async uploadImages(_images, useProgress) {
     let images = [];
 
-    for (i = 0; i < _images.length; i++) {
+    for (let i = 0; i < _images.length; i++) {
       try {
-        const image = await this.uploadImage(_image[i], uploadProgress);
+        const image = await this.uploadImage(_images[i], useProgress);
 
         images.push({ src: image.source_url, position: i });
       } catch (error) {
         notification["error"]({
           message: "Could not upload image",
           description:
-            "Some images could not be uploaded. Please check your data connection and try again.",
+            "Some images could not be uploaded. Please check your network connection and try again.",
         });
         break;
       }

@@ -252,7 +252,10 @@ const EditProductPage = ({ pid }) => {
         setCurrentImages(currentImages);
       }
     } catch (err) {
-      console.log(err);
+      notification["error"]({
+        message: "Unable To Get Product",
+        description: "Check your data connection and try again.",
+      });
     }
   };
 
