@@ -1,6 +1,8 @@
 import Router from "next/router";
 import { notification } from "antd";
 import { WPDomain, oathInfo, serializeQuery } from "./Repository";
+import FileRepository from "./FileRepository";
+
 import axios from "axios";
 
 class ProductRepository {
@@ -38,9 +40,6 @@ class ProductRepository {
           };
           return data;
         } else return null;
-      })
-      .catch((err) => {
-        return;
       });
 
     return response;
@@ -155,7 +154,7 @@ class ProductRepository {
             }
           })
           .catch((err) => {
-            arr.length = index + 1;
+            arr.length = index + 1; // break loop
             notification["error"]({
               message:
                 "Some images did not upload!. Check your data connection and try again.",

@@ -3,8 +3,11 @@ import axios from "axios";
 import Router from "next/router";
 import { notification } from "antd";
 import { WPDomain } from "~/repositories/Repository";
+import FileRepository from "~/repositories/FileRepository";
+import SettingsRepository from "~/repositories/SettingsRepository";
 import { allStates } from "~/utilities/stateList";
 import PhoneInput from "react-phone-number-input";
+import UserRepository from "~/repositories/UserRepository";
 
 const FormAccountSettings = () => {
   const { data } = allStates;
@@ -87,14 +90,6 @@ const FormAccountSettings = () => {
 
     setIsUploading(true);
 
-    const auth_token = localStorage.getItem("auth_token");
-
-    const reqConfig = {
-      headers: {
-        Authorization: `Bearer ${auth_token}`,
-      },
-    };
-
     try {
       let settings = {
         store_name: name,
@@ -106,72 +101,43 @@ const FormAccountSettings = () => {
       let banner = null;
       let profileImage = null;
 
-      if (bannerFile) {
-        let formData = new FormData();
-        formData.append("file", bannerFile);
+      // Only upload changed images
+      if (bannerFile) banner = await FileRepository.uploadImage(bannerFile);
 
-        // Upload Banner
-        banner = await axios
-          .post(`${WPDomain}/wp-json/wp/v2/media`, formData, reqConfig)
-          .then((res) => res.data);
-      } else banner = false;
+      if (profileImageFile)
+        profileImage = await FileRepository.uploadImage(profileImageFile);
 
-      if (profileImageFile) {
-        let formData = new FormData();
-        formData.append("file", profileImageFile);
+      let user = await UserRepository.getUser();
 
-        // Upload Profile Image
-        profileImage = await axios
-          .post(`${WPDomain}/wp-json/wp/v2/media`, formData, reqConfig)
-          .then((res) => res.data);
-      } else profileImage = false;
-
-      let user = await axios
-        .get(`${WPDomain}/wp-json/wp/v2/users/me`, reqConfig)
-        .then((res) => res.data);
-
-      if (user) {
-        let vendor = null;
-
-        if (banner && profileImage) {
-          // Both images uploaded
-          vendor = await axios.put(
-            `${WPDomain}/wp-json/dokan/v1/stores/${user.id}`,
-            { ...settings, banner_id: banner.id, gravatar_id: profileImage.id },
-            reqConfig
-          );
-        } else if (banner) {
-          // Only banner uploaded
-          vendor = await axios.put(
-            `${WPDomain}/wp-json/dokan/v1/stores/${user.id}`,
-            { ...settings, banner_id: banner.id },
-            reqConfig
-          );
-        } else if (profileImage) {
-          // Only profile image uploaded
-          vendor = await axios.put(
-            `${WPDomain}/wp-json/dokan/v1/stores/${user.id}`,
-            { ...settings, gravatar_id: profileImage.id },
-            reqConfig
-          );
-        } else {
-          // None uploaded
-          vendor = await axios.put(
-            `${WPDomain}/wp-json/dokan/v1/stores/${user.id}`,
-            settings,
-            reqConfig
-          );
-        }
-
-        if (vendor) {
-          // Settings updated
-          setIsUploading(false);
-          notification["success"]({
-            message: "Settings Updated Successfully",
-          });
-          Router.reload(window.location.pathname);
-        }
+      if (banner && profileImage) {
+        // Both images uploaded
+        await SettingsRepository.updateStore(user.id, {
+          ...settings,
+          banner_id: banner.id,
+          gravatar_id: profileImage.id,
+        });
+      } else if (banner) {
+        // Only banner uploaded
+        await SettingsRepository.updateStore(user.id, {
+          ...settings,
+          banner_id: banner.id,
+        });
+      } else if (profileImage) {
+        // Only profile image uploaded
+        await SettingsRepository.updateStore(user.id, {
+          ...settings,
+          gravatar_id: profileImage.id,
+        });
+      } else {
+        // None uploaded
+        await SettingsRepository.updateStore(user.id, settings);
       }
+
+      setIsUploading(false);
+      notification["success"]({
+        message: "Settings Updated Successfully",
+      });
+      Router.reload(window.location.pathname);
     } catch (err) {
       setIsUploading(false);
       notification["error"]({
@@ -183,20 +149,9 @@ const FormAccountSettings = () => {
 
   const getSettings = async () => {
     try {
-      let auth_token = localStorage.getItem("auth_token");
-      const reqConfig = {
-        headers: {
-          Authorization: `Bearer ${auth_token}`,
-        },
-      };
+      let user = await UserRepository.getUser();
 
-      let user = await axios
-        .get(`${WPDomain}/wp-json/wp/v2/users/me`, reqConfig)
-        .then((res) => res.data);
-
-      let vendor = await axios
-        .get(`${WPDomain}/wp-json/dokan/v1/stores/${user.id}`, reqConfig)
-        .then((res) => res.data);
+      let vendor = await SettingsRepository.getStoreById(user.id);
 
       setProfileImage(vendor.gravatar);
       setBanner(vendor.banner);
@@ -453,16 +408,7 @@ const FormAccountSettings = () => {
           className="ps-btn success"
           onClick={handleOnSubmit}
         >
-          {isUploading ? (
-            <img
-              src={require("../../../public/img/Interwind-loader.svg")}
-              alt="Uploading..."
-              width={40}
-              height={30}
-            />
-          ) : (
-            "Update Profile"
-          )}
+          {isUploading ? "Updating..." : "Update Profile"}
         </button>
       </div>
     </form>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ContainerDefault from "~/components/layouts/ContainerDefault";
 import TableProjectItems from "~/components/shared/tables/TableProjectItems";
-import { Select, Spin, Pagination } from "antd";
+import { Select, Spin, Pagination, notification } from "antd";
 import Link from "next/link";
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
 import { connect, useDispatch } from "react-redux";
@@ -23,15 +23,22 @@ const ProductPage = () => {
       page: page,
       per_page: pageSize,
     };
-    setLoading(true);
-    const products = await ProductRepository.getProducts(params);
-    setProducts(products);
-    setTimeout(
-      function () {
-        setLoading(false);
-      }.bind(this),
-      500
-    );
+    // setLoading(true);
+    try {
+      const products = await ProductRepository.getProducts(params);
+      setProducts(products);
+      // setTimeout(
+      //   function () {
+      //     setLoading(false);
+      //   }.bind(this),
+      //   500
+      // );
+    } catch (error) {
+      notification["error"]({
+        message: "Unable To Get Products",
+        description: "Check your data connection and try again.",
+      });
+    }
   };
 
   const getProducts = async () => {
@@ -39,9 +46,17 @@ const ProductPage = () => {
       page: 1,
       per_page: 10,
     };
-    const products = await ProductRepository.getProducts(params);
-    setProducts(products);
-    setLoading(false);
+
+    try {
+      const products = await ProductRepository.getProducts(params);
+      setProducts(products);
+      setLoading(false);
+    } catch (error) {
+      notification["error"]({
+        message: "Unable To Get Products",
+        description: "Check your data connection and try again.",
+      });
+    }
   };
 
   useEffect(() => {
@@ -126,7 +141,7 @@ const ProductPage = () => {
           </div>
         </div>
         <div className="ps-section__content">
-          <TableProjectItems products={products} />
+          {loading ? <Spin /> : <TableProjectItems products={products} />}
         </div>
         <div className="ps-section__footer">
           <p>Show 10 in 30 items.</p>

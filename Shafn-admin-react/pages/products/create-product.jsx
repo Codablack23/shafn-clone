@@ -192,9 +192,9 @@ const CreateProductPage = () => {
   };
 
   const getStorename = async () => {
-    const storename = await SettingsRepository.getStorename();
+    const store = await SettingsRepository.getStore();
 
-    if (!storename) {
+    if (!store.store_name) {
       notification["error"]({
         message: "You must have a Store Name to upload a product.",
       });
@@ -227,7 +227,7 @@ const CreateProductPage = () => {
     <ContainerDefault title="Create new product">
       <HeaderDashboard
         title="Create Product"
-        description="ShafN Create New Product "
+        description="ShafN Create New Product"
       />
       <section className="ps-new-item">
         <form
