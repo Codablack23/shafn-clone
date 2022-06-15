@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addItem } from '~/store/cart/action';
 import { removeWishlistItem } from '~/store/wishlist/action';
-import WPProductCart from '~/wp-components/elements/products/WPProductCart';
+import WPProductCart,{CustomProductCart} from '~/wp-components/elements/products/WPProductCart';
 import { Button } from '~/utilities/WPHelpers';
 class WPWishlist extends Component {
     constructor(props) {
@@ -31,17 +31,22 @@ class WPWishlist extends Component {
         if (wishlistItems && wishlistItems.length > 0) {
             const items = wishlistItems.map((product) => (
                 <div className='ps__wishlist-item-row' key={product.id}>
-                    <div className="ps__wishlist-desc">
-                    <p>
-                        <WPProductCart product={product} />
-                    </p>
-                    <p className="price">${product.price}</p>
-                    <p>{product.store.name}</p>
+                    <div className="ps__wishlist-desc w-75">
+                    <div className='w-100'>
+                        <CustomProductCart product={product}>
+                        <div className="ps__wishlist-info">
+                          <p className="price">${product.price}</p>
+                         <p>{product.store.name}</p>
+                        </div>
+                        </CustomProductCart>
+                    </div>
+                    
+
                     </div>
                     <div className='ps__wishlist-actions'>
                         <Button
                             width={150}
-                            classes={`w3-0309A5 btn-hover`}
+                            classes={`w3-0309A5 rounded btn-hover`}
                             hoverColor="white"
                             eventHandler={(e) => {
                                 this.handleAddItemToCart(e, product);
@@ -61,7 +66,7 @@ class WPWishlist extends Component {
                             onClick={(e) =>
                                 this.handleRemoveWishListItem(e, product)
                             }>
-                            <i className="icon-cross"></i>
+                            <i className="bi bi-trash w3-text-black"></i>
                         </a>
                     </div>
                 </div>
