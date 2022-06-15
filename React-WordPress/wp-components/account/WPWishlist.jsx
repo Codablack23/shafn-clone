@@ -30,13 +30,15 @@ class WPWishlist extends Component {
         let wishlistView;
         if (wishlistItems && wishlistItems.length > 0) {
             const items = wishlistItems.map((product) => (
-                <tr key={product.id}>
-                    <td>
+                <div className='ps__wishlist-item-row' key={product.id}>
+                    <div className="ps__wishlist-desc">
+                    <p>
                         <WPProductCart product={product} />
-                    </td>
-                    <td className="price">${product.price}</td>
-                    <td>{product.store.name}</td>
-                    <td>
+                    </p>
+                    <p className="price">${product.price}</p>
+                    <p>{product.store.name}</p>
+                    </div>
+                    <div className='ps__wishlist-actions'>
                         <Button
                             width={150}
                             classes={`w3-0309A5 btn-hover`}
@@ -61,23 +63,19 @@ class WPWishlist extends Component {
                             }>
                             <i className="icon-cross"></i>
                         </a>
-                    </td>
-                </tr>
+                    </div>
+                </div>
             ));
 
             wishlistView = (
-                <div className="table-responsive">
-                    <table className="table ps-table--whishlist">
-                        <thead>
-                            <tr>
-                                <th>Product name</th>
-                                <th>Unit Price</th>
-                                <th>Vendor</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>{items}</tbody>
-                    </table>
+                <div className="ps__wishlist-table">
+                        <div className='ps__wishlist-head w3-light-grey p-3'>
+                            <p>Product name</p>
+                            <p>Unit Price</p>
+                            <p>Vendor</p>
+                            <p>Action</p>
+                        </div>
+                        <div className='w-100 p-2'>{items}</div>
                 </div>
             );
         } else {
