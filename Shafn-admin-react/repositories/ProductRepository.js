@@ -73,12 +73,7 @@ class ProductRepository {
   }
 
   async getUserAttributes() {
-    let auth_token = localStorage.getItem("auth_token");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth_token}`,
-      },
-    };
+    const config = this.getConfig();
 
     const attributes = await axios
       .get(`${WPDomain}/wp-json/dokan/v1/products/attributes`, config)

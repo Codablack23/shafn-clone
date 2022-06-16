@@ -20,9 +20,8 @@ class FileRepository {
     let formData = new FormData();
     formData.append("file", _image);
 
-    const auth_token = localStorage.getItem("auth_token");
-
     const endpoint = `${WPDomain}/wp-json/wp/v2/media`;
+    const auth_token = localStorage.getItem("auth_token");
 
     let config = {
       headers: {
@@ -51,9 +50,11 @@ class FileRepository {
         // Check if image is a previously uploaded image
         if (typeof _images[i] === "string") {
           images.push({ src: _images[i], position: i });
-          useProgress(100);
+          useProgress(i, 100);
         } else {
-          const image = await this.uploadImage(_images[i], useProgress);
+          const image = await this.uploadImage(_images[i], (progress) =>
+            useProgress(i, progress)
+          );
           images.push({ src: image.source_url, position: i });
         }
       } catch (error) {

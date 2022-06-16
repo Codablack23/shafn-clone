@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Router from "next/router";
-import ContainerDefault from "~/components/layouts/ContainerDefault";
-import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
+
 import { useDispatch } from "react-redux";
-import { notification, Progress, Spin } from "antd";
-import { toggleDrawerMenu } from "~/store/app/action";
-import FileRepository from "~/repositories/FileRepository";
-import ProductRepository from "~/repositories/ProductRepository";
+import { notification, Progress } from "antd";
 import ReactHtmlParser from "react-html-parser";
 import Select from "react-select";
+
+import { toggleDrawerMenu } from "~/store/app/action";
+
+import FileRepository from "~/repositories/FileRepository";
+import ProductRepository from "~/repositories/ProductRepository";
+
 import "react-color-palette/lib/css/styles.css";
 import "suneditor/dist/css/suneditor.min.css";
 import "react-image-lightbox/style.css";
@@ -18,12 +20,14 @@ import ImageSelectTiles from "~/components/elements/products/ImageSelectTiles";
 import ProductAttributes from "~/components/elements/products/ProductAttributes";
 import ProductVariations from "~/components/elements/products/ProductVariations";
 import { CustomModal } from "~/components/elements/custom/index";
+import ContainerDefault from "~/components/layouts/ContainerDefault";
+import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
 });
 
-let short_buttonList = [
+const short_buttonList = [
   [
     "undo",
     "redo",
@@ -42,24 +46,12 @@ let short_buttonList = [
   ],
 ];
 
-let buttonList = [
+const buttonList = [
   [
-    "undo",
-    "redo",
-    "font",
+    ...short_buttonList[0],
     "fontSize",
     "formatBlock",
     "paragraphStyle",
-    "blockquote",
-    "bold",
-    "underline",
-    "italic",
-    "strike",
-    "subscript",
-    "superscript",
-    "fontColor",
-    "hiliteColor",
-    "textStyle",
     "removeFormat",
     "outdent",
     "indent",
@@ -67,7 +59,6 @@ let buttonList = [
     "horizontalRule",
     "list",
     "lineHeight",
-    "fullScreen",
   ],
 ];
 
@@ -255,8 +246,24 @@ const EditProductPage = ({ pid }) => {
       // Get image file objects from images array
       const imageFiles = images.map((img) => img.file);
 
-      const handleUploadProgress = (_progress) => {
-        console.log(`Progress >>> ${_progress} / 100`);
+      const totalProgress = imageFiles.length * 100;
+      let currentProgress = 0;
+      let currentIndex = 0;
+      let minCurrentProgress = currentIndex * 100;
+
+      const handleUploadProgress = (index, _progress) => {
+        // Check if next image is being uploaded
+        if (index > currentIndex) {
+          currentIndex = index;
+          minCurrentProgress = index * 100;
+        }
+        currentProgress = minCurrentProgress + _progress;
+
+        const progress = (currentProgress / totalProgress) * 100;
+        console.log(`Progress >> ${progress.toFixed(2)}%`);
+        if (currentProgress === totalProgress) {
+          console.log("Progress completed!");
+        }
       };
 
       const _images = await FileRepository.uploadImages(

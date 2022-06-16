@@ -188,9 +188,24 @@ const CreateProductPage = () => {
 
       // Get image file objects from images array
       const imageFiles = images.map((img) => img.file);
+      const totalProgress = imageFiles.length * 100;
+      let currentProgress = 0;
+      let currentIndex = 0;
+      let minCurrentProgress = currentIndex * 100;
 
-      const handleUploadProgress = (_progress) => {
-        console.log(`Progress >>> ${_progress} / 100`);
+      const handleUploadProgress = (index, _progress) => {
+        // Check if next image is being uploaded
+        if (index > currentIndex) {
+          currentIndex = index;
+          minCurrentProgress = index * 100;
+        }
+        currentProgress = minCurrentProgress + _progress;
+
+        const progress = (currentProgress / totalProgress) * 100;
+        console.log(`Progress >> ${progress.toFixed(2)}%`);
+        if (currentProgress === totalProgress) {
+          console.log("Progress completed!");
+        }
       };
 
       const _images = await FileRepository.uploadImages(
