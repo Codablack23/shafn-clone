@@ -123,7 +123,7 @@ class WPShoppingCart extends Component {
                     </div> */}
                     <div className="ps-section__content">
                         <div className="ps__cart-table">
-                            <div className='ps__cart-head w3-light-grey p-2 mb-3'>
+                            <div className='ps__cart-head w3-light-grey mb-3'>
                                 <p>Product</p>
                                 <p>Price</p>
                                 <p>Quantity</p>

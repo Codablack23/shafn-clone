@@ -358,6 +358,10 @@
 .ps__cart-head{
     width: 100%;
     display: flex;
+    align-items: center;
+    height: 50px;
+    padding-top: 10px;
+    padding-left: 10px;
     p{
         &:first-child{
            width: 40%;
@@ -378,11 +382,28 @@
           display: none;
        }
      }
+     @include media("<sm"){
+       p{
+         &:first-child{
+           width: 25%;
+           display: block;
+           width: 100%;
+           text-align: center;
+          }
+         &:nth-child(2){
+            display: none;
+           }
+          display: none;
+       }
+     }
 }
 .ps__wishlist-head{
     width: 100%;
     display: grid;
     grid-template-columns: repeat(5,1fr);
+    height: 50px;
+    padding-top: 10px;
+    padding-left: 10px;
     p{
         &:first-child{
            grid-column: span 2;
@@ -476,6 +497,9 @@
         display: block;
         .ps__wishlist-desc{
             width: 100%;
+            .ps__wishlist-info{
+                width: 100%;
+            }
         }
         .ps__wishlist-actions{
             width: 80%;
@@ -487,7 +511,7 @@
         .ps__cart-info{
             justify-content: space-between;
             margin: 1em 0;
-            width: 80%;
+            width: 100%;
         }
     }
     @include media("<sm"){

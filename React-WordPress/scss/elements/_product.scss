@@ -2521,6 +2521,12 @@
             font-weight: 600;
         }
     }
+    @include media('<md'){
+        margin-left: 8px;
+        .ps__product-content{
+            width: 100%;
+        }
+    }
     @include media("<sm"){
         .ps__product-content{
             display: block;

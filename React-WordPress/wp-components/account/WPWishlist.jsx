@@ -74,7 +74,7 @@ class WPWishlist extends Component {
 
             wishlistView = (
                 <div className="ps__wishlist-table">
-                        <div className='ps__wishlist-head w3-light-grey p-3'>
+                        <div className='ps__wishlist-head w3-light-grey'>
                             <p>Product name</p>
                             <p>Unit Price</p>
                             <p>Vendor</p>
