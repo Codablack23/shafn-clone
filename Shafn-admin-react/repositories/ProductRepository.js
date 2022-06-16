@@ -10,49 +10,42 @@ class ProductRepository {
     this.callback = callback;
   }
 
-  async getProducts(payload) {
-    let endpoint;
-    let auth_token = localStorage.getItem("auth_token");
-
-    if (payload) {
-      endpoint = `wp-json/dokan/v1/products?${serializeQuery({
-        ...payload,
-        ...oathInfo,
-      })}`;
-    } else {
-      endpoint = "wp-json/dokan/v1/products";
-    }
-
+  getConfig() {
+    const auth_token = localStorage.getItem("auth_token");
     const config = {
       headers: {
         Authorization: `Bearer ${auth_token}`,
       },
     };
 
-    const response = axios
-      .get(`${WPDomain}/${endpoint}`, config)
-      .then((res) => {
-        if (res.data && res.data.length > 0) {
-          const data = {
-            items: res.data,
-            totalItems: res.headers["x-wp-total"],
-            totalPages: res.headers["x-wp-totalpages"],
-          };
-          return data;
-        } else return null;
-      });
+    return config;
+  }
+
+  async getProducts(payload) {
+    const endpoint = payload
+      ? `${WPDomain}/wp-json/dokan/v1/products?${serializeQuery({
+          ...payload,
+          ...oathInfo,
+        })}`
+      : `${WPDomain}/wp-json/dokan/v1/products`;
+    const config = this.getConfig();
+
+    const response = axios.get(endpoint, config).then((res) => {
+      if (res.data && res.data.length > 0) {
+        const data = {
+          items: res.data,
+          totalItems: res.headers["x-wp-total"],
+          totalPages: res.headers["x-wp-totalpages"],
+        };
+        return data;
+      } else return null;
+    });
 
     return response;
   }
 
   async getProductByID(id) {
-    let auth_token = localStorage.getItem("auth_token");
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth_token}`,
-      },
-    };
+    const config = this.getConfig();
 
     const response = await axios
       .get(`${WPDomain}/wp-json/dokan/v1/products/${id}`, config)
@@ -62,147 +55,21 @@ class ProductRepository {
   }
 
   async uploadProduct(product) {
-    let endpoint = `${WPDomain}/wp-json/dokan/v1/products/`;
-    let auth_token = localStorage.getItem("auth_token");
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth_token}`,
-      },
-    };
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/products/`;
+    const config = this.getConfig();
 
     const response = await axios.post(endpoint, product, config);
 
     return response;
   }
 
-  async editProduct(id, imageFiles, product, setUploading) {
-    let auth_token = localStorage.getItem("auth_token");
+  async updateProduct(id, product) {
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/products/${id}`;
+    const config = this.getConfig();
 
-    const uploadProgress = (progressEvent, status) => {
-      const percent = Math.round(
-        (progressEvent.loaded * 100) / progressEvent.total
-      );
+    const response = await axios.put(endpoint, product, config);
 
-      setUploading({
-        status,
-        progress: percent,
-      });
-    };
-
-    const uploadProduct = (images) => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${auth_token}`,
-        },
-        onUploadProgress: (progressEvent) => {
-          uploadProgress(progressEvent, "Uploading Product");
-        },
-      };
-
-      let slug = `${product.name
-        .replace(/[^a-zA-Z0-9-_]/g, " ")
-        .replace(/  +/g, " ")
-        .split(" ")
-        .join("-")}`.trim();
-
-      let in_stock = product.in_stock === true || product.in_stock === "true";
-
-      let stock_quantity = !in_stock ? 0 : Number(product.stock_quantity);
-
-      let price = product.price || product.regular_price;
-
-      let attributes =
-        product.type === "variable"
-          ? product.attributes.map((attribute) => ({
-              name: attribute.name,
-              options: attribute.options,
-              visible: attribute.visible,
-              variation: attribute.variation,
-            }))
-          : [];
-
-      let tags = product.tags.map((tag) => ({ id: tag.id }));
-
-      const productData = {
-        ...product,
-        slug,
-        images,
-        in_stock,
-        stock_quantity,
-        price,
-        attributes,
-        tags,
-      };
-
-      axios
-        .put(`${WPDomain}/wp-json/dokan/v1/products/${id}`, productData, config)
-        .then((res) => {
-          notification["success"]({
-            message: "Product Updated Successfully",
-          });
-          Router.push("/products");
-        })
-        .catch((err) => {
-          notification["error"]({
-            message: "Product Upload Failed",
-            description: "Check your data connection and try again.",
-          });
-          setUploading(false);
-        });
-    };
-
-    const uploadImages = () => {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${auth_token}`,
-        },
-        onUploadProgress: (progressEvent) => {
-          uploadProgress(progressEvent, "Uploading Images");
-        },
-      };
-
-      let images = [];
-      let imgFiles = imageFiles.map((img) => img.file);
-
-      imgFiles.forEach((file, index, arr) => {
-        // Check if it's an already uploaded image
-
-        if (typeof file === "string") {
-          images.push({ src: file, position: index });
-          if (images.length === imageFiles.length) {
-            uploadProduct(images);
-          }
-        } else {
-          let formData = new FormData();
-
-          formData.append("file", file);
-
-          axios
-            .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
-            .then((res) => {
-              images.push({ src: res.data.source_url, position: index });
-
-              if (images.length === imageFiles.length) {
-                uploadProduct(images);
-              }
-            })
-            .catch((err) => {
-              arr.length = index + 1;
-              notification["error"]({
-                message:
-                  "Some images did not upload!. Check your data connection and try again.",
-              });
-
-              setUploading({
-                status: "",
-                progress: 0,
-              });
-            });
-        }
-      });
-    };
-
-    uploadImages();
+    return response;
   }
 
   async getUserAttributes() {

@@ -217,6 +217,7 @@ const CreateProductPage = () => {
             message: "Product failed to upload",
             description: "Please check your network connection and try again",
           });
+          setUploading(false);
         }
       } else {
         setUploading(false);

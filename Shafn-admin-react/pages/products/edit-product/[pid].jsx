@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import Router from "next/router";
 import ContainerDefault from "~/components/layouts/ContainerDefault";
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
 import { useDispatch } from "react-redux";
 import { notification, Progress, Spin } from "antd";
 import { toggleDrawerMenu } from "~/store/app/action";
+import FileRepository from "~/repositories/FileRepository";
 import ProductRepository from "~/repositories/ProductRepository";
 import ReactHtmlParser from "react-html-parser";
 import Select from "react-select";
@@ -207,14 +209,82 @@ const EditProductPage = ({ pid }) => {
     return "VALID";
   };
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
 
-    let result = validateInputs();
+    const result = validateInputs();
 
     if (result === "VALID") {
-      setUploading((current) => ({ ...current, status: "Uploading" }));
-      ProductRepository.editProduct(pid, images, product, setUploading);
+      // setUploading((current) => ({ ...current, status: "Uploading" }));
+
+      const slug = `${product.name
+        .replace(/[^a-zA-Z0-9-_]/g, " ")
+        .replace(/  +/g, " ")
+        .split(" ")
+        .join("-")}`.trim();
+
+      const in_stock = product.in_stock === true || product.in_stock === "true";
+
+      const stock_quantity = !in_stock ? 0 : Number(product.stock_quantity);
+
+      const price = product.price || product.regular_price;
+
+      const attributes =
+        product.type === "variable"
+          ? product.attributes.map((attribute) => ({
+              name: attribute.name,
+              options: attribute.options,
+              visible: attribute.visible,
+              variation: attribute.variation,
+            }))
+          : [];
+
+      const tags = product.tags.map((tag) => ({ id: tag.id }));
+
+      const productData = {
+        ...product,
+        slug,
+        images,
+        in_stock,
+        stock_quantity,
+        price,
+        attributes,
+        tags,
+      };
+
+      // Get image file objects from images array
+      const imageFiles = images.map((img) => img.file);
+
+      const handleUploadProgress = (_progress) => {
+        console.log(`Progress >>> ${_progress} / 100`);
+      };
+
+      const _images = await FileRepository.uploadImages(
+        imageFiles,
+        handleUploadProgress
+      );
+
+      if (_images.length === imageFiles.length) {
+        try {
+          const _product = { ...productData, images: _images };
+
+          await ProductRepository.updateProduct(pid, _product);
+
+          notification["success"]({
+            message: "Product Updated Successfully",
+          });
+
+          setTimeout(() => {
+            Router.reload(window.location.pathname);
+          }, 1500);
+        } catch (error) {
+          notification["error"]({
+            message: "Product failed to update",
+            description: "Please check your network connection and try again",
+          });
+          // setUploading(false);
+        }
+      } else setUploading(false);
     } else {
       notification["error"]({
         message: result,
@@ -226,31 +296,27 @@ const EditProductPage = ({ pid }) => {
     try {
       const product = await ProductRepository.getProductByID(pid);
 
-      if (product) {
-        setProduct(product);
+      const modifiedAttributes = product.attributes.map((attribute, index) => ({
+        ...attribute,
+        id: index,
+        type: "select",
+        error: "",
+      }));
 
-        let modifiedAttributes = product.attributes.map((attribute, index) => ({
-          ...attribute,
-          id: index,
-          type: "select",
-          error: "",
-        }));
+      const images = Array.from(product.images).map((img, index) => ({
+        id: `img-${index + 1}`,
+        file: img.src,
+      }));
 
-        setAttributes(modifiedAttributes);
+      const currentImages = Array.from(product.images).map((img, index) => ({
+        id: `img-${index + 1}`,
+        url: img.src,
+      }));
 
-        let images = Array.from(product.images).map((img, index) => ({
-          id: `img-${index + 1}`,
-          file: img.src,
-        }));
-
-        let currentImages = Array.from(product.images).map((img, index) => ({
-          id: `img-${index + 1}`,
-          url: img.src,
-        }));
-
-        setImages(images);
-        setCurrentImages(currentImages);
-      }
+      setProduct(product);
+      setAttributes(modifiedAttributes);
+      setImages(images);
+      setCurrentImages(currentImages);
     } catch (err) {
       notification["error"]({
         message: "Unable To Get Product",

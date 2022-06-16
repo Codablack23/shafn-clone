@@ -48,9 +48,14 @@ class FileRepository {
 
     for (let i = 0; i < _images.length; i++) {
       try {
-        const image = await this.uploadImage(_images[i], useProgress);
-
-        images.push({ src: image.source_url, position: i });
+        // Check if image is a previously uploaded image
+        if (typeof _images[i] === "string") {
+          images.push({ src: _images[i], position: i });
+          useProgress(100);
+        } else {
+          const image = await this.uploadImage(_images[i], useProgress);
+          images.push({ src: image.source_url, position: i });
+        }
       } catch (error) {
         notification["error"]({
           message: "Could not upload image",
