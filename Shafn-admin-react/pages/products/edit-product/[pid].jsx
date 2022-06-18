@@ -22,6 +22,7 @@ import ProductVariations from "~/components/elements/products/ProductVariations"
 import { CustomModal } from "~/components/elements/custom/index"
 import ContainerDefault from "~/components/layouts/ContainerDefault"
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard"
+import { generateSlug } from "~/utilities/helperFunctions"
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
@@ -205,11 +206,7 @@ const EditProductPage = ({ pid }) => {
     if (result === "VALID") {
       setIsUploading(true)
 
-      const slug = `${product.name
-        .replace(/[^a-zA-Z0-9-_]/g, " ")
-        .replace(/  +/g, " ")
-        .split(" ")
-        .join("-")}`.trim()
+      const slug = generateSlug(product.name)
 
       const in_stock = product.in_stock === true || product.in_stock === "true"
 
@@ -248,7 +245,7 @@ const EditProductPage = ({ pid }) => {
       let currentIndex = 0
       let minCurrentProgress = currentIndex * 100
 
-      const handleUploadProgress = (index, _progress) => {
+      const handleImageUploadProgress = (index, _progress) => {
         // Check if next image is being uploaded
         if (index > currentIndex) {
           currentIndex = index
@@ -265,7 +262,7 @@ const EditProductPage = ({ pid }) => {
 
       const _images = await FileRepository.uploadImages(
         imageFiles,
-        handleUploadProgress
+        handleImageUploadProgress
       )
 
       if (_images.length === imageFiles.length) {

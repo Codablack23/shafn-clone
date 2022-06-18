@@ -16,6 +16,7 @@ import ImageSelectTiles from "~/components/elements/products/ImageSelectTiles"
 
 import { CustomModal } from "~/components/elements/custom/index"
 import FileRepository from "~/repositories/FileRepository"
+import { generateSlug } from "~/utilities/helperFunctions"
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
 })
@@ -160,10 +161,7 @@ const CreateProductPage = () => {
     if (result === "VALID") {
       setIsUploading(true)
 
-      const slug = `${name
-        .replace(/[^a-zA-Z0-9-_]/g, " ")
-        .replace(/  +/g, " ")
-        .replace(/ /g, "-")}`.trim()
+      const slug = generateSlug(name)
 
       const product = {
         name,
@@ -183,12 +181,12 @@ const CreateProductPage = () => {
 
       // Get image file objects from images array
       const imageFiles = images.map((img) => img.file)
-      const totalProgress = imageFiles.length * 100
+      const totalProgress = images.length * 100
       let currentProgress = 0
       let currentIndex = 0
       let minCurrentProgress = currentIndex * 100
 
-      const handleUploadProgress = (index, _progress) => {
+      const handleImageUploadProgress = (index, _progress) => {
         // Check if next image is being uploaded
         if (index > currentIndex) {
           currentIndex = index
@@ -198,18 +196,17 @@ const CreateProductPage = () => {
 
         const progress = (currentProgress / totalProgress) * 100
         setProgress(progress.toFixed(2))
-        if (currentProgress === totalProgress) {
-          console.log("Progress completed!")
-        }
       }
 
       const _images = await FileRepository.uploadImages(
         imageFiles,
-        handleUploadProgress
+        handleImageUploadProgress
       )
 
+      if (progress !== images.length * 100) setProgress(100) // To disable progress bar
+
       // Only proceed if all images successfully uploaded
-      if (_images.length === imageFiles.length) {
+      if (_images.length === images.length) {
         try {
           const _product = { ...product, images: _images }
 
@@ -490,9 +487,13 @@ const CreateProductPage = () => {
           <div className="col-12 col-md-6 mt-5">
             <div className="mt-5">
               <Spin size="large" />
-              <Progress type="line" percent={progress} />
-              {`${progress}%`}
-              <p>Uploading images</p>
+              {progress === images.length * 100 && (
+                <>
+                  <Progress type="line" percent={progress} />
+                  <span>{`${progress}%`}</span>
+                  <p>Uploading images</p>
+                </>
+              )}
             </div>
           </div>
           <div className="col-12 col-md-3"></div>
