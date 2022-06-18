@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import Router from "next/router";
-import ContainerDefault from "~/components/layouts/ContainerDefault";
-import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
-import { useDispatch } from "react-redux";
-import { notification, Progress, Spin } from "antd";
-import { toggleDrawerMenu } from "~/store/app/action";
-import SettingsRepository from "~/repositories/SettingsRepository";
-import ProductRepository from "~/repositories/ProductRepository";
-import ReactHtmlParser from "react-html-parser";
-import Select from "react-select";
-import "react-image-lightbox/style.css";
-import "suneditor/dist/css/suneditor.min.css";
-import ImageSelectTiles from "~/components/elements/products/ImageSelectTiles";
+import React, { useEffect, useState } from "react"
+import dynamic from "next/dynamic"
+import Router from "next/router"
+import ContainerDefault from "~/components/layouts/ContainerDefault"
+import HeaderDashboard from "~/components/shared/headers/HeaderDashboard"
+import { useDispatch } from "react-redux"
+import { notification, Progress, Spin } from "antd"
+import { toggleDrawerMenu } from "~/store/app/action"
+import SettingsRepository from "~/repositories/SettingsRepository"
+import ProductRepository from "~/repositories/ProductRepository"
+import ReactHtmlParser from "react-html-parser"
+import Select from "react-select"
+import "react-image-lightbox/style.css"
+import "suneditor/dist/css/suneditor.min.css"
+import ImageSelectTiles from "~/components/elements/products/ImageSelectTiles"
 
-import { CustomModal } from "~/components/elements/custom/index";
-import FileRepository from "~/repositories/FileRepository";
+import { CustomModal } from "~/components/elements/custom/index"
+import FileRepository from "~/repositories/FileRepository"
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
-});
+})
 
 let short_buttonList = [
   [
@@ -37,7 +37,7 @@ let short_buttonList = [
     "textStyle",
     "fullScreen",
   ],
-];
+]
 
 let buttonList = [
   [
@@ -66,109 +66,104 @@ let buttonList = [
     "lineHeight",
     "fullScreen",
   ],
-];
+]
 
 const CreateProductPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const [categories, setCategories] = useState([]);
-  const [tagOptions, setTagOptions] = useState([]);
+  const [categories, setCategories] = useState([])
+  const [tagOptions, setTagOptions] = useState([])
 
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [discountedPrice, setDiscountedPrice] = useState("");
-  const [shortDescription, setShortDescription] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [qty, setQty] = useState("");
-  const [sku, setSku] = useState("");
-  const [tags, setTags] = useState([]);
-  const [newTag, setNewTag] = useState("");
+  const [name, setName] = useState("")
+  const [price, setPrice] = useState("")
+  const [discountedPrice, setDiscountedPrice] = useState("")
+  const [shortDescription, setShortDescription] = useState("")
+  const [description, setDescription] = useState("")
+  const [category, setCategory] = useState("")
+  const [qty, setQty] = useState("")
+  const [sku, setSku] = useState("")
+  const [tags, setTags] = useState([])
+  const [newTag, setNewTag] = useState("")
 
-  const [images, setImages] = useState([]);
-  const [isPriceValid, setIsPriceValid] = useState(true);
-  const [showNewTagInputField, setShowNewTagInputField] = useState(false);
-
-  const [uploading, setUploading] = useState({
-    status: "",
-    progress: 0,
-  });
+  const [images, setImages] = useState([])
+  const [isPriceValid, setIsPriceValid] = useState(true)
+  const [showNewTagInputField, setShowNewTagInputField] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
+  const [progress, setProgress] = useState(0)
 
   const handleInputChange = (e) => {
-    const name = e.target.name;
-    const val = e.target.value;
+    const name = e.target.name
+    const val = e.target.value
     if (name === "regular_price" && !isNaN(val)) {
-      setPrice(val);
+      setPrice(val)
     }
 
     if (name === "price" && !isNaN(val)) {
       if (Number(val) >= Number(price)) {
-        setIsPriceValid(false);
+        setIsPriceValid(false)
         setTimeout(() => {
-          setIsPriceValid(true);
-        }, 4000);
+          setIsPriceValid(true)
+        }, 4000)
       } else {
-        setDiscountedPrice(val);
+        setDiscountedPrice(val)
       }
     }
 
     if (name === "stock_quantity" && Number.isInteger(Number(val))) {
-      setQty(Number(val));
+      setQty(Number(val))
     }
-  };
+  }
 
   const addTag = async () => {
-    setShowNewTagInputField(false);
+    setShowNewTagInputField(false)
     try {
-      const tag = await ProductRepository.addTag(newTag);
+      const tag = await ProductRepository.addTag(newTag)
 
-      const tagOption = { value: tag.id, label: tag.name };
+      const tagOption = { value: tag.id, label: tag.name }
 
-      setTagOptions((tagOptions) => [...tagOptions, tagOption]);
+      setTagOptions((tagOptions) => [...tagOptions, tagOption])
     } catch (err) {
       notification["error"]({
         message: "Failed To Add Tag",
         description:
           err.response === undefined ? String(err) : err.response.data.message,
-      });
+      })
     }
-  };
+  }
 
   const validateInputs = () => {
-    if (!name) return "Product Name is required!";
-    if (!price) return "Sale Price is required!";
+    if (!name) return "Product Name is required!"
+    if (!price) return "Sale Price is required!"
     if (Number(discountedPrice) > Number(price)) {
-      setIsPriceValid(false);
+      setIsPriceValid(false)
       setTimeout(() => {
-        setIsPriceValid(true);
-      }, 4000);
-      return "Discounted Price must be less than the Sale Price";
+        setIsPriceValid(true)
+      }, 4000)
+      return "Discounted Price must be less than the Sale Price"
     }
-    if (category === "") return "Category is required!";
-    if (Number(qty) <= 0) return "Sale Quantity must be greater than 0";
-    if (!shortDescription) return "Short Description is required!";
+    if (category === "") return "Category is required!"
+    if (Number(qty) <= 0) return "Sale Quantity must be greater than 0"
+    if (!shortDescription) return "Short Description is required!"
 
-    const isPrimaryImageSelected = images
-      .map((img) => img.id)
-      .includes("img-1");
+    const isPrimaryImageSelected = images.map((img) => img.id).includes("img-1")
 
-    if (!isPrimaryImageSelected) return "Primary Image is required!";
+    if (!isPrimaryImageSelected) return "Primary Image is required!"
 
-    return "VALID";
-  };
+    return "VALID"
+  }
 
   const handleOnSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const result = validateInputs();
+    const result = validateInputs()
 
     if (result === "VALID") {
-      setUploading((current) => ({ ...current, status: "Uploading" }));
+      setIsUploading(true)
 
       const slug = `${name
         .replace(/[^a-zA-Z0-9-_]/g, " ")
         .replace(/  +/g, " ")
-        .replace(/ /g, "-")}`.trim();
+        .replace(/ /g, "-")}`.trim()
 
       const product = {
         name,
@@ -184,97 +179,96 @@ const CreateProductPage = () => {
         sku,
         tags,
         manage_stock: true,
-      };
+      }
 
       // Get image file objects from images array
-      const imageFiles = images.map((img) => img.file);
-      const totalProgress = imageFiles.length * 100;
-      let currentProgress = 0;
-      let currentIndex = 0;
-      let minCurrentProgress = currentIndex * 100;
+      const imageFiles = images.map((img) => img.file)
+      const totalProgress = imageFiles.length * 100
+      let currentProgress = 0
+      let currentIndex = 0
+      let minCurrentProgress = currentIndex * 100
 
       const handleUploadProgress = (index, _progress) => {
         // Check if next image is being uploaded
         if (index > currentIndex) {
-          currentIndex = index;
-          minCurrentProgress = index * 100;
+          currentIndex = index
+          minCurrentProgress = index * 100
         }
-        currentProgress = minCurrentProgress + _progress;
+        currentProgress = minCurrentProgress + _progress
 
-        const progress = (currentProgress / totalProgress) * 100;
-        console.log(`Progress >> ${progress.toFixed(2)}%`);
+        const progress = (currentProgress / totalProgress) * 100
+        setProgress(progress.toFixed(2))
         if (currentProgress === totalProgress) {
-          console.log("Progress completed!");
+          console.log("Progress completed!")
         }
-      };
+      }
 
       const _images = await FileRepository.uploadImages(
         imageFiles,
         handleUploadProgress
-      );
+      )
 
       // Only proceed if all images successfully uploaded
       if (_images.length === imageFiles.length) {
         try {
-          const _product = { ...product, images: _images };
+          const _product = { ...product, images: _images }
 
-          await ProductRepository.uploadProduct(_product);
+          await ProductRepository.uploadProduct(_product)
 
           notification["success"]({
             message: "Product Uploaded Successfully",
-          });
+          })
 
           setTimeout(() => {
-            Router.reload(window.location.pathname);
-          }, 1500);
+            Router.reload(window.location.pathname)
+          }, 1500)
         } catch (error) {
           notification["error"]({
             message: "Product failed to upload",
             description: "Please check your network connection and try again",
-          });
-          setUploading(false);
+          })
         }
-      } else {
-        setUploading(false);
       }
+
+      setIsUploading(false)
     } else {
       notification["error"]({
         message: result,
-      });
+      })
     }
-  };
+  }
 
   const getStorename = async () => {
-    const store = await SettingsRepository.getStore();
+    const store = await SettingsRepository.getStore()
 
     if (!store.store_name) {
       notification["error"]({
         message: "You must have a Store Name to upload a product.",
-      });
-      setTimeout(() => Router.push("/settings"), 2000);
+      })
+      setTimeout(() => Router.push("/settings"), 2000)
     }
-  };
+  }
 
   const getCategories = async () => {
-    const categories = await ProductRepository.getCategories();
+    const categories = await ProductRepository.getCategories()
 
-    setCategories(categories);
-  };
+    setCategories(categories)
+  }
 
   const getTags = async () => {
-    const tags = await ProductRepository.getTags();
+    const tags = await ProductRepository.getTags()
 
-    let tagOptions = tags.map((tag) => ({ value: tag.id, label: tag.name }));
-    setTagOptions(tagOptions);
-  };
+    let tagOptions = tags.map((tag) => ({ value: tag.id, label: tag.name }))
+    setTagOptions(tagOptions)
+  }
 
   useEffect(() => {
-    dispatch(toggleDrawerMenu(false));
+    dispatch(toggleDrawerMenu(false))
 
-    getStorename();
-    getCategories();
-    getTags();
-  }, []);
+    getStorename()
+    getCategories()
+    getTags()
+  }, [])
 
   return (
     <ContainerDefault title="Create new product">
@@ -456,8 +450,8 @@ const CreateProductPage = () => {
                         onChange={(options) => {
                           let tags = options.map((option) => ({
                             id: option.value,
-                          }));
-                          setTags(tags);
+                          }))
+                          setTags(tags)
                         }}
                       />
 
@@ -479,7 +473,7 @@ const CreateProductPage = () => {
             </a>
             <button className="ps-btn ps-btn--gray">Cancel</button>
             <button
-              disabled={uploading.status ? true : false}
+              disabled={isUploading}
               type="submit"
               className="ps-btn"
               onClick={handleOnSubmit}
@@ -490,13 +484,15 @@ const CreateProductPage = () => {
         </form>
       </section>
       {/* Products Viewer */}
-      <CustomModal isOpen={uploading.status ? true : false}>
+      <CustomModal isOpen={isUploading}>
         <div className="row">
           <div className="col-12 col-md-3"></div>
           <div className="col-12 col-md-6 mt-5">
             <div className="mt-5">
-              <p className="text-center text-white">{uploading.status}</p>
-              <Progress type="line" percent={uploading.progress} />
+              <Spin size="large" />
+              <Progress type="line" percent={progress} />
+              {`${progress}%`}
+              <p>Uploading images</p>
             </div>
           </div>
           <div className="col-12 col-md-3"></div>
@@ -538,6 +534,6 @@ const CreateProductPage = () => {
         </div>
       </CustomModal>
     </ContainerDefault>
-  );
-};
-export default CreateProductPage;
+  )
+}
+export default CreateProductPage
