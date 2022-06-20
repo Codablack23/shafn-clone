@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addItem } from '~/store/cart/action';
 import { removeWishlistItem } from '~/store/wishlist/action';
-import WPProductCart from '~/wp-components/elements/products/WPProductCart';
+import WPProductCart,{CustomProductCart} from '~/wp-components/elements/products/WPProductCart';
 import { Button } from '~/utilities/WPHelpers';
 class WPWishlist extends Component {
     constructor(props) {
@@ -30,16 +30,23 @@ class WPWishlist extends Component {
         let wishlistView;
         if (wishlistItems && wishlistItems.length > 0) {
             const items = wishlistItems.map((product) => (
-                <tr key={product.id}>
-                    <td>
-                        <WPProductCart product={product} />
-                    </td>
-                    <td className="price">${product.price}</td>
-                    <td>{product.store.name}</td>
-                    <td>
+                <div className='ps__wishlist-item-row' key={product.id}>
+                    <div className="ps__wishlist-desc w-75">
+                    <div className='w-100'>
+                        <CustomProductCart product={product}>
+                        <div className="ps__wishlist-info">
+                          <p className="price">${product.price}</p>
+                         <p>{product.store.name}</p>
+                        </div>
+                        </CustomProductCart>
+                    </div>
+                    
+
+                    </div>
+                    <div className='ps__wishlist-actions'>
                         <Button
                             width={150}
-                            classes={`w3-0309A5 btn-hover`}
+                            classes={`w3-0309A5 rounded btn-hover`}
                             hoverColor="white"
                             eventHandler={(e) => {
                                 this.handleAddItemToCart(e, product);
@@ -59,25 +66,21 @@ class WPWishlist extends Component {
                             onClick={(e) =>
                                 this.handleRemoveWishListItem(e, product)
                             }>
-                            <i className="icon-cross"></i>
+                            <i className="bi bi-trash w3-text-black"></i>
                         </a>
-                    </td>
-                </tr>
+                    </div>
+                </div>
             ));
 
             wishlistView = (
-                <div className="table-responsive">
-                    <table className="table ps-table--whishlist">
-                        <thead>
-                            <tr>
-                                <th>Product name</th>
-                                <th>Unit Price</th>
-                                <th>Vendor</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>{items}</tbody>
-                    </table>
+                <div className="ps__wishlist-table">
+                        <div className='ps__wishlist-head w3-light-grey'>
+                            <p>Product name</p>
+                            <p>Unit Price</p>
+                            <p>Vendor</p>
+                            <p>Action</p>
+                        </div>
+                        <div className='w-100 p-2'>{items}</div>
                 </div>
             );
         } else {

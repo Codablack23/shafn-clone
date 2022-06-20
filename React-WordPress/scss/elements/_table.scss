@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .table-responsive {
     @media (min-width: 1200px) {
         overflow-x: initial;
@@ -350,6 +352,183 @@
                     background-color: #f4f4f4;
                 }
             }
+        }
+    }
+}
+.ps__cart-head{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding-top: 10px;
+    padding-left: 10px;
+    p{
+        &:first-child{
+           width: 40%;
+        }
+        font-size: 18px;
+        font-weight: 600;
+        color: #000000;
+        align-items: center;
+        width:math.div(60,4) + 0% ;
+    }
+    @include media("<md"){
+        justify-content: space-between;
+       p{
+         &:first-child,&:nth-child(2){
+           width: 25%;
+           display: block;
+          }
+          display: none;
+       }
+     }
+     @include media("<sm"){
+       p{
+         &:first-child{
+           width: 25%;
+           display: block;
+           width: 100%;
+           text-align: center;
+          }
+         &:nth-child(2){
+            display: none;
+           }
+          display: none;
+       }
+     }
+}
+.ps__wishlist-head{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    height: 50px;
+    padding-top: 10px;
+    padding-left: 10px;
+    p{
+        &:first-child{
+           grid-column: span 2;
+        }
+        font-size: 18px;
+        font-weight: 600;
+        color: #000000;
+        align-items: center;
+    }
+    @include media("<md"){
+       grid-template-columns: repeat(5,1fr);
+      p{
+        &:first-child{
+            grid-column:span 3;
+         }
+       &:last-child{
+        display: none;
+       } 
+      }
+    }
+    @include media("<sm"){
+        grid-template-columns: repeat(4,1fr);
+       p{
+         &:first-child{
+            display: block;
+            grid-column:span 4;
+            text-align: center;
+         }
+         display: none;
+        } 
+     }
+}
+
+@for $i from 1 through 20{
+    $val :$i * 5;
+   .ps-w-#{$val}{
+    width: $val + 0%;
+   }
+   @include media("<md"){
+    .ps-w-md-#{$val}{
+        width: $val + 0%;
+       }
+   }
+   @include media("<sm"){
+    .ps-w-sm-#{$val}{
+        width: $val + 0%;
+       }
+   }
+}
+
+
+.ps__wishlist-item-row{
+    display:flex;
+    width: 97%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    .ps__wishlist-desc{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .ps__wishlist-info{
+            width: 50%;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+    .ps__cart-info{
+        width: 60%;
+        display: flex;
+        align-items: center;
+        // justify-content: space-between;
+        *{
+            color: #000000;
+            font-weight: 600;
+        }
+        .ps__cart-column{
+            width:45%;
+        }
+    }
+    .ps__wishlist-actions{
+        width: 20%;
+        margin: 0;
+    }
+    p{
+        font-weight: 600;
+        color: #000000;
+    }
+    @include media("<md"){
+        margin-bottom: 16px;
+        display: block;
+        .ps__wishlist-desc{
+            width: 100%;
+            .ps__wishlist-info{
+                width: 100%;
+            }
+        }
+        .ps__wishlist-actions{
+            width: 80%;
+            margin: 15px 0!important;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .ps__cart-info{
+            justify-content: space-between;
+            margin: 1em 0;
+            width: 100%;
+        }
+    }
+    @include media("<sm"){
+        justify-content: center;
+        align-items: center;
+        .ps__wishlist-desc{
+            width: 100%;
+            display: block;
+            .ps__wishlist-info{
+                width: 50%;
+                display: block;
+            }
+        }
+        .ps__cart-info{
+            justify-content: space-between;
+            margin: 1em 0;
+            width: 100%;
         }
     }
 }

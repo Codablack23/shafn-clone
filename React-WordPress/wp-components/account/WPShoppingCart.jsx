@@ -9,7 +9,7 @@ import {
 import { addCheckoutItem } from '~/store/checkout-items/action';
 
 import Link from 'next/link';
-import WPProductCart from '~/wp-components/elements/products/WPProductCart';
+import WPProductCart,{CustomProductCart} from '~/wp-components/elements/products/WPProductCart';
 
 class WPShoppingCart extends Component {
     constructor(props) {
@@ -46,47 +46,55 @@ class WPShoppingCart extends Component {
         // Views
         let tableContentView, subtotalView;
         tableContentView = currentCartItems.map((product) => (
-            <tr key={product.id}>
-                <td>
-                    <WPProductCart product={product} />
-                </td>
-                <td className="price">${product.price}</td>
-                <td>
-                    <div className="form-group--number">
-                        <button
-                            className="up"
-                            onClick={this.handleIncreaseItemQty.bind(
-                                this,
-                                product
-                            )}>
-                            +
-                        </button>
-                        <button
-                            className="down"
-                            onClick={this.handleDecreaseItemQty.bind(
-                                this,
-                                product
-                            )}>
-                            -
-                        </button>
-                        <input
-                            className="form-control"
-                            type="text"
-                            placeholder="1"
-                            value={product.quantity}
-                            readOnly={true}
-                        />
-                    </div>
-                </td>
-                <td>${product.quantity * product.price}</td>
-                <td>
-                    <a
-                        href="#"
-                        onClick={this.handleRemoveCartItem.bind(this, product)}>
-                        <i className="icon-cross"></i>
-                    </a>
-                </td>
-            </tr>
+            <div className='ps__wishlist-item-row' key={product.id}>
+              <div className="ps__wishlist-desc ps-w-60">
+               <div className="w-100">
+               <CustomProductCart product={product}>
+               <div>${product.price}</div>
+                </CustomProductCart>
+               </div>
+              </div>
+                
+              <div className="ps__cart-info">
+                           <div className='ps__cart-column'>
+                                <div className="form-group--number">
+                                <button
+                                    className="up"
+                                    onClick={this.handleIncreaseItemQty.bind(
+                                        this,
+                                        product
+                                    )}>
+                                    +
+                                </button>
+                                <button
+                                    className="down"
+                                    onClick={this.handleDecreaseItemQty.bind(
+                                        this,
+                                        product
+                                    )}>
+                                    -
+                                </button>
+                                <input
+                                    className="form-control"
+                                    type="text"
+                                    placeholder="1"
+                                    value={product.quantity}
+                                    readOnly={true}
+                                />
+                            </div>
+                        </div>
+                       <div className='ps__cart-column pl-5'>${product.quantity * product.price}</div>
+                       <div className='ps__cart-actions'>
+                         <a
+                            href="#"
+                            onClick={this.handleRemoveCartItem.bind(this, product)}>
+                            <i className="bi bi-trash"></i>
+                         </a>
+                      </div>
+              </div>
+
+            
+            </div>
         ));
         if (cartItems && cartItems.length > 0) {
             subtotalView = cartItems.map((product, index) => {
@@ -114,19 +122,15 @@ class WPShoppingCart extends Component {
                         <h1>Shopping Cart</h1>
                     </div> */}
                     <div className="ps-section__content">
-                        <div className="table-responsive">
-                            <table className="table ps-table--shopping-cart">
-                                <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>{tableContentView}</tbody>
-                            </table>
+                        <div className="ps__cart-table">
+                            <div className='ps__cart-head w3-light-grey mb-3'>
+                                <p>Product</p>
+                                <p>Price</p>
+                                <p>Quantity</p>
+                                <p>Total</p>
+                                <p>Action</p>
+                            </div>
+                            <div>{tableContentView}</div>
                         </div>
                         <div className="ps-section__cart-actions">
                             <Link href="/shop">
