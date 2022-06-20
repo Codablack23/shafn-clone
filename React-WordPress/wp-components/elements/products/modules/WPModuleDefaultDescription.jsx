@@ -6,14 +6,28 @@ import PartialReview from '~/components/elements/detail/modules/description/Part
 import PartialOffer from '~/components/elements/detail/modules/description/PartialOffer';
 const { TabPane } = Tabs;
 const WPModuleDefaultDescription = ({product})=>  {
+    function expandDesc(e){
+      const desc = document.querySelector('#desc')
+      if(desc.style.maxHeight){
+        desc.style.maxHeight = null
+        e.target.innerText = "Read More"
+      }
+      else{
+        desc.style.maxHeight = '500px'
+        e.target.innerText = "Show Less"
+      }
+    }
     let descView;
     if (product) {
         if (product.description) {
             descView = <div className="ps-document">
-                <div dangerouslySetInnerHTML={{
+                <div id='desc' className='ps__desc-md' dangerouslySetInnerHTML={{
                     __html: `${product.description}`,
                 }}>
                 </div>
+                <span
+                onClick={expandDesc}
+                className="ps__read-more">Read More</span>
             </div>
         }
     }

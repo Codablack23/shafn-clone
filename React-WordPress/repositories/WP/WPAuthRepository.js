@@ -27,16 +27,9 @@ class WPAuthRepository {
         return response;
     }
 
-    async updateVendorSettings(payload, token) {
-        const endpoint = `${WPDomain}/wp-json/dokan/v1/settings`;
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        };
-        const response = await axios
-            .put(endpoint, payload, config)
-            .then((res) => res.data);
+    async logout() {
+        const endpoint = `${WPDomain}/route`;
+        const response = await axios.post(endpoint).then((res) => res);
 
         return response;
     }
