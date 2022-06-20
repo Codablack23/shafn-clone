@@ -2493,3 +2493,40 @@
         display: inline;
     }
 }
+.ps__product-cart {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    > * {
+        width: 100%;
+    }
+
+    .ps-product__thumbnail {
+        max-width: 100px;
+    }
+    .ps__product-content{
+        width: 70%;
+        margin-left: 15px;
+        display: flex;
+        justify-content: space-between;
+       *{ 
+        color: #000;
+        font-weight: 600;
+        }
+        a{
+            font-weight: 600;
+        }
+    }
+    @include media('<md'){
+        margin-left: 8px;
+        .ps__product-content{
+            width: 100%;
+        }
+    }
+    @include media("<sm"){
+        .ps__product-content{
+            display: block;
+        }
+    }
+}
