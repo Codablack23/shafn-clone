@@ -119,7 +119,7 @@ const WPSearchHeader = () => {
             className="d-flex w-100 rounded-pill"
             style={
                 {
-                    height:"40px",
+                    height:"42px",
                     marginTop:"7px"
                 }
             }
@@ -139,7 +139,7 @@ const WPSearchHeader = () => {
                         borderTopLeftRadius: 30,
                         borderBottomLeftRadius: 30,
                         border: 'none',
-                        height:"40px"
+                        height:"42px"
                     }}>
                     {selectOptionView}
                 </div>
@@ -148,7 +148,7 @@ const WPSearchHeader = () => {
                 className="d-flex align-items-center bg-light"
                 style={{
                     width: '55%',
-                    height:"40px"
+                    height:"42px"
                 }}>
                 <input
                     ref={inputEl}
@@ -158,7 +158,7 @@ const WPSearchHeader = () => {
                     placeholder="I'm shopping for..."
                     style={{
                         border: 'none',
-                        height:"40px"
+                        height:"42px"
                     }}
                     onChange={(e) => setKeyword(e.target.value)}
                 />
