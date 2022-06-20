@@ -117,6 +117,12 @@ const WPSearchHeader = () => {
     return (
         <form
             className="d-flex w-100 rounded-pill"
+            style={
+                {
+                    height:"40px",
+                    marginTop:"7px"
+                }
+            }
             method="get"
             action="/"
             onSubmit={handleSubmit}>
@@ -125,7 +131,7 @@ const WPSearchHeader = () => {
                 style={{
                     width: '22.5%',
                 }}>
-                <select
+                <div
                     className="form-control"
                     style={{
                         backgroundColor: '#2A3147',
@@ -133,14 +139,16 @@ const WPSearchHeader = () => {
                         borderTopLeftRadius: 30,
                         borderBottomLeftRadius: 30,
                         border: 'none',
+                        height:"40px"
                     }}>
                     {selectOptionView}
-                </select>
+                </div>
             </div>
             <div
                 className="d-flex align-items-center bg-light"
                 style={{
                     width: '55%',
+                    height:"40px"
                 }}>
                 <input
                     ref={inputEl}
@@ -150,6 +158,7 @@ const WPSearchHeader = () => {
                     placeholder="I'm shopping for..."
                     style={{
                         border: 'none',
+                        height:"40px"
                     }}
                     onChange={(e) => setKeyword(e.target.value)}
                 />
