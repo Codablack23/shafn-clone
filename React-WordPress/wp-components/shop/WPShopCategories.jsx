@@ -1,6 +1,6 @@
-import React from 'react';
-import Link from 'next/link';
-import { categories } from '~/public/static/data/shopCategories';
+import React from "react";
+import Link from "next/link";
+import packageInfo from "~/public/static/data/shopCategories";
 
 const WPShopCategories = ({ sidebar }) => {
     let categoriesView;
@@ -14,7 +14,7 @@ const WPShopCategories = ({ sidebar }) => {
         ));
     };
     if (sidebar) {
-        categoriesView = categories.map((category, index) => {
+        categoriesView = packageInfo.categories.map((category, index) => {
             if (index < 6) {
                 return (
                     <div
@@ -36,7 +36,7 @@ const WPShopCategories = ({ sidebar }) => {
             }
         });
     } else {
-        categoriesView = categories.map((category) => {
+        categoriesView = packageInfo.categories.map((category) => {
             return (
                 <div
                     className="col-lg-3 col-md-4 col-sm-6 col-12 "
