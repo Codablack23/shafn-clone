@@ -77,9 +77,7 @@ class ProductRepository {
     const endpoint = `${WPDomain}/wp-json/dokan/v1/products/attributes`
     const config = this.getConfig()
 
-    const attributes = await axios
-      .get(endpoint_attributes, config)
-      .then((res) => res.data)
+    const attributes = await axios.get(endpoint, config).then((res) => res.data)
 
     let values = []
 
@@ -159,9 +157,11 @@ class ProductRepository {
     let newVariations = []
 
     for (const variation of Array.from(variations)) {
+      console.log("Attributes >>> ")
+      console.log(variation.attributes)
       await axios
         .put(
-          `${WPDomain}/wp-json/wc/v3/products/${productID}/variations/${variation.id}`,
+          `${WPDomain}/wp-json/dokan/v1/products/${productID}/variations/${variation.id}`,
           { attributes: variation.attributes },
           config
         )
@@ -221,7 +221,7 @@ class ProductRepository {
   }
 
   async getVariations(productID) {
-    const endpoint = `${WPDomain}/wp-json/wc/v3/products/${productID}/variations`
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/products/${productID}/variations`
     const config = this.getConfig()
 
     const response = axios.get(endpoint, config).then((res) => res.data)

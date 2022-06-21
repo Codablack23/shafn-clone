@@ -13,6 +13,7 @@ const ProductAttributes = ({
 }) => {
   const [userAttributes, setUserAttributes] = useState([])
   const [name, setName] = useState("")
+  const [error, setError] = useState("")
 
   const modifyAttribute = (newAttributes) => {
     setAttributes(newAttributes)
@@ -28,11 +29,10 @@ const ProductAttributes = ({
     }
     if (name) {
       // Check if attribute has been previously selected
-      let isSelected = attributes
-        .map((attribute) => attribute.name)
-        .includes(name)
 
-      if (!isSelected) {
+      const isSelected = attributes.find((attribute) => attribute.name === name)
+
+      if (isSelected === undefined) {
         // Add new attribute with name
         newAttribute.type = "select"
       }
@@ -267,6 +267,8 @@ const ProductAttributes = ({
           </select>
         </div>
       </div>
+
+      <p style={{ color: "red" }}>{error}</p>
 
       <button
         type="button"

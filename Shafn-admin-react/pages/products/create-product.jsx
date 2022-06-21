@@ -487,7 +487,7 @@ const CreateProductPage = () => {
           <div className="col-12 col-md-6 mt-5">
             <div className="mt-5">
               <Spin size="large" />
-              {progress === images.length * 100 && (
+              {progress !== images.length * 100 && (
                 <>
                   <Progress type="line" percent={progress} />
                   <span>{`${progress}%`}</span>

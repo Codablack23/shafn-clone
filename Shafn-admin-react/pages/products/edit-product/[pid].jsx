@@ -127,7 +127,11 @@ const EditProductPage = ({ pid }) => {
           setIsPriceValid(true)
         }, 4000)
       } else {
-        setProduct((product) => ({ ...product, [name]: value }))
+        setProduct((product) => ({
+          ...product,
+          [name]: value,
+          sale_price: value,
+        }))
       }
     }
 
@@ -724,9 +728,13 @@ const EditProductPage = ({ pid }) => {
             <div className="col-12 col-md-6 mt-5">
               <div className="mt-5">
                 <Spin size="large" />
-                <Progress type="line" percent={progress} />
-                {`${progress}%`}
-                <p>Uploading new images</p>
+                {progress !== images.length * 100 && (
+                  <>
+                    <Progress type="line" percent={progress} />
+                    {`${progress}%`}
+                    <p>Uploading new images</p>
+                  </>
+                )}
               </div>
             </div>
             <div className="col-12 col-md-3"></div>
