@@ -6,3 +6,7 @@ const generateSlug = (string) => {
     .join("-")
     .trim()
 }
+
+let array = [1, 2, 3].find((num) => num === 0)
+
+console.log(array !== undefined)

@@ -1,4 +1,3 @@
-import Router from "next/router"
 import { notification } from "antd"
 import { WPDomain, oathInfo, serializeQuery } from "./Repository"
 import FileRepository from "./FileRepository"
@@ -46,50 +45,67 @@ class ProductRepository {
   }
 
   async getProductByID(id) {
-    const config = this.getConfig()
-
-    const response = await axios
-      .get(`${WPDomain}/wp-json/dokan/v1/products/${id}`, config)
-      .then((res) => res.data)
-
-    return response
-  }
-
-  async uploadProduct(product) {
-    const endpoint = `${WPDomain}/wp-json/dokan/v1/products/`
-    const config = this.getConfig()
-
-    const response = await axios.post(endpoint, product, config)
-
-    return response
-  }
-
-  async updateProduct(id, product) {
     const endpoint = `${WPDomain}/wp-json/dokan/v1/products/${id}`
     const config = this.getConfig()
 
-    const response = await axios.put(endpoint, product, config)
+    const { data: response } = await axios.get(endpoint, config)
+
+    return response
+  }
+
+  async uploadProduct(payload) {
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/products/`
+    const config = this.getConfig()
+
+    const response = await axios.post(endpoint, payload, config)
+
+    return response
+  }
+
+  async updateProduct(id, payload) {
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/products/${id}`
+    const config = this.getConfig()
+
+    const { data: response } = await axios.put(endpoint, payload, config)
+
+    return response
+  }
+
+  async deleteProduct(id) {
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/products/${id}`
+    const config = this.getConfig()
+
+    const { data: response } = await axios.delete(endpoint, config)
+
+    return response
+  }
+
+  async getProductAttributes() {
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/products/attributes`
+    const config = this.getConfig()
+
+    const { data: response } = await axios.get(endpoint, config)
+
+    return response
+  }
+
+  async getProductAttributeTerms(attributeId) {
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/products/attributes/${attributeId}/terms`
+    const config = this.getConfig()
+
+    const { data: response } = await axios.get(endpoint, config)
 
     return response
   }
 
   async getUserAttributes() {
-    const endpoint = `${WPDomain}/wp-json/dokan/v1/products/attributes`
-    const config = this.getConfig()
-
-    const attributes = await axios.get(endpoint, config).then((res) => res.data)
+    const attributes = await this.getProductAttributes()
 
     let values = []
 
     for (const attribute of Array.from(attributes)) {
-      await axios
-        .get(`${endpoint}/${attribute.id}/terms`, config)
-        .then((res) => {
-          values.push(res.data)
-        })
-        .catch((err) => {
-          return
-        })
+      const terms = await this.getProductAttributeTerms(attribute.id)
+      values.push(terms)
     }
 
     const userAttributes = Array.from(attributes).map((attribute, index) => ({
@@ -102,29 +118,20 @@ class ProductRepository {
   }
 
   async saveAttributes(productID, productAttributes) {
-    let auth_token = localStorage.getItem("auth_token")
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth_token}`,
-      },
-    }
-
     // Update product type and attributes
-    let attributes = productAttributes.map((attribute, index) => ({
-      id: index,
+    const attributes = productAttributes.map((attribute, index) => ({
       name: attribute.name,
       options: attribute.options,
       visible: attribute.visible,
       variation: attribute.variation,
     }))
 
-    let product = await axios
-      .put(
-        `${WPDomain}/wp-json/dokan/v1/products/${productID}`,
-        { type: "variable", attributes },
-        config
-      )
-      .catch((err) => console.log(err))
+    console.log(attributes)
+
+    const product = await this.updateProduct(productID, {
+      type: "variable",
+      attributes,
+    })
 
     // Update all variation 'attributes' property
 
@@ -159,21 +166,16 @@ class ProductRepository {
     for (const variation of Array.from(variations)) {
       console.log("Attributes >>> ")
       console.log(variation.attributes)
-      await axios
-        .put(
-          `${WPDomain}/wp-json/dokan/v1/products/${productID}/variations/${variation.id}`,
-          { attributes: variation.attributes },
-          config
-        )
-        .then((res) => {
-          newVariations.push(res.data)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      const payload = { attributes: variation.attributes }
+      const newVariation = await this._updateVariation(
+        productID,
+        variation.id,
+        payload
+      )
+      newVariations.push(newVariation)
     }
 
-    return { attributes: product.data.attributes, newVariations }
+    return { attributes: product.attributes, newVariations }
 
     // Save/Update user attributes
 
@@ -224,47 +226,62 @@ class ProductRepository {
     const endpoint = `${WPDomain}/wp-json/dokan/v1/products/${productID}/variations`
     const config = this.getConfig()
 
-    const response = axios.get(endpoint, config).then((res) => res.data)
+    const { data: response } = await axios.get(endpoint, config)
 
     return response
   }
 
-  async createVariations(productID, attributePairs) {
-    const endpoint = `${WPDomain}/wp-json/wc/v3/products/${productID}/variations`
+  async createVariation(productId, payload) {
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/products/${productId}/variations`
     const config = this.getConfig()
 
+    const { data: response } = await axios.post(endpoint, payload, config)
+
+    return response
+  }
+
+  async createVariations(productId, attributePairs) {
     let variations = []
 
     for (const attributePair of Array.from(attributePairs)) {
-      await axios
-        .post(endpoint, { attributes: attributePair }, config)
-        .then((res) => {
-          variations.push(res.data)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      try {
+        let payload = {
+          attributes: attributePair,
+        }
+        let variation = await this.createVariation(productId, payload)
+
+        variations.push(variation)
+      } catch (error) {
+        console.log("CREATING VARIATIONS FAILED!!! >>> ")
+        console.log(error)
+      }
     }
 
     return variations
   }
 
-  async deleteVariation(productID, variationID) {
-    const endpoint = `${WPDomain}/wp-json/wc/v3/products/${productID}/variations/${variationID}`
+  async _updateVariation(productId, variationId, payload) {
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/products/${productId}/variations/${variationId}`
     const config = this.getConfig()
 
-    let response = axios.delete(endpoint, config).then((res) => res)
+    const { data: response } = await axios.put(endpoint, payload, config)
+
+    return response
+  }
+
+  async deleteVariation(productID, variationID) {
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/products/${productID}/variations/${variationID}`
+    const config = this.getConfig()
+
+    const response = axios.delete(endpoint, config)
 
     return response
   }
 
   async saveVariations(productID, variations) {
-    const endpoint = `${WPDomain}/wp-json/wc/v3/products/${productID}/variations/${variation.id}`
-    const config = this.getConfig()
-
     let productVariations = []
 
-    const updateVariation = (variation, image) => {
+    const updateVariation = async (variation, image) => {
       let in_stock =
         variation.in_stock === true || variation.in_stock === "true"
 
@@ -287,64 +304,43 @@ class ProductRepository {
         image,
       }
 
-      axios
-        .put(endpoint, variationData, config)
-        .then((res) => {
-          productVariations.push(res.data)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      const productVariation = await this._updateVariation(
+        productID,
+        variation.id,
+        variationData
+      )
+
+      productVariations.push(productVariation)
     }
 
     for (const variation of Array.from(variations)) {
       // Upload Image
       if (typeof variation.image.src === "string") {
-        updateVariation(variation, variation.image)
+        await updateVariation(variation, variation.image)
       } else {
-        let formData = new FormData()
-
-        formData.append("file", variation.image.src)
-
-        await axios
-          .post(`${WPDomain}/wp-json/wp/v2/media`, formData, config)
-          .then((res) => {
-            let image = { src: res.data.source_url }
-
-            updateVariation(variation, image)
+        try {
+          const image = await FileRepository.uploadImage(variation.image.src)
+          updateVariation(variation, { src: image })
+        } catch (error) {
+          notification["error"]({
+            message:
+              "Some images did not upload!. Check your data connection and try again.",
           })
-          .catch((err) => {
-            arr.length = index + 1
-            notification["error"]({
-              message:
-                "Some images did not upload!. Check your data connection and try again.",
-            })
-
-            setUploading({
-              status: "",
-              progress: 0,
-            })
-          })
+        }
       }
     }
 
-    let variationsIdList = productVariations.map((variation) => variation.id)
-    let product = await axios
-      .put(
-        `${WPDomain}/wp-json/dokan/v1/products/${productID}`,
-        { variations: variationsIdList },
-        config
-      )
-      .catch((err) => console.log(err))
+    const variationsIdList = productVariations.map((variation) => variation.id)
+    const product = await this.updateProduct(productID, variationsIdList)
 
-    return product.data.variations
+    return product.variations
   }
 
   async getCategories() {
     const endpoint = `${WPDomain}/wp-json/wc/v3/products/categories`
     const config = this.getConfig()
 
-    const response = axios.get(endpoint, config).then((res) => res.data)
+    const { data: response } = await axios.get(endpoint, config)
 
     return response
   }
@@ -353,7 +349,7 @@ class ProductRepository {
     const endpoint = `${WPDomain}/wp-json/wc/v3/products/tags`
     const config = this.getConfig()
 
-    const response = axios.get(endpoint, config).then((res) => res.data)
+    const { data: response } = await axios.get(endpoint, config)
 
     return response
   }
@@ -374,15 +370,13 @@ class ProductRepository {
 
     const endpoint = `${WPDomain}/wp-json/wc/v3/products/tags`
 
-    const response = axios
-      .post(
-        endpoint,
-        {
-          name,
-        },
-        config
-      )
-      .then((res) => res.data)
+    const { data: response } = await axios.post(
+      endpoint,
+      {
+        name,
+      },
+      config
+    )
 
     return response
   }

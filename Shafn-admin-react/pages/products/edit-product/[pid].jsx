@@ -325,29 +325,47 @@ const EditProductPage = ({ pid }) => {
       setCurrentImages(currentImages)
     } catch (err) {
       notification["error"]({
-        message: "Unable To Get Product",
+        message: "UNABLE TO GET PRODUCT",
         description: "Check your data connection and try again.",
       })
     }
   }
 
   const getCategories = async () => {
-    const categories = await ProductRepository.getCategories()
+    try {
+      const categories = await ProductRepository.getCategories()
 
-    setCategories(categories)
+      setCategories(categories)
+    } catch (error) {
+      notification["error"]({
+        message: "UNABLE TO GET PRODUCT CATEGORIES",
+      })
+    }
   }
 
   const getTags = async () => {
-    const tags = await ProductRepository.getTags()
+    try {
+      const tags = await ProductRepository.getTags()
 
-    let tagOptions = tags.map((tag) => ({ value: tag.id, label: tag.name }))
-    setTagOptions(tagOptions)
+      let tagOptions = tags.map((tag) => ({ value: tag.id, label: tag.name }))
+      setTagOptions(tagOptions)
+    } catch (error) {
+      notification["error"]({
+        message: "UNABLE TO GET PRODUCT TAGS",
+      })
+    }
   }
 
   const getVariations = async () => {
-    const variations = await ProductRepository.getVariations(pid)
+    try {
+      const variations = await ProductRepository.getVariations(pid)
 
-    setVariations(variations)
+      setVariations(variations)
+    } catch (error) {
+      notification["error"]({
+        message: "UNABLE TO GET PRODUCT VARIATIONS",
+      })
+    }
   }
 
   useEffect(() => {
@@ -468,6 +486,7 @@ const EditProductPage = ({ pid }) => {
                         Discounted price must be less than the Sale price
                       </p>
                     </div>
+
                     <div className="form-group form-group--select">
                       <label>
                         Category<sup>*</sup>
@@ -697,7 +716,7 @@ const EditProductPage = ({ pid }) => {
                     />
                     {product.attributes.length > 0 ? (
                       <ProductVariations
-                        productID={pid}
+                        productId={pid}
                         productAttributes={product.attributes}
                         variations={variations}
                         setVariations={setVariations}

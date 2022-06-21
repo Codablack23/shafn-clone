@@ -1,165 +1,188 @@
-import React, { useState } from "react";
-import { notification } from "antd";
-import Variation from "./modules/Variation";
-import ProductRepository from "~/repositories/ProductRepository";
+import React, { useState } from "react"
+import { notification } from "antd"
+import Variation from "./modules/Variation"
+import ProductRepository from "~/repositories/ProductRepository"
 
 const ProductVariations = ({
-  productID,
+  productId,
   productAttributes,
   variations,
   setVariations,
   setProduct,
 }) => {
-  const [action, setAction] = useState("addVariation");
+  const [action, setAction] = useState("addVariation")
 
   const pairAttributes = async () => {
-    const product = await ProductRepository.getProductByID(productID);
+    try {
+      const product = await ProductRepository.getProductByID(productId)
 
-    let variationAttributes = product.attributes
-      .filter(
-        (attribute) =>
-          attribute.name && attribute.variation && attribute.options.length > 0
-      )
-      .map((attribute) =>
-        attribute.options.map((option, index) => ({
-          name: attribute.name,
-          option,
-        }))
-      );
+      let variationAttributes = product.attributes
+        .filter(
+          (attribute) =>
+            attribute.name &&
+            attribute.variation &&
+            attribute.options.length > 0
+        )
+        .map((attribute) =>
+          attribute.options.map((option, _) => ({
+            name: attribute.name,
+            option,
+          }))
+        )
 
-    let attributePairs = [];
+      let attributePairs = []
 
-    if (variationAttributes.length > 1) {
-      attributePairs = variationAttributes[0].map((el) => [el]);
+      if (variationAttributes.length > 1) {
+        attributePairs = variationAttributes[0].map((el) => [el])
 
-      let newAttributePairs = [];
+        let newAttributePairs = []
 
-      for (let i = 1; i < variationAttributes.length; i++) {
-        variationAttributes[i].forEach((element, j) => {
-          attributePairs.forEach((attributePair) => {
-            newAttributePairs.push([
-              ...attributePair,
-              variationAttributes[i][j],
-            ]);
-          });
-        });
+        for (let i = 1; i < variationAttributes.length; i++) {
+          variationAttributes[i].forEach((element, j) => {
+            attributePairs.forEach((attributePair) => {
+              newAttributePairs.push([
+                ...attributePair,
+                variationAttributes[i][j],
+              ])
+            })
+          })
 
-        attributePairs = newAttributePairs;
-        newAttributePairs = [];
+          attributePairs = newAttributePairs
+          newAttributePairs = []
+        }
       }
-    }
-    if (variationAttributes.length === 1) {
-      attributePairs = variationAttributes[0].map((attribute) => [attribute]);
-    }
+      if (variationAttributes.length === 1) {
+        attributePairs = variationAttributes[0].map((attribute) => [attribute])
+      }
 
-    return attributePairs;
-  };
+      return attributePairs
+    } catch (error) {
+      console.log(
+        "SOMETHING WENT WRONG WHEN TRYING TO CREATE PAIR ATTRIBUTES!!!"
+      )
+      console.log(error)
+    }
+  }
 
   const removeExistingAttributePairs = async () => {
-    let attributePairs = await pairAttributes();
-    let existingAttributePairs = variations.map((variation) =>
-      variation.attributes.map((attribute) => attribute.option)
-    );
+    try {
+      let attributePairs = await pairAttributes()
+      let existingAttributePairs = variations.map((variation) =>
+        variation.attributes.map((attribute) => attribute.option)
+      )
 
-    let newAttributePairs = [];
+      let newAttributePairs = []
 
-    for (const attributePair of Array.from(attributePairs)) {
-      let exists = false;
+      for (const attributePair of Array.from(attributePairs)) {
+        let exists = false
 
-      // Check if attribute pair exists in a variation
-      for (const existingPair of Array.from(existingAttributePairs)) {
-        if (attributePair.length !== existingPair.length) continue;
+        // Check if attribute pair exists in a variation
+        for (const existingPair of Array.from(existingAttributePairs)) {
+          if (attributePair.length !== existingPair.length) continue
 
-        let optionsMatch = true;
+          let optionsMatch = true
 
-        // Check if attribute pair options matches the pair options of existing attributes
-        for (const attribute of Array.from(attributePair)) {
-          if (!existingPair.includes(attribute.option)) {
-            optionsMatch = false;
-            break;
+          // Check if attribute pair options matches the pair options of existing attributes
+          for (const attribute of Array.from(attributePair)) {
+            if (!existingPair.includes(attribute.option)) {
+              optionsMatch = false
+              break
+            }
+          }
+
+          if (optionsMatch) {
+            exists = true
+            break
           }
         }
 
-        if (optionsMatch) {
-          exists = true;
-          break;
-        }
+        if (!exists) newAttributePairs.push(attributePair)
       }
 
-      if (!exists) newAttributePairs.push(attributePair);
+      return newAttributePairs
+    } catch (error) {
+      console.log(
+        "SOMETHING WENT WRONG WHEN TRYING TO REMOVE EXISTING ATTRIBUTE PAIRS!!!"
+      )
+      console.log(error)
     }
-
-    return newAttributePairs;
-  };
+  }
 
   const createVariations = async () => {
     if (action === "createVariations") {
-      let attributePairs = await removeExistingAttributePairs();
+      try {
+        let attributePairs = await removeExistingAttributePairs() // So we only upload the new attributes
 
-      let newVariations = await ProductRepository.createVariations(
-        productID,
-        attributePairs
-      );
+        console.log("Attribute Pairs >>> ")
+        console.log(attributePairs)
 
-      if (newVariations) {
+        let newVariations = await ProductRepository.createVariations(
+          productId,
+          attributePairs
+        )
+
         if (newVariations.length === 0) {
-          notification["warning"]({
+          notification["info"]({
             message: "All Attributes Pair already exists",
-          });
+          })
         } else {
           notification["success"]({
             message: `${newVariations.length} Variations Added!`,
-          });
+          })
         }
-      }
 
-      setVariations((variations) => [...newVariations, ...variations]);
+        setVariations((variations) => [...newVariations, ...variations])
+      } catch (error) {
+        console.log("SOMETHING WENT WRONG WHEN TRYING TO CREATE VARIATIONS!!!")
+        console.log(error)
+      }
     }
 
     if (action === "addVariation") {
-      const product = await ProductRepository.getProductByID(productID);
+      const product = await ProductRepository.getProductByID(productId)
 
-      let attributePair = Array.from(product.attributes).map((attribute) => ({
+      /* Use each product attribute name with a blank option */
+      const attributePair = Array.from(product.attributes).map((attribute) => ({
         name: attribute.name,
         option: "",
-      }));
+      }))
 
-      let variation = await ProductRepository.createVariations(productID, [
+      const variation = await ProductRepository.createVariations(productId, [
         attributePair,
-      ]);
+      ])
 
-      setVariations((variations) => [...variation, ...variations]);
+      setVariations((variations) => [...variation, ...variations])
     }
-  };
+  }
 
   const saveVariations = async () => {
     let productVariations = await ProductRepository.saveVariations(
-      productID,
+      productId,
       variations
-    );
+    )
 
     if (productVariations) {
       notification["success"]({
         message: `Variations Saved Successfully`,
-      });
+      })
     }
 
     setProduct((product) => ({
       ...product,
       variations: productVariations,
-    }));
-  };
+    }))
+  }
 
   const renderVariations = () =>
     Array.from(variations).map((variation) => (
       <Variation
         key={variation.id}
         variation={variation}
-        productID={productID}
+        productId={productId}
         productAttributes={productAttributes}
         setVariations={setVariations}
       />
-    ));
+    ))
 
   return (
     <div style={{ marginTop: 50 }}>
@@ -195,7 +218,7 @@ const ProductVariations = ({
         </button>
       ) : null}
     </div>
-  );
-};
+  )
+}
 
-export default ProductVariations;
+export default ProductVariations

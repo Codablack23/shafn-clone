@@ -46,36 +46,136 @@ const ProductAttributes = ({
   const saveAttributes = async () => {
     let errors = attributes.filter((attribute) => attribute.error)
     if (errors.length === 0) {
-      let response = await ProductRepository.saveAttributes(
-        productID,
-        attributes,
-        setAttributes
+      const productAttributes = attributes.map((attribute, index) => ({
+        name: attribute.name,
+        options: attribute.options,
+        visible: attribute.visible,
+        variation: attribute.variation,
+      }))
+
+      console.log("<<< Product Attributes Before Update >>>")
+      console.log(productAttributes)
+
+      /* Update product with selected attributes */
+      const updatedProduct = await ProductRepository.updateProduct(productID, {
+        type: "variable",
+        attributes: productAttributes,
+      })
+
+      let variations = await ProductRepository.getVariations(productID)
+
+      const attributesForVariations = productAttributes.filter(
+        (attribute) => attribute.variation
       )
 
-      if (response) {
-        console.log(response.attributes)
-        notification["success"]({
-          message: "Attributes Saved Successfully",
+      /* Update variation with new attributes */
+      const updateVariation = (variation) => {
+        /* Remove deleted attributes from variation attributes */
+        let variationAttributes = variation.attributes.filter((attribute) =>
+          attributesForVariations
+            .map((_attribute) => _attribute.name)
+            .includes(attribute.name)
+        )
+
+        /* Add new attributes to variation attributes */
+        attributesForVariations.forEach((attribute) => {
+          const isAttributeInVariationAttributes = variationAttributes
+            .map((variationAttribute) => variationAttribute.name)
+            .includes(attribute.name)
+
+          if (!isAttributeInVariationAttributes) {
+            const newAttribute = {
+              name: attribute.name,
+              option: "",
+            }
+
+            variationAttributes.push(newAttribute)
+          }
         })
 
-        setProduct((product) => ({
-          ...product,
-          attributes: response.attributes,
-        }))
-
-        setVariations((variations) =>
-          variations.map((variation) => {
-            let newVariationData = response.newVariations.find(
-              (newVariation) => newVariation.id === variation.id
-            )
-
-            return {
-              ...variation,
-              attributes: newVariationData.attributes,
-            }
-          })
-        )
+        /* Variation attributes must be equal to product attributes for variations */
+        if (variationAttributes.length === attributesForVariations.length) {
+          const newVariation = {
+            ...variation,
+            attributes: variationAttributes,
+          }
+          return newVariation
+        } else {
+          console.log(
+            `FAILED TO UPDATE VARIATION ATTRIBUTES OF VARIATION ID >>> ${variation.id}`
+          )
+          return variation
+        }
       }
+
+      /* Update each variation with new attributes */
+      variations = variations.map((variation) => updateVariation(variation))
+
+      console.log("<<< Edited Variations >>>")
+      console.log(variations)
+
+      let newVariations = []
+
+      /* Update each variation  */
+      for (const variation of Array.from(variations)) {
+        try {
+          const newVariation = await ProductRepository._updateVariation(
+            productID,
+            variation.id,
+            variation
+          )
+          newVariations.push(newVariation)
+        } catch (error) {
+          console.log("!!! FAILED TO UPDATE VARIATION !!!")
+          console.log(error)
+        }
+      }
+
+      console.log("<<< Updated Variations >>>")
+      console.log(newVariations)
+
+      console.log("<<< Updated Product Attributes >>> ")
+      console.log(updatedProduct.attributes)
+
+      notification["success"]({
+        message: "Attributes Saved Successfully",
+      })
+
+      const updateProductAttributes = (product) => ({
+        ...product,
+        attributes: updatedProduct.attributes,
+      })
+
+      const updateVariationAttributes = (variation) => {
+        const newVariation = newVariations.find((_newVariation) => {
+          console.log(`>>> Variation Id => ${variation.id}`)
+          console.log(`>>> New Variation Id => ${_newVariation.id}`)
+          return _newVariation.id === variation.id
+        })
+
+        console.log("<<< New Variation >>>")
+        console.log(newVariation)
+
+        // if (newVariation !== undefined) {
+        //   return {
+        //     ...variation,
+        //     attributes: newVariation.attributes,
+        //   }
+        // } else {
+        //   console.log("!!! FAILED TO UPDATE VARIATION ATTRIBUTES IN UI !!!")
+        return variation
+        // }
+      }
+
+      setProduct((product) => updateProductAttributes(product))
+
+      setVariations((variations) =>
+        variations.map((variation) => updateVariationAttributes(variation))
+      )
+    } else {
+      notification["error"]({
+        message: "Unresolved attribute errors!",
+      })
     }
   }
 
@@ -205,13 +305,13 @@ const ProductAttributes = ({
   const renderAttributes = () => {
     return attributes.map((attribute, i) => {
       let userAttribute
-      let attributeID = null
+      // let attributeID = null
       let defaultOptions = []
       if (attribute.type === "select" && userAttributes.length > 0) {
         userAttribute = userAttributes.find(
           (attr) => attr.name.toLowerCase() === attribute.name.toLowerCase()
         )
-        attributeID = userAttribute.id
+        // attributeID = userAttribute.id
       }
       if (userAttribute !== undefined) {
         defaultOptions = userAttribute.values
