@@ -17,12 +17,7 @@ const ProductVariations = ({
       const product = await ProductRepository.getProductByID(productId)
 
       let variationAttributes = product.attributes
-        .filter(
-          (attribute) =>
-            attribute.name &&
-            attribute.variation &&
-            attribute.options.length > 0
-        )
+        .filter((attribute) => attribute.variation)
         .map((attribute) =>
           attribute.options.map((option, _) => ({
             name: attribute.name,
@@ -31,6 +26,10 @@ const ProductVariations = ({
         )
 
       let attributePairs = []
+
+      if (variationAttributes.length === 1) {
+        attributePairs = variationAttributes[0].map((attribute) => [attribute])
+      }
 
       if (variationAttributes.length > 1) {
         attributePairs = variationAttributes[0].map((el) => [el])
@@ -50,9 +49,6 @@ const ProductVariations = ({
           attributePairs = newAttributePairs
           newAttributePairs = []
         }
-      }
-      if (variationAttributes.length === 1) {
-        attributePairs = variationAttributes[0].map((attribute) => [attribute])
       }
 
       return attributePairs
@@ -102,7 +98,7 @@ const ProductVariations = ({
       return newAttributePairs
     } catch (error) {
       console.log(
-        "SOMETHING WENT WRONG WHEN TRYING TO REMOVE EXISTING ATTRIBUTE PAIRS!!!"
+        "!!! SOMETHING WENT WRONG WHEN TRYING TO REMOVE EXISTING ATTRIBUTE PAIRS !!!"
       )
       console.log(error)
     }
@@ -113,7 +109,7 @@ const ProductVariations = ({
       try {
         let attributePairs = await removeExistingAttributePairs() // So we only upload the new attributes
 
-        console.log("Attribute Pairs >>> ")
+        console.log("<<< Attribute Pairs >>> ")
         console.log(attributePairs)
 
         let newVariations = await ProductRepository.createVariations(

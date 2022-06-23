@@ -360,6 +360,9 @@ const EditProductPage = ({ pid }) => {
     try {
       const variations = await ProductRepository.getVariations(pid)
 
+      console.log("<<< Variations >>>")
+      console.log(variations)
+
       setVariations(variations)
     } catch (error) {
       notification["error"]({
@@ -708,7 +711,7 @@ const EditProductPage = ({ pid }) => {
                   <figcaption>Attributes and Variations</figcaption>
                   <div className="ps-block__content">
                     <ProductAttributes
-                      productID={pid}
+                      productId={pid}
                       attributes={attributes}
                       setAttributes={setAttributes}
                       setVariations={setVariations}

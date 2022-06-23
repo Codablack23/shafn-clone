@@ -242,7 +242,7 @@ const Variation = ({
         <option
           key={option}
           value={option}
-          disabled={option === attributeOption ? true : false}
+          disabled={option === attributeOption}
         >
           {option}
         </option>
@@ -263,7 +263,7 @@ const Variation = ({
               name={attribute.name}
               className="ps-select"
               title={attribute.name}
-              defaultValue={attribute.option}
+              value={attribute.option}
               onChange={handleInputChange}
             >
               <option value="">Any {attribute.name}</option>

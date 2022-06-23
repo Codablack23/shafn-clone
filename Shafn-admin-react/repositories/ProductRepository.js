@@ -117,113 +117,8 @@ class ProductRepository {
     return userAttributes
   }
 
-  async saveAttributes(productID, productAttributes) {
-    // Update product type and attributes
-    const attributes = productAttributes.map((attribute, index) => ({
-      name: attribute.name,
-      options: attribute.options,
-      visible: attribute.visible,
-      variation: attribute.variation,
-    }))
-
-    console.log(attributes)
-
-    const product = await this.updateProduct(productID, {
-      type: "variable",
-      attributes,
-    })
-
-    // Update all variation 'attributes' property
-
-    let variations = await this.getVariations(productID)
-
-    const updateVariationAttributes = (variation) => {
-      let newAttributes = productAttributes
-        .filter((attribute) => attribute.variation)
-        .map((attribute) => {
-          let prevAttribute = variation.attributes.find(
-            (attr) => attr.name === attribute.name
-          )
-          let newAttribute = {
-            name: attribute.name,
-            option: prevAttribute !== undefined ? prevAttribute.option : "",
-          }
-
-          return newAttribute
-        })
-
-      return {
-        ...variation,
-        attributes: newAttributes,
-      }
-    }
-
-    variations = variations.map(updateVariationAttributes)
-
-    // Update variations
-    let newVariations = []
-
-    for (const variation of Array.from(variations)) {
-      console.log("Attributes >>> ")
-      console.log(variation.attributes)
-      const payload = { attributes: variation.attributes }
-      const newVariation = await this._updateVariation(
-        productID,
-        variation.id,
-        payload
-      )
-      newVariations.push(newVariation)
-    }
-
-    return { attributes: product.attributes, newVariations }
-
-    // Save/Update user attributes
-
-    // let userAttributes = await this.getUserAttributes();
-
-    // console.log("Old Attributes: ", userAttributes);
-
-    // for (const attribute of Array.from(productAttributes)) {
-    //   let currentAttr = userAttributes.find(
-    //     (attr) => attr.name.toLowerCase() === attribute.name.toLowerCase()
-    //   );
-    //   if (currentAttr !== undefined) {
-    //     for (const value of Array.from(attribute.value)) {
-    //       let isValueAdded = currentAttr.values.includes(value);
-    //       if (!isValueAdded) {
-    //         await axios.post(
-    //           `${WPDomain}/wp-json/dokan/v1/products/attributes/${currentAttr.id}/terms`,
-    //           { name: value },
-    //           config
-    //         );
-    //       }
-    //     }
-    //   } else {
-    //     await axios
-    //       .post(
-    //         `${WPDomain}/wp-json/dokan/v1/products/attributes`,
-    //         { name: attribute.name },
-    //         config
-    //       )
-    //       .then((res) => {
-    //         attribute.values.forEach((value) => {
-    //           axios.post(
-    //             `${WPDomain}/wp-json/dokan/v1/products/attributes/${res.data.id}/terms`,
-    //             { name: value },
-    //             config
-    //           );
-    //         });
-    //       });
-    //   }
-    // }
-
-    // let userAttr = await this.getUserAttributes();
-
-    // console.log("New Attributes: ", userAttr);
-  }
-
-  async getVariations(productID) {
-    const endpoint = `${WPDomain}/wp-json/dokan/v1/products/${productID}/variations`
+  async getVariations(productId) {
+    const endpoint = `${WPDomain}/wp-json/wc/v3/products/${productId}/variations`
     const config = this.getConfig()
 
     const { data: response } = await axios.get(endpoint, config)
@@ -252,7 +147,7 @@ class ProductRepository {
 
         variations.push(variation)
       } catch (error) {
-        console.log("CREATING VARIATIONS FAILED!!! >>> ")
+        console.log("!!! CREATING VARIATIONS FAILED !!!")
         console.log(error)
       }
     }
@@ -273,7 +168,7 @@ class ProductRepository {
     const endpoint = `${WPDomain}/wp-json/dokan/v1/products/${productID}/variations/${variationID}`
     const config = this.getConfig()
 
-    const response = axios.delete(endpoint, config)
+    const response = await axios.delete(endpoint, config)
 
     return response
   }
@@ -331,7 +226,9 @@ class ProductRepository {
     }
 
     const variationsIdList = productVariations.map((variation) => variation.id)
-    const product = await this.updateProduct(productID, variationsIdList)
+    const product = await this.updateProduct(productID, {
+      variations: variationsIdList,
+    })
 
     return product.variations
   }
