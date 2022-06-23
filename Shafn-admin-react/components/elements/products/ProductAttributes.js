@@ -44,7 +44,7 @@ const ProductAttributes = ({
     modifyAttribute([newAttribute, ...attributes])
   }
 
-  const pairAttributes = async () => {
+  const createAttributePairs = async () => {
     try {
       const product = await ProductRepository.getProductByID(productId)
 
@@ -103,6 +103,7 @@ const ProductAttributes = ({
           variation: attribute.variation,
         }))
 
+        console.log("Saving Product Attributes...")
         /* Update product with selected attributes */
         const updatedProduct = await ProductRepository.updateProduct(
           productId,
@@ -112,137 +113,139 @@ const ProductAttributes = ({
           }
         )
 
-        let variations = await ProductRepository.getVariations(productId)
+        console.log("Saved Attributes Successfully")
 
-        // const attributesForVariations = productAttributes.filter(
-        //   (attribute) => attribute.variation
-        // )
-
-        // /* Update variation with new attributes */
-        // const updateVariation = (variation) => {
-        //   /* Remove deleted attributes from variation attributes */
-        //   let variationAttributes = variation.attributes.filter((attribute) =>
-        //     attributesForVariations
-        //       .map((_attribute) => _attribute.name)
-        //       .includes(attribute.name)
-        //   )
-
-        //   /* Add new attributes to variation attributes */
-        //   attributesForVariations.forEach((attribute) => {
-        //     const isAttributeInVariationAttributes = variationAttributes
-        //       .map((variationAttribute) => variationAttribute.name)
-        //       .includes(attribute.name)
-
-        //     if (!isAttributeInVariationAttributes) {
-        //       const newAttribute = {
-        //         name: attribute.name,
-        //         option: "",
-        //       }
-
-        //       variationAttributes.push(newAttribute)
-        //     }
-        //   })
-
-        //   /* Variation attributes must be equal to product attributes for variations */
-        //   if (variationAttributes.length === attributesForVariations.length) {
-        //     const newVariation = {
-        //       ...variation,
-        //       attributes: variationAttributes,
-        //     }
-        //     return newVariation
-        //   } else {
-        //     console.log(
-        //       `FAILED TO UPDATE VARIATION ATTRIBUTES OF VARIATION ID >>> ${variation.id}`
-        //     )
-        //     return variation
-        //   }
-        // }
-
-        // /* Update each variation with new attributes */
-        // variations = variations.map((variation) => updateVariation(variation))
-
-        // console.log("<<< Edited Variations >>>")
-        // console.log(variations)
-
-        const attributePairs = await pairAttributes()
-
-        console.log("<<< Attribute Pairs >>>")
-        console.log(attributePairs)
-
-        /* Update exisitng variations with new attribute pairs */
-        if (
-          attributePairs.length > variations.length &&
-          variations.length > 0
-        ) {
-          variations = variations.map((variation, index) => {
-            return {
-              ...variation,
-              attributes: attributePairs[index],
-            }
-          })
-
-          /* Use pairs not used in existing variations */
-          attributePairs.splice(0, variations.length)
-        } else if (
-          attributePairs.length < variations.length &&
-          variations.length > 0
-        ) {
-          // Do something
-        } else {
-          // Do something
-        }
-        console.log("<<< New Variations >>>")
-        console.log(variations)
-
-        console.log("<<< New Attribute Pairs >>>")
-        console.log(attributePairs)
-
-        let newVariations = []
-
-        /* Update exisiting variations  */
-        console.log("Updating Existing Variations...")
-        for (const variation of Array.from(variations)) {
-          try {
-            // const newVariation = await ProductRepository._updateVariation(
-            //   productId,
-            //   variation.id,
-            //   variation
-            // )
-            newVariations.push(variation)
-          } catch (error) {
-            console.log("!!! FAILED TO UPDATE VARIATION !!!")
-            console.log(error)
-          }
-        }
-
-        console.log("<<< Updated Variations >>>")
-        console.log(newVariations)
+        /* Update UI with new attributes */
+        setProduct((product) => ({
+          ...product,
+          attributes: updatedProduct.attributes,
+        }))
 
         notification["success"]({
           message: "Attributes Saved Successfully",
         })
 
-        const updateProductAttributes = (product) => ({
-          ...product,
-          attributes: updatedProduct.attributes,
-        })
+        const variations = await ProductRepository.getVariations(productId)
 
-        const updateVariationAttributes = (variation) => {
-          const newVariation = newVariations.find(
-            (_newVariation) => _newVariation.id === variation.id
+        if (variations.length > 0) {
+          const attributesForVariations = productAttributes.filter(
+            (attribute) => attribute.variation
           )
 
-          return {
-            ...variation,
-            attributes: newVariation.attributes,
+          const attributePairs = await createAttributePairs()
+
+          let newVariations = []
+
+          /* Update variation with new attributes */
+          const updateVariation = (variation) => {
+            /* Remove deleted attributes from variation attributes */
+            const variationAttributes = variation.attributes.filter(
+              (attribute) =>
+                attributesForVariations
+                  .map((_attribute) => _attribute.name)
+                  .includes(attribute.name)
+            )
+
+            /* Add new attributes to variation attributes */
+            attributesForVariations.forEach((attribute) => {
+              const isAttributeInVariationAttributes = variationAttributes
+                .map((variationAttribute) => variationAttribute.name)
+                .includes(attribute.name)
+
+              if (!isAttributeInVariationAttributes) {
+                const newAttribute = {
+                  name: attribute.name,
+                  option: `Any ${attribute.name}`,
+                }
+
+                variationAttributes.push(newAttribute)
+              }
+            })
+
+            /* Variation attributes must be equal to product attributes for variations */
+            if (variationAttributes.length === attributesForVariations.length) {
+              const newVariation = {
+                ...variation,
+                attributes: variationAttributes,
+              }
+              return newVariation
+            } else {
+              console.log(
+                `!!! FAILED TO UPDATE VARIATION ATTRIBUTES OF VARIATION ID ${variation.id} !!!`
+              )
+              return variation
+            }
           }
+
+          /* Update each variation with new attributes */
+          newVariations = variations.map((variation) =>
+            updateVariation(variation)
+          )
+
+          //   /* Update attribute pairs in current variations */
+          //   variations = variations.map((variation, index) => {
+          //     return {
+          //       ...variation,
+          //       attributes: attributePairs[index],
+          //     }
+          //   })
+
+          //   /* Remove the pairs used in current variations */
+          //   attributePairs.splice(0, variations.length)
+
+          //   /* Update current variations with new attribute pairs */
+          //   const updatedVariations = await ProductRepository.updateVariations(
+          //     productId,
+          //     variations
+          //   )
+
+          //   /* Create new variations with attribute pairs not used in current variations */
+          //   const createdVariations = await ProductRepository.createVariations(
+          //     productId,
+          //     attributePairs
+          //   )
+
+          //   newVariations = [...updatedVariations, ...createdVariations].sort(
+          //     (a, b) => a.id - b.id
+          //   )
+
+          if (attributePairs.length < newVariations.length) {
+            /* Delete redundant variations */
+            const variationsToDelete = newVariations.splice(
+              attributePairs.length
+            )
+
+            await ProductRepository.deleteVariations(
+              productId,
+              variationsToDelete
+            )
+          }
+
+          /* Update variations with new attribute pairs */
+          const updatedVariations = await ProductRepository.updateVariations(
+            productId,
+            newVariations
+          )
+
+          setVariations((variations) => {
+            const _variations = []
+            variations.forEach((variation) => {
+              /* Update variation attributes */
+              const newVariation = updatedVariations.find(
+                (_variation) => _variation.id === variation.id
+              )
+
+              if (newVariation !== undefined) {
+                _variations.push({
+                  ...variation,
+                  attributes: newVariation.attributes,
+                })
+              }
+            })
+
+            return _variations
+          })
         }
-
-        setProduct((product) => updateProductAttributes(product))
-
-        setVariations((variations) =>
-          variations.map((variation) => updateVariationAttributes(variation))
-        )
       } catch (error) {
         console.log(
           "!!! SOMETHING WENT WRONG WHEN TRYING TO SAVE ATTRIBUTES !!!"

@@ -136,6 +136,7 @@ class ProductRepository {
   }
 
   async createVariations(productId, attributePairs) {
+    console.log("Creating Variations...")
     let variations = []
 
     for (const attributePair of Array.from(attributePairs)) {
@@ -147,7 +148,7 @@ class ProductRepository {
 
         variations.push(variation)
       } catch (error) {
-        console.log("!!! CREATING VARIATIONS FAILED !!!")
+        console.log("!!! FAILED TO CREATE VARIATIONS !!!")
         console.log(error)
       }
     }
@@ -155,7 +156,7 @@ class ProductRepository {
     return variations
   }
 
-  async _updateVariation(productId, variationId, payload) {
+  async updateVariation(productId, variationId, payload) {
     const endpoint = `${WPDomain}/wp-json/dokan/v1/products/${productId}/variations/${variationId}`
     const config = this.getConfig()
 
@@ -164,13 +165,49 @@ class ProductRepository {
     return response
   }
 
+  async updateVariations(productId, variations) {
+    console.log("Updating Variations...")
+
+    let updatedVariations = []
+    for (const variation of Array.from(variations)) {
+      try {
+        const updatedVariation = await this.updateVariation(
+          productId,
+          variation.id,
+          variation
+        )
+        updatedVariations.push(updatedVariation)
+      } catch (error) {
+        console.log(`!!! FAILED TO UPDATE VARIATION ${variation.id} !!!`)
+        console.log(error)
+      }
+    }
+
+    console.log("Updated Variations Successfully")
+
+    return updatedVariations
+  }
+
   async deleteVariation(productID, variationID) {
     const endpoint = `${WPDomain}/wp-json/dokan/v1/products/${productID}/variations/${variationID}`
     const config = this.getConfig()
 
-    const response = await axios.delete(endpoint, config)
+    await axios.delete(endpoint, config)
+  }
 
-    return response
+  async deleteVariations(productId, variations) {
+    console.log("Deleting Variations...")
+
+    for (const variation of Array.from(variations)) {
+      try {
+        await this.deleteVariation(productId, variation.id, variation)
+      } catch (error) {
+        console.log(`!!! FAILED TO DELETE VARIATION ${variation.id} !!!`)
+        console.log(error)
+      }
+    }
+
+    console.log("Deleted Variations Successfully")
   }
 
   async saveVariations(productID, variations) {
@@ -199,7 +236,7 @@ class ProductRepository {
         image,
       }
 
-      const productVariation = await this._updateVariation(
+      const productVariation = await this.updateVariation(
         productID,
         variation.id,
         variationData

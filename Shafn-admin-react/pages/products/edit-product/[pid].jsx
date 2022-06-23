@@ -360,9 +360,6 @@ const EditProductPage = ({ pid }) => {
     try {
       const variations = await ProductRepository.getVariations(pid)
 
-      console.log("<<< Variations >>>")
-      console.log(variations)
-
       setVariations(variations)
     } catch (error) {
       notification["error"]({

@@ -25,8 +25,8 @@
 
 // console.log(arraysEqual(arr1, arr2))
 
-let array = [1, 2, 3, 4, 5]
-
-array.splice(0, 4)
-
-console.log(array)
+console.log(
+  [1, 2, 3].map((num) => {
+    if (num > 2) return num
+  })
+)

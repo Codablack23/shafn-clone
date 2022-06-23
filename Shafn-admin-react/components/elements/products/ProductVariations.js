@@ -12,7 +12,7 @@ const ProductVariations = ({
 }) => {
   const [action, setAction] = useState("addVariation")
 
-  const pairAttributes = async () => {
+  const createAttributePairs = async () => {
     try {
       const product = await ProductRepository.getProductByID(productId)
 
@@ -62,7 +62,7 @@ const ProductVariations = ({
 
   const removeExistingAttributePairs = async () => {
     try {
-      let attributePairs = await pairAttributes()
+      let attributePairs = await createAttributePairs()
       let existingAttributePairs = variations.map((variation) =>
         variation.attributes.map((attribute) => attribute.option)
       )
@@ -138,16 +138,18 @@ const ProductVariations = ({
       const product = await ProductRepository.getProductByID(productId)
 
       /* Use each product attribute name with a blank option */
-      const attributePair = Array.from(product.attributes).map((attribute) => ({
-        name: attribute.name,
-        option: "",
-      }))
+      const attributePair = Array.from(product.attributes)
+        .filter((attribute) => attribute.variation)
+        .map((attribute) => ({
+          name: attribute.name,
+          option: `Any ${attribute.name}`,
+        }))
 
-      const variation = await ProductRepository.createVariations(productId, [
-        attributePair,
-      ])
+      const newVariation = await ProductRepository.createVariation(productId, {
+        attributes: attributePair,
+      })
 
-      setVariations((variations) => [...variation, ...variations])
+      setVariations((variations) => [newVariation, ...variations])
     }
   }
 
