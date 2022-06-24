@@ -1,16 +1,35 @@
 import React, { useState } from "react"
 import { notification } from "antd"
+
 import Variation from "./modules/Variation"
 import ProductRepository from "~/repositories/ProductRepository"
+import FileRepository from "~/repositories/FileRepository"
+import { arraysEqual } from "~/utilities/helperFunctions"
 
 const ProductVariations = ({
   productId,
   productAttributes,
   variations,
-  setVariations,
+  onVariationChange,
   setProduct,
 }) => {
   const [action, setAction] = useState("addVariation")
+
+  const updateDuplicatedAttributes = (prevAttributePair, newAttributePair) => {
+    const variationWithDuplicate = variations.find((variation) =>
+      arraysEqual(variation.attributes, newAttributePair)
+    )
+
+    if (variationWithDuplicate !== undefined) {
+      onVariationChange((variations) =>
+        variations.map((variation) =>
+          variation.id === variationWithDuplicate.id
+            ? { ...variation, attributes: prevAttributePair }
+            : variation
+        )
+      )
+    }
+  }
 
   const createAttributePairs = async () => {
     try {
@@ -63,6 +82,7 @@ const ProductVariations = ({
   const removeExistingAttributePairs = async () => {
     try {
       const attributePairs = await createAttributePairs()
+
       const existingAttributePairs = variations.map((variation) =>
         variation.attributes.map((attribute) => attribute.option)
       )
@@ -108,14 +128,14 @@ const ProductVariations = ({
     if (action === "createVariations") {
       try {
         let attributePairs = await removeExistingAttributePairs() // So we only upload the new attributes
-
+        console.log(attributePairs)
         if (attributePairs.length > 0) {
           let newVariations = await ProductRepository.createVariations(
             productId,
             attributePairs
           )
 
-          setVariations((variations) => [...newVariations, ...variations])
+          onVariationChange((variations) => [...newVariations, ...variations])
         } else {
           notification["info"]({
             message: "All Attributes Pair already exists",
@@ -142,26 +162,115 @@ const ProductVariations = ({
         attributes: attributePair,
       })
 
-      setVariations((variations) => [newVariation, ...variations])
+      onVariationChange((variations) => [newVariation, ...variations])
     }
+
+    console.log("DONE!")
   }
 
   const saveVariations = async () => {
-    let productVariations = await ProductRepository.saveVariations(
-      productId,
-      variations
-    )
+    console.log("Saving variations...")
 
-    if (productVariations) {
-      notification["success"]({
-        message: `Variations Saved Successfully`,
+    let productVariations = []
+    let numOfFailedImageUploads = 0
+    let numOfFailedVariationUpdates = 0
+
+    const updateVariation = async (variation, image) => {
+      /* Format variation properties */
+      const in_stock =
+        variation.in_stock === true || variation.in_stock === "true"
+
+      // Manage_stock data type is boolean but defau;t value is string "parant"
+      const manage_stock =
+        typeof variation.manage_stock === "string"
+          ? false
+          : variation.manage_stock
+
+      const stock_quantity = !in_stock ? 0 : Number(variation.stock_quantity)
+
+      const price = variation.price || variation.regular_price
+
+      const variationData = {
+        ...variation,
+        in_stock,
+        manage_stock,
+        stock_quantity,
+        price,
+        image: image,
+      }
+
+      const productVariation = await ProductRepository.updateVariation(
+        productId,
+        variation.id,
+        variationData
+      )
+
+      productVariations.push(productVariation)
+    }
+
+    for (const variation of Array.from(variations)) {
+      try {
+        if (typeof variation.image.src === "string") {
+          /* Image was not changed. Update variation with image data */
+          await updateVariation(variation, variation.image)
+        } else {
+          /* Image is new. Upload image before updating variation with image data  */
+          let image
+          try {
+            image = await FileRepository.uploadImage(variation.image.src)
+          } catch (error) {
+            numOfFailedImageUploads++
+            continue
+          }
+
+          await updateVariation(variation, image)
+        }
+      } catch (error) {
+        numOfFailedVariationUpdates++
+        continue
+      }
+    }
+
+    const variationsIdList = productVariations.map((variation) => variation.id)
+
+    /* Update product with variation ids */
+    try {
+      await ProductRepository.updateProduct(productId, {
+        variations: variationsIdList,
+      })
+    } catch (error) {
+      notification["error"]({
+        description:
+          "Failed to update product with variations. Your changes may not be reflected to viewers. Please check your network connection and try again.",
       })
     }
 
+    /* Notifications */
+    if (productVariations.length > 0) {
+      notification["success"]({
+        description: `${productVariations.length} variations saved successfully`,
+      })
+    }
+
+    if (numOfFailedVariationUpdates > 0) {
+      notification["warning"]({
+        description: `${numOfFailedVariationUpdates} variations failed to update. Please check your network connection and try again.`,
+      })
+    }
+
+    if (numOfFailedImageUploads > 0) {
+      notification["warning"]({
+        description: `${numOfFailedImageUploads} images failed to upload. Please check your network connection and try again.`,
+      })
+    }
+
+    /* Update UI */
     setProduct((product) => ({
       ...product,
       variations: productVariations,
     }))
+
+    console.log("DONE!")
   }
 
   const renderVariations = () =>
@@ -171,7 +280,8 @@ const ProductVariations = ({
         variation={variation}
         productId={productId}
         productAttributes={productAttributes}
-        setVariations={setVariations}
+        onVariationChange={onVariationChange}
+        onAttributeChange={updateDuplicatedAttributes}
       />
     ))
 

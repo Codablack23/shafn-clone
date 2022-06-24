@@ -31,8 +31,10 @@ const Variation = ({
   variation,
   productId,
   productAttributes,
-  setVariations,
+  onVariationChange,
+  onAttributeChange,
 }) => {
+  // console.log(variation.image.src)
   const [selectedImage, setSelectedImage] = useState(variation.image.src)
 
   const handleInputChange = (e) => {
@@ -53,20 +55,39 @@ const Variation = ({
       "dimension_height",
     ]
 
+    /* Handle attribute change */
     if (attributeNames.includes(name)) {
-      setVariations((variations) =>
-        variations.map((_variation) =>
-          _variation.id === variation.id
-            ? {
-                ..._variation,
-                attributes: _variation.attributes.map((attribute) =>
+      const prevAttributePair = variation.attributes
+      let newAttributePair
+
+      const updateAttribute = () => {
+        return new Promise((resolve, reject) => {
+          onVariationChange((variations) =>
+            /* Update attribute */
+            variations.map((_variation) => {
+              if (_variation.id === variation.id) {
+                newAttributePair = variation.attributes.map((attribute) =>
                   attribute.name === name
                     ? { ...attribute, option: value }
                     : attribute
-                ),
+                )
+
+                return {
+                  ..._variation,
+                  attributes: newAttributePair,
+                }
+              } else {
+                return _variation
               }
-            : _variation
-        )
+            })
+          )
+
+          resolve()
+        })
+      }
+
+      updateAttribute().then(() =>
+        onAttributeChange(prevAttributePair, newAttributePair)
       )
     }
 
@@ -76,7 +97,7 @@ const Variation = ({
       name === "virtual" ||
       name === "manage_stock"
     ) {
-      setVariations((variations) =>
+      onVariationChange((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
             ? {
@@ -89,7 +110,7 @@ const Variation = ({
     }
 
     if (name === "regular_price" && !isNaN(value)) {
-      setVariations((variations) =>
+      onVariationChange((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
             ? {
@@ -109,7 +130,7 @@ const Variation = ({
         // }, 4000);
         alert("Discounted price must be less than the Sale price")
       } else {
-        setVariations((variations) =>
+        onVariationChange((variations) =>
           variations.map((_variation) =>
             _variation.id === variation.id
               ? {
@@ -123,7 +144,7 @@ const Variation = ({
     }
 
     if (name === "stock_quantity" && Number.isInteger(Number(value))) {
-      setVariations((variations) =>
+      onVariationChange((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
             ? {
@@ -136,7 +157,7 @@ const Variation = ({
     }
 
     if (name === "weight" && !isNaN(value)) {
-      setVariations((variations) =>
+      onVariationChange((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
             ? {
@@ -150,7 +171,7 @@ const Variation = ({
 
     if (name.includes("dimension") && !isNaN(value)) {
       let dimensionProp = name.split("_").pop()
-      setVariations((variations) =>
+      onVariationChange((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
             ? {
@@ -166,7 +187,7 @@ const Variation = ({
     }
 
     if (!formNames.includes(name)) {
-      setVariations((variations) =>
+      onVariationChange((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
             ? {
@@ -184,17 +205,14 @@ const Variation = ({
 
     let image = e.target.files[0]
     let type = image.type.split("/").pop()
+    let allowedTypes = ["jpeg", "jpg", "png", "gif"]
 
     if (image) {
-      if (
-        type === "jpeg" ||
-        type === "jpg" ||
-        type === "png" ||
-        type === "gif"
-      ) {
+      if (allowedTypes.includes(type)) {
         let imgUrl = URL.createObjectURL(image)
 
-        setVariations((variations) =>
+        /* Add image file object to variation */
+        onVariationChange((variations) =>
           variations.map((_variation) =>
             _variation.id === variation.id
               ? {
@@ -207,6 +225,8 @@ const Variation = ({
               : _variation
           )
         )
+
+        /* Set image preview url to display in UI */
         setSelectedImage(imgUrl)
 
         URL.revokeObjectURL(image)
@@ -226,7 +246,7 @@ const Variation = ({
     )
 
     if (response) {
-      setVariations((variations) =>
+      onVariationChange((variations) =>
         variations.filter((_variation) => _variation.id !== variation.id)
       )
     }

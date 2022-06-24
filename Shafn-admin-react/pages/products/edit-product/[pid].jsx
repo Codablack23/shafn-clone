@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 import Router from "next/router"
-
 import { useDispatch } from "react-redux"
 import { notification, Progress, Spin } from "antd"
 import ReactHtmlParser from "react-html-parser"
 import Select from "react-select"
 
 import { toggleDrawerMenu } from "~/store/app/action"
-
 import FileRepository from "~/repositories/FileRepository"
 import ProductRepository from "~/repositories/ProductRepository"
-
-import "react-color-palette/lib/css/styles.css"
-import "suneditor/dist/css/suneditor.min.css"
-import "react-image-lightbox/style.css"
-
 import ImageSelectTiles from "~/components/elements/products/ImageSelectTiles"
 import ProductAttributes from "~/components/elements/products/ProductAttributes"
 import ProductVariations from "~/components/elements/products/ProductVariations"
@@ -23,6 +16,10 @@ import { CustomModal } from "~/components/elements/custom/index"
 import ContainerDefault from "~/components/layouts/ContainerDefault"
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard"
 import { generateSlug } from "~/utilities/helperFunctions"
+
+import "react-color-palette/lib/css/styles.css"
+import "suneditor/dist/css/suneditor.min.css"
+import "react-image-lightbox/style.css"
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
@@ -719,7 +716,7 @@ const EditProductPage = ({ pid }) => {
                         productId={pid}
                         productAttributes={product.attributes}
                         variations={variations}
-                        setVariations={setVariations}
+                        onVariationChange={setVariations}
                         setProduct={setProduct}
                       />
                     ) : null}

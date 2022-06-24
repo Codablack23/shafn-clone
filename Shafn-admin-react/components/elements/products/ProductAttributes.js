@@ -245,6 +245,8 @@ const ProductAttributes = ({
 
             return _variations
           })
+
+          console.log("DONE!")
         }
       } catch (error) {
         console.log(

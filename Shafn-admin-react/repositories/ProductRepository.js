@@ -137,6 +137,7 @@ class ProductRepository {
 
   async createVariations(productId, attributePairs) {
     console.log("Creating Variations...")
+
     let variations = []
 
     for (const attributePair of Array.from(attributePairs)) {
@@ -146,12 +147,14 @@ class ProductRepository {
         }
         let variation = await this.createVariation(productId, payload)
 
-        variations.push(variation)
+        variations.unshift(variation)
       } catch (error) {
         console.log("!!! FAILED TO CREATE VARIATIONS !!!")
         console.log(error)
       }
     }
+
+    console.log("Created Variations Successfully")
 
     return variations
   }
@@ -208,66 +211,6 @@ class ProductRepository {
     }
 
     console.log("Deleted Variations Successfully")
-  }
-
-  async saveVariations(productID, variations) {
-    let productVariations = []
-
-    const updateVariation = async (variation, image) => {
-      let in_stock =
-        variation.in_stock === true || variation.in_stock === "true"
-
-      // Manage_stock data type is boolean but defau;t value is string "parant"
-      let manage_stock =
-        typeof variation.manage_stock === "string"
-          ? false
-          : variation.manage_stock
-
-      let stock_quantity = !in_stock ? 0 : Number(variation.stock_quantity)
-
-      let price = variation.price || variation.regular_price
-
-      const variationData = {
-        ...variation,
-        in_stock,
-        manage_stock,
-        stock_quantity,
-        price,
-        image,
-      }
-
-      const productVariation = await this.updateVariation(
-        productID,
-        variation.id,
-        variationData
-      )
-
-      productVariations.push(productVariation)
-    }
-
-    for (const variation of Array.from(variations)) {
-      // Upload Image
-      if (typeof variation.image.src === "string") {
-        await updateVariation(variation, variation.image)
-      } else {
-        try {
-          const image = await FileRepository.uploadImage(variation.image.src)
-          updateVariation(variation, { src: image })
-        } catch (error) {
-          notification["error"]({
-            message:
-              "Some images did not upload!. Check your data connection and try again.",
-          })
-        }
-      }
-    }
-
-    const variationsIdList = productVariations.map((variation) => variation.id)
-    const product = await this.updateProduct(productID, {
-      variations: variationsIdList,
-    })
-
-    return product.variations
   }
 
   async getCategories() {
