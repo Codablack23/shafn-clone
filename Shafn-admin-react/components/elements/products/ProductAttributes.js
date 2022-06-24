@@ -122,7 +122,7 @@ const ProductAttributes = ({
         }))
 
         notification["success"]({
-          message: "Attributes Saved Successfully",
+          description: "Attributes Saved Successfully",
         })
 
         const variations = await ProductRepository.getVariations(productId)
@@ -171,7 +171,7 @@ const ProductAttributes = ({
               return newVariation
             } else {
               console.log(
-                `!!! FAILED TO UPDATE VARIATION ATTRIBUTES OF VARIATION ID ${variation.id} !!!`
+                `Failed to update variation attributes of variation id ${variation.id}`
               )
               return variation
             }
@@ -249,14 +249,12 @@ const ProductAttributes = ({
           console.log("DONE!")
         }
       } catch (error) {
-        console.log(
-          "!!! SOMETHING WENT WRONG WHEN TRYING TO SAVE ATTRIBUTES !!!"
-        )
-        console.log(error)
+        console.log("Something went wrong when trying to save attributes")
+        console.error(error)
       }
     } else {
       notification["error"]({
-        message: "Unresolved attribute errors!",
+        description: "Unresolved attribute errors!",
       })
     }
   }
