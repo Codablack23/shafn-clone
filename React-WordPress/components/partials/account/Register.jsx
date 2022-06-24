@@ -378,6 +378,6 @@ export default Register;
 
 const style = {
    head:{
-    maxWidth:"150px"
+    maxWidth:"100px"
    }
 }

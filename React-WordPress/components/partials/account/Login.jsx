@@ -212,6 +212,6 @@ function Login() {
 export default Login;
 const style = {
     head:{
-     maxWidth:"150px"
+     maxWidth:"100px"
     }
  }
