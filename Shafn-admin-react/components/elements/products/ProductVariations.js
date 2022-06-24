@@ -16,7 +16,7 @@ const ProductVariations = ({
     try {
       const product = await ProductRepository.getProductByID(productId)
 
-      let variationAttributes = product.attributes
+      const variationAttributes = product.attributes
         .filter((attribute) => attribute.variation)
         .map((attribute) =>
           attribute.options.map((option, _) => ({
@@ -62,12 +62,12 @@ const ProductVariations = ({
 
   const removeExistingAttributePairs = async () => {
     try {
-      let attributePairs = await createAttributePairs()
-      let existingAttributePairs = variations.map((variation) =>
+      const attributePairs = await createAttributePairs()
+      const existingAttributePairs = variations.map((variation) =>
         variation.attributes.map((attribute) => attribute.option)
       )
 
-      let newAttributePairs = []
+      const newAttributePairs = []
 
       for (const attributePair of Array.from(attributePairs)) {
         let exists = false
@@ -109,25 +109,18 @@ const ProductVariations = ({
       try {
         let attributePairs = await removeExistingAttributePairs() // So we only upload the new attributes
 
-        console.log("<<< Attribute Pairs >>> ")
-        console.log(attributePairs)
+        if (attributePairs.length > 0) {
+          let newVariations = await ProductRepository.createVariations(
+            productId,
+            attributePairs
+          )
 
-        let newVariations = await ProductRepository.createVariations(
-          productId,
-          attributePairs
-        )
-
-        if (newVariations.length === 0) {
+          setVariations((variations) => [...newVariations, ...variations])
+        } else {
           notification["info"]({
             message: "All Attributes Pair already exists",
           })
-        } else {
-          notification["success"]({
-            message: `${newVariations.length} Variations Added!`,
-          })
         }
-
-        setVariations((variations) => [...newVariations, ...variations])
       } catch (error) {
         console.log("SOMETHING WENT WRONG WHEN TRYING TO CREATE VARIATIONS!!!")
         console.log(error)
