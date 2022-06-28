@@ -1914,11 +1914,6 @@
   dependencies:
     "prop-types" "^15.5.7"
 
-"react-color-palette@^6.2.0":
-  "integrity" "sha512-9rIboaRJNoeF8aCI2f3J8wgMyhl74SnGmZLDjor3bKf0iDBhP2EBv0/jGmm0hrj6OackGCqtWl5ZvM89XUc3sg=="
-  "resolved" "https://registry.npmjs.org/react-color-palette/-/react-color-palette-6.2.0.tgz"
-  "version" "6.2.0"
-
 "react-colorful@^5.5.1":
   "integrity" "sha512-M1TJH2X3RXEt12sWkpa6hLc/bbYS0H6F4rIqjQZ+RxNBstpY67d9TrFXtqdZwhpmBXcCwEi7stKqFue3ZRkiOg=="
   "resolved" "https://registry.npmjs.org/react-colorful/-/react-colorful-5.5.1.tgz"

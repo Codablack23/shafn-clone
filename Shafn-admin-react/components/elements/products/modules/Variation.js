@@ -34,7 +34,6 @@ const Variation = ({
   onVariationChange,
   onAttributeChange,
 }) => {
-  // console.log(variation.image.src)
   const [selectedImage, setSelectedImage] = useState(variation.image.src)
 
   const handleInputChange = (e) => {

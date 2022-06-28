@@ -3,22 +3,18 @@ import ProductRepository from "~/repositories/ProductRepository"
 import { v4 as uuid } from "uuid"
 import { notification } from "antd"
 import Attribute from "./modules/Attribute"
-import { arraysEqual } from "~/utilities/helperFunctions"
+// import { arraysEqual } from "~/utilities/helperFunctions"
 
 const ProductAttributes = ({
   productId,
   attributes,
-  setAttributes,
-  setVariations,
-  setProduct,
+  onAttributeChange,
+  onVariationChange,
+  onProductChange,
 }) => {
   const [userAttributes, setUserAttributes] = useState([])
   const [name, setName] = useState("")
   const [error, setError] = useState("")
-
-  const modifyAttribute = (newAttributes) => {
-    setAttributes(newAttributes)
-  }
 
   const addAttribute = () => {
     let newAttribute = {
@@ -41,7 +37,7 @@ const ProductAttributes = ({
       // Add new attribute without name. Name can be added after creating attribute
       newAttribute.type = "custom"
     }
-    modifyAttribute([newAttribute, ...attributes])
+    onAttributeChange([newAttribute, ...attributes])
   }
 
   const createAttributePairs = async () => {
@@ -94,6 +90,7 @@ const ProductAttributes = ({
 
   const saveAttributes = async () => {
     let errors = attributes.filter((attribute) => attribute.error)
+
     if (errors.length === 0) {
       try {
         const productAttributes = attributes.map((attribute, index) => ({
@@ -116,7 +113,7 @@ const ProductAttributes = ({
         console.log("Saved Attributes Successfully")
 
         /* Update UI with new attributes */
-        setProduct((product) => ({
+        onProductChange((product) => ({
           ...product,
           attributes: updatedProduct.attributes,
         }))
@@ -182,33 +179,6 @@ const ProductAttributes = ({
             updateVariation(variation)
           )
 
-          //   /* Update attribute pairs in current variations */
-          //   variations = variations.map((variation, index) => {
-          //     return {
-          //       ...variation,
-          //       attributes: attributePairs[index],
-          //     }
-          //   })
-
-          //   /* Remove the pairs used in current variations */
-          //   attributePairs.splice(0, variations.length)
-
-          //   /* Update current variations with new attribute pairs */
-          //   const updatedVariations = await ProductRepository.updateVariations(
-          //     productId,
-          //     variations
-          //   )
-
-          //   /* Create new variations with attribute pairs not used in current variations */
-          //   const createdVariations = await ProductRepository.createVariations(
-          //     productId,
-          //     attributePairs
-          //   )
-
-          //   newVariations = [...updatedVariations, ...createdVariations].sort(
-          //     (a, b) => a.id - b.id
-          //   )
-
           if (attributePairs.length < newVariations.length) {
             /* Delete redundant variations */
             const variationsToDelete = newVariations.splice(
@@ -227,7 +197,7 @@ const ProductAttributes = ({
             newVariations
           )
 
-          setVariations((variations) => {
+          onVariationChange((variations) => {
             const _variations = []
             variations.forEach((variation) => {
               /* Update variation attributes */
@@ -254,105 +224,9 @@ const ProductAttributes = ({
       }
     } else {
       notification["error"]({
-        description: "Unresolved attribute errors!",
+        description: "Unresolved attribute error!",
       })
     }
-  }
-
-  const removeAttribute = (id) => {
-    const filter = (attribute) => attribute.id !== id
-    modifyAttribute(attributes.filter(filter))
-  }
-
-  const changeName = (id, name) => {
-    const modify = (attribute) =>
-      attribute.id === id
-        ? {
-            ...attribute,
-            name,
-          }
-        : attribute
-
-    modifyAttribute(attributes.map(modify))
-  }
-
-  const toggleProp = (id, name) => {
-    const toggle = (attribute) =>
-      attribute.id === id
-        ? {
-            ...attribute,
-            [name]: !attribute[name],
-          }
-        : attribute
-
-    modifyAttribute(attributes.map(toggle))
-  }
-
-  const addOption = (id, option) => {
-    const modify = (attribute) =>
-      attribute.id === id
-        ? {
-            ...attribute,
-            options:
-              !option || attribute.options.includes(option)
-                ? attribute.options
-                : [...attribute.options, option],
-          }
-        : attribute
-
-    modifyAttribute(attributes.map(modify))
-  }
-
-  const removeOption = (id, _option) => {
-    const modify = (attribute) =>
-      attribute.id === id
-        ? {
-            ...attribute,
-            options: attribute.options.filter((option) => option !== _option),
-          }
-        : attribute
-
-    modifyAttribute(attributes.map(modify))
-  }
-
-  const selectAllOptions = (id, name) => {
-    let currentAttribute = userAttributes.find(
-      (attribute) => attribute.name === name
-    )
-
-    if (currentAttribute) {
-      const modify = (attribute) =>
-        attribute.id === id
-          ? {
-              ...attribute,
-              options: currentAttribute.values.map((value) => value.name),
-            }
-          : attribute
-
-      modifyAttribute(attributes.map(modify))
-    }
-  }
-
-  const clearOptions = (id) => {
-    const modify = (attribute) =>
-      attribute.id === id
-        ? {
-            ...attribute,
-            options: [],
-          }
-        : attribute
-
-    modifyAttribute(attributes.map(modify))
-  }
-
-  const checkForDuplicatedAttributeName = (name) => {
-    let duplicates = attributes.filter(
-      (attribute) =>
-        attribute.name.toLowerCase().trim() === name.toLowerCase().trim()
-    )
-
-    if (duplicates.length > 1) return true
-    return false
   }
 
   const handleError = (id, error) => {
@@ -364,7 +238,7 @@ const ProductAttributes = ({
           }
         : attribute
 
-    modifyAttribute(attributes.map(modify))
+    onAttributeChange(attributes.map(modify))
   }
 
   const renderAttributeNames = () => {
@@ -383,7 +257,7 @@ const ProductAttributes = ({
   }
 
   const renderAttributes = () => {
-    return attributes.map((attribute, i) => {
+    return attributes.map((attribute, _) => {
       let userAttribute
       // let attributeID = null
       let defaultOptions = []
@@ -399,17 +273,12 @@ const ProductAttributes = ({
 
       return (
         <Attribute
-          key={i}
+          key={attribute.id}
           attribute={attribute}
+          productAttributes={attributes}
+          userAttributes={userAttributes}
           defaultOptions={defaultOptions}
-          changeName={changeName}
-          addOption={addOption}
-          toggleProp={toggleProp}
-          removeOption={removeOption}
-          selectAllOptions={selectAllOptions}
-          clearOptions={clearOptions}
-          removeAttribute={removeAttribute}
-          checkForDuplicatedAttributeName={checkForDuplicatedAttributeName}
+          onAttributeChange={onAttributeChange}
           handleError={handleError}
         />
       )

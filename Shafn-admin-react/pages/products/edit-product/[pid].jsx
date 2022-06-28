@@ -17,7 +17,6 @@ import ContainerDefault from "~/components/layouts/ContainerDefault"
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard"
 import { generateSlug } from "~/utilities/helperFunctions"
 
-import "react-color-palette/lib/css/styles.css"
 import "suneditor/dist/css/suneditor.min.css"
 import "react-image-lightbox/style.css"
 
@@ -322,7 +321,7 @@ const EditProductPage = ({ pid }) => {
       setCurrentImages(currentImages)
     } catch (err) {
       notification["error"]({
-        message: "UNABLE TO GET PRODUCT",
+        message: "Unable to get product",
         description: "Check your data connection and try again.",
       })
     }
@@ -335,7 +334,7 @@ const EditProductPage = ({ pid }) => {
       setCategories(categories)
     } catch (error) {
       notification["error"]({
-        message: "UNABLE TO GET PRODUCT CATEGORIES",
+        message: "Unable to get product categories",
       })
     }
   }
@@ -348,19 +347,7 @@ const EditProductPage = ({ pid }) => {
       setTagOptions(tagOptions)
     } catch (error) {
       notification["error"]({
-        message: "UNABLE TO GET PRODUCT TAGS",
-      })
-    }
-  }
-
-  const getVariations = async () => {
-    try {
-      const variations = await ProductRepository.getVariations(pid)
-
-      setVariations(variations)
-    } catch (error) {
-      notification["error"]({
-        message: "UNABLE TO GET PRODUCT VARIATIONS",
+        message: "Unable to get product tags",
       })
     }
   }
@@ -371,8 +358,6 @@ const EditProductPage = ({ pid }) => {
     getCategories()
 
     getTags()
-
-    getVariations()
 
     dispatch(toggleDrawerMenu(false))
   }, [])
@@ -707,9 +692,9 @@ const EditProductPage = ({ pid }) => {
                     <ProductAttributes
                       productId={pid}
                       attributes={attributes}
-                      setAttributes={setAttributes}
-                      setVariations={setVariations}
-                      setProduct={setProduct}
+                      onAttributeChange={setAttributes}
+                      onVariationChange={setVariations}
+                      onProductChange={setProduct}
                     />
                     {product.attributes.length > 0 ? (
                       <ProductVariations
@@ -717,7 +702,7 @@ const EditProductPage = ({ pid }) => {
                         productAttributes={product.attributes}
                         variations={variations}
                         onVariationChange={setVariations}
-                        setProduct={setProduct}
+                        onProductChange={setProduct}
                       />
                     ) : null}
                   </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { notification } from "antd"
 
 import Variation from "./modules/Variation"
@@ -11,7 +11,7 @@ const ProductVariations = ({
   productAttributes,
   variations,
   onVariationChange,
-  setProduct,
+  onProductChange,
 }) => {
   const [action, setAction] = useState("addVariation")
 
@@ -196,6 +196,7 @@ const ProductVariations = ({
         manage_stock,
         stock_quantity,
         price,
+        sale_price: variation.price,
         image: image,
       }
 
@@ -227,6 +228,7 @@ const ProductVariations = ({
         }
       } catch (error) {
         numOfFailedVariationUpdates++
+        productVariations.push(variation)
         continue
       }
     }
@@ -265,7 +267,7 @@ const ProductVariations = ({
     }
 
     /* Update UI */
-    setProduct((product) => ({
+    onProductChange((product) => ({
       ...product,
       variations: productVariations,
     }))
@@ -285,6 +287,22 @@ const ProductVariations = ({
       />
     ))
 
+  const getVariations = async () => {
+    try {
+      const variations = await ProductRepository.getVariations(productId)
+
+      onVariationChange(variations)
+    } catch (error) {
+      notification["error"]({
+        message: "Unable to get product variations",
+      })
+    }
+  }
+
+  useEffect(() => {
+    getVariations()
+  }, [])
+
   return (
     <div style={{ marginTop: 50 }}>
       <div className="form-group form-group--select">
@@ -295,7 +313,7 @@ const ProductVariations = ({
             defaultValue="addVariation"
             onChange={(e) => setAction(e.target.value)}
           >
-            <option value="addVariation">Add Variation</option>
+            <option value="addVariation">Add variation</option>
             <option value="createVariations">
               Create variations from attributes
             </option>

@@ -1,24 +1,103 @@
 import React, { useState } from "react"
-import { ColorPicker, useColor } from "react-color-palette"
 import { HexColorPicker } from "react-colorful"
-import "react-color-palette/lib/css/styles.css"
 
 const Attribute = ({
   attribute,
+  productAttributes,
+  userAttributes,
   defaultOptions,
-  changeName,
-  addOption,
-  toggleProp,
-  removeOption,
-  selectAllOptions,
-  clearOptions,
-  removeAttribute,
-  checkForDuplicatedAttributeName,
+  onAttributeChange,
   handleError,
 }) => {
   const [attributeName, setAttributeName] = useState("")
   const [option, setOption] = useState("")
   const [color, setColor] = useState("#aabbcc")
+
+  const removeAttribute = (id) => {
+    const filter = (attribute) => attribute.id !== id
+    onAttributeChange(productAttributes.filter(filter))
+  }
+
+  const changeName = (id, name) => {
+    const modify = (attribute) =>
+      attribute.id === id
+        ? {
+            ...attribute,
+            name,
+          }
+        : attribute
+
+    onAttributeChange(productAttributes.map(modify))
+  }
+
+  const toggleProp = (id, name) => {
+    const toggle = (attribute) =>
+      attribute.id === id
+        ? {
+            ...attribute,
+            [name]: !attribute[name],
+          }
+        : attribute
+
+    onAttributeChange(productAttributes.map(toggle))
+  }
+
+  const addOption = (id, option) => {
+    const modify = (attribute) =>
+      attribute.id === id
+        ? {
+            ...attribute,
+            options:
+              !option || attribute.options.includes(option)
+                ? attribute.options
+                : [...attribute.options, option],
+          }
+        : attribute
+
+    onAttributeChange(productAttributes.map(modify))
+  }
+
+  const removeOption = (id, _option) => {
+    const modify = (attribute) =>
+      attribute.id === id
+        ? {
+            ...attribute,
+            options: attribute.options.filter((option) => option !== _option),
+          }
+        : attribute
+
+    onAttributeChange(productAttributes.map(modify))
+  }
+
+  const selectAllOptions = (id, name) => {
+    let currentAttribute = userAttributes.find(
+      (attribute) => attribute.name === name
+    )
+
+    if (currentAttribute) {
+      const modify = (attribute) =>
+        attribute.id === id
+          ? {
+              ...attribute,
+              options: currentAttribute.values.map((value) => value.name),
+            }
+          : attribute
+
+      onAttributeChange(productAttributes.map(modify))
+    }
+  }
+
+  const clearOptions = (id) => {
+    const modify = (attribute) =>
+      attribute.id === id
+        ? {
+            ...attribute,
+            options: [],
+          }
+        : attribute
+
+    onAttributeChange(productAttributes.map(modify))
+  }
 
   const handleNameChange = (e) => {
     setAttributeName(e.target.value)
@@ -38,8 +117,19 @@ const Attribute = ({
   }
 
   const validateName = () => {
+    const checkForDuplicatedAttributeName = () => {
+      let duplicates = productAttributes.filter(
+        (attribute) =>
+          attribute.name.toLowerCase().trim() ===
+          attributeName.toLowerCase().trim()
+      )
+
+      if (duplicates.length > 1) return true
+      return false
+    }
+
     let error
-    let isDuplicated = checkForDuplicatedAttributeName(attributeName)
+    let isDuplicated = checkForDuplicatedAttributeName()
     if (!attributeName) {
       error = "Name cannot be empty!"
     } else if (isDuplicated) {
