@@ -9,6 +9,11 @@ export function formatCurrency(num) {
     }
 }
 
+export function getDiscountPercent(regularPrice, salePrice) {
+    const percent = ((regularPrice - salePrice) / regularPrice) * 100;
+    return `${percent}%`;
+}
+
 export function getColletionBySlug(collections, slug) {
     if (collections.length > 0) {
         const result = collections.find(
@@ -51,4 +56,3 @@ export function convertSlugsQueryString(payload) {
     }
     return query;
 }
-

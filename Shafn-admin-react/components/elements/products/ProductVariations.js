@@ -188,15 +188,11 @@ const ProductVariations = ({
 
       const stock_quantity = !in_stock ? 0 : Number(variation.stock_quantity)
 
-      const price = variation.price || variation.regular_price
-
       const variationData = {
         ...variation,
         in_stock,
         manage_stock,
         stock_quantity,
-        price,
-        sale_price: variation.price,
         image: image,
       }
 

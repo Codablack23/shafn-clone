@@ -101,9 +101,9 @@ const EditProductPage = ({ pid }) => {
   const handleInputChange = (e) => {
     let name = e.target.name
     let value = e.target.value
-    let formNames = [
+    let uncheckedFormNames = [
       "regular_price",
-      "price",
+      "sale_price",
       "stock_quantity",
       "downloadable",
       "virtual",
@@ -116,7 +116,7 @@ const EditProductPage = ({ pid }) => {
       setProduct((product) => ({ ...product, [name]: value }))
     }
 
-    if (name === "price" && !isNaN(value)) {
+    if (name === "sale_price" && !isNaN(value)) {
       if (Number(value) >= Number(product.regular_price)) {
         setIsPriceValid(false)
         setTimeout(() => {
@@ -153,7 +153,7 @@ const EditProductPage = ({ pid }) => {
       setProduct((product) => ({ ...product, [name]: tags }))
     }
 
-    if (!formNames.includes(name)) {
+    if (!uncheckedFormNames.includes(name)) {
       setProduct((product) => ({ ...product, [name]: value }))
     }
   }
@@ -177,7 +177,7 @@ const EditProductPage = ({ pid }) => {
   const validateInputs = () => {
     if (!product.name) return "Product Name is required!"
     if (!product.regular_price) return "Sale Price is required!"
-    if (Number(product.price) > Number(product.regular_price)) {
+    if (Number(product.sale_price) > Number(product.regular_price)) {
       setIsPriceValid(false)
       setTimeout(() => {
         setIsPriceValid(true)
@@ -212,8 +212,6 @@ const EditProductPage = ({ pid }) => {
 
       const stock_quantity = !in_stock ? 0 : Number(product.stock_quantity)
 
-      const price = product.price || product.regular_price
-
       const attributes =
         product.type === "variable"
           ? product.attributes.map((attribute) => ({
@@ -232,7 +230,6 @@ const EditProductPage = ({ pid }) => {
         images,
         in_stock,
         stock_quantity,
-        price,
         attributes,
         tags,
       }
@@ -458,14 +455,14 @@ const EditProductPage = ({ pid }) => {
                         Discounted Price<sup>*</sup>
                       </label>
                       <input
-                        name="price"
+                        name="sale_price"
                         className="form-control"
                         type="text"
-                        value={product.price}
+                        value={product.sale_price}
                         onChange={handleInputChange}
                       />
                       <p className="text-danger" hidden={isPriceValid}>
-                        Discounted price must be less than the Sale price
+                        Discounted price must be less than the Regular price
                       </p>
                     </div>
 

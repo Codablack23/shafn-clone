@@ -40,7 +40,7 @@ const Variation = ({
     let { name, value } = e.target
 
     let attributeNames = variation.attributes.map((attribute) => attribute.name)
-    let formNames = [
+    let uncheckedFormNames = [
       "enabled",
       "downloadable",
       "virtual",
@@ -121,12 +121,8 @@ const Variation = ({
       )
     }
 
-    if (name === "price" && !isNaN(value)) {
+    if (name === "sale_price" && !isNaN(value)) {
       if (Number(value) >= Number(variation.regular_price)) {
-        // setIsPriceValid(false);
-        // setTimeout(() => {
-        //   setIsPriceValid(true);
-        // }, 4000);
         alert("Discounted price must be less than the Sale price")
       } else {
         onVariationChange((variations) =>
@@ -185,7 +181,7 @@ const Variation = ({
       )
     }
 
-    if (!formNames.includes(name)) {
+    if (!uncheckedFormNames.includes(name)) {
       onVariationChange((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
@@ -489,10 +485,10 @@ const Variation = ({
             <div className="form-group">
               <label>Discounted price ($)</label>
               <input
-                name="price"
+                name="sale_price"
                 className="form-control"
                 type="text"
-                value={variation.price}
+                value={variation.sale_price}
                 onChange={handleInputChange}
               />
             </div>
