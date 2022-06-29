@@ -83,9 +83,9 @@ function Login() {
                     className="ps-form--account"
                     onFinish={!isLoading && handleLogin}>
                     <ul className="ps-tab-list">
-                        <li className="active">
+                        <li className="active m-auto" style={style.head}>
                             <Link href="/account/login">
-                                <a>ShafN</a>
+                               <img src="/static/img/logo_light.png" className='img-fluid' alt="" />
                             </Link>
                         </li>
                     </ul>
@@ -218,3 +218,8 @@ function Login() {
 }
 
 export default Login;
+const style = {
+    head:{
+     maxWidth:"100px"
+    }
+ }
