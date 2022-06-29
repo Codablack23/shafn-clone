@@ -3,7 +3,6 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import WPProductSearchResult from '~/wp-components/elements/products/WPProductSearchResult';
 import WPProductRepository from '~/repositories/WP/WPProductRepository';
-// import Microphone from '~/components/elements/SpeechRecognition';
 import { Spin } from 'antd';
 
 const Microphone = dynamic(
@@ -182,6 +181,12 @@ const WPSearchHeader = () => {
     return (
         <form
             className="d-flex w-100 rounded-pill"
+            style={
+                {
+                    height:"42px",
+                    marginTop:"7px"
+                }
+            }
             method="get"
             action="/"
             onSubmit={handleSubmit}>
@@ -190,7 +195,7 @@ const WPSearchHeader = () => {
                 style={{
                     width: '22.5%',
                 }}>
-                <select
+                <div
                     className="form-control"
                     style={{
                         backgroundColor: '#2A3147',
@@ -198,14 +203,16 @@ const WPSearchHeader = () => {
                         borderTopLeftRadius: 30,
                         borderBottomLeftRadius: 30,
                         border: 'none',
+                        height:"42px"
                     }}>
                     {selectOptionView}
-                </select>
+                </div>
             </div>
             <div
                 className="d-flex align-items-center bg-light"
                 style={{
                     width: '55%',
+                    height:"42px"
                 }}>
                 <input
                     ref={inputEl}
@@ -215,6 +222,7 @@ const WPSearchHeader = () => {
                     placeholder="I'm shopping for..."
                     style={{
                         border: 'none',
+                        height:"42px"
                     }}
                     onChange={(e) => setKeyword(e.target.value)}
                 />
