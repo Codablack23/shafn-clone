@@ -70,3 +70,110 @@
         padding-right: 20px;
     }
 }
+.ps__cookie-popup-widget{
+    position:fixed;
+    bottom:15px;
+    left: 15px;
+    border-radius: 50%;
+    //import
+    transition: all ease 0.2s;
+    opacity: 0;
+    button{
+        background:#2A3147;
+        color: #fff;
+        border-radius: 50%;
+        height: 50px;
+        width: 50px;
+        border: none;
+        i{
+            font-size: 20px;
+
+        }
+        sub{
+            margin-top: -10px;
+            margin-left: -10px;
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+            border-radius: 50%;
+            background-color: #FCB800;
+        }
+    }
+}
+#cookiepopup{
+    opacity: 0;
+    transition: all ease 0.4s;
+}
+.ps__cookie-popup{
+    position:fixed;
+    bottom:15px;
+    height:350px;
+    width: 100%;
+    max-width: 350px;
+    border-radius: 7px;
+    left:15px;
+    background:#2A3147;
+    overflow: auto;
+    z-index:1000;
+    padding: 0.7em 1em;
+    transition: all ease 0.2s;
+    overflow: hidden;
+    *{
+        color: #ffffff;
+    }
+    .close{
+        margin-bottom: 10px;
+    }
+    .title{
+        font-size: 22px;
+        font-weight: 600;
+        display: block;
+        margin-top: 20px;
+    }
+    p:nth-child(2){
+      width: 95%;
+      margin: 10px auto;
+      font-size: 13px;
+    }
+    button{
+        display: block;
+        width: 95%;
+        margin: 1em auto;
+        border-radius: 7px;
+        font-size: 16px;
+        height: 50px;
+        border: none;
+        cursor: pointer;
+    }
+    button.accept{
+        background-color: #FCB800;
+        color: white;
+        cursor: pointer !important;
+        &:hover{
+            background-color: lighten($color:#2A3147, $amount:20);
+        }
+    }
+    button.reject{
+        border: 1px solid #FCB800;
+        color: #FCB800;
+        background: none;
+        cursor: pointer!important;
+        &:hover{
+            background-color: lighten($color:#FCB800, $amount:20);
+        }
+    }
+    @include media('<sm'){
+        left: 2px;
+        height: 270px;
+        .title{
+            font-size: 18px;
+        }
+        p:nth-child(2){
+            font-size: 10px;
+        }
+        button{
+            height: 37px;
+            font-size: 10px;
+        }
+    }
+}

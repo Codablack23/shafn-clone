@@ -14,6 +14,16 @@ import WPDealOfDay from '~/wp-components/homepage/WPDealOfDay';
 import WPProductList from '~/wp-components/homepage/WPProductList';
 import WPRecentlyViewed from '~/wp-components/homepage/WPRecentlyViewed';
 import { getBannersBySlugs, getPromotionsBySlugs } from '~/store/media/action';
+import ModalCookie from '~/components/elements/modalCookie';
+
+
+function ShowCookiePopUp(){
+
+        setTimeout(()=>{
+            document.getElementById('cookiepopup').style.opacity = "1"
+        },5000)
+}
+
 
 const Index = (auth) => {
     const dispatch = useDispatch();
@@ -37,8 +47,10 @@ const Index = (auth) => {
         dispatch(getPromotionsBySlugs(promotionSlugs));
         dispatch(getCollections(collectionsSlug));
     }, []);
+ 
     return (
         <WPLayoutHomeDefault title="Multipurpose Marketplace React Ecommerce Template">
+        {  ShowCookiePopUp()}
             <HomeBanner />
             {/* <SiteFeatures /> */}
             <WPDealOfDay />
@@ -54,6 +66,10 @@ const Index = (auth) => {
             {auth.isLoggedIn && <WPRecentlyViewed />}
 
             {/* <Newletters /> */}
+            <div id='cookiepopup'>
+                <ModalCookie/>
+            </div>
+      
         </WPLayoutHomeDefault>
     );
 };
