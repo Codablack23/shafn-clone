@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import dynamic from "next/dynamic";
-import { notification } from "antd";
-import ProductRepository from "~/repositories/ProductRepository";
-import "suneditor/dist/css/suneditor.min.css";
+import React, { useState } from "react"
+import dynamic from "next/dynamic"
+import { notification } from "antd"
+import ProductRepository from "~/repositories/ProductRepository"
+import "suneditor/dist/css/suneditor.min.css"
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
-});
+})
 
 let buttonList = [
   [
@@ -25,23 +25,22 @@ let buttonList = [
     "textStyle",
     "fullScreen",
   ],
-];
+]
 
 const Variation = ({
   variation,
-  productID,
+  productId,
   productAttributes,
-  setVariations,
+  onVariationChange,
+  onAttributeChange,
 }) => {
-  const [selectedImage, setSelectedImage] = useState(variation.image.src);
+  const [selectedImage, setSelectedImage] = useState(variation.image.src)
 
   const handleInputChange = (e) => {
-    let { name, value } = e.target;
+    let { name, value } = e.target
 
-    let attributeNames = variation.attributes.map(
-      (attribute) => attribute.name
-    );
-    let formNames = [
+    let attributeNames = variation.attributes.map((attribute) => attribute.name)
+    let uncheckedFormNames = [
       "enabled",
       "downloadable",
       "virtual",
@@ -53,23 +52,42 @@ const Variation = ({
       "dimension_length",
       "dimension_width",
       "dimension_height",
-    ];
+    ]
 
+    /* Handle attribute change */
     if (attributeNames.includes(name)) {
-      setVariations((variations) =>
-        variations.map((_variation) =>
-          _variation.id === variation.id
-            ? {
-                ..._variation,
-                attributes: _variation.attributes.map((attribute) =>
+      const prevAttributePair = variation.attributes
+      let newAttributePair
+
+      const updateAttribute = () => {
+        return new Promise((resolve, reject) => {
+          onVariationChange((variations) =>
+            /* Update attribute */
+            variations.map((_variation) => {
+              if (_variation.id === variation.id) {
+                newAttributePair = variation.attributes.map((attribute) =>
                   attribute.name === name
                     ? { ...attribute, option: value }
                     : attribute
-                ),
+                )
+
+                return {
+                  ..._variation,
+                  attributes: newAttributePair,
+                }
+              } else {
+                return _variation
               }
-            : _variation
-        )
-      );
+            })
+          )
+
+          resolve()
+        })
+      }
+
+      updateAttribute().then(() =>
+        onAttributeChange(prevAttributePair, newAttributePair)
+      )
     }
 
     if (
@@ -78,7 +96,7 @@ const Variation = ({
       name === "virtual" ||
       name === "manage_stock"
     ) {
-      setVariations((variations) =>
+      onVariationChange((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
             ? {
@@ -87,11 +105,11 @@ const Variation = ({
               }
             : _variation
         )
-      );
+      )
     }
 
     if (name === "regular_price" && !isNaN(value)) {
-      setVariations((variations) =>
+      onVariationChange((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
             ? {
@@ -100,18 +118,14 @@ const Variation = ({
               }
             : _variation
         )
-      );
+      )
     }
 
-    if (name === "price" && !isNaN(value)) {
+    if (name === "sale_price" && !isNaN(value)) {
       if (Number(value) >= Number(variation.regular_price)) {
-        // setIsPriceValid(false);
-        // setTimeout(() => {
-        //   setIsPriceValid(true);
-        // }, 4000);
-        alert("Discounted price must be less than the Sale price");
+        alert("Discounted price must be less than the Sale price")
       } else {
-        setVariations((variations) =>
+        onVariationChange((variations) =>
           variations.map((_variation) =>
             _variation.id === variation.id
               ? {
@@ -120,12 +134,12 @@ const Variation = ({
                 }
               : _variation
           )
-        );
+        )
       }
     }
 
     if (name === "stock_quantity" && Number.isInteger(Number(value))) {
-      setVariations((variations) =>
+      onVariationChange((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
             ? {
@@ -134,11 +148,11 @@ const Variation = ({
               }
             : _variation
         )
-      );
+      )
     }
 
     if (name === "weight" && !isNaN(value)) {
-      setVariations((variations) =>
+      onVariationChange((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
             ? {
@@ -147,12 +161,12 @@ const Variation = ({
               }
             : _variation
         )
-      );
+      )
     }
 
     if (name.includes("dimension") && !isNaN(value)) {
-      let dimensionProp = name.split("_").pop();
-      setVariations((variations) =>
+      let dimensionProp = name.split("_").pop()
+      onVariationChange((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
             ? {
@@ -164,11 +178,11 @@ const Variation = ({
               }
             : _variation
         )
-      );
+      )
     }
 
-    if (!formNames.includes(name)) {
-      setVariations((variations) =>
+    if (!uncheckedFormNames.includes(name)) {
+      onVariationChange((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
             ? {
@@ -177,26 +191,23 @@ const Variation = ({
               }
             : _variation
         )
-      );
+      )
     }
-  };
+  }
 
   const imageHandler = (e) => {
-    e.persist();
+    e.persist()
 
-    let image = e.target.files[0];
-    let type = image.type.split("/").pop();
+    let image = e.target.files[0]
+    let type = image.type.split("/").pop()
+    let allowedTypes = ["jpeg", "jpg", "png", "gif"]
 
     if (image) {
-      if (
-        type === "jpeg" ||
-        type === "jpg" ||
-        type === "png" ||
-        type === "gif"
-      ) {
-        let imgUrl = URL.createObjectURL(image);
+      if (allowedTypes.includes(type)) {
+        let imgUrl = URL.createObjectURL(image)
 
-        setVariations((variations) =>
+        /* Add image file object to variation */
+        onVariationChange((variations) =>
           variations.map((_variation) =>
             _variation.id === variation.id
               ? {
@@ -208,50 +219,52 @@ const Variation = ({
                 }
               : _variation
           )
-        );
-        setSelectedImage(imgUrl);
+        )
 
-        URL.revokeObjectURL(image);
+        /* Set image preview url to display in UI */
+        setSelectedImage(imgUrl)
+
+        URL.revokeObjectURL(image)
       } else {
         notification["error"]({
           message: "Invalid image type!",
           description: "Image type must be jpg, png or gif",
-        });
+        })
       }
     }
-  };
+  }
 
   const removeVariation = async () => {
     let response = await ProductRepository.deleteVariation(
-      productID,
+      productId,
       variation.id
-    );
+    )
 
     if (response) {
-      setVariations((variations) =>
+      onVariationChange((variations) =>
         variations.filter((_variation) => _variation.id !== variation.id)
-      );
+      )
     }
-  };
+  }
 
   const renderAttributeOptions = (attributeName, attributeOption) => {
     let attribute = productAttributes.find(
       (productAttribute) => productAttribute.name === attributeName
-    );
+    )
 
     if (attribute !== undefined) {
       let options = attribute.options.map((option) => (
         <option
           key={option}
           value={option}
-          disabled={option === attributeOption ? true : false}
+          disabled={option === attributeOption}
         >
           {option}
         </option>
-      ));
-      return options;
+      ))
+      return options
     }
-  };
+  }
 
   return (
     <div className="variations-List mt-5 rounded">
@@ -265,7 +278,7 @@ const Variation = ({
               name={attribute.name}
               className="ps-select"
               title={attribute.name}
-              defaultValue={attribute.option}
+              value={attribute.option}
               onChange={handleInputChange}
             >
               <option value="">Any {attribute.name}</option>
@@ -472,10 +485,10 @@ const Variation = ({
             <div className="form-group">
               <label>Discounted price ($)</label>
               <input
-                name="price"
+                name="sale_price"
                 className="form-control"
                 type="text"
-                value={variation.price}
+                value={variation.sale_price}
                 onChange={handleInputChange}
               />
             </div>
@@ -622,10 +635,10 @@ const Variation = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Variation;
+export default Variation
 
 let styles = {
   imageSelectBox: {
@@ -668,4 +681,4 @@ let styles = {
     minHeight: "30vh",
     marginRight: "2%",
   },
-};
+}

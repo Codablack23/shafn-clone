@@ -1,51 +1,145 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
+import { HexColorPicker } from "react-colorful"
 
 const Attribute = ({
   attribute,
+  productAttributes,
+  userAttributes,
   defaultOptions,
-  changeName,
-  addOption,
-  toggleProp,
-  removeOption,
-  selectAllOptions,
-  clearOptions,
-  removeAttribute,
-  checkForDuplicatedAttributeName,
+  onAttributeChange,
   handleError,
 }) => {
-  const [attributeName, setAttributeName] = useState("");
-  const [option, setOption] = useState("");
+  const [attributeName, setAttributeName] = useState("")
+  const [option, setOption] = useState("")
+  const [color, setColor] = useState("#aabbcc")
+
+  const removeAttribute = (id) => {
+    const filter = (attribute) => attribute.id !== id
+    onAttributeChange(productAttributes.filter(filter))
+  }
+
+  const changeName = (id, name) => {
+    const modify = (attribute) =>
+      attribute.id === id
+        ? {
+            ...attribute,
+            name,
+          }
+        : attribute
+
+    onAttributeChange(productAttributes.map(modify))
+  }
+
+  const toggleProp = (id, name) => {
+    const toggle = (attribute) =>
+      attribute.id === id
+        ? {
+            ...attribute,
+            [name]: !attribute[name],
+          }
+        : attribute
+
+    onAttributeChange(productAttributes.map(toggle))
+  }
+
+  const addOption = (id, option) => {
+    const modify = (attribute) =>
+      attribute.id === id
+        ? {
+            ...attribute,
+            options:
+              !option || attribute.options.includes(option)
+                ? attribute.options
+                : [...attribute.options, option],
+          }
+        : attribute
+
+    onAttributeChange(productAttributes.map(modify))
+  }
+
+  const removeOption = (id, _option) => {
+    const modify = (attribute) =>
+      attribute.id === id
+        ? {
+            ...attribute,
+            options: attribute.options.filter((option) => option !== _option),
+          }
+        : attribute
+
+    onAttributeChange(productAttributes.map(modify))
+  }
+
+  const selectAllOptions = (id, name) => {
+    let currentAttribute = userAttributes.find(
+      (attribute) => attribute.name === name
+    )
+
+    if (currentAttribute) {
+      const modify = (attribute) =>
+        attribute.id === id
+          ? {
+              ...attribute,
+              options: currentAttribute.values.map((value) => value.name),
+            }
+          : attribute
+
+      onAttributeChange(productAttributes.map(modify))
+    }
+  }
+
+  const clearOptions = (id) => {
+    const modify = (attribute) =>
+      attribute.id === id
+        ? {
+            ...attribute,
+            options: [],
+          }
+        : attribute
+
+    onAttributeChange(productAttributes.map(modify))
+  }
 
   const handleNameChange = (e) => {
-    setAttributeName(e.target.value);
-    changeName(attribute.id, e.target.value);
-  };
+    setAttributeName(e.target.value)
+    changeName(attribute.id, e.target.value)
+  }
 
   const handleOptionChange = (e) => {
-    let value = e.target.value;
-    let lastCharacter = value[value.length - 1];
+    let value = e.target.value
+    let lastCharacter = value[value.length - 1]
 
     if (lastCharacter === "|" && option) {
-      addOption(attribute.id, option.trim());
-      setOption("");
+      addOption(attribute.id, option.trim())
+      setOption("")
     } else {
-      setOption(value);
+      setOption(value)
     }
-  };
+  }
 
   const validateName = () => {
-    let error;
-    let isDuplicated = checkForDuplicatedAttributeName(attributeName);
-    if (!attributeName) {
-      error = "Name cannot be empty!";
-    } else if (isDuplicated) {
-      error = "Name already exists. Try something else.";
-    } else {
-      error = "";
+    const checkForDuplicatedAttributeName = () => {
+      let duplicates = productAttributes.filter(
+        (attribute) =>
+          attribute.name.toLowerCase().trim() ===
+          attributeName.toLowerCase().trim()
+      )
+
+      if (duplicates.length > 1) return true
+      return false
     }
 
-    handleError(attribute.id, error);
-  };
+    let error
+    let isDuplicated = checkForDuplicatedAttributeName()
+    if (!attributeName) {
+      error = "Name cannot be empty!"
+    } else if (isDuplicated) {
+      error = "Name already exists. Try something else."
+    } else {
+      error = ""
+    }
+
+    handleError(attribute.id, error)
+  }
 
   const renderCustomAttribute = () => {
     return (
@@ -131,8 +225,8 @@ const Attribute = ({
           </div>
         </div>
       </div>
-    );
-  };
+    )
+  }
 
   const renderSelectAttribute = () => {
     return (
@@ -182,53 +276,81 @@ const Attribute = ({
         <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
           <h5>Option(s)</h5>
 
-          <div>
-            {attribute.options.map((option, i) => (
-              <span
-                key={i}
-                onClick={() => removeOption(attribute.id, option)}
-                style={{ marginRight: 10 }}
-              >
-                x{option}
-              </span>
-            ))}
-
-            <input
-              name="options"
-              className="form-control"
-              type="text"
-              list={`options-${attribute.id}`}
-              placeholder='Enter some text, or some attributes by "|" seperated values'
-              value={option}
-              onChange={handleOptionChange}
-            />
-
-            <datalist id={`options-${attribute.id}`}>
-              {defaultOptions.map((option, i) => (
-                <option key={i} value={option.name} />
+          {attribute.name.toLowerCase() === "color" ? (
+            <>
+              {attribute.options.map((option) => (
+                <div
+                  key={option}
+                  onClick={() => removeOption(attribute.id, option)}
+                  style={{
+                    display: "inline-block",
+                    backgroundColor: option,
+                    width: 25,
+                    height: 25,
+                  }}
+                />
               ))}
-            </datalist>
-          </div>
+              <HexColorPicker
+                color={color}
+                onChange={setColor}
+                style={{ width: "100%", height: 100 }}
+              />
+              <button
+                type="button"
+                className="ps-btn ps-btn--gray"
+                onClick={() => addOption(attribute.id, color)}
+              >
+                Add
+              </button>
+            </>
+          ) : (
+            <div>
+              {attribute.options.map((option, i) => (
+                <span
+                  key={i}
+                  onClick={() => removeOption(attribute.id, option)}
+                  style={{ marginRight: 10 }}
+                >
+                  x{option}
+                </span>
+              ))}
+              <input
+                name="options"
+                className="form-control"
+                type="text"
+                list={`options-${attribute.id}`}
+                placeholder='Enter some text, or some attributes by "|" seperated values'
+                value={option}
+                onChange={handleOptionChange}
+              />
 
-          <button
-            type="button"
-            className="ps-btn ps-btn--gray"
-            onClick={() => selectAllOptions(attribute.id, attribute.name)}
-          >
-            Select all
-          </button>
+              <datalist id={`options-${attribute.id}`}>
+                {defaultOptions.map((option, i) => (
+                  <option key={i} value={option.name} />
+                ))}
+              </datalist>
 
-          <button
-            type="button"
-            className="ps-btn ps-btn--gray"
-            onClick={() => clearOptions(attribute.id)}
-          >
-            Select none
-          </button>
+              <button
+                type="button"
+                className="ps-btn ps-btn--gray"
+                onClick={() => selectAllOptions(attribute.id, attribute.name)}
+              >
+                Select all
+              </button>
+
+              <button
+                type="button"
+                className="ps-btn ps-btn--gray"
+                onClick={() => clearOptions(attribute.id)}
+              >
+                Select none
+              </button>
+            </div>
+          )}
         </div>
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <div className="variations-List mt-5 rounded">
@@ -266,7 +388,7 @@ const Attribute = ({
           : renderSelectAttribute()}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Attribute;
+export default Attribute
