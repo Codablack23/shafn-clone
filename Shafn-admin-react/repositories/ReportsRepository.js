@@ -1,7 +1,7 @@
 import { WPDomain } from "./Repository"
 import axios from "axios"
 
-class OrdersRepository {
+class ReportsRepository {
   constructor(callback) {
     this.callback = callback
   }
@@ -17,16 +17,14 @@ class OrdersRepository {
     return config
   }
 
-  async getOrders() {
+  async getReportOverview() {
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/reports/summary`
     const config = this.getConfig()
 
-    const { data: response } = await axios.get(
-      `${WPDomain}/wp-json/dokan/v1/orders/`,
-      config
-    )
+    const { data: response } = await axios.get(endpoint, config)
 
     return response
   }
 }
 
-export default new OrdersRepository()
+export default new ReportsRepository()

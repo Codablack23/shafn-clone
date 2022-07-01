@@ -41,7 +41,7 @@ function Login() {
             try {
                 const _user = await WPAuthRepository.login(user);
 
-                console.log(_user)
+                console.log(_user);
 
                 const role = _user.user_role[0].toLowerCase();
 
@@ -59,21 +59,17 @@ function Login() {
                 }
                 setIsLoading(false);
             } catch (error) {
-                handleError(error, 'Login Failed!');
+                notification['error']({
+                    message: 'Login failed',
+                    description:
+                        error.response === undefined
+                            ? ReactHtmlParser(String(error))
+                            : ReactHtmlParser(error.response.data.message),
+                });
+
+                setIsLoading(false);
             }
         }
-    };
-
-    const handleError = (error, message) => {
-        notification['error']({
-            message,
-            description:
-                error.response === undefined
-                    ? ReactHtmlParser(String(error))
-                    : ReactHtmlParser(error.response.data.message),
-        });
-
-        setIsLoading(false);
     };
 
     return (
@@ -85,7 +81,11 @@ function Login() {
                     <ul className="ps-tab-list">
                         <li className="active m-auto" style={style.head}>
                             <Link href="/account/login">
-                               <img src="/static/img/logo_light.png" className='img-fluid' alt="" />
+                                <img
+                                    src="/static/img/logo_light.png"
+                                    className="img-fluid"
+                                    alt=""
+                                />
                             </Link>
                         </li>
                     </ul>
@@ -219,7 +219,7 @@ function Login() {
 
 export default Login;
 const style = {
-    head:{
-     maxWidth:"100px"
-    }
- }
+    head: {
+        maxWidth: '100px',
+    },
+};
