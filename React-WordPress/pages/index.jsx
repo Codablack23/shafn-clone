@@ -17,15 +17,16 @@ import { getBannersBySlugs, getPromotionsBySlugs } from '~/store/media/action';
 import ModalCookie from '~/components/elements/modalCookie';
 
 
-function ShowCookiePopUp(){
-
-        setTimeout(()=>{
-            document.getElementById('cookiepopup').style.opacity = "1"
-        },5000)
-}
 
 
 const Index = (auth) => {
+    
+function ShowCookiePopUp(){
+
+    setTimeout(()=>{
+        document.getElementById('cookiepopup').style.opacity = "1"
+    },5000)
+}
     const dispatch = useDispatch();
     useEffect(() => {
         const collectionsSlug = [

@@ -1,8 +1,9 @@
 import React, { useState } from "react"
 import dynamic from "next/dynamic"
-import { notification } from "antd"
+import { notification,Spin } from "antd"
 import ProductRepository from "~/repositories/ProductRepository"
 import "suneditor/dist/css/suneditor.min.css"
+import { CustomModal } from "~/components/elements/custom"
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
@@ -35,6 +36,7 @@ const Variation = ({
   onAttributeChange,
 }) => {
   const [selectedImage, setSelectedImage] = useState(variation.image.src)
+  const [isLoading,setIsloading] = useState(false)
 
   const handleInputChange = (e) => {
     let { name, value } = e.target
@@ -235,16 +237,22 @@ const Variation = ({
   }
 
   const removeVariation = async () => {
+    setIsloading(true)
     let response = await ProductRepository.deleteVariation(
       productId,
       variation.id
     )
-
+    setIsloading(false)
+    location.reload()
     if (response) {
       onVariationChange((variations) =>
         variations.filter((_variation) => _variation.id !== variation.id)
+        
       )
+      setIsloading(false)
+      location.reload()
     }
+  
   }
 
   const renderAttributeOptions = (attributeName, attributeOption) => {
@@ -267,16 +275,21 @@ const Variation = ({
   }
 
   return (
-    <div className="variations-List mt-5 rounded">
-      <header className="d-flex justify-content-between bg-light p-3">
-        <div className="d-flex">
+    <div className="variations-List mt-5 rounded pt-2">
+       <CustomModal isOpen={isLoading}>
+        <div className="custom__spinner">
+        <Spin tip={<p className="text-white">Loading...</p>} size="large"/>
+        </div>
+      </CustomModal>
+      <header className="d-flex align-items-center justify-content-between bg-light p-3">
+        <div className="d-flex w-75 align-items-center">
           <span style={{ fontWeight: "bold" }}>#{variation.id}</span>
 
           {variation.attributes.map((attribute, index) => (
             <select
               key={index}
               name={attribute.name}
-              className="ps-select"
+              className="variations__select"
               title={attribute.name}
               value={attribute.option}
               onChange={handleInputChange}
@@ -312,7 +325,7 @@ const Variation = ({
       </header>
 
       <div className="collapse" id={`collapse-${variation.id}`}>
-        <div className="row">
+        <div className="row pt-5">
           <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
             <div className="row">
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">

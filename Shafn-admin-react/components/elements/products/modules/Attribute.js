@@ -1,5 +1,7 @@
+
 import React, { useState } from "react"
 import { HexColorPicker } from "react-colorful"
+
 
 const Attribute = ({
   attribute,
@@ -143,7 +145,7 @@ const Attribute = ({
 
   const renderCustomAttribute = () => {
     return (
-      <div className="row">
+      <div className="row p-2">
         <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
           <h5>Name</h5>
 
@@ -204,8 +206,10 @@ const Attribute = ({
           <h5>Option(s)</h5>
 
           <div>
-            {attribute.options.map((option, i) => (
+           <div className="flex align-items-center mb-3">
+           {attribute.options.map((option, i) => (
               <span
+                className="ps__edit-attributes"
                 key={i}
                 onClick={() => removeOption(attribute.id, option)}
                 style={{ marginRight: 10 }}
@@ -213,6 +217,7 @@ const Attribute = ({
                 x{option}
               </span>
             ))}
+           </div><br />
 
             <input
               name="options"
@@ -230,9 +235,9 @@ const Attribute = ({
 
   const renderSelectAttribute = () => {
     return (
-      <div className="row">
+      <div className="row p-2 pb-4 pt-4">
         <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-          <h5>Name</h5>
+          <h5 className="mb-4">Name</h5>
           <h5>{attribute.name}</h5>
 
           <div className="form-group">
@@ -274,7 +279,7 @@ const Attribute = ({
         </div>
 
         <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-          <h5>Option(s)</h5>
+          <h5 className="mb-4">Option(s)</h5>
 
           {attribute.name.toLowerCase() === "color" ? (
             <>
@@ -297,7 +302,7 @@ const Attribute = ({
               />
               <button
                 type="button"
-                className="ps-btn ps-btn--gray"
+                className="ps-btn ps-btn--gray mt-3"
                 onClick={() => addOption(attribute.id, color)}
               >
                 Add
@@ -305,18 +310,21 @@ const Attribute = ({
             </>
           ) : (
             <div>
-              {attribute.options.map((option, i) => (
-                <span
+             <div className="flex align-items-center mb-3">
+             {attribute.options.map((option, i) => (
+                <p
+                  className="ps__edit-attributes"
                   key={i}
                   onClick={() => removeOption(attribute.id, option)}
                   style={{ marginRight: 10 }}
                 >
-                  x{option}
-                </span>
+                  {option} <span>x</span>
+                </p>
               ))}
+             </div>
               <input
                 name="options"
-                className="form-control"
+                className="form-control mb-3"
                 type="text"
                 list={`options-${attribute.id}`}
                 placeholder='Enter some text, or some attributes by "|" seperated values'
@@ -332,7 +340,7 @@ const Attribute = ({
 
               <button
                 type="button"
-                className="ps-btn ps-btn--gray"
+                className="ps-btn ps-btn--gray mr-3"
                 onClick={() => selectAllOptions(attribute.id, attribute.name)}
               >
                 Select all

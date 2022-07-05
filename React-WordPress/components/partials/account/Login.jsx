@@ -40,7 +40,6 @@ function Login() {
 
             try {
                 const _user = await WPAuthRepository.login(user);
-
                 const role = _user.user_role[0].toLowerCase();
 
                 if (role === 'customer') {
@@ -50,7 +49,7 @@ function Login() {
                     Router.push('/');
                 }
 
-                if (role === 'seller') {
+                if (role === 'seller' || role === "administrator") {
                     window.location.assign(
                         `http://localhost:5500/${_user.token}`
                     );

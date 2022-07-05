@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react"
 import ProductRepository from "~/repositories/ProductRepository"
 import { v4 as uuid } from "uuid"
-import { notification } from "antd"
+import { notification,Spin} from "antd"
 import Attribute from "./modules/Attribute"
+import { CustomModal } from "~/components/elements/custom"
 // import { arraysEqual } from "~/utilities/helperFunctions"
 
 const ProductAttributes = ({
@@ -15,6 +16,7 @@ const ProductAttributes = ({
   const [userAttributes, setUserAttributes] = useState([])
   const [name, setName] = useState("")
   const [error, setError] = useState("")
+  const [isLoading ,setIsLoading] = useState(false)
 
   const addAttribute = () => {
     let newAttribute = {
@@ -100,7 +102,7 @@ const ProductAttributes = ({
           variation: attribute.variation,
         }))
 
-        console.log("Saving Product Attributes...")
+        setIsLoading(true)
         /* Update product with selected attributes */
         const updatedProduct = await ProductRepository.updateProduct(
           productId,
@@ -110,7 +112,7 @@ const ProductAttributes = ({
           }
         )
 
-        console.log("Saved Attributes Successfully")
+      setIsLoading(false)
 
         /* Update UI with new attributes */
         onProductChange((product) => ({
@@ -301,6 +303,11 @@ const ProductAttributes = ({
 
   return (
     <div>
+      <CustomModal isOpen={isLoading}>
+        <div className="custom__spinner">
+        <Spin tip={<p className="text-white">Loading...</p>} size="large"/>
+        </div>
+      </CustomModal>
       {renderAttributes()}
 
       <hr />
@@ -321,7 +328,7 @@ const ProductAttributes = ({
 
       <button
         type="button"
-        className="ps-btn ps-btn--gray"
+        className="ps-btn ps-btn--gray mr-4 mb-3"
         onClick={addAttribute}
       >
         Add attribute

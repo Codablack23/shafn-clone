@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react"
-import { notification } from "antd"
+import { notification,Spin} from "antd"
 
 import Variation from "./modules/Variation"
 import ProductRepository from "~/repositories/ProductRepository"
 import FileRepository from "~/repositories/FileRepository"
 import { arraysEqual } from "~/utilities/helperFunctions"
+import { CustomModal } from "~/components/elements/custom"
 
 const ProductVariations = ({
   productId,
@@ -14,6 +15,7 @@ const ProductVariations = ({
   onProductChange,
 }) => {
   const [action, setAction] = useState("addVariation")
+  const [isLoading, setIsLoading] = useState(false)
 
   const updateDuplicatedAttributes = (prevAttributePair, newAttributePair) => {
     const variationWithDuplicate = variations.find((variation) =>
@@ -80,6 +82,7 @@ const ProductVariations = ({
   }
 
   const removeExistingAttributePairs = async () => {
+    setIsLoading(true)
     try {
       const attributePairs = await createAttributePairs()
 
@@ -122,9 +125,12 @@ const ProductVariations = ({
       )
       console.log(error)
     }
+    setIsLoading(false)
   }
 
   const createVariations = async () => {
+    setIsLoading(true)
+    
     if (action === "createVariations") {
       try {
         let attributePairs = await removeExistingAttributePairs() // So we only upload the new attributes
@@ -165,11 +171,11 @@ const ProductVariations = ({
       onVariationChange((variations) => [newVariation, ...variations])
     }
 
-    console.log("DONE!")
+   setIsLoading(false)
   }
 
   const saveVariations = async () => {
-    console.log("Saving variations...")
+    setIsLoading(true)
 
     let productVariations = []
     let numOfFailedImageUploads = 0
@@ -232,6 +238,7 @@ const ProductVariations = ({
     const variationsIdList = productVariations.map((variation) => variation.id)
 
     /* Update product with variation ids */
+    setIsLoading(false)
     try {
       await ProductRepository.updateProduct(productId, {
         variations: variationsIdList,
@@ -301,6 +308,11 @@ const ProductVariations = ({
 
   return (
     <div style={{ marginTop: 50 }}>
+       <CustomModal isOpen={isLoading}>
+        <div className="custom__spinner">
+        <Spin tip={<p className="text-white">Loading...</p>} size="large"/>
+        </div>
+      </CustomModal>
       <div className="form-group form-group--select">
         <div className="form-group__content">
           <select
@@ -328,7 +340,7 @@ const ProductVariations = ({
       {renderVariations()}
 
       {variations.length > 0 ? (
-        <button type="button" className="ps-btn" onClick={saveVariations}>
+        <button type="button" className="ps-btn mt-3" onClick={saveVariations}>
           Save variations
         </button>
       ) : null}
