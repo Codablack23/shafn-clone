@@ -49,9 +49,9 @@ function Login() {
                     Router.push('/');
                 }
 
-                if (role === 'seller' || role === "administrator") {
+                if (role === 'seller') {
                     window.location.assign(
-                        `http://localhost:5500/${_user.token}`
+                        `http://localhost:5500?auth_token=${_user.token}`
                     );
                 }
                 setIsLoading(false);
@@ -82,7 +82,11 @@ function Login() {
                     <ul className="ps-tab-list">
                         <li className="active m-auto" style={style.head}>
                             <Link href="/account/login">
-                               <img src="/static/img/logo_light.png" className='img-fluid' alt="" />
+                                <img
+                                    src="/static/img/logo_light.png"
+                                    className="img-fluid"
+                                    alt=""
+                                />
                             </Link>
                         </li>
                     </ul>
@@ -216,7 +220,7 @@ function Login() {
 
 export default Login;
 const style = {
-    head:{
-     maxWidth:"100px"
-    }
- }
+    head: {
+        maxWidth: '100px',
+    },
+};
