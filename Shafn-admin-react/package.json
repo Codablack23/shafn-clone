@@ -48,6 +48,7 @@
     "uuidv4": "^6.2.12"
   },
   "devDependencies": {
+    "eslint": "^8.19.0",
     "webpack": "^5.73.0"
   }
 }
