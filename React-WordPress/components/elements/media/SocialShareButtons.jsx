@@ -9,14 +9,16 @@ import {
 const SocialShareButtons = ({ url }) => (
     <>
         <FacebookShareButton url={url}>
-            <a className="social-link">
+            {/* <a className="social-link">
                 <i className="bi bi-facebook"></i>
-            </a>
+            </a> */}
+            <span>Facebook</span>
         </FacebookShareButton>
         <TwitterShareButton url={url}>
-            <a className="social-link">
+            {/* <a className="social-link">
                 <i className="bi bi-twitter"></i>
-            </a>
+            </a> */}
+            <span>Twitter</span>
         </TwitterShareButton>
         <LinkedinShareButton url={url}>
             <a className="social-link">
