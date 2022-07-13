@@ -81,18 +81,14 @@ export function WPGetProductBadge(product) {
 // Product
 export function WPProductPriceView(product) {
     let view;
-    if (product.on_sale === true) {
+    if (product.on_sale === true && product.sale_price) {
         view = (
             <p className="ps-product__price sale">
                 <span>€</span>
-                {formatCurrency(
-                    product.regular_price
-                        ? product.regular_price
-                        : product.price
-                )}
+                {formatCurrency(product.sale_price)}
                 <del className="ml-2">
                     <span>€</span>
-                    {formatCurrency(product.sale_price)}
+                    {formatCurrency(product.regular_price)}
                 </del>
             </p>
         );
@@ -100,11 +96,7 @@ export function WPProductPriceView(product) {
         view = (
             <p className="ps-product__price">
                 <span>€</span>
-                {formatCurrency(
-                    product.regular_price
-                        ? product.regular_price
-                        : product.price
-                )}
+                {formatCurrency(product.price)}
             </p>
         );
     }
@@ -175,7 +167,7 @@ export function WPProductDetailRatingView(product) {
 }
 
 export function WPProductDetailShortDescView(product) {
-    console.log(window.innerWidth)
+    console.log(window.innerWidth);
     let view;
     if (product?.short_description) {
         view = (

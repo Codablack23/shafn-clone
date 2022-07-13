@@ -27,6 +27,7 @@ const WPProductDetailPage = ({ pid }) => {
     async function getProduct(productID) {
         const WPProduct = await WPProductRepository.getProductByID(productID);
         if (WPProduct) {
+            console.log(WPProduct);
             // Get related product data
             if (WPProduct.related_ids) {
                 setRelatedProducts(WPProduct.related_ids);

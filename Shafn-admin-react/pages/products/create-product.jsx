@@ -167,7 +167,6 @@ const CreateProductPage = () => {
         name,
         slug,
         type: "simple",
-        price: discountedPrice.trim() || price.trim(),
         regular_price: price.trim(),
         sale_price: discountedPrice.trim(),
         short_description: shortDescription.trim(),

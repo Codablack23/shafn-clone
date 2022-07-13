@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import dynamic from "next/dynamic";
-import { notification } from "antd";
-import ProductRepository from "~/repositories/ProductRepository";
-import "suneditor/dist/css/suneditor.min.css";
+import React, { useState } from "react"
+import dynamic from "next/dynamic"
+import { notification } from "antd"
+import ProductRepository from "~/repositories/ProductRepository"
+import "suneditor/dist/css/suneditor.min.css"
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
-});
+})
 
 let buttonList = [
   [
@@ -25,7 +25,7 @@ let buttonList = [
     "textStyle",
     "fullScreen",
   ],
-];
+]
 
 const Variation = ({
   variation,
@@ -33,27 +33,25 @@ const Variation = ({
   productAttributes,
   setVariations,
 }) => {
-  const [selectedImage, setSelectedImage] = useState(variation.image.src);
+  const [selectedImage, setSelectedImage] = useState(variation.image.src)
 
   const handleInputChange = (e) => {
-    let { name, value } = e.target;
+    let { name, value } = e.target
 
-    let attributeNames = variation.attributes.map(
-      (attribute) => attribute.name
-    );
+    let attributeNames = variation.attributes.map((attribute) => attribute.name)
     let formNames = [
       "enabled",
       "downloadable",
       "virtual",
       "manage_stock",
       "regular_price",
-      "price",
+      "sale_price",
       "stock_quantity",
       "weight",
       "dimension_length",
       "dimension_width",
       "dimension_height",
-    ];
+    ]
 
     if (attributeNames.includes(name)) {
       setVariations((variations) =>
@@ -69,7 +67,7 @@ const Variation = ({
               }
             : _variation
         )
-      );
+      )
     }
 
     if (
@@ -87,7 +85,7 @@ const Variation = ({
               }
             : _variation
         )
-      );
+      )
     }
 
     if (name === "regular_price" && !isNaN(value)) {
@@ -100,16 +98,16 @@ const Variation = ({
               }
             : _variation
         )
-      );
+      )
     }
 
-    if (name === "price" && !isNaN(value)) {
+    if (name === "sale_price" && !isNaN(value)) {
       if (Number(value) >= Number(variation.regular_price)) {
         // setIsPriceValid(false);
         // setTimeout(() => {
         //   setIsPriceValid(true);
         // }, 4000);
-        alert("Discounted price must be less than the Sale price");
+        alert("Discounted price must be less than the Sale price")
       } else {
         setVariations((variations) =>
           variations.map((_variation) =>
@@ -120,7 +118,7 @@ const Variation = ({
                 }
               : _variation
           )
-        );
+        )
       }
     }
 
@@ -134,7 +132,7 @@ const Variation = ({
               }
             : _variation
         )
-      );
+      )
     }
 
     if (name === "weight" && !isNaN(value)) {
@@ -147,11 +145,11 @@ const Variation = ({
               }
             : _variation
         )
-      );
+      )
     }
 
     if (name.includes("dimension") && !isNaN(value)) {
-      let dimensionProp = name.split("_").pop();
+      let dimensionProp = name.split("_").pop()
       setVariations((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
@@ -164,7 +162,7 @@ const Variation = ({
               }
             : _variation
         )
-      );
+      )
     }
 
     if (!formNames.includes(name)) {
@@ -177,15 +175,15 @@ const Variation = ({
               }
             : _variation
         )
-      );
+      )
     }
-  };
+  }
 
   const imageHandler = (e) => {
-    e.persist();
+    e.persist()
 
-    let image = e.target.files[0];
-    let type = image.type.split("/").pop();
+    let image = e.target.files[0]
+    let type = image.type.split("/").pop()
 
     if (image) {
       if (
@@ -194,7 +192,7 @@ const Variation = ({
         type === "png" ||
         type === "gif"
       ) {
-        let imgUrl = URL.createObjectURL(image);
+        let imgUrl = URL.createObjectURL(image)
 
         setVariations((variations) =>
           variations.map((_variation) =>
@@ -208,36 +206,36 @@ const Variation = ({
                 }
               : _variation
           )
-        );
-        setSelectedImage(imgUrl);
+        )
+        setSelectedImage(imgUrl)
 
-        URL.revokeObjectURL(image);
+        URL.revokeObjectURL(image)
       } else {
         notification["error"]({
           message: "Invalid image type!",
           description: "Image type must be jpg, png or gif",
-        });
+        })
       }
     }
-  };
+  }
 
   const removeVariation = async () => {
     let response = await ProductRepository.deleteVariation(
       productID,
       variation.id
-    );
+    )
 
     if (response) {
       setVariations((variations) =>
         variations.filter((_variation) => _variation.id !== variation.id)
-      );
+      )
     }
-  };
+  }
 
   const renderAttributeOptions = (attributeName, attributeOption) => {
     let attribute = productAttributes.find(
       (productAttribute) => productAttribute.name === attributeName
-    );
+    )
 
     if (attribute !== undefined) {
       let options = attribute.options.map((option) => (
@@ -248,10 +246,10 @@ const Variation = ({
         >
           {option}
         </option>
-      ));
-      return options;
+      ))
+      return options
     }
-  };
+  }
 
   return (
     <div className="variations-List mt-5 rounded">
@@ -472,10 +470,10 @@ const Variation = ({
             <div className="form-group">
               <label>Discounted price ($)</label>
               <input
-                name="price"
+                name="sale_price"
                 className="form-control"
                 type="text"
-                value={variation.price}
+                value={variation.sale_price}
                 onChange={handleInputChange}
               />
             </div>
@@ -622,10 +620,10 @@ const Variation = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Variation;
+export default Variation
 
 let styles = {
   imageSelectBox: {
@@ -668,4 +666,4 @@ let styles = {
     minHeight: "30vh",
     marginRight: "2%",
   },
-};
+}

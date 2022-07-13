@@ -68,17 +68,17 @@ const WPModuleProductInformation = ({
 
     const handleRenderPrice = (product) => {
         let priceView;
-        if (product.on_sale === true) {
+        if (product.on_sale === true && product.sale_price) {
             priceView = (
                 <p className="ps-product__price sale">
                     <span>€</span>
-                    {formatCurrency(product.price)}
+                    {formatCurrency(product.sale_price)}
                     <del
                         className="ml-2"
                         style={{ fontSize: 20, color: '#669900' }}>
                         <span>€</span>
                         <span className="fs-1">
-                            {formatCurrency(product.sale_price)}
+                            {formatCurrency(product.regular_price)}
                         </span>
                     </del>
                 </p>

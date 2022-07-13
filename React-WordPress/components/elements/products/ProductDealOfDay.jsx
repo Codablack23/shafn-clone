@@ -19,30 +19,30 @@ class ProductDealOfDay extends Component {
         };
     }
 
-    handleAddItemToCart = e => {
+    handleAddItemToCart = (e) => {
         e.preventDefault();
         const { product } = this.props;
         this.props.dispatch(addItem(product));
     };
 
-    handleAddItemToCompare = e => {
+    handleAddItemToCompare = (e) => {
         e.preventDefault();
         const { product } = this.props;
         this.props.dispatch(addItemToCompare(product));
     };
 
-    handleAddItemToWishlist = e => {
+    handleAddItemToWishlist = (e) => {
         e.preventDefault();
         const { product } = this.props;
         this.props.dispatch(addItemToWishlist(product));
     };
 
-    handleShowQuickView = e => {
+    handleShowQuickView = (e) => {
         e.preventDefault();
         this.setState({ isQuickView: true });
     };
 
-    handleHideQuickView = e => {
+    handleHideQuickView = (e) => {
         e.preventDefault();
         this.setState({ isQuickView: false });
     };
@@ -51,7 +51,7 @@ class ProductDealOfDay extends Component {
         const { product, currency } = this.props;
         let productBadge = null;
         if (product.badge && product.badge !== null) {
-            product.badge.map(badge => {
+            product.badge.map((badge) => {
                 if (badge.type === 'sale') {
                     return (productBadge = (
                         <div className="ps-product__badge">{badge.value}</div>
@@ -140,13 +140,13 @@ class ProductDealOfDay extends Component {
                         <a className="ps-product__vendor">Young Shop</a>
                     </Link>
                     <div className="ps-product__content">
-                        {product.is_sale === true ? (
+                        {product.is_sale === true && product.sale_price ? (
                             <p className="ps-product__price sale">
                                 {currency ? currency.symbol : '$'}
-                                {formatCurrency(product.price)}
+                                {formatCurrency(product.sale_price)}
                                 <del className="ml-2">
                                     {currency ? currency.symbol : '$'}
-                                    {formatCurrency(product.sale_price)}
+                                    {formatCurrency(product.regular_price)}
                                 </del>
                                 <small>18% off</small>
                             </p>
@@ -205,7 +205,7 @@ class ProductDealOfDay extends Component {
         );
     }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return state.setting;
 };
 export default connect(mapStateToProps)(ProductDealOfDay);

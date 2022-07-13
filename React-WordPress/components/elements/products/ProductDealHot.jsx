@@ -30,14 +30,14 @@ class ProductDealHot extends React.Component {
                         </h3>
 
                         <div className="ps-product__meta">
-                            {product.is_sale === true ? (
+                            {product.is_sale === true && product.sale_price ? (
                                 <h4 className="ps-product__price sale">
                                     <del className="mr-2">
                                         {currency ? currency.symbol : '$'}
-                                        {formatCurrency(product.sale_price)}
+                                        {formatCurrency(product.regular_price)}
                                     </del>
                                     {currency ? currency.symbol : '$'}
-                                    {formatCurrency(product.price)}
+                                    {formatCurrency(product.sale_price)}
                                 </h4>
                             ) : (
                                 <h4 className="ps-product__price">
@@ -78,7 +78,7 @@ class ProductDealHot extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return state.setting;
 };
 

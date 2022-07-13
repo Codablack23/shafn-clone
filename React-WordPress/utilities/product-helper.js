@@ -9,6 +9,15 @@ export function formatCurrency(num) {
     }
 }
 
+export function getPercentDiff(regular_price, sale_price) {
+    const _regularPrice = Number(regular_price);
+    const _salePrice = Number(sale_price);
+
+    const percentDiff = ((_regularPrice - _salePrice) / _regularPrice) * 100;
+
+    return `${percentDiff}%`;
+}
+
 export function getColletionBySlug(collections, slug) {
     if (collections.length > 0) {
         const result = collections.find(
@@ -51,4 +60,3 @@ export function convertSlugsQueryString(payload) {
     }
     return query;
 }
-
