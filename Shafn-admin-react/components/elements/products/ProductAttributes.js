@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react"
 import ProductRepository from "~/repositories/ProductRepository"
 import { v4 as uuid } from "uuid"
-import { notification } from "antd"
+import { notification,Spin} from "antd"
 import Attribute from "./modules/Attribute"
+import { CustomModal } from "~/components/elements/custom"
+// import { arraysEqual } from "~/utilities/helperFunctions"
 
 const ProductAttributes = ({
-  productID,
+  productId,
   attributes,
-  setAttributes,
-  setVariations,
-  setProduct,
+  onAttributeChange,
+  onVariationChange,
+  onProductChange,
 }) => {
   const [userAttributes, setUserAttributes] = useState([])
   const [name, setName] = useState("")
-
-  const modifyAttribute = (newAttributes) => {
-    setAttributes(newAttributes)
-  }
+  const [error, setError] = useState("")
+  const [isLoading ,setIsLoading] = useState(false)
 
   const addAttribute = () => {
     let newAttribute = {
@@ -28,11 +28,10 @@ const ProductAttributes = ({
     }
     if (name) {
       // Check if attribute has been previously selected
-      let isSelected = attributes
-        .map((attribute) => attribute.name)
-        .includes(name)
 
-      if (!isSelected) {
+      const isSelected = attributes.find((attribute) => attribute.name === name)
+
+      if (isSelected === undefined) {
         // Add new attribute with name
         newAttribute.type = "select"
       }
@@ -40,139 +39,196 @@ const ProductAttributes = ({
       // Add new attribute without name. Name can be added after creating attribute
       newAttribute.type = "custom"
     }
-    modifyAttribute([newAttribute, ...attributes])
+    onAttributeChange([newAttribute, ...attributes])
+  }
+
+  const createAttributePairs = async () => {
+    try {
+      const product = await ProductRepository.getProductByID(productId)
+
+      let variationAttributes = product.attributes
+        .filter((attribute) => attribute.variation)
+        .map((attribute) =>
+          attribute.options.map((option, _) => ({
+            name: attribute.name,
+            option,
+          }))
+        )
+
+      let attributePairs = []
+
+      if (variationAttributes.length === 1) {
+        attributePairs = variationAttributes[0].map((attribute) => [attribute])
+      }
+
+      if (variationAttributes.length > 1) {
+        attributePairs = variationAttributes[0].map((el) => [el])
+
+        let newAttributePairs = []
+
+        for (let i = 1; i < variationAttributes.length; i++) {
+          variationAttributes[i].forEach((element, j) => {
+            attributePairs.forEach((attributePair) => {
+              newAttributePairs.push([
+                ...attributePair,
+                variationAttributes[i][j],
+              ])
+            })
+          })
+
+          attributePairs = newAttributePairs
+          newAttributePairs = []
+        }
+      }
+
+      return attributePairs
+    } catch (error) {
+      console.log(
+        "SOMETHING WENT WRONG WHEN TRYING TO CREATE PAIR ATTRIBUTES!!!"
+      )
+      console.log(error)
+    }
   }
 
   const saveAttributes = async () => {
     let errors = attributes.filter((attribute) => attribute.error)
+
     if (errors.length === 0) {
-      let response = await ProductRepository.saveAttributes(
-        productID,
-        attributes,
-        setAttributes
-      )
-
-      if (response) {
-        console.log(response.attributes)
-        notification["success"]({
-          message: "Attributes Saved Successfully",
-        })
-
-        setProduct((product) => ({
-          ...product,
-          attributes: response.attributes,
+      try {
+        const productAttributes = attributes.map((attribute, index) => ({
+          name: attribute.name,
+          options: attribute.options,
+          visible: attribute.visible,
+          variation: attribute.variation,
         }))
 
-        setVariations((variations) =>
-          variations.map((variation) => {
-            let newVariationData = response.newVariations.find(
-              (newVariation) => newVariation.id === variation.id
+        setIsLoading(true)
+        /* Update product with selected attributes */
+        const updatedProduct = await ProductRepository.updateProduct(
+          productId,
+          {
+            type: "variable",
+            attributes: productAttributes,
+          }
+        )
+
+      setIsLoading(false)
+
+        /* Update UI with new attributes */
+        onProductChange((product) => ({
+          ...product,
+          attributes: updatedProduct.attributes,
+        }))
+
+        notification["success"]({
+          description: "Attributes Saved Successfully",
+        })
+
+        const variations = await ProductRepository.getVariations(productId)
+
+        if (variations.length > 0) {
+          const attributesForVariations = productAttributes.filter(
+            (attribute) => attribute.variation
+          )
+
+          const attributePairs = await createAttributePairs()
+
+          let newVariations = []
+
+          /* Update variation with new attributes */
+          const updateVariation = (variation) => {
+            /* Remove deleted attributes from variation attributes */
+            const variationAttributes = variation.attributes.filter(
+              (attribute) =>
+                attributesForVariations
+                  .map((_attribute) => _attribute.name)
+                  .includes(attribute.name)
             )
 
-            return {
-              ...variation,
-              attributes: newVariationData.attributes,
+            /* Add new attributes to variation attributes */
+            attributesForVariations.forEach((attribute) => {
+              const isAttributeInVariationAttributes = variationAttributes
+                .map((variationAttribute) => variationAttribute.name)
+                .includes(attribute.name)
+
+              if (!isAttributeInVariationAttributes) {
+                const newAttribute = {
+                  name: attribute.name,
+                  option: `Any ${attribute.name}`,
+                }
+
+                variationAttributes.push(newAttribute)
+              }
+            })
+
+            /* Variation attributes must be equal to product attributes for variations */
+            if (variationAttributes.length === attributesForVariations.length) {
+              const newVariation = {
+                ...variation,
+                attributes: variationAttributes,
+              }
+              return newVariation
+            } else {
+              console.log(
+                `Failed to update variation attributes of variation id ${variation.id}`
+              )
+              return variation
             }
+          }
+
+          /* Update each variation with new attributes */
+          newVariations = variations.map((variation) =>
+            updateVariation(variation)
+          )
+
+          if (attributePairs.length < newVariations.length) {
+            /* Delete redundant variations */
+            const variationsToDelete = newVariations.splice(
+              attributePairs.length
+            )
+
+            await ProductRepository.deleteVariations(
+              productId,
+              variationsToDelete
+            )
+          }
+
+          /* Update variations with new attribute pairs */
+          const updatedVariations = await ProductRepository.updateVariations(
+            productId,
+            newVariations
+          )
+
+          onVariationChange((variations) => {
+            const _variations = []
+            variations.forEach((variation) => {
+              /* Update variation attributes */
+              const newVariation = updatedVariations.find(
+                (_variation) => _variation.id === variation.id
+              )
+
+              if (newVariation !== undefined) {
+                _variations.push({
+                  ...variation,
+                  attributes: newVariation.attributes,
+                })
+              }
+            })
+
+            return _variations
           })
-        )
+
+          console.log("DONE!")
+        }
+      } catch (error) {
+        console.log("Something went wrong when trying to save attributes")
+        console.error(error)
       }
+    } else {
+      notification["error"]({
+        description: "Unresolved attribute error!",
+      })
     }
-  }
-
-  const removeAttribute = (id) => {
-    const filter = (attribute) => attribute.id !== id
-    modifyAttribute(attributes.filter(filter))
-  }
-
-  const changeName = (id, name) => {
-    const modify = (attribute) =>
-      attribute.id === id
-        ? {
-            ...attribute,
-            name,
-          }
-        : attribute
-
-    modifyAttribute(attributes.map(modify))
-  }
-
-  const toggleProp = (id, name) => {
-    const toggle = (attribute) =>
-      attribute.id === id
-        ? {
-            ...attribute,
-            [name]: !attribute[name],
-          }
-        : attribute
-
-    modifyAttribute(attributes.map(toggle))
-  }
-
-  const addOption = (id, option) => {
-    const modify = (attribute) =>
-      attribute.id === id
-        ? {
-            ...attribute,
-            options:
-              !option || attribute.options.includes(option)
-                ? attribute.options
-                : [...attribute.options, option],
-          }
-        : attribute
-
-    modifyAttribute(attributes.map(modify))
-  }
-
-  const removeOption = (id, _option) => {
-    const modify = (attribute) =>
-      attribute.id === id
-        ? {
-            ...attribute,
-            options: attribute.options.filter((option) => option !== _option),
-          }
-        : attribute
-
-    modifyAttribute(attributes.map(modify))
-  }
-
-  const selectAllOptions = (id, name) => {
-    let currentAttribute = userAttributes.find(
-      (attribute) => attribute.name === name
-    )
-
-    if (currentAttribute) {
-      const modify = (attribute) =>
-        attribute.id === id
-          ? {
-              ...attribute,
-              options: currentAttribute.values.map((value) => value.name),
-            }
-          : attribute
-
-      modifyAttribute(attributes.map(modify))
-    }
-  }
-
-  const clearOptions = (id) => {
-    const modify = (attribute) =>
-      attribute.id === id
-        ? {
-            ...attribute,
-            options: [],
-          }
-        : attribute
-
-    modifyAttribute(attributes.map(modify))
-  }
-
-  const checkForDuplicatedAttributeName = (name) => {
-    let duplicates = attributes.filter(
-      (attribute) =>
-        attribute.name.toLowerCase().trim() === name.toLowerCase().trim()
-    )
-
-    if (duplicates.length > 1) return true
-    return false
   }
 
   const handleError = (id, error) => {
@@ -184,7 +240,7 @@ const ProductAttributes = ({
           }
         : attribute
 
-    modifyAttribute(attributes.map(modify))
+    onAttributeChange(attributes.map(modify))
   }
 
   const renderAttributeNames = () => {
@@ -203,15 +259,15 @@ const ProductAttributes = ({
   }
 
   const renderAttributes = () => {
-    return attributes.map((attribute, i) => {
+    return attributes.map((attribute, _) => {
       let userAttribute
-      let attributeID = null
+      // let attributeID = null
       let defaultOptions = []
       if (attribute.type === "select" && userAttributes.length > 0) {
         userAttribute = userAttributes.find(
           (attr) => attr.name.toLowerCase() === attribute.name.toLowerCase()
         )
-        attributeID = userAttribute.id
+        // attributeID = userAttribute.id
       }
       if (userAttribute !== undefined) {
         defaultOptions = userAttribute.values
@@ -219,17 +275,12 @@ const ProductAttributes = ({
 
       return (
         <Attribute
-          key={i}
+          key={attribute.id}
           attribute={attribute}
+          productAttributes={attributes}
+          userAttributes={userAttributes}
           defaultOptions={defaultOptions}
-          changeName={changeName}
-          addOption={addOption}
-          toggleProp={toggleProp}
-          removeOption={removeOption}
-          selectAllOptions={selectAllOptions}
-          clearOptions={clearOptions}
-          removeAttribute={removeAttribute}
-          checkForDuplicatedAttributeName={checkForDuplicatedAttributeName}
+          onAttributeChange={onAttributeChange}
           handleError={handleError}
         />
       )
@@ -252,6 +303,11 @@ const ProductAttributes = ({
 
   return (
     <div>
+      <CustomModal isOpen={isLoading}>
+        <div className="custom__spinner">
+        <Spin tip={<p className="text-white">Loading...</p>} size="large"/>
+        </div>
+      </CustomModal>
       {renderAttributes()}
 
       <hr />
@@ -268,9 +324,11 @@ const ProductAttributes = ({
         </div>
       </div>
 
+      <p style={{ color: "red" }}>{error}</p>
+
       <button
         type="button"
-        className="ps-btn ps-btn--gray"
+        className="ps-btn ps-btn--gray mr-4 mb-3"
         onClick={addAttribute}
       >
         Add attribute

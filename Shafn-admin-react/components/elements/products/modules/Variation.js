@@ -1,8 +1,9 @@
 import React, { useState } from "react"
 import dynamic from "next/dynamic"
-import { notification } from "antd"
+import { notification,Spin } from "antd"
 import ProductRepository from "~/repositories/ProductRepository"
 import "suneditor/dist/css/suneditor.min.css"
+import { CustomModal } from "~/components/elements/custom"
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
@@ -29,23 +30,25 @@ let buttonList = [
 
 const Variation = ({
   variation,
-  productID,
+  productId,
   productAttributes,
-  setVariations,
+  onVariationChange,
+  onAttributeChange,
 }) => {
   const [selectedImage, setSelectedImage] = useState(variation.image.src)
+  const [isLoading,setIsloading] = useState(false)
 
   const handleInputChange = (e) => {
     let { name, value } = e.target
 
     let attributeNames = variation.attributes.map((attribute) => attribute.name)
-    let formNames = [
+    let uncheckedFormNames = [
       "enabled",
       "downloadable",
       "virtual",
       "manage_stock",
       "regular_price",
-      "sale_price",
+      "price",
       "stock_quantity",
       "weight",
       "dimension_length",
@@ -53,20 +56,39 @@ const Variation = ({
       "dimension_height",
     ]
 
+    /* Handle attribute change */
     if (attributeNames.includes(name)) {
-      setVariations((variations) =>
-        variations.map((_variation) =>
-          _variation.id === variation.id
-            ? {
-                ..._variation,
-                attributes: _variation.attributes.map((attribute) =>
+      const prevAttributePair = variation.attributes
+      let newAttributePair
+
+      const updateAttribute = () => {
+        return new Promise((resolve, reject) => {
+          onVariationChange((variations) =>
+            /* Update attribute */
+            variations.map((_variation) => {
+              if (_variation.id === variation.id) {
+                newAttributePair = variation.attributes.map((attribute) =>
                   attribute.name === name
                     ? { ...attribute, option: value }
                     : attribute
-                ),
+                )
+
+                return {
+                  ..._variation,
+                  attributes: newAttributePair,
+                }
+              } else {
+                return _variation
               }
-            : _variation
-        )
+            })
+          )
+
+          resolve()
+        })
+      }
+
+      updateAttribute().then(() =>
+        onAttributeChange(prevAttributePair, newAttributePair)
       )
     }
 
@@ -76,7 +98,7 @@ const Variation = ({
       name === "virtual" ||
       name === "manage_stock"
     ) {
-      setVariations((variations) =>
+      onVariationChange((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
             ? {
@@ -89,7 +111,7 @@ const Variation = ({
     }
 
     if (name === "regular_price" && !isNaN(value)) {
-      setVariations((variations) =>
+      onVariationChange((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
             ? {
@@ -103,13 +125,9 @@ const Variation = ({
 
     if (name === "sale_price" && !isNaN(value)) {
       if (Number(value) >= Number(variation.regular_price)) {
-        // setIsPriceValid(false);
-        // setTimeout(() => {
-        //   setIsPriceValid(true);
-        // }, 4000);
         alert("Discounted price must be less than the Sale price")
       } else {
-        setVariations((variations) =>
+        onVariationChange((variations) =>
           variations.map((_variation) =>
             _variation.id === variation.id
               ? {
@@ -123,7 +141,7 @@ const Variation = ({
     }
 
     if (name === "stock_quantity" && Number.isInteger(Number(value))) {
-      setVariations((variations) =>
+      onVariationChange((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
             ? {
@@ -136,7 +154,7 @@ const Variation = ({
     }
 
     if (name === "weight" && !isNaN(value)) {
-      setVariations((variations) =>
+      onVariationChange((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
             ? {
@@ -150,7 +168,7 @@ const Variation = ({
 
     if (name.includes("dimension") && !isNaN(value)) {
       let dimensionProp = name.split("_").pop()
-      setVariations((variations) =>
+      onVariationChange((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
             ? {
@@ -165,8 +183,8 @@ const Variation = ({
       )
     }
 
-    if (!formNames.includes(name)) {
-      setVariations((variations) =>
+    if (!uncheckedFormNames.includes(name)) {
+      onVariationChange((variations) =>
         variations.map((_variation) =>
           _variation.id === variation.id
             ? {
@@ -184,17 +202,14 @@ const Variation = ({
 
     let image = e.target.files[0]
     let type = image.type.split("/").pop()
+    let allowedTypes = ["jpeg", "jpg", "png", "gif"]
 
     if (image) {
-      if (
-        type === "jpeg" ||
-        type === "jpg" ||
-        type === "png" ||
-        type === "gif"
-      ) {
+      if (allowedTypes.includes(type)) {
         let imgUrl = URL.createObjectURL(image)
 
-        setVariations((variations) =>
+        /* Add image file object to variation */
+        onVariationChange((variations) =>
           variations.map((_variation) =>
             _variation.id === variation.id
               ? {
@@ -207,6 +222,8 @@ const Variation = ({
               : _variation
           )
         )
+
+        /* Set image preview url to display in UI */
         setSelectedImage(imgUrl)
 
         URL.revokeObjectURL(image)
@@ -220,16 +237,22 @@ const Variation = ({
   }
 
   const removeVariation = async () => {
+    setIsloading(true)
     let response = await ProductRepository.deleteVariation(
-      productID,
+      productId,
       variation.id
     )
-
+    setIsloading(false)
+    location.reload()
     if (response) {
-      setVariations((variations) =>
+      onVariationChange((variations) =>
         variations.filter((_variation) => _variation.id !== variation.id)
+        
       )
+      setIsloading(false)
+      location.reload()
     }
+  
   }
 
   const renderAttributeOptions = (attributeName, attributeOption) => {
@@ -242,7 +265,7 @@ const Variation = ({
         <option
           key={option}
           value={option}
-          disabled={option === attributeOption ? true : false}
+          disabled={option === attributeOption}
         >
           {option}
         </option>
@@ -252,18 +275,23 @@ const Variation = ({
   }
 
   return (
-    <div className="variations-List mt-5 rounded">
-      <header className="d-flex justify-content-between bg-light p-3">
-        <div className="d-flex">
+    <div className="variations-List mt-5 rounded pt-2">
+       <CustomModal isOpen={isLoading}>
+        <div className="custom__spinner">
+        <Spin tip={<p className="text-white">Loading...</p>} size="large"/>
+        </div>
+      </CustomModal>
+      <header className="d-flex align-items-center justify-content-between bg-light p-3">
+        <div className="d-flex w-75 align-items-center">
           <span style={{ fontWeight: "bold" }}>#{variation.id}</span>
 
           {variation.attributes.map((attribute, index) => (
             <select
               key={index}
               name={attribute.name}
-              className="ps-select"
+              className="variations__select"
               title={attribute.name}
-              defaultValue={attribute.option}
+              value={attribute.option}
               onChange={handleInputChange}
             >
               <option value="">Any {attribute.name}</option>
@@ -297,7 +325,7 @@ const Variation = ({
       </header>
 
       <div className="collapse" id={`collapse-${variation.id}`}>
-        <div className="row">
+        <div className="row pt-5">
           <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
             <div className="row">
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">

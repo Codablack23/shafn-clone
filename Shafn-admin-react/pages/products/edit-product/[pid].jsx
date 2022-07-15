@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 import Router from "next/router"
-
 import { useDispatch } from "react-redux"
 import { notification, Progress, Spin } from "antd"
 import ReactHtmlParser from "react-html-parser"
 import Select from "react-select"
 
 import { toggleDrawerMenu } from "~/store/app/action"
-
 import FileRepository from "~/repositories/FileRepository"
 import ProductRepository from "~/repositories/ProductRepository"
-
-import "react-color-palette/lib/css/styles.css"
-import "suneditor/dist/css/suneditor.min.css"
-import "react-image-lightbox/style.css"
-
 import ImageSelectTiles from "~/components/elements/products/ImageSelectTiles"
 import ProductAttributes from "~/components/elements/products/ProductAttributes"
 import ProductVariations from "~/components/elements/products/ProductVariations"
@@ -23,6 +16,9 @@ import { CustomModal } from "~/components/elements/custom/index"
 import ContainerDefault from "~/components/layouts/ContainerDefault"
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard"
 import { generateSlug } from "~/utilities/helperFunctions"
+
+import "suneditor/dist/css/suneditor.min.css"
+import "react-image-lightbox/style.css"
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
@@ -105,7 +101,7 @@ const EditProductPage = ({ pid }) => {
   const handleInputChange = (e) => {
     let name = e.target.name
     let value = e.target.value
-    let formNames = [
+    let uncheckedFormNames = [
       "regular_price",
       "sale_price",
       "stock_quantity",
@@ -127,7 +123,11 @@ const EditProductPage = ({ pid }) => {
           setIsPriceValid(true)
         }, 4000)
       } else {
-        setProduct((product) => ({ ...product, [name]: value }))
+        setProduct((product) => ({
+          ...product,
+          [name]: value,
+          sale_price: value,
+        }))
       }
     }
 
@@ -153,7 +153,7 @@ const EditProductPage = ({ pid }) => {
       setProduct((product) => ({ ...product, [name]: tags }))
     }
 
-    if (!formNames.includes(name)) {
+    if (!uncheckedFormNames.includes(name)) {
       setProduct((product) => ({ ...product, [name]: value }))
     }
   }
@@ -318,29 +318,35 @@ const EditProductPage = ({ pid }) => {
       setCurrentImages(currentImages)
     } catch (err) {
       notification["error"]({
-        message: "Unable To Get Product",
+        message: "Unable to get product",
         description: "Check your data connection and try again.",
       })
     }
   }
 
   const getCategories = async () => {
-    const categories = await ProductRepository.getCategories()
+    try {
+      const categories = await ProductRepository.getCategories()
 
-    setCategories(categories)
+      setCategories(categories)
+    } catch (error) {
+      notification["error"]({
+        message: "Unable to get product categories",
+      })
+    }
   }
 
   const getTags = async () => {
-    const tags = await ProductRepository.getTags()
+    try {
+      const tags = await ProductRepository.getTags()
 
-    let tagOptions = tags.map((tag) => ({ value: tag.id, label: tag.name }))
-    setTagOptions(tagOptions)
-  }
-
-  const getVariations = async () => {
-    const variations = await ProductRepository.getVariations(pid)
-
-    setVariations(variations)
+      let tagOptions = tags.map((tag) => ({ value: tag.id, label: tag.name }))
+      setTagOptions(tagOptions)
+    } catch (error) {
+      notification["error"]({
+        message: "Unable to get product tags",
+      })
+    }
   }
 
   useEffect(() => {
@@ -349,8 +355,6 @@ const EditProductPage = ({ pid }) => {
     getCategories()
 
     getTags()
-
-    getVariations()
 
     dispatch(toggleDrawerMenu(false))
   }, [])
@@ -458,9 +462,10 @@ const EditProductPage = ({ pid }) => {
                         onChange={handleInputChange}
                       />
                       <p className="text-danger" hidden={isPriceValid}>
-                        Discounted price must be less than the Sale price
+                        Discounted price must be less than the Regular price
                       </p>
                     </div>
+
                     <div className="form-group form-group--select">
                       <label>
                         Category<sup>*</sup>
@@ -682,19 +687,19 @@ const EditProductPage = ({ pid }) => {
                   <figcaption>Attributes and Variations</figcaption>
                   <div className="ps-block__content">
                     <ProductAttributes
-                      productID={pid}
+                      productId={pid}
                       attributes={attributes}
-                      setAttributes={setAttributes}
-                      setVariations={setVariations}
-                      setProduct={setProduct}
+                      onAttributeChange={setAttributes}
+                      onVariationChange={setVariations}
+                      onProductChange={setProduct}
                     />
                     {product.attributes.length > 0 ? (
                       <ProductVariations
-                        productID={pid}
+                        productId={pid}
                         productAttributes={product.attributes}
                         variations={variations}
-                        setVariations={setVariations}
-                        setProduct={setProduct}
+                        onVariationChange={setVariations}
+                        onProductChange={setProduct}
                       />
                     ) : null}
                   </div>
@@ -721,9 +726,13 @@ const EditProductPage = ({ pid }) => {
             <div className="col-12 col-md-6 mt-5">
               <div className="mt-5">
                 <Spin size="large" />
-                <Progress type="line" percent={progress} />
-                {`${progress}%`}
-                <p>Uploading new images</p>
+                {progress !== images.length * 100 && (
+                  <>
+                    <Progress type="line" percent={progress} />
+                    {`${progress}%`}
+                    <p>Uploading new images</p>
+                  </>
+                )}
               </div>
             </div>
             <div className="col-12 col-md-3"></div>

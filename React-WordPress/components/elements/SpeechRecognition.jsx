@@ -1,8 +1,21 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import SR, { useSpeechRecognition } from 'react-speech-recognition';
+import { createSpeechlySpeechRecognition } from '@speechly/speech-recognition-polyfill';
+import SpeechRecognition, {
+    useSpeechRecognition,
+} from 'react-speech-recognition';
 
-const SpeechRecognition = ({ onListening }) => {
+const appId = process.env.speechly_appID;
+const SpeechlySpeechRecognition = createSpeechlySpeechRecognition(appId);
+SpeechRecognition.applyPolyfill(SpeechlySpeechRecognition);
+
+// const SpeechRecognition =
+//     window.SpeechRecognition || window.webkitSpeechRecognition;
+// const mic = new SpeechRecognition();
+
+// console.log(mic);
+
+const Microphone = ({ onListening }) => {
     const router = useRouter();
     const {
         transcript,
@@ -11,12 +24,11 @@ const SpeechRecognition = ({ onListening }) => {
         browserSupportsSpeechRecognition,
     } = useSpeechRecognition();
 
-    const startListening = () => {
-        SR.startListening({ continuous: true });
-    };
+    const startListening = () =>
+        SpeechRecognition.startListening({ continuous: true });
 
     const stopListening = () => {
-        SR.stopListening();
+        SpeechRecognition.stopListening();
         resetTranscript();
     };
 
@@ -24,24 +36,24 @@ const SpeechRecognition = ({ onListening }) => {
 
     if (browserSupportsSpeechRecognition) {
         microphone = listening ? (
-            <div title="Turn off voice search" onClick={stopListening}>
-                <i
-                    style={{ marginRight: '0.7em' }}
-                    className="bi bi-mic-mute font-20"></i>
-            </div>
+            <i
+                title="Turn off voice search"
+                className="bi bi-mic-mute font-20"
+                style={{ marginRight: '0.7em' }}
+                onClick={stopListening}></i>
         ) : (
-            <div title="Turn on voice search" onClick={startListening}>
-                <i
-                    style={{ marginRight: '0.7em' }}
-                    className="bi bi-mic font-20"></i>
-            </div>
+            <i
+                title="Turn on voice search"
+                className="bi bi-mic font-20"
+                style={{ marginRight: '0.7em' }}
+                onClick={startListening}></i>
         );
     }
 
     useEffect(() => {
         router.events.on('routeChangeStart', stopListening);
         if (listening) {
-            onListening(transcript);
+            onListening(transcript.toLowerCase());
         }
 
         return () => {
@@ -52,4 +64,4 @@ const SpeechRecognition = ({ onListening }) => {
     return microphone;
 };
 
-export default SpeechRecognition;
+export default Microphone;

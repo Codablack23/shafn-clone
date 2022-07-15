@@ -9,13 +9,9 @@ export function formatCurrency(num) {
     }
 }
 
-export function getPercentDiff(regular_price, sale_price) {
-    const _regularPrice = Number(regular_price);
-    const _salePrice = Number(sale_price);
-
-    const percentDiff = ((_regularPrice - _salePrice) / _regularPrice) * 100;
-
-    return `${percentDiff}%`;
+export function getDiscountPercent(regularPrice, salePrice) {
+    const percent = ((regularPrice - salePrice) / regularPrice) * 100;
+    return `${percent}%`;
 }
 
 export function getColletionBySlug(collections, slug) {

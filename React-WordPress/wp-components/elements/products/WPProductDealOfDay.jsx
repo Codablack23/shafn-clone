@@ -4,7 +4,7 @@ import { connect, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { Modal } from 'antd';
 import Rating from '../../../components/elements/Rating';
-import { formatCurrency, getPercentDiff } from '~/utilities/product-helper';
+import { formatCurrency, getDiscountPercent } from '~/utilities/product-helper';
 import { addItem } from '~/store/cart/action';
 import { addItemToCompare } from '~/store/compare/action';
 import { addItemToWishlist } from '~/store/wishlist/action';
@@ -69,17 +69,18 @@ const WPProduct = ({ product }) => {
 
     if (product) {
         // Price
-        if (product.on_sale === true && product.sale_price) {
+        if (product.on_sale === true) {
             productPrice = (
                 <p className="ps-product__price sale">
                     <span>€</span>
-                    {formatCurrency(product.sale_price)}
+                    {formatCurrency(product.regular_price)}
                     <del className="ml-2">
                         <span>€</span>
-                        {formatCurrency(product.regular_price)}
+
+                        {formatCurrency(product.sale_price)}
                     </del>
                     <small>
-                        {getPercentDiff(
+                        {getDiscountPercent(
                             product.regular_price,
                             product.sale_price
                         )}{' '}

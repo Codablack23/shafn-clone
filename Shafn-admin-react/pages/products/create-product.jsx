@@ -76,8 +76,8 @@ const CreateProductPage = () => {
   const [tagOptions, setTagOptions] = useState([])
 
   const [name, setName] = useState("")
-  const [price, setPrice] = useState("")
-  const [discountedPrice, setDiscountedPrice] = useState("")
+  const [regularPrice, setRegularPrice] = useState("")
+  const [salePrice, setSalePrice] = useState("")
   const [shortDescription, setShortDescription] = useState("")
   const [description, setDescription] = useState("")
   const [category, setCategory] = useState("")
@@ -96,17 +96,17 @@ const CreateProductPage = () => {
     const name = e.target.name
     const val = e.target.value
     if (name === "regular_price" && !isNaN(val)) {
-      setPrice(val)
+      setRegularPrice(val)
     }
 
-    if (name === "price" && !isNaN(val)) {
-      if (Number(val) >= Number(price)) {
+    if (name === "sale_price" && !isNaN(val)) {
+      if (Number(val) >= Number(regularPrice)) {
         setIsPriceValid(false)
         setTimeout(() => {
           setIsPriceValid(true)
         }, 4000)
       } else {
-        setDiscountedPrice(val)
+        setSalePrice(val)
       }
     }
 
@@ -134,8 +134,8 @@ const CreateProductPage = () => {
 
   const validateInputs = () => {
     if (!name) return "Product Name is required!"
-    if (!price) return "Sale Price is required!"
-    if (Number(discountedPrice) > Number(price)) {
+    if (!regularPrice) return "Regular Price is required!"
+    if (Number(salePrice) > Number(regularPrice)) {
       setIsPriceValid(false)
       setTimeout(() => {
         setIsPriceValid(true)
@@ -167,8 +167,8 @@ const CreateProductPage = () => {
         name,
         slug,
         type: "simple",
-        regular_price: price.trim(),
-        sale_price: discountedPrice.trim(),
+        regular_price: regularPrice.trim(),
+        sale_price: salePrice.trim(),
         short_description: shortDescription.trim(),
         description: description.trim(),
         categories: category,
@@ -307,7 +307,7 @@ const CreateProductPage = () => {
                         className="form-control"
                         type="text"
                         placeholder=""
-                        value={price}
+                        value={regularPrice}
                         onChange={handleInputChange}
                         required
                       />
@@ -317,11 +317,11 @@ const CreateProductPage = () => {
                         Discounted Price<sup>*</sup>
                       </label>
                       <input
-                        name="price"
+                        name="sale_price"
                         className="form-control"
                         type="text"
                         placeholder=""
-                        value={discountedPrice}
+                        value={salePrice}
                         onChange={handleInputChange}
                       />
                       <p style={{ color: "red" }} hidden={isPriceValid}>
@@ -486,7 +486,7 @@ const CreateProductPage = () => {
           <div className="col-12 col-md-6 mt-5">
             <div className="mt-5">
               <Spin size="large" />
-              {progress === images.length * 100 && (
+              {progress !== images.length * 100 && (
                 <>
                   <Progress type="line" percent={progress} />
                   <span>{`${progress}%`}</span>
