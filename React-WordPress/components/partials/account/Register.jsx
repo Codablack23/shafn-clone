@@ -163,9 +163,9 @@ function Register() {
                     className="ps-form--account"
                     onFinish={!isLoading && handleRegistration}>
                     <ul className="ps-tab-list">
-                        <li className="active">
-                            <Link href="/account/register">
-                                <a>ShafN</a>
+                      <li className="active m-auto" style={style.head}>
+                            <Link href="/account/login">
+                               <img src="/static/img/logo_light.png" className='img-fluid' alt="" />
                             </Link>
                         </li>
                     </ul>
@@ -386,3 +386,9 @@ function Register() {
 }
 
 export default Register;
+
+const style = {
+   head:{
+    maxWidth:"100px"
+   }
+}

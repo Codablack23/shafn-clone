@@ -1,67 +1,74 @@
-import React, { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
-import WPProductSearchResult from '~/wp-components/elements/products/WPProductSearchResult';
-import WPProductRepository from '~/repositories/WP/WPProductRepository';
-import SpeechRecognition from '~/components/elements/SpeechRecognition';
-import { Spin } from 'antd';
+import React, { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import dynamic from "next/dynamic";
+import WPProductSearchResult from "~/wp-components/elements/products/WPProductSearchResult";
+import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import { Spin } from "antd";
+
+const Microphone = dynamic(
+    () => import("~/components/elements/SpeechRecognition"),
+    {
+        ssr: false,
+    }
+);
 
 const exampleCategories = [
-    'All',
-    'Babies & Moms',
-    'Books & Office',
-    'Cars & Motocycles',
-    'Clothing & Apparel',
-    ' Accessories',
-    'Bags',
-    'Kid’s Fashion',
-    'Mens',
-    'Shoes',
-    'Sunglasses',
-    'Womens',
-    'Computers & Technologies',
-    'Desktop PC',
-    'Laptop',
-    'Smartphones',
-    'Consumer Electrics',
-    'Air Conditioners',
-    'Accessories',
-    'Type Hanging Cell',
-    'Audios & Theaters',
-    'Headphone',
-    'Home Theater System',
-    'Speakers',
-    'Car Electronics',
-    'Audio & Video',
-    'Car Security',
-    'Radar Detector',
-    'Vehicle GPS',
-    'Office Electronics',
-    'Printers',
-    'Projectors',
-    'Scanners',
-    'Store & Business',
-    'Refrigerators',
-    'TV Televisions',
-    '4K Ultra HD TVs',
-    'LED TVs',
-    'OLED TVs',
-    'Washing Machines',
-    'Type Drying Clothes',
-    'Type Horizontal',
-    'Type Vertical',
-    'Garden & Kitchen',
-    'Cookware',
-    'Decoration',
-    'Furniture',
-    'Garden Tools',
-    'Home Improvement',
-    'Powers And Hand Tools',
-    'Utensil & Gadget',
-    'Health & Beauty',
-    'Equipments',
-    'Hair Care',
-    'Perfumer',
-    'Wine Cabinets',
+    "All",
+    "Babies & Moms",
+    "Books & Office",
+    "Cars & Motocycles",
+    "Clothing & Apparel",
+    " Accessories",
+    "Bags",
+    "Kid’s Fashion",
+    "Mens",
+    "Shoes",
+    "Sunglasses",
+    "Womens",
+    "Computers & Technologies",
+    "Desktop PC",
+    "Laptop",
+    "Smartphones",
+    "Consumer Electrics",
+    "Air Conditioners",
+    "Accessories",
+    "Type Hanging Cell",
+    "Audios & Theaters",
+    "Headphone",
+    "Home Theater System",
+    "Speakers",
+    "Car Electronics",
+    "Audio & Video",
+    "Car Security",
+    "Radar Detector",
+    "Vehicle GPS",
+    "Office Electronics",
+    "Printers",
+    "Projectors",
+    "Scanners",
+    "Store & Business",
+    "Refrigerators",
+    "TV Televisions",
+    "4K Ultra HD TVs",
+    "LED TVs",
+    "OLED TVs",
+    "Washing Machines",
+    "Type Drying Clothes",
+    "Type Horizontal",
+    "Type Vertical",
+    "Garden & Kitchen",
+    "Cookware",
+    "Decoration",
+    "Furniture",
+    "Garden Tools",
+    "Home Improvement",
+    "Powers And Hand Tools",
+    "Utensil & Gadget",
+    "Health & Beauty",
+    "Equipments",
+    "Hair Care",
+    "Perfumer",
+    "Wine Cabinets",
 ];
 
 function useDebounce(value, delay) {
@@ -83,13 +90,13 @@ function useDebounce(value, delay) {
 const WPSearchHeader = () => {
     const inputEl = useRef(null);
     const [isSearch, setIsSearch] = useState(false);
-    const [keyword, setKeyword] = useState('');
+    const [keyword, setKeyword] = useState("");
     const [resultItems, setResultItems] = useState(null);
     const [loading, setLoading] = useState(false);
     const debouncedSearchTerm = useDebounce(keyword, 300);
 
     function handleClearKeyword() {
-        setKeyword('');
+        setKeyword("");
         setIsSearch(false);
         setLoading(false);
     }
@@ -116,7 +123,7 @@ const WPSearchHeader = () => {
                 });
             } else {
                 setIsSearch(false);
-                setKeyword('');
+                setKeyword("");
             }
             if (loading) {
                 setIsSearch(false);
@@ -150,7 +157,7 @@ const WPSearchHeader = () => {
         } else {
             productItemsView = <p>No product found.</p>;
         }
-        if (keyword !== '') {
+        if (keyword !== "") {
             clearTextView = (
                 <span className="ps-form__action" onClick={handleClearKeyword}>
                     <i className="icon icon-cross2"></i>
@@ -174,30 +181,36 @@ const WPSearchHeader = () => {
     return (
         <form
             className="d-flex w-100 rounded-pill"
+            style={{
+                height: "42px",
+                marginTop: "7px",
+            }}
             method="get"
             action="/"
             onSubmit={handleSubmit}>
             <div
                 className="rounded-pill"
                 style={{
-                    width: '22.5%',
+                    width: "22.5%",
                 }}>
-                <select
+                <div
                     className="form-control"
                     style={{
-                        backgroundColor: '#2A3147',
-                        color: 'white',
+                        backgroundColor: "#2A3147",
+                        color: "white",
                         borderTopLeftRadius: 30,
                         borderBottomLeftRadius: 30,
-                        border: 'none',
+                        border: "none",
+                        height: "42px",
                     }}>
                     {selectOptionView}
-                </select>
+                </div>
             </div>
             <div
                 className="d-flex align-items-center bg-light"
                 style={{
-                    width: '55%',
+                    width: "55%",
+                    height: "42px",
                 }}>
                 <input
                     ref={inputEl}
@@ -206,12 +219,13 @@ const WPSearchHeader = () => {
                     value={keyword}
                     placeholder="I'm shopping for..."
                     style={{
-                        border: 'none',
+                        border: "none",
+                        height: "42px",
                     }}
                     onChange={(e) => setKeyword(e.target.value)}
                 />
-                <span className="ps-form__action" style={{ cursor: 'pointer' }}>
-                    <SpeechRecognition
+                <span className="ps-form__action" style={{ cursor: "pointer" }}>
+                    <Microphone
                         onListening={(transcript) => setKeyword(transcript)}
                     />
                 </span>
@@ -220,16 +234,16 @@ const WPSearchHeader = () => {
                 title="Search"
                 onClick={handleSubmit}
                 style={{
-                    backgroundColor: '#2A3147',
+                    backgroundColor: "#2A3147",
                     borderTopRightRadius: 30,
                     borderBottomRightRadius: 30,
-                    minWidth: '22.5%',
-                    border: 'none',
+                    minWidth: "22.5%",
+                    border: "none",
                 }}>
                 <i
                     className="fa fa-search text-white"
                     aria-hidden="true"
-                    style={{ fontSize: '20px' }}></i>
+                    style={{ fontSize: "20px" }}></i>
             </button>
 
             {/* <div

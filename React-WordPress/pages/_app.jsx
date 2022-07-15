@@ -11,6 +11,8 @@ import '../scss/style.scss';
 import '../scss/home-default.scss';
 import '../scss/market-place-1.scss';
 import 'slick-carousel/slick/slick.css';
+import { CookiesProvider } from 'react-cookie';
+import "bootstrap-icons/font/bootstrap-icons.scss"
 
 /*import '../scss/electronic.scss';
 import '../scss/furniture.scss';
@@ -42,7 +44,9 @@ class MyApp extends App {
                 <PersistGate
                     loading={<Component {...pageProps} />}
                     persistor={this.persistor}>
-                    <Component {...pageProps} />
+                   <CookiesProvider>
+                     <Component {...pageProps} />
+                   </CookiesProvider>
                 </PersistGate>
             </Provider>
         );

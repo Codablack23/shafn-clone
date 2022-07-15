@@ -1,4 +1,5 @@
 import React from "react";
+import ReactHtmlParser from "react-html-parser";
 
 import DropdownAction from "~/components/elements/basic/DropdownAction";
 
@@ -38,7 +39,7 @@ const TableProjectItems = ({ products }) => {
             <p className="ps-item-categories">
               {item.categories.map((category) => (
                 <a href="#" key={category.name}>
-                  {category.name}
+                  {ReactHtmlParser(category.name)}
                 </a>
               ))}
             </p>

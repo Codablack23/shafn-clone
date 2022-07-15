@@ -8,20 +8,45 @@ class SettingsRepository {
     this.callback = callback;
   }
 
-  async getStorename() {
-    let auth_token = localStorage.getItem("auth_token");
-    const response = axios
-      .get(`${WPDomain}/wp-json/dokan/v1/settings`, {
-        headers: {
-          Authorization: `Bearer ${auth_token}`,
-        },
-      })
-      .then((res) => {
-        return res.data.store_name;
-      })
-      .catch((err) => {
-        return;
-      });
+  async getStore() {
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/settings`;
+    const auth_token = localStorage.getItem("auth_token");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+    const response = await axios.get(endpoint, config).then((res) => res.data);
+
+    return response;
+  }
+
+  async getStoreById(id) {
+    const auth_token = localStorage.getItem("auth_token");
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/stores/${id}`;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    const response = await axios.get(endpoint, config).then((res) => res.data);
+
+    return response;
+  }
+
+  async updateStore(id, payload) {
+    const auth_token = localStorage.getItem("auth_token");
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/stores/${id}`;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    };
+
+    const response = await axios
+      .put(endpoint, payload, config)
+      .then((res) => res.data);
 
     return response;
   }

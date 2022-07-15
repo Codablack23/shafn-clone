@@ -4,7 +4,6 @@ import FooterFullwidth from '~/components/shared/footers/FooterFullwidth';
 import WPHeaderDefault from '~/wp-components/shared/headers/WPHeaderDefault';
 import WPHeaderMobile from '~/wp-components/shared/mobile/WPHeaderMobile';
 import WPNavigationBottom from '~/wp-components/shared/mobile/WPNavigationBottom';
-import Newsletters from '~/components/partials/commons/Newletters';
 
 const WPLayoutFullwidth = ({ children, title }) => {
     let titleView;
@@ -20,11 +19,10 @@ const WPLayoutFullwidth = ({ children, title }) => {
                 <title>{titleView}</title>
             </Head>
             {/* <WPHeaderDefault /> */}
-            <WPHeaderDefault/>
+            <WPHeaderDefault />
             <WPHeaderMobile />
             <WPNavigationBottom />
             {children}
-            <Newsletters />
             <FooterFullwidth />
             {/*<SubscribePopup active={subscribe} />*/}
         </div>

@@ -5,6 +5,7 @@
     position: sticky;
     top: 0;
     z-index: 1000;
+    padding-top: 7px;
     background-color: rgb(255, 255, 255);
     .header__extra {
         display: inline-block;
@@ -83,7 +84,8 @@
             margin-right: 20px;
         }
         .custom-header-search{
-            width: 60%;
+            width: 57%;
+            height:50px;
         }
     }
     .header__right {
@@ -727,11 +729,13 @@
     
 }
 .custom--navigation{
-    display: flex;
+    display: block;
     width: 100%;
     padding:0.8em 2.2em;
     .nav--list{
         display: flex;
+        height: 50px;
+        align-items: center;
         li{
             .shop{
                 font-size: 16px;
