@@ -189,7 +189,7 @@ const ProductVariations = ({
 
       {renderVariations()}
 
-      {variations.length !== 0 ? (
+      {variations.length > 0 ? (
         <button type="button" className="ps-btn" onClick={saveVariations}>
           Save variations
         </button>
