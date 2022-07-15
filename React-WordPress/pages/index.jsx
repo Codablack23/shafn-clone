@@ -14,10 +14,25 @@ import WPDealOfDay from '~/wp-components/homepage/WPDealOfDay';
 import WPProductList from '~/wp-components/homepage/WPProductList';
 import WPRecentlyViewed from '~/wp-components/homepage/WPRecentlyViewed';
 import { getBannersBySlugs, getPromotionsBySlugs } from '~/store/media/action';
+import ModalCookie from '~/components/elements/modalCookie';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+
+
+
+// function ShowCookiePopUp(){
+
+
+// }
+
 
 const Index = (auth) => {
+    const [isCookiesShowing,setIsCookiesShowing] = useState(false) 
     const dispatch = useDispatch();
     useEffect(() => {
+        setTimeout(()=>{
+          setIsCookiesShowing(true)
+        },5000)
         const collectionsSlug = [
             'deal-of-the-day',
             'consumer-electronics',
@@ -37,6 +52,7 @@ const Index = (auth) => {
         dispatch(getPromotionsBySlugs(promotionSlugs));
         dispatch(getCollections(collectionsSlug));
     }, []);
+ 
     return (
         <WPLayoutHomeDefault title="Multipurpose Marketplace React Ecommerce Template">
             <HomeBanner />
@@ -53,7 +69,11 @@ const Index = (auth) => {
 
             {auth.isLoggedIn && <WPRecentlyViewed />}
 
-            {/* <Newletters /> */}
+            <motion.div animate={{opacity:isCookiesShowing?1:0}}>
+              <div>
+                  <ModalCookie/>
+              </div>
+            </motion.div>      
         </WPLayoutHomeDefault>
     );
 };
