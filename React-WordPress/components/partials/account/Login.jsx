@@ -52,7 +52,7 @@ function Login() {
 
                 if (role === "seller") {
                     window.location.assign(
-                        `http://localhost:5500/${_user.token}`
+                        `http://localhost:5500?auth_token=${_user.token}`
                     );
                 }
                 setIsLoading(false);

@@ -29,15 +29,14 @@ class FileRepository {
       },
     }
 
+    // Function caller wants to use upload progress
     if (useProgress) {
       config.onUploadProgress = (progressEvent) => {
         handleProgressEvent(progressEvent)
       }
     }
 
-    const image = await axios
-      .post(endpoint, formData, config)
-      .then((res) => res.data)
+    const { data: image } = await axios.post(endpoint, formData, config)
 
     return image
   }
@@ -47,7 +46,7 @@ class FileRepository {
 
     for (let i = 0; i < _images.length; i++) {
       try {
-        // Check if image is a previously uploaded image
+        // Check if imageSrc is a url or an image file object
         if (typeof _images[i] === "string") {
           images.push({ src: _images[i], position: i })
           useProgress(i, 100)

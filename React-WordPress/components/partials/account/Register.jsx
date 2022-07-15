@@ -120,7 +120,7 @@ function Register() {
                                 ? 'http://localhost:5500'
                                 : 'https://vendor.shafn.com';
                         // Go to vendor page
-                        window.location.assign(`${domain}/${loggedUser.token}`);
+                        window.location.assign(`${domain}?auth_token=${loggedUser.token}`);
                     }
                 } else {
                     notification['success']({
@@ -163,9 +163,13 @@ function Register() {
                     className="ps-form--account"
                     onFinish={!isLoading && handleRegistration}>
                     <ul className="ps-tab-list">
-                      <li className="active m-auto" style={style.head}>
+                        <li className="active m-auto" style={style.head}>
                             <Link href="/account/login">
-                               <img src="/static/img/logo_light.png" className='img-fluid' alt="" />
+                                <img
+                                    src="/static/img/logo_light.png"
+                                    className="img-fluid"
+                                    alt=""
+                                />
                             </Link>
                         </li>
                     </ul>
@@ -388,7 +392,7 @@ function Register() {
 export default Register;
 
 const style = {
-   head:{
-    maxWidth:"100px"
-   }
-}
+    head: {
+        maxWidth: '100px',
+    },
+};

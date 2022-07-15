@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { notification } from "antd";
-import Lightbox from "react-image-lightbox";
+import React, { useState, useEffect } from "react"
+import { notification } from "antd"
+import Lightbox from "react-image-lightbox"
 
 const Placeholder = ({ index, onSelect }) => (
   <div>
@@ -37,7 +37,7 @@ const Placeholder = ({ index, onSelect }) => (
       {index === 0 ? <p>Primary</p> : null}
     </label>
   </div>
-);
+)
 
 const Image = ({ url, onClick, onDelete }) => (
   <div
@@ -68,7 +68,7 @@ const Image = ({ url, onClick, onDelete }) => (
       ></i>
     </div>
   </div>
-);
+)
 
 const ImageSelectTiles = ({
   numOfTiles,
@@ -76,59 +76,59 @@ const ImageSelectTiles = ({
   onSelect,
   onDelete,
 }) => {
-  const [images, setImages] = useState([]);
-  const [viewImages, setViewImages] = useState(false);
-  const [index, setIndex] = useState("");
+  const [images, setImages] = useState([])
+  const [viewImages, setViewImages] = useState(false)
+  const [index, setIndex] = useState("")
 
   const handleImageSelection = (e) => {
-    e.persist();
+    e.persist()
 
-    let image = e.target.files[0];
-    let type = image.type.split("/").pop();
-    let allowedTypes = ["jpeg", "jpg", "png", "gif"];
+    let image = e.target.files[0]
+    let type = image.type.split("/").pop()
+    let allowedTypes = ["jpeg", "jpg", "png", "gif"]
 
     if (image) {
       if (allowedTypes.includes(type)) {
         const img = {
           id: e.target.id,
           url: URL.createObjectURL(image),
-        };
+        }
 
-        setImages((current) => [...current, img]);
+        setImages((current) => [...current, img])
 
         const imgFile = {
           id: e.target.id,
           file: image,
-        };
+        }
 
-        onSelect(imgFile);
+        onSelect(imgFile)
 
-        URL.revokeObjectURL(image);
+        URL.revokeObjectURL(image)
       } else {
         notification["error"]({
           message: "Invalid image type!",
           description: "Image must be a jpg, png or gif",
-        });
+        })
       }
     }
-  };
+  }
 
   const deleteImage = (e, id) => {
-    e.stopPropagation();
-    setImages((current) => current.filter((img) => img.id !== id));
-    onDelete(id);
-  };
+    e.stopPropagation()
+    setImages((current) => current.filter((img) => img.id !== id))
+    onDelete(id)
+  }
 
   const viewImage = (id) => {
-    setViewImages(true);
-    let imgIndex = images.findIndex((img) => img.id === id);
-    setIndex(imgIndex);
-  };
+    setViewImages(true)
+    let imgIndex = images.findIndex((img) => img.id === id)
+    setIndex(imgIndex)
+  }
 
   let imageView = Array(numOfTiles)
     .fill(null)
     .map((_, i) => {
-      let image = images.find((img) => img.id === `img-${i + 1}`);
+      let image = images.find((img) => img.id === `img-${i + 1}`)
 
       return (
         <div key={Math.random().toString()} style={{ ...styles.filesSelect }}>
@@ -142,8 +142,8 @@ const ImageSelectTiles = ({
             />
           )}
         </div>
-      );
-    });
+      )
+    })
 
   let imageSlider = viewImages && (
     <Lightbox
@@ -156,23 +156,23 @@ const ImageSelectTiles = ({
       }
       onMoveNextRequest={() => setIndex((index + 1) % images.length)}
     />
-  );
+  )
 
   useEffect(() => {
     if (defaultImages) {
-      setImages(defaultImages);
+      setImages(defaultImages)
     }
-  }, [defaultImages]);
+  }, [defaultImages])
 
   return (
     <>
       {imageView}
       {imageSlider}
     </>
-  );
-};
+  )
+}
 
-export default ImageSelectTiles;
+export default ImageSelectTiles
 
 let styles = {
   variationSelect: {
@@ -210,7 +210,7 @@ let styles = {
     right: 0,
     borderTopLeftRadius: 75,
 
-    background: "rgba(250,0,0)",
+    background: "rgba(250,0,0,0.7)",
     width: "30px",
     height: "30px",
     display: "flex",
@@ -245,4 +245,4 @@ let styles = {
     cursor: "pointer",
     color: "#888",
   },
-};
+}
