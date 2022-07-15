@@ -1,7 +1,7 @@
-import React from 'react';
-import posts from '../../../public/static/data/posts';
+import React from "react";
+import posts from "../../../public/static/data/posts";
 
-import PostGrid from '../../elements/post/PostGrid';
+import PostGrid from "../../elements/post/PostGrid";
 
 const RelatedPosts = () => (
     <div className="ps-related-posts">

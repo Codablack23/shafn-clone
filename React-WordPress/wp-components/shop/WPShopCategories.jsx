@@ -1,6 +1,6 @@
-import React from 'react';
-import Link from 'next/link';
-import shopCategories from '~/public/static/data/shopCategories';
+import React from "react";
+import Link from "next/link";
+import shopCategories from "~/public/static/data/shopCategories";
 
 const WPShopCategories = ({ sidebar }) => {
     let categoriesView;

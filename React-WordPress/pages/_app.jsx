@@ -12,6 +12,7 @@ import '../scss/home-default.scss';
 import '../scss/market-place-1.scss';
 import 'slick-carousel/slick/slick.css';
 import { CookiesProvider } from 'react-cookie';
+import "bootstrap-icons/font/bootstrap-icons.scss"
 
 /*import '../scss/electronic.scss';
 import '../scss/furniture.scss';
