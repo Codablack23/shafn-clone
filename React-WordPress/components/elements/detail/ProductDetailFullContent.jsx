@@ -8,7 +8,7 @@ import { addItem } from '../../../store/cart/action';
 import { addItemToCompare } from '../../../store/compare/action';
 import { addItemToWishlist } from '../../../store/wishlist/action';
 
-import { extended } from '../../../public/static/data/product';
+import productData from '../../../public/static/data/product';
 class ProductDetailFullContent extends React.Component {
     constructor(props) {
         super(props);
@@ -16,7 +16,7 @@ class ProductDetailFullContent extends React.Component {
             quantity: 1,
         };
     }
-    handleAddItemToCart = e => {
+    handleAddItemToCart = (e) => {
         e.preventDefault();
         const { product } = this.props;
         let tempProduct = product;
@@ -24,24 +24,24 @@ class ProductDetailFullContent extends React.Component {
         this.props.dispatch(addItem(product));
     };
 
-    handleAddItemToCompare = e => {
+    handleAddItemToCompare = (e) => {
         e.preventDefault();
         const { product } = this.props;
         this.props.dispatch(addItemToCompare(product));
     };
 
-    handleAddItemToWishlist = e => {
+    handleAddItemToWishlist = (e) => {
         e.preventDefault();
         const { product } = this.props;
         this.props.dispatch(addItemToWishlist(product));
     };
 
-    handleIncreaseItemQty = e => {
+    handleIncreaseItemQty = (e) => {
         e.preventDefault();
         this.setState({ quantity: this.state.quantity + 1 });
     };
 
-    handleDecreaseItemQty = e => {
+    handleDecreaseItemQty = (e) => {
         e.preventDefault();
         if (this.state.quantity > 1) {
             this.setState({ quantity: this.state.quantity - 1 });
@@ -49,14 +49,16 @@ class ProductDetailFullContent extends React.Component {
     };
 
     render() {
-        const product = extended;
+        const product = productData.extended;
         const { currency } = this.props;
         return (
             <div className="ps-product--detail ps-product--full-content">
                 <div className="ps-product__top">
                     <div className="ps-product__header">
-                        <ThumbnailFullContent product={extended} />
-                        <InformationFullContent product={extended} />
+                        <ThumbnailFullContent product={productData.extended} />
+                        <InformationFullContent
+                            product={productData.extended}
+                        />
                     </div>
                     <div className="ps-product__price-right">
                         {product.is_sale === true ? (
@@ -139,7 +141,7 @@ class ProductDetailFullContent extends React.Component {
         );
     }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return state.setting;
 };
 

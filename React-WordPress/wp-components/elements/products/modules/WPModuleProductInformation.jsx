@@ -17,13 +17,6 @@ import {
 
 import SocialShareButtons from '~/components/elements/media/SocialShareButtons';
 
-import {
-    FacebookShareButton,
-    TwitterShareButton,
-    PinterestShareButton,
-    LinkedinShareButton,
-} from 'react-share';
-
 const WPModuleProductInformation = ({
     product,
     children,

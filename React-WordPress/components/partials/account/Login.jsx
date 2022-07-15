@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { login } from '../../../store/auth/action';
-import WPAuthRepository from '~/repositories/WP/WPAuthRepository';
-import OAuth from './modules/OAuth';
-import ReactHtmlParser from 'react-html-parser';
+import React, { useState } from "react";
+import Link from "next/link";
+import { login } from "../../../store/auth/action";
+import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
+import OAuth from "./modules/OAuth";
+import ReactHtmlParser from "react-html-parser";
 
-import { Form, Input, notification } from 'antd';
-import { useDispatch } from 'react-redux';
+import { Form, Input, notification } from "antd";
+import { useDispatch } from "react-redux";
 
 function Login() {
     const dispatch = useDispatch();
     const [passVisibility, setPassVisibility] = useState(false);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
     function togglePasswordVisibilty() {
-        let e = document.querySelector('.passVis');
-        e.classList.toggle('bi-eye-fill');
-        e.classList.toggle('bi-eye-slash-fill');
+        let e = document.querySelector(".passVis");
+        e.classList.toggle("bi-eye-fill");
+        e.classList.toggle("bi-eye-slash-fill");
         setPassVisibility((prev) => !prev);
     }
 
-    const handleLogin = async (type = 'form', oauth) => {
+    const handleLogin = async (type = "form", oauth) => {
         setIsLoading(true);
 
         if (!isLoading) {
@@ -31,7 +31,7 @@ function Login() {
                 password,
             };
 
-            if (type === 'oauth') {
+            if (type === "oauth") {
                 user = {
                     username: oauth.email,
                     password: oauth.password,
@@ -41,31 +41,29 @@ function Login() {
             try {
                 const _user = await WPAuthRepository.login(user);
 
-                console.log(_user)
-
                 const role = _user.user_role[0].toLowerCase();
 
-                if (role === 'customer') {
+                if (role === "customer") {
                     dispatch(
                         login({ email: _user.user_email, token: _user.token })
                     );
-                    Router.push('/');
+                    Router.push("/");
                 }
 
-                if (role === 'seller') {
+                if (role === "seller") {
                     window.location.assign(
                         `http://localhost:5500/${_user.token}`
                     );
                 }
                 setIsLoading(false);
             } catch (error) {
-                handleError(error, 'Login Failed!');
+                handleError(error, "Login Failed!");
             }
         }
     };
 
     const handleError = (error, message) => {
-        notification['error']({
+        notification["error"]({
             message,
             description:
                 error.response === undefined
@@ -92,7 +90,7 @@ function Login() {
                     <div
                         className="ps-tab active"
                         id="sign-in"
-                        style={{ boxShadow: '0px 0px 10px #cdcdcd' }}>
+                        style={{ boxShadow: "0px 0px 10px #cdcdcd" }}>
                         <div className="ps-form__content">
                             <h5>Sign In</h5>
                             <div className="form-group">
@@ -101,7 +99,7 @@ function Login() {
                                     rules={[
                                         {
                                             required: true,
-                                            message: 'Please input your email!',
+                                            message: "Please input your email!",
                                         },
                                     ]}>
                                     <Input
@@ -122,7 +120,7 @@ function Login() {
                                         {
                                             required: true,
                                             message:
-                                                'Please input your password!',
+                                                "Please input your password!",
                                         },
                                     ]}>
                                     <div className="form-control align-items-center d-flex justify-content-between">
@@ -130,8 +128,8 @@ function Login() {
                                             name="password"
                                             type={`${
                                                 passVisibility
-                                                    ? 'test'
-                                                    : 'password'
+                                                    ? "test"
+                                                    : "password"
                                             }`}
                                             placeholder="Password..."
                                             value={password}
@@ -139,23 +137,23 @@ function Login() {
                                                 setPassword(e.target.value)
                                             }
                                             style={{
-                                                border: 'none',
-                                                outline: 'none',
+                                                border: "none",
+                                                outline: "none",
                                             }}
                                         />
                                         <button
                                             type="button"
                                             onClick={togglePasswordVisibilty}
                                             style={{
-                                                border: 'none',
-                                                outline: 'none',
-                                                cursor: 'pointer',
-                                                background: 'none',
+                                                border: "none",
+                                                outline: "none",
+                                                cursor: "pointer",
+                                                background: "none",
                                             }}>
                                             <i
                                                 className="passVis bi bi-eye-fill"
                                                 style={{
-                                                    fontSize: '20px',
+                                                    fontSize: "20px",
                                                 }}></i>
                                         </button>
                                     </div>
@@ -173,11 +171,11 @@ function Login() {
                                         Remember me
                                     </label>
                                 </div>
-                                <Link href={'/'}>
+                                <Link href={"/"}>
                                     <a
                                         style={{
-                                            color: '#378fd3',
-                                            fontWeight: 'bold',
+                                            color: "#378fd3",
+                                            fontWeight: "bold",
                                         }}>
                                         Forgot Password
                                     </a>
@@ -188,10 +186,10 @@ function Login() {
                                     type="submit"
                                     className="ps-btn ps-btn--fullwidth"
                                     style={{
-                                        borderRadius: '15px',
+                                        borderRadius: "15px",
                                     }}
                                     disabled={isLoading}>
-                                    {isLoading ? 'Loading...' : 'Continue'}
+                                    {isLoading ? "Loading..." : "Continue"}
                                 </button>
                             </div>
                         </div>
@@ -203,7 +201,7 @@ function Login() {
                             </div>
                             <OAuth
                                 onSuccess={(user) =>
-                                    handleLogin('oauth', {
+                                    handleLogin("oauth", {
                                         email: user.email,
                                         password: user.id,
                                     })

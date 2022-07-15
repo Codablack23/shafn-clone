@@ -4,13 +4,13 @@ import InformationBox from './modules/information/InformationBox';
 import DescriptionBox from './modules/description/DescriptionBox';
 import Product from '../products/Product';
 
-import { sample } from '../../../public/static/data/product';
+import product from '../../../public/static/data/product';
 
 const ProductDetailBox = () => (
     <div className="ps-product--detail ps-product--box">
         <div className="ps-product__header ps-product__box">
-            <ThumbnailBox product={sample} />
-            <InformationBox product={sample} />
+            <ThumbnailBox product={product.sample} />
+            <InformationBox product={product.sample} />
         </div>
         <div className="ps-product__content">
             <div className="row">
