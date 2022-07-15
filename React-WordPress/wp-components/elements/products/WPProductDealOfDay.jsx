@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import React, { useState } from "react";
+import { connect, useDispatch } from "react-redux";
 // import LazyLoad from 'react-lazyload';
-import Link from 'next/link';
-import { Modal } from 'antd';
-import Rating from '../../../components/elements/Rating';
-import { formatCurrency, getDiscountPercent } from '~/utilities/product-helper';
-import { addItem } from '~/store/cart/action';
-import { addItemToCompare } from '~/store/compare/action';
-import { addItemToWishlist } from '~/store/wishlist/action';
-import WPModuleProductQuickview from '~/wp-components/elements/products/modules/WPModuleProductQuickview';
+import Link from "next/link";
+import { Modal } from "antd";
+import Rating from "../../../components/elements/Rating";
+import { formatCurrency, getDiscountPercent } from "~/utilities/product-helper";
+import { addItem } from "~/store/cart/action";
+import { addItemToCompare } from "~/store/compare/action";
+import { addItemToWishlist } from "~/store/wishlist/action";
+import WPModuleProductQuickview from "~/wp-components/elements/products/modules/WPModuleProductQuickview";
 import {
     WPProductPriceView,
     WPProductThumbnailView,
-} from '~/utilities/WPHelpers';
+} from "~/utilities/WPHelpers";
 
 const WPProduct = ({ product }) => {
     const dispatch = useDispatch();
@@ -49,11 +49,11 @@ const WPProduct = ({ product }) => {
     const thumbnailImage = WPProductThumbnailView(product);
     if (product.badge && product.badge !== null) {
         product.badge.map((badge) => {
-            if (badge.type === 'sale') {
+            if (badge.type === "sale") {
                 return (productBadge = (
                     <div className="ps-product__badge">{badge.value}</div>
                 ));
-            } else if (badge.type === 'outStock') {
+            } else if (badge.type === "outStock") {
                 return (productBadge = (
                     <div className="ps-product__badge out-stock">
                         {badge.value}
@@ -69,21 +69,21 @@ const WPProduct = ({ product }) => {
 
     if (product) {
         // Price
-        if (product.on_sale === true) {
+        if (product.on_sale === true && product.sale_price) {
             productPrice = (
                 <p className="ps-product__price sale">
                     <span>€</span>
-                    {formatCurrency(product.regular_price)}
+                    {formatCurrency(product.sale_price)}
                     <del className="ml-2">
                         <span>€</span>
 
-                        {formatCurrency(product.sale_price)}
+                        {formatCurrency(product.regular_price)}
                     </del>
                     <small>
                         {getDiscountPercent(
                             product.regular_price,
                             product.sale_price
-                        )}{' '}
+                        )}{" "}
                         off
                     </small>
                 </p>
@@ -169,7 +169,7 @@ const WPProduct = ({ product }) => {
                         className="ps-product__progress-bar ps-progress"
                         data-value={80}>
                         <div className="ps-progress__value">
-                            <span style={{ width: '92%' }}></span>
+                            <span style={{ width: "92%" }}></span>
                         </div>
                         <p>Sold: 99</p>
                     </div>
