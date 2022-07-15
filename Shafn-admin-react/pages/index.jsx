@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux"
 import { toggleDrawerMenu } from "~/store/app/action"
 import CardTopCountries from "~/components/shared/cards/CardTopCountries"
 import UserRepository from "~/repositories/UserRepository"
+import { Spin } from "antd"
 
 const Index = ({ query }) => {
   const dispatch = useDispatch()
@@ -48,7 +49,7 @@ const Index = ({ query }) => {
   let dashboard
 
   if (isLoading) {
-    dashboard = <p>Loading</p>
+    dashboard = <Spin />
   } else {
     dashboard = (
       <ContainerDashboard title="Dashboard">
