@@ -1,67 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { WPDomain } from "~/repositories/Repository";
-import { useDispatch } from "react-redux";
-import axios from "axios";
-import { addProfile } from "~/store/profile/action";
+import React, { useState, useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { addProfile } from "~/store/profile/action"
+import SettingsRepository from "~/repositories/SettingsRepository"
+import UserRepository from "~/repositories/UserRepository"
 
 const WidgetUserWelcome = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const [name, setName] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState("");
-
-  const getStorename = (token) => {
-    axios
-      .get(`${WPDomain}/wp-json/dokan/v1/settings`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setName(res.data.store_name);
-        dispatch(addProfile({ name: res.data.store_name }));
-      })
-      .catch((err) => {
-        window.location.assign("http://localhost:3000/account/login");
-      });
-  };
+  const [name, setName] = useState("")
+  const [avatarUrl, setAvatarUrl] = useState("")
 
   const logout = () => {
-    localStorage.removeItem("auth_token");
-    window.location.assign("http://localhost:3000/account/login");
-  };
+    localStorage.removeItem("auth_token")
+    window.location.assign("http://localhost:3000/account/login")
+  }
+
+  const getStoreData = async () => {
+    const settings = await SettingsRepository.getStore()
+    setName(settings.store_name)
+    dispatch(addProfile({ name: settings.store_name }))
+
+    const user = await UserRepository.getUser()
+    const store = await SettingsRepository.getStoreById(user.id)
+    setAvatarUrl(store.gravatar)
+  }
 
   useEffect(() => {
-    let auth_token = localStorage.getItem("auth_token");
-
-    getStorename(auth_token);
-
-    // Get user id
-    axios
-      .get(`${WPDomain}/wp-json/wp/v2/users/me`, {
-        headers: {
-          Authorization: `Bearer ${auth_token}`,
-        },
-      })
-      .then((res) => {
-        // Get user profile picture
-        axios
-          .get(`${WPDomain}/wp-json/dokan/v1/stores/${res.data.id}`, {
-            headers: {
-              Authorization: `Bearer ${auth_token}`,
-            },
-          })
-          .then((res) => {
-            setAvatarUrl(res.data.gravatar);
-          })
-          .catch((err) => {
-            return;
-          });
-      })
-      .catch((err) => {
-        return;
-      });
-  }, []);
+    getStoreData()
+  }, [])
 
   return (
     <div className="ps-block--user-wellcome">
@@ -70,7 +36,7 @@ const WidgetUserWelcome = () => {
       </div>
       <div className="ps-block__right">
         <p>
-          Hello,<a href="#">{name || "Vendor"}</a>
+          Hello,<a href="#">{name}</a>
         </p>
       </div>
       <div
@@ -81,8 +47,8 @@ const WidgetUserWelcome = () => {
         <i className="icon-exit"></i>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const styles = {
   img: {
@@ -90,6 +56,6 @@ const styles = {
     height: 60,
     borderRadius: 50,
   },
-};
+}
 
-export default WidgetUserWelcome;
+export default WidgetUserWelcome

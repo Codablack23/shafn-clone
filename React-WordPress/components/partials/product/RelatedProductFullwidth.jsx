@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Slider from 'react-slick';
 
-import { relatedProduct } from '../../../public/static/data/product';
+import product from '../../../public/static/data/product';
 import Product from '../../../components/elements/products/Product';
 
 class RelatedProductFullwidth extends Component {
@@ -55,7 +55,7 @@ class RelatedProductFullwidth extends Component {
                 </div>
                 <div className="ps-section__content">
                     <Slider {...carouselSetting} className="ps-carousel">
-                        {relatedProduct.map(product => {
+                        {product.relatedProduct.map((product) => {
                             return (
                                 <Product product={product} key={product.id} />
                             );
