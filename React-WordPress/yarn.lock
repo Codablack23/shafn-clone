@@ -1973,6 +1973,13 @@ next-routes@^1.4.2:
   dependencies:
     path-to-regexp "^2.1.0"
 
+next-share@^0.16.0:
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/next-share/-/next-share-0.16.0.tgz#865975d036f70bf32954524c0231b61b20c01acf"
+  integrity sha512-j/2JaUvqv1raLohwhzQE4QKPK8sZq2O8kQXP+kmZ73cfxPlPzgMd8F/d9ETJ/TymRdvdyPxML03Q9xYQOYBkCQ==
+  dependencies:
+    jsonp "^0.2.1"
+
 next@^12.1.6:
   version "12.1.6"
   resolved "https://registry.npmjs.org/next/-/next-12.1.6.tgz"
