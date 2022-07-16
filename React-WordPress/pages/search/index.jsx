@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { getProductsByCategory } from '~/store/product/action';
-import { WPGetProducts } from '~/store/wp/action';
-import WPProductRepository from '~/repositories/WP/WPProductRepository';
-import WPLayout from '~/wp-components/layouts/WPLayout';
-import WPProduct from '~/wp-components/elements/products/WPProduct';
-import { generateTempArray, scrollPageToTop } from '~/utilities/common-helpers';
-import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct';
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { getProductsByCategory } from "~/store/product/action";
+import { WPGetProducts } from "~/store/wp/action";
+import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import WPLayout from "~/wp-components/layouts/WPLayout";
+import WPProduct from "~/wp-components/elements/products/WPProduct";
+import { generateTempArray, scrollPageToTop } from "~/utilities/common-helpers";
+import SkeletonProduct from "~/components/elements/skeletons/SkeletonProduct";
 
 const WPSearchPage = ({ query }) => {
     const [keyword, setKeyword] = useState(null);
@@ -24,8 +24,8 @@ const WPSearchPage = ({ query }) => {
     }
 
     async function getProductOnChangeURL(url) {
-        const nextPid = url.split('category=').pop();
-        if (nextPid !== '' && isNaN(parseInt(nextPid)) === false) {
+        const nextPid = url.split("category=").pop();
+        if (nextPid !== "" && isNaN(parseInt(nextPid)) === false) {
             const queries = {
                 page: 1,
                 per_page: 18,
