@@ -1,13 +1,6 @@
-import React from 'react';
-import Rating from '~/components/elements/Rating';
-import Link from 'next/link';
-import {
-    FacebookShareButton,
-    TwitterShareButton,
-    PinterestShareButton,
-    LinkedinShareButton,
-} from 'react-share';
-import SocialShareButtons from '~/components/elements/media/SocialShareButtons';
+import React from "react";
+import Rating from "~/components/elements/Rating";
+import SocialShareButtons from "~/components/elements/media/SocialShareButtons";
 
 const WPStoreInformation = ({ store }) => {
     // views
@@ -45,8 +38,8 @@ const WPStoreInformation = ({ store }) => {
                 <div className="ps-block__divider"></div>
                 <div className="ps-block__content">
                     <p>
-                        <strong>Address:</strong> {store.address.street_1},{' '}
-                        {store.address.city}, {store.address.state},{' '}
+                        <strong>Address:</strong> {store.address.street_1},{" "}
+                        {store.address.city}, {store.address.state},{" "}
                         {store.address.country},{store.address.zip}
                     </p>
                 </div>
@@ -59,14 +52,14 @@ const WPStoreInformation = ({ store }) => {
                     <a
                         className="ps-btn ps-btn--fullwidth"
                         href=""
-                        style={{ borderRadius: '30px' }}>
+                        style={{ borderRadius: "30px" }}>
                         Contact Seller
                     </a>
                 </div>
                 <div className="share m-3">
                     <p className="w3-text-grey">Share on social media</p>
                     <div className="d-flex justify-content-between">
-                        <SocialShareButtons url="https://www.shafn.com" />
+                        <SocialShareButtons url={window.location.href} />
                     </div>
                 </div>
             </div>
