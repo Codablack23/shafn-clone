@@ -1,54 +1,42 @@
-import React from 'react';
-import Link from 'next/link';
+import React from "react";
+import Link from "next/link";
 
 const Logo = ({ type }) => {
     let data;
-    if (type === 'autopart') {
+    if (type === "autopart") {
         data = {
-            url: '/home/autopart',
-            img: 'img/logo-autopart.png',
+            url: "/home/autopart",
+            img: "img/logo-autopart.png",
         };
-    }
-    else if (type === 'technology') {
+    } else if (type === "technology") {
         data = {
-            url: '/home/technology',
-            img: 'static/img/logo-technology.png',
+            url: "/home/technology",
+            img: "static/img/logo-technology.png",
         };
-    }
-    else if (type === 'technology') {
+    } else if (type === "electronic") {
         data = {
-            url: '/home/technology',
-            img: 'static/img/logo-technology.png',
+            url: "/home/electronic",
+            img: "static/img/logo-electronic.png",
         };
-    }
-    else if (type === 'electronic') {
+    } else if (type === "furniture") {
         data = {
-            url: '/home/electronic',
-            img: 'static/img/logo-electronic.png',
+            url: "/home/furniture",
+            img: "static/img/logo-furniture.png",
         };
-    }
-    else if (type === 'furniture') {
+    } else if (type === "organic") {
         data = {
-            url: '/home/furniture',
-            img: 'static/img/logo-furniture.png',
+            url: "/home/organic",
+            img: "static/img/logo-organic.png",
         };
-    }
-    else if (type === 'organic') {
+    } else if (type === "dark") {
         data = {
-            url: '/home/organic',
-            img: 'static/img/logo-organic.png',
+            url: "/",
+            img: "static/img/logo.png",
         };
-    }
-    else if (type === 'dark') {
+    } else {
         data = {
-            url: '/',
-            img: 'static/img/logo.png',
-        };
-    }
-    else {
-        data = {
-            url: '/',
-            img: '/static/img/logo_light.png',
+            url: "/",
+            img: "/static/img/logo_light.png",
         };
     }
     return (

@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import ThumbnailDefault from './modules/thumbnail/ThumbnailDefault';
-import InformationDefault from './modules/information/InformationDefault';
-import DefaultDescription from './modules/description/DefaultDescription';
-import ModuleProductHasVariants from '~/components/elements/detail/modules/ModuleProductHasVariants';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import ThumbnailDefault from "./modules/thumbnail/ThumbnailDefault";
+import InformationDefault from "./modules/information/InformationDefault";
+import DefaultDescription from "./modules/description/DefaultDescription";
+import ModuleProductHasVariants from "~/components/elements/detail/modules/ModuleProductHasVariants";
 
 class ProductDetailFullwidth extends Component {
     constructor(props) {
@@ -12,7 +12,7 @@ class ProductDetailFullwidth extends Component {
 
     render() {
         const { singleProduct } = this.props;
-        if (singleProduct !== null && typeof singleProduct !== 'Array') {
+        if (singleProduct !== null && typeof singleProduct !== "array") {
             if (singleProduct.variants.length > 0) {
                 return (
                     <div className="ps-product--detail ps-product--fullwidth">
@@ -37,7 +37,7 @@ class ProductDetailFullwidth extends Component {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return state.product;
 };
 
