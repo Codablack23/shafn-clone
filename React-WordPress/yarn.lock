@@ -2726,14 +2726,6 @@ react-redux@^7.1.3:
     prop-types "^15.7.2"
     react-is "^16.13.1"
 
-react-share@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.npmjs.org/react-share/-/react-share-4.4.0.tgz"
-  integrity sha512-POe8Ge/JT9Ew9iyW7CiYsCCWCb8uMJWqFl9S7W0fJ/oH5gBJNzukH0bL5vSr17KKG5h15d3GfKaoviI22BKeYA==
-  dependencies:
-    classnames "^2.2.5"
-    jsonp "^0.2.1"
-
 react-slick@^0.27.12:
   version "0.27.14"
   resolved "https://registry.npmjs.org/react-slick/-/react-slick-0.27.14.tgz"
