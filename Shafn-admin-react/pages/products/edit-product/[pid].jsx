@@ -101,7 +101,7 @@ const EditProductPage = ({ pid }) => {
   const handleInputChange = (e) => {
     let name = e.target.name
     let value = e.target.value
-    let uncheckedFormNames = [
+    let checkedFormNames = [
       "regular_price",
       "sale_price",
       "stock_quantity",
@@ -153,7 +153,7 @@ const EditProductPage = ({ pid }) => {
       setProduct((product) => ({ ...product, [name]: tags }))
     }
 
-    if (!uncheckedFormNames.includes(name)) {
+    if (!checkedFormNames.includes(name)) {
       setProduct((product) => ({ ...product, [name]: value }))
     }
   }

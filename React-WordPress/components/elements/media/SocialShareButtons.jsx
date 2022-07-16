@@ -2,8 +2,8 @@ import React from "react";
 import {
     FacebookShareButton,
     TwitterShareButton,
-    LinkedinShareButton,
     PinterestShareButton,
+    LinkedinShareButton,
 } from "next-share";
 
 const SocialShareButtons = ({ url }) => (
