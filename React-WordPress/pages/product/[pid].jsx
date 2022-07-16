@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import Router, { useRouter } from 'next/router';
+import Head from 'next/head';
 import WPProductDetail from '~/wp-components/elements/products/WPProductDetail';
 import WPProductRepository from '~/repositories/WP/WPProductRepository';
 import WPHeaderProduct from '~/wp-components/shared/headers/WPHeaderProduct';
@@ -13,6 +14,8 @@ import WPHeaderDefault from '~/wp-components/shared/headers/WPHeaderDefault';
 
 import { addRecentlyViewedProduct } from '~/store/recently-viewed-products/action';
 import { scrollPageToTop } from '~/utilities/common-helpers';
+
+import { WPDomain } from '~/repositories/WP/WPRepository';
 
 const WPProductDetailPage = ({ pid }) => {
     const dispatch = useDispatch();
@@ -114,6 +117,26 @@ const WPProductDetailPage = ({ pid }) => {
 
     return (
         <div ref={scrollPageToTop}>
+            <Head>
+                {product && (
+                    <>
+                        <meta property="og:title" content={product.name} />
+                        <meta property="og:type" content="product" />
+                        <meta
+                            property="og:image"
+                            content={product.images[0].src}
+                        />
+                        <meta
+                            property="og:url"
+                            content={window.location.href}
+                        />
+                        <meta
+                            name="twitter:card"
+                            content="summary_large_image"
+                        />
+                    </>
+                )}
+            </Head>
             <WPLayoutProductDetail
                 title={product ? product.name : 'Loading...'}>
                 <WPHeaderDefault />
