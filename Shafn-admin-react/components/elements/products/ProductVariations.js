@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react"
-import { notification,Spin} from "antd"
+import React, { useState, useEffect, useMemo } from "react"
+import { notification, Spin } from "antd"
 
 import Variation from "./modules/Variation"
 import ProductRepository from "~/repositories/ProductRepository"
@@ -130,7 +130,7 @@ const ProductVariations = ({
 
   const createVariations = async () => {
     setIsLoading(true)
-    
+
     if (action === "createVariations") {
       try {
         let attributePairs = await removeExistingAttributePairs() // So we only upload the new attributes
@@ -171,7 +171,7 @@ const ProductVariations = ({
       onVariationChange((variations) => [newVariation, ...variations])
     }
 
-   setIsLoading(false)
+    setIsLoading(false)
   }
 
   const saveVariations = async () => {
@@ -308,9 +308,9 @@ const ProductVariations = ({
 
   return (
     <div style={{ marginTop: 50 }}>
-       <CustomModal isOpen={isLoading}>
+      <CustomModal isOpen={isLoading}>
         <div className="custom__spinner">
-        <Spin tip={<p className="text-white">Loading...</p>} size="large"/>
+          <Spin tip={<p className="text-white">Loading...</p>} size="large" />
         </div>
       </CustomModal>
       <div className="form-group form-group--select">

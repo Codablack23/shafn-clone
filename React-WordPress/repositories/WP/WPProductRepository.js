@@ -6,16 +6,16 @@ import {
     oathInfo,
     WPDomain,
     WPRepository,
-} from '~/repositories/WP/WPRepository';
-import Repository, { serializeQuery } from '~/repositories/Repository';
+} from "~/repositories/WP/WPRepository";
+import Repository, { serializeQuery } from "~/repositories/Repository";
 
 const settings = {
     async: true,
     crossDomain: true,
-    url: 'http://shafn.com/wp-json/dokan/v1/stores',
-    method: 'GET',
+    url: "http://shafn.com/wp-json/dokan/v1/stores",
+    method: "GET",
     headers: {
-        'Cache-Control': 'no-cache',
+        "Cache-Control": "no-cache",
     },
 };
 
@@ -62,15 +62,15 @@ class WPProductRepository {
                 ...oathInfo,
             })}`;
         } else {
-            enpoint = 'wp-json/wc/v3/products';
+            enpoint = "wp-json/wc/v3/products";
         }
         const reponse = await WPRepository.get(`${WPDomain}/${enpoint}`)
             .then((response) => {
                 if (response.data && response.data.length > 0) {
                     const data = {
                         items: response.data,
-                        totalItems: response.headers['x-wp-total'],
-                        totalPages: response.headers['x-wp-totalpages'],
+                        totalItems: response.headers["x-wp-total"],
+                        totalPages: response.headers["x-wp-totalpages"],
                     };
                     return data;
                 } else return null;
@@ -116,15 +116,15 @@ class WPProductRepository {
                 ...oathInfo,
             })}`;
         } else {
-            enpoint = 'wp-json/wc/v3/products/categories';
+            enpoint = "wp-json/wc/v3/products/categories";
         }
         const reponse = await WPRepository.get(`${WPDomain}/${enpoint}`)
             .then((response) => {
                 if (response.data && response.data.length > 0) {
                     const data = {
                         items: response.data,
-                        totalItems: response.headers['x-wp-total'],
-                        totalPages: response.headers['x-wp-totalpages'],
+                        totalItems: response.headers["x-wp-total"],
+                        totalPages: response.headers["x-wp-totalpages"],
                     };
                     return data;
                 } else return null;

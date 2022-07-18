@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react"
 import ProductRepository from "~/repositories/ProductRepository"
 import { v4 as uuid } from "uuid"
-import { notification,Spin} from "antd"
+import { notification, Spin } from "antd"
 import Attribute from "./modules/Attribute"
 import { CustomModal } from "~/components/elements/custom"
-// import { arraysEqual } from "~/utilities/helperFunctions"
 
 const ProductAttributes = ({
   productId,
@@ -16,7 +15,7 @@ const ProductAttributes = ({
   const [userAttributes, setUserAttributes] = useState([])
   const [name, setName] = useState("")
   const [error, setError] = useState("")
-  const [isLoading ,setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const addAttribute = () => {
     let newAttribute = {
@@ -111,8 +110,6 @@ const ProductAttributes = ({
             attributes: productAttributes,
           }
         )
-
-      setIsLoading(false)
 
         /* Update UI with new attributes */
         onProductChange((product) => ({
@@ -218,6 +215,7 @@ const ProductAttributes = ({
             return _variations
           })
 
+          setIsLoading(false)
           console.log("DONE!")
         }
       } catch (error) {
@@ -305,7 +303,7 @@ const ProductAttributes = ({
     <div>
       <CustomModal isOpen={isLoading}>
         <div className="custom__spinner">
-        <Spin tip={<p className="text-white">Loading...</p>} size="large"/>
+          <Spin tip={<p className="text-white">Loading...</p>} size="large" />
         </div>
       </CustomModal>
       {renderAttributes()}
