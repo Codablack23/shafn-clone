@@ -1,33 +1,33 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { Form, Input, notification } from 'antd';
-import { login } from '../../../store/auth/action';
-import { useDispatch } from 'react-redux';
-import WPAuthRepository from '~/repositories/WP/WPAuthRepository';
-import OAuth from './modules/OAuth';
-import Router from 'next/router';
-import ReactHtmlParser from 'react-html-parser';
+import React, { useState } from "react";
+import Link from "next/link";
+import { Form, Input, notification } from "antd";
+import { login } from "../../../store/auth/action";
+import { useDispatch } from "react-redux";
+import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
+import OAuth from "./modules/OAuth";
+import Router from "next/router";
+import ReactHtmlParser from "react-html-parser";
 
 function Register() {
     const dispatch = useDispatch();
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [firstname, setFirstname] = useState('');
-    const [lastname, setLastname] = useState('');
-    const [storename, setStorename] = useState('');
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [firstname, setFirstname] = useState("");
+    const [lastname, setLastname] = useState("");
+    const [storename, setStorename] = useState("");
     const [isVendor, setIsVendor] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [passVisibility, setPassVisibility] = useState(false);
 
     function togglePasswordVisibilty() {
-        let e = document.querySelector('.passVis');
-        e.classList.toggle('bi-eye-fill');
-        e.classList.toggle('bi-eye-slash-fill');
+        let e = document.querySelector(".passVis");
+        e.classList.toggle("bi-eye-fill");
+        e.classList.toggle("bi-eye-slash-fill");
         setPassVisibility((prev) => !prev);
     }
 
-    const handleRegistration = async (type = 'form', oauth) => {
+    const handleRegistration = async (type = "form", oauth) => {
         setIsLoading(true);
 
         let user = {
@@ -41,7 +41,7 @@ function Register() {
         };
 
         // Use oauth data if registration is with oauth
-        if (type === 'oauth') {
+        if (type === "oauth") {
             user = {
                 username: oauth.email,
                 email: oauth.email,
@@ -50,13 +50,13 @@ function Register() {
         }
 
         if (isVendor) {
-            if (type === 'oauth') {
+            if (type === "oauth") {
                 // Use data provided by oauth
                 user = {
                     ...user,
                     first_name: oauth.firstname,
                     last_name: oauth.lastname,
-                    roles: ['seller'],
+                    roles: ["seller"],
                 };
             } else {
                 // Use data provided by form
@@ -64,14 +64,14 @@ function Register() {
                     ...user,
                     first_name: firstname,
                     last_name: lastname,
-                    roles: ['seller'],
+                    roles: ["seller"],
                 };
             }
         } else {
             // Set customer role if is registering as customer
             user = {
                 ...user,
-                roles: ['customer'],
+                roles: ["customer"],
             };
         }
 
@@ -96,7 +96,7 @@ function Register() {
                 // Login user
                 const loggedUser = await WPAuthRepository.login(_user);
 
-                if (user.roles[0] === 'seller') {
+                if (user.roles[0] === "seller") {
                     try {
                         // Update vendor store name
                         await WPAuthRepository.updateVendorSettings(
@@ -104,27 +104,29 @@ function Register() {
                             loggedUser.token
                         );
 
-                        notification['success']({
-                            message: 'Registration Successful!',
+                        notification["success"]({
+                            message: "Registration Successful!",
                         });
 
                         setIsLoading(false);
                     } catch (error) {
                         handleError(
                             error,
-                            'Could not update store name. Please check your data connection and update it from your dashboard settings.'
+                            "Could not update store name. Please check your data connection and update it from your dashboard settings."
                         );
                     } finally {
                         const domain =
-                            process.env.NODE_ENV === 'development'
-                                ? 'http://localhost:5500'
-                                : 'https://vendor.shafn.com';
+                            process.env.NODE_ENV === "development"
+                                ? "http://localhost:5500"
+                                : "https://vendor.shafn.com";
                         // Go to vendor page
-                        window.location.assign(`${domain}?auth_token=${loggedUser.token}`);
+                        window.location.assign(
+                            `${domain}?auth_token=${loggedUser.token}`
+                        );
                     }
                 } else {
-                    notification['success']({
-                        message: 'Registration Successful!',
+                    notification["success"]({
+                        message: "Registration Successful!",
                     });
 
                     dispatch(
@@ -134,18 +136,18 @@ function Register() {
                         })
                     );
 
-                    Router.push('/'); // Go to homepage
+                    Router.push("/"); // Go to homepage
 
                     setIsLoading(false);
                 }
             } catch (error) {
-                handleError(error, 'Registration Failed!');
+                handleError(error, "Registration Failed!");
             }
         }
     };
 
     const handleError = (error, message) => {
-        notification['error']({
+        notification["error"]({
             message,
             description:
                 error.response === undefined
@@ -176,7 +178,7 @@ function Register() {
                     <div
                         className="ps-tab active"
                         id="register"
-                        style={{ boxShadow: '0px 0px 10px #cdcdcd' }}>
+                        style={{ boxShadow: "0px 0px 10px #cdcdcd" }}>
                         <div className="ps-form__content">
                             <h5>Register An Account</h5>
 
@@ -187,7 +189,7 @@ function Register() {
                                         {
                                             required: true,
                                             message:
-                                                'Please input your preferred username',
+                                                "Please input your preferred username",
                                         },
                                     ]}>
                                     <Input
@@ -198,6 +200,7 @@ function Register() {
                                         onChange={(e) =>
                                             setUsername(e.target.value)
                                         }
+                                        autoFocus
                                     />
                                 </Form.Item>
                             </div>
@@ -208,8 +211,8 @@ function Register() {
                                     rules={[
                                         {
                                             required: true,
-                                            type: 'email',
-                                            message: 'Please input your email!',
+                                            type: "email",
+                                            message: "Please input your email!",
                                         },
                                     ]}>
                                     <Input
@@ -234,7 +237,7 @@ function Register() {
                                                 /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
                                             ),
                                             message:
-                                                'Password must contain at least 8 characters with at least one uppercase letter, one lowercase letter, one number and one special character(allowed characters => #, ?, !, @, $, %, ^, &, *, -)',
+                                                "Password must contain at least 8 characters with at least one uppercase letter, one lowercase letter, one number and one special character(allowed characters => #, ?, !, @, $, %, ^, &, *, -)",
                                         },
                                     ]}>
                                     <div className="form-control align-items-center d-flex justify-content-between">
@@ -242,8 +245,8 @@ function Register() {
                                             name="password"
                                             type={`${
                                                 passVisibility
-                                                    ? 'test'
-                                                    : 'password'
+                                                    ? "test"
+                                                    : "password"
                                             }`}
                                             placeholder="Password..."
                                             value={password}
@@ -251,23 +254,23 @@ function Register() {
                                                 setPassword(e.target.value)
                                             }
                                             style={{
-                                                border: 'none',
-                                                outline: 'none',
+                                                border: "none",
+                                                outline: "none",
                                             }}
                                         />
                                         <button
                                             type="button"
                                             onClick={togglePasswordVisibilty}
                                             style={{
-                                                border: 'none',
-                                                outline: 'none',
-                                                cursor: 'pointer',
-                                                background: 'none',
+                                                border: "none",
+                                                outline: "none",
+                                                cursor: "pointer",
+                                                background: "none",
                                             }}>
                                             <i
                                                 className="passVis bi bi-eye-fill"
                                                 style={{
-                                                    fontSize: '20px',
+                                                    fontSize: "20px",
                                                 }}></i>
                                         </button>
                                     </div>
@@ -283,7 +286,7 @@ function Register() {
                                                 {
                                                     required: true,
                                                     message:
-                                                        'Please input your first name',
+                                                        "Please input your first name",
                                                 },
                                             ]}>
                                             <Input
@@ -304,7 +307,7 @@ function Register() {
                                                 {
                                                     required: true,
                                                     message:
-                                                        'Please input your last name',
+                                                        "Please input your last name",
                                                 },
                                             ]}>
                                             <Input
@@ -358,10 +361,10 @@ function Register() {
                                     type="submit"
                                     className="ps-btn ps-btn--fullwidth"
                                     style={{
-                                        borderRadius: '15px',
+                                        borderRadius: "15px",
                                     }}
                                     disabled={isLoading}>
-                                    {isLoading ? 'Loading...' : 'Register'}
+                                    {isLoading ? "Loading..." : "Register"}
                                 </button>
                             </div>
                         </div>
@@ -373,7 +376,7 @@ function Register() {
                             </div>
                             <OAuth
                                 onSuccess={(user) =>
-                                    handleRegistration('oauth', {
+                                    handleRegistration("oauth", {
                                         email: user.email,
                                         password: user.id,
                                         firstname: user.firstname,
@@ -393,6 +396,6 @@ export default Register;
 
 const style = {
     head: {
-        maxWidth: '100px',
+        maxWidth: "100px",
     },
 };

@@ -215,7 +215,7 @@ const WPSearchHeader = () => {
                 <input
                     ref={inputEl}
                     className="form-control bg-light"
-                    type="text"
+                    type="search"
                     value={keyword}
                     placeholder="I'm shopping for..."
                     style={{
@@ -224,7 +224,10 @@ const WPSearchHeader = () => {
                     }}
                     onChange={(e) => setKeyword(e.target.value)}
                 />
-                <span className="ps-form__action" style={{ cursor: "pointer" }}>
+                <span
+                    className="ps-form__action"
+                    style={{ cursor: "pointer" }}
+                    aria-label="Voice search">
                     <Microphone
                         onListening={(transcript) => setKeyword(transcript)}
                     />
@@ -232,6 +235,7 @@ const WPSearchHeader = () => {
             </div>
             <button
                 title="Search"
+                aria-label="Search"
                 onClick={handleSubmit}
                 style={{
                     backgroundColor: "#2A3147",
