@@ -110,7 +110,7 @@ const PartialReview = () => {
                     <div className="form-group form-group__rating">
                         <label>Your rating of this product</label>
                         <Rate
-                            defaultValue={1}
+                            value={review.rating}
                             onChange={(value) =>
                                 setReview((prev) => ({
                                     ...prev,
