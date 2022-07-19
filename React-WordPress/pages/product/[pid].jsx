@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import Router, { useRouter } from 'next/router';
-import WPProductDetail from '~/wp-components/elements/products/WPProductDetail';
-import WPProductRepository from '~/repositories/WP/WPProductRepository';
-import WPHeaderProduct from '~/wp-components/shared/headers/WPHeaderProduct';
-import WPRelatedProducts from '~/wp-components/product/WPRelatedProducts';
-import SkeletonProductDetail from '~/components/elements/skeletons/SkeletonProductDetail';
-import WPWidgetProductsSameBrand from '~/wp-components/product/WPWidgetProductsSameBrand';
-import WPProductWidgets from '~/wp-components/product/WPProductWidgets';
-import WPLayoutProductDetail from '~/wp-components/layouts/WPLayoutProductDetail';
-import WPHeaderDefault from '~/wp-components/shared/headers/WPHeaderDefault';
+import React, { useEffect, useState } from "react";
+import { connect, useDispatch } from "react-redux";
+import Router, { useRouter } from "next/router";
+import Head from "next/head";
+import WPProductDetail from "~/wp-components/elements/products/WPProductDetail";
+import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import WPHeaderProduct from "~/wp-components/shared/headers/WPHeaderProduct";
+import WPRelatedProducts from "~/wp-components/product/WPRelatedProducts";
+import SkeletonProductDetail from "~/components/elements/skeletons/SkeletonProductDetail";
+import WPWidgetProductsSameBrand from "~/wp-components/product/WPWidgetProductsSameBrand";
+import WPProductWidgets from "~/wp-components/product/WPProductWidgets";
+import WPLayoutProductDetail from "~/wp-components/layouts/WPLayoutProductDetail";
+import WPHeaderDefault from "~/wp-components/shared/headers/WPHeaderDefault";
 
-import { addRecentlyViewedProduct } from '~/store/recently-viewed-products/action';
-import { scrollPageToTop } from '~/utilities/common-helpers';
+import { addRecentlyViewedProduct } from "~/store/recently-viewed-products/action";
+import { scrollPageToTop } from "~/utilities/common-helpers";
+
+import { WPDomain } from "~/repositories/WP/WPRepository";
 
 const WPProductDetailPage = ({ pid }) => {
     const dispatch = useDispatch();
@@ -50,14 +53,14 @@ const WPProductDetailPage = ({ pid }) => {
                 250
             );
         } else {
-            await router.push('/page/page-404', '/404');
+            await router.push("/page/page-404", "/404");
         }
         return WPProduct;
     }
 
     async function getProductOnChangeURL(url) {
-        const nextPid = url.split('/').pop();
-        if (nextPid !== '' && isNaN(parseInt(nextPid)) === false) {
+        const nextPid = url.split("/").pop();
+        if (nextPid !== "" && isNaN(parseInt(nextPid)) === false) {
             setLoading(true);
             await getProduct(nextPid);
             setLoading(false);
@@ -66,24 +69,24 @@ const WPProductDetailPage = ({ pid }) => {
 
     useEffect(() => {
         if (isNaN(pid)) {
-            Router.push('/page/page-404');
+            Router.push("/page/page-404");
         }
 
         if (pid) {
             const collectionsParams = [
-                'customer_bought',
-                'shop-recommend-items',
-                'widget_same_brand',
+                "customer_bought",
+                "shop-recommend-items",
+                "widget_same_brand",
             ];
             getProduct(pid)
                 .then((res) => dispatch(addRecentlyViewedProduct(res)))
                 .catch((err) => console.log(err));
         }
 
-        router.events.on('routeChangeStart', getProductOnChangeURL);
+        router.events.on("routeChangeStart", getProductOnChangeURL);
 
         return () => {
-            router.events.off('routeChangeStart', getProductOnChangeURL);
+            router.events.off("routeChangeStart", getProductOnChangeURL);
         };
     }, []);
 
@@ -115,14 +118,34 @@ const WPProductDetailPage = ({ pid }) => {
 
     return (
         <div ref={scrollPageToTop}>
+            <Head>
+                {product && (
+                    <>
+                        <meta property="og:title" content={product.name} />
+                        <meta property="og:type" content="product" />
+                        <meta
+                            property="og:image"
+                            content={product.images[0].src}
+                        />
+                        <meta
+                            property="og:url"
+                            content={window.location.href}
+                        />
+                        <meta
+                            name="twitter:card"
+                            content="summary_large_image"
+                        />
+                    </>
+                )}
+            </Head>
             <WPLayoutProductDetail
-                title={product ? product.name : 'Loading...'}>
+                title={product ? product.name : "Loading..."}>
                 <WPHeaderDefault />
                 <div className="ps-page--product mt-3">
                     <div className="ps-container">
                         <div className="ps-page__container">
                             <div className="ps-page__left">{productView}</div>
-                            <div className="" style={{ width: '100%' }}>
+                            <div className="" style={{ width: "100%" }}>
                                 {widgetView}
                             </div>
                         </div>
@@ -137,7 +160,7 @@ const WPProductDetailPage = ({ pid }) => {
 };
 
 WPProductDetailPage.getInitialProps = async ({ query }) => {
-    let product_id = query.pid.split('-').pop();
+    let product_id = query.pid.split("-").pop();
 
     return { pid: product_id };
 };

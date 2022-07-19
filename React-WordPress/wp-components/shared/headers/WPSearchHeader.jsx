@@ -203,7 +203,7 @@ const WPSearchHeader = () => {
                         border: "none",
                         height: "42px",
                     }}>
-                    {selectOptionView}
+                    {/* {selectOptionView} */}
                 </div>
             </div>
             <div

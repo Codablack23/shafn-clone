@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import Link from 'next/link';
-import { formatCurrency } from '~/utilities/product-helper';
-import { addItem } from '~/store/cart/action';
-import { addCheckoutItem } from '~/store/checkout-items/action';
-import { addItemToWishlist } from '~/store/wishlist/action';
+import React, { useState } from "react";
+import { connect, useDispatch } from "react-redux";
+import Link from "next/link";
+import { formatCurrency } from "~/utilities/product-helper";
+import { addItem } from "~/store/cart/action";
+import { addCheckoutItem } from "~/store/checkout-items/action";
+import { addItemToWishlist } from "~/store/wishlist/action";
 
 import {
     WPProductDetailBrandView,
@@ -13,9 +13,9 @@ import {
     WPProductDetailShortDescView,
     WPProductDetailTagsView,
     Button,
-} from '~/utilities/WPHelpers';
+} from "~/utilities/WPHelpers";
 
-import SocialShareButtons from '~/components/elements/media/SocialShareButtons';
+import SocialShareButtons from "~/components/elements/media/SocialShareButtons";
 
 const WPModuleProductInformation = ({
     product,
@@ -68,7 +68,7 @@ const WPModuleProductInformation = ({
                     {formatCurrency(product.sale_price)}
                     <del
                         className="ml-2"
-                        style={{ fontSize: 20, color: '#669900' }}>
+                        style={{ fontSize: 20, color: "#669900" }}>
                         <span>€</span>
                         <span className="fs-1">
                             {formatCurrency(product.regular_price)}
@@ -80,7 +80,7 @@ const WPModuleProductInformation = ({
             priceView = (
                 <p
                     className="ps-product__price"
-                    style={{ fontSize: 20, color: '#669900' }}>
+                    style={{ fontSize: 20, color: "#669900" }}>
                     <span>€</span>
                     <span className="fs-1">
                         {formatCurrency(product.price)}
@@ -93,11 +93,11 @@ const WPModuleProductInformation = ({
         return priceView;
     };
     // Views
-    const ratingView = WPProductDetailRatingView(product);
+    // const ratingView = WPProductDetailRatingView(product);
     const shortDescView = WPProductDetailShortDescView(product);
-    const brandView = WPProductDetailBrandView(product);
-    const categoriesView = WPProductDetailCategoriesView(product);
-    const tagsView = WPProductDetailTagsView(product);
+    // const brandView = WPProductDetailBrandView(product);
+    // const categoriesView = WPProductDetailCategoriesView(product);
+    // const tagsView = WPProductDetailTagsView(product);
     let productPriceView, productVendorView;
 
     if (product) {
@@ -120,9 +120,9 @@ const WPModuleProductInformation = ({
                 <span>
                     <span
                         className="text-danger"
-                        style={{ fontWeight: 'bold' }}>
-                        {' '}
-                        in Stock:{' '}
+                        style={{ fontWeight: "bold" }}>
+                        {" "}
+                        in Stock:{" "}
                     </span>
                 </span>
             </p>
@@ -137,7 +137,7 @@ const WPModuleProductInformation = ({
                         <figcaption>Quantity</figcaption>
                         <div
                             className="form-group--number rounded-pill border-none 0 w3-light-grey w3-center"
-                            style={{ width: '300px', border: 'none' }}>
+                            style={{ width: "300px", border: "none" }}>
                             <button
                                 className="up"
                                 onClick={handleIncreaseItemQty}>
@@ -160,7 +160,7 @@ const WPModuleProductInformation = ({
             </div>
             <div className="w3-center mt-2 d-none d-lg-block">
                 <Button
-                    width={'300px'}
+                    width={"300px"}
                     classes={`w3-0309A5 btn-hover`}
                     hoverColor="white"
                     eventHandler={handleAddItemToCart}
@@ -170,7 +170,7 @@ const WPModuleProductInformation = ({
                 <Link href="/account/checkout">
                     <a onClick={handleAddToCheckoutItems}>
                         <Button
-                            width={'300px'}
+                            width={"300px"}
                             classes={`w3-orange btn-hover`}
                             text="Buy Now"
                         />
@@ -181,7 +181,7 @@ const WPModuleProductInformation = ({
             <div className="share m-3">
                 <p className="w3-text-grey">SHARE</p>
                 <div className="flex">
-                    <SocialShareButtons url="https://www.shafn.com" />
+                    <SocialShareButtons url={window.location.href} />
                 </div>
             </div>
         </div>

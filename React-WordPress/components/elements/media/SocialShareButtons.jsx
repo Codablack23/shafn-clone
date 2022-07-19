@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 import {
     FacebookShareButton,
     TwitterShareButton,
     PinterestShareButton,
     LinkedinShareButton,
-} from 'react-share';
+} from "next-share";
 
 const SocialShareButtons = ({ url }) => (
     <>
@@ -20,7 +20,7 @@ const SocialShareButtons = ({ url }) => (
         </TwitterShareButton>
         <LinkedinShareButton url={url}>
             <a className="social-link">
-                <i className="bi bi-linkedin" style={{ color: '#0073B1' }}></i>
+                <i className="bi bi-linkedin" style={{ color: "#0073B1" }}></i>
             </a>
         </LinkedinShareButton>
         <PinterestShareButton url={url}>

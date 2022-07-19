@@ -94,14 +94,14 @@ function Register() {
                 await WPAuthRepository.register(user, admin.token);
 
                 // Login user
-                const userLogged = await WPAuthRepository.login(_user);
+                const loggedUser = await WPAuthRepository.login(_user);
 
                 if (user.roles[0] === 'seller') {
                     try {
                         // Update vendor store name
                         await WPAuthRepository.updateVendorSettings(
                             storeData,
-                            userLogged.token
+                            loggedUser.token
                         );
 
                         notification['success']({
@@ -115,10 +115,12 @@ function Register() {
                             'Could not update store name. Please check your data connection and update it from your dashboard settings.'
                         );
                     } finally {
+                        const domain =
+                            process.env.NODE_ENV === 'development'
+                                ? 'http://localhost:5500'
+                                : 'https://vendor.shafn.com';
                         // Go to vendor page
-                        window.location.assign(
-                            `http://localhost:5500?auth_token=${userLogged.token}`
-                        );
+                        window.location.assign(`${domain}?auth_token=${loggedUser.token}`);
                     }
                 } else {
                     notification['success']({
@@ -127,8 +129,8 @@ function Register() {
 
                     dispatch(
                         login({
-                            email: userLogged.user_email,
-                            token: userLogged.token,
+                            email: loggedUser.user_email,
+                            token: loggedUser.token,
                         })
                     );
 
