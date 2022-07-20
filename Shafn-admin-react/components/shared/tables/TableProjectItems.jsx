@@ -1,24 +1,25 @@
-import React from "react";
+import React from "react"
+import ReactHtmlParser from "react-html-parser"
 
-import DropdownAction from "~/components/elements/basic/DropdownAction";
+import DropdownAction from "~/components/elements/basic/DropdownAction"
 
 const TableProjectItems = ({ products }) => {
-  let tableItems;
+  let tableItems
 
   if (products && products.items) {
     tableItems = products.items.map((item, index) => {
-      let status;
-      let badgeView;
+      let status
+      let badgeView
       if (item.status === "publish") {
-        status = <span className="ps-badge success">Online</span>;
+        status = <span className="ps-badge success">Online</span>
       } else {
-        status = <span className="ps-badge gray">{item.status}</span>;
+        status = <span className="ps-badge gray">{item.status}</span>
       }
 
       if (item.in_stock) {
-        badgeView = <span className="ps-badge success">Stock</span>;
+        badgeView = <span className="ps-badge success">Stock</span>
       } else {
-        badgeView = <span className="ps-badge gray">Out of stock</span>;
+        badgeView = <span className="ps-badge gray">Out of stock</span>
       }
       return (
         <tr key={item.id}>
@@ -38,7 +39,7 @@ const TableProjectItems = ({ products }) => {
             <p className="ps-item-categories">
               {item.categories.map((category) => (
                 <a href="#" key={category.name}>
-                  {category.name}
+                  {ReactHtmlParser(category.name)}
                 </a>
               ))}
             </p>
@@ -48,8 +49,8 @@ const TableProjectItems = ({ products }) => {
             <DropdownAction productID={item.id} />
           </td>
         </tr>
-      );
-    });
+      )
+    })
   }
 
   return (
@@ -71,7 +72,7 @@ const TableProjectItems = ({ products }) => {
         <tbody>{tableItems}</tbody>
       </table>
     </div>
-  );
-};
+  )
+}
 
-export default TableProjectItems;
+export default TableProjectItems

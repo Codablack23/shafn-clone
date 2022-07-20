@@ -1,53 +1,68 @@
-import React, { useEffect, useState } from "react";
-import ContainerDefault from "~/components/layouts/ContainerDefault";
-import TableProjectItems from "~/components/shared/tables/TableProjectItems";
-import { Select, Spin, Pagination } from "antd";
-import Link from "next/link";
-import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
-import { connect, useDispatch } from "react-redux";
-import { toggleDrawerMenu } from "~/store/app/action";
-import { CustomModal } from "~/components/elements/custom/index";
-import ProductRepository from "~/repositories/ProductRepository";
+import React, { useEffect, useState } from "react"
+import ContainerDefault from "~/components/layouts/ContainerDefault"
+import TableProjectItems from "~/components/shared/tables/TableProjectItems"
+import { Select, Spin, Pagination, notification } from "antd"
+import Link from "next/link"
+import HeaderDashboard from "~/components/shared/headers/HeaderDashboard"
+import { connect, useDispatch } from "react-redux"
+import { toggleDrawerMenu } from "~/store/app/action"
+import { CustomModal } from "~/components/elements/custom/index"
+import ProductRepository from "~/repositories/ProductRepository"
 
-const { Option } = Select;
+const { Option } = Select
 const ProductPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [products, setProducts] = useState([])
 
   const handlePagination = async (page, pageSize) => {
-    setCurrentPage(page);
+    setCurrentPage(page)
     const params = {
       page: page,
       per_page: pageSize,
-    };
-    setLoading(true);
-    const products = await ProductRepository.getProducts(params);
-    setProducts(products);
-    setTimeout(
-      function () {
-        setLoading(false);
-      }.bind(this),
-      500
-    );
-  };
+    }
+    // setLoading(true);
+    try {
+      const products = await ProductRepository.getProducts(params)
+      setProducts(products)
+      // setTimeout(
+      //   function () {
+      //     setLoading(false);
+      //   }.bind(this),
+      //   500
+      // );
+    } catch (error) {
+      notification["error"]({
+        message: "Unable To Get Products",
+        description: "Check your data connection and try again.",
+      })
+    }
+  }
 
   const getProducts = async () => {
     const params = {
       page: 1,
       per_page: 10,
-    };
-    const products = await ProductRepository.getProducts(params);
-    setProducts(products);
-    setLoading(false);
-  };
+    }
+
+    try {
+      const products = await ProductRepository.getProducts(params)
+      setProducts(products)
+      setLoading(false)
+    } catch (error) {
+      notification["error"]({
+        message: "Unable To Get Products",
+        description: "Check your data connection and try again.",
+      })
+    }
+  }
 
   useEffect(() => {
-    dispatch(toggleDrawerMenu(false));
-    getProducts();
-  }, []);
+    dispatch(toggleDrawerMenu(false))
+    getProducts()
+  }, [])
   return (
     <ContainerDefault title="Products">
       <CustomModal isOpen={false}>
@@ -126,7 +141,7 @@ const ProductPage = () => {
           </div>
         </div>
         <div className="ps-section__content">
-          <TableProjectItems products={products} />
+          {loading ? <Spin /> : <TableProjectItems products={products} />}
         </div>
         <div className="ps-section__footer">
           <p>Show 10 in 30 items.</p>
@@ -140,6 +155,6 @@ const ProductPage = () => {
         </div>
       </section>
     </ContainerDefault>
-  );
-};
-export default connect((state) => state.app)(ProductPage);
+  )
+}
+export default connect((state) => state.app)(ProductPage)

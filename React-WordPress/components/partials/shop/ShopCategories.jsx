@@ -1,13 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { categories } from '../../../public/static/data/shopCategories';
+import shopCategories from '../../../public/static/data/shopCategories';
 
 const ShopCategories = () => (
     <div className="ps-shop-categories">
         <div className="row align-content-lg-stretch">
-            {categories &&
-                categories.map(category => (
+            {shopCategories.categories &&
+                shopCategories.categories.map((category) => (
                     <div
                         className="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 "
                         key={category.id}>
@@ -21,7 +21,7 @@ const ShopCategories = () => (
                                 <h4>{category.title}</h4>
                                 <ul>
                                     {category.links &&
-                                        category.links.map(link => (
+                                        category.links.map((link) => (
                                             <li key={link}>
                                                 <Link href="/shop" as={`/shop`}>
                                                     <a>{link}</a>

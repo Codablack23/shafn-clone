@@ -1,30 +1,49 @@
-import Router from "next/router";
-import { notification } from "antd";
-import { WPDomain } from "./Repository";
-import axios from "axios";
+import Router from "next/router"
+import { notification } from "antd"
+import { WPDomain } from "./Repository"
+import axios from "axios"
 
 class SettingsRepository {
   constructor(callback) {
-    this.callback = callback;
+    this.callback = callback
   }
 
-  async getStorename() {
-    let auth_token = localStorage.getItem("auth_token");
-    const response = axios
-      .get(`${WPDomain}/wp-json/dokan/v1/settings`, {
-        headers: {
-          Authorization: `Bearer ${auth_token}`,
-        },
-      })
-      .then((res) => {
-        return res.data.store_name;
-      })
-      .catch((err) => {
-        return;
-      });
+  getConfig() {
+    const auth_token = localStorage.getItem("auth_token")
+    const config = {
+      headers: {
+        Authorization: `Bearer ${auth_token}`,
+      },
+    }
 
-    return response;
+    return config
+  }
+
+  async getStore() {
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/settings`
+    const config = this.getConfig()
+    const { data: response } = await axios.get(endpoint, config)
+
+    return response
+  }
+
+  async getStoreById(id) {
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/stores/${id}`
+    const config = this.getConfig()
+
+    const { data: response } = await axios.get(endpoint, config)
+
+    return response
+  }
+
+  async updateStore(id, payload) {
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/stores/${id}`
+    const config = this.getConfig()
+
+    const { data: response } = await axios.put(endpoint, payload, config)
+
+    return response
   }
 }
 
-export default new SettingsRepository();
+export default new SettingsRepository()
