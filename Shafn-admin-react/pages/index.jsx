@@ -67,7 +67,7 @@ const Index = ({ query }) => {
           </div>
           <div className="ps-section__right">
             <CardStatics />
-            <CardTopCountries />
+            {/* <CardTopCountries /> */}
           </div>
         </section>
       </ContainerDashboard>
