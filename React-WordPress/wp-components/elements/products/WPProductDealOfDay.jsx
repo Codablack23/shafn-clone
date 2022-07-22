@@ -13,6 +13,7 @@ import {
     WPProductPriceView,
     WPProductThumbnailView,
 } from "~/utilities/WPHelpers";
+import WPProductRepository from "~/repositories/WP/WPProductRepository";
 
 const WPProduct = ({ product }) => {
     const dispatch = useDispatch();
@@ -43,6 +44,22 @@ const WPProduct = ({ product }) => {
         setIsQuickView(false);
     };
 
+    const handleRenderPriceRange = (variations) => {
+        const prices = variations.map((variation) => Number(variation.price));
+        const minPrice = Math.min(...prices);
+        const maxPrice = Math.max(...prices);
+
+        const priceRangeView = (
+            <p className="ps-product_price">
+                <span>
+                    €{minPrice} - €{maxPrice}
+                </span>
+            </p>
+        );
+
+        return priceRangeView;
+    };
+
     /*View Area*/
     let productBadge = null;
     let productPrice;
@@ -68,33 +85,43 @@ const WPProduct = ({ product }) => {
     }
 
     if (product) {
-        // Price
-        if (product.on_sale === true && product.sale_price) {
-            productPrice = (
-                <p className="ps-product__price sale">
-                    <span>€</span>
-                    {formatCurrency(product.sale_price)}
-                    <del className="ml-2">
-                        <span>€</span>
+        if (product.type === "variable") {
+            const variations = WPProductRepository.getProductVariantsByID(
+                product.id
+            ).then((res) => res);
 
-                        {formatCurrency(product.regular_price)}
-                    </del>
-                    <small>
-                        {getDiscountPercent(
-                            product.regular_price,
-                            product.sale_price
-                        )}{" "}
-                        off
-                    </small>
-                </p>
-            );
+            if (variations && variations.length > 0) {
+                productPrice = handleRenderPriceRange(variations);
+            }
         } else {
-            productPrice = (
-                <p className="ps-product__price">
-                    <span>€</span>
-                    {formatCurrency(product.price)}
-                </p>
-            );
+            // Price
+            if (product.on_sale === true && product.sale_price) {
+                productPrice = (
+                    <p className="ps-product__price sale">
+                        <span>€</span>
+                        {formatCurrency(product.sale_price)}
+                        <del className="ml-2">
+                            <span>€</span>
+
+                            {formatCurrency(product.regular_price)}
+                        </del>
+                        <small>
+                            {getDiscountPercent(
+                                product.regular_price,
+                                product.sale_price
+                            )}{" "}
+                            off
+                        </small>
+                    </p>
+                );
+            } else {
+                productPrice = (
+                    <p className="ps-product__price">
+                        <span>€</span>
+                        {formatCurrency(product.price)}
+                    </p>
+                );
+            }
         }
     }
 

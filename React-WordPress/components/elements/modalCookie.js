@@ -1,10 +1,10 @@
-import { useCookies } from 'react-cookie';
+import { useCookies } from "react-cookie";
 
 const HideCookiePolicy = () => {
-    const cookiePopUp = document.getElementById('cookie-popup');
-    const cookieWidget = document.getElementById('cookieWidget');
-    console.log(cookiePopUp);
-    if (cookiePopUp.style.opacity === '1') {
+    const cookiePopUp = document.getElementById("cookie-popup");
+    const cookieWidget = document.getElementById("cookieWidget");
+
+    if (cookiePopUp.style.opacity === "1") {
         cookiePopUp.style.opacity = 0;
         cookiePopUp.style.zIndex = -1;
         cookieWidget.style.opacity = 1;
@@ -20,8 +20,8 @@ const HideCookiePolicy = () => {
 export default function ModalCookie() {
     const [cookies, setCookies] = useCookies();
     function CreateCookie(status) {
-        setCookies('ShafN-cookie-policy', status, {
-            path: '/',
+        setCookies("ShafN-cookie-policy", status, {
+            path: "/",
             secure: true,
         });
         HideCookiePolicy();
@@ -41,12 +41,12 @@ export default function ModalCookie() {
                 </p>
                 <button
                     className="accept"
-                    onClick={() => CreateCookie('accepted')}>
+                    onClick={() => CreateCookie("accepted")}>
                     Accept all cookies
                 </button>
                 <button
                     className="reject"
-                    onClick={() => CreateCookie('rejected')}>
+                    onClick={() => CreateCookie("rejected")}>
                     Reject all cookies
                 </button>
             </div>

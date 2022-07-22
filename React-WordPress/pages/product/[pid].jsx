@@ -15,8 +15,6 @@ import WPHeaderDefault from "~/wp-components/shared/headers/WPHeaderDefault";
 import { addRecentlyViewedProduct } from "~/store/recently-viewed-products/action";
 import { scrollPageToTop } from "~/utilities/common-helpers";
 
-import { WPDomain } from "~/repositories/WP/WPRepository";
-
 const WPProductDetailPage = ({ pid }) => {
     const dispatch = useDispatch();
     const router = useRouter();
@@ -30,7 +28,6 @@ const WPProductDetailPage = ({ pid }) => {
     async function getProduct(productID) {
         const WPProduct = await WPProductRepository.getProductByID(productID);
         if (WPProduct) {
-            console.log(WPProduct);
             // Get related product data
             if (WPProduct.related_ids) {
                 setRelatedProducts(WPProduct.related_ids);
@@ -59,7 +56,7 @@ const WPProductDetailPage = ({ pid }) => {
     }
 
     async function getProductOnChangeURL(url) {
-        const nextPid = url.split("/").pop();
+        const nextPid = url.split("-").pop();
         if (nextPid !== "" && isNaN(parseInt(nextPid)) === false) {
             setLoading(true);
             await getProduct(nextPid);

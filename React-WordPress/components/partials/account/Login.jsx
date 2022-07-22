@@ -83,7 +83,11 @@ function Login() {
                     <ul className="ps-tab-list">
                         <li className="active m-auto" style={style.head}>
                             <Link href="/account/login">
-                               <img src="/static/img/logo_light.png" className='img-fluid' alt="" />
+                                <img
+                                    src="/static/img/logo_light.png"
+                                    className="img-fluid"
+                                    alt=""
+                                />
                             </Link>
                         </li>
                     </ul>
@@ -105,11 +109,14 @@ function Login() {
                                     <Input
                                         className="form-control"
                                         type="text"
+                                        aria-label="Email address"
+                                        aria-required="true"
                                         placeholder="Email address"
                                         value={email}
                                         onChange={(e) =>
                                             setEmail(e.target.value)
                                         }
+                                        autoFocus
                                     />
                                 </Form.Item>
                             </div>
@@ -131,6 +138,8 @@ function Login() {
                                                     ? "test"
                                                     : "password"
                                             }`}
+                                            aria-label="Password"
+                                            aria-required="true"
                                             placeholder="Password..."
                                             value={password}
                                             onChange={(e) =>
@@ -217,7 +226,7 @@ function Login() {
 
 export default Login;
 const style = {
-    head:{
-     maxWidth:"100px"
-    }
- }
+    head: {
+        maxWidth: "100px",
+    },
+};

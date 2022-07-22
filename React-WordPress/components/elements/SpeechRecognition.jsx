@@ -1,9 +1,10 @@
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
-import { createSpeechlySpeechRecognition } from '@speechly/speech-recognition-polyfill';
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
+import { createSpeechlySpeechRecognition } from "@speechly/speech-recognition-polyfill";
 import SpeechRecognition, {
     useSpeechRecognition,
-} from 'react-speech-recognition';
+} from "react-speech-recognition";
+import { notification } from "antd";
 
 const appId = process.env.speechly_appID;
 const SpeechlySpeechRecognition = createSpeechlySpeechRecognition(appId);
@@ -24,8 +25,14 @@ const Microphone = ({ onListening }) => {
         browserSupportsSpeechRecognition,
     } = useSpeechRecognition();
 
-    const startListening = () =>
+    const startListening = () => {
         SpeechRecognition.startListening({ continuous: true });
+
+        notification["info"]({
+            message: "Listening...",
+            description: "Say 'clear' to clear transcript",
+        });
+    };
 
     const stopListening = () => {
         SpeechRecognition.stopListening();
@@ -38,26 +45,28 @@ const Microphone = ({ onListening }) => {
         microphone = listening ? (
             <i
                 title="Turn off voice search"
+                aria-label="Turn off voice search"
                 className="bi bi-mic-mute font-20"
-                style={{ marginRight: '0.7em' }}
+                style={{ marginRight: "0.7em" }}
                 onClick={stopListening}></i>
         ) : (
             <i
                 title="Turn on voice search"
+                aria-label="Turn on voice search"
                 className="bi bi-mic font-20"
-                style={{ marginRight: '0.7em' }}
+                style={{ marginRight: "0.7em" }}
                 onClick={startListening}></i>
         );
     }
 
     useEffect(() => {
-        router.events.on('routeChangeStart', stopListening);
+        router.events.on("routeChangeStart", stopListening);
         if (listening) {
             onListening(transcript.toLowerCase());
         }
 
         return () => {
-            router.events.off('routeChangeStart', stopListening);
+            router.events.off("routeChangeStart", stopListening);
         };
     }, [transcript]);
 
