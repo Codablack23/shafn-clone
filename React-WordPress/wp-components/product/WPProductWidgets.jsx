@@ -1,14 +1,14 @@
-import React from 'react';
-import Link from 'next/link';
-import WPModuleProductInformation from '../../wp-components/elements/products/modules/WPModuleProductInformation';
-import { connect } from 'react-redux';
+import React from "react";
+import Link from "next/link";
+import WPModuleProductInformation from "../../wp-components/elements/products/modules/WPModuleProductInformation";
+import { connect } from "react-redux";
 import {
     WPProductDetailBrandView,
     WPProductDetailCategoriesView,
     WPProductDetailRatingView,
     WPProductDetailShortDescView,
     WPProductDetailTagsView,
-} from '~/utilities/WPHelpers';
+} from "~/utilities/WPHelpers";
 
 const WPProductWidgets = ({ product, children }) => {
     return (

@@ -64,13 +64,23 @@ const WPModuleProductDetailInformation = ({
         const minPrice = Math.min(...prices);
         const maxPrice = Math.max(...prices);
 
-        const priceRangeView = (
-            <p className="ps-product_price">
-                <span>
-                    €{minPrice} - €{maxPrice}
-                </span>
-            </p>
-        );
+        let priceRangeView;
+
+        if (minPrice === maxPrice) {
+            priceRangeView = (
+                <p className="ps-product_price">
+                    <span>€{maxPrice}</span>
+                </p>
+            );
+        } else {
+            priceRangeView = (
+                <p className="ps-product_price">
+                    <span>
+                        €{minPrice} - €{maxPrice}
+                    </span>
+                </p>
+            );
+        }
 
         return priceRangeView;
     };

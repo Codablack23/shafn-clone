@@ -18,6 +18,7 @@ import WPProductRepository from "~/repositories/WP/WPProductRepository";
 const WPProduct = ({ product }) => {
     const dispatch = useDispatch();
     const [isQuickView, setIsQuickView] = useState(false);
+    const [priceRangeView, setPriceRangeView] = useState(null);
 
     const handleAddItemToCart = (e) => {
         e.preventDefault();
@@ -49,13 +50,23 @@ const WPProduct = ({ product }) => {
         const minPrice = Math.min(...prices);
         const maxPrice = Math.max(...prices);
 
-        const priceRangeView = (
-            <p className="ps-product_price">
-                <span>
-                    €{minPrice} - €{maxPrice}
-                </span>
-            </p>
-        );
+        let priceRangeView;
+
+        if (minPrice === maxPrice) {
+            priceRangeView = (
+                <p className="ps-product_price">
+                    <span>€{maxPrice}</span>
+                </p>
+            );
+        } else {
+            priceRangeView = (
+                <p className="ps-product_price">
+                    <span>
+                        €{minPrice} - €{maxPrice}
+                    </span>
+                </p>
+            );
+        }
 
         return priceRangeView;
     };
@@ -85,14 +96,14 @@ const WPProduct = ({ product }) => {
     }
 
     if (product) {
-        if (product.type === "variable") {
-            const variations = WPProductRepository.getProductVariantsByID(
-                product.id
-            ).then((res) => res);
-
-            if (variations && variations.length > 0) {
-                productPrice = handleRenderPriceRange(variations);
-            }
+        if (product.type === "variable" && !priceRangeView) {
+            WPProductRepository.getProductVariantsByID(product.id).then(
+                (variations) => {
+                    if (variations && variations.length > 0) {
+                        setPriceRangeView(handleRenderPriceRange(variations));
+                    }
+                }
+            );
         } else {
             // Price
             if (product.on_sale === true && product.sale_price) {
@@ -184,7 +195,7 @@ const WPProduct = ({ product }) => {
                     </a>
                 </Link>
                 <div className="ps-product__content">
-                    {productPrice}
+                    {priceRangeView || productPrice}
                     <Link href="/product/[pid]" as={`/product/${query}`}>
                         <a className="ps-product__title">{product.name}</a>
                     </Link>

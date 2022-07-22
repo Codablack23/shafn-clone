@@ -101,8 +101,10 @@ const WPModuleProductInformation = ({
     let productPriceView, productVendorView;
 
     if (product) {
-        if (variant) {
-            productPriceView = handleRenderPrice(variant);
+        if (product.type === "variable") {
+            if (variant) {
+                productPriceView = handleRenderPrice(variant);
+            }
         } else {
             productPriceView = handleRenderPrice(product);
         }

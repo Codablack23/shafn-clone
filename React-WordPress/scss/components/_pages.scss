@@ -449,3 +449,17 @@
         @include hidden;
     }
 }
+
+.ps__policy-section{
+    max-width: 1080px;
+    margin: 10px auto;
+    p.title{
+       font-weight: 600;
+       font-size: 20px;
+    }
+    @include media("<sm") {
+        p.title{
+            font-size: 16px;
+         }
+    };
+}
