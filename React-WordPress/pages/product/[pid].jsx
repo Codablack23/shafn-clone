@@ -115,7 +115,7 @@ const WPProductDetailPage = ({ pid }) => {
 
     return (
         <div ref={scrollPageToTop}>
-            {/* <Head>
+            <Head>
                 {product && (
                     <>
                         <meta property="og:title" content={product.name} />
@@ -134,7 +134,7 @@ const WPProductDetailPage = ({ pid }) => {
                         />
                     </>
                 )}
-            </Head> */}
+            </Head>
             <WPLayoutProductDetail
                 title={product ? product.name : "Loading..."}>
                 <WPHeaderDefault />
