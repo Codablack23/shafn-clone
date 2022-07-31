@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Router from "next/router";
-import { notification } from "antd";
-import { WPDomain } from "~/repositories/Repository";
-import FileRepository from "~/repositories/FileRepository";
-import SettingsRepository from "~/repositories/SettingsRepository";
-import { allStates } from "~/utilities/stateList";
-import PhoneInput from "react-phone-number-input";
-import UserRepository from "~/repositories/UserRepository";
+import React, { useState, useEffect } from "react"
+import axios from "axios"
+import Router from "next/router"
+import { notification } from "antd"
+import { WPDomain } from "~/repositories/Repository"
+import FileRepository from "~/repositories/FileRepository"
+import SettingsRepository from "~/repositories/SettingsRepository"
+import { allStates } from "~/utilities/stateList"
+import PhoneInput from "react-phone-number-input"
+import UserRepository from "~/repositories/UserRepository"
 
 const FormAccountSettings = () => {
-  const { data } = allStates;
-  const [name, setName] = useState("");
-  const [countryStates, setStates] = useState([]);
+  const { data } = allStates
+  const [name, setName] = useState("")
+  const [countryStates, setStates] = useState([])
   const [address, setAddress] = useState({
     city: "",
     country: "",
@@ -20,75 +20,73 @@ const FormAccountSettings = () => {
     street_1: "",
     street_2: "",
     zip: "",
-  });
-  const [number, setNumber] = useState("");
-  const [showEmail, setShowEmail] = useState("");
-  const [enableTNC, setEnableTNC] = useState("");
-  const [banner, setBanner] = useState("");
-  const [profileImage, setProfileImage] = useState("");
+  })
+  const [number, setNumber] = useState("")
+  const [showEmail, setShowEmail] = useState("")
+  const [enableTNC, setEnableTNC] = useState("")
+  const [banner, setBanner] = useState("")
+  const [profileImage, setProfileImage] = useState("")
 
-  const [bannerFile, setBannerFile] = useState("");
-  const [profileImageFile, setProfileImageFile] = useState("");
+  const [bannerFile, setBannerFile] = useState("")
+  const [profileImageFile, setProfileImageFile] = useState("")
 
-  const [isUploading, setIsUploading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false)
 
   const handleImageSelection = (e) => {
-    e.persist();
+    e.persist()
 
-    let name = e.target.name;
-    let image = e.target.files[0];
-    let type = image.type.split("/").pop();
-    let allowedTypes = ["jpeg", "jpg", "png", "gif"];
+    let name = e.target.name
+    let image = e.target.files[0]
+    let type = image.type.split("/").pop()
+    let allowedTypes = ["jpeg", "jpg", "png", "gif"]
 
     if (image) {
       if (allowedTypes.includes(type)) {
-        let imgUrl = URL.createObjectURL(image);
+        let imgUrl = URL.createObjectURL(image)
 
         if (name === "profileImage") {
-          setProfileImage(imgUrl);
-          setProfileImageFile(image);
+          setProfileImage(imgUrl)
+          setProfileImageFile(image)
         } else {
-          setBanner(imgUrl);
-          setBannerFile(image);
+          setBanner(imgUrl)
+          setBannerFile(image)
         }
-        URL.revokeObjectURL(image);
+        URL.revokeObjectURL(image)
       } else {
         notification["error"]({
           message: "Invalid image type!",
           description: "Image type must be jpg, png or gif",
-        });
+        })
       }
     }
-  };
+  }
 
   const setAddr = (name, value) => {
-    setAddress((current) => ({ ...current, [name]: value }));
-  };
+    setAddress((current) => ({ ...current, [name]: value }))
+  }
 
   const selectCountry = (e) => {
     if (e.target.value) {
-      setAddr(e.target.name, e.target.value);
-      const stateList = data.filter(
-        (country) => country.name == e.target.value
-      );
-      setStates(stateList[0].states);
+      setAddr(e.target.name, e.target.value)
+      const stateList = data.filter((country) => country.name == e.target.value)
+      setStates(stateList[0].states)
     } else {
-      setStates([]);
+      setStates([])
     }
-  };
+  }
 
   const renderCountries = () => {
     return data.map((country, index) => (
       <option key={index} value={country.name}>
         {country.name}
       </option>
-    ));
-  };
+    ))
+  }
 
   const handleOnSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    setIsUploading(true);
+    setIsUploading(true)
 
     const settings = {
       store_name: name,
@@ -96,19 +94,19 @@ const FormAccountSettings = () => {
       phone: number,
       show_email: showEmail,
       enable_tnc: enableTNC,
-    };
+    }
 
     try {
-      let banner = null;
-      let profileImage = null;
+      let banner = null
+      let profileImage = null
 
       // Only upload changed images
-      if (bannerFile) banner = await FileRepository.uploadImage(bannerFile);
+      if (bannerFile) banner = await FileRepository.uploadImage(bannerFile)
 
       if (profileImageFile)
-        profileImage = await FileRepository.uploadImage(profileImageFile);
+        profileImage = await FileRepository.uploadImage(profileImageFile)
 
-      const user = await UserRepository.getUser();
+      const user = await UserRepository.getUser()
 
       if (banner && profileImage) {
         // Both images uploaded
@@ -116,59 +114,59 @@ const FormAccountSettings = () => {
           ...settings,
           banner_id: banner.id,
           gravatar_id: profileImage.id,
-        });
+        })
       } else if (banner) {
         // Only banner uploaded
         await SettingsRepository.updateStore(user.id, {
           ...settings,
           banner_id: banner.id,
-        });
+        })
       } else if (profileImage) {
         // Only profile image uploaded
         await SettingsRepository.updateStore(user.id, {
           ...settings,
           gravatar_id: profileImage.id,
-        });
+        })
       } else {
         // None uploaded
-        await SettingsRepository.updateStore(user.id, settings);
+        await SettingsRepository.updateStore(user.id, settings)
       }
 
-      setIsUploading(false);
+      setIsUploading(false)
       notification["success"]({
-        message: "Settings Updated Successfully",
-      });
-      Router.reload(window.location.pathname);
+        message: "Updated settings uccessfully",
+      })
+      Router.reload(window.location.pathname)
     } catch (err) {
-      setIsUploading(false);
+      setIsUploading(false)
       notification["error"]({
-        message: "Settings Failed To Update",
+        message: "Unable to update settings",
         description: "Check your data connection and try again.",
-      });
+      })
     }
-  };
+  }
 
   const getSettings = async () => {
     try {
-      let user = await UserRepository.getUser();
+      let user = await UserRepository.getUser()
 
-      let vendor = await SettingsRepository.getStoreById(user.id);
+      let vendor = await SettingsRepository.getStoreById(user.id)
 
-      setProfileImage(vendor.gravatar);
-      setBanner(vendor.banner);
-      setName(vendor.store_name);
-      setAddress(vendor.address);
-      setNumber(vendor.phone);
-      setShowEmail(vendor.show_email);
-      setEnableTNC(vendor.toc_enabled);
+      setProfileImage(vendor.gravatar)
+      setBanner(vendor.banner)
+      setName(vendor.store_name)
+      setAddress(vendor.address)
+      setNumber(vendor.phone)
+      setShowEmail(vendor.show_email)
+      setEnableTNC(vendor.toc_enabled)
     } catch (err) {
-      console.log("Settings Error: ", err);
+      return
     }
-  };
+  }
 
   useEffect(() => {
-    getSettings();
-  }, []);
+    getSettings()
+  }, [])
   return (
     <form
       className="ps-form--account-settings"
@@ -413,8 +411,8 @@ const FormAccountSettings = () => {
         </button>
       </div>
     </form>
-  );
-};
+  )
+}
 
 const styles = {
   imgPicker: {
@@ -437,6 +435,6 @@ const styles = {
     marginBottom: 20,
     marginLeft: "2em",
   },
-};
+}
 
-export default FormAccountSettings;
+export default FormAccountSettings

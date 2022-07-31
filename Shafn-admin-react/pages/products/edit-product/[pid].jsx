@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { Suspense, useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 import Router from "next/router"
 import { useDispatch } from "react-redux"
@@ -10,8 +10,8 @@ import { toggleDrawerMenu } from "~/store/app/action"
 import FileRepository from "~/repositories/FileRepository"
 import ProductRepository from "~/repositories/ProductRepository"
 import ImageSelectTiles from "~/components/elements/products/ImageSelectTiles"
-import ProductAttributes from "~/components/elements/products/ProductAttributes"
-import ProductVariations from "~/components/elements/products/ProductVariations"
+// import ProductAttributes from "~/components/elements/products/ProductAttributes"
+// import ProductVariations from "~/components/elements/products/ProductVariations"
 import { CustomModal } from "~/components/elements/custom/index"
 import ContainerDefault from "~/components/layouts/ContainerDefault"
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard"
@@ -23,6 +23,15 @@ import "react-image-lightbox/style.css"
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
 })
+
+const ProductAttributes = dynamic(
+  () => import("~/components/elements/products/ProductAttributes"),
+  { suspense: true }
+)
+const ProductVariations = dynamic(
+  () => import("~/components/elements/products/ProductVariations"),
+  { suspense: true }
+)
 
 const short_buttonList = [
   [
@@ -101,7 +110,7 @@ const EditProductPage = ({ pid }) => {
   const handleInputChange = (e) => {
     let name = e.target.name
     let value = e.target.value
-    let uncheckedFormNames = [
+    let checkedFormNames = [
       "regular_price",
       "sale_price",
       "stock_quantity",
@@ -153,7 +162,7 @@ const EditProductPage = ({ pid }) => {
       setProduct((product) => ({ ...product, [name]: tags }))
     }
 
-    if (!uncheckedFormNames.includes(name)) {
+    if (!checkedFormNames.includes(name)) {
       setProduct((product) => ({ ...product, [name]: value }))
     }
   }
@@ -295,6 +304,12 @@ const EditProductPage = ({ pid }) => {
     try {
       const product = await ProductRepository.getProductByID(pid)
 
+      const categories = await ProductRepository.getCategories()
+
+      const tags = await ProductRepository.getTags()
+
+      const tagOptions = tags.map((tag) => ({ value: tag.id, label: tag.name }))
+
       const modifiedAttributes = product.attributes.map((attribute, index) => ({
         ...attribute,
         id: index,
@@ -316,6 +331,8 @@ const EditProductPage = ({ pid }) => {
       setAttributes(modifiedAttributes)
       setImages(images)
       setCurrentImages(currentImages)
+      setCategories(categories)
+      setTagOptions(tagOptions)
     } catch (err) {
       notification["error"]({
         message: "Unable to get product",
@@ -324,37 +341,8 @@ const EditProductPage = ({ pid }) => {
     }
   }
 
-  const getCategories = async () => {
-    try {
-      const categories = await ProductRepository.getCategories()
-
-      setCategories(categories)
-    } catch (error) {
-      notification["error"]({
-        message: "Unable to get product categories",
-      })
-    }
-  }
-
-  const getTags = async () => {
-    try {
-      const tags = await ProductRepository.getTags()
-
-      let tagOptions = tags.map((tag) => ({ value: tag.id, label: tag.name }))
-      setTagOptions(tagOptions)
-    } catch (error) {
-      notification["error"]({
-        message: "Unable to get product tags",
-      })
-    }
-  }
-
   useEffect(() => {
     getProduct()
-
-    getCategories()
-
-    getTags()
 
     dispatch(toggleDrawerMenu(false))
   }, [])
@@ -362,6 +350,7 @@ const EditProductPage = ({ pid }) => {
   return (
     <ContainerDefault title="Edit product">
       <HeaderDashboard title="Edit Product" description="ShafN Edit Product " />
+
       <section className="ps-new-item">
         <form
           className="ps-form ps-form--new-product"
@@ -682,29 +671,31 @@ const EditProductPage = ({ pid }) => {
             </div>
 
             {product.type === "variable" ? (
-              <div>
-                <figure className="ps-block--form-box">
-                  <figcaption>Attributes and Variations</figcaption>
-                  <div className="ps-block__content">
-                    <ProductAttributes
-                      productId={pid}
-                      attributes={attributes}
-                      onAttributeChange={setAttributes}
-                      onVariationChange={setVariations}
-                      onProductChange={setProduct}
-                    />
-                    {product.attributes.length > 0 ? (
-                      <ProductVariations
+              <Suspense fallback={<Spin />}>
+                <div>
+                  <figure className="ps-block--form-box">
+                    <figcaption>Attributes and Variations</figcaption>
+                    <div className="ps-block__content">
+                      <ProductAttributes
                         productId={pid}
-                        productAttributes={product.attributes}
-                        variations={variations}
+                        attributes={attributes}
+                        onAttributeChange={setAttributes}
                         onVariationChange={setVariations}
                         onProductChange={setProduct}
                       />
-                    ) : null}
-                  </div>
-                </figure>
-              </div>
+                      {product.attributes.length > 0 ? (
+                        <ProductVariations
+                          productId={pid}
+                          productAttributes={product.attributes}
+                          variations={variations}
+                          onVariationChange={setVariations}
+                          onProductChange={setProduct}
+                        />
+                      ) : null}
+                    </div>
+                  </figure>
+                </div>
+              </Suspense>
             ) : null}
           </div>
 

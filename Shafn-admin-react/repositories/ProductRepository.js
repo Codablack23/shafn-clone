@@ -1,6 +1,4 @@
-import { notification } from "antd"
 import { WPDomain, oathInfo, serializeQuery } from "./Repository"
-import FileRepository from "./FileRepository"
 
 import axios from "axios"
 import UserRepository from "./UserRepository"

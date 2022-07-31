@@ -1,23 +1,24 @@
-import React, { useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import React, { useState } from "react";
+import { connect, useDispatch } from "react-redux";
 // import LazyLoad from 'react-lazyload';
-import Link from 'next/link';
-import { Modal } from 'antd';
-import Rating from '../../../components/elements/Rating';
-import { addItem } from '~/store/cart/action';
-import { addItemToCompare } from '~/store/compare/action';
-import { addItemToWishlist } from '~/store/wishlist/action';
-import WPModuleProductQuickview from '~/wp-components/elements/products/modules/WPModuleProductQuickview';
+import Link from "next/link";
+import { Modal } from "antd";
+import Rating from "../../../components/elements/Rating";
+import { addItem } from "~/store/cart/action";
+import { addItemToCompare } from "~/store/compare/action";
+import { addItemToWishlist } from "~/store/wishlist/action";
+import WPModuleProductQuickview from "~/wp-components/elements/products/modules/WPModuleProductQuickview";
 import {
     WPProductBadgeView,
     WPProductPriceView,
     WPProductThumbnailView,
-} from '~/utilities/WPHelpers';
-
+} from "~/utilities/WPHelpers";
+import WPProductRepository from "~/repositories/WP/WPProductRepository";
 
 const WPProduct = ({ product }) => {
     const dispatch = useDispatch();
     const [isQuickView, setIsQuickView] = useState(false);
+    const [priceRangeView, setPriceRangeView] = useState(null);
 
     const handleAddItemToCart = (e) => {
         e.preventDefault();
@@ -44,10 +45,46 @@ const WPProduct = ({ product }) => {
         setIsQuickView(false);
     };
 
+    const handleRenderPriceRange = (variations) => {
+        const prices = variations.map((variation) => Number(variation.price));
+        const minPrice = Math.min(...prices);
+        const maxPrice = Math.max(...prices);
+
+        let priceRangeView;
+
+        if (minPrice === maxPrice) {
+            priceRangeView = (
+                <p className="ps-product_price">
+                    <span>€{maxPrice}</span>
+                </p>
+            );
+        } else {
+            priceRangeView = (
+                <p className="ps-product_price">
+                    <span>
+                        €{minPrice} - €{maxPrice}
+                    </span>
+                </p>
+            );
+        }
+
+        return priceRangeView;
+    };
+
     // Views
-    const priceView = WPProductPriceView(product);
+    const priceView = priceRangeView || WPProductPriceView(product);
     const thumbnailImage = WPProductThumbnailView(product);
     const badgeView = WPProductBadgeView(product);
+
+    if (product && product.type === "variable" && !priceRangeView) {
+        WPProductRepository.getProductVariantsByID(product.id).then(
+            (variations) => {
+                if (variations && variations.length > 0) {
+                    setPriceRangeView(handleRenderPriceRange(variations));
+                }
+            }
+        );
+    }
 
     const query = `${product.slug}-${product.id}`.trim();
 
@@ -117,17 +154,17 @@ const WPProduct = ({ product }) => {
                     </div>
                     {priceView}
                 </div>
-                
+
                 <div className="hover-show">
                     <Link href="/product/[pid]" as={`/product/${query}`}>
                         <a className="ps-product__title">{product.name}</a>
                     </Link>
                     {priceView}
-                    </div>
-                    <button className="hover-show" onClick={handleAddItemToCart} >
-                        Add To Cart
-                    </button>
-               </div>
+                </div>
+                <button className="hover-show" onClick={handleAddItemToCart}>
+                    Add To Cart
+                </button>
+            </div>
             <Modal
                 centered
                 footer={null}

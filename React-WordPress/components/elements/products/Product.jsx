@@ -151,13 +151,13 @@ class Product extends Component {
                             <Rating />
                             <span>{product.ratingCount}</span>
                         </div>
-                        {product.is_sale === true ? (
+                        {product.is_sale === true && product.sale_price ? (
                             <p className="ps-product__price sale">
                                 {currency ? currency.symbol : '$'}
-                                {formatCurrency(product.price)}
+                                {formatCurrency(product.sale_price)}
                                 <del className="ml-2">
                                     {currency ? currency.symbol : '$'}
-                                    {formatCurrency(product.sale_price)}
+                                    {formatCurrency(product.regular_price)}
                                 </del>
                             </p>
                         ) : (

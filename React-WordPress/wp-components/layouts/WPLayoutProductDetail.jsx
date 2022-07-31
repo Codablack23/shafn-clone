@@ -1,16 +1,16 @@
-import React from 'react';
-import Head from 'next/head';
-import WPHeaderMobile from '~/wp-components/shared/mobile/WPHeaderMobile';
-import WPNavigationBottom from '~/wp-components/shared/mobile/WPNavigationBottom';
+import React from "react";
+import Head from "next/head";
+import WPHeaderMobile from "~/wp-components/shared/mobile/WPHeaderMobile";
+import WPNavigationBottom from "~/wp-components/shared/mobile/WPNavigationBottom";
 // import Newletters from '~/components/partials/commons/Newletters';
-import FooterDefault from '~/components/shared/footers/FooterDefault';
+import FooterDefault from "~/components/shared/footers/FooterDefault";
 
-const WPLayoutProductDetail = ({ children, title = 'Homepage' }) => {
+const WPLayoutProductDetail = ({ children, title = "Homepage" }) => {
     let titleView;
     if (title !== null) {
-        titleView = process.env.title + ' | ' + title;
+        titleView = process.env.title + " | " + title;
     } else {
-        titleView = process.env.title + ' | ' + process.env.titleDescription;
+        titleView = process.env.title + " | " + process.env.titleDescription;
     }
     return (
         <div className="shafn">

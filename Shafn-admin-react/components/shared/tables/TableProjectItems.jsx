@@ -1,7 +1,9 @@
 import React from "react"
+import Link from "next/link"
 import ReactHtmlParser from "react-html-parser"
 
 import DropdownAction from "~/components/elements/basic/DropdownAction"
+import { WPDomain } from "~/repositories/Repository"
 
 const TableProjectItems = ({ products }) => {
   let tableItems
@@ -21,13 +23,21 @@ const TableProjectItems = ({ products }) => {
       } else {
         badgeView = <span className="ps-badge gray">Out of stock</span>
       }
+
+      const domain =
+        process.env.NODE_ENV === "production"
+          ? WPDomain
+          : "http://localhost:3000"
+
       return (
         <tr key={item.id}>
           <td>{index + 1}</td>
           <td>
-            <a href="#">
-              <strong>{item.name}</strong>
-            </a>
+            <Link href={`${domain}/product/${item.slug}-${item.id}`}>
+              <a>
+                <strong>{item.name}</strong>
+              </a>
+            </Link>
           </td>
           <td>{status}</td>
           <td>{item.sku}</td>
@@ -36,13 +46,9 @@ const TableProjectItems = ({ products }) => {
             <strong>{item.price}</strong>
           </td>
           <td>
-            <p className="ps-item-categories">
-              {item.categories.map((category) => (
-                <a href="#" key={category.name}>
-                  {ReactHtmlParser(category.name)}
-                </a>
-              ))}
-            </p>
+            {item.categories.map((category) => (
+              <span key={category.name}>{ReactHtmlParser(category.name)}</span>
+            ))}
           </td>
           <td>{item.date_created}</td>
           <td>

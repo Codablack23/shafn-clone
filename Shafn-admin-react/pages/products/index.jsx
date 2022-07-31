@@ -23,19 +23,13 @@ const ProductPage = () => {
       page: page,
       per_page: pageSize,
     }
-    // setLoading(true);
+
     try {
       const products = await ProductRepository.getProducts(params)
       setProducts(products)
-      // setTimeout(
-      //   function () {
-      //     setLoading(false);
-      //   }.bind(this),
-      //   500
-      // );
     } catch (error) {
       notification["error"]({
-        message: "Unable To Get Products",
+        message: "Unable to get orders",
         description: "Check your data connection and try again.",
       })
     }
@@ -50,12 +44,13 @@ const ProductPage = () => {
     try {
       const products = await ProductRepository.getProducts(params)
       setProducts(products)
-      setLoading(false)
     } catch (error) {
       notification["error"]({
-        message: "Unable To Get Products",
+        message: "Unable to get orders",
         description: "Check your data connection and try again.",
       })
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -144,7 +139,6 @@ const ProductPage = () => {
           {loading ? <Spin /> : <TableProjectItems products={products} />}
         </div>
         <div className="ps-section__footer">
-          <p>Show 10 in 30 items.</p>
           <Pagination
             total={products && products.totalItems}
             pageSize={10}

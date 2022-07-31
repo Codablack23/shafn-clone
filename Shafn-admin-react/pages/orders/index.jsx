@@ -1,19 +1,62 @@
-import React, { useEffect } from "react";
-import ContainerDefault from "~/components/layouts/ContainerDefault";
-import TableOrdersItems from "~/components/shared/tables/TableOrdersItems";
-import Pagination from "~/components/elements/basic/Pagination";
-import { Select } from "antd";
-import Link from "next/link";
-import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
-import { connect, useDispatch } from "react-redux";
-import { toggleDrawerMenu } from "~/store/app/action";
+import React, { useState, useEffect } from "react"
+import ContainerDefault from "~/components/layouts/ContainerDefault"
+import TableOrdersItems from "~/components/shared/tables/TableOrdersItems"
+import { Select, Spin, Pagination, notification } from "antd"
+import Link from "next/link"
+import HeaderDashboard from "~/components/shared/headers/HeaderDashboard"
+import { connect, useDispatch } from "react-redux"
+import { toggleDrawerMenu } from "~/store/app/action"
+import OrdersRepository from "~/repositories/OrdersRepository"
 
-const { Option } = Select;
+const { Option } = Select
 const OrdersPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+
+  const [loading, setLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [orders, setOrders] = useState(null)
+
+  const handlePagination = async (page, pageSize) => {
+    setCurrentPage(page)
+    const params = {
+      page: page,
+      per_page: pageSize,
+    }
+
+    try {
+      const products = await OrdersRepository.getOrders(params)
+      setOrders(products)
+    } catch (error) {
+      notification["error"]({
+        message: "Unable to get orders",
+        description: "Check your data connection and try again.",
+      })
+    }
+  }
+
+  const getOrders = async () => {
+    const params = {
+      page: 1,
+      per_page: 10,
+    }
+
+    try {
+      const orders = await OrdersRepository.getOrders(params)
+      setOrders(orders)
+    } catch (error) {
+      notification["error"]({
+        message: "Unable to get orders",
+        description: "Check your data connection and try again.",
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
-    dispatch(toggleDrawerMenu(false));
-  }, []);
+    dispatch(toggleDrawerMenu(false))
+    getOrders()
+  }, [])
   return (
     <ContainerDefault>
       <HeaderDashboard title="Orders" description="ShafN Orders Listing" />
@@ -60,14 +103,25 @@ const OrdersPage = () => {
           </div>
         </div>
         <div className="ps-section__content">
-          <TableOrdersItems />
+          {loading ? (
+            <Spin />
+          ) : orders && Number(orders.totalItems) > 0 ? (
+            <TableOrdersItems orders={orders} />
+          ) : (
+            <p>No orders yet</p>
+          )}
         </div>
         <div className="ps-section__footer">
-          <p>Show 10 in 30 items.</p>
-          <Pagination />
+          <Pagination
+            total={orders && orders.totalItems}
+            pageSize={10}
+            responsive={true}
+            current={currentPage}
+            onChange={handlePagination}
+          />
         </div>
       </section>
     </ContainerDefault>
-  );
-};
-export default connect((state) => state.app)(OrdersPage);
+  )
+}
+export default connect((state) => state.app)(OrdersPage)

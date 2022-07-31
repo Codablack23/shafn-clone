@@ -45,14 +45,14 @@ const WPModuleProductQuickviewInformation = ({ product }) => {
     // Views
     let productVendorView;
     if (product) {
-        if (product.on_sale === true) {
+        if (product.on_sale === true && product.sale_price) {
             productPriceView = (
                 <p className="ps-product__price sale">
                     <span>$</span>
-                    {formatCurrency(product.regular_price)}
+                    {formatCurrency(product.sale_price)}
                     <del className="ml-2">
                         <span>$</span>
-                        {formatCurrency(product.sale_price / 100)}
+                        {formatCurrency(product.regular_price / 100)}
                     </del>
                 </p>
             );
@@ -60,7 +60,7 @@ const WPModuleProductQuickviewInformation = ({ product }) => {
             productPriceView = (
                 <p className="ps-product__price">
                     <span>$</span>
-                    {formatCurrency(product.regular_price / 100)}
+                    {formatCurrency(product.price / 100)}
                 </p>
             );
         }
