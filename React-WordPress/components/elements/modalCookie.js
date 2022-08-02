@@ -1,11 +1,12 @@
 import Link from "next/link";
+import {useEffect} from 'react'
 import { useCookies } from "react-cookie";
 
 const HideCookiePolicy = () => {
     const cookiePopUp = document.getElementById("cookie-popup");
     const cookieWidget = document.getElementById("cookieWidget");
     console.log(cookiePopUp.style.opacity);
-    if (cookiePopUp.style.opacity === "1") {
+    if (cookiePopUp.style.opacity === "1" || cookiePopUp.style.opacity === 1 || cookiePopUp.style.opacity === null || cookiePopUp.style.opacity === "") {
         cookiePopUp.style.opacity = 0;
         cookiePopUp.style.zIndex = -1;
         cookieWidget.style.opacity = 1;
@@ -28,7 +29,18 @@ export default function ModalCookie() {
         });
     }
     console.log(cookies);
+    
+    useEffect(()=>{
+      const cookiePopUp = document.getElementById("cookie-popup");
+      const cookieWidget = document.getElementById("cookieWidget");
 
+      if(cookies["ShafN-cookie-policy"] === "accepted" || cookies["ShafN-cookie-policy"] === "rejected"){
+        cookiePopUp.style.opacity = 0;
+        cookiePopUp.style.zIndex = -1;
+        cookieWidget.style.opacity = 1;
+        cookieWidget.style.zIndex = 1000;
+      }
+    },[])
     return (
         <div>
             <div className="ps__cookie-popup" id="cookie-popup">
