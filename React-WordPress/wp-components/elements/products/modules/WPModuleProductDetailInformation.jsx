@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import Link from 'next/link';
-import { formatCurrency } from '~/utilities/product-helper';
-import { addItem } from '~/store/cart/action';
-import { addCheckoutItem } from '~/store/checkout-items/action';
-import { addItemToWishlist } from '~/store/wishlist/action';
+import React, { useState } from "react";
+import { connect, useDispatch } from "react-redux";
+import Link from "next/link";
+import { formatCurrency } from "~/utilities/product-helper";
+import { addItem } from "~/store/cart/action";
+import { addCheckoutItem } from "~/store/checkout-items/action";
+import { addItemToWishlist } from "~/store/wishlist/action";
 // import ModuleProductDetailSharing from '~/components/elements/detail/modules/elements/ModuleProductDetailSharing';
 
 import {
@@ -14,11 +14,12 @@ import {
     WPProductDetailShortDescView,
     WPProductDetailTagsView,
     Button,
-} from '~/utilities/WPHelpers';
+} from "~/utilities/WPHelpers";
 
 const WPModuleProductDetailInformation = ({
     product,
     children,
+    variations,
     variant,
     isWidget,
 }) => {
@@ -58,16 +59,42 @@ const WPModuleProductDetailInformation = ({
         dispatch(addItemToWishlist(product));
     };
 
+    const handleRenderPriceRange = () => {
+        const prices = variations.map((variation) => Number(variation.price));
+        const minPrice = Math.min(...prices);
+        const maxPrice = Math.max(...prices);
+
+        let priceRangeView;
+
+        if (minPrice === maxPrice) {
+            priceRangeView = (
+                <p className="ps-product_price">
+                    <span>€{maxPrice}</span>
+                </p>
+            );
+        } else {
+            priceRangeView = (
+                <p className="ps-product_price">
+                    <span>
+                        €{minPrice} - €{maxPrice}
+                    </span>
+                </p>
+            );
+        }
+
+        return priceRangeView;
+    };
+
     const handleRenderPrice = (product) => {
         let priceView;
-        if (product.on_sale === true) {
+        if (product.on_sale === true && product.sale_price) {
             priceView = (
                 <p className="ps-product__price sale">
                     <span>€</span>
-                    {formatCurrency(product.price)}
+                    {formatCurrency(product.sale_price)}
                     <del className="ml-2">
                         <span>€</span>
-                        {formatCurrency(product.sale_price)}
+                        {formatCurrency(product.regular_price)}
                     </del>
                 </p>
             );
@@ -87,11 +114,16 @@ const WPModuleProductDetailInformation = ({
     const brandView = WPProductDetailBrandView(product);
     const categoriesView = WPProductDetailCategoriesView(product);
     const tagsView = WPProductDetailTagsView(product);
-    let productPriceView, productVendorView;
+    let variationPriceRangeView, productPriceView, productVendorView;
 
     if (product) {
-        if (variant) {
-            productPriceView = handleRenderPrice(variant);
+        if (product.type === "variable") {
+            if (variant) {
+                productPriceView = handleRenderPrice(variant);
+            }
+            if (variations && variations.length > 0) {
+                variationPriceRangeView = handleRenderPriceRange();
+            }
         } else {
             productPriceView = handleRenderPrice(product);
         }
@@ -113,6 +145,7 @@ const WPModuleProductDetailInformation = ({
     return (
         <div className="ps-product__info">
             {!isWidget && <p style={{ fontSize: 20 }}>{product?.name}</p>}
+            {variationPriceRangeView}
             {productPriceView}
             <hr className="w3-lightgrey" />
             <div className="ps-product__desc">
@@ -122,13 +155,13 @@ const WPModuleProductDetailInformation = ({
             {children}
             <div
                 className="d-block d-lg-none m-auto w3-center"
-                style={{ minWidth: '60%' }}>
+                style={{ minWidth: "60%" }}>
                 <div className="">
                     <figure>
                         <figcaption>Quantity</figcaption>
                         <div
                             className="form-group--number rounded-pill border-none 0 w3-light-grey w3-center"
-                            style={{ width: 250, border: 'none' }}>
+                            style={{ width: 250, border: "none" }}>
                             <button
                                 className="up"
                                 onClick={handleIncreaseItemQty}>

@@ -231,6 +231,42 @@ class WPProductRepository {
             });
         return reponse;
     }
+
+    async getReviews() {
+        const endpoint = `wp-json/wc/v3/products/reviews/?${serializeQuery({
+            ...oathInfo,
+        })}`;
+
+        const reponse = await WPRepository.get(`${WPDomain}/${endpoint}`)
+            .then((response) => {
+                if (response.data) {
+                    return response.data;
+                } else {
+                    return null;
+                }
+            })
+            .catch((error) => {
+                console.log(JSON.stringify(error.message));
+                return null;
+            });
+        return reponse;
+    }
+
+    async createReview(payload) {
+        const endpoint = `wp-json/wc/v3/products/reviews/?${serializeQuery({
+            ...oathInfo,
+        })}`;
+
+        await WPRepository.post(`${WPDomain}/${endpoint}`, payload).then(
+            (response) => {
+                if (response.data) {
+                    return response.data;
+                } else {
+                    return null;
+                }
+            }
+        );
+    }
 }
 
 export default new WPProductRepository();

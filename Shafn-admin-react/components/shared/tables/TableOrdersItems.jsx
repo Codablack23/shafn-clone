@@ -1,19 +1,14 @@
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { Menu } from "antd";
-import axios from "axios";
-import DropdownAction from "~/components/elements/basic/DropdownAction";
-import { WPDomain } from "~/repositories/Repository";
-import OrdersRepository from "~/repositories/OrdersRepository";
+import React from "react"
+import Link from "next/link"
+import { Menu } from "antd"
+import DropdownAction from "~/components/elements/basic/DropdownAction"
 
-const TableOrdersItems = () => {
-  const [orderItems, setOrderItems] = useState(null);
+const TableOrdersItems = ({ orders }) => {
+  let tableItemsView
 
-  let tableItemsView;
-
-  if (orderItems) {
-    const tableItemsView = orderItems.map((item) => {
-      let status, fullfillmentView;
+  if (orders && orders.items) {
+    tableItemsView = orders.items.map((item) => {
+      let status, fullfillmentView
       const menuView = (
         <Menu>
           <Menu.Item key={0}>
@@ -28,7 +23,7 @@ const TableOrdersItems = () => {
             </a>
           </Menu.Item>
         </Menu>
-      );
+      )
       // if (item.status === "completed") {
       //   status = <span className="ps-badge success">Paid</span>;
       // } else {
@@ -36,11 +31,11 @@ const TableOrdersItems = () => {
       // }
 
       if (item.status === "completed" || item.status === "refunded") {
-        status = <span className="ps-fullfillment success">{item.status}</span>;
+        status = <span className="ps-fullfillment success">{item.status}</span>
       } else if (item.status === "failed" || item.status === "cancelled") {
-        status = <span className="ps-fullfillment danger">{item.status}</span>;
+        status = <span className="ps-fullfillment danger">{item.status}</span>
       } else {
-        status = <span className="ps-fullfillment warning">{item.status}</span>;
+        status = <span className="ps-fullfillment warning">{item.status}</span>
       }
 
       return (
@@ -61,22 +56,13 @@ const TableOrdersItems = () => {
             <strong> {item.date_created}</strong>
           </td>
 
-          <td>
+          {/* <td>
             <DropdownAction />
-          </td>
+          </td> */}
         </tr>
-      );
-    });
+      )
+    })
   }
-
-  const getOrders = async () => {
-    const orders = await OrdersRepository.getOrders();
-    setOrderItems(orders);
-  };
-
-  useEffect(() => {
-    getOrders();
-  }, []);
 
   return (
     <div className="table-responsive">
@@ -88,13 +74,13 @@ const TableOrdersItems = () => {
             <th>Status</th>
             <th>Customer</th>
             <th>Date</th>
-            <th></th>
+            {/* <th></th> */}
           </tr>
         </thead>
         <tbody>{tableItemsView}</tbody>
       </table>
     </div>
-  );
-};
+  )
+}
 
-export default TableOrdersItems;
+export default TableOrdersItems

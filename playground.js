@@ -24,9 +24,3 @@
 //   a1.length === a2.length && a1.every((o, idx) => objectsEqual(o, a2[idx]))
 
 // console.log(arraysEqual(arr1, arr2))
-
-console.log(
-  [1, 2, 3].map((num) => {
-    if (num > 2) return num
-  })
-)

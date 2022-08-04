@@ -1,11 +1,11 @@
-import React, { Component, useEffect, useState } from 'react';
-import Link from 'next/link';
-import Slider from 'react-slick';
-import WPProductRepository from '~/repositories/WP/WPProductRepository';
-import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct';
-import { carouselFullwidth } from '~/utilities/carousel-helpers';
-import WPProductDealOfDay from '~/wp-components/elements/products/WPProductDealOfDay';
-import CountDownSimple from '~/components/elements/CountDownSimple';
+import React, { Component, useEffect, useState } from "react";
+import Link from "next/link";
+import Slider from "react-slick";
+import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import SkeletonProduct from "~/components/elements/skeletons/SkeletonProduct";
+import { carouselFullwidth } from "~/utilities/carousel-helpers";
+import WPProductDealOfDay from "~/wp-components/elements/products/WPProductDealOfDay";
+import CountDownSimple from "~/components/elements/CountDownSimple";
 
 const WPDealOfDay = () => {
     const [productItems, setProductItems] = useState(null);

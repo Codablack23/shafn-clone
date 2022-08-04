@@ -15,8 +15,6 @@ import WPHeaderDefault from "~/wp-components/shared/headers/WPHeaderDefault";
 import { addRecentlyViewedProduct } from "~/store/recently-viewed-products/action";
 import { scrollPageToTop } from "~/utilities/common-helpers";
 
-import { WPDomain } from "~/repositories/WP/WPRepository";
-
 const WPProductDetailPage = ({ pid }) => {
     const dispatch = useDispatch();
     const router = useRouter();

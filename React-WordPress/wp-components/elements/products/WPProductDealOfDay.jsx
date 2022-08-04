@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import React, { useState } from "react";
+import { connect, useDispatch } from "react-redux";
 // import LazyLoad from 'react-lazyload';
-import Link from 'next/link';
-import { Modal } from 'antd';
-import Rating from '../../../components/elements/Rating';
-import { formatCurrency, getDiscountPercent } from '~/utilities/product-helper';
-import { addItem } from '~/store/cart/action';
-import { addItemToCompare } from '~/store/compare/action';
-import { addItemToWishlist } from '~/store/wishlist/action';
-import WPModuleProductQuickview from '~/wp-components/elements/products/modules/WPModuleProductQuickview';
+import Link from "next/link";
+import { Modal } from "antd";
+import Rating from "../../../components/elements/Rating";
+import { formatCurrency, getDiscountPercent } from "~/utilities/product-helper";
+import { addItem } from "~/store/cart/action";
+import { addItemToCompare } from "~/store/compare/action";
+import { addItemToWishlist } from "~/store/wishlist/action";
+import WPModuleProductQuickview from "~/wp-components/elements/products/modules/WPModuleProductQuickview";
 import {
     WPProductPriceView,
     WPProductThumbnailView,
-} from '~/utilities/WPHelpers';
+} from "~/utilities/WPHelpers";
+import WPProductRepository from "~/repositories/WP/WPProductRepository";
 
 const WPProduct = ({ product }) => {
     const dispatch = useDispatch();
     const [isQuickView, setIsQuickView] = useState(false);
+    const [priceRangeView, setPriceRangeView] = useState(null);
 
     const handleAddItemToCart = (e) => {
         e.preventDefault();
@@ -43,17 +45,43 @@ const WPProduct = ({ product }) => {
         setIsQuickView(false);
     };
 
+    const handleRenderPriceRange = (variations) => {
+        const prices = variations.map((variation) => Number(variation.price));
+        const minPrice = Math.min(...prices);
+        const maxPrice = Math.max(...prices);
+
+        let priceRangeView;
+
+        if (minPrice === maxPrice) {
+            priceRangeView = (
+                <p className="ps-product_price">
+                    <span>€{maxPrice}</span>
+                </p>
+            );
+        } else {
+            priceRangeView = (
+                <p className="ps-product_price">
+                    <span>
+                        €{minPrice} - €{maxPrice}
+                    </span>
+                </p>
+            );
+        }
+
+        return priceRangeView;
+    };
+
     /*View Area*/
     let productBadge = null;
     let productPrice;
     const thumbnailImage = WPProductThumbnailView(product);
     if (product.badge && product.badge !== null) {
         product.badge.map((badge) => {
-            if (badge.type === 'sale') {
+            if (badge.type === "sale") {
                 return (productBadge = (
                     <div className="ps-product__badge">{badge.value}</div>
                 ));
-            } else if (badge.type === 'outStock') {
+            } else if (badge.type === "outStock") {
                 return (productBadge = (
                     <div className="ps-product__badge out-stock">
                         {badge.value}
@@ -68,33 +96,43 @@ const WPProduct = ({ product }) => {
     }
 
     if (product) {
-        // Price
-        if (product.on_sale === true) {
-            productPrice = (
-                <p className="ps-product__price sale">
-                    <span>€</span>
-                    {formatCurrency(product.regular_price)}
-                    <del className="ml-2">
-                        <span>€</span>
-
-                        {formatCurrency(product.sale_price)}
-                    </del>
-                    <small>
-                        {getDiscountPercent(
-                            product.regular_price,
-                            product.sale_price
-                        )}{' '}
-                        off
-                    </small>
-                </p>
+        if (product.type === "variable" && !priceRangeView) {
+            WPProductRepository.getProductVariantsByID(product.id).then(
+                (variations) => {
+                    if (variations && variations.length > 0) {
+                        setPriceRangeView(handleRenderPriceRange(variations));
+                    }
+                }
             );
         } else {
-            productPrice = (
-                <p className="ps-product__price">
-                    <span>€</span>
-                    {formatCurrency(product.price)}
-                </p>
-            );
+            // Price
+            if (product.on_sale === true && product.sale_price) {
+                productPrice = (
+                    <p className="ps-product__price sale">
+                        <span>€</span>
+                        {formatCurrency(product.sale_price)}
+                        <del className="ml-2">
+                            <span>€</span>
+
+                            {formatCurrency(product.regular_price)}
+                        </del>
+                        <small>
+                            {getDiscountPercent(
+                                product.regular_price,
+                                product.sale_price
+                            )}{" "}
+                            off
+                        </small>
+                    </p>
+                );
+            } else {
+                productPrice = (
+                    <p className="ps-product__price">
+                        <span>€</span>
+                        {formatCurrency(product.price)}
+                    </p>
+                );
+            }
         }
     }
 
@@ -157,7 +195,7 @@ const WPProduct = ({ product }) => {
                     </a>
                 </Link>
                 <div className="ps-product__content">
-                    {productPrice}
+                    {priceRangeView || productPrice}
                     <Link href="/product/[pid]" as={`/product/${query}`}>
                         <a className="ps-product__title">{product.name}</a>
                     </Link>
@@ -169,7 +207,7 @@ const WPProduct = ({ product }) => {
                         className="ps-product__progress-bar ps-progress"
                         data-value={80}>
                         <div className="ps-progress__value">
-                            <span style={{ width: '92%' }}></span>
+                            <span style={{ width: "92%" }}></span>
                         </div>
                         <p>Sold: 99</p>
                     </div>

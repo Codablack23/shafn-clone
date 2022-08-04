@@ -12,12 +12,7 @@ class WPHeaderActions extends Component {
     render() {
         const { compare, wishlist, auth } = this.props;
         // Views
-        let accountView;
-        if (auth.isLoggedIn) {
-            accountView = <AccountQuickLinks isLoggedIn={true} />;
-        } else {
-            accountView = <AccountQuickLinks isLoggedIn={false} />;
-        }
+        let accountView = <AccountQuickLinks isLoggedIn={auth.isLoggedIn} />;
         return (
             <div className="header__actions">
                 <div

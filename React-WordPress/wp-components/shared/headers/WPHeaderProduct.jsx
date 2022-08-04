@@ -39,16 +39,16 @@ const WPHeaderProduct = ({ product }) => {
         );
     }
 
-    if (product.on_sale === true) {
+    if (product.on_sale === true && product.sale_price) {
         productNameView = (
             <span className="ps-product__price">
                 <span>
                     <span>$</span>
-                    {formatCurrency(product.regular_price)}
+                    {formatCurrency(product.sale_price)}
                 </span>
                 <del className="ml-2">
                     <span>&</span>
-                    {formatCurrency(product.sale_price)}
+                    {formatCurrency(product.regular_price)}
                 </del>
             </span>
         );
@@ -57,7 +57,7 @@ const WPHeaderProduct = ({ product }) => {
             <span className="ps-product__price">
                 <span>
                     <span>$</span>
-                    {formatCurrency(product.regular_price)}
+                    {formatCurrency(product.price)}
                 </span>
             </span>
         );

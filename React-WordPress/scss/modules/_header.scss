@@ -80,7 +80,7 @@
         align-items: center;
         justify-content:center;
         .header-item{
-            width: 10%;
+            max-width: 95px;
             margin-right: 20px;
         }
         .custom-header-search{
@@ -745,6 +745,9 @@
                 line-height: 20px;
                 font-weight: 400;
                 font-size: 14px;
+                &:hover{
+                    color:#0309A5;
+                }
             }
             margin:auto 0.4em ;
         }
@@ -752,9 +755,9 @@
     .nav--center{
        margin:auto;
        text-align: center;
-       justify-content: space-between;
+       justify-content:center;
        li{
-           margin: auto 0.5em;
+           margin: auto 0.7em;
        }
     }
     .nav--right{
