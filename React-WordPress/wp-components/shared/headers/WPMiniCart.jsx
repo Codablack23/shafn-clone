@@ -1,9 +1,9 @@
-import React, { Component, useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import Link from 'next/link';
-import { getCart, removeItem } from '~/store/cart/action';
-import { addCheckoutItem } from '~/store/checkout-items/action';
-import WPProductOnCart from '~/wp-components/elements/products/WPProductOnCart';
+import React, { Component, useEffect } from "react";
+import { connect, useDispatch } from "react-redux";
+import Link from "next/link";
+import { getCart, removeItem } from "~/store/cart/action";
+import { addCheckoutItem } from "~/store/checkout-items/action";
+import WPProductOnCart from "~/wp-components/elements/products/WPProductOnCart";
 
 class WPMiniCart extends Component {
     constructor() {
@@ -40,7 +40,9 @@ class WPMiniCart extends Component {
                         </h3>
                         <figure>
                             <Link href="/account/shopping-cart">
-                                <a className="w3-orange rounded" style={style}>View Cart</a>
+                                <a className="w3-orange rounded" style={style}>
+                                    View Cart
+                                </a>
                             </Link>
                             <Link href="/account/checkout">
                                 <a
@@ -68,11 +70,16 @@ class WPMiniCart extends Component {
 
         return (
             <div className="ps-cart--mini">
-                <span className="header__extra w3-hover-lightgrey" href="#">
-                    <i className="icon-bag2" style={{
-                        fontSize:'22px',
-                        color:'#2A3147',
-                    }}></i>
+                <span
+                    title="Cart"
+                    className="header__extra w3-hover-lightgrey"
+                    href="#">
+                    <i
+                        className="icon-bag2"
+                        style={{
+                            fontSize: "22px",
+                            color: "#2A3147",
+                        }}></i>
                     <span>
                         <i>{cartTotal ? cartTotal : 0}</i>
                     </span>
@@ -85,8 +92,8 @@ class WPMiniCart extends Component {
 
 export default connect((state) => state.cart)(WPMiniCart);
 
-const style ={
-    minWidth:"140px",
-    padding:"0.8em",
-    textAlign:"center"
-}
+const style = {
+    minWidth: "140px",
+    padding: "0.8em",
+    textAlign: "center",
+};

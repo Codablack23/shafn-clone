@@ -214,10 +214,10 @@ const WPSearchHeader = () => {
                 }}>
                 <input
                     ref={inputEl}
-                    className="form-control bg-light"
                     type="search"
-                    value={keyword}
+                    className="form-control bg-light"
                     placeholder="I'm shopping for..."
+                    value={keyword}
                     style={{
                         border: "none",
                         height: "42px",
