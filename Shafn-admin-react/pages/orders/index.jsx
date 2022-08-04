@@ -20,17 +20,20 @@ const OrdersPage = () => {
     status: "",
   })
   const [searchKeyword, setSearchKeyword] = useState("")
+  const [isFiltering, setIsFiltering] = useState(false)
 
-  const filter = (e) => {
+  const filter = async (e) => {
     e.preventDefault()
 
     const params = {
       page: currentPage,
       per_page: 10,
-      status: filterParams.status
+      status: filterParams.status,
+      search: searchKeyword,
     }
 
     try {
+      setIsFiltering(true)
       const orders = await OrdersRepository.getOrders(params)
       if (orders && orders.items.length > 0) {
         setOrders(orders)
@@ -47,35 +50,8 @@ const OrdersPage = () => {
             ? ReactHtmlParser(String(error))
             : ReactHtmlParser(error.response.data.message),
       })
-    }
-  }
-
-  const search = async (e) => {
-    e.preventDefault()
-
-    const params = {
-      page: currentPage,
-      per_page: 10,
-      search: searchKeyword,
-    }
-
-    try {
-      const orders = await OrdersRepository.getOrders(params)
-      if (orders && orders.items.length > 0) {
-        setOrders(orders)
-      } else {
-        notification["info"]({
-          message: "No search result",
-        })
-      }
-    } catch (error) {
-      notification["error"]({
-        message,
-        description:
-          error.response === undefined
-            ? ReactHtmlParser(String(error))
-            : ReactHtmlParser(error.response.data.message),
-      })
+    } finally {
+      setIsFiltering(false)
     }
   }
 
@@ -133,11 +109,8 @@ const OrdersPage = () => {
                     className="form-control"
                     type="text"
                     placeholder="Search..."
-                    onChange={e => setSearchKeyword(e.target.value)}
+                    onChange={(e) => setSearchKeyword(e.target.value)}
                   />
-                  <button onClick={search}>
-                     <i className="icon icon-magnifier"></i>
-                  </button>
                 </div>
                 <div className="form-group">
                   <Select
@@ -163,8 +136,14 @@ const OrdersPage = () => {
               </div>
               <div className="ps-form__right">
                 <button className="ps-btn ps-btn--gray" onClick={filter}>
-                  <i className="icon icon-funnel mr-2"></i>
-                  Filter
+                  {isFiltering ? (
+                    <Spin style={{ marginTop: 5 }} />
+                  ) : (
+                    <>
+                      <i className="icon icon-funnel mr-2"></i>
+                      Filter
+                    </>
+                  )}
                 </button>
               </div>
             </form>
@@ -184,19 +163,21 @@ const OrdersPage = () => {
           {loading ? (
             <Spin />
           ) : orders && Number(orders.totalItems) > 0 ? (
-            <TableOrdersItems orders={orders} />
+            <>
+              <TableOrdersItems orders={orders} />
+              <div className="ps-section__footer">
+                <Pagination
+                  total={orders && orders.totalItems}
+                  pageSize={10}
+                  responsive={true}
+                  current={currentPage}
+                  onChange={handlePagination}
+                />
+              </div>
+            </>
           ) : (
             <p>No orders yet</p>
           )}
-        </div>
-        <div className="ps-section__footer">
-          <Pagination
-            total={orders && orders.totalItems}
-            pageSize={10}
-            responsive={true}
-            current={currentPage}
-            onChange={handlePagination}
-          />
         </div>
       </section>
     </ContainerDefault>

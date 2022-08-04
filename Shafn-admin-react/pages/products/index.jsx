@@ -27,7 +27,7 @@ const ProductPage = () => {
   const [isFiltering, setIsFiltering] = useState(false)
   const [isSearching, setIsSearching] = useState(false)
 
-  const filter = (e) => {
+  const filter = async (e) => {
     e.preventDefault()
 
     const params = {
@@ -35,7 +35,7 @@ const ProductPage = () => {
       per_page: 10,
       category: filterParams.category,
       type: filterParams.type,
-      status: filterParams.status
+      status: filterParams.status,
     }
 
     try {
@@ -56,7 +56,7 @@ const ProductPage = () => {
             ? ReactHtmlParser(String(error))
             : ReactHtmlParser(error.response.data.message),
       })
-    } finally{
+    } finally {
       setIsFiltering(false)
     }
   }
@@ -88,7 +88,7 @@ const ProductPage = () => {
             ? ReactHtmlParser(String(error))
             : ReactHtmlParser(error.response.data.message),
       })
-    } finally{
+    } finally {
       setIsSearching(false)
     }
   }
@@ -211,14 +211,19 @@ const ProductPage = () => {
                 </div>
               </div>
               <div className="ps-form__right">
-                <button className="ps-btn ps-btn--gray" onClick={filter} disabled={isFiltering}>
-                  {isFiltering? <Spin style={{marginTop: 5}} /> : (
+                <button
+                  className="ps-btn ps-btn--gray"
+                  onClick={filter}
+                  disabled={isFiltering}
+                >
+                  {isFiltering ? (
+                    <Spin style={{ marginTop: 5 }} />
+                  ) : (
                     <>
                       <i className="icon icon-funnel mr-2"></i>
                       Filter
                     </>
                   )}
-                
                 </button>
               </div>
             </form>
@@ -232,7 +237,11 @@ const ProductPage = () => {
                 onChange={(e) => setSearchKeyword(e.target.value)}
               />
               <button onClick={search} disabled={isSearching}>
-              {isSearching? <Spin />: <i className="icon icon-magnifier"></i>}   
+                {isSearching ? (
+                  <Spin style={{ marginTop: 5 }} />
+                ) : (
+                  <i className="icon icon-magnifier"></i>
+                )}
               </button>
             </form>
           </div>
@@ -241,19 +250,21 @@ const ProductPage = () => {
           {loading ? (
             <Spin />
           ) : products && Number(products.totalItems) > 0 ? (
-            <TableProjectItems products={products} />
+            <>
+              <TableProjectItems products={products} />
+              <div className="ps-section__footer">
+                <Pagination
+                  total={products && products.totalItems}
+                  pageSize={10}
+                  responsive={true}
+                  current={currentPage}
+                  onChange={handlePagination}
+                />
+              </div>
+            </>
           ) : (
             <p>No products yet</p>
           )}
-        </div>
-        <div className="ps-section__footer">
-          <Pagination
-            total={products && products.totalItems}
-            pageSize={10}
-            responsive={true}
-            current={currentPage}
-            onChange={handlePagination}
-          />
         </div>
       </section>
     </ContainerDefault>
