@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import ContainerDefault from "~/components/layouts/ContainerDefault"
 import TableProjectItems from "~/components/shared/tables/TableProjectItems"
 import { Select, Spin, Pagination, notification } from "antd"
@@ -26,6 +26,8 @@ const ProductPage = () => {
   const [searchKeyword, setSearchKeyword] = useState("")
   const [isFiltering, setIsFiltering] = useState(false)
   const [isSearching, setIsSearching] = useState(false)
+
+  const searchMemo = useRef({})
 
   const filter = async (e) => {
     e.preventDefault()
@@ -64,32 +66,38 @@ const ProductPage = () => {
   const search = async (e) => {
     e.preventDefault()
 
-    const params = {
-      page: currentPage,
-      per_page: 10,
-      search: searchKeyword,
-    }
-
-    try {
-      setIsSearching(true)
-      const products = await ProductRepository.getProducts(params)
-      if (products && products.items.length > 0) {
-        setProducts(products)
-      } else {
-        notification["info"]({
-          message: "No search result",
-        })
+    if (searchMemo.current[searchKeyword]) {
+      const products = searchMemo.current[searchKeyword]
+      setProducts(products)
+    } else {
+      const params = {
+        page: currentPage,
+        per_page: 10,
+        search: searchKeyword,
       }
-    } catch (error) {
-      notification["error"]({
-        message,
-        description:
-          error.response === undefined
-            ? ReactHtmlParser(String(error))
-            : ReactHtmlParser(error.response.data.message),
-      })
-    } finally {
-      setIsSearching(false)
+      setIsSearching(true)
+
+      try {
+        const products = await ProductRepository.getProducts(params)
+        if (products && products.items.length > 0) {
+          searchMemo.current[searchKeyword] = products
+          setProducts(products)
+        } else {
+          notification["info"]({
+            message: "No search result",
+          })
+        }
+      } catch (error) {
+        notification["error"]({
+          message,
+          description:
+            error.response === undefined
+              ? ReactHtmlParser(String(error))
+              : ReactHtmlParser(error.response.data.message),
+        })
+      } finally {
+        setIsSearching(false)
+      }
     }
   }
 
