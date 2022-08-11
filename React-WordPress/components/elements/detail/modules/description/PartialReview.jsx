@@ -1,9 +1,16 @@
 import React, { useState } from "react";
-import { notification, Rate } from "antd";
+import { Modal, notification, Rate, Spin } from "antd";
 import Rating from "../../../Rating";
 import WPProductRepository from "~/repositories/WP/WPProductRepository";
 import ReactHtmlParser from "react-html-parser";
+import { useEffect } from "react";
 const PartialReview = () => {
+    const [product_reviews, setProductReviews] = useState([]);
+    const [reviewSent, setReviewSent] = useState(0);
+    const [review_limit, setReviewLimit] = useState({
+        amount: 4,
+        isAll: false,
+    });
     const [review, setReview] = useState({
         product_id: window.location.pathname.split("-").pop(),
         reviewer: "",
@@ -13,6 +20,27 @@ const PartialReview = () => {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    async function getReviews() {
+        const product_id = window.location.pathname.split("-").pop();
+        const reviews = await WPProductRepository.getReviews();
+
+        if (reviews) {
+            const p_reviews = reviews.filter(
+                (r) => r.product_id.toString() === product_id.toString()
+            );
+            setProductReviews(p_reviews);
+        }
+    }
+
+    function seeAllReviews(amount, isAll) {
+        setReviewLimit((prev) => {
+            return {
+                ...prev,
+                amount,
+                isAll,
+            };
+        });
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (review.review.trim()) {
@@ -23,7 +51,7 @@ const PartialReview = () => {
                 notification["success"]({
                     message: "Review sent",
                 });
-
+                setReviewSent((prev) => prev + 1);
                 setReview({
                     product_id: window.location.pathname.split("-").pop(),
                     reviewer: "",
@@ -48,53 +76,62 @@ const PartialReview = () => {
             });
         }
     };
-
+    useEffect(() => {
+        getReviews();
+    }, [reviewSent]);
     return (
         <div className="row">
             <div className="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 ">
                 <div className="ps-block--average-rating">
                     <div className="ps-block__header">
                         <h3>4.00</h3>
-                        <Rating />
+                        <Rating rating={4} />
 
-                        <span>1 Review</span>
+                        <span>
+                            {product_reviews.length === 0
+                                ? "No Reviews"
+                                : product_reviews.length === 1
+                                ? "1 Review"
+                                : `${product_reviews.length} Reviews`}
+                        </span>
                     </div>
                     <div className="ps-block__star">
                         <span>5 Star</span>
                         <div className="ps-progress" data-value="100">
                             <span></span>
                         </div>
-                        <span>100%</span>
+                        <span>0%</span>
                     </div>
                     <div className="ps-block__star">
                         <span>4 Star</span>
                         <div className="ps-progress" data-value="0">
                             <span></span>
                         </div>
-                        <span>0</span>
+                        <span>0%</span>
                     </div>
                     <div className="ps-block__star">
                         <span>3 Star</span>
                         <div className="ps-progress" data-value="0">
                             <span></span>
                         </div>
-                        <span>0</span>
+                        <span>0%</span>
                     </div>
                     <div className="ps-block__star">
                         <span>2 Star</span>
                         <div className="ps-progress" data-value="0">
                             <span></span>
                         </div>
-                        <span>0</span>
+                        <span>0%</span>
                     </div>
                     <div className="ps-block__star">
                         <span>1 Star</span>
                         <div className="ps-progress" data-value="0">
                             <span></span>
                         </div>
-                        <span>0</span>
+                        <span>0%</span>
                     </div>
                 </div>
+                <br />
             </div>
             <div className="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12 ">
                 <form
@@ -102,11 +139,7 @@ const PartialReview = () => {
                     method="post"
                     onSubmit={handleSubmit}>
                     <h4>Submit Your Review</h4>
-                    <p>
-                        Your email address will not be published. Required
-                        fields are marked
-                        <sup>*</sup>
-                    </p>
+                    <p>Your email address will not be published.</p>
                     <div className="form-group form-group__rating">
                         <label>Your rating of this product</label>
                         <Rate
@@ -172,10 +205,84 @@ const PartialReview = () => {
                     </div>
                     <div className="form-group submit">
                         <button className="ps-btn" disabled={isSubmitting}>
-                            {isSubmitting ? "Submitting" : "Submit Review"}
+                            {isSubmitting ? (
+                                <Spin style={{ marginTop: 5 }} />
+                            ) : (
+                                "Submit Review"
+                            )}
                         </button>
                     </div>
                 </form>
+                <br />
+                {product_reviews.length > 0 ? (
+                    <div>
+                        {product_reviews
+                            .slice(0, review_limit.amount + 1)
+                            .map((rev) => (
+                                <div
+                                    className="ps__product-review"
+                                    key={rev.id}>
+                                    <Rating rating={rev.rating} />
+                                    <p
+                                        className="fw-2"
+                                        dangerouslySetInnerHTML={{
+                                            __html: rev.review,
+                                        }}></p>
+                                    <p className="author">{rev.reviewer}</p>
+                                    <p>
+                                        {new Date(
+                                            rev.date_created
+                                        ).toDateString()}
+                                    </p>
+                                    <div>
+                                        {rev.verified ? (
+                                            <b className="text-warning">
+                                                Verified
+                                            </b>
+                                        ) : (
+                                            <b className="text-danger">
+                                                Not Verified
+                                            </b>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+                        <div className="ps__see-all-reviews">
+                            {review_limit.isAll ? (
+                                <p
+                                    className="see all reviews"
+                                    onClick={() => seeAllReviews(3, false)}>
+                                    <b>Show Less</b>
+                                </p>
+                            ) : (
+                                <p
+                                    className="see all reviews"
+                                    onClick={() =>
+                                        seeAllReviews(
+                                            product_reviews.length,
+                                            true
+                                        )
+                                    }>
+                                    <b>See All Reviews</b>
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                ) : (
+                    <div
+                        className="text-center"
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            minHeight: "200px",
+                            width: "100%",
+                        }}>
+                        <h4>
+                            <b>No Reviews Added yet</b>
+                        </h4>
+                    </div>
+                )}
             </div>
         </div>
     );
