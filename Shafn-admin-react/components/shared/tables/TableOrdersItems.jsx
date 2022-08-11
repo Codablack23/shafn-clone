@@ -53,7 +53,7 @@ const TableOrdersItems = ({ orders }) => {
             </Link>
           </td>
           <td>
-            <strong> {item.date_created}</strong>
+            <strong>{new Date(item.date_created).toDateString()}</strong>
           </td>
 
           {/* <td>
