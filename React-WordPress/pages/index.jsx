@@ -28,8 +28,13 @@ import { motion } from 'framer-motion';
 
 const Index = (auth) => {
     const [isCookiesShowing,setIsCookiesShowing] = useState(false) 
+    const [isShowing,setIsShowing] = useState(false)
     const dispatch = useDispatch();
+
     useEffect(() => {
+        setTimeout(()=>{
+            setIsShowing(true)
+        },4000)
         setTimeout(()=>{
           setIsCookiesShowing(true)
         },5000)
