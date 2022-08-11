@@ -1,28 +1,31 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { Tabs } from 'antd';
+import { Tabs } from "antd";
 const { TabPane } = Tabs;
 
-import PartialDescription from './PartialDescription';
-import PartialSpecification from './PartialSpecification';
-import PartialReview from './PartialReview';
+import PartialDescription from "./PartialDescription";
+import PartialSpecification from "./PartialSpecification";
+import PartialReview from "./PartialReview";
 
-function DescView({product}){
+function DescView({ product }) {
     let descView;
-    if (product) {
-        if (product.description) {
-            descView = <div className="ps-document">
-                <div dangerouslySetInnerHTML={{
-                    __html: `${product.description}`,
-                }}>
-                </div>
+    if (product && product.description) {
+        descView = (
+            <div className="ps-document">
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: `${product.description}`,
+                    }}></div>
             </div>
-        }
+        );
+    } else {
+        descView = (
+            <p>
+                <i>This product has no description.</i>
+            </p>
+        );
     }
-    else {
-        descView = <p><i>This product hasn't description.</i></p>
-    }
-    return descView
+    return descView;
 }
 class DefaultDescription extends Component {
     constructor(props) {
@@ -34,15 +37,17 @@ class DefaultDescription extends Component {
                 <div className="ps-product__content ps-tab-root">
                     <Tabs defaultActiveKey="1">
                         <TabPane tab="Description" key="1">
-                            <DescView product={this.props.product}/>
+                            <DescView product={this.props.product} />
                         </TabPane>
                         <TabPane tab="Specification" key="2">
-                            <PartialSpecification />
+                            <PartialSpecification
+                                attributes={this.props.product.attributes}
+                            />
                         </TabPane>
-                        <TabPane tab="Reviews (1)" key="4">
+                        <TabPane tab="Reviews(reviewsCount)" key="3">
                             <PartialReview />
                         </TabPane>
-                        <TabPane tab="Questions and Answers" key="5">
+                        <TabPane tab="Questions and Answers" key="4">
                             Content of Tab Pane 3
                         </TabPane>
                     </Tabs>
