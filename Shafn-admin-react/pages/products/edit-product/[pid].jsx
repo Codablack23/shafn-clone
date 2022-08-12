@@ -434,10 +434,12 @@ const EditProductPage = ({ pid }) => {
                         name="regular_price"
                         className="form-control"
                         type="text"
+                        placeholder="Note: Add shipping cost"
                         value={product.regular_price}
                         onChange={handleInputChange}
                         required
                       />
+                      <p>Add shipping cost</p>
                     </div>
                     <div className="form-group">
                       <label>
@@ -447,9 +449,11 @@ const EditProductPage = ({ pid }) => {
                         name="sale_price"
                         className="form-control"
                         type="text"
+                        placeholder="Note: Add shipping cost"
                         value={product.sale_price}
                         onChange={handleInputChange}
                       />
+                      <p>Add shipping cost</p>
                       <p className="text-danger" hidden={isPriceValid}>
                         Discounted price must be less than the Regular price
                       </p>
