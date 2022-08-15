@@ -5,7 +5,7 @@ import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
 import OAuth from "./modules/OAuth";
 import ReactHtmlParser from "react-html-parser";
 
-import { Form, Input, notification } from "antd";
+import { Form, Input, notification, Spin } from "antd";
 import { useDispatch } from "react-redux";
 
 function Login() {
@@ -198,7 +198,7 @@ function Login() {
                                         borderRadius: "15px",
                                     }}
                                     disabled={isLoading}>
-                                    {isLoading ? "Loading..." : "Continue"}
+                                    {isLoading ? <Spin /> : "Continue"}
                                 </button>
                             </div>
                         </div>

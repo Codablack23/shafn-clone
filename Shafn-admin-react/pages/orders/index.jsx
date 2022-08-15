@@ -7,6 +7,7 @@ import HeaderDashboard from "~/components/shared/headers/HeaderDashboard"
 import { connect, useDispatch } from "react-redux"
 import { toggleDrawerMenu } from "~/store/app/action"
 import OrdersRepository from "~/repositories/OrdersRepository"
+import ReactHtmlParser from "react-html-parser"
 
 const { Option } = Select
 const OrdersPage = () => {
@@ -15,17 +16,55 @@ const OrdersPage = () => {
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const [orders, setOrders] = useState(null)
+  const [filterParams, setFilterParams] = useState({
+    status: "",
+  })
+  const [searchKeyword, setSearchKeyword] = useState("")
+  const [isFiltering, setIsFiltering] = useState(false)
+
+  const filter = async (e) => {
+    e.preventDefault()
+
+    const params = {
+      page: currentPage,
+      per_page: 10,
+      status: filterParams.status,
+      search: searchKeyword,
+    }
+
+    try {
+      setIsFiltering(true)
+      const orders = await OrdersRepository.getOrders(params)
+      if (orders && orders.items.length > 0) {
+        setOrders(orders)
+      } else {
+        notification["info"]({
+          message: "No match for filter params",
+        })
+      }
+    } catch (error) {
+      notification["error"]({
+        message,
+        description:
+          error.response === undefined
+            ? ReactHtmlParser(String(error))
+            : ReactHtmlParser(error.response.data.message),
+      })
+    } finally {
+      setIsFiltering(false)
+    }
+  }
 
   const handlePagination = async (page, pageSize) => {
     setCurrentPage(page)
     const params = {
-      page: page,
+      page,
       per_page: pageSize,
     }
 
     try {
-      const products = await OrdersRepository.getOrders(params)
-      setOrders(products)
+      const orders = await OrdersRepository.getOrders(params)
+      setOrders(orders)
     } catch (error) {
       notification["error"]({
         message: "Unable to get orders",
@@ -63,13 +102,14 @@ const OrdersPage = () => {
       <section className="ps-items-listing">
         <div className="ps-section__header simple">
           <div className="ps-section__filter">
-            <form className="ps-form--filter" action="index.html" method="get">
+            <form className="ps-form--filter">
               <div className="ps-form__left">
                 <div className="form-group">
                   <input
                     className="form-control"
                     type="text"
                     placeholder="Search..."
+                    onChange={(e) => setSearchKeyword(e.target.value)}
                   />
                 </div>
                 <div className="form-group">
@@ -77,16 +117,33 @@ const OrdersPage = () => {
                     placeholder="Status"
                     className="ps-ant-dropdown"
                     listItemHeight={20}
+                    onChange={(value) =>
+                      setFilterParams((params) => ({
+                        ...params,
+                        status: value,
+                      }))
+                    }
                   >
-                    <Option value="active">Active</Option>
-                    <Option value="in-active">InActive</Option>
+                    <Option value="pending">Pending</Option>
+                    <Option value="processing">Processing</Option>
+                    <Option value="on-hold">On-hold</Option>
+                    <Option value="completed">Completed</Option>
+                    <Option value="cancelled">Cancelled</Option>
+                    <Option value="refunded">Refunded</Option>
+                    <Option value="failed">Failed</Option>
                   </Select>
                 </div>
               </div>
               <div className="ps-form__right">
-                <button className="ps-btn ps-btn--gray">
-                  <i className="icon icon-funnel mr-2"></i>
-                  Filter
+                <button className="ps-btn ps-btn--gray" onClick={filter}>
+                  {isFiltering ? (
+                    <Spin style={{ marginTop: 5 }} />
+                  ) : (
+                    <>
+                      <i className="icon icon-funnel mr-2"></i>
+                      Filter
+                    </>
+                  )}
                 </button>
               </div>
             </form>
@@ -106,19 +163,21 @@ const OrdersPage = () => {
           {loading ? (
             <Spin />
           ) : orders && Number(orders.totalItems) > 0 ? (
-            <TableOrdersItems orders={orders} />
+            <>
+              <TableOrdersItems orders={orders} />
+              <div className="ps-section__footer">
+                <Pagination
+                  total={orders && orders.totalItems}
+                  pageSize={10}
+                  responsive={true}
+                  current={currentPage}
+                  onChange={handlePagination}
+                />
+              </div>
+            </>
           ) : (
             <p>No orders yet</p>
           )}
-        </div>
-        <div className="ps-section__footer">
-          <Pagination
-            total={orders && orders.totalItems}
-            pageSize={10}
-            responsive={true}
-            current={currentPage}
-            onChange={handlePagination}
-          />
         </div>
       </section>
     </ContainerDefault>

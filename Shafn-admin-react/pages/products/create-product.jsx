@@ -306,7 +306,7 @@ const CreateProductPage = () => {
                         name="regular_price"
                         className="form-control"
                         type="text"
-                        placeholder=""
+                        placeholder="Note: Add shipping cost"
                         value={regularPrice}
                         onChange={handleInputChange}
                         required
@@ -320,7 +320,7 @@ const CreateProductPage = () => {
                         name="sale_price"
                         className="form-control"
                         type="text"
-                        placeholder=""
+                        placeholder="Note: Add shipping cost"
                         value={salePrice}
                         onChange={handleInputChange}
                       />

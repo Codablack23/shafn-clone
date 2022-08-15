@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import { Form, Input, notification } from "antd";
+import { Form, Input, notification, Spin } from "antd";
 import { login } from "../../../store/auth/action";
 import { useDispatch } from "react-redux";
 import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
@@ -364,7 +364,7 @@ function Register() {
                                         borderRadius: "15px",
                                     }}
                                     disabled={isLoading}>
-                                    {isLoading ? "Loading..." : "Register"}
+                                    {isLoading ? <Spin /> : "Register"}
                                 </button>
                             </div>
                         </div>

@@ -22,6 +22,7 @@ class SettingsRepository {
   async getStore() {
     const endpoint = `${WPDomain}/wp-json/dokan/v1/settings`
     const config = this.getConfig()
+
     const { data: response } = await axios.get(endpoint, config)
 
     return response

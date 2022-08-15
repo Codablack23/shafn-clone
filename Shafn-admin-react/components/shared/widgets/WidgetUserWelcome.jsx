@@ -16,13 +16,18 @@ const WidgetUserWelcome = () => {
   }
 
   const getStoreData = async () => {
-    const settings = await SettingsRepository.getStore()
-    setName(settings.store_name)
-    dispatch(addProfile({ name: settings.store_name }))
+    try {
+      const settings = await SettingsRepository.getStore()
+      setName(settings.store_name)
+      dispatch(addProfile({ name: settings.store_name }))
 
-    const user = await UserRepository.getUser()
-    const store = await SettingsRepository.getStoreById(user.id)
-    setAvatarUrl(store.gravatar)
+      const user = await UserRepository.getUser()
+      const store = await SettingsRepository.getStoreById(user.id)
+      setAvatarUrl(store.gravatar)
+    } catch (error) {
+      console.log("Failed to get store data")
+      console.log(error)
+    }
   }
 
   useEffect(() => {
