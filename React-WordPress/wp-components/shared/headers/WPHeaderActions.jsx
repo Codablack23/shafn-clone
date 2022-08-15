@@ -22,13 +22,13 @@ class WPHeaderActions extends Component {
                     }}>
                     <Link href="/account/compare">
                         <span
+                            title="Notifications"
                             className="header__extra w3-hover-lightgrey"
                             style={{
                                 cursor: "pointer",
                             }}>
                             <i
                                 className="fa fa-bell-o"
-                                aria-hidden="true"
                                 style={{
                                     fontSize: "22px",
                                     color: "#2A3147",
@@ -40,6 +40,7 @@ class WPHeaderActions extends Component {
                     </Link>
                     <Link href="/account/wishlist">
                         <span
+                            title="Wishlist"
                             className="header__extra w3-hover-lightgrey"
                             style={{
                                 cursor: "pointer",
