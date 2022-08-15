@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Form, Input, notification, Spin } from "antd";
 import { login } from "../../../store/auth/action";
@@ -26,6 +26,22 @@ function Register() {
         e.classList.toggle("bi-eye-slash-fill");
         setPassVisibility((prev) => !prev);
     }
+
+    const verifyEmail = async () => {
+        try {
+            const response = await WPAuthRepository.verifyEmail({
+                name: firstname,
+                email,
+            });
+
+            console.log(response.data.code);
+        } catch (error) {
+            notification["error"]({
+                message:
+                    "Failed to send verification code. Please check your network connection and try again",
+            });
+        }
+    };
 
     const handleRegistration = async (type = "form", oauth) => {
         setIsLoading(true);
@@ -118,7 +134,7 @@ function Register() {
                         const domain =
                             process.env.NODE_ENV === "development"
                                 ? "http://localhost:5500"
-                                : "https://vendor.shafn.com";
+                                : "https://dashboard.shafn.com";
                         // Go to vendor page
                         window.location.assign(
                             `${domain}?auth_token=${loggedUser.token}`
@@ -141,21 +157,17 @@ function Register() {
                     setIsLoading(false);
                 }
             } catch (error) {
-                handleError(error, "Registration Failed!");
+                notification["error"]({
+                    message: "Registration failed",
+                    description:
+                        error.response === undefined
+                            ? ReactHtmlParser(String(error))
+                            : ReactHtmlParser(error.response.data.message),
+                });
+
+                setIsLoading(false);
             }
         }
-    };
-
-    const handleError = (error, message) => {
-        notification["error"]({
-            message,
-            description:
-                error.response === undefined
-                    ? ReactHtmlParser(String(error))
-                    : ReactHtmlParser(error.response.data.message),
-        });
-
-        setIsLoading(false);
     };
 
     return (
