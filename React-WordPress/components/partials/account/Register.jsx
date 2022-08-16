@@ -121,7 +121,7 @@ function Register() {
                                 : "https://vendor.shafn.com";
                         // Go to vendor page
                         window.location.assign(
-                            `${domain}?auth_token=${loggedUser.token}`
+                            `${domain}/dashboard?auth_token=${loggedUser.token}`
                         );
                     }
                 } else {

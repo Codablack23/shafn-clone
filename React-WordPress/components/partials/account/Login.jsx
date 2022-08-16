@@ -51,8 +51,13 @@ function Login() {
                 }
 
                 if (role === "seller") {
+                    const domain =
+                        process.env.NODE_ENV === "production"
+                            ? "https://dashboard.shafn.com"
+                            : "http://localhost:5500";
+
                     window.location.assign(
-                        `http://localhost:5500?auth_token=${_user.token}`
+                        `${domain}/dashboard?auth_token=${_user.token}`
                     );
                 }
                 setIsLoading(false);
