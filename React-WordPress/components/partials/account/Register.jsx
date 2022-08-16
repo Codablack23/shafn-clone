@@ -129,10 +129,13 @@ function Register() {
                         message: "Registration Successful!",
                     });
 
+                    const {encrypt} = require("~/utilities/common-helpers")
+                    const encryptedToken = encrypt(loggedUser.token)
+
                     dispatch(
                         login({
                             email: loggedUser.user_email,
-                            token: loggedUser.token,
+                            token: encryptedToken,
                         })
                     );
 

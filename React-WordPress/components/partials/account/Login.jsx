@@ -43,9 +43,12 @@ function Login() {
 
                 const role = _user.user_role[0].toLowerCase();
 
+                const {encrypt} = require("~/utilities/common-helpers")
+                const encryptedToken = encrypt(_user.token)
+
                 if (role === "customer") {
                     dispatch(
-                        login({ email: _user.user_email, token: _user.token })
+                        login({ email: _user.user_email, token: encryptedToken })
                     );
                     Router.push("/");
                 }
