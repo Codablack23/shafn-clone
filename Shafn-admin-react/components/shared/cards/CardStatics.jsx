@@ -26,6 +26,8 @@ const CardStatics = () => {
         orders,
       })
     } catch (error) {
+      console.log("Failed to get report overview")
+      console.error(error)
       return
     }
   }

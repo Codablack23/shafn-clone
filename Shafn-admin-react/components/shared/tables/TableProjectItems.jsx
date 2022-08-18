@@ -50,7 +50,7 @@ const TableProjectItems = ({ products }) => {
               <span key={category.name}>{ReactHtmlParser(category.name)}</span>
             ))}
           </td>
-          <td>{item.date_created}</td>
+          <td>{new Date(item.date_created).toDateString()}</td>
           <td>
             <DropdownAction productID={item.id} />
           </td>

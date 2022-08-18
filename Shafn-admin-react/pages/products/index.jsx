@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import ContainerDefault from "~/components/layouts/ContainerDefault"
 import TableProjectItems from "~/components/shared/tables/TableProjectItems"
 import { Select, Spin, Pagination, notification } from "antd"
@@ -8,6 +8,7 @@ import { connect, useDispatch } from "react-redux"
 import { toggleDrawerMenu } from "~/store/app/action"
 import { CustomModal } from "~/components/elements/custom/index"
 import ProductRepository from "~/repositories/ProductRepository"
+import ReactHtmlParser from "react-html-parser"
 
 const { Option } = Select
 const ProductPage = () => {
@@ -15,12 +16,95 @@ const ProductPage = () => {
 
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState(null)
+  const [categories, setCategories] = useState(null)
+  const [filterParams, setFilterParams] = useState({
+    category: "",
+    type: "",
+    status: "",
+  })
+  const [searchKeyword, setSearchKeyword] = useState("")
+  const [isFiltering, setIsFiltering] = useState(false)
+  const [isSearching, setIsSearching] = useState(false)
+
+  const searchMemo = useRef({})
+
+  const filter = async (e) => {
+    e.preventDefault()
+
+    const params = {
+      page: currentPage,
+      per_page: 10,
+      category: filterParams.category,
+      type: filterParams.type,
+      status: filterParams.status,
+    }
+
+    try {
+      setIsFiltering(true)
+      const products = await ProductRepository.getProducts(params)
+      if (products && products.items.length > 0) {
+        setProducts(products)
+      } else {
+        notification["info"]({
+          message: "No match for filter params",
+        })
+      }
+    } catch (error) {
+      notification["error"]({
+        message,
+        description:
+          error.response === undefined
+            ? ReactHtmlParser(String(error))
+            : ReactHtmlParser(error.response.data.message),
+      })
+    } finally {
+      setIsFiltering(false)
+    }
+  }
+
+  const search = async (e) => {
+    e.preventDefault()
+
+    if (searchMemo.current[searchKeyword]) {
+      const products = searchMemo.current[searchKeyword]
+      setProducts(products)
+    } else {
+      const params = {
+        page: currentPage,
+        per_page: 10,
+        search: searchKeyword,
+      }
+      setIsSearching(true)
+
+      try {
+        const products = await ProductRepository.getProducts(params)
+        if (products && products.items.length > 0) {
+          searchMemo.current[searchKeyword] = products
+          setProducts(products)
+        } else {
+          notification["info"]({
+            message: "No search result",
+          })
+        }
+      } catch (error) {
+        notification["error"]({
+          message,
+          description:
+            error.response === undefined
+              ? ReactHtmlParser(String(error))
+              : ReactHtmlParser(error.response.data.message),
+        })
+      } finally {
+        setIsSearching(false)
+      }
+    }
+  }
 
   const handlePagination = async (page, pageSize) => {
     setCurrentPage(page)
     const params = {
-      page: page,
+      page,
       per_page: pageSize,
     }
 
@@ -29,7 +113,7 @@ const ProductPage = () => {
       setProducts(products)
     } catch (error) {
       notification["error"]({
-        message: "Unable to get orders",
+        message: "Unable to get products",
         description: "Check your data connection and try again.",
       })
     }
@@ -43,10 +127,13 @@ const ProductPage = () => {
 
     try {
       const products = await ProductRepository.getProducts(params)
+      const categories = await ProductRepository.getCategories()
+
+      setCategories(categories)
       setProducts(products)
     } catch (error) {
       notification["error"]({
-        message: "Unable to get orders",
+        message: "Unable to get products",
         description: "Check your data connection and try again.",
       })
     } finally {
@@ -75,28 +162,42 @@ const ProductPage = () => {
         </div>
         <div className="ps-section__header">
           <div className="ps-section__filter">
-            <form className="ps-form--filter" action="index.html" method="get">
+            <form className="ps-form--filter">
               <div className="ps-form__left">
                 <div className="form-group">
                   <Select
-                    placeholder="Select Category"
+                    placeholder="Category"
                     className="ps-ant-dropdown"
                     listItemHeight={20}
+                    onChange={(value) =>
+                      setFilterParams((params) => ({
+                        ...params,
+                        category: value,
+                      }))
+                    }
                   >
-                    <Option value="clothing-and-apparel">
-                      Clothing & Apparel
-                    </Option>
-                    <Option value="garden-and-kitchen">Garden & Kitchen</Option>
+                    {categories &&
+                      categories.map((category) => (
+                        <Option key={category.id} value={category.id}>
+                          {ReactHtmlParser(category.name)}
+                        </Option>
+                      ))}
                   </Select>
                 </div>
                 <div className="form-group">
                   <Select
-                    placeholder="Select Category"
+                    placeholder="Type"
                     className="ps-ant-dropdown"
                     listItemHeight={20}
+                    onChange={(value) =>
+                      setFilterParams((params) => ({
+                        ...params,
+                        type: value,
+                      }))
+                    }
                   >
-                    <Option value="simple-product">Simple Product</Option>
-                    <Option value="groupped-product">Groupped product</Option>
+                    <Option value="simple">Simple Product</Option>
+                    <Option value="variable">Variable product</Option>
                   </Select>
                 </div>
                 <div className="form-group">
@@ -104,48 +205,74 @@ const ProductPage = () => {
                     placeholder="Status"
                     className="ps-ant-dropdown"
                     listItemHeight={20}
+                    onChange={(value) =>
+                      setFilterParams((params) => ({
+                        ...params,
+                        status: value,
+                      }))
+                    }
                   >
-                    <Option value="active">Active</Option>
-                    <Option value="in-active">InActive</Option>
+                    <Option value="draft">Draft</Option>
+                    <Option value="pending">Pending</Option>
+                    <Option value="publish">Publish</Option>
                   </Select>
                 </div>
               </div>
               <div className="ps-form__right">
-                <button className="ps-btn ps-btn--gray">
-                  <i className="icon icon-funnel mr-2"></i>
-                  Filter
+                <button
+                  className="ps-btn ps-btn--gray"
+                  onClick={filter}
+                  disabled={isFiltering}
+                >
+                  {isFiltering ? (
+                    <Spin style={{ marginTop: 5 }} />
+                  ) : (
+                    <>
+                      <i className="icon icon-funnel mr-2"></i>
+                      Filter
+                    </>
+                  )}
                 </button>
               </div>
             </form>
           </div>
           <div className="ps-section__search">
-            <form
-              className="ps-form--search-simple"
-              action="index.html"
-              method="get"
-            >
+            <form className="ps-form--search-simple">
               <input
                 className="form-control"
                 type="text"
                 placeholder="Search product"
+                onChange={(e) => setSearchKeyword(e.target.value)}
               />
-              <button>
-                <i className="icon icon-magnifier"></i>
+              <button onClick={search} disabled={isSearching}>
+                {isSearching ? (
+                  <Spin style={{ marginTop: 5 }} />
+                ) : (
+                  <i className="icon icon-magnifier"></i>
+                )}
               </button>
             </form>
           </div>
         </div>
         <div className="ps-section__content">
-          {loading ? <Spin /> : <TableProjectItems products={products} />}
-        </div>
-        <div className="ps-section__footer">
-          <Pagination
-            total={products && products.totalItems}
-            pageSize={10}
-            responsive={true}
-            current={currentPage}
-            onChange={handlePagination}
-          />
+          {loading ? (
+            <Spin />
+          ) : products && Number(products.totalItems) > 0 ? (
+            <>
+              <TableProjectItems products={products} />
+              <div className="ps-section__footer">
+                <Pagination
+                  total={products && products.totalItems}
+                  pageSize={10}
+                  responsive={true}
+                  current={currentPage}
+                  onChange={handlePagination}
+                />
+              </div>
+            </>
+          ) : (
+            <p>No products yet</p>
+          )}
         </div>
       </section>
     </ContainerDefault>

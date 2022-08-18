@@ -49,6 +49,8 @@ const CardEarning = () => {
 
       setSellerBalance(data.seller_balance)
     } catch (error) {
+      console.log("Failed to get seller balance")
+      console.error(error)
       return
     }
   }

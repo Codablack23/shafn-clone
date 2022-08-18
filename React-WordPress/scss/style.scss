@@ -75,6 +75,14 @@
 
 /*3. COMPONENTS */
 // 3.1 Cart
+@import url("/static/css/custom.css");
+@import url("/static/css/bootstrap.min.css");
+@import url("/static/fonts/font-awesome/css/font-awesome.min.css");
+@import url("https://www.w3schools.com/w3css/4/w3.css");
+@import url("/static/fonts/Linearicons/Font/demo-files/demo.css");
+@import url("https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&amp;amp;subset=latin-ext");
+@import url("/static/css/slick.min.css");
+
 @import 'components/cart';
 // 3.2 forms
 @import 'components/forms';

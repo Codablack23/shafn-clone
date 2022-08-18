@@ -59,7 +59,7 @@ const TableOrderSummary = () => {
             </Link>
           </td>
           <td>
-            <strong> {item.date_created}</strong>
+            <strong>{new Date(item.date_created).toDateString()}</strong>
           </td>
 
           <td>
@@ -80,6 +80,8 @@ const TableOrderSummary = () => {
       const orders = await OrdersRepository.getOrders(params)
       setOrders(orders)
     } catch (error) {
+      console.log("Failed to get orders")
+      console.error(error)
       return
     } finally {
       setLoading(false)
