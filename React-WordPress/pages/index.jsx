@@ -17,6 +17,8 @@ import { getBannersBySlugs, getPromotionsBySlugs } from '~/store/media/action';
 import ModalCookie from '~/components/elements/modalCookie';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Modal } from 'antd';
+import WPVerification from '~/wp-components/account/WPVerification';
 
 
 
@@ -62,6 +64,9 @@ const Index = (auth) => {
         <WPLayoutHomeDefault title="Multipurpose Marketplace React Ecommerce Template">
             <HomeBanner />
             {/* <SiteFeatures /> */}
+                {/* <WPVerification
+                email={"goodluckedih@gmail.com"}
+                /> */}
             <WPDealOfDay />
             <HomeAdsColumns />
             <HomeDefaultTopCategories />

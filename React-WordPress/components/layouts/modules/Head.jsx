@@ -55,7 +55,7 @@ const StyleSheets = () => (
             type="text/css"
             href="/static/css/bootstrap.min.css"
         /> */}
-        <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />
+        {/* <link rel="stylesheet" type="text/css" href="/static/css/custom.css" /> */}
     </Head>
 );
 
