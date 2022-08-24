@@ -1,18 +1,16 @@
 import { useState } from "react";
+import { notification, Spin } from "antd";
+import OtpInput from "react-otp-input";
 
-export default function WPVerification({ email }) {
-    function shiftFocus(e) {
-        if (e.target.value.length > 0) {
-            e.target.value = e.target.value[0];
-            if (e.target.nextElementSibling) {
-                e.target.nextElementSibling.focus();
-            }
-        } else {
-            if (e.target.previousElementSibling) {
-                e.target.previousElementSibling.focus();
-            }
-        }
-    }
+export default function WPVerification({
+    email,
+    otp,
+    isLoading,
+    verifyEmail,
+    handleRegistration,
+}) {
+    const [code, setCode] = useState("");
+
     function censorEmail(email) {
         const atPart = email.slice(email.indexOf("@"));
         const restpart = email.slice(0, email.indexOf("@"));
@@ -31,6 +29,22 @@ export default function WPVerification({ email }) {
         });
         return censoredArr.join("").toString() + atPart;
     }
+
+    const verifyOTP = () => {
+        console.log("Verifying OTP...");
+        if (otp.expiresAt < Date.now()) {
+            notification["error"]({
+                message: "OTP has expired! Request a new otp",
+            });
+        } else if (otp.code && code === otp.code) {
+            handleRegistration();
+        } else {
+            notification["error"]({
+                message: "Invalid OTP!",
+            });
+        }
+    };
+
     return (
         <div className="ps__verify-widget w3-card">
             <h3 className="ps__icon">
@@ -43,47 +57,13 @@ export default function WPVerification({ email }) {
                 <span>{censorEmail(email ? email : "")}</span>
             </p>
             <form className="ps__code-form">
-                <input
-                    type="number"
-                    className="ps__verify-input"
-                    onChange={shiftFocus}
-                    max={9}
-                    maxLength={1}
-                />
-                <input
-                    type="number"
-                    className="ps__verify-input"
-                    onChange={shiftFocus}
-                    max={9}
-                    maxLength={1}
-                />
-                <input
-                    type="number"
-                    className="ps__verify-input"
-                    onChange={shiftFocus}
-                    max={9}
-                    maxLength={1}
-                />
-                <input
-                    type="number"
-                    className="ps__verify-input"
-                    onChange={shiftFocus}
-                    max={9}
-                    maxLength={1}
-                />
-                <input
-                    type="number"
-                    className="ps__verify-input"
-                    onChange={shiftFocus}
-                    max={9}
-                    maxLength={1}
-                />
-                <input
-                    type="number"
-                    className="ps__verify-input"
-                    onChange={shiftFocus}
-                    max={9}
-                    maxLength={1}
+                <OtpInput
+                    value={code}
+                    onChange={setCode}
+                    numInputs={6}
+                    separator={<span>-</span>}
+                    shouldAutoFocus
+                    isInputNum
                 />
             </form>
             <br />
@@ -92,10 +72,20 @@ export default function WPVerification({ email }) {
                     <p>it may take a while to recieve your code</p>
                     <p>
                         Haven't recieved it?{" "}
-                        <a className="ps__resend-link">Resend a new code</a>
+                        <a
+                            className="ps__resend-link"
+                            onClick={() => verifyEmail()}>
+                            Resend a new code
+                        </a>
                     </p>
                 </div>
-                <button className="ps__submit-btn">Submit</button>
+                <button
+                    type="button"
+                    className="ps__submit-btn"
+                    onClick={verifyOTP}
+                    disabled={isLoading}>
+                    {isLoading ? <Spin /> : "Submit"}
+                </button>
             </div>
         </div>
     );
