@@ -4,12 +4,12 @@ export const stickyHeader = () => {
         document.documentElement.scrollTop ||
         document.body.scrollTop ||
         0;
-    const header = document.getElementById('headerSticky');
+    const header = document.getElementById("headerSticky");
     if (header !== null) {
         if (number >= 300) {
-            header.classList.add('header--sticky');
+            header.classList.add("header--sticky");
         } else {
-            header.classList.remove('header--sticky');
+            header.classList.remove("header--sticky");
         }
     }
 };
@@ -25,5 +25,25 @@ export const generateTempArray = (maxItems) => {
 
 export const scrollPageToTop = (element) => {
     if (!element) return;
-    element.scrollIntoView({ behavior: 'smooth' });
+    element.scrollIntoView({ behavior: "smooth" });
+};
+
+export const encrypt = (data) => {
+    const CryptoJS = require("crypto-js");
+
+    const encryptedData = CryptoJS.AES.encrypt(
+        data,
+        process.env.password
+    ).toString();
+
+    return encryptedData;
+};
+
+export const decrypt = (encryptedData) => {
+    const CryptoJS = require("crypto-js");
+
+    const bytes = CryptoJS.AES.decrypt(encryptedData, process.env.password);
+    const data = bytes.toString(CryptoJS.enc.Utf8);
+
+    return data;
 };

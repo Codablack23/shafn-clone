@@ -43,16 +43,24 @@ function Login() {
 
                 const role = _user.user_role[0].toLowerCase();
 
+                const {encrypt} = require("~/utilities/common-helpers")
+                const encryptedToken = encrypt(_user.token)
+
                 if (role === "customer") {
                     dispatch(
-                        login({ email: _user.user_email, token: _user.token })
+                        login({ email: _user.user_email, token: encryptedToken })
                     );
                     Router.push("/");
                 }
 
                 if (role === "seller") {
+                    const domain =
+                        process.env.NODE_ENV === "production"
+                            ? "https://dashboard.shafn.com"
+                            : "http://localhost:5500";
+
                     window.location.assign(
-                        `http://localhost:5500?auth_token=${_user.token}`
+                        `${domain}/dashboard?auth_token=${_user.token}`
                     );
                 }
                 setIsLoading(false);

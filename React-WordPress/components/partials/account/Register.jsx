@@ -156,7 +156,7 @@ function Register() {
                                 : "https://dashboard.shafn.com";
                         // Go to vendor page
                         window.location.assign(
-                            `${domain}?auth_token=${loggedUser.token}`
+                            `${domain}/dashboard?auth_token=${loggedUser.token}`
                         );
                     }
                 } else {
@@ -164,10 +164,13 @@ function Register() {
                         message: "Registration Successful!",
                     });
 
+                    const {encrypt} = require("~/utilities/common-helpers")
+                    const encryptedToken = encrypt(loggedUser.token)
+
                     dispatch(
                         login({
                             email: loggedUser.user_email,
-                            token: loggedUser.token,
+                            token: encryptedToken,
                         })
                     );
 
