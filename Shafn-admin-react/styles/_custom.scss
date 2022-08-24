@@ -1,3 +1,9 @@
+body{
+  margin:0;
+  max-width: 100%;
+  scroll-behavior: smooth !important;
+}
+
 .product-img-container{
     display: flex;
     flex-wrap:wrap;
@@ -101,4 +107,469 @@
    width:75%;
    height: 40px;
    border-radius: 7px;
+}
+.ps__vendor-homepage{
+  .ps__page-container{
+    max-width: 1280px;
+    margin: auto;
+    padding: 8px 16px;
+  }
+  header{
+    background-color: #fff;
+  }
+  .ps__navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+    min-height: 60px;
+    padding: 2px 16px;
+    
+    .ps__navlinks {
+      display: flex;
+      align-items: center;
+      a{
+        &:first-child{
+          background-color: #0309A5;
+          color: #fff;
+        }
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 7px;
+        height: 40px;
+        margin: 0 10px;
+        min-width: 120px;
+        background-color:#FCB800;
+        color:#000000;
+      }
+      }
+  }
+
+  .brand-container{
+    max-width: 120px;
+  }
+    .hero-section{
+    width: 100%;
+    max-width: 100%;
+    height: 91vh;
+    background-image:linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)), url("/img/vendor.jpg");
+    background-size: cover;
+    padding: 1em;
+  }
+  .hero-container{
+     min-height: 500px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+  }
+  .hero-content{
+    text-align: center;
+    max-width: 998px;
+    margin: auto;
+  }
+  .hero-btn-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  button{
+    &:first-child{
+      background-color:#FCB800;
+      color:#000000;
+    }
+    padding:10px 20px;
+    border-radius: 7px;
+    text-align: center;
+    border: none;
+    margin: 5px 10px;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #000000;
+    color: white;
+  }
+}
+.hero-title{
+  font-size: 45px;
+  letter-spacing: 1px;
+  text-transform: capitalize;
+}
+
+.why-sell{
+  min-height: 650px;
+  .title{
+    text-transform: uppercase;
+    margin:1.2em 0 ;
+    padding-top:15px;
+    padding-bottom: 15px;
+    color: #666666;
+  }
+  .subtitle{
+    font-size: 27px;
+    max-width: 764px;
+    margin: auto;
+    color: black;
+  
+  }
+  .grid{
+    display: grid;
+    margin: 64px 0;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+    justify-items: center;
+    align-items: center;
+    .grid-item{
+     text-align: center;
+     .image-container{
+       height: 170px;
+       max-height: 170px;
+     }
+     h4{
+      font-size: 25px;
+      color: black;
+     }
+     p{
+      font-size: 16px;
+     }
+    }
+  }
+}
+.fees-to-start{
+  .title{
+    font-weight: 600;
+    color: #666666;
+  }
+  .subtitle{
+    font-size: 28px;
+    color: #000000;
+    padding-top:25px;
+    padding-bottom: 25px;
+  }
+  .ps__fees-container{
+    max-width: 768px;
+    margin: auto;
+  }
+  .desc{
+    font-size: 17px;
+    color: #666666;
+    line-height: 26px;
+  }
+  .charges{
+    justify-content: center;
+  }
+  .min-charge{
+    margin-right:60px ;
+  }
+  .min-charge,
+  .max-charge{
+    height: 170px;
+    width: 170px;
+    border-radius: 50%;
+    border: 2px solid #fcb800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    h4{
+      font-size: 60px;
+      font-weight: 400;
+      color: #000000;
+      margin: 0;
+    }
+    p{
+      font-size: 17px;
+    }
+  }
+  .benefits-list{
+    max-width: 568px;
+    margin: auto;
+    h4{
+       padding-top: 25px;
+       padding-bottom: 25px;
+      font-size: 16px;
+      color: #000000;
+    }
+    li{
+      font-size: 17px;
+      line-height: 36px;
+    }
+    margin-bottom: 50px;
+  }
+  .payment-methods{
+    background-color: #F6F6F6;
+    padding:32px;
+    justify-content: space-between;
+    // .img-container{
+    //  width: 25%;
+    // }
+  }
+  .payment-methods-desc{
+    width: 65%;
+    color: #000000;
+    p{
+      color: #000000;
+      font-size: 17px;
+      font-weight: 500;
+      word-spacing:2px;
+      text-align-last: left;
+    }
+  }
+  .ps-section__footer{
+    width: 90%;
+    line-height: 35px;
+    margin:35px auto;
+  }
+}
+.ps__testimonials{
+  background-color: #F6F6F6;
+  width: 100%;
+  min-height: 300px;
+  .heading{
+    line-height: 100px;
+  }
+  .ps__testimony{
+    padding: 51px 16px;      
+    .header{
+      top: -50px;
+      left: 30px;
+      position: absolute;
+      z-index: 10;
+      border-radius: 50%;
+    }
+    img{
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+    }
+    .content{
+      position: relative;
+      z-index: 1;
+      background-color: #fff;
+      min-height: 200px;
+    }
+    .quote-icon{
+      font-size: 34px;
+      color: #fcb800;
+    }
+  }
+  
+}
+.faqs{
+  min-height: 400px;
+  background-color: #fff;
+  .header{
+    .title{
+      text-transform: uppercase;
+   
+      color: #666;
+      font-size: 17px;
+    }
+    .subtitle{
+      font-size: 27px;
+      color: #000000;
+      padding: 15px 0;
+    }
+  }
+  .question{
+    figcaption{
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 50px;
+    }
+    p{
+      font-size: 16px;
+    }
+  }
+}
+.contact-section{
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 250px;
+  text-align: center;
+  p{
+    font-size: 28px;
+    color: black;
+  }
+  button{
+    &:hover{
+      color: #fff;
+      background-color: #000;
+    }
+    padding:10px 20px;
+    text-align: center;
+    border: none;
+    margin: 5px 10px;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #fcb800;
+    color: #000;
+    transition: all ease 0.3s;
+  }  
+}
+.ps-vendor--milestones{
+  background-color: #F6F6F6;
+  .ps-milestone.reverse{
+    flex-flow: row-reverse nowrap;
+    .img{
+      text-align: left;
+    }
+  }
+  .ps-milestone{
+    position: relative;
+    &::before{
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      z-index: 1;
+      transform: translateX(-50%);
+      height: 100%;
+      width: 2px;
+      background-color: #fcb800;  
+    }
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    .text,.img{
+      width: 43%;
+      margin: 30px 0;
+    }
+    .text{
+      padding-right:30px ;
+    }
+    .img{
+      text-align: end;
+      padding-left: 40px;
+    }
+    .step{
+      width: 14%;
+    }
+    ul{
+      width: 100%;
+     li{
+      margin: 23px auto;
+      font-size: 16px;
+     }
+    }
+    .count{
+      height: 90px;
+      top: 0;
+      position: relative;
+      z-index: 4;
+      width: 90px;
+      border-radius: 50%;
+      border: 2px solid #FCB800;
+      background-color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin:0 auto;
+      font-size: 45px;
+      font-weight: 500;
+    }
+    
+  }
+}
+@media screen and (max-width:768px) {
+  .hero-title{
+    font-size: 25px;
+  }
+  .why-sell{
+    .subtitle{
+      font-size: 20px;
+    }
+  }
+   .fees-to-start{
+      .payment-methods-desc{
+        width: 100%;
+        margin: 20px 0;
+        p{
+          font-size: 14px;
+        }
+      }
+      .subtitle{
+        font-size: 20px;
+      }
+      .min-charge,
+      .max-charge{
+        height: 120px;
+        width: 120px;
+        h4{
+          font-size: 28px;
+          font-weight: 400;
+          color: #000000;
+          margin: 0;
+        }
+        p{
+          font-size: 12px;
+        }
+    }
+  }
+  .faqs{
+    .header{
+    .subtitle{
+      font-size: 20px;
+    }
+    }
+  }
+  .contact-section{
+    p{
+      font-size: 20px;
+    }
+  }
+  .ps-vendor--milestones{
+    .ps-milestone,.ps-milestone.reverse{
+      &::before{
+        top: 0;
+        left: 28px;
+        z-index: 1;
+        transform: translateX(-50%);
+      }
+      flex-flow: column-reverse wrap;
+      position: relative;
+      .text,.img{
+        width:95%;
+        margin-left: auto;
+        padding-left: 30px;
+      }
+      .text{
+        h3{
+          font-size: 17px;
+        }
+        padding-right:0px ;
+      }
+      .img{
+        padding-left: 0px;
+        img{
+          width: 85%;
+        }
+      }
+      .step{
+        width: 14%;
+      }
+      ul{
+       li{
+        font-size: 14px;
+       }
+      }
+  
+      .count{
+        height: 56px;
+        top: 0;
+        left: 0px;
+        position: absolute;
+        width: 56px;
+        margin:0 auto;
+        font-size: 16px;
+        font-weight: 500;
+      }
+    }
+  }
+  }
+ 
 }
