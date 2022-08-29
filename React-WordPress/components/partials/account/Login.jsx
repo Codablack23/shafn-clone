@@ -6,10 +6,12 @@ import OAuth from "./modules/OAuth";
 import ReactHtmlParser from "react-html-parser";
 
 import { Form, Input, notification, Spin } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function Login() {
     const dispatch = useDispatch();
+    const auth = useSelector((state) => state.auth);
+
     const [passVisibility, setPassVisibility] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -23,9 +25,17 @@ function Login() {
     }
 
     const handleLogin = async (type = "form", oauth) => {
-        setIsLoading(true);
+        if (
+            (auth.user.email.toLowerCase() === email ||
+                auth.user.email.toLowerCase() === oauth.email) &&
+            auth.isLoggedIn
+        ) {
+            notification["info"]({
+                message: "You're already logged in to this account",
+            });
+        } else if (!isLoading) {
+            setIsLoading(true);
 
-        if (!isLoading) {
             let user = {
                 username: email,
                 password,
@@ -43,35 +53,42 @@ function Login() {
 
                 const role = _user.user_role[0].toLowerCase();
 
+                const { encrypt } = require("~/utilities/common-helpers");
+                const encryptedToken = encrypt(_user.token);
+
                 if (role === "customer") {
                     dispatch(
-                        login({ email: _user.user_email, token: _user.token })
+                        login({
+                            email: _user.user_email,
+                            token: encryptedToken,
+                        })
                     );
                     Router.push("/");
                 }
 
                 if (role === "seller") {
+                    const domain =
+                        process.env.NODE_ENV === "production"
+                            ? "https://dashboard.shafn.com"
+                            : "http://localhost:5500";
+
                     window.location.assign(
-                        `http://localhost:5500?auth_token=${_user.token}`
+                        `${domain}/dashboard?auth_token=${_user.token}`
                     );
                 }
                 setIsLoading(false);
             } catch (error) {
-                handleError(error, "Login Failed!");
+                notification["error"]({
+                    message: "Login failed!",
+                    description:
+                        error.response === undefined
+                            ? ReactHtmlParser(String(error))
+                            : ReactHtmlParser(error.response.data.message),
+                });
+
+                setIsLoading(false);
             }
         }
-    };
-
-    const handleError = (error, message) => {
-        notification["error"]({
-            message,
-            description:
-                error.response === undefined
-                    ? ReactHtmlParser(String(error))
-                    : ReactHtmlParser(error.response.data.message),
-        });
-
-        setIsLoading(false);
     };
 
     return (

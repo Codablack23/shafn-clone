@@ -1,9 +1,16 @@
-import { WPDomain } from '~/repositories/WP/WPRepository';
-import axios from 'axios';
+import { WPDomain } from "~/repositories/WP/WPRepository";
+import axios from "axios";
 
 class WPAuthRepository {
     constructor(callback) {
         this.callback = callback;
+    }
+
+    async verifyEmail(user) {
+        const endpoint = `/api/verify-email`;
+        const response = await axios.post(endpoint, user);
+
+        return response;
     }
 
     async register(user, adminToken) {

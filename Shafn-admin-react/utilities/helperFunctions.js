@@ -23,4 +23,24 @@ const objectsEqual = (o1, o2) => {
 const arraysEqual = (a1, a2) =>
   a1.length === a2.length && a1.every((o, idx) => objectsEqual(o, a2[idx]))
 
-export { generateSlug, arraysEqual }
+const encrypt = (data) => {
+  const CryptoJS = require("crypto-js")
+
+  const encryptedData = CryptoJS.AES.encrypt(
+    data,
+    process.env.password
+  ).toString()
+
+  return encryptedData
+}
+
+const decrypt = (encryptedData) => {
+  const CryptoJS = require("crypto-js")
+
+  const bytes = CryptoJS.AES.decrypt(encryptedData, process.env.password)
+  const data = bytes.toString(CryptoJS.enc.Utf8)
+
+  return data
+}
+
+export { generateSlug, arraysEqual, encrypt, decrypt }

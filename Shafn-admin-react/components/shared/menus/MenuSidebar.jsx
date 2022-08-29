@@ -1,13 +1,13 @@
-import React from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import React from "react"
+import Link from "next/link"
+import { useRouter } from "next/router"
 
 const MenuSidebar = () => {
-  const router = useRouter();
+  const router = useRouter()
   const menuItems = [
     {
       text: "Dashboard",
-      url: "/",
+      url: "/dashboard",
       icon: "icon-home",
     },
     {
@@ -28,14 +28,14 @@ const MenuSidebar = () => {
     {
       text: "Categories",
       url: "/categories",
-      icon: "icon-users2",
+      icon: "icon-database",
     },
     {
       text: "Settings",
       url: "/settings",
       icon: "icon-cog",
     },
-  ];
+  ]
 
   return (
     <ul className="menu">
@@ -53,7 +53,7 @@ const MenuSidebar = () => {
         </li>
       ))}
     </ul>
-  );
-};
+  )
+}
 
-export default MenuSidebar;
+export default MenuSidebar
