@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 // import LazyLoad from 'react-lazyload';
 import Link from "next/link";
@@ -136,6 +136,39 @@ const WPProduct = ({ product }) => {
         }
     }
 
+    async function getReviews() {
+        const reviews = await WPProductRepository.getReviews();
+
+        if (reviews) {
+            const p_reviews = reviews.filter(
+                (r) => r.product_id.toString() === product.id.toString()
+            );
+            return p_reviews;
+        }
+    }
+
+    async function averageStars() {
+        try {
+            const product_reviews = await getReviews();
+
+            const r_total =
+                product_reviews.length === 0 ? 1 : product_reviews.length;
+
+            const avg = parseFloat(
+                product_reviews.reduce((total, el) => (total += el.rating), 0) /
+                    r_total
+            );
+
+            return parseInt(avg.toFixed(1));
+        } catch (error) {
+            return 0;
+        }
+    }
+
+    useEffect(() => {
+        averageStars();
+    }, []);
+
     const query = `${product.slug}-${product.id}`.trim();
 
     return (
@@ -200,17 +233,16 @@ const WPProduct = ({ product }) => {
                         <a className="ps-product__title">{product.name}</a>
                     </Link>
                     <div className="ps-product__rating">
-                        <Rating />
-                        <span>{product.review_count}</span>
+                        <Rating rating={averageStars()} />
                     </div>
-                    <div
+                    {/* <div
                         className="ps-product__progress-bar ps-progress"
                         data-value={80}>
                         <div className="ps-progress__value">
                             <span style={{ width: "92%" }}></span>
                         </div>
                         <p>Sold: 99</p>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <Modal
