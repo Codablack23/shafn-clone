@@ -4,9 +4,12 @@ import WPModuleProductDetailThumbnail from "~/wp-components/elements/products/mo
 import WPModuleProductDetailInformation from "~/wp-components/elements/products/modules/WPModuleProductDetailInformation";
 import WPModuleDefaultDescription from "~/wp-components/elements/products/modules/WPModuleDefaultDescription";
 
-const WPProductDetail = ({ product, variations }) => {
-    const [activeVariant, setActiveVariant] = useState(null);
-
+const WPProductDetail = ({
+    product,
+    variations,
+    activeVariant,
+    setActiveVariant,
+}) => {
     function handleAttributeChange(newOption) {
         variations.forEach((item) => {
             if (item.attributes.some((attr) => attr.option === newOption)) {

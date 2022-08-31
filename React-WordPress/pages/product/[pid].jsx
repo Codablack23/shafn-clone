@@ -21,6 +21,7 @@ const WPProductDetailPage = ({ pid }) => {
 
     const [product, setProduct] = useState(null);
     const [productVariations, setProductVariations] = useState(null);
+    const [activeVariant, setActiveVariant] = useState(null);
     const [loading, setLoading] = useState(true);
     const [relatedProducts, setRelatedProducts] = useState(null);
 
@@ -98,10 +99,12 @@ const WPProductDetailPage = ({ pid }) => {
             <WPProductDetail
                 product={product}
                 variations={productVariations && productVariations}
+                activeVariant={activeVariant}
+                setActiveVariant={setActiveVariant}
             />
         );
         widgetView = (
-            <WPProductWidgets product={product}>
+            <WPProductWidgets product={product} variant={activeVariant}>
                 {relatedProducts && relatedProducts.length > 0 && (
                     <WPWidgetProductsSameBrand
                         products={relatedProducts}

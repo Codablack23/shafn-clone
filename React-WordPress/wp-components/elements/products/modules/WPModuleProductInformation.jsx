@@ -20,10 +20,11 @@ import SocialShareButtons from "~/components/elements/media/SocialShareButtons";
 
 const WPModuleProductInformation = ({
     product,
-    children,
     variant,
+    children,
     isWidget,
 }) => {
+    console.log(variant);
     const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(1);
 
@@ -31,24 +32,26 @@ const WPModuleProductInformation = ({
         let item;
         if (product.type === "variable") {
             if (variant) {
-                const options = product.attributes
+                const options = variant.attributes
                     .map((attribute) => attribute.option)
                     .join(", ");
+
                 const _product = {
                     ...product,
                     name: `${product.name}[${options}]`,
                     price: variant.price,
                 };
+
                 item = {
                     amount: variant.price,
-                    cartItems: [_product],
+                    cartItems: [{ ..._product, quantity }],
                     cartTotal: 1,
                 };
             }
         } else {
             item = {
                 amount: product.price,
-                cartItems: [product],
+                cartItems: [{ ...product, quantity }],
                 cartTotal: 1,
             };
         }
@@ -60,13 +63,24 @@ const WPModuleProductInformation = ({
 
     const handleAddItemToCart = (e) => {
         e.preventDefault();
-        let tempProduct = product;
-        tempProduct.quantity = quantity;
-        dispatch(addItem(product));
-    };
-    const handleAddItemToWishlist = (e) => {
-        e.preventDefault();
-        dispatch(addItemToWishlist(product));
+
+        let _product = product;
+
+        if (product.type === "variable") {
+            if (variant) {
+                const options = variant.attributes
+                    .map((attribute) => attribute.option)
+                    .join(", ");
+
+                _product = {
+                    ...product,
+                    name: `${product.name}[${options}]`,
+                    price: variant.price,
+                };
+            }
+        }
+
+        dispatch(addItem({ ..._product, quantity }));
     };
 
     const handleIncreaseItemQty = (e) => {
