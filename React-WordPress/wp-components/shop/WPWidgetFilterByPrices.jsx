@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Slider } from 'antd';
-import { connect, useDispatch } from 'react-redux';
-import { WPGetProducts } from '~/store/wp/action';
+import React, { useState } from "react";
+import { Slider } from "antd";
+import { connect, useDispatch } from "react-redux";
+import { WPGetProducts } from "~/store/wp/action";
 
 const WPWidgetFilterByPrices = () => {
     const dispatch = useDispatch();
@@ -14,8 +14,8 @@ const WPWidgetFilterByPrices = () => {
         const queries = {
             page: 1,
             per_page: 20,
-            min_price: minPrice,
-            max_price: maxPrice,
+            min_price: value[0],
+            max_price: value[1],
         };
         dispatch(WPGetProducts(queries));
     };
