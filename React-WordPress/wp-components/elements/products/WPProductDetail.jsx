@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import DefaultDescription from "~/components/elements/detail/modules/description/DefaultDescription";
 import WPModuleProductDetailThumbnail from "~/wp-components/elements/products/modules/WPModuleProductDetailThumbnail";
 import WPModuleProductDetailInformation from "~/wp-components/elements/products/modules/WPModuleProductDetailInformation";
@@ -51,6 +51,21 @@ const WPProductDetail = ({
             ));
         }
     }
+
+    useEffect(() => {
+        if (product) {
+            if (variations) {
+                const variationAttributes = product.attributes.filter(
+                    (attribute) => attribute.variation
+                );
+
+                const firstAttributeOption = variationAttributes[0]?.options[0];
+                if (firstAttributeOption) {
+                    handleAttributeChange(firstAttributeOption);
+                }
+            }
+        }
+    }, []);
 
     if (!variations) {
         return (

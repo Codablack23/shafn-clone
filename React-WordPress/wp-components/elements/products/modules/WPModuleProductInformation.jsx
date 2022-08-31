@@ -24,7 +24,6 @@ const WPModuleProductInformation = ({
     children,
     isWidget,
 }) => {
-    console.log(variant);
     const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(1);
 
