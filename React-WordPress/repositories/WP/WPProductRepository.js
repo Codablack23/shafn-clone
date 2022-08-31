@@ -1,7 +1,3 @@
-/*
- * WPReact
- * Developed by: diaryforlife
- * */
 import {
     oathInfo,
     WPDomain,

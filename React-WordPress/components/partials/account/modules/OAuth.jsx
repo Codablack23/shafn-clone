@@ -33,7 +33,6 @@ const OAuth = ({ onSuccess }) => {
                 uxMode="redirect"
                 onSuccess={(res) => {
                     const user = res.profileObj;
-                    console.log(user);
                     handleOnSuccess(
                         user.googleId,
                         user.email,

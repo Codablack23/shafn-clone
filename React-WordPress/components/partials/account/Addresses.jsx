@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import Link from 'next/link';
+import React, { Component } from "react";
+import Link from "next/link";
 
 class Addresses extends Component {
     constructor(props) {
@@ -10,24 +10,24 @@ class Addresses extends Component {
     render() {
         const accountLinks = [
             {
-                text: 'Account Information',
-                url: '/account/user-information',
-                icon: 'icon-user',
+                text: "Account Information",
+                url: "/account/user-information",
+                icon: "icon-user",
             },
             // {
             //     text: 'Notifications',
             //     url: '/account/notifications',
             //     icon: 'icon-alarm-ringing',
             // },
+            // {
+            //     text: 'Invoices',
+            //     url: '/account/invoices',
+            //     icon: 'icon-papers',
+            // },
             {
-                text: 'Invoices',
-                url: '/account/invoices',
-                icon: 'icon-papers',
-            },
-            {
-                text: 'Address',
-                url: '/account/addresses',
-                icon: 'icon-map-marker',
+                text: "Address",
+                url: "/account/addresses",
+                icon: "icon-map-marker",
                 active: true,
             },
             // {
@@ -35,11 +35,11 @@ class Addresses extends Component {
             //     url: '/account/recent-viewed-product',
             //     icon: 'icon-store',
             // },
-            {
-                text: 'Wishlist',
-                url: '/account/wishlist',
-                icon: 'icon-heart',
-            },
+            // {
+            //     text: 'Wishlist',
+            //     url: '/account/wishlist',
+            //     icon: 'icon-heart',
+            // },
         ];
         return (
             <section className="ps-my-account ps-page--account">
@@ -62,8 +62,8 @@ class Addresses extends Component {
                                                     key={link.text}
                                                     className={
                                                         link.active
-                                                            ? 'active'
-                                                            : ''
+                                                            ? "active"
+                                                            : ""
                                                     }>
                                                     <Link href={link.url}>
                                                         <a>

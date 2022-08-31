@@ -44,9 +44,6 @@ function Register() {
                 email,
             });
 
-            console.log("Code Verified");
-            console.log(response);
-
             setOtp({
                 code: response.data.code,
                 createdAt: Date.now(),
@@ -167,13 +164,13 @@ function Register() {
                         message: "Registration Successful!",
                     });
 
-                    const { encrypt } = require("~/utilities/common-helpers");
-                    const encryptedToken = encrypt(loggedUser.token);
+                    // const { encrypt } = require("~/utilities/common-helpers");
+                    // const encryptedToken = encrypt(loggedUser.token);
 
                     dispatch(
                         login({
-                            email: loggedUser.user_email,
-                            token: encryptedToken,
+                            user_id: loggedUser.user_id,
+                            user_email: loggedUser.user_email,
                         })
                     );
 
@@ -283,7 +280,7 @@ function Register() {
                                                 name="password"
                                                 type={`${
                                                     passVisibility
-                                                        ? "test"
+                                                        ? "text"
                                                         : "password"
                                                 }`}
                                                 placeholder="Password..."

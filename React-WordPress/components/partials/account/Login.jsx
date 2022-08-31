@@ -26,8 +26,8 @@ function Login() {
 
     const handleLogin = async (type = "form", oauth) => {
         if (
-            (auth.email.toLowerCase() === email ||
-                auth.email.toLowerCase() === oauth?.email) &&
+            (auth.user_email.toLowerCase() === email ||
+                auth.user_email.toLowerCase() === oauth?.email) &&
             auth.isLoggedIn
         ) {
             notification["info"]({
@@ -53,14 +53,14 @@ function Login() {
 
                 const role = _user.user_role[0].toLowerCase();
 
-                const { encrypt } = require("~/utilities/common-helpers");
-                const encryptedToken = encrypt(_user.token);
+                // const { encrypt } = require("~/utilities/common-helpers");
+                // const encryptedToken = encrypt(_user.token);
 
                 if (role === "customer") {
                     dispatch(
                         login({
-                            email: _user.user_email,
-                            token: encryptedToken,
+                            user_id: _user.user_id,
+                            user_email: _user.user_email,
                         })
                     );
                     Router.push("/");
@@ -151,7 +151,7 @@ function Login() {
                                             name="password"
                                             type={`${
                                                 passVisibility
-                                                    ? "test"
+                                                    ? "text"
                                                     : "password"
                                             }`}
                                             aria-label="Password"

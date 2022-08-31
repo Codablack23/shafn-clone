@@ -1,26 +1,28 @@
-import { all, put, takeEvery } from 'redux-saga/effects';
-import { notification } from 'antd';
+import { all, put, takeEvery } from "redux-saga/effects";
+import { notification } from "antd";
+import Router from "next/router";
 
-import { actionTypes, loginSuccess, logOutSuccess } from './action';
+import { actionTypes, loginSuccess, logOutSuccess } from "./action";
 
 const modalSuccess = (type) => {
     notification[type]({
-        message: 'Wellcome back',
-        description: 'Login Successful!',
+        message: "Wellcome back",
+        description: "Login Successful!",
     });
 };
 
 const modalWarning = (type) => {
     notification[type]({
-        message: 'Good bye!',
-        description: 'Your account has been logged out!',
+        message: "Good bye!",
+        description: "Your account has been logged out!",
     });
+    Router.push("/");
 };
 
 function* loginSaga(user) {
     try {
         yield put(loginSuccess(user));
-        modalSuccess('success');
+        modalSuccess("success");
     } catch (err) {
         console.log(err);
     }
@@ -29,7 +31,7 @@ function* loginSaga(user) {
 function* logOutSaga() {
     try {
         yield put(logOutSuccess());
-        modalWarning('warning');
+        modalWarning("warning");
     } catch (err) {
         console.log(err);
     }
