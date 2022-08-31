@@ -26,8 +26,8 @@ function Login() {
 
     const handleLogin = async (type = "form", oauth) => {
         if (
-            (auth.user.email.toLowerCase() === email ||
-                auth.user.email.toLowerCase() === oauth.email) &&
+            (auth.email.toLowerCase() === email ||
+                auth.email.toLowerCase() === oauth?.email) &&
             auth.isLoggedIn
         ) {
             notification["info"]({
@@ -76,7 +76,6 @@ function Login() {
                         `${domain}/dashboard?auth_token=${_user.token}`
                     );
                 }
-                setIsLoading(false);
             } catch (error) {
                 notification["error"]({
                     message: "Login failed!",
@@ -85,7 +84,7 @@ function Login() {
                             ? ReactHtmlParser(String(error))
                             : ReactHtmlParser(error.response.data.message),
                 });
-
+            } finally {
                 setIsLoading(false);
             }
         }
