@@ -3,24 +3,24 @@
  * Developed by: shafN
  * */
 
-import React from 'react';
-import { formatCurrency } from '~/utilities/product-helper';
-import Rating from '~/components/elements/Rating';
-import Link from 'next/link';
+import React from "react";
+import { formatCurrency } from "~/utilities/product-helper";
+import Rating from "~/components/elements/Rating";
+import Link from "next/link";
 
 export function convertToURLEncoded(element, key, list) {
     var list = list || [];
-    if (typeof element == 'object') {
+    if (typeof element == "object") {
         for (var idx in element)
             convertToURLEncoded(
                 element[idx],
-                key ? key + '[' + idx + ']' : idx,
+                key ? key + "[" + idx + "]" : idx,
                 list
             );
     } else {
-        list.push(key + '=' + encodeURIComponent(element));
+        list.push(key + "=" + encodeURIComponent(element));
     }
-    return list.join('&');
+    return list.join("&");
 }
 
 function caculateDiscount(price, salePrice) {
@@ -120,14 +120,14 @@ export function WPProductThumbnailView(product) {
 
 export function WPProductBadgeView(product) {
     let view;
-    if (product.stock_status !== 'outofstock') {
+    if (product.stock_status !== "outofstock") {
         if (product.on_sale === true) {
             view = <div className="ps-product__badge">Sale</div>;
         } else {
             if (product.meta_data) {
                 const WPCustomBadge = product.meta_data.find(
                     (item) =>
-                        item.key === 'custom_badges_text' && item.value !== ''
+                        item.key === "custom_badges_text" && item.value !== ""
                 );
                 if (WPCustomBadge) {
                     view = (
@@ -167,7 +167,6 @@ export function WPProductDetailRatingView(product) {
 }
 
 export function WPProductDetailShortDescView(product) {
-    console.log(window.innerWidth);
     let view;
     if (product?.short_description) {
         view = (
@@ -193,14 +192,14 @@ export function WPProductDetailShortDescView(product) {
 export function WPProductDetailBrandView(product) {
     let view;
     if (product?.attributes && product.attributes.length > 0) {
-        const brand = product.attributes.find((item) => item.name === 'brand');
+        const brand = product.attributes.find((item) => item.name === "brand");
         if (brand) {
             view = (
                 <p>
                     Brand:
                     <Link href="/shop">
                         <a className="ml-2 text-capitalize">
-                            {' '}
+                            {" "}
                             {brand.options[0]}
                         </a>
                     </Link>
@@ -289,14 +288,16 @@ export function Button({
     hoverBorder,
     color,
     height,
+    disabled,
 }) {
-    let hoverClass = '';
+    let hoverClass = "";
     hoverClass = `w3-hover-${hoverBg} w3-hover-text-${hoverColor} w3-hover-border-${hoverBorder}`;
     return (
         <button
             className={`btn btn-lg p-3 m-2 rounded-pill w3-text-${color} ${classes} ${hoverClass}`}
             onClick={eventHandler}
-            style={{ minWidth: width, height }}>
+            style={{ minWidth: width, height }}
+            disabled={!!disabled}>
             {text}
         </button>
     );

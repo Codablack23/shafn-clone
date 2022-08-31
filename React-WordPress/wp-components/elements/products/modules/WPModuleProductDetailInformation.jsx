@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import Link from "next/link";
+import Router from "next/router";
 import { formatCurrency } from "~/utilities/product-helper";
 import { addItem } from "~/store/cart/action";
 import { addCheckoutItem } from "~/store/checkout-items/action";
@@ -27,13 +28,34 @@ const WPModuleProductDetailInformation = ({
     const [quantity, setQuantity] = useState(1);
 
     const handleAddToCheckoutItems = () => {
-        const item = {
-            amount: product.price,
-            cartItems: [product],
-            cartTotal: 1,
-        };
+        let item;
+        if (product.type === "variable") {
+            if (variant) {
+                const options = product.attributes
+                    .map((attribute) => attribute.option)
+                    .join(", ");
+                const _product = {
+                    ...product,
+                    name: `${product.name}[${options}]`,
+                    price: variant.price,
+                };
+                item = {
+                    amount: variant.price,
+                    cartItems: [_product],
+                    cartTotal: 1,
+                };
+            }
+        } else {
+            item = {
+                amount: product.price,
+                cartItems: [product],
+                cartTotal: 1,
+            };
+        }
 
         dispatch(addCheckoutItem(item));
+
+        Router.push("/account/checkout");
     };
 
     const handleAddItemToCart = (e) => {
@@ -56,7 +78,22 @@ const WPModuleProductDetailInformation = ({
     };
     const handleAddItemToWishlist = (e) => {
         e.preventDefault();
-        dispatch(addItemToWishlist(product));
+        let _product = product;
+        if (product.type === "variable") {
+            if (variant) {
+                const options = variant.attributes
+                    .map((attribute) => attribute.option)
+                    .join(", ");
+
+                _product = {
+                    ...product,
+                    name: `${product.name}[${options}]`,
+                    price: variant.price,
+                };
+            }
+        }
+
+        dispatch(addItemToWishlist(_product));
     };
 
     const handleRenderPriceRange = () => {
@@ -189,18 +226,20 @@ const WPModuleProductDetailInformation = ({
                     hoverColor="white"
                     eventHandler={handleAddItemToCart}
                     text="Add to cart"
+                    disabled={product.type === "simple" ? false : !variant}
                 />
                 <br />
 
-                <Link href="/account/checkout">
-                    <a onClick={handleAddToCheckoutItems}>
-                        <Button
-                            width={250}
-                            classes={`w3-orange btn-hover`}
-                            text="Buy Now"
-                        />
-                    </a>
-                </Link>
+                {/* <Link href="/account/checkout"> */}
+                <a onClick={handleAddToCheckoutItems}>
+                    <Button
+                        width={250}
+                        classes={`w3-orange btn-hover`}
+                        text="Buy Now"
+                        disabled={product.type === "simple" ? false : !variant}
+                    />
+                </a>
+                {/* </Link> */}
             </div>
             {/* <button 
                 className="btn rounded-pill btn-lg btn-hover w3-light-grey p-3 pl-4 pr-4 w3-border w3-border-white w3-hover-border-grey w3-hover-none" 
@@ -218,6 +257,7 @@ const WPModuleProductDetailInformation = ({
                     hoverColor="grey"
                     eventHandler={handleAddItemToWishlist}
                     text="Add to WishLIst"
+                    disabled={product.type === "simple" ? false : !variant}
                 />
                 <br />
             </div>
