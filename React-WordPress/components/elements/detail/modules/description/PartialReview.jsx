@@ -7,7 +7,7 @@ import { useEffect } from "react";
 const PartialReview = () => {
     const [product_reviews, setProductReviews] = useState([]);
     const [reviewSent, setReviewSent] = useState(0);
-    const [averageReviews,setAverageReviews] = useState(0)
+    const [averageReviews, setAverageReviews] = useState(0);
     const [review_limit, setReviewLimit] = useState({
         amount: 3,
         isAll: false,
@@ -77,26 +77,39 @@ const PartialReview = () => {
             });
         }
     };
-    function averageStars(){
-        const r_total = product_reviews.length == 0?1:product_reviews.length
-        const avg = parseFloat((product_reviews.reduce((total,el)=>(total += el.rating),0))/r_total)
-        return avg.toFixed(1)
+    function averageStars() {
+        const r_total =
+            product_reviews.length == 0 ? 1 : product_reviews.length;
+        const avg = parseFloat(
+            product_reviews.reduce((total, el) => (total += el.rating), 0) /
+                r_total
+        );
+        return avg.toFixed(1);
     }
-    function getPercent(num){
-        const r_total = product_reviews.length == 0?1:product_reviews.length
+    function getPercent(num) {
+        const r_total =
+            product_reviews.length == 0 ? 1 : product_reviews.length;
         const percent = parseFloat(
-            (product_reviews.filter(r=>r.rating === parseInt(num)).length)/r_total
-        ).toFixed(2)
-        return percent * 100
+            product_reviews.filter((r) => r.rating === parseInt(num)).length /
+                r_total
+        ).toFixed(2);
+        return percent * 100;
     }
-    function getStarPercent(){
-        const all = [5,4,3,2,1];
-        return all.map(num=>(
+    function getStarPercent() {
+        const all = [5, 4, 3, 2, 1];
+        return all.map((num) => (
             <div>
-            <span>{num} <i className="fa fa-star" style={{color:"#FCB800"}}></i></span>
-            <Progress  type={"line"} percent={getPercent(num)} strokeColor={"#FCB800"}/>
-        </div>
-        ))
+                <span>
+                    {num}{" "}
+                    <i className="fa fa-star" style={{ color: "#FCB800" }}></i>
+                </span>
+                <Progress
+                    type={"line"}
+                    percent={getPercent(num)}
+                    strokeColor={"#FCB800"}
+                />
+            </div>
+        ));
     }
     useEffect(() => {
         getReviews();
@@ -104,7 +117,9 @@ const PartialReview = () => {
     return (
         <div className="row">
             <div className="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 ">
-                <div className="ps-block--average-rating" style={{maxWidth:"450px"}}>
+                <div
+                    className="ps-block--average-rating"
+                    style={{ maxWidth: "450px" }}>
                     <div className="ps-block__header">
                         <h3>{averageStars()}</h3>
                         <Rating rating={parseInt(averageStars())} />
@@ -117,7 +132,7 @@ const PartialReview = () => {
                                 : `${product_reviews.length} Reviews`}
                         </span>
                     </div>
-                   {getStarPercent()}
+                    {getStarPercent()}
                 </div>
                 <br />
             </div>
@@ -222,40 +237,29 @@ const PartialReview = () => {
                                             rev.date_created
                                         ).toDateString()}
                                     </p>
-                                    <div>
-                                        {rev.verified ? (
-                                            <b className="text-warning">
-                                                Verified
-                                            </b>
-                                        ) : (
-                                            <b className="text-danger">
-                                                Not Verified
-                                            </b>
-                                        )}
-                                    </div>
                                 </div>
                             ))}
-                        {product_reviews.length > 3 &&(
+                        {product_reviews.length > 3 && (
                             <div className="ps__see-all-reviews">
-                            {review_limit.isAll ? (
-                                <p
-                                    className="see all reviews"
-                                    onClick={() => seeAllReviews(3, false)}>
-                                    <b>Show Less</b>
-                                </p>
-                            ) : (
-                                <p
-                                    className="see all reviews"
-                                    onClick={() =>
-                                        seeAllReviews(
-                                            product_reviews.length,
-                                            true
-                                        )
-                                    }>
-                                    <b>See All Reviews</b>
-                                </p>
-                            )}
-                        </div>
+                                {review_limit.isAll ? (
+                                    <p
+                                        className="see all reviews"
+                                        onClick={() => seeAllReviews(3, false)}>
+                                        <b>Show Less</b>
+                                    </p>
+                                ) : (
+                                    <p
+                                        className="see all reviews"
+                                        onClick={() =>
+                                            seeAllReviews(
+                                                product_reviews.length,
+                                                true
+                                            )
+                                        }>
+                                        <b>See All Reviews</b>
+                                    </p>
+                                )}
+                            </div>
                         )}
                     </div>
                 ) : (

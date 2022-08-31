@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { Form, Input, Button, Select, Radio, Checkbox } from 'antd';
-import { connect, useDispatch } from 'react-redux';
-import Link from 'next/link';
-import WPOrderRepository from '~/repositories/WP/WPOrderRepository';
+import React, { useEffect, useState } from "react";
+import { Form, Input, Button, Select, Radio, Checkbox } from "antd";
+import { connect, useDispatch } from "react-redux";
+import Link from "next/link";
+import WPOrderRepository from "~/repositories/WP/WPOrderRepository";
 import {
     convertFormData,
     convertJsonToFormData,
     convertToURLEncoded,
-} from '~/utilities/WPHelpers';
+} from "~/utilities/WPHelpers";
 
 const WPFormCheckout = ({ amount, checkoutItems }) => {
     const dispatch = useDispatch();
@@ -49,9 +49,9 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
             line_items: null,
             shipping_lines: [
                 {
-                    method_id: 'flat_rate',
-                    method_title: 'Flat Rate',
-                    total: '10.00',
+                    method_id: "flat_rate",
+                    method_title: "Flat Rate",
+                    total: "10.00",
                 },
             ],
         };
@@ -103,14 +103,14 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
             checkoutData.billing = WPBilling;
             checkoutData.shipping = WPShipping;
             checkoutData.line_items = WPLineItems;
-            if (selectedGateway.id !== 'paypal') {
+            if (selectedGateway.id !== "paypal") {
                 const result = await WPOrderRepository.createNewOrder(
                     convertToURLEncoded(checkoutData)
                 );
                 if (result) {
                 }
             } else {
-                window.open('https://www.paypal.com/', '_blank');
+                window.open("https://www.paypal.com/", "_blank");
             }
         }
     }
@@ -168,7 +168,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                     <p>{selectedGateway.description}</p>
                 </div>
             );
-            if (selectedGateway.id === 'paypal') {
+            if (selectedGateway.id === "paypal") {
                 buttonOrderView = (
                     <button className="ps-btn ps-btn--fullwidth">
                         Proceed to PayPal
@@ -199,7 +199,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'This field is required.',
+                                        message: "This field is required.",
                                     },
                                 ]}>
                                 <Input
@@ -220,7 +220,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'This field is required.',
+                                        message: "This field is required.",
                                     },
                                 ]}>
                                 <Input className="form-control" type="text" />
@@ -237,7 +237,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'This field is required.',
+                                        message: "This field is required.",
                                     },
                                 ]}>
                                 <Input className="form-control" type="text" />
@@ -268,7 +268,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'This field is required.',
+                                        message: "This field is required.",
                                     },
                                 ]}>
                                 <Input className="form-control" type="text" />
@@ -285,7 +285,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'This field is required.',
+                                        message: "This field is required.",
                                     },
                                 ]}>
                                 <Input className="form-control" type="text" />
@@ -302,7 +302,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'This field is required.',
+                                        message: "This field is required.",
                                     },
                                 ]}>
                                 <Input className="form-control" type="text" />
@@ -319,7 +319,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'This field is required.',
+                                        message: "This field is required.",
                                     },
                                 ]}>
                                 <Input className="form-control" type="text" />
@@ -347,7 +347,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                             <div className="col-sm-6 col-12">
                                 <div className="form-group">
                                     <label>
-                                        First Name{' '}
+                                        First Name{" "}
                                         <span className="required">*</span>
                                     </label>
                                     <Form.Item
@@ -356,7 +356,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                                             {
                                                 required: true,
                                                 message:
-                                                    'This field is required.',
+                                                    "This field is required.",
                                             },
                                         ]}>
                                         <Input
@@ -369,7 +369,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                             <div className="col-sm-6 col-12">
                                 <div className="form-group">
                                     <label>
-                                        Last Name{' '}
+                                        Last Name{" "}
                                         <span className="required">*</span>
                                     </label>
                                     <Form.Item
@@ -378,7 +378,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                                             {
                                                 required: true,
                                                 message:
-                                                    'This field is required.',
+                                                    "This field is required.",
                                             },
                                         ]}>
                                         <Input
@@ -391,7 +391,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                             <div className="col-sm-6 col-12">
                                 <div className="form-group">
                                     <label>
-                                        Address 1{' '}
+                                        Address 1{" "}
                                         <span className="required">*</span>
                                     </label>
                                     <Form.Item
@@ -400,7 +400,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                                             {
                                                 required: true,
                                                 message:
-                                                    'This field is required.',
+                                                    "This field is required.",
                                             },
                                         ]}>
                                         <Input
@@ -413,7 +413,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                             <div className="col-sm-6 col-12">
                                 <div className="form-group">
                                     <label>
-                                        Address 2 (optional){' '}
+                                        Address 2 (optional){" "}
                                         <span className="required">*</span>
                                     </label>
                                     <Form.Item
@@ -441,7 +441,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                                             {
                                                 required: true,
                                                 message:
-                                                    'This field is required.',
+                                                    "This field is required.",
                                             },
                                         ]}>
                                         <Input
@@ -454,7 +454,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                             <div className="col-sm-6 col-12">
                                 <div className="form-group">
                                     <label>
-                                        State{' '}
+                                        State{" "}
                                         <span className="required">*</span>
                                     </label>
                                     <Form.Item
@@ -463,7 +463,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                                             {
                                                 required: true,
                                                 message:
-                                                    'This field is required.',
+                                                    "This field is required.",
                                             },
                                         ]}>
                                         <Input
@@ -476,7 +476,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                             <div className="col-sm-6 col-12">
                                 <div className="form-group">
                                     <label>
-                                        Postcode{' '}
+                                        Postcode{" "}
                                         <span className="required">*</span>
                                     </label>
                                     <Form.Item
@@ -485,7 +485,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                                             {
                                                 required: true,
                                                 message:
-                                                    'This field is required.',
+                                                    "This field is required.",
                                             },
                                         ]}>
                                         <Input
@@ -498,7 +498,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                             <div className="col-sm-6 col-12">
                                 <div className="form-group">
                                     <label>
-                                        Country{' '}
+                                        Country{" "}
                                         <span className="required">*</span>
                                     </label>
                                     <Form.Item
@@ -507,7 +507,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                                             {
                                                 required: true,
                                                 message:
-                                                    'This field is required.',
+                                                    "This field is required.",
                                             },
                                         ]}>
                                         <Input
@@ -520,7 +520,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                             <div className="col-sm-6 col-12">
                                 <div className="form-group">
                                     <label>
-                                        Email{' '}
+                                        Email{" "}
                                         <span className="required">*</span>
                                     </label>
                                     <Form.Item
@@ -529,7 +529,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                                             {
                                                 required: true,
                                                 message:
-                                                    'This field is required.',
+                                                    "This field is required.",
                                             },
                                         ]}>
                                         <Input
@@ -542,7 +542,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                             <div className="col-sm-6 col-12">
                                 <div className="form-group">
                                     <label>
-                                        Phone Number{' '}
+                                        Phone Number{" "}
                                         <span className="required">*</span>
                                     </label>
                                     <Form.Item
@@ -551,7 +551,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                                             {
                                                 required: true,
                                                 message:
-                                                    'This field is required.',
+                                                    "This field is required.",
                                             },
                                         ]}>
                                         <Input
