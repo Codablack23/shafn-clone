@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import Router from "next/router";
-import { Form, Input, notification, Spin } from "antd";
+import { notification, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
+import ReactHtmlParser from "react-html-parser";
 
-import { logOut } from "~/store/auth/action";
+import { updateAuth } from "~/store/auth/action";
 import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
+import { countries } from "~/utilities/country-list";
 
 function FormEditShippingAddress() {
+    const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth);
 
     const [shipping, setShipping] = useState({
@@ -22,10 +24,61 @@ function FormEditShippingAddress() {
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
+    const [states, setStates] = useState([]);
 
-    const handleInputChange = (e) => {};
+    const handleInputChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
 
-    const handleSubmit = async () => {};
+        const checkedFormNames = ["country", "postcode"];
+
+        if (name === "country") {
+            if (value) {
+                setShipping((current) => ({ ...current, [name]: value }));
+                const country = countries.data.find(
+                    (country) => country.name === value
+                );
+                setStates(country.states);
+            } else {
+                setStates([]);
+            }
+        }
+
+        if (name === "postcode" && !isNaN(value)) {
+            setShipping((current) => ({ ...current, [name]: value }));
+        }
+
+        if (!checkedFormNames.includes(name)) {
+            setShipping((current) => ({ ...current, [name]: value }));
+        }
+    };
+
+    const handleSubmit = async () => {
+        setIsSaving(true);
+
+        try {
+            const _customer = await WPCustomerRepository.updateCustomer(
+                auth.id,
+                { shipping }
+            );
+
+            dispatch(updateAuth(_customer));
+
+            notification["success"]({
+                message: "Update successful",
+            });
+        } catch (error) {
+            notification["error"]({
+                message: "Update failed",
+                description:
+                    error.response === undefined
+                        ? ReactHtmlParser(String(error))
+                        : ReactHtmlParser(error.response.data.message),
+            });
+        } finally {
+            setIsSaving(false);
+        }
+    };
 
     const getCustomer = async () => {
         try {
@@ -45,45 +98,47 @@ function FormEditShippingAddress() {
         getCustomer();
     }, []);
     return (
-        <form className="ps-form--edit-address">
+        <form
+            className="ps-form--edit-address"
+            onSubmit={!isSaving && handleSubmit}>
             <div className="ps-form__header">
                 <h3>Shipping address</h3>
             </div>
             <div className="ps-form__content">
                 <div className="form-group">
                     <label>
-                        FirstName <sup>*</sup>
+                        First name <sup>*</sup>
                     </label>
                     <input
                         name="first_name"
                         type="text"
                         className="form-control"
                         value={shipping.first_name}
-                        onClick={handleInputChange}
+                        onChange={handleInputChange}
+                        required
                     />
                 </div>
                 <div className="form-group">
                     <label>
-                        Lastname <sup>*</sup>
+                        Last name <sup>*</sup>
                     </label>
                     <input
                         name="last_name"
                         type="text"
-                        placeholder=""
                         className="form-control"
                         value={shipping.last_name}
-                        onClick={handleInputChange}
+                        onChange={handleInputChange}
+                        required
                     />
                 </div>
                 <div className="form-group">
-                    <label>Company Name</label>
+                    <label>Company name</label>
                     <input
                         name="company"
                         type="text"
-                        placeholder=""
                         className="form-control"
                         value={shipping.company}
-                        onClick={handleInputChange}
+                        onChange={handleInputChange}
                     />
                 </div>
                 <div className="form-group">
@@ -93,10 +148,10 @@ function FormEditShippingAddress() {
                     <input
                         name="address_1"
                         type="text"
-                        placeholder=""
                         className="form-control"
                         value={shipping.address_1}
-                        onClick={handleInputChange}
+                        onChange={handleInputChange}
+                        required
                     />
                 </div>
                 <div className="form-group">
@@ -104,38 +159,46 @@ function FormEditShippingAddress() {
                     <input
                         name="address_2"
                         type="text"
-                        placeholder=""
                         className="form-control"
                         value={shipping.address_2}
-                        onClick={handleInputChange}
+                        onChange={handleInputChange}
                     />
                 </div>
                 <div className="form-group">
                     <label>
                         Country <sup>*</sup>
                     </label>
-                    <input
+                    <select
                         name="country"
-                        type="text"
-                        placeholder=""
                         className="form-control"
-                        maxLength={2}
+                        title="countries"
                         value={shipping.country}
-                        onClick={handleInputChange}
-                    />
+                        onChange={handleInputChange}>
+                        <option value="">Select Country</option>
+                        {countries.data.map((country) => (
+                            <option key={country.iso3} value={country.iso3}>
+                                {country.name}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div className="form-group">
                     <label>
                         State <sup>*</sup>
                     </label>
-                    <input
+                    <select
                         name="state"
-                        type="text"
-                        placeholder=""
                         className="form-control"
+                        title="states"
                         value={shipping.state}
-                        onClick={handleInputChange}
-                    />
+                        onChange={handleInputChange}>
+                        <option value="">Select State</option>
+                        {states.map((state) => (
+                            <option key={state.state_code} value={state.name}>
+                                {state.name}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div className="form-group">
                     <label>
@@ -144,10 +207,10 @@ function FormEditShippingAddress() {
                     <input
                         name="city"
                         type="text"
-                        placeholder=""
                         className="form-control"
                         value={shipping.city}
-                        onClick={handleInputChange}
+                        onChange={handleInputChange}
+                        required
                     />
                 </div>
                 <div className="form-group">
@@ -156,11 +219,11 @@ function FormEditShippingAddress() {
                     </label>
                     <input
                         name="postcode"
-                        type="text"
-                        placeholder=""
+                        type="number"
                         className="form-control"
                         value={shipping.postcode}
-                        onClick={handleInputChange}
+                        onChange={handleInputChange}
+                        required
                     />
                 </div>
                 <div className="form-group submit">

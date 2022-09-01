@@ -68,16 +68,16 @@ const FormAccountSettings = () => {
   const selectCountry = (e) => {
     if (e.target.value) {
       setAddr(e.target.name, e.target.value)
-      const stateList = data.filter((country) => country.name == e.target.value)
-      setStates(stateList[0].states)
+      const country = data.find((country) => country.name == e.target.value)
+      setStates(country.states)
     } else {
       setStates([])
     }
   }
 
   const renderCountries = () => {
-    return data.map((country, index) => (
-      <option key={index} value={country.name}>
+    return data.map((country, _) => (
+      <option key={country.iso3} value={country.name}>
         {country.name}
       </option>
     ))
@@ -168,11 +168,7 @@ const FormAccountSettings = () => {
     getSettings()
   }, [])
   return (
-    <form
-      className="ps-form--account-settings"
-      action="index.html"
-      method="get"
-    >
+    <form className="ps-form--account-settings">
       <div className="row">
         <div className="col-sm-12">
           {/* Banner */}
@@ -316,7 +312,7 @@ const FormAccountSettings = () => {
                 <select
                   name="state"
                   className="ps-select"
-                  title="countries"
+                  title="states"
                   style={{ width: "100%" }}
                   value={address.state}
                   onChange={(e) => setAddr(e.target.name, e.target.value)}
