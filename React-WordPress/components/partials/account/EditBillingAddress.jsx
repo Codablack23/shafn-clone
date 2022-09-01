@@ -19,6 +19,11 @@ const accountLinks = [
         icon: "icon-map-marker",
         active: true,
     },
+    {
+        text: "Orders",
+        url: "/account/orders",
+        icon: "icon-map-marker",
+    },
 ];
 function EditBillingAddress() {
     const dispatch = useDispatch();

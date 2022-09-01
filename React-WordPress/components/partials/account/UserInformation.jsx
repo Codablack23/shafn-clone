@@ -19,6 +19,11 @@ const accountLinks = [
         url: "/account/addresses",
         icon: "icon-map-marker",
     },
+    {
+        text: "Orders",
+        url: "/account/orders",
+        icon: "icon-map-marker",
+    },
 ];
 
 function UserInformation() {
