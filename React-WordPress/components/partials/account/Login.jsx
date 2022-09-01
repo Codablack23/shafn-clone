@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { login } from "../../../store/auth/action";
 import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
+import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
 import OAuth from "./modules/OAuth";
 import ReactHtmlParser from "react-html-parser";
 
@@ -26,8 +27,9 @@ function Login() {
 
     const handleLogin = async (type = "form", oauth) => {
         if (
-            (auth.user_email.toLowerCase() === email ||
-                auth.user_email.toLowerCase() === oauth?.email) &&
+            auth.email &&
+            (auth.email.toLowerCase() === email ||
+                auth.email.toLowerCase() === oauth?.email) &&
             auth.isLoggedIn
         ) {
             notification["info"]({
@@ -57,12 +59,10 @@ function Login() {
                 // const encryptedToken = encrypt(_user.token);
 
                 if (role === "customer") {
-                    dispatch(
-                        login({
-                            user_id: _user.user_id,
-                            user_email: _user.user_email,
-                        })
+                    const customer = await WPCustomerRepository.getCustomer(
+                        _user.user_id
                     );
+                    dispatch(login(customer));
                     Router.push("/");
                 }
 

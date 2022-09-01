@@ -2,11 +2,16 @@ import { all, put, takeEvery } from "redux-saga/effects";
 import { notification } from "antd";
 import Router from "next/router";
 
-import { actionTypes, loginSuccess, logOutSuccess } from "./action";
+import {
+    actionTypes,
+    loginSuccess,
+    logOutSuccess,
+    updateAuthSuccess,
+} from "./action";
 
 const modalSuccess = (type) => {
     notification[type]({
-        message: "Wellcome back",
+        message: "Welcome back",
         description: "Login Successful!",
     });
 };
@@ -37,7 +42,16 @@ function* logOutSaga() {
     }
 }
 
+function* updateAuthSaga(user) {
+    try {
+        yield put(updateAuthSuccess(user));
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 export default function* rootSaga() {
     yield all([takeEvery(actionTypes.LOGIN_REQUEST, loginSaga)]);
     yield all([takeEvery(actionTypes.LOGOUT, logOutSaga)]);
+    yield all([takeEvery(actionTypes.UPDATE_AUTH, updateAuthSaga)]);
 }

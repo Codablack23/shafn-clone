@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import Router from "next/router";
 import { Form, Input, notification, Spin } from "antd";
-import { logOut } from "../../../store/auth/action";
+import { logOut, updateAuth } from "../../../store/auth/action";
 import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
 import ReactHtmlParser from "react-html-parser";
 
@@ -43,8 +43,6 @@ function UserInformation() {
     };
 
     const update = async () => {
-        setIsUpdating(true);
-
         if (password.trim()) {
             // Update with password if valid
             if (
@@ -52,6 +50,7 @@ function UserInformation() {
                     password
                 )
             ) {
+                setIsUpdating(true);
                 await _update({ ...customer, password });
             } else {
                 notification["error"]({
@@ -62,6 +61,7 @@ function UserInformation() {
                 });
             }
         } else {
+            setIsUpdating(true);
             await _update(customer);
         }
 
@@ -70,7 +70,12 @@ function UserInformation() {
 
     const _update = async (payload) => {
         try {
-            await WPCustomerRepository.updateCustomer(auth.user_id, payload);
+            const _customer = await WPCustomerRepository.updateCustomer(
+                auth.id,
+                payload
+            );
+
+            dispatch(updateAuth(_customer));
 
             notification["success"]({
                 message: "Update successful",
@@ -94,9 +99,7 @@ function UserInformation() {
 
     const getCustomer = async () => {
         try {
-            const _customer = await WPCustomerRepository.getCustomer(
-                auth.user_id
-            );
+            const _customer = await WPCustomerRepository.getCustomer(auth.id);
 
             setCustomer({
                 email: _customer.email,
@@ -105,6 +108,8 @@ function UserInformation() {
                 last_name: _customer.last_name,
             });
         } catch (error) {
+            console.log("Unable to get customer");
+            console.log(error);
             notification["error"]({
                 message: "Unable to get customer",
             });
@@ -129,8 +134,8 @@ function UserInformation() {
                                         <figcaption>
                                             Hello,{" "}
                                             <strong>
-                                                {customer.first_name}{" "}
-                                                {customer.last_name}
+                                                {auth.first_name}{" "}
+                                                {auth.last_name}
                                             </strong>
                                         </figcaption>
                                     </figure>

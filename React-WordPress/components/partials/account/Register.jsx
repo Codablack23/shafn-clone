@@ -167,12 +167,11 @@ function Register() {
                     // const { encrypt } = require("~/utilities/common-helpers");
                     // const encryptedToken = encrypt(loggedUser.token);
 
-                    dispatch(
-                        login({
-                            user_id: loggedUser.user_id,
-                            user_email: loggedUser.user_email,
-                        })
+                    const customer = await WPCustomerRepository.getCustomer(
+                        loggedUser.user_id
                     );
+
+                    dispatch(login(customer));
 
                     Router.push("/"); // Go to homepage
                 }
