@@ -1,0 +1,30 @@
+import React, { useEffect,useState } from 'react';
+import HomepageLayout from '~/components/layouts/HomePageLayout';
+
+
+export default function PrivacyPolicy(){
+    return(
+      <HomepageLayout title={"Privacy Policy"}>
+        <div className="ps__privacy-policy-page container">
+                <br />
+                <h2 className='text-center'>Privacy Policy</h2><br />
+                <div className="ps__policy-section">
+                  <p className='title'>Why do we collect cookies?</p>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti, necessitatibus eligendi officiis dolore numquam doloremque nam earum nostrum vitae assumenda rerum quae, ducimus possimus dolorum corporis unde nemo expedita sequi. Odio pariatur eligendi enim quaerat distinctio accusantium deleniti vero nam eum perspiciatis, dolorum repellat voluptatum reprehenderit quod quas facere eaque aliquid, doloribus veniam quasi ab omnis eveniet. Delectus obcaecati totam facilis accusantium id magni possimus itaque quaerat fugiat quasi. Facilis magni a natus? Inventore sint quos asperiores, ad quibusdam dolorem labore illum iure minima, delectus id aliquid? Dicta, voluptas ullam labore facere quis, iure doloremque quidem beatae animi neque repellendus.</p>
+                </div>
+                <div className="ps__policy-section">
+                  <p className='title'>What we use cookies for</p>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti, necessitatibus eligendi officiis dolore numquam doloremque nam earum nostrum vitae assumenda rerum quae, ducimus possimus dolorum corporis unde nemo expedita sequi. Odio pariatur eligendi enim quaerat distinctio accusantium deleniti vero nam eum perspiciatis, dolorum repellat voluptatum reprehenderit quod quas facere eaque aliquid, doloribus veniam quasi ab omnis eveniet. Delectus obcaecati totam facilis accusantium id magni possimus itaque quaerat fugiat quasi. Facilis magni a natus? Inventore sint quos asperiores, ad quibusdam dolorem labore illum iure minima, delectus id aliquid? Dicta, voluptas ullam labore facere quis, iure doloremque quidem beatae animi neque repellendus.</p>
+                </div>
+                <div className="ps__policy-section">
+                  <p className='title'>What information we collect</p>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti, necessitatibus eligendi officiis dolore numquam doloremque nam earum nostrum vitae assumenda rerum quae, ducimus possimus dolorum corporis unde nemo expedita sequi. Odio pariatur eligendi enim quaerat distinctio accusantium deleniti vero nam eum perspiciatis, dolorum repellat voluptatum reprehenderit quod quas facere eaque aliquid, doloribus veniam quasi ab omnis eveniet. Delectus obcaecati totam facilis accusantium id magni possimus itaque quaerat fugiat quasi. Facilis magni a natus? Inventore sint quos asperiores, ad quibusdam dolorem labore illum iure minima, delectus id aliquid? Dicta, voluptas ullam labore facere quis, iure doloremque quidem beatae animi neque repellendus.</p>
+                </div>
+                  <div className="ps__policy-section">
+                  <p className='title'>Are your Information Safe?</p>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti, necessitatibus eligendi officiis dolore numquam doloremque nam earum nostrum vitae assumenda rerum quae, ducimus possimus dolorum corporis unde nemo expedita sequi. Odio pariatur eligendi enim quaerat distinctio accusantium deleniti vero nam eum perspiciatis, dolorum repellat voluptatum reprehenderit quod quas facere eaque aliquid, doloribus veniam quasi ab omnis eveniet. Delectus obcaecati totam facilis accusantium id magni possimus itaque quaerat fugiat quasi. Facilis magni a natus? Inventore sint quos asperiores, ad quibusdam dolorem labore illum iure minima, delectus id aliquid? Dicta, voluptas ullam labore facere quis, iure doloremque quidem beatae animi neque repellendus.</p>
+                </div>
+            </div>
+      </HomepageLayout>
+    )
+}

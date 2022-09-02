@@ -110,10 +110,10 @@ export default function VendorMilestone(){
     return(
         <div className="ps-vendor--milestones">
             <div className="ps__page-container">
-            <div className="header text-center">
-             <h4 className="title">HOW IT WORKS</h4>
+            <div className="header text-center"><br /><br />
+             <h2 className="title">HOW IT WORKS</h2>
              <p className="subtitle">Easy to start selling online on Martfury just 4 simple steps</p>
-           </div>
+           </div><br /><br />
            <br /><br />
            <div className="ps-milestone">
              <div className="text">
