@@ -33,15 +33,12 @@ function FormEditBillingAddress() {
         const name = e.target.name;
         const value = e.target.value;
 
-        const checkedFormNames = ["country", "postcode", "email"];
+        const checkedFormNames = ["country", "postcode"];
 
         if (name === "country") {
             if (value) {
                 setBilling((current) => ({ ...current, [name]: value }));
-                const country = countries.data.find(
-                    (country) => country.name === value
-                );
-                setStates(country.states);
+                _setStates(value);
             } else {
                 setStates([]);
             }
@@ -56,30 +53,46 @@ function FormEditBillingAddress() {
         }
     };
 
-    const handleSubmit = async () => {
-        setIsSaving(true);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-        try {
-            const _customer = await WPCustomerRepository.updateCustomer(
-                auth.id,
-                { billing }
-            );
+        const emailFormat =
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const phoneFormat = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
 
-            dispatch(updateAuth(_customer));
-
-            notification["success"]({
-                message: "Update successful",
-            });
-        } catch (error) {
+        if (!emailFormat.test(billing.email)) {
             notification["error"]({
-                message: "Update failed",
-                description:
-                    error.response === undefined
-                        ? ReactHtmlParser(String(error))
-                        : ReactHtmlParser(error.response.data.message),
+                message: "Invalid email",
             });
-        } finally {
-            setIsSaving(false);
+        } else if (!phoneFormat.test(billing.phone)) {
+            notification["error"]({
+                message: "Invalid phone number",
+            });
+        } else if (!isSaving) {
+            setIsSaving(true);
+
+            try {
+                const _customer = await WPCustomerRepository.updateCustomer(
+                    auth.id,
+                    { billing }
+                );
+
+                dispatch(updateAuth(_customer));
+
+                notification["success"]({
+                    message: "Update successful",
+                });
+            } catch (error) {
+                notification["error"]({
+                    message: "Update failed",
+                    description:
+                        error.response === undefined
+                            ? ReactHtmlParser(String(error))
+                            : ReactHtmlParser(error.response.data.message),
+                });
+            } finally {
+                setIsSaving(false);
+            }
         }
     };
 
@@ -87,25 +100,35 @@ function FormEditBillingAddress() {
         try {
             const _customer = await WPCustomerRepository.getCustomer(auth.id);
 
+            _setStates(_customer.shipping.country);
+
             setBilling(_customer.billing);
         } catch (error) {
-            notification["error"]({
-                message: "Unable to get billing address",
-            });
+            return;
         } finally {
             setIsLoading(false);
         }
     };
 
+    const _setStates = (_country) => {
+        const country = countries.data.find(
+            (country) => country.iso3 === _country
+        );
+
+        setStates(country.states);
+    };
+
     useEffect(() => {
-        getCustomer();
+        if (auth.id) {
+            getCustomer();
+        }
     }, []);
+
     return (
-        <form
-            className="ps-form--edit-address"
-            onSubmit={!isSaving && handleSubmit}>
+        <form className="ps-form--edit-address" onSubmit={handleSubmit}>
             <div className="ps-form__header">
                 <h3>Billing address</h3>
+                {isLoading && <Spin style={{ marginTop: 10 }} />}
             </div>
             <div className="ps-form__content">
                 <div className="form-group">
@@ -176,7 +199,8 @@ function FormEditBillingAddress() {
                         className="form-control"
                         title="countries"
                         value={billing.country}
-                        onChange={handleInputChange}>
+                        onChange={handleInputChange}
+                        required>
                         <option value="">Select Country</option>
                         {countries.data.map((country) => (
                             <option key={country.iso3} value={country.iso3}>
@@ -194,7 +218,8 @@ function FormEditBillingAddress() {
                         className="form-control"
                         title="states"
                         value={billing.state}
-                        onChange={handleInputChange}>
+                        onChange={handleInputChange}
+                        required>
                         <option value="">Select State</option>
                         {states.map((state) => (
                             <option key={state.state_code} value={state.name}>
@@ -239,7 +264,6 @@ function FormEditBillingAddress() {
                         className="form-control"
                         value={billing.email}
                         onChange={handleInputChange}
-                        required
                     />
                 </div>
                 <div className="form-group">
@@ -250,7 +274,14 @@ function FormEditBillingAddress() {
                         placeholder="+123456..."
                         international
                         value={billing.phone}
-                        onChange={handleInputChange}
+                        onChange={(value) =>
+                            handleInputChange({
+                                target: {
+                                    name: "phone",
+                                    value,
+                                },
+                            })
+                        }
                     />
                 </div>
                 <div className="form-group submit">

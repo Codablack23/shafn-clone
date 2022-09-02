@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { notification, Spin } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, connect } from "react-redux";
 import ReactHtmlParser from "react-html-parser";
 
 import { updateAuth } from "~/store/auth/action";
 import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
 import { countries } from "~/utilities/country-list";
 
-function FormEditShippingAddress() {
+function FormEditShippingAddress(auth) {
     const dispatch = useDispatch();
-    const auth = useSelector((state) => state.auth);
 
     const [shipping, setShipping] = useState({
         first_name: "",
@@ -35,10 +34,8 @@ function FormEditShippingAddress() {
         if (name === "country") {
             if (value) {
                 setShipping((current) => ({ ...current, [name]: value }));
-                const country = countries.data.find(
-                    (country) => country.name === value
-                );
-                setStates(country.states);
+
+                _setStates(value);
             } else {
                 setStates([]);
             }
@@ -53,30 +50,34 @@ function FormEditShippingAddress() {
         }
     };
 
-    const handleSubmit = async () => {
-        setIsSaving(true);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-        try {
-            const _customer = await WPCustomerRepository.updateCustomer(
-                auth.id,
-                { shipping }
-            );
+        if (!isSaving) {
+            setIsSaving(true);
 
-            dispatch(updateAuth(_customer));
+            try {
+                const _customer = await WPCustomerRepository.updateCustomer(
+                    auth.id,
+                    { shipping }
+                );
 
-            notification["success"]({
-                message: "Update successful",
-            });
-        } catch (error) {
-            notification["error"]({
-                message: "Update failed",
-                description:
-                    error.response === undefined
-                        ? ReactHtmlParser(String(error))
-                        : ReactHtmlParser(error.response.data.message),
-            });
-        } finally {
-            setIsSaving(false);
+                dispatch(updateAuth(_customer));
+
+                notification["success"]({
+                    message: "Update successful",
+                });
+            } catch (error) {
+                notification["error"]({
+                    message: "Update failed",
+                    description:
+                        error.response === undefined
+                            ? ReactHtmlParser(String(error))
+                            : ReactHtmlParser(error.response.data.message),
+                });
+            } finally {
+                setIsSaving(false);
+            }
         }
     };
 
@@ -84,25 +85,35 @@ function FormEditShippingAddress() {
         try {
             const _customer = await WPCustomerRepository.getCustomer(auth.id);
 
+            _setStates(_customer.shipping.country);
+
             setShipping(_customer.shipping);
         } catch (error) {
-            notification["error"]({
-                message: "Unable to get shipping address",
-            });
+            return;
         } finally {
             setIsLoading(false);
         }
     };
 
+    const _setStates = (_country) => {
+        const country = countries.data.find(
+            (country) => country.iso3 === _country
+        );
+
+        setStates(country.states);
+    };
+
     useEffect(() => {
-        getCustomer();
+        if (auth.id) {
+            getCustomer();
+        }
     }, []);
+
     return (
-        <form
-            className="ps-form--edit-address"
-            onSubmit={!isSaving && handleSubmit}>
+        <form className="ps-form--edit-address" onSubmit={handleSubmit}>
             <div className="ps-form__header">
                 <h3>Shipping address</h3>
+                {isLoading && <Spin style={{ marginTop: 10 }} />}
             </div>
             <div className="ps-form__content">
                 <div className="form-group">
@@ -173,7 +184,8 @@ function FormEditShippingAddress() {
                         className="form-control"
                         title="countries"
                         value={shipping.country}
-                        onChange={handleInputChange}>
+                        onChange={handleInputChange}
+                        required>
                         <option value="">Select Country</option>
                         {countries.data.map((country) => (
                             <option key={country.iso3} value={country.iso3}>
@@ -191,7 +203,8 @@ function FormEditShippingAddress() {
                         className="form-control"
                         title="states"
                         value={shipping.state}
-                        onChange={handleInputChange}>
+                        onChange={handleInputChange}
+                        required>
                         <option value="">Select State</option>
                         {states.map((state) => (
                             <option key={state.state_code} value={state.name}>
@@ -239,4 +252,4 @@ function FormEditShippingAddress() {
     );
 }
 
-export default FormEditShippingAddress;
+export default connect((state) => state.auth)(FormEditShippingAddress);

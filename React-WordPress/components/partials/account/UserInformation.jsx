@@ -55,7 +55,6 @@ function UserInformation() {
                     password
                 )
             ) {
-                setIsUpdating(true);
                 await _update({ ...customer, password });
             } else {
                 notification["error"]({
@@ -66,33 +65,35 @@ function UserInformation() {
                 });
             }
         } else {
-            setIsUpdating(true);
             await _update(customer);
         }
-
-        setIsUpdating(false);
     };
 
     const _update = async (payload) => {
-        try {
-            const _customer = await WPCustomerRepository.updateCustomer(
-                auth.id,
-                payload
-            );
+        if (!isUpdating) {
+            try {
+                setIsUpdating(true);
+                const _customer = await WPCustomerRepository.updateCustomer(
+                    auth.id,
+                    payload
+                );
 
-            dispatch(updateAuth(_customer));
+                dispatch(updateAuth(_customer));
 
-            notification["success"]({
-                message: "Update successful",
-            });
-        } catch (error) {
-            notification["error"]({
-                message: "Update failed",
-                description:
-                    error.response === undefined
-                        ? ReactHtmlParser(String(error))
-                        : ReactHtmlParser(error.response.data.message),
-            });
+                notification["success"]({
+                    message: "Update successful",
+                });
+            } catch (error) {
+                notification["error"]({
+                    message: "Update failed",
+                    description:
+                        error.response === undefined
+                            ? ReactHtmlParser(String(error))
+                            : ReactHtmlParser(error.response.data.message),
+                });
+            } finally {
+                setIsUpdating(false);
+            }
         }
     };
 
@@ -113,8 +114,6 @@ function UserInformation() {
                 last_name: _customer.last_name,
             });
         } catch (error) {
-            console.log("Unable to get customer");
-            console.log(error);
             notification["error"]({
                 message: "Unable to get customer",
             });
@@ -124,7 +123,9 @@ function UserInformation() {
     };
 
     useEffect(() => {
-        getCustomer();
+        if (auth.id) {
+            getCustomer();
+        }
     }, []);
 
     return (
@@ -182,6 +183,9 @@ function UserInformation() {
                                 onFinish={!isUpdating && update}>
                                 <div className="ps-form__header">
                                     <h3>Account Information</h3>
+                                    {isLoading && (
+                                        <Spin style={{ marginTop: 10 }} />
+                                    )}
                                 </div>
                                 <div className="ps-form__content">
                                     <div className="row">
