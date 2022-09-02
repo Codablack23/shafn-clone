@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import Link from "next/link";
+import Router from "next/router";
 import { formatCurrency } from "~/utilities/product-helper";
 import { addItem } from "~/store/cart/action";
 import { addCheckoutItem } from "~/store/checkout-items/action";
@@ -19,32 +20,66 @@ import SocialShareButtons from "~/components/elements/media/SocialShareButtons";
 
 const WPModuleProductInformation = ({
     product,
-    children,
     variant,
+    children,
     isWidget,
 }) => {
     const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(1);
 
     const handleAddToCheckoutItems = () => {
-        const item = {
-            amount: product.price,
-            cartItems: [product],
-            cartTotal: 1,
-        };
+        let item;
+        if (product.type === "variable") {
+            if (variant) {
+                const options = variant.attributes
+                    .map((attribute) => attribute.option)
+                    .join(", ");
+
+                const _product = {
+                    ...product,
+                    name: `${product.name}[${options}]`,
+                    price: variant.price,
+                };
+
+                item = {
+                    amount: variant.price,
+                    cartItems: [{ ..._product, quantity }],
+                    cartTotal: 1,
+                };
+            }
+        } else {
+            item = {
+                amount: product.price,
+                cartItems: [{ ...product, quantity }],
+                cartTotal: 1,
+            };
+        }
 
         dispatch(addCheckoutItem(item));
+
+        Router.push("/account/checkout");
     };
 
     const handleAddItemToCart = (e) => {
         e.preventDefault();
-        let tempProduct = product;
-        tempProduct.quantity = quantity;
-        dispatch(addItem(product));
-    };
-    const handleAddItemToWishlist = (e) => {
-        e.preventDefault();
-        dispatch(addItemToWishlist(product));
+
+        let _product = product;
+
+        if (product.type === "variable") {
+            if (variant) {
+                const options = variant.attributes
+                    .map((attribute) => attribute.option)
+                    .join(", ");
+
+                _product = {
+                    ...product,
+                    name: `${product.name}[${options}]`,
+                    price: variant.price,
+                };
+            }
+        }
+
+        dispatch(addItem({ ..._product, quantity }));
     };
 
     const handleIncreaseItemQty = (e) => {
@@ -167,17 +202,19 @@ const WPModuleProductInformation = ({
                     hoverColor="white"
                     eventHandler={handleAddItemToCart}
                     text="Add to cart"
+                    disabled={product.type === "simple" ? false : !variant}
                 />
                 <br />
-                <Link href="/account/checkout">
-                    <a onClick={handleAddToCheckoutItems}>
-                        <Button
-                            width={"300px"}
-                            classes={`w3-orange btn-hover`}
-                            text="Buy Now"
-                        />
-                    </a>
-                </Link>
+                {/* <Link href="/account/checkout"> */}
+                <a onClick={handleAddToCheckoutItems}>
+                    <Button
+                        width={"300px"}
+                        classes={`w3-orange btn-hover`}
+                        text="Buy Now"
+                        disabled={product.type === "simple" ? false : !variant}
+                    />
+                </a>
+                {/* </Link> */}
             </div>
 
             <div className="share m-3">

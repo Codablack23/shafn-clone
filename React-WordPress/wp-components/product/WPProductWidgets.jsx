@@ -1,16 +1,16 @@
 import React from "react";
-import Link from "next/link";
+// import Link from "next/link";
 import WPModuleProductInformation from "../../wp-components/elements/products/modules/WPModuleProductInformation";
-import { connect } from "react-redux";
-import {
-    WPProductDetailBrandView,
-    WPProductDetailCategoriesView,
-    WPProductDetailRatingView,
-    WPProductDetailShortDescView,
-    WPProductDetailTagsView,
-} from "~/utilities/WPHelpers";
+// import { connect } from "react-redux";
+// import {
+//     WPProductDetailBrandView,
+//     WPProductDetailCategoriesView,
+//     WPProductDetailRatingView,
+//     WPProductDetailShortDescView,
+//     WPProductDetailTagsView,
+// } from "~/utilities/WPHelpers";
 
-const WPProductWidgets = ({ product, children }) => {
+const WPProductWidgets = ({ product, variant, children }) => {
     return (
         <section>
             {/* <aside className="widget widget_product widget_features">
@@ -32,7 +32,11 @@ const WPProductWidgets = ({ product, children }) => {
             </aside>
             <aside className="widget widget_sell-on-site">
             </aside> */}
-            <WPModuleProductInformation product={product} isWidget />
+            <WPModuleProductInformation
+                product={product}
+                variant={variant}
+                isWidget
+            />
 
             {/* <aside className="widget widget_ads">
                 <Link href="/shop">

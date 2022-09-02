@@ -29,6 +29,33 @@ const StyleSheets = () => (
         {/*/>*/}
         {/*<link rel="apple-touch-icon" href="/apple-icon-60x60-dunplab-manifest-15113.png"></link>*/}
         {/*<meta name="theme-color" content="#fcb800" />*/}
+{/* 
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://www.w3schools.com/w3css/4/w3.css"
+        /> */}
+
+        {/* <link
+            href=""
+            rel="stylesheet"
+        /> */}
+        {/* <link
+            rel="stylesheet"
+            href="/static/fonts/Linearicons/Font/demo-files/demo.css"
+        /> */}
+
+        {/* <link
+            rel="stylesheet"
+            href="/static/fonts/font-awesome/css/font-awesome.min.css"
+        /> */}
+
+        {/* <link
+            rel="stylesheet"
+            type="text/css"
+            href="/static/css/bootstrap.min.css"
+        /> */}
+        {/* <link rel="stylesheet" type="text/css" href="/static/css/custom.css" /> */}
     </Head>
 );
 

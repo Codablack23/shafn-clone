@@ -6,8 +6,13 @@
 * Updated at: 2020-11-06T15:29:20+07:00
 
 * */
+@import url("https://www.w3schools.com/w3css/4/w3.css");
+@import url("https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&amp;amp;subset=latin-ext");
+@import url("/static/fonts/Linearicons/Font/demo-files/demo.css");
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
-
+@import url("/static/fonts/font-awesome/css/font-awesome.min.css");
+@import url("/static/css/bootstrap.min.css");
+@import url("/static/css/custom.css");
 @import '~antd/dist/antd.css';
 @import 'vendor/bourbon/bourbon';
 @import 'utils/mixin';
@@ -102,8 +107,8 @@
 /*5. HELPERS */
 @import 'elements/helpers';
 
-*:focus{
-    border: 1px solid black;
-    border-radius: 3px;
-    padding: 1.5px;
-}
+// *:focus{
+//     border: 1px solid black;
+//     border-radius: 3px;
+//     padding: 1.5px;
+// }

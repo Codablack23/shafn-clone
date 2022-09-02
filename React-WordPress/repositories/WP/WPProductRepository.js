@@ -173,7 +173,6 @@ class WPProductRepository {
                 return null;
             });
 
-        console.log(reponse);
         return reponse;
     }
 
