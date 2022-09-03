@@ -413,7 +413,21 @@ function Register() {
                                         {isLoading ? <Spin /> : "Register"}
                                     </button>
                                 </div>
+
+                                <p>
+                                    Already have an account?
+                                    <a
+                                        href="/account/login"
+                                        style={{
+                                            fontStyle: "italic",
+                                            color: "#29AAE1",
+                                            marginLeft: 2,
+                                        }}>
+                                        Login
+                                    </a>
+                                </p>
                             </div>
+
                             <div className="ps-form__footer">
                                 <div className="or">
                                     <hr />

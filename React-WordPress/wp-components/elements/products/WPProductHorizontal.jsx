@@ -99,7 +99,7 @@ const WPProductHorizontal = ({ product }) => {
                     <a className="ps-product__title">{product.name}</a>
                 </Link>
                 <div className="ps-product__rating">
-                    <Rating rating={rating} />
+                    {rating >= 3 && <Rating rating={rating} />}
                 </div>
                 {priceView}
             </div>

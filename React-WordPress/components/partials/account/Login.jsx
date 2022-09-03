@@ -196,7 +196,7 @@ function Login() {
                                         Remember me
                                     </label>
                                 </div>
-                                <Link href={"/"}>
+                                {/* <Link href={"/"}>
                                     <a
                                         style={{
                                             color: "#378fd3",
@@ -204,7 +204,7 @@ function Login() {
                                         }}>
                                         Forgot Password
                                     </a>
-                                </Link>
+                                </Link> */}
                             </div>
                             <div className="form-group submit">
                                 <button
@@ -217,6 +217,19 @@ function Login() {
                                     {isLoading ? <Spin /> : "Continue"}
                                 </button>
                             </div>
+
+                            <p>
+                                Don't have an account?
+                                <a
+                                    href="/account/register"
+                                    style={{
+                                        fontStyle: "italic",
+                                        color: "#29AAE1",
+                                        marginLeft: 2,
+                                    }}>
+                                    Register
+                                </a>
+                            </p>
                         </div>
                         <div className="ps-form__footer">
                             <div className="or">
