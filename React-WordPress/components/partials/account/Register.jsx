@@ -44,9 +44,6 @@ function Register() {
                 email,
             });
 
-            console.log("Code Verified");
-            console.log(response);
-
             setOtp({
                 code: response.data.code,
                 createdAt: Date.now(),
@@ -59,8 +56,9 @@ function Register() {
             });
         } catch (error) {
             notification["error"]({
-                message:
-                    "Failed to send verification code. Please check your network connection and try again",
+                message: "Unable to send verification code",
+                description:
+                    "Please check your network connection and try again",
             });
         } finally {
             setIsLoading(false);
@@ -149,8 +147,9 @@ function Register() {
                         });
                     } catch (error) {
                         notification["error"]({
-                            message:
-                                "Could not update store name. Please check your data connection and update it from your dashboard settings.",
+                            message: "Unable to register store name",
+                            description:
+                                "This can be registered in your profile settings",
                         });
                     } finally {
                         const domain =
@@ -167,21 +166,20 @@ function Register() {
                         message: "Registration Successful!",
                     });
 
-                    const { encrypt } = require("~/utilities/common-helpers");
-                    const encryptedToken = encrypt(loggedUser.token);
+                    // const { encrypt } = require("~/utilities/common-helpers");
+                    // const encryptedToken = encrypt(loggedUser.token);
 
-                    dispatch(
-                        login({
-                            email: loggedUser.user_email,
-                            token: encryptedToken,
-                        })
+                    const customer = await WPCustomerRepository.getCustomer(
+                        loggedUser.user_id
                     );
+
+                    dispatch(login(customer));
 
                     Router.push("/"); // Go to homepage
                 }
             } catch (error) {
                 notification["error"]({
-                    message: "Registration failed",
+                    message: "Unable to register user",
                     description:
                         error.response === undefined
                             ? ReactHtmlParser(String(error))
@@ -283,7 +281,7 @@ function Register() {
                                                 name="password"
                                                 type={`${
                                                     passVisibility
-                                                        ? "test"
+                                                        ? "text"
                                                         : "password"
                                                 }`}
                                                 placeholder="Password..."

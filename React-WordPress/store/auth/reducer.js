@@ -1,23 +1,18 @@
-import { actionTypes } from './action';
+import { actionTypes } from "./action";
 
-export const initState = {
-    email: '',
-    token: '',
+const initState = {
     isLoggedIn: false,
 };
+
 function reducer(state = initState, action) {
     switch (action.type) {
         case actionTypes.LOGIN_SUCCESS:
-            return {
-                ...state,
-                ...action.payload,
-                ...{ isLoggedIn: true },
-            };
+            return { ...action.payload.user, isLoggedIn: true };
+        case actionTypes.UPDATE_AUTH_SUCCESS:
+            return { ...state, ...action.payload.user };
         case actionTypes.LOGOUT_SUCCESS:
-            return {
-                ...state,
-                ...{ isLoggedIn: false },
-            };
+            return initState;
+
         default:
             return state;
     }

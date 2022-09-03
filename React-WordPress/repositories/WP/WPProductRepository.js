@@ -1,7 +1,3 @@
-/*
- * WPReact
- * Developed by: diaryforlife
- * */
 import {
     oathInfo,
     WPDomain,
@@ -148,7 +144,6 @@ class WPProductRepository {
                 }
             })
             .catch((error) => {
-                console.log(JSON.stringify(error.message));
                 return null;
             });
         return reponse;
@@ -169,7 +164,6 @@ class WPProductRepository {
                 }
             })
             .catch((error) => {
-                console.log(JSON.stringify(error.message));
                 return null;
             });
 
@@ -204,7 +198,6 @@ class WPProductRepository {
                 }
             })
             .catch((error) => {
-                console.log(JSON.stringify(error.message));
                 return null;
             });
         return reponse;
@@ -225,7 +218,6 @@ class WPProductRepository {
                 }
             })
             .catch((error) => {
-                console.log(JSON.stringify(error.message));
                 return null;
             });
         return reponse;
@@ -245,7 +237,6 @@ class WPProductRepository {
                 }
             })
             .catch((error) => {
-                console.log(JSON.stringify(error.message));
                 return null;
             });
         return reponse;

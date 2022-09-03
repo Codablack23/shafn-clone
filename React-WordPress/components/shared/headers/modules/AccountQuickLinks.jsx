@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Link from 'next/link';
-import { logOut } from '../../../../store/auth/action';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import Link from "next/link";
+import Router from "next/router";
+import { logOut } from "../../../../store/auth/action";
 class AccountQuickLinks extends Component {
     constructor(props) {
         super(props);
@@ -10,33 +11,22 @@ class AccountQuickLinks extends Component {
     handleLogout = (e) => {
         e.preventDefault();
         this.props.dispatch(logOut());
+        Router.push("/");
     };
 
     render() {
         const accountLinks = [
             {
-                text: 'Account Information',
-                url: '/account/user-information',
-            },
-            // {
-            //     text: 'Notifications',
-            //     url: '/account/notifications',
-            // },
-            {
-                text: 'Invoices',
-                url: '/account/invoices',
+                text: "Account Information",
+                url: "/account/user-information",
             },
             {
-                text: 'Address',
-                url: '/account/addresses',
+                text: "Address",
+                url: "/account/addresses",
             },
-            // {
-            //     text: 'Recent Viewed Product',
-            //     url: '/account/recent-viewed-product',
-            // },
             {
-                text: 'Wishlist',
-                url: '/account/wishlist',
+                text: "Orders",
+                url: "/account/orders",
             },
         ];
         const { isLoggedIn } = this.props;
@@ -47,14 +37,14 @@ class AccountQuickLinks extends Component {
                         <span
                             className="w3-hover-lightgrey"
                             style={{
-                                cursor: 'pointer',
+                                cursor: "pointer",
                             }}>
                             <i
                                 className="icon-user"
                                 style={{
-                                    fontSize: '22px',
-                                    cursor: 'pointer',
-                                    color: '#2A3147',
+                                    fontSize: "22px",
+                                    cursor: "pointer",
+                                    color: "#2A3147",
                                 }}></i>
                         </span>
                     </Link>
@@ -86,14 +76,14 @@ class AccountQuickLinks extends Component {
                             <span
                                 className="w3-hover-lightgrey"
                                 style={{
-                                    cursor: 'pointer',
+                                    cursor: "pointer",
                                 }}>
                                 <i
                                     className="icon-user"
                                     style={{
-                                        fontSize: '22px',
-                                        cursor: 'pointer',
-                                        color: '#2A3147',
+                                        fontSize: "22px",
+                                        cursor: "pointer",
+                                        color: "#2A3147",
                                     }}></i>
                             </span>
                         </Link>

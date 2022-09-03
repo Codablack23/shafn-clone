@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { login } from "../../../store/auth/action";
 import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
+import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
 import OAuth from "./modules/OAuth";
 import ReactHtmlParser from "react-html-parser";
 
@@ -26,6 +27,7 @@ function Login() {
 
     const handleLogin = async (type = "form", oauth) => {
         if (
+            auth.email &&
             (auth.email.toLowerCase() === email ||
                 auth.email.toLowerCase() === oauth?.email) &&
             auth.isLoggedIn
@@ -53,16 +55,14 @@ function Login() {
 
                 const role = _user.user_role[0].toLowerCase();
 
-                const { encrypt } = require("~/utilities/common-helpers");
-                const encryptedToken = encrypt(_user.token);
+                // const { encrypt } = require("~/utilities/common-helpers");
+                // const encryptedToken = encrypt(_user.token);
 
                 if (role === "customer") {
-                    dispatch(
-                        login({
-                            email: _user.user_email,
-                            token: encryptedToken,
-                        })
+                    const customer = await WPCustomerRepository.getCustomer(
+                        _user.user_id
                     );
+                    dispatch(login(customer));
                     Router.push("/");
                 }
 
@@ -78,7 +78,7 @@ function Login() {
                 }
             } catch (error) {
                 notification["error"]({
-                    message: "Login failed!",
+                    message: "Unable to login user",
                     description:
                         error.response === undefined
                             ? ReactHtmlParser(String(error))
@@ -151,7 +151,7 @@ function Login() {
                                             name="password"
                                             type={`${
                                                 passVisibility
-                                                    ? "test"
+                                                    ? "text"
                                                     : "password"
                                             }`}
                                             aria-label="Password"

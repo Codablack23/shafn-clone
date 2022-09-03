@@ -52,7 +52,7 @@ const ProductPage = () => {
       }
     } catch (error) {
       notification["error"]({
-        message,
+        message: "Unable to filter",
         description:
           error.response === undefined
             ? ReactHtmlParser(String(error))
@@ -89,7 +89,7 @@ const ProductPage = () => {
         }
       } catch (error) {
         notification["error"]({
-          message,
+          message: "Unable to search product",
           description:
             error.response === undefined
               ? ReactHtmlParser(String(error))
@@ -114,7 +114,7 @@ const ProductPage = () => {
     } catch (error) {
       notification["error"]({
         message: "Unable to get products",
-        description: "Check your data connection and try again.",
+        description: "Please check your data connection and try again.",
       })
     }
   }
@@ -134,7 +134,7 @@ const ProductPage = () => {
     } catch (error) {
       notification["error"]({
         message: "Unable to get products",
-        description: "Check your data connection and try again.",
+        description: "Please check your data connection and try again.",
       })
     } finally {
       setLoading(false)
@@ -255,23 +255,24 @@ const ProductPage = () => {
           </div>
         </div>
         <div className="ps-section__content">
-          {loading ? (
-            <Spin />
-          ) : products && Number(products.totalItems) > 0 ? (
-            <>
-              <TableProjectItems products={products} />
-              <div className="ps-section__footer">
-                <Pagination
-                  total={products && products.totalItems}
-                  pageSize={10}
-                  responsive={true}
-                  current={currentPage}
-                  onChange={handlePagination}
-                />
-              </div>
-            </>
-          ) : (
+          <TableProjectItems products={products} />
+
+          {loading && <Spin />}
+
+          {products && Number(products.totalItems) === 0 && (
             <p>No products yet</p>
+          )}
+
+          {products && Number(products.totalItems) > 0 && (
+            <div className="ps-section__footer">
+              <Pagination
+                total={products && products.totalItems}
+                pageSize={10}
+                responsive={true}
+                current={currentPage}
+                onChange={handlePagination}
+              />
+            </div>
           )}
         </div>
       </section>

@@ -9,7 +9,7 @@ import {
     convertToURLEncoded,
 } from "~/utilities/WPHelpers";
 
-const WPFormCheckout = ({ amount, checkoutItems }) => {
+const WPFormCheckout = ({ customerInfo, amount, checkoutItems }) => {
     const dispatch = useDispatch();
     const [form] = Form.useForm();
     const [paymentGateways, setPaymentGateways] = useState(null);
@@ -202,11 +202,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                                         message: "This field is required.",
                                     },
                                 ]}>
-                                <Input
-                                    className="form-control"
-                                    type="text"
-                                    placeholder="Email or phone number"
-                                />
+                                <Input className="form-control" type="text" />
                             </Form.Item>
                         </div>
                     </div>
@@ -251,7 +247,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                                 name="shipping_address_2"
                                 rules={[
                                     {
-                                        required: true,
+                                        required: false,
                                     },
                                 ]}>
                                 <Input className="form-control" type="text" />
@@ -336,6 +332,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
             form={form}
             name="control-hooks"
             className="ps-form--checkout"
+            initialValues={customerInfo}
             onFinish={handleSubmit}>
             <div className="row">
                 <div className="col-lg-8">
@@ -412,10 +409,7 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
                             </div>
                             <div className="col-sm-6 col-12">
                                 <div className="form-group">
-                                    <label>
-                                        Address 2 (optional){" "}
-                                        <span className="required">*</span>
-                                    </label>
+                                    <label>Address 2 (optional)</label>
                                     <Form.Item
                                         name="address_2"
                                         rules={[
@@ -621,6 +615,31 @@ const WPFormCheckout = ({ amount, checkoutItems }) => {
     );
 };
 
-export default connect((state) => {
-    return state.checkoutItems;
-})(WPFormCheckout);
+const mapStateToProps = (state) => {
+    const { billing, shipping } = state.auth;
+    const customerInfo = {
+        first_name: billing?.first_name,
+        last_name: billing?.last_name,
+        address_1: billing?.address_1,
+        address_2: billing?.address_2,
+        city: billing?.city,
+        state: billing?.state,
+        postcode: billing?.postcode,
+        country: billing?.country,
+        email: billing?.email,
+        phone: billing?.phone,
+
+        shipping_first_name: shipping?.first_name,
+        shipping_last_name: shipping?.last_name,
+        shipping_address_1: shipping?.address_1,
+        shipping_address_2: shipping?.address_2,
+        shipping_city: shipping?.city,
+        shipping_state: shipping?.state,
+        shipping_postcode: shipping?.postcode,
+        shipping_country: shipping?.country,
+    };
+
+    return { customerInfo, ...state.checkoutItems };
+};
+
+export default connect(mapStateToProps)(WPFormCheckout);
