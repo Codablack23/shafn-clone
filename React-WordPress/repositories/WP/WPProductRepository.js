@@ -144,7 +144,6 @@ class WPProductRepository {
                 }
             })
             .catch((error) => {
-                console.log(JSON.stringify(error.message));
                 return null;
             });
         return reponse;
@@ -165,7 +164,6 @@ class WPProductRepository {
                 }
             })
             .catch((error) => {
-                console.log(JSON.stringify(error.message));
                 return null;
             });
 
@@ -200,7 +198,6 @@ class WPProductRepository {
                 }
             })
             .catch((error) => {
-                console.log(JSON.stringify(error.message));
                 return null;
             });
         return reponse;
@@ -221,7 +218,6 @@ class WPProductRepository {
                 }
             })
             .catch((error) => {
-                console.log(JSON.stringify(error.message));
                 return null;
             });
         return reponse;
@@ -241,7 +237,6 @@ class WPProductRepository {
                 }
             })
             .catch((error) => {
-                console.log(JSON.stringify(error.message));
                 return null;
             });
         return reponse;
