@@ -1,20 +1,11 @@
 import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import Link from "next/link";
 import Router from "next/router";
 import { formatCurrency } from "~/utilities/product-helper";
 import { addItem } from "~/store/cart/action";
 import { addCheckoutItem } from "~/store/checkout-items/action";
-import { addItemToWishlist } from "~/store/wishlist/action";
 
-import {
-    WPProductDetailBrandView,
-    WPProductDetailCategoriesView,
-    WPProductDetailRatingView,
-    WPProductDetailShortDescView,
-    WPProductDetailTagsView,
-    Button,
-} from "~/utilities/WPHelpers";
+import { WPProductDetailShortDescView, Button } from "~/utilities/WPHelpers";
 
 import SocialShareButtons from "~/components/elements/media/SocialShareButtons";
 
@@ -169,7 +160,7 @@ const WPModuleProductInformation = ({
             </div>
             {children}
             <div className="d-none d-lg-block">
-                <div className="w-100 w3-center m-auto">
+                <div className="w-100 m-auto">
                     <figure>
                         <figcaption>Quantity</figcaption>
                         <div
@@ -195,7 +186,7 @@ const WPModuleProductInformation = ({
                     </figure>
                 </div>
             </div>
-            <div className="w3-center mt-2 d-none d-lg-block">
+            <div className="mt-2 d-none d-lg-block">
                 <Button
                     width={"300px"}
                     classes={`w3-0309A5 btn-hover`}
