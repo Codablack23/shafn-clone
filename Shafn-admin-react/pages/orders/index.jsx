@@ -68,7 +68,7 @@ const OrdersPage = () => {
     } catch (error) {
       notification["error"]({
         message: "Unable to get orders",
-        description: "Check your data connection and try again.",
+        description: "Please check your data connection and try again.",
       })
     }
   }
@@ -85,7 +85,7 @@ const OrdersPage = () => {
     } catch (error) {
       notification["error"]({
         message: "Unable to get orders",
-        description: "Check your data connection and try again.",
+        description: "Please check your data connection and try again.",
       })
     } finally {
       setLoading(false)
@@ -160,23 +160,22 @@ const OrdersPage = () => {
           </div>
         </div>
         <div className="ps-section__content">
-          {loading ? (
-            <Spin />
-          ) : orders && Number(orders.totalItems) > 0 ? (
-            <>
-              <TableOrdersItems orders={orders} />
-              <div className="ps-section__footer">
-                <Pagination
-                  total={orders && orders.totalItems}
-                  pageSize={10}
-                  responsive={true}
-                  current={currentPage}
-                  onChange={handlePagination}
-                />
-              </div>
-            </>
-          ) : (
-            <p>No orders yet</p>
+          <TableOrdersItems orders={orders} />
+
+          {loading && <Spin />}
+
+          {orders && Number(orders.totalItems) === 0 && <p>No orders yet</p>}
+
+          {orders && Number(orders.totalItems) > 0 && (
+            <div className="ps-section__footer">
+              <Pagination
+                total={orders && orders.totalItems}
+                pageSize={10}
+                responsive={true}
+                current={currentPage}
+                onChange={handlePagination}
+              />
+            </div>
           )}
         </div>
       </section>
