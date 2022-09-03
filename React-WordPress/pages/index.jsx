@@ -61,7 +61,7 @@ const Index = (auth) => {
             {/* <SiteFeatures /> */}
             <WPDealOfDay />
             <HomeAdsColumns />
-            <HomeDefaultTopCategories />
+            {/* <HomeDefaultTopCategories /> */}
             {/* <HomeAds /> */}
             <WPProductList categoryID={21} title="Art" />
             <WPProductList categoryID={24} title="Clothing" />

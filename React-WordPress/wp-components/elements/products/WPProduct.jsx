@@ -5,8 +5,6 @@ import Link from "next/link";
 import { Modal } from "antd";
 import Rating from "../../../components/elements/Rating";
 import { addItem } from "~/store/cart/action";
-import { addItemToCompare } from "~/store/compare/action";
-import { addItemToWishlist } from "~/store/wishlist/action";
 import WPModuleProductQuickview from "~/wp-components/elements/products/modules/WPModuleProductQuickview";
 import {
     WPProductBadgeView,
@@ -24,22 +22,40 @@ const WPProduct = ({ product }) => {
     const handleAddItemToCart = (e) => {
         e.preventDefault();
         dispatch(addItem(product));
+
+        // let _product = product;
+
+        // if (product.type === "variable") {
+        //     if (variant) {
+        //         const options = variant.attributes
+        //             .map((attribute) => attribute.option)
+        //             .join(", ");
+
+        //         _product = {
+        //             ...product,
+        //             name: `${product.name}[${options}]`,
+        //             price: variant.price,
+        //         };
+        //     }
+        // }
+
+        // dispatch(addItem({ ..._product, quantity }));
     };
 
-    const handleAddItemToCompare = (e) => {
-        e.preventDefault();
-        dispatch(addItemToCompare(product));
-    };
+    // const handleAddItemToCompare = (e) => {
+    //     e.preventDefault();
+    //     dispatch(addItemToCompare(product));
+    // };
 
-    const handleAddItemToWishlist = (e) => {
-        e.preventDefault();
-        dispatch(addItemToWishlist(product));
-    };
+    // const handleAddItemToWishlist = (e) => {
+    //     e.preventDefault();
+    //     dispatch(addItemToWishlist(product));
+    // };
 
-    const handleShowQuickView = (e) => {
-        e.preventDefault();
-        setIsQuickView(true);
-    };
+    // const handleShowQuickView = (e) => {
+    //     e.preventDefault();
+    //     setIsQuickView(true);
+    // };
 
     const handleHideQuickView = (e) => {
         e.preventDefault();
@@ -195,9 +211,20 @@ const WPProduct = ({ product }) => {
                     </Link>
                     {priceView}
                 </div>
-                <button className="hover-show" onClick={handleAddItemToCart}>
-                    Add To Cart
-                </button>
+
+                {product.type === "simple" ? (
+                    <>
+                        <button
+                            className="hover-show"
+                            onClick={handleAddItemToCart}>
+                            Add To Cart
+                        </button>
+                    </>
+                ) : (
+                    <p className="hover-show">
+                        View product to select variation to add to cart
+                    </p>
+                )}
             </div>
             <Modal
                 centered
