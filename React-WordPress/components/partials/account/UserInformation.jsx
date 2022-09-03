@@ -85,7 +85,7 @@ function UserInformation() {
                 });
             } catch (error) {
                 notification["error"]({
-                    message: "Update failed",
+                    message: "Unable to update account info",
                     description:
                         error.response === undefined
                             ? ReactHtmlParser(String(error))

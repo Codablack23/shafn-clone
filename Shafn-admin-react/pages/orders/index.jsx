@@ -44,7 +44,7 @@ const OrdersPage = () => {
       }
     } catch (error) {
       notification["error"]({
-        message,
+        message: "Unable to filter",
         description:
           error.response === undefined
             ? ReactHtmlParser(String(error))

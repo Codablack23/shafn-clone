@@ -15,8 +15,8 @@ const DropdownAction = ({ productID }) => {
       Router.reload(window.location.pathname)
     } catch (error) {
       notification["error"]({
-        description:
-          "Unable to delete product. Check your data connection and try again.",
+        message: "Unable to delete product",
+        description: "Please check your data connection and try again.",
       })
     }
   }

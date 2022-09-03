@@ -220,7 +220,7 @@ const CreateProductPage = () => {
           }, 1500)
         } catch (error) {
           notification["error"]({
-            message: "Product failed to upload",
+            message: "Unable to upload product",
             description: "Please check your network connection and try again",
           })
         }

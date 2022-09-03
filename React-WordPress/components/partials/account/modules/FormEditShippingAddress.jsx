@@ -69,7 +69,7 @@ function FormEditShippingAddress(auth) {
                 });
             } catch (error) {
                 notification["error"]({
-                    message: "Update failed",
+                    message: "Unable to update shipping info",
                     description:
                         error.response === undefined
                             ? ReactHtmlParser(String(error))

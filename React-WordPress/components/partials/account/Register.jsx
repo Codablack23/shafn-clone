@@ -56,8 +56,9 @@ function Register() {
             });
         } catch (error) {
             notification["error"]({
-                message:
-                    "Failed to send verification code. Please check your network connection and try again",
+                message: "Unable to send verification code",
+                description:
+                    "Please check your network connection and try again",
             });
         } finally {
             setIsLoading(false);
@@ -146,8 +147,9 @@ function Register() {
                         });
                     } catch (error) {
                         notification["error"]({
-                            message:
-                                "Could not update store name. Please check your data connection and update it from your dashboard settings.",
+                            message: "Unable to register store name",
+                            description:
+                                "This can be registered in your profile settings",
                         });
                     } finally {
                         const domain =
@@ -177,7 +179,7 @@ function Register() {
                 }
             } catch (error) {
                 notification["error"]({
-                    message: "Registration failed",
+                    message: "Unable to register user",
                     description:
                         error.response === undefined
                             ? ReactHtmlParser(String(error))

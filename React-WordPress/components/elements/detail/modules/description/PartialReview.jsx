@@ -62,7 +62,7 @@ const PartialReview = () => {
                 });
             } catch (error) {
                 notification["error"]({
-                    message: "Failed to submit review",
+                    message: "Unable to submit review",
                     description:
                         error.response === undefined
                             ? ReactHtmlParser(String(error))

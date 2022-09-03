@@ -78,7 +78,7 @@ function Login() {
                 }
             } catch (error) {
                 notification["error"]({
-                    message: "Login failed!",
+                    message: "Unable to login user",
                     description:
                         error.response === undefined
                             ? ReactHtmlParser(String(error))

@@ -52,7 +52,7 @@ const ProductPage = () => {
       }
     } catch (error) {
       notification["error"]({
-        message,
+        message: "Unable to filter",
         description:
           error.response === undefined
             ? ReactHtmlParser(String(error))
@@ -89,7 +89,7 @@ const ProductPage = () => {
         }
       } catch (error) {
         notification["error"]({
-          message,
+          message: "Unable to search product",
           description:
             error.response === undefined
               ? ReactHtmlParser(String(error))

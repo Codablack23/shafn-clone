@@ -84,7 +84,7 @@ function FormEditBillingAddress() {
                 });
             } catch (error) {
                 notification["error"]({
-                    message: "Update failed",
+                    message: "Unable to update billing info",
                     description:
                         error.response === undefined
                             ? ReactHtmlParser(String(error))
