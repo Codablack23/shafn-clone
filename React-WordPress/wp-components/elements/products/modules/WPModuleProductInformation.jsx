@@ -5,16 +5,11 @@ import { formatCurrency } from "~/utilities/product-helper";
 import { addItem } from "~/store/cart/action";
 import { addCheckoutItem } from "~/store/checkout-items/action";
 
-import { WPProductDetailShortDescView, Button } from "~/utilities/WPHelpers";
+import { Button } from "~/utilities/WPHelpers";
 
 import SocialShareButtons from "~/components/elements/media/SocialShareButtons";
 
-const WPModuleProductInformation = ({
-    product,
-    variant,
-    children,
-    isWidget,
-}) => {
+const WPModuleProductInformation = ({ product, variant, children }) => {
     const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(1);
 
@@ -120,11 +115,11 @@ const WPModuleProductInformation = ({
     };
     // Views
     // const ratingView = WPProductDetailRatingView(product);
-    const shortDescView = WPProductDetailShortDescView(product);
+    // const shortDescView = WPProductDetailShortDescView(product);
     // const brandView = WPProductDetailBrandView(product);
     // const categoriesView = WPProductDetailCategoriesView(product);
     // const tagsView = WPProductDetailTagsView(product);
-    let productPriceView, productVendorView;
+    let productPriceView, stockStatus;
 
     if (product) {
         if (product.type === "variable") {
@@ -134,12 +129,24 @@ const WPModuleProductInformation = ({
         } else {
             productPriceView = handleRenderPrice(product);
         }
+
+        switch (product.stock_status) {
+            case "instock":
+                stockStatus = "In stock";
+                break;
+            case "outofstock":
+                stockStatus = "Out of stock";
+                break;
+            case "onbackorder":
+                stockStatus = "On back order";
+                break;
+        }
     }
 
     return (
         <div className="">
-            {!isWidget && <h1>{product?.name}</h1>}
-            {productPriceView}
+            {/* {!isWidget && <h1>{product?.name}</h1>} */}
+            {/* {productPriceView} */}
 
             <hr className="w3-lightgrey" />
             <p>
@@ -149,15 +156,10 @@ const WPModuleProductInformation = ({
                     <span
                         className="text-danger"
                         style={{ fontWeight: "bold" }}>
-                        {" "}
-                        in Stock:{" "}
+                        {stockStatus}
                     </span>
                 </span>
             </p>
-            <div className="ps-product__desc">
-                {productVendorView}
-                {shortDescView}
-            </div>
             {children}
             <div className="d-none d-lg-block">
                 <div className="w-100 m-auto">

@@ -1,21 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect, useDispatch } from "react-redux";
 import Link from "next/link";
-import Router from "next/router";
 import { formatCurrency } from "~/utilities/product-helper";
-import { addItem } from "~/store/cart/action";
-import { addCheckoutItem } from "~/store/checkout-items/action";
 import { addItemToWishlist } from "~/store/wishlist/action";
-// import ModuleProductDetailSharing from '~/components/elements/detail/modules/elements/ModuleProductDetailSharing';
 
-import {
-    WPProductDetailBrandView,
-    WPProductDetailCategoriesView,
-    WPProductDetailRatingView,
-    WPProductDetailShortDescView,
-    WPProductDetailTagsView,
-    Button,
-} from "~/utilities/WPHelpers";
+import { WPProductDetailShortDescView, Button } from "~/utilities/WPHelpers";
 
 const WPModuleProductDetailInformation = ({
     product,
@@ -25,57 +14,7 @@ const WPModuleProductDetailInformation = ({
     isWidget,
 }) => {
     const dispatch = useDispatch();
-    const [quantity, setQuantity] = useState(1);
 
-    const handleAddToCheckoutItems = () => {
-        let item;
-        if (product.type === "variable") {
-            if (variant) {
-                const options = product.attributes
-                    .map((attribute) => attribute.option)
-                    .join(", ");
-                const _product = {
-                    ...product,
-                    name: `${product.name}[${options}]`,
-                    price: variant.price,
-                };
-                item = {
-                    amount: variant.price,
-                    cartItems: [_product],
-                    cartTotal: 1,
-                };
-            }
-        } else {
-            item = {
-                amount: product.price,
-                cartItems: [product],
-                cartTotal: 1,
-            };
-        }
-
-        dispatch(addCheckoutItem(item));
-
-        Router.push("/account/checkout");
-    };
-
-    const handleAddItemToCart = (e) => {
-        e.preventDefault();
-        let tempProduct = product;
-        tempProduct.quantity = quantity;
-        dispatch(addItem(product));
-    };
-
-    const handleIncreaseItemQty = (e) => {
-        e.preventDefault();
-        setQuantity(quantity + 1);
-    };
-
-    const handleDecreaseItemQty = (e) => {
-        e.preventDefault();
-        if (quantity > 1) {
-            setQuantity(quantity - 1);
-        }
-    };
     const handleAddItemToWishlist = (e) => {
         e.preventDefault();
         let _product = product;
@@ -146,11 +85,11 @@ const WPModuleProductDetailInformation = ({
         return priceView;
     };
     // Views
-    const ratingView = WPProductDetailRatingView(product);
+    // const ratingView = WPProductDetailRatingView(product);
     const shortDescView = WPProductDetailShortDescView(product);
-    const brandView = WPProductDetailBrandView(product);
-    const categoriesView = WPProductDetailCategoriesView(product);
-    const tagsView = WPProductDetailTagsView(product);
+    // const brandView = WPProductDetailBrandView(product);
+    // const categoriesView = WPProductDetailCategoriesView(product);
+    // const tagsView = WPProductDetailTagsView(product);
     let variationPriceRangeView, productPriceView, productVendorView;
 
     if (product) {
@@ -169,7 +108,7 @@ const WPModuleProductDetailInformation = ({
             productVendorView = (
                 <p>
                     SOLD BY:
-                    <Link href="/shop">
+                    <Link href={`/store/${product.store.id}`}>
                         <a className="ml-2">
                             <strong> {product.store.shop_name}</strong>
                         </a>
@@ -190,6 +129,7 @@ const WPModuleProductDetailInformation = ({
                 {shortDescView}
             </div>
             {children}
+            {/*
             <div
                 className="d-block d-lg-none m-auto w3-center"
                 style={{ minWidth: "60%" }}>
@@ -219,7 +159,7 @@ const WPModuleProductDetailInformation = ({
                     </figure>
                 </div>
             </div>
-            <div className="mt-2 d-block w3-center d-lg-none">
+             <div className="mt-2 d-block w3-center d-lg-none">
                 <Button
                     width={250}
                     classes={`w3-0309A5 btn-hover`}
@@ -230,7 +170,6 @@ const WPModuleProductDetailInformation = ({
                 />
                 <br />
 
-                {/* <Link href="/account/checkout"> */}
                 <a onClick={handleAddToCheckoutItems}>
                     <Button
                         width={250}
@@ -239,15 +178,7 @@ const WPModuleProductDetailInformation = ({
                         disabled={product.type === "simple" ? false : !variant}
                     />
                 </a>
-                {/* </Link> */}
-            </div>
-            {/* <button 
-                className="btn rounded-pill btn-lg btn-hover w3-light-grey p-3 pl-4 pr-4 w3-border w3-border-white w3-hover-border-grey w3-hover-none" 
-                style={{minWidth:250}}
-                onClick={handleAddItemToWishlist}
-                >
-                    Add To WatchList
-                </button> */}
+            </div> */}
             <div className="text-center text-lg-left">
                 <Button
                     width={250}
@@ -261,8 +192,8 @@ const WPModuleProductDetailInformation = ({
                 />
                 <br />
             </div>
-            <div className="ps-product__specification">
-                {/* <Link href="/page/blank">
+            {/* <div className="ps-product__specification">
+                <Link href="/page/blank">
                     <a className="report">Report Abuse</a>
                 </Link>
                 <p>
@@ -271,13 +202,13 @@ const WPModuleProductDetailInformation = ({
                 <p className="categories">
                     <strong> Categories:</strong>
                     {categoriesView}
-                </p> */}
-                {/* <p className="tags">
+                </p>
+                <p className="tags">
                     <strong>Tags: </strong>
                     {tagsView}
-                </p> */}
+                </p>
             </div>
-            {/* <ModuleProductDetailSharing /> */}
+            <ModuleProductDetailSharing /> */}
         </div>
     );
 };
