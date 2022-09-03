@@ -105,10 +105,14 @@ const WPModuleProductDetailInformation = ({
         }
 
         if (product.store) {
+            const query = `${product.store.shop_name
+                .toLowerCase()
+                .replace(/ /g, "-")}-${product.store.id}`.trim();
+
             productVendorView = (
                 <p>
                     SOLD BY:
-                    <Link href={`/store/${product.store.id}`}>
+                    <Link href="/store/[pid]" as={`/store/${query}`}>
                         <a className="ml-2">
                             <strong> {product.store.shop_name}</strong>
                         </a>

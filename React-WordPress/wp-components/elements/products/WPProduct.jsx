@@ -183,7 +183,7 @@ const WPProduct = ({ product }) => {
                         <a className="ps-product__title">{product.name}</a>
                     </Link>
                     <div className="ps-product__rating">
-                        <Rating rating={rating} />
+                        {rating >= 3 && <Rating rating={rating} />}
                         <span>{product.review_count}</span>
                     </div>
                     {priceView}

@@ -57,8 +57,13 @@ const WPProductDetailPage = ({ pid }) => {
     }
 
     async function getProductOnChangeURL(url) {
+        const isProductRoute = url.includes("/product/");
         const nextPid = url.split("-").pop();
-        if (nextPid !== "" && isNaN(parseInt(nextPid)) === false) {
+        if (
+            isProductRoute &&
+            nextPid !== "" &&
+            isNaN(parseInt(nextPid)) === false
+        ) {
             setLoading(true);
             await getProduct(nextPid);
             setLoading(false);
@@ -71,11 +76,6 @@ const WPProductDetailPage = ({ pid }) => {
         }
 
         if (pid) {
-            const collectionsParams = [
-                "customer_bought",
-                "shop-recommend-items",
-                "widget_same_brand",
-            ];
             getProduct(pid)
                 .then((res) => dispatch(addRecentlyViewedProduct(res)))
                 .catch((err) => console.log(err));

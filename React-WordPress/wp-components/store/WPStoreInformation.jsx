@@ -38,9 +38,12 @@ const WPStoreInformation = ({ store }) => {
                 <div className="ps-block__divider"></div>
                 <div className="ps-block__content">
                     <p>
-                        <strong>Address:</strong> {store.address.street_1},{" "}
-                        {store.address.city}, {store.address.state},{" "}
-                        {store.address.country},{store.address.zip}
+                        <strong>Address:</strong>{" "}
+                        {`${store.address.street_1}, `}
+                        {`${store.address.city}, `}
+                        {`${store.address.state}, `}
+                        {`${store.address.country}, `}
+                        {`${store.address.zip}, `}
                     </p>
                 </div>
                 <div className="ps-block__footer">

@@ -1,12 +1,12 @@
-import React, { Component, useState } from 'react';
-import WPProduct from '~/wp-components/elements/products/WPProduct';
-import WPProductWide from '~/wp-components/elements/products/WPProductWide';
-import { Pagination } from 'antd';
-import { WPGetProducts } from '~/store/wp/action';
-import { useDispatch } from 'react-redux';
-import WPVendorRepository from '~/repositories/WP/WPVendorRepository';
-import { generateTempArray } from '~/utilities/common-helpers';
-import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct';
+import React, { Component, useState } from "react";
+import WPProduct from "~/wp-components/elements/products/WPProduct";
+import WPProductWide from "~/wp-components/elements/products/WPProductWide";
+import { Pagination } from "antd";
+import { WPGetProducts } from "~/store/wp/action";
+import { useDispatch } from "react-redux";
+import WPVendorRepository from "~/repositories/WP/WPVendorRepository";
+import { generateTempArray } from "~/utilities/common-helpers";
+import SkeletonProduct from "~/components/elements/skeletons/SkeletonProduct";
 
 const WPVendorProducts = ({ products, id }) => {
     const [listView, setListView] = useState(true);
@@ -19,12 +19,12 @@ const WPVendorProducts = ({ products, id }) => {
 
     // Views
     async function handlePagination(page, pageSize) {
-        console.log({ page, pageSize });
         const queries = {
             page: page,
             per_page: pageSize,
         };
         setLoading(true);
+
         const vendorProducts = await WPVendorRepository.getProductOfStoreByID(
             id,
             queries
@@ -82,7 +82,7 @@ const WPVendorProducts = ({ products, id }) => {
                     <strong>{products.totalItems}</strong> Product(s) found.
                 </p>
                 <div className="ps-shopping__actions">
-                    <select
+                    {/* <select
                         className="form-control"
                         data-placeholder="Sort Items">
                         <option>Sort by latest</option>
@@ -90,16 +90,16 @@ const WPVendorProducts = ({ products, id }) => {
                         <option>Sort by average rating</option>
                         <option>Sort by price: low to high</option>
                         <option>Sort by price: high to low</option>
-                    </select>
+                    </select> */}
                     <div className="ps-shopping__view">
                         <p>View</p>
                         <ul className="ps-tab-list">
-                            <li className={listView ? 'active' : ''}>
+                            <li className={listView ? "active" : ""}>
                                 <a href="#" onClick={handleChangeViewMode}>
                                     <i className="icon-grid"></i>
                                 </a>
                             </li>
-                            <li className={!listView ? 'active' : ''}>
+                            <li className={!listView ? "active" : ""}>
                                 <a href="#" onClick={handleChangeViewMode}>
                                     <i className="icon-list4"></i>
                                 </a>
