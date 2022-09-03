@@ -616,27 +616,27 @@ const WPFormCheckout = ({ customerInfo, amount, checkoutItems }) => {
 };
 
 const mapStateToProps = (state) => {
-    const customer = state.auth;
+    const { billing, shipping } = state.auth;
     const customerInfo = {
-        first_name: customer.billing?.first_name,
-        last_name: customer.billing?.last_name,
-        address_1: customer.billing?.address_1,
-        address_2: customer.billing?.address_2,
-        city: customer.billing?.city,
-        state: customer.billing?.state,
-        postcode: customer.billing?.postcode,
-        country: customer.billing?.country,
-        email: customer.billing?.email,
-        phone: customer.billing?.phone,
+        first_name: billing?.first_name,
+        last_name: billing?.last_name,
+        address_1: billing?.address_1,
+        address_2: billing?.address_2,
+        city: billing?.city,
+        state: billing?.state,
+        postcode: billing?.postcode,
+        country: billing?.country,
+        email: billing?.email,
+        phone: billing?.phone,
 
-        shipping_first_name: customer.shipping?.first_name,
-        shipping_last_name: customer.shipping?.last_name,
-        shipping_address_1: customer.shipping?.address_1,
-        shipping_address_2: customer.shipping?.address_2,
-        shipping_city: customer.shipping?.city,
-        shipping_state: customer.shipping?.state,
-        shipping_postcode: customer.shipping?.postcode,
-        shipping_country: customer.shipping?.country,
+        shipping_first_name: shipping?.first_name,
+        shipping_last_name: shipping?.last_name,
+        shipping_address_1: shipping?.address_1,
+        shipping_address_2: shipping?.address_2,
+        shipping_city: shipping?.city,
+        shipping_state: shipping?.state,
+        shipping_postcode: shipping?.postcode,
+        shipping_country: shipping?.country,
     };
 
     return { customerInfo, ...state.checkoutItems };
