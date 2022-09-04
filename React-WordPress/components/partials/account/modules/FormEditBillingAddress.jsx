@@ -6,7 +6,7 @@ import ReactHtmlParser from "react-html-parser";
 
 import { updateAuth } from "~/store/auth/action";
 import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
-import { countries } from "~/utilities/country-list";
+import WPDataRepository from "~/repositories/WP/WPDataRepository";
 
 function FormEditBillingAddress() {
     const dispatch = useDispatch();
@@ -27,6 +27,7 @@ function FormEditBillingAddress() {
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
+    const [countries, setCountries] = useState([]);
     const [states, setStates] = useState([]);
 
     const handleInputChange = (e) => {
@@ -100,6 +101,10 @@ function FormEditBillingAddress() {
         try {
             const _customer = await WPCustomerRepository.getCustomer(auth.id);
 
+            const _countries = await WPDataRepository.getCountries();
+
+            setCountries(_countries);
+
             _setStates(_customer.shipping.country);
 
             setBilling(_customer.billing);
@@ -111,9 +116,7 @@ function FormEditBillingAddress() {
     };
 
     const _setStates = (_country) => {
-        const country = countries.data.find(
-            (country) => country.iso3 === _country
-        );
+        const country = countries.find((country) => country.code === _country);
 
         setStates(country.states);
     };
@@ -202,8 +205,8 @@ function FormEditBillingAddress() {
                         onChange={handleInputChange}
                         required>
                         <option value="">Select Country</option>
-                        {countries.data.map((country) => (
-                            <option key={country.iso3} value={country.iso3}>
+                        {countries.map((country) => (
+                            <option key={country.code} value={country.code}>
                                 {country.name}
                             </option>
                         ))}
@@ -222,7 +225,7 @@ function FormEditBillingAddress() {
                         required>
                         <option value="">Select State</option>
                         {states.map((state) => (
-                            <option key={state.state_code} value={state.name}>
+                            <option key={state.code} value={state.name}>
                                 {state.name}
                             </option>
                         ))}

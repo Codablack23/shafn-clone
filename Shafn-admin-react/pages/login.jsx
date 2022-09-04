@@ -4,12 +4,6 @@ import HomepageLayout from "~/components/layouts/HomePageLayout"
 import OAuth from "~/components/partials/OAuth"
 
 export default function Login() {
-  const [isPassword, setIsPassword] = useState(true)
-  const handleShowPassword = (e) => {
-    setIsPassword((prev) => !prev)
-    e.target.classList.toggle("bi-eye-fill")
-    e.target.classList.toggle("bi-eye-slash-fill")
-  }
   return (
     <HomepageLayout title={"login"} page={"accounts"}>
       <div className="account-container">
@@ -18,7 +12,9 @@ export default function Login() {
         </div>
 
         <Form>
-          <p className="title mb-2">Sign in</p>
+          <p className="title mb-2" style={{ paddingBottom: 10 }}>
+            Sign in
+          </p>
           <div className="form-group">
             <Form.Item
               name="username"
@@ -50,19 +46,7 @@ export default function Login() {
                 },
               ]}
             >
-              <div className="input-container">
-                <input
-                  type={isPassword ? "password" : "text"}
-                  placeholder="Password"
-                />
-                <span style={{ cursor: "pointer", width: "9%" }}>
-                  <i
-                    className="bi bi-eye-fill"
-                    style={{ fontSize: "18px" }}
-                    onClick={handleShowPassword}
-                  ></i>
-                </span>
-              </div>
+              <Input.Password className="form-control" placeholder="Password" />
             </Form.Item>
 
             <button className="register-btn">Login</button>

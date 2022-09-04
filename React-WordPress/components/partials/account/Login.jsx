@@ -13,17 +13,9 @@ function Login() {
     const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth);
 
-    const [passVisibility, setPassVisibility] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-
-    function togglePasswordVisibilty() {
-        let e = document.querySelector(".passVis");
-        e.classList.toggle("bi-eye-fill");
-        e.classList.toggle("bi-eye-slash-fill");
-        setPassVisibility((prev) => !prev);
-    }
 
     const handleLogin = async (type = "form", oauth) => {
         if (
@@ -146,42 +138,16 @@ function Login() {
                                                 "Please input your password!",
                                         },
                                     ]}>
-                                    <div className="form-control align-items-center d-flex justify-content-between">
-                                        <input
-                                            name="password"
-                                            type={`${
-                                                passVisibility
-                                                    ? "text"
-                                                    : "password"
-                                            }`}
-                                            aria-label="Password"
-                                            aria-required="true"
-                                            placeholder="Password..."
-                                            value={password}
-                                            onChange={(e) =>
-                                                setPassword(e.target.value)
-                                            }
-                                            style={{
-                                                border: "none",
-                                                outline: "none",
-                                            }}
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={togglePasswordVisibilty}
-                                            style={{
-                                                border: "none",
-                                                outline: "none",
-                                                cursor: "pointer",
-                                                background: "none",
-                                            }}>
-                                            <i
-                                                className="passVis bi bi-eye-fill"
-                                                style={{
-                                                    fontSize: "20px",
-                                                }}></i>
-                                        </button>
-                                    </div>
+                                    <Input.Password
+                                        name="password"
+                                        aria-label="Password"
+                                        aria-required="true"
+                                        placeholder="Password..."
+                                        value={password}
+                                        onChange={(e) =>
+                                            setPassword(e.target.value)
+                                        }
+                                    />
                                 </Form.Item>
                             </div>
                             <div className="form-group d-flex justify-content-between align-items-center">
