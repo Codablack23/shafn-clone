@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Form, Input, notification, Spin } from "antd";
 import { login } from "../../../store/auth/action";
 import { useDispatch } from "react-redux";
 import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
+import WPVendorRepository from "~/repositories/WP/WPVendorRepository";
 import OAuth from "./modules/OAuth";
 import Router from "next/router";
 import ReactHtmlParser from "react-html-parser";
@@ -19,20 +20,12 @@ function Register() {
     const [storename, setStorename] = useState("");
     const [isVendor, setIsVendor] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [passVisibility, setPassVisibility] = useState(false);
     const [otp, setOtp] = useState({
         code: "",
         createdAt: 0,
         expiresAt: 0,
         allowResendAt: 0,
     });
-
-    function togglePasswordVisibilty() {
-        let e = document.querySelector(".passVis");
-        e.classList.toggle("bi-eye-fill");
-        e.classList.toggle("bi-eye-slash-fill");
-        setPassVisibility((prev) => !prev);
-    }
 
     const verifyEmail = async () => {
         setIsLoading(true);
@@ -137,13 +130,10 @@ function Register() {
                 if (user.roles[0] === "seller") {
                     try {
                         // Update vendor store name
-                        await WPAuthRepository.updateVendorSettings(
-                            storeData,
-                            loggedUser.token
-                        );
-
-                        notification["success"]({
-                            message: "Registration Successful!",
+                        await WPVendorRepository.updateVendorSettings({
+                            storeId: loggedUser.id,
+                            token: loggedUser.token,
+                            data: storeData,
                         });
                     } catch (error) {
                         notification["error"]({
@@ -162,10 +152,6 @@ function Register() {
                         );
                     }
                 } else {
-                    notification["success"]({
-                        message: "Registration Successful!",
-                    });
-
                     // const { encrypt } = require("~/utilities/common-helpers");
                     // const encryptedToken = encrypt(loggedUser.token);
 
@@ -177,6 +163,10 @@ function Register() {
 
                     Router.push("/"); // Go to homepage
                 }
+
+                notification["success"]({
+                    message: "Registration Successful!",
+                });
             } catch (error) {
                 notification["error"]({
                     message: "Unable to register user",
@@ -276,42 +266,14 @@ function Register() {
                                                     "Password must contain at least 8 characters with at least one uppercase letter, one lowercase letter, one number and one special character(allowed characters => #, ?, !, @, $, %, ^, &, *, -)",
                                             },
                                         ]}>
-                                        <div className="form-control align-items-center d-flex justify-content-between">
-                                            <input
-                                                name="password"
-                                                type={`${
-                                                    passVisibility
-                                                        ? "text"
-                                                        : "password"
-                                                }`}
-                                                placeholder="Password..."
-                                                value={password}
-                                                onChange={(e) =>
-                                                    setPassword(e.target.value)
-                                                }
-                                                style={{
-                                                    border: "none",
-                                                    outline: "none",
-                                                }}
-                                            />
-                                            <button
-                                                type="button"
-                                                onClick={
-                                                    togglePasswordVisibilty
-                                                }
-                                                style={{
-                                                    border: "none",
-                                                    outline: "none",
-                                                    cursor: "pointer",
-                                                    background: "none",
-                                                }}>
-                                                <i
-                                                    className="passVis bi bi-eye-fill"
-                                                    style={{
-                                                        fontSize: "20px",
-                                                    }}></i>
-                                            </button>
-                                        </div>
+                                        <Input.Password
+                                            name="password"
+                                            placeholder="Password..."
+                                            value={password}
+                                            onChange={(e) =>
+                                                setPassword(e.target.value)
+                                            }
+                                        />
                                     </Form.Item>
                                 </div>
 
@@ -330,7 +292,7 @@ function Register() {
                                                 <Input
                                                     className="form-control"
                                                     type="text"
-                                                    placeholder="First Name"
+                                                    placeholder="First name"
                                                     value={firstname}
                                                     onChange={(e) =>
                                                         setFirstname(
@@ -353,7 +315,7 @@ function Register() {
                                                 <Input
                                                     className="form-control"
                                                     type="text"
-                                                    placeholder="Last Name"
+                                                    placeholder="Last name"
                                                     value={lastname}
                                                     onChange={(e) =>
                                                         setLastname(
@@ -365,11 +327,11 @@ function Register() {
                                         </div>
 
                                         <div className="form-group">
-                                            <Form.Item name="text">
+                                            <Form.Item name="store_name">
                                                 <Input
                                                     className="form-control"
                                                     type="text"
-                                                    placeholder="Store Name"
+                                                    placeholder="Store name"
                                                     value={storename}
                                                     onChange={(e) =>
                                                         setStorename(

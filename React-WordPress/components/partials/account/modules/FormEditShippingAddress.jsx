@@ -5,7 +5,7 @@ import ReactHtmlParser from "react-html-parser";
 
 import { updateAuth } from "~/store/auth/action";
 import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
-import { countries } from "~/utilities/country-list";
+import WPDataRepository from "~/repositories/WP/WPDataRepository";
 
 function FormEditShippingAddress(auth) {
     const dispatch = useDispatch();
@@ -23,6 +23,7 @@ function FormEditShippingAddress(auth) {
     });
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
+    const [countries, setCountries] = useState([]);
     const [states, setStates] = useState([]);
 
     const handleInputChange = (e) => {
@@ -85,6 +86,10 @@ function FormEditShippingAddress(auth) {
         try {
             const _customer = await WPCustomerRepository.getCustomer(auth.id);
 
+            const _countries = await WPDataRepository.getCountries();
+
+            setCountries(_countries);
+
             _setStates(_customer.shipping.country);
 
             setShipping(_customer.shipping);
@@ -96,9 +101,7 @@ function FormEditShippingAddress(auth) {
     };
 
     const _setStates = (_country) => {
-        const country = countries.data.find(
-            (country) => country.iso3 === _country
-        );
+        const country = countries.find((country) => country.code === _country);
 
         setStates(country.states);
     };
@@ -187,8 +190,8 @@ function FormEditShippingAddress(auth) {
                         onChange={handleInputChange}
                         required>
                         <option value="">Select Country</option>
-                        {countries.data.map((country) => (
-                            <option key={country.iso3} value={country.iso3}>
+                        {countries.map((country) => (
+                            <option key={country.code} value={country.code}>
                                 {country.name}
                             </option>
                         ))}
@@ -207,7 +210,7 @@ function FormEditShippingAddress(auth) {
                         required>
                         <option value="">Select State</option>
                         {states.map((state) => (
-                            <option key={state.state_code} value={state.name}>
+                            <option key={state.code} value={state.name}>
                                 {state.name}
                             </option>
                         ))}

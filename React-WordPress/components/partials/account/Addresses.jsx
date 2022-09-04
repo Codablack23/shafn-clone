@@ -3,6 +3,8 @@ import Link from "next/link";
 import Router from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 
+import Address from "./modules/Address";
+
 import { logOut } from "~/store/auth/action";
 
 const accountLinks = [
@@ -93,10 +95,10 @@ function Addresses() {
                                                 Billing address
                                             </figcaption>
                                             <div className="ps-block__content">
-                                                <p>
-                                                    You Have Not Set Up This
-                                                    Type Of Address Yet.
-                                                </p>
+                                                <Address
+                                                    customer={auth.billing}
+                                                    isBilling={true}
+                                                />
                                                 <Link href="/account/edit-billing-address">
                                                     <a>Edit</a>
                                                 </Link>
@@ -109,10 +111,10 @@ function Addresses() {
                                                 Shipping address
                                             </figcaption>
                                             <div className="ps-block__content">
-                                                <p>
-                                                    You Have Not Set Up This
-                                                    Type Of Address Yet.
-                                                </p>
+                                                <Address
+                                                    customer={auth.shipping}
+                                                    isBilling={false}
+                                                />
                                                 <Link href="/account/edit-shipping-address">
                                                     <a>Edit</a>
                                                 </Link>

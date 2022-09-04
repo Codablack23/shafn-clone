@@ -6,8 +6,8 @@ import {
     oathInfo,
     WPDomain,
     WPRepository,
-} from '~/repositories/WP/WPRepository';
-import { serializeQuery } from '~/repositories/Repository';
+} from "~/repositories/WP/WPRepository";
+import { serializeQuery } from "~/repositories/Repository";
 
 class WPVendorRepository {
     constructor(callback) {
@@ -15,14 +15,14 @@ class WPVendorRepository {
     }
 
     async getStores() {
-        const endpoint = 'wp-json/dokan/v1/stores';
+        const endpoint = "wp-json/dokan/v1/stores";
         const reponse = await WPRepository.get(`${WPDomain}/${endpoint}`)
             .then((response) => {
                 if (response.data && response.data.length > 0) {
                     const data = {
                         items: response.data,
-                        totalItems: response.headers['x-wp-total'],
-                        totalPages: response.headers['x-wp-totalpages'],
+                        totalItems: response.headers["x-wp-total"],
+                        totalPages: response.headers["x-wp-totalpages"],
                     };
                     return data;
                 } else return null;
@@ -54,8 +54,8 @@ class WPVendorRepository {
                 if (response.data && response.data.length > 0) {
                     const data = {
                         items: response.data,
-                        totalItems: response.headers['x-wp-total'],
-                        totalPages: response.headers['x-wp-totalpages'],
+                        totalItems: response.headers["x-wp-total"],
+                        totalPages: response.headers["x-wp-totalpages"],
                     };
                     return data;
                 } else return null;
@@ -64,6 +64,23 @@ class WPVendorRepository {
                 return null;
             });
         return reponse;
+    }
+
+    async updateVendorSettings(payload) {
+        const endpoint = `${WPDomain}/wp-json/dokan/v1/stores/${payload.storeId}`;
+        const config = {
+            headers: {
+                Authorization: `Bearer ${payload.token}`,
+            },
+        };
+
+        const { data: response } = await axios.put(
+            endpoint,
+            payload.data,
+            config
+        );
+
+        return response;
     }
 }
 
