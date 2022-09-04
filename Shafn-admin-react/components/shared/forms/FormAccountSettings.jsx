@@ -130,7 +130,7 @@ const FormAccountSettings = () => {
       setIsUploading(false)
       notification["error"]({
         message: "Unable to update settings",
-        description: "Check your data connection and try again.",
+        description: "Please check your data connection and try again.",
       })
     }
   }
@@ -154,7 +154,10 @@ const FormAccountSettings = () => {
 
       _setStates(_vendor.address.country)
     } catch (err) {
-      return
+      notification["error"]({
+        message: "Unable to get settings",
+        description: "Please check your data connection and try again.",
+      })
     }
   }
 
