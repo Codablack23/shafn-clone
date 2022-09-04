@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Form, Input, notification, Spin } from "antd";
 import { login } from "../../../store/auth/action";
@@ -330,7 +330,7 @@ function Register() {
                                                 <Input
                                                     className="form-control"
                                                     type="text"
-                                                    placeholder="First Name"
+                                                    placeholder="First name"
                                                     value={firstname}
                                                     onChange={(e) =>
                                                         setFirstname(
@@ -353,7 +353,7 @@ function Register() {
                                                 <Input
                                                     className="form-control"
                                                     type="text"
-                                                    placeholder="Last Name"
+                                                    placeholder="Last name"
                                                     value={lastname}
                                                     onChange={(e) =>
                                                         setLastname(
@@ -365,11 +365,11 @@ function Register() {
                                         </div>
 
                                         <div className="form-group">
-                                            <Form.Item name="text">
+                                            <Form.Item name="store_name">
                                                 <Input
                                                     className="form-control"
                                                     type="text"
-                                                    placeholder="Store Name"
+                                                    placeholder="Store name"
                                                     value={storename}
                                                     onChange={(e) =>
                                                         setStorename(
