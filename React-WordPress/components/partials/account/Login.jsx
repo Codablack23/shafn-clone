@@ -47,27 +47,28 @@ function Login() {
 
                 const role = _user.user_role[0].toLowerCase();
 
-                // const { encrypt } = require("~/utilities/common-helpers");
-                // const encryptedToken = encrypt(_user.token);
-
                 if (role === "customer") {
                     const customer = await WPCustomerRepository.getCustomer(
                         _user.user_id
                     );
                     dispatch(login(customer));
                     Router.push("/");
+                } else {
+                    notification["error"]({
+                        message: "Not a customer account",
+                    });
                 }
 
-                if (role === "seller") {
-                    const domain =
-                        process.env.NODE_ENV === "production"
-                            ? "https://dashboard.shafn.com"
-                            : "http://localhost:5500";
+                // if (role === "seller") {
+                //     const domain =
+                //         process.env.NODE_ENV === "production"
+                //             ? "https://dashboard.shafn.com"
+                //             : "http://localhost:5500";
 
-                    window.location.assign(
-                        `${domain}/dashboard?auth_token=${_user.token}`
-                    );
-                }
+                //     window.location.assign(
+                //         `${domain}/dashboard?auth_token=${_user.token}`
+                //     );
+                // }
             } catch (error) {
                 notification["error"]({
                     message: "Unable to login user",

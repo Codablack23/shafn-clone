@@ -4,7 +4,7 @@ import { Form, Input, notification, Spin } from "antd";
 import { login } from "../../../store/auth/action";
 import { useDispatch } from "react-redux";
 import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
-import WPVendorRepository from "~/repositories/WP/WPVendorRepository";
+// import WPVendorRepository from "~/repositories/WP/WPVendorRepository";
 import OAuth from "./modules/OAuth";
 import Router from "next/router";
 import ReactHtmlParser from "react-html-parser";
@@ -15,10 +15,10 @@ function Register() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [firstname, setFirstname] = useState("");
-    const [lastname, setLastname] = useState("");
-    const [storename, setStorename] = useState("");
-    const [isVendor, setIsVendor] = useState(false);
+    // const [firstname, setFirstname] = useState("");
+    // const [lastname, setLastname] = useState("");
+    // const [storename, setStorename] = useState("");
+    // const [isVendor, setIsVendor] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [otp, setOtp] = useState({
         code: "",
@@ -65,11 +65,12 @@ function Register() {
             username,
             email,
             password,
+            roles: ["customer"],
         };
 
-        const storeData = {
-            store_name: storename,
-        };
+        // const storeData = {
+        //     store_name: storename,
+        // };
 
         // Use oauth data if registration is with oauth
         if (type === "oauth") {
@@ -80,31 +81,31 @@ function Register() {
             };
         }
 
-        if (isVendor) {
-            if (type === "oauth") {
-                // Use data provided by oauth
-                user = {
-                    ...user,
-                    first_name: oauth.firstname,
-                    last_name: oauth.lastname,
-                    roles: ["seller"],
-                };
-            } else {
-                // Use data provided by form
-                user = {
-                    ...user,
-                    first_name: firstname,
-                    last_name: lastname,
-                    roles: ["seller"],
-                };
-            }
-        } else {
-            // Set customer role if is registering as customer
-            user = {
-                ...user,
-                roles: ["customer"],
-            };
-        }
+        // if (isVendor) {
+        //     if (type === "oauth") {
+        //         // Use data provided by oauth
+        //         user = {
+        //             ...user,
+        //             first_name: oauth.firstname,
+        //             last_name: oauth.lastname,
+        //             roles: ["seller"],
+        //         };
+        //     } else {
+        //         // Use data provided by form
+        //         user = {
+        //             ...user,
+        //             first_name: firstname,
+        //             last_name: lastname,
+        //             roles: ["seller"],
+        //         };
+        //     }
+        // } else {
+        //     // Set customer role if is registering as customer
+        //     user = {
+        //         ...user,
+        //         roles: ["customer"],
+        //     };
+        // }
 
         if (!isLoading) {
             try {
@@ -127,42 +128,42 @@ function Register() {
                 // Login user
                 const loggedUser = await WPAuthRepository.login(_user);
 
-                if (user.roles[0] === "seller") {
-                    try {
-                        // Update vendor store name
-                        await WPVendorRepository.updateVendorSettings({
-                            storeId: loggedUser.id,
-                            token: loggedUser.token,
-                            data: storeData,
-                        });
-                    } catch (error) {
-                        notification["error"]({
-                            message: "Unable to register store name",
-                            description:
-                                "This can be registered in your profile settings",
-                        });
-                    } finally {
-                        const domain =
-                            process.env.NODE_ENV === "development"
-                                ? "http://localhost:5500"
-                                : "https://dashboard.shafn.com";
-                        // Go to vendor page
-                        window.location.assign(
-                            `${domain}/dashboard?auth_token=${loggedUser.token}`
-                        );
-                    }
-                } else {
-                    // const { encrypt } = require("~/utilities/common-helpers");
-                    // const encryptedToken = encrypt(loggedUser.token);
+                // if (user.roles[0] === "seller") {
+                //     try {
+                //         // Update vendor store name
+                //         await WPVendorRepository.updateVendorSettings({
+                //             storeId: loggedUser.id,
+                //             token: loggedUser.token,
+                //             data: storeData,
+                //         });
+                //     } catch (error) {
+                //         notification["error"]({
+                //             message: "Unable to register store name",
+                //             description:
+                //                 "This can be registered in your profile settings",
+                //         });
+                //     } finally {
+                //         const domain =
+                //             process.env.NODE_ENV === "development"
+                //                 ? "http://localhost:5500"
+                //                 : "https://dashboard.shafn.com";
+                //         // Go to vendor page
+                //         window.location.assign(
+                //             `${domain}/dashboard?auth_token=${loggedUser.token}`
+                //         );
+                //     }
+                // } else {
+                // const { encrypt } = require("~/utilities/common-helpers");
+                // const encryptedToken = encrypt(loggedUser.token);
 
-                    const customer = await WPCustomerRepository.getCustomer(
-                        loggedUser.user_id
-                    );
+                const customer = await WPCustomerRepository.getCustomer(
+                    loggedUser.user_id
+                );
 
-                    dispatch(login(customer));
+                dispatch(login(customer));
 
-                    Router.push("/"); // Go to homepage
-                }
+                Router.push("/");
+                // }
 
                 notification["success"]({
                     message: "Registration Successful!",
@@ -278,7 +279,7 @@ function Register() {
                                 </div>
 
                                 {/* Extra data from vendors only */}
-                                {isVendor && (
+                                {/* {isVendor && (
                                     <>
                                         <div className="form-group">
                                             <Form.Item
@@ -342,9 +343,9 @@ function Register() {
                                             </Form.Item>
                                         </div>
                                     </>
-                                )}
+                                )} */}
 
-                                <div className="form-group">
+                                {/* <div className="form-group">
                                     <div className="ps-checkbox">
                                         <input
                                             checked={isVendor}
@@ -362,7 +363,7 @@ function Register() {
                                             I am a vendor
                                         </label>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <div className="form-group submit">
                                     <button

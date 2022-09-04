@@ -49,10 +49,12 @@ export default function Login() {
 
         const role = _user.user_role[0].toLowerCase()
 
-        // const { encrypt } = require("~/utilities/common-helpers");
-        // const encryptedToken = encrypt(_user.token);
-
         if (role === "seller") {
+          const { encrypt } = require("~/utilities/helperfunctions")
+
+          const encryptedToken = encrypt(_user.token)
+
+          localStorage.setItem("auth_token", encryptedToken)
           // TO-DO: Store vendor data in redux
           Router.push("/dashboard")
         } else {
