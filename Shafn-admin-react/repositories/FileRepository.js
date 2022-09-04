@@ -58,7 +58,7 @@ class FileRepository {
         }
       } catch (error) {
         notification["error"]({
-          message: "Could not upload image",
+          message: "Unable to upload image",
           description:
             "Some images could not be uploaded. Please check your network connection and try again.",
         })

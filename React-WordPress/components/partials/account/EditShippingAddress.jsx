@@ -4,6 +4,7 @@ import Router from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 
 import { logOut } from "~/store/auth/action";
+import FormEditShippingAddress from "./modules/FormEditShippingAddress";
 
 const accountLinks = [
     {
@@ -11,6 +12,7 @@ const accountLinks = [
         url: "/account/user-information",
         icon: "icon-user",
     },
+
     {
         text: "Address",
         url: "/account/addresses",
@@ -23,8 +25,7 @@ const accountLinks = [
         icon: "icon-map-marker",
     },
 ];
-
-function Addresses() {
+function EditShippingAddress() {
     const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth);
 
@@ -42,7 +43,6 @@ function Addresses() {
                         <div className="ps-section__left">
                             <aside className="ps-widget--account-dashboard">
                                 <div className="ps-widget__header">
-                                    {/* <img src="/static/img/users/3.jpg" /> */}
                                     <figure>
                                         <figcaption>
                                             Hello,{" "}
@@ -84,43 +84,8 @@ function Addresses() {
                         </div>
                     </div>
                     <div className="col-lg-8">
-                        <div className="ps-section--account-setting">
-                            <div className="ps-section__content">
-                                <div className="row">
-                                    <div className="col-md-6 col-12">
-                                        <figure className="ps-block--address">
-                                            <figcaption>
-                                                Billing address
-                                            </figcaption>
-                                            <div className="ps-block__content">
-                                                <p>
-                                                    You Have Not Set Up This
-                                                    Type Of Address Yet.
-                                                </p>
-                                                <Link href="/account/edit-billing-address">
-                                                    <a>Edit</a>
-                                                </Link>
-                                            </div>
-                                        </figure>
-                                    </div>
-                                    <div className="col-md-6 col-12">
-                                        <figure className="ps-block--address">
-                                            <figcaption>
-                                                Shipping address
-                                            </figcaption>
-                                            <div className="ps-block__content">
-                                                <p>
-                                                    You Have Not Set Up This
-                                                    Type Of Address Yet.
-                                                </p>
-                                                <Link href="/account/edit-shipping-address">
-                                                    <a>Edit</a>
-                                                </Link>
-                                            </div>
-                                        </figure>
-                                    </div>
-                                </div>
-                            </div>
+                        <div className="ps-page__content">
+                            <FormEditShippingAddress />
                         </div>
                     </div>
                 </div>
@@ -129,4 +94,4 @@ function Addresses() {
     );
 }
 
-export default Addresses;
+export default EditShippingAddress;

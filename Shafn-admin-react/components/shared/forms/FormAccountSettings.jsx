@@ -68,19 +68,10 @@ const FormAccountSettings = () => {
   const selectCountry = (e) => {
     if (e.target.value) {
       setAddr(e.target.name, e.target.value)
-      const stateList = data.filter((country) => country.name == e.target.value)
-      setStates(stateList[0].states)
+      _setStates(e.target.value)
     } else {
       setStates([])
     }
-  }
-
-  const renderCountries = () => {
-    return data.map((country, index) => (
-      <option key={index} value={country.name}>
-        {country.name}
-      </option>
-    ))
   }
 
   const handleOnSubmit = async (e) => {
@@ -159,20 +150,23 @@ const FormAccountSettings = () => {
       setNumber(vendor.phone)
       setShowEmail(vendor.show_email)
       setEnableTNC(vendor.toc_enabled)
+
+      _setStates(vendor.address.country)
     } catch (err) {
       return
     }
+  }
+
+  const _setStates = (_country) => {
+    const country = data.find((country) => country.name == _country)
+    setStates(country.states)
   }
 
   useEffect(() => {
     getSettings()
   }, [])
   return (
-    <form
-      className="ps-form--account-settings"
-      action="index.html"
-      method="get"
-    >
+    <form className="ps-form--account-settings">
       <div className="row">
         <div className="col-sm-12">
           {/* Banner */}
@@ -306,7 +300,11 @@ const FormAccountSettings = () => {
                   onChange={(e) => selectCountry(e)}
                 >
                   <option value="">Select Country</option>
-                  {renderCountries()}
+                  {data.map((country, _) => (
+                    <option key={country.iso3} value={country.name}>
+                      {country.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -316,7 +314,7 @@ const FormAccountSettings = () => {
                 <select
                   name="state"
                   className="ps-select"
-                  title="countries"
+                  title="states"
                   style={{ width: "100%" }}
                   value={address.state}
                   onChange={(e) => setAddr(e.target.name, e.target.value)}

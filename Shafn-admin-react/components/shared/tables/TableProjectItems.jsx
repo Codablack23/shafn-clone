@@ -8,7 +8,7 @@ import { WPDomain } from "~/repositories/Repository"
 const TableProjectItems = ({ products }) => {
   let tableItems
 
-  if (products && products.items) {
+  if (products && Number(products.totalItems) > 0) {
     tableItems = products.items.map((item, index) => {
       let status
       let badgeView

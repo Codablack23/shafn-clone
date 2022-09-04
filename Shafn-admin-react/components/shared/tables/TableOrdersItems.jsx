@@ -6,7 +6,7 @@ import DropdownAction from "~/components/elements/basic/DropdownAction"
 const TableOrdersItems = ({ orders }) => {
   let tableItemsView
 
-  if (orders && orders.items) {
+  if (orders && Number(orders.totalItems) > 0) {
     tableItemsView = orders.items.map((item) => {
       let status, fullfillmentView
       const menuView = (

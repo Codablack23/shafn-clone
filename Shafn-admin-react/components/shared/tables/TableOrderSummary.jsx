@@ -80,8 +80,6 @@ const TableOrderSummary = () => {
       const orders = await OrdersRepository.getOrders(params)
       setOrders(orders)
     } catch (error) {
-      console.log("Failed to get orders")
-      console.error(error)
       return
     } finally {
       setLoading(false)
