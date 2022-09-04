@@ -25,7 +25,7 @@ function Login() {
             auth.isLoggedIn
         ) {
             notification["info"]({
-                message: "You're already logged in to this account",
+                message: "Already logged in",
             });
         } else if (!isLoading) {
             setIsLoading(true);
@@ -111,7 +111,7 @@ function Login() {
                                     rules={[
                                         {
                                             required: true,
-                                            message: "Please input your email!",
+                                            message: "Please input your email",
                                         },
                                     ]}>
                                     <Input
@@ -134,8 +134,11 @@ function Login() {
                                     rules={[
                                         {
                                             required: true,
+                                            pattern: new RegExp(
+                                                /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+                                            ),
                                             message:
-                                                "Please input your password!",
+                                                "Password must contain at least 8 characters with at least one uppercase letter, one lowercase letter, one number and one special character(allowed characters => #, ?, !, @, $, %, ^, &, *, -)",
                                         },
                                     ]}>
                                     <Input.Password
