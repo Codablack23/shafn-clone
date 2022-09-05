@@ -143,6 +143,7 @@ function Login() {
                                         },
                                     ]}>
                                     <Input.Password
+                                        className="form-control align-items-center d-flex justify-content-between"
                                         name="password"
                                         aria-label="Password"
                                         aria-required="true"

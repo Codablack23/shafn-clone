@@ -84,15 +84,16 @@ function FormEditShippingAddress(auth) {
 
     const getCustomer = async () => {
         try {
-            const _customer = await WPCustomerRepository.getCustomer(auth.id);
+            // const _customer = await WPCustomerRepository.getCustomer(auth.id);
 
+            setShipping(auth.shipping);
             const _countries = await WPDataRepository.getCountries();
 
             setCountries(_countries);
 
-            _setStates(_customer.shipping.country);
+            // _setStates(_customer.shipping.country);
 
-            setShipping(_customer.shipping);
+            // setShipping(_customer.shipping);
         } catch (error) {
             return;
         } finally {

@@ -303,9 +303,9 @@ function UserInformation() {
                                                     required: false,
                                                 },
                                             ]}>
-                                            <Input
+                                            <Input.Password
                                                 name="password"
-                                                className="form-control"
+                                                className="form-control align-items-center d-flex justify-content-between"
                                                 type="text"
                                                 placeholder="Enter new password"
                                                 value={password}

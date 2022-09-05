@@ -254,7 +254,7 @@ function Register() {
                                     </Form.Item>
                                 </div>
 
-                                <div className="form-group form-forgot">
+                                <div className="form-group">
                                     <Form.Item
                                         name="password"
                                         rules={[
@@ -268,6 +268,7 @@ function Register() {
                                             },
                                         ]}>
                                         <Input.Password
+                                            className="form-control align-items-center d-flex justify-content-between"
                                             name="password"
                                             placeholder="Password..."
                                             value={password}

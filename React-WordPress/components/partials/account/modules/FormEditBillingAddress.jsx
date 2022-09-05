@@ -99,15 +99,16 @@ function FormEditBillingAddress() {
 
     const getCustomer = async () => {
         try {
-            const _customer = await WPCustomerRepository.getCustomer(auth.id);
+            // const _customer = await WPCustomerRepository.getCustomer(auth.id);
 
+            setBilling(auth.billing);
             const _countries = await WPDataRepository.getCountries();
 
             setCountries(_countries);
 
-            _setStates(_customer.shipping.country);
+            // _setStates(_customer.shipping.country);
 
-            setBilling(_customer.billing);
+            // setBilling(_customer.billing);
         } catch (error) {
             return;
         } finally {
