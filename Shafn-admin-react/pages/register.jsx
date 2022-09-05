@@ -99,6 +99,12 @@ export default function Register() {
         // Login vendor
         const vendorData = await AuthRepository.login(_user)
 
+        const { encrypt } = require("~/utilities/helperfunctions")
+
+        const encryptedToken = encrypt(vendorData.token)
+
+        localStorage.setItem("auth_token", encryptedToken)
+
         try {
           await SettingsRepository.updateStore(vendorData.id, {
             store_name: vendor.store_name,

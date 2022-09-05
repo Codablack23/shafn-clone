@@ -135,7 +135,11 @@ const OrdersPage = () => {
                 </div>
               </div>
               <div className="ps-form__right">
-                <button className="ps-btn ps-btn--gray" onClick={filter}>
+                <button
+                  className="ps-btn ps-btn--gray"
+                  onClick={filter}
+                  disabled={isFiltering}
+                >
                   {isFiltering ? (
                     <Spin style={{ marginTop: 5 }} />
                   ) : (
@@ -148,16 +152,16 @@ const OrdersPage = () => {
               </div>
             </form>
           </div>
-          <div className="ps-section__actions">
+          {/* <div className="ps-section__actions">
             <Link href="/products/create-product">
               <a className="ps-btn success">
                 <i className="icon icon-plus mr-2"></i>New Order
               </a>
             </Link>
-            {/* <a className="ps-btn ps-btn--gray" href="new-order.html">
+            <a className="ps-btn ps-btn--gray" href="new-order.html">
               <i className="icon icon-download2 mr-2"></i>Export
-            </a> */}
-          </div>
+            </a>
+          </div> */}
         </div>
         <div className="ps-section__content">
           <TableOrdersItems orders={orders} />

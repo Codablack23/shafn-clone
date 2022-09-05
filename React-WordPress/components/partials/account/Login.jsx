@@ -25,7 +25,7 @@ function Login() {
             auth.isLoggedIn
         ) {
             notification["info"]({
-                message: "You're already logged in to this account",
+                message: "Already logged in",
             });
         } else if (!isLoading) {
             setIsLoading(true);
@@ -47,27 +47,28 @@ function Login() {
 
                 const role = _user.user_role[0].toLowerCase();
 
-                // const { encrypt } = require("~/utilities/common-helpers");
-                // const encryptedToken = encrypt(_user.token);
-
                 if (role === "customer") {
                     const customer = await WPCustomerRepository.getCustomer(
                         _user.user_id
                     );
                     dispatch(login(customer));
                     Router.push("/");
+                } else {
+                    notification["error"]({
+                        message: "Not a customer account",
+                    });
                 }
 
-                if (role === "seller") {
-                    const domain =
-                        process.env.NODE_ENV === "production"
-                            ? "https://dashboard.shafn.com"
-                            : "http://localhost:5500";
+                // if (role === "seller") {
+                //     const domain =
+                //         process.env.NODE_ENV === "production"
+                //             ? "https://dashboard.shafn.com"
+                //             : "http://localhost:5500";
 
-                    window.location.assign(
-                        `${domain}/dashboard?auth_token=${_user.token}`
-                    );
-                }
+                //     window.location.assign(
+                //         `${domain}/dashboard?auth_token=${_user.token}`
+                //     );
+                // }
             } catch (error) {
                 notification["error"]({
                     message: "Unable to login user",
@@ -111,7 +112,7 @@ function Login() {
                                     rules={[
                                         {
                                             required: true,
-                                            message: "Please input your email!",
+                                            message: "Please input your email",
                                         },
                                     ]}>
                                     <Input
@@ -134,11 +135,15 @@ function Login() {
                                     rules={[
                                         {
                                             required: true,
+                                            pattern: new RegExp(
+                                                /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+                                            ),
                                             message:
-                                                "Please input your password!",
+                                                "Password must contain at least 8 characters with at least one uppercase letter, one lowercase letter, one number and one special character(allowed characters => #, ?, !, @, $, %, ^, &, *, -)",
                                         },
                                     ]}>
                                     <Input.Password
+                                        className="form-control align-items-center d-flex justify-content-between"
                                         name="password"
                                         aria-label="Password"
                                         aria-required="true"

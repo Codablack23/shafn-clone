@@ -8,9 +8,12 @@ class ReportsRepository {
 
   getConfig() {
     const auth_token = localStorage.getItem("auth_token")
+
+    const { decrypt } = require("~/utilities/helperfunctions")
+
     const config = {
       headers: {
-        Authorization: `Bearer ${auth_token}`,
+        Authorization: `Bearer ${decrypt(auth_token)}`,
       },
     }
 

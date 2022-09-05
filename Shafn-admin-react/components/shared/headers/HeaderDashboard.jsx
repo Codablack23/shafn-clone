@@ -12,13 +12,16 @@ const HeaderDashboard = ({
   const store_name = useSelector((state) => state.profile.name)
   const [id, setId] = useState("")
 
-  let query = `${store_name.toLowerCase().replace(/ /g, "-")}-${id}`.trim()
+  const query = `${store_name.toLowerCase().replace(/ /g, "-")}-${id}`.trim()
 
   useEffect(() => {
-    let auth_token = localStorage.getItem("auth_token")
+    const auth_token = localStorage.getItem("auth_token")
+
+    const { decrypt } = require("~/utilities/helperfunctions")
+
     const config = {
       headers: {
-        Authorization: `Bearer ${auth_token}`,
+        Authorization: `Bearer ${decrypt(auth_token)}`,
       },
     }
 

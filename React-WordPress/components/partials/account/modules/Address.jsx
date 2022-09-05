@@ -6,49 +6,49 @@ function Address({ customer, isBilling }) {
             <dt>
                 <strong>First name:</strong>
             </dt>
-            <dd>{customer.first_name}</dd>
+            <dd>{customer?.first_name}</dd>
             <dt>
                 <strong>Last name:</strong>
             </dt>
-            <dd>{customer.last_name}</dd>
+            <dd>{customer?.last_name}</dd>
             <dt>
                 <strong>Company:</strong>
             </dt>
-            <dd>{customer.company}</dd>
+            <dd>{customer?.company}</dd>
             <dt>
                 <strong>First address:</strong>
             </dt>
-            <dd>{customer.address_1}</dd>
+            <dd>{customer?.address_1}</dd>
             <dt>
                 <strong>Second address:</strong>
             </dt>
-            <dd>{customer.address_2}</dd>
+            <dd>{customer?.address_2}</dd>
             <dt>
                 <strong>City:</strong>
             </dt>
-            <dd>{customer.city}</dd>
+            <dd>{customer?.city}</dd>
             <dt>
                 <strong>State:</strong>
             </dt>
-            <dd>{customer.state}</dd>
+            <dd>{customer?.state}</dd>
             <dt>
                 <strong>Post code:</strong>
             </dt>
-            <dd>{customer.postcode}</dd>
+            <dd>{customer?.postcode}</dd>
             <dt>
                 <strong>Country:</strong>
             </dt>
-            <dd>{customer.country}</dd>
+            <dd>{customer?.country}</dd>
             {isBilling && (
                 <>
                     <dt>
                         <strong>Email:</strong>
                     </dt>
-                    <dd>{customer.email}</dd>
+                    <dd>{customer?.email}</dd>
                     <dt>
                         <strong>Phone number:</strong>
                     </dt>
-                    <dd>{customer.phone}</dd>
+                    <dd>{customer?.phone}</dd>
                 </>
             )}
         </dl>

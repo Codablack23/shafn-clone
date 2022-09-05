@@ -8,9 +8,12 @@ class OrdersRepository {
 
   getConfig() {
     const auth_token = localStorage.getItem("auth_token")
+
+    const { decrypt } = require("~/utilities/helperfunctions")
+
     const config = {
       headers: {
-        Authorization: `Bearer ${auth_token}`,
+        Authorization: `Bearer ${decrypt(auth_token)}`,
       },
     }
 
@@ -36,6 +39,15 @@ class OrdersRepository {
         return data
       } else return null
     })
+
+    return response
+  }
+
+  async getOrderById(id) {
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/orders/${id}`
+    const config = this.getConfig()
+
+    const response = axios.get(endpoint, config).then((res) => res.data)
 
     return response
   }
