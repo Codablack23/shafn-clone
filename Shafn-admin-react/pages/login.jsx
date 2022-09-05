@@ -50,7 +50,7 @@ export default function Login() {
         const role = _user.user_role[0].toLowerCase()
 
         if (role === "seller") {
-          const { encrypt } = require("~/utilities/helperfunctions")
+          const { encrypt } = require("~/utilities/helperFunctions")
 
           const encryptedToken = encrypt(_user.token)
 

@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import dynamic from "next/dynamic"
 import Router from "next/router"
 import { useDispatch } from "react-redux"
@@ -24,13 +24,11 @@ const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
 })
 
-const ProductAttributes = dynamic(
-  () => import("~/components/elements/products/ProductAttributes"),
-  { suspense: true }
+const ProductAttributes = dynamic(() =>
+  import("~/components/elements/products/ProductAttributes")
 )
-const ProductVariations = dynamic(
-  () => import("~/components/elements/products/ProductVariations"),
-  { suspense: true }
+const ProductVariations = dynamic(() =>
+  import("~/components/elements/products/ProductVariations")
 )
 
 const short_buttonList = [
@@ -675,31 +673,29 @@ const EditProductPage = ({ pid }) => {
             </div>
 
             {product.type === "variable" ? (
-              <Suspense fallback={<Spin />}>
-                <div>
-                  <figure className="ps-block--form-box">
-                    <figcaption>Attributes and Variations</figcaption>
-                    <div className="ps-block__content">
-                      <ProductAttributes
+              <div>
+                <figure className="ps-block--form-box">
+                  <figcaption>Attributes and Variations</figcaption>
+                  <div className="ps-block__content">
+                    <ProductAttributes
+                      productId={pid}
+                      attributes={attributes}
+                      onAttributeChange={setAttributes}
+                      onVariationChange={setVariations}
+                      onProductChange={setProduct}
+                    />
+                    {product.attributes.length > 0 ? (
+                      <ProductVariations
                         productId={pid}
-                        attributes={attributes}
-                        onAttributeChange={setAttributes}
+                        productAttributes={product.attributes}
+                        variations={variations}
                         onVariationChange={setVariations}
                         onProductChange={setProduct}
                       />
-                      {product.attributes.length > 0 ? (
-                        <ProductVariations
-                          productId={pid}
-                          productAttributes={product.attributes}
-                          variations={variations}
-                          onVariationChange={setVariations}
-                          onProductChange={setProduct}
-                        />
-                      ) : null}
-                    </div>
-                  </figure>
-                </div>
-              </Suspense>
+                    ) : null}
+                  </div>
+                </figure>
+              </div>
             ) : null}
           </div>
 

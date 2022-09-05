@@ -99,7 +99,7 @@ export default function Register() {
         // Login vendor
         const vendorData = await AuthRepository.login(_user)
 
-        const { encrypt } = require("~/utilities/helperfunctions")
+        const { encrypt } = require("~/utilities/helperFunctions")
 
         const encryptedToken = encrypt(vendorData.token)
 

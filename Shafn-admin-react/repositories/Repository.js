@@ -10,6 +10,8 @@ export const customHeaders = {
 
 export const baseUrl = `${baseDomain}`
 export const WPDomain = "https://shafn.com"
+export const domain =
+  process.env.NODE_ENV === "production" ? WPDomain : "http://localhost:3000"
 
 export default axios.create({
   baseUrl,
