@@ -127,6 +127,15 @@ class ProductRepository {
     return response
   }
 
+  async getVariationById(productId, variationId) {
+    const endpoint = `${WPDomain}/wp-json/wc/v3/products/${productId}/variations/${variationId}`
+    const config = this.getConfig()
+
+    const { data: response } = await axios.get(endpoint, config)
+
+    return response
+  }
+
   async createVariation(productId, payload) {
     const endpoint = `${WPDomain}/wp-json/dokan/v1/products/${productId}/variations`
     const config = this.getConfig()

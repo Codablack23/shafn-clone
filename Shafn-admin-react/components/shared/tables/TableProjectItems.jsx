@@ -3,7 +3,7 @@ import Link from "next/link"
 import ReactHtmlParser from "react-html-parser"
 
 import DropdownAction from "~/components/elements/basic/DropdownAction"
-import { WPDomain } from "~/repositories/Repository"
+import { domain } from "~/repositories/Repository"
 
 const TableProjectItems = ({ products }) => {
   let tableItems
@@ -23,11 +23,6 @@ const TableProjectItems = ({ products }) => {
       } else {
         badgeView = <span className="ps-badge gray">Out of stock</span>
       }
-
-      const domain =
-        process.env.NODE_ENV === "production"
-          ? WPDomain
-          : "http://localhost:3000"
 
       return (
         <tr key={item.id}>

@@ -1,27 +1,74 @@
 import React, { useState, useEffect } from "react"
+import Link from "next/link"
 import ContainerDefault from "~/components/layouts/ContainerDefault"
 import ModuleOrderShippingInformation from "~/components/partials/orders/ModuleOrderShippingInformation"
 import ModuleOrderBillingInformation from "~/components/partials/orders/ModuleOrderBillingInformation"
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard"
 import { connect, useDispatch } from "react-redux"
 import { toggleDrawerMenu } from "~/store/app/action"
+import { notification } from "antd"
 import OrdersRepository from "~/repositories/OrdersRepository"
+import ProductRepository from "~/repositories/ProductRepository"
+import { domain } from "~/repositories/Repository"
 
 const OrderDetailPage = ({ oid }) => {
   const dispatch = useDispatch()
 
   const [order, setOrder] = useState(null)
+  const [products, setProducts] = useState([])
 
   const getOrder = async () => {
-    const _order = await OrdersRepository.getOrderById(oid)
+    try {
+      const _order = await OrdersRepository.getOrderById(oid)
 
-    setOrder(_order)
+      try {
+        let _products = []
+        for (let i = 0; i < _orders.line_items.length; i++) {
+          let item = { ..._orders.line_items[i], options: [] }
+
+          const _product = await ProductRepository.getProductByID(
+            item.product_id
+          )
+
+          item.slug = _product.slug
+
+          if (item.variation_id !== 0) {
+            const variant = await ProductRepository.getVariationById(
+              item.product_id,
+              item.variation_id
+            )
+
+            item.options = variant.attributes.map(
+              (attribute) => attribute.option
+            )
+            item.price = variant.price
+          }
+
+          _products.push(item)
+        }
+
+        setProducts(_products)
+      } catch (error) {
+        notification["error"]({
+          message: "Unable to get products",
+          description: "Please check your data connection",
+        })
+      }
+
+      setOrder(_order)
+    } catch (error) {
+      notification["error"]({
+        message: "Unable to get order",
+        description: "Please check your data connection",
+      })
+    }
   }
 
   useEffect(() => {
     dispatch(toggleDrawerMenu(false))
     // getOrder()
   }, [])
+
   return (
     <ContainerDefault title="Order Detail">
       <HeaderDashboard title="Order Detail" description="ShafN Order Detail" />
@@ -47,64 +94,40 @@ const OrderDetailPage = ({ oid }) => {
                   <thead>
                     <tr>
                       <th>Product</th>
+                      <th>Options</th>
                       <th>Quantity</th>
                       <th>Price</th>
                       <th>Total</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>
-                        <a href="#">
-                          Herschel Leather Duffle Bag In Brown Color
-                        </a>
-                      </td>
-                      <td>1</td>
-                      <td>$29.59</td>
-                      <td>$29.59</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <a href="#">
-                          Herschel Leather Duffle Bag In Brown Color
-                        </a>
-                      </td>
-                      <td>1</td>
-                      <td>$29.59</td>
-                      <td>$29.59</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <a href="#">
-                          Herschel Leather Duffle Bag In Brown Color
-                        </a>
-                      </td>
-                      <td>1</td>
-                      <td>$29.59</td>
-                      <td>$29.59</td>
-                    </tr>
-                    <tr>
-                      <td colSpan="3">
-                        <strong>Sub Total:</strong>
-                      </td>
-                      <td>
-                        <strong>$199.90</strong>
-                      </td>
-                    </tr>
+                    {products.map((product) => (
+                      <tr>
+                        <td>
+                          <Link
+                            href={`${domain}/product/${product.slug}-${product.product_id}`}
+                          >
+                            <a>{product.name}</a>
+                          </Link>
+                        </td>
+                        <td>{product.options.join(", ")}</td>
+                        <td>{product.quantity}</td>
+                        <td>
+                          {order?.currency_symbol}
+                          {product.price}
+                        </td>
+                        <td>
+                          {order?.currency_symbol}
+                          {product.price}
+                        </td>
+                      </tr>
+                    ))}
                     <tr>
                       <td colSpan="3">
                         <strong>Shipping Charge:</strong>
                       </td>
                       <td>
-                        <strong>$24.00</strong>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colSpan="3">
-                        <strong>Estimated:</strong>
-                      </td>
-                      <td>
-                        <strong>$12.00</strong>
+                        <strong>{order?.shipping_total}</strong>
                       </td>
                     </tr>
                     <tr>
@@ -112,7 +135,7 @@ const OrderDetailPage = ({ oid }) => {
                         <strong>Total:</strong>
                       </td>
                       <td>
-                        <strong>$211.00</strong>
+                        <strong>{order?.total}</strong>
                       </td>
                     </tr>
                   </tbody>
