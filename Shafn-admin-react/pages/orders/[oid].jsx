@@ -39,7 +39,7 @@ const OrderDetailPage = ({ oid }) => {
           </div>
           <div className="ps-card ps-card--track-order">
             <div className="ps-card__header">
-              <h4>#ABD-235711</h4>
+              <h4>#{order?.number}</h4>
             </div>
             <div className="ps-card__content">
               <div className="table-responsive">
