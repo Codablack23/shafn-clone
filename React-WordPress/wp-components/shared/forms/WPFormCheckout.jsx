@@ -9,7 +9,12 @@ import {
     convertToURLEncoded,
 } from "~/utilities/WPHelpers";
 
-const WPFormCheckout = ({ customerInfo, amount, checkoutItems }) => {
+const WPFormCheckout = ({
+    customerId,
+    customerInfo,
+    amount,
+    checkoutItems,
+}) => {
     const dispatch = useDispatch();
     const [form] = Form.useForm();
     const [paymentGateways, setPaymentGateways] = useState(null);
@@ -41,6 +46,7 @@ const WPFormCheckout = ({ customerInfo, amount, checkoutItems }) => {
     async function handleSubmit(values) {
         let WPShipping, WPLineItems;
         let checkoutData = {
+            customer_id: customerId,
             payment_method: null,
             payment_method_title: null,
             set_paid: false,
@@ -616,7 +622,7 @@ const WPFormCheckout = ({ customerInfo, amount, checkoutItems }) => {
 };
 
 const mapStateToProps = (state) => {
-    const { billing, shipping } = state.auth;
+    const { id, billing, shipping } = state.auth;
     const customerInfo = {
         first_name: billing?.first_name,
         last_name: billing?.last_name,
@@ -639,7 +645,7 @@ const mapStateToProps = (state) => {
         shipping_country: shipping?.country,
     };
 
-    return { customerInfo, ...state.checkoutItems };
+    return { customerId: id, customerInfo, ...state.checkoutItems };
 };
 
 export default connect(mapStateToProps)(WPFormCheckout);

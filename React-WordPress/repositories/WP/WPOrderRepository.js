@@ -2,8 +2,12 @@
  * WPReact
  * Developed by: diaryforlife
  * */
-import { oathInfo, WPDomain, WPRepository } from '~/repositories/WP/WPRepository';
-import { serializeQuery } from '~/repositories/Repository';
+import {
+    oathInfo,
+    WPDomain,
+    WPRepository,
+} from "~/repositories/WP/WPRepository";
+import { serializeQuery } from "~/repositories/Repository";
 
 class WPOrderRespository {
     constructor(callback) {
@@ -16,12 +20,23 @@ class WPOrderRespository {
         })}`;
         return await WPRepository.post(`${WPDomain}/${endPoint}`, payload)
             .then((response) => {
-                console.log(response);
                 return response.data;
             })
             .catch(() => {
                 return null;
             });
+    }
+
+    async getOrders(payload) {
+        const endPoint = `wp-json/wc/v3/orders?${serializeQuery({
+            ...payload,
+            ...oathInfo,
+        })}`;
+        return await WPRepository.get(`${WPDomain}/${endPoint}`).then(
+            (response) => {
+                return response.data;
+            }
+        );
     }
 
     // Orders data
@@ -39,7 +54,7 @@ class WPOrderRespository {
     }
 
     async getShippingMethods() {
-        const endPoint = 'wp-json/wc/v3/payment_gateways';
+        const endPoint = "wp-json/wc/v3/payment_gateways";
         return await WPRepository.get(`${WPDomain}/${endPoint}`)
             .then((response) => {
                 return response.data;

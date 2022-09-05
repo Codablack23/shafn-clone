@@ -24,11 +24,6 @@ const TableOrdersItems = ({ orders }) => {
           </Menu.Item>
         </Menu>
       )
-      // if (item.status === "completed") {
-      //   status = <span className="ps-badge success">Paid</span>;
-      // } else {
-      //   status = <span className="ps-badge gray">Unpaid</span>;
-      // }
 
       if (item.status === "completed" || item.status === "refunded") {
         status = <span className="ps-fullfillment success">{item.status}</span>
@@ -40,17 +35,25 @@ const TableOrdersItems = ({ orders }) => {
 
       return (
         <tr key={item.id}>
-          <td>{item.id}</td>
-          <td>
-            <strong>{item.total}</strong>
-          </td>
-          <td>{status}</td>
           <td>
             <Link href="/orders/order-detail">
               <a>
-                <strong>{item.customer_id}</strong>
+                <strong>{item.id}</strong>
               </a>
             </Link>
+          </td>
+          <td>{status}</td>
+          <td>
+            <strong>{item.total}</strong>
+          </td>
+
+          <td>
+            <p>
+              {item.billing.first_name} {item.billing.last_name},{" "}
+              {item.billing.address_1}, {item.billing.city} {item.billing.state}{" "}
+              {item.billing.postcode}, {item.billing.country}
+            </p>
+            <p>via {item.payment_method_title}</p>
           </td>
           <td>
             <strong>{new Date(item.date_created).toDateString()}</strong>
@@ -70,9 +73,9 @@ const TableOrdersItems = ({ orders }) => {
         <thead>
           <tr>
             <th>ID</th>
-            <th>Total</th>
             <th>Status</th>
-            <th>Customer</th>
+            <th>Total</th>
+            <th>Billing</th>
             <th>Date</th>
             {/* <th></th> */}
           </tr>

@@ -1,18 +1,14 @@
-import React, { useState } from "react";
-import { Select, Table } from "antd";
+import React, { useState, useEffect } from "react";
+import { Select, Spin, Table, notification, Tag } from "antd";
+import WPOrderRepository from "~/repositories/WP/WPOrderRepository";
+import { useSelector } from "react-redux";
+import ReactHtmlParser from "react-html-parser";
 
 export default function OrdersListing() {
     const { Option } = Select;
-    const [userOrders, setUsersOrders] = useState([
-        {
-            key: "1",
-            id: "1",
-            customer: "John Brown",
-            total: 32,
-            status: "pending",
-            date: new Date().toDateString(),
-        },
-    ]);
+
+    const auth = useSelector((state) => state.auth);
+    const [orders, setOrders] = useState([]);
     const status = [
         "Pending",
         "Processing",
@@ -22,6 +18,14 @@ export default function OrdersListing() {
         "Refunded",
         "Failed",
     ];
+    const [isLoading, setIsLoading] = useState(true);
+    const [isFiltering, setIsFiltering] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [filterParams, setFilterParams] = useState({
+        status: "",
+    });
+    const [searchKeyword, setSearchKeyword] = useState("");
+
     const columns = [
         {
             title: "ID",
@@ -30,26 +34,131 @@ export default function OrdersListing() {
             render: (text) => <a>{text}</a>,
         },
         {
-            title: "Total",
+            title: "Status",
+            dataIndex: "status",
+            key: "status",
+            render: (status) => {
+                let color = "default";
+                switch (status) {
+                    case "processing":
+                    case "on-hold":
+                        color = "processing";
+                        break;
+                    case "completed":
+                    case "refunded":
+                        color = "success";
+                        break;
+                    case "cancelled":
+                    case "failed":
+                    case "trash":
+                        color = "error";
+                        break;
+                }
+                return <Tag color={color}>{status}</Tag>;
+            },
+        },
+        {
+            title: "Amount",
             dataIndex: "total",
             key: "total",
         },
         {
-            title: "Status",
-            dataIndex: "status",
-            key: "status",
-        },
-        {
-            title: "Customer",
-            dataIndex: "customer",
-            key: "customer",
+            title: "Billing",
+            dataIndex: "billing",
+            key: "billing",
+            render: (billing) => (
+                <span>
+                    {billing.first_name} {billing.last_name},{" "}
+                    {billing.address_1}, {billing.city} {billing.state}{" "}
+                    {billing.postcode}, {billing.country}
+                </span>
+            ),
         },
         {
             title: "Date",
-            dataIndex: "date",
+            dataIndex: "date_created",
             key: "date",
+            render: (date) => <span>{new Date(date).toDateString()}</span>,
         },
     ];
+
+    const filter = async (e) => {
+        e.preventDefault();
+
+        const params = {
+            page: currentPage,
+            per_page: 10,
+            status: filterParams.status,
+            search: searchKeyword,
+        };
+
+        try {
+            setIsFiltering(true);
+            const orders = await WPOrderRepository.getOrders(params);
+            if (orders && orders.length > 0) {
+                setOrders(orders);
+            } else {
+                notification["info"]({
+                    message: "No match for filter params",
+                });
+            }
+        } catch (error) {
+            notification["error"]({
+                message: "Unable to filter",
+                description:
+                    error.response === undefined
+                        ? ReactHtmlParser(String(error))
+                        : ReactHtmlParser(error.response.data.message),
+            });
+        } finally {
+            setIsFiltering(false);
+        }
+    };
+
+    const handlePagination = async (page, pageSize) => {
+        setCurrentPage(page);
+        const params = {
+            page,
+            per_page: pageSize,
+        };
+
+        try {
+            const orders = await WPOrderRepository.getOrders(params);
+            setOrders(orders);
+        } catch (error) {
+            notification["error"]({
+                message: "Unable to get orders",
+                description: "Please check your data connection and try again.",
+            });
+        }
+    };
+
+    const getOrders = async () => {
+        const params = {
+            page: 1,
+            per_page: 10,
+            customer_id: auth.id,
+        };
+
+        try {
+            const orders = await WPOrderRepository.getOrders(params);
+            setOrders(orders);
+        } catch (error) {
+            notification["error"]({
+                message: "Unable to get orders",
+                description: "Please check your data connection and try again.",
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (auth.id) {
+            getOrders();
+        }
+    }, []);
+
     return (
         <div className="orders-listing">
             <header>
@@ -57,27 +166,41 @@ export default function OrdersListing() {
                 <p className="sub-heading">Your Order's Listing</p>
             </header>
             <section className="filter-container mt-5 d-lg-flex align-items-center">
-                <input type="text" placeholder="Search" />
+                <input
+                    type="text"
+                    placeholder="Search"
+                    onChange={(e) => setSearchKeyword(e.target.value)}
+                />
                 <div className="select-component">
                     <Select
                         className="select-element"
-                        style={{ width: "100%" }}>
+                        style={{ width: "100%" }}
+                        onChange={(value) =>
+                            setFilterParams((params) => ({
+                                ...params,
+                                status: value,
+                            }))
+                        }>
                         {status.map((s, i) => (
-                            <Option key={`${i}-orders`} value={s}>
+                            <Option key={`${i}-orders`} value={s.toLowerCase()}>
                                 {s}
                             </Option>
                         ))}
                     </Select>
                 </div>
-                <button type="button" className="filter-button">
-                    Filter
+                <button
+                    type="button"
+                    className="filter-button"
+                    onClick={filter}
+                    disabled={isFiltering}>
+                    {isFiltering ? <Spin style={{ marginTop: 5 }} /> : "Filter"}
                 </button>
             </section>
             <br />
             <section>
                 <Table
                     columns={columns}
-                    dataSource={userOrders}
+                    dataSource={orders}
                     scroll={{ x: 20 }}
                     onRow={(row) => {
                         return {
@@ -85,6 +208,14 @@ export default function OrdersListing() {
                                 console.log(row);
                             },
                         };
+                    }}
+                    loading={isLoading}
+                    pagination={{
+                        total: orders.length,
+                        pageSize: 10,
+                        responsive: true,
+                        current: currentPage,
+                        onChange: handlePagination,
                     }}
                 />
             </section>
