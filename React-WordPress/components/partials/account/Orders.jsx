@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { logOut } from "~/store/auth/action";
 
+import OrdersListing from "./OrderListing";
+
+
 const accountLinks = [
     {
         text: "Account Information",
@@ -84,7 +87,7 @@ function Orders() {
                     </div>
                     <div className="col-lg-8">
                         <div className="ps-page__content">
-                            <p>Orders list</p>
+                        <OrdersListing/>
                         </div>
                     </div>
                 </div>
