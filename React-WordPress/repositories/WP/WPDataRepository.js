@@ -23,3 +23,5 @@ class WPDataRepository {
         return response;
     }
 }
+
+export default new WPDataRepository();
