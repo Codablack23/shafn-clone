@@ -42,6 +42,15 @@ class OrdersRepository {
 
     return response
   }
+
+  async getOrderById(id) {
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/orders/${id}`
+    const config = this.getConfig()
+
+    const response = axios.get(endpoint, config).then((res) => res.data)
+
+    return response
+  }
 }
 
 export default new OrdersRepository()

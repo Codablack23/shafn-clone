@@ -1,15 +1,26 @@
-import React, { useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import ContainerDefault from "~/components/layouts/ContainerDefault"
 import ModuleOrderShippingInformation from "~/components/partials/orders/ModuleOrderShippingInformation"
 import ModuleOrderBillingInformation from "~/components/partials/orders/ModuleOrderBillingInformation"
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard"
 import { connect, useDispatch } from "react-redux"
 import { toggleDrawerMenu } from "~/store/app/action"
+import OrdersRepository from "~/repositories/OrdersRepository"
 
-const OrderDetailPage = () => {
+const OrderDetailPage = ({ oid }) => {
   const dispatch = useDispatch()
+
+  const [order, setOrder] = useState(null)
+
+  const getOrder = async () => {
+    const _order = await OrdersRepository.getOrderById(oid)
+
+    setOrder(_order)
+  }
+
   useEffect(() => {
     dispatch(toggleDrawerMenu(false))
+    // getOrder()
   }, [])
   return (
     <ContainerDefault title="Order Detail">
@@ -17,14 +28,13 @@ const OrderDetailPage = () => {
       <section className="ps-dashboard">
         <div className="ps-section__left">
           <div className="row">
-            <div className="col-md-4">
-              <ModuleOrderShippingInformation />
+            <div className="col-md-6">
+              <ModuleOrderShippingInformation
+                shipping={order && order.shipping}
+              />
             </div>
-            <div className="col-md-4">
-              <ModuleOrderBillingInformation />
-            </div>
-            <div className="col-md-4">
-              <ModuleOrderShippingInformation />
+            <div className="col-md-6">
+              <ModuleOrderBillingInformation billing={order && order.billing} />
             </div>
           </div>
           <div className="ps-card ps-card--track-order">
@@ -111,7 +121,7 @@ const OrderDetailPage = () => {
             </div>
           </div>
         </div>
-        <div className="ps-section__right">
+        {/* <div className="ps-section__right">
           <div className="ps-card ps-card--track-order">
             <div className="ps-card__header">
               <h4>Track Order</h4>
@@ -163,9 +173,14 @@ const OrderDetailPage = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </section>
     </ContainerDefault>
   )
 }
+
+OrderDetailPage.getInitialProps = async ({ query }) => {
+  return { oid: query.oid }
+}
+
 export default connect((state) => state.app)(OrderDetailPage)

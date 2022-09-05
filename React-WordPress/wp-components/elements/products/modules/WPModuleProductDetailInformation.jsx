@@ -17,7 +17,7 @@ const WPModuleProductDetailInformation = ({
 
     const handleAddItemToWishlist = (e) => {
         e.preventDefault();
-        let _product = product;
+        let _product = { ...product, variation_id: 0 };
         if (product.type === "variable") {
             if (variant) {
                 const options = variant.attributes
@@ -28,6 +28,7 @@ const WPModuleProductDetailInformation = ({
                     ...product,
                     name: `${product.name}[${options}]`,
                     price: variant.price,
+                    variation_id: variant.id,
                 };
             }
         }

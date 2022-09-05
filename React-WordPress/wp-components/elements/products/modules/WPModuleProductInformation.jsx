@@ -25,6 +25,7 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
                     ...product,
                     name: `${product.name}[${options}]`,
                     price: variant.price,
+                    variation_id: variant.id,
                 };
 
                 item = {
@@ -36,7 +37,7 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
         } else {
             item = {
                 amount: product.price,
-                cartItems: [{ ...product, quantity }],
+                cartItems: [{ ...product, quantity, variation_id: 0 }],
                 cartTotal: 1,
             };
         }
@@ -49,7 +50,7 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
     const handleAddItemToCart = (e) => {
         e.preventDefault();
 
-        let _product = product;
+        let _product = { ...product, variation_id: 0 };
 
         if (product.type === "variable") {
             if (variant) {
@@ -61,6 +62,7 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
                     ...product,
                     name: `${product.name}[${options}]`,
                     price: variant.price,
+                    variation_id: variant.id,
                 };
             }
         }

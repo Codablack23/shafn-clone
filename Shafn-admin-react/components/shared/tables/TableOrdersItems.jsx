@@ -36,7 +36,7 @@ const TableOrdersItems = ({ orders }) => {
       return (
         <tr key={item.id}>
           <td>
-            <Link href="/orders/order-detail">
+            <Link href="/orders/[oid]" as={`/orders/${item.id}`}>
               <a>
                 <strong>{item.id}</strong>
               </a>

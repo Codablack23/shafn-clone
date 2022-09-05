@@ -101,6 +101,7 @@ const WPFormCheckout = ({
             if (checkoutItems) {
                 WPLineItems = checkoutItems.map((item) => ({
                     product_id: item.id,
+                    variation_id: item.variation_id,
                     quantity: item.quantity,
                 }));
             }
