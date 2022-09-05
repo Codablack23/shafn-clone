@@ -19,3 +19,5 @@ class DataRepository {
     return response
   }
 }
+
+export default new DataRepository()
