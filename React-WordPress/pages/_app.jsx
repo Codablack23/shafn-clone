@@ -13,7 +13,6 @@ import "../scss/market-place-1.scss";
 import "slick-carousel/slick/slick.css";
 import { CookiesProvider } from "react-cookie";
 import "bootstrap-icons/font/bootstrap-icons.scss";
-import { ErrorBoundary } from "react-error-boundary";
 /*import '../scss/electronic.scss';
 import '../scss/furniture.scss';
 import '../scss/organic.scss';
@@ -45,12 +44,7 @@ class MyApp extends App {
                     loading={<Component {...pageProps} />}
                     persistor={this.persistor}>
                     <CookiesProvider>
-                        <ErrorBoundary
-                            onError={(error, info) =>
-                                console.log("Error: ", error, info)
-                            }>
-                            <Component {...pageProps} />
-                        </ErrorBoundary>
+                        <Component {...pageProps} />
                     </CookiesProvider>
                 </PersistGate>
             </Provider>
