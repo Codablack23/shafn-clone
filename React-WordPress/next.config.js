@@ -9,10 +9,6 @@ const nextSettings = {
 };
 
 module.exports = {
-    swcMinify: false,
-};
-
-module.exports = {
     async rewrites() {
         return [
             {
