@@ -18,7 +18,30 @@ import ModalCookie from "~/components/elements/modalCookie";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Modal } from "antd";
-import { ErrorBoundary } from "react-error-boundary";
+// import { ErrorBoundary } from "react-error-boundary";
+
+class ErrorBoundary extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { hasError: false };
+    }
+
+    static getDerivedStateFromError(error) {
+        // Update state so the next render will show the fallback UI.
+        return { hasError: true };
+    }
+    componentDidCatch(error, errorInfo) {
+        // You can also log the error to an error reporting service
+        console.log(error, errorInfo);
+    }
+    render() {
+        if (this.state.hasError) {
+            // You can render any custom fallback UI
+            return <h1>Something went wrong.</h1>;
+        }
+        return this.props.children;
+    }
+}
 
 // function ShowCookiePopUp(){
 
@@ -62,31 +85,45 @@ const Index = (auth) => {
     };
 
     return (
-        <WPLayoutHomeDefault title="Multipurpose Marketplace React Ecommerce Template">
-            <ErrorBoundary onError={handleUIError}>
-                <HomeBanner />
-            </ErrorBoundary>
-            {/* <SiteFeatures /> */}
-            <WPDealOfDay />
-            <ErrorBoundary onError={handleUIError}>
-                <HomeAdsColumns />
-            </ErrorBoundary>
-            {/* <HomeDefaultTopCategories /> */}
-            {/* <HomeAds /> */}
-            <WPProductList categoryID={21} title="Art" />
-            <WPProductList categoryID={24} title="Clothing" />
-            {/* <WPProductList categoryID={70} title="Clothing" /> */}
-            {/* <DownLoadApp /> */}
-            <WPNewArrivals />
+        <ErrorBoundary>
+            <WPLayoutHomeDefault title="Multipurpose Marketplace React Ecommerce Template">
+                <ErrorBoundary>
+                    <HomeBanner />
+                </ErrorBoundary>
+                {/* <SiteFeatures /> */}
+                <ErrorBoundary>
+                    <WPDealOfDay />
+                </ErrorBoundary>
 
-            {auth.isLoggedIn && <WPRecentlyViewed />}
+                <ErrorBoundary>
+                    <HomeAdsColumns />
+                </ErrorBoundary>
+                {/* <HomeDefaultTopCategories /> */}
+                {/* <HomeAds /> */}
+                <ErrorBoundary>
+                    <WPProductList categoryID={21} title="Art" />
+                </ErrorBoundary>
 
-            <motion.div animate={{ opacity: isCookiesShowing ? 1 : 0 }}>
-                <div>
-                    <ModalCookie />
-                </div>
-            </motion.div>
-        </WPLayoutHomeDefault>
+                <ErrorBoundary>
+                    <WPProductList categoryID={24} title="Clothing" />
+                </ErrorBoundary>
+                {/* <WPProductList categoryID={70} title="Clothing" /> */}
+                {/* <DownLoadApp /> */}
+                <ErrorBoundary>
+                    <WPNewArrivals />
+                </ErrorBoundary>
+
+                <ErrorBoundary>
+                    {auth.isLoggedIn && <WPRecentlyViewed />}
+                </ErrorBoundary>
+
+                <motion.div animate={{ opacity: isCookiesShowing ? 1 : 0 }}>
+                    <div>
+                        <ModalCookie />
+                    </div>
+                </motion.div>
+            </WPLayoutHomeDefault>
+        </ErrorBoundary>
     );
 };
 

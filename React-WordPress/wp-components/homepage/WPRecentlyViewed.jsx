@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import WPProductRepository from "~/repositories/WP/WPProductRepository";
 import WPProductHorizontal from "~/wp-components/elements/products/WPProductHorizontal";
 import SkeletonProductHorizontal from "~/components/elements/skeletons/SkeletonProductHorizontal";
-import { ErrorBoundary } from "react-error-boundary";
 
 const WPRecentlyViewed = ({ products }) => {
     let productsView;
@@ -17,17 +16,11 @@ const WPRecentlyViewed = ({ products }) => {
         );
     } else {
         productsView = products.map((item) => (
-            <ErrorBoundary
-                onError={(error, info) => {
-                    console.error(error);
-                    console.log(info);
-                }}>
-                <div
-                    className="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 "
-                    key={item.id}>
-                    <WPProductHorizontal product={item} />
-                </div>
-            </ErrorBoundary>
+            <div
+                className="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 "
+                key={item.id}>
+                <WPProductHorizontal product={item} />
+            </div>
         ));
     }
 
