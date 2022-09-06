@@ -7,17 +7,17 @@ import WPHeaderMobile from "~/wp-components/shared/mobile/WPHeaderMobile";
 import WPNavigationBottom from "~/wp-components/shared/mobile/WPNavigationBottom";
 
 const WPLayoutHomeDefault = ({ children, title }) => {
-    // let titleView;
-    // if (title !== null) {
-    //     titleView = process.env.title + ' | ' + title;
-    // } else {
-    //     titleView = process.env.title + ' | ' + process.env.titleDescription;
-    // }
+    let titleView;
+    if (title !== null) {
+        titleView = process.env.title + " | " + title;
+    } else {
+        titleView = process.env.title + " | " + process.env.titleDescription;
+    }
 
     return (
         <div className="martfury" id="shafn">
             <Head>
-                <title>{title}</title>
+                <title>{titleView}</title>
             </Head>
             <WPHeaderDefault />
             <WPHeaderMobile />
