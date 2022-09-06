@@ -6,6 +6,7 @@ import SkeletonProduct from "~/components/elements/skeletons/SkeletonProduct";
 import { carouselFullwidth } from "~/utilities/carousel-helpers";
 import WPProductDealOfDay from "~/wp-components/elements/products/WPProductDealOfDay";
 // import CountDownSimple from "~/components/elements/CountDownSimple";
+import { ErrorBoundary } from "react-error-boundary";
 
 const WPDealOfDay = () => {
     const [productItems, setProductItems] = useState(null);
@@ -36,7 +37,13 @@ const WPDealOfDay = () => {
     if (!loading) {
         if (productItems && productItems.length > 0) {
             const slideItems = productItems.map((item) => (
-                <WPProductDealOfDay product={item} key={item.id} />
+                <ErrorBoundary
+                    onError={(error, info) => {
+                        console.error(error);
+                        console.log(info);
+                    }}>
+                    <WPProductDealOfDay product={item} key={item.id} />
+                </ErrorBoundary>
             ));
             productItemsView = (
                 <Slider {...carouselFullwidth} className="ps-carousel outside">

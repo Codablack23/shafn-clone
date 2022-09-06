@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import { Pagination } from 'antd';
-import WPProduct from '~/wp-components/elements/products/WPProduct';
-import WPProductWide from '~/wp-components/elements/products/WPProductWide';
-import { WPGetProducts } from '~/store/wp/action';
-import { generateTempArray } from '~/utilities/common-helpers';
-import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct';
+import React, { useEffect, useState } from "react";
+import { connect, useDispatch } from "react-redux";
+import { Pagination } from "antd";
+import WPProduct from "~/wp-components/elements/products/WPProduct";
+import WPProductWide from "~/wp-components/elements/products/WPProductWide";
+import { WPGetProducts } from "~/store/wp/action";
+import { generateTempArray } from "~/utilities/common-helpers";
+import SkeletonProduct from "~/components/elements/skeletons/SkeletonProduct";
+import { ErrorBoundary } from "react-error-boundary";
 
 const WPShopProducts = (props) => {
     const { WPProducts, WPLoading, sidebar } = props;
@@ -57,18 +58,30 @@ const WPShopProducts = (props) => {
             );
             if (listView === true) {
                 const productItems = WPProducts.items.map((item) => (
-                    <div
-                        className={`${
-                            !sidebar ? 'col-xl-2' : 'col-xl-3'
-                        } col-lg-4 col-md-4 col-sm-6 col-6`}
-                        key={item.id}>
-                        <WPProduct product={item} />
-                    </div>
+                    <ErrorBoundary
+                        onError={(error, info) => {
+                            console.error(error);
+                            console.log(info);
+                        }}>
+                        <div
+                            className={`${
+                                !sidebar ? "col-xl-2" : "col-xl-3"
+                            } col-lg-4 col-md-4 col-sm-6 col-6`}
+                            key={item.id}>
+                            <WPProduct product={item} />
+                        </div>
+                    </ErrorBoundary>
                 ));
                 producItemView = <div className="row">{productItems}</div>;
             } else {
                 const productItems = WPProducts.items.map((item) => (
-                    <WPProductWide product={item} key={item.id} />
+                    <ErrorBoundary
+                        onError={(error, info) => {
+                            console.error(error);
+                            console.log(info);
+                        }}>
+                        <WPProductWide product={item} key={item.id} />
+                    </ErrorBoundary>
                 ));
                 producItemView = <div className="row">{productItems}</div>;
             }
@@ -102,7 +115,7 @@ const WPShopProducts = (props) => {
         const skeletonItems = generateTempArray(12).map((item) => (
             <div
                 className={`${
-                    !sidebar ? 'col-xl-2' : 'col-xl-3'
+                    !sidebar ? "col-xl-2" : "col-xl-3"
                 } col-lg-4 col-md-4 col-sm-6 col-6`}
                 key={item}>
                 <SkeletonProduct />

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import WPProductRepository from '~/repositories/WP/WPProductRepository';
-import WPProductHorizontal from '~/wp-components/elements/products/WPProductHorizontal';
-import SkeletonProductHorizontal from '~/components/elements/skeletons/SkeletonProductHorizontal';
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import WPProductHorizontal from "~/wp-components/elements/products/WPProductHorizontal";
+import SkeletonProductHorizontal from "~/components/elements/skeletons/SkeletonProductHorizontal";
+import { ErrorBoundary } from "react-error-boundary";
 
 const WPNewArrivals = () => {
     const [productItems, setProductItems] = useState(null);
@@ -37,6 +38,11 @@ const WPNewArrivals = () => {
         getProducts();
     }, []);
 
+    const handleUIError = (error, info) => {
+        console.error(error);
+        console.log(info);
+    };
+
     // Views
     let productsView, categoriedView;
     if (categories) {
@@ -55,11 +61,13 @@ const WPNewArrivals = () => {
     if (!loading) {
         if (productItems) {
             productsView = productItems.map((item) => (
-                <div
-                    className="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-6 "
-                    key={item.id}>
-                    <WPProductHorizontal product={item} />
-                </div>
+                <ErrorBoundary onError={handleUIError}>
+                    <div
+                        className="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-6 "
+                        key={item.id}>
+                        <WPProductHorizontal product={item} />
+                    </div>
+                </ErrorBoundary>
             ));
         }
     } else {

@@ -18,6 +18,7 @@ import ModalCookie from "~/components/elements/modalCookie";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Modal } from "antd";
+import { ErrorBoundary } from "react-error-boundary";
 
 // function ShowCookiePopUp(){
 
@@ -55,12 +56,21 @@ const Index = (auth) => {
         dispatch(getCollections(collectionsSlug));
     }, []);
 
+    const handleUIError = (error, info) => {
+        console.error(error);
+        console.log(info);
+    };
+
     return (
         <WPLayoutHomeDefault title="Multipurpose Marketplace React Ecommerce Template">
-            <HomeBanner />
+            <ErrorBoundary onError={handleUIError}>
+                <HomeBanner />
+            </ErrorBoundary>
             {/* <SiteFeatures /> */}
             <WPDealOfDay />
-            <HomeAdsColumns />
+            <ErrorBoundary onError={handleUIError}>
+                <HomeAdsColumns />
+            </ErrorBoundary>
             {/* <HomeDefaultTopCategories /> */}
             {/* <HomeAds /> */}
             <WPProductList categoryID={21} title="Art" />
