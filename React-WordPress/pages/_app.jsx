@@ -46,7 +46,9 @@ class MyApp extends App {
                     persistor={this.persistor}>
                     <CookiesProvider>
                         <ErrorBoundary
-                            onError={(error, info) => console.log(error, info)}>
+                            onError={(error, info) =>
+                                console.log("Error: ", error, info)
+                            }>
                             <Component {...pageProps} />
                         </ErrorBoundary>
                     </CookiesProvider>
