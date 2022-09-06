@@ -6,6 +6,9 @@ const nextSettings = {
         title: "ShafN",
         titleDescription: "We are here to serve you",
     },
+};
+
+module.exports = {
     swcMinify: false,
 };
 
