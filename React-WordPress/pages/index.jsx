@@ -62,31 +62,47 @@ const Index = (auth) => {
     };
 
     return (
-        <WPLayoutHomeDefault title="Multipurpose Marketplace React Ecommerce Template">
-            <ErrorBoundary onError={handleUIError}>
-                <HomeBanner />
-            </ErrorBoundary>
-            {/* <SiteFeatures /> */}
-            <WPDealOfDay />
-            <ErrorBoundary onError={handleUIError}>
-                <HomeAdsColumns />
-            </ErrorBoundary>
-            {/* <HomeDefaultTopCategories /> */}
-            {/* <HomeAds /> */}
-            <WPProductList categoryID={21} title="Art" />
-            <WPProductList categoryID={24} title="Clothing" />
-            {/* <WPProductList categoryID={70} title="Clothing" /> */}
-            {/* <DownLoadApp /> */}
-            <WPNewArrivals />
+        <ErrorBoundary
+            fallbackRender={({ error, _ }) => <h5>Couldn't load page</h5>}
+            onError={handleUIError}>
+            <WPLayoutHomeDefault title="Multipurpose Marketplace React Ecommerce Template">
+                <ErrorBoundary onError={handleUIError}>
+                    <HomeBanner />
+                </ErrorBoundary>
+                {/* <SiteFeatures /> */}
+                <ErrorBoundary onError={handleUIError}>
+                    <WPDealOfDay />
+                </ErrorBoundary>
 
-            {auth.isLoggedIn && <WPRecentlyViewed />}
+                <ErrorBoundary onError={handleUIError}>
+                    <HomeAdsColumns />
+                </ErrorBoundary>
+                {/* <HomeDefaultTopCategories /> */}
+                {/* <HomeAds /> */}
+                <ErrorBoundary onError={handleUIError}>
+                    <WPProductList categoryID={21} title="Art" />
+                </ErrorBoundary>
 
-            <motion.div animate={{ opacity: isCookiesShowing ? 1 : 0 }}>
-                <div>
-                    <ModalCookie />
-                </div>
-            </motion.div>
-        </WPLayoutHomeDefault>
+                <ErrorBoundary onError={handleUIError}>
+                    <WPProductList categoryID={24} title="Clothing" />
+                </ErrorBoundary>
+                {/* <WPProductList categoryID={70} title="Clothing" /> */}
+                {/* <DownLoadApp /> */}
+                <ErrorBoundary onError={handleUIError}>
+                    <WPNewArrivals />
+                </ErrorBoundary>
+
+                <ErrorBoundary onError={handleUIError}>
+                    {auth.isLoggedIn && <WPRecentlyViewed />}
+                </ErrorBoundary>
+
+                <motion.div animate={{ opacity: isCookiesShowing ? 1 : 0 }}>
+                    <div>
+                        <ModalCookie />
+                    </div>
+                </motion.div>
+            </WPLayoutHomeDefault>
+        </ErrorBoundary>
     );
 };
 
