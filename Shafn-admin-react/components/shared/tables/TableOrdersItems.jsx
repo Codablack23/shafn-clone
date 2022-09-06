@@ -1,6 +1,5 @@
 import React from "react"
 import Link from "next/link"
-import { Menu } from "antd"
 
 const TableOrdersItems = ({ orders }) => {
   let tableItemsView
@@ -42,17 +41,6 @@ const TableOrdersItems = ({ orders }) => {
           <td>
             <strong>{new Date(item.date_created).toDateString()}</strong>
           </td>
-
-          <td>
-            <Menu>
-              <Menu.Item key={0}>
-                <a className="dropdown-item" href="#">
-                  <i className="icon-t"></i>
-                  Delete
-                </a>
-              </Menu.Item>
-            </Menu>
-          </td>
         </tr>
       )
     })
@@ -68,7 +56,6 @@ const TableOrdersItems = ({ orders }) => {
             <th>Total</th>
             <th>Billing</th>
             <th>Date</th>
-            {/* <th></th> */}
           </tr>
         </thead>
         <tbody>{tableItemsView}</tbody>

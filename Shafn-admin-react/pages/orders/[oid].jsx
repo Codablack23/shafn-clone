@@ -139,7 +139,7 @@ const OrderDetailPage = ({ oid }) => {
               </Select>
 
               <Popconfirm
-                title={`Are you sure you want to update to ${newStatus} status`}
+                title={`Are you sure you want to update to ${newStatus} status?`}
                 onConfirm={updateOrder}
                 okText="Yes"
                 cancelText="No"
