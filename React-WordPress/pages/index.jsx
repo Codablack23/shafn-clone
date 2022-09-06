@@ -1,12 +1,7 @@
 import React, { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import HomeBanner from "~/components/partials/homepage/home-default/HomeBanner";
-import SiteFeatures from "~/components/partials/homepage/home-default/SiteFeatures";
 import HomeAdsColumns from "~/components/partials/homepage/home-default/HomeAdsColumns";
-import HomeAds from "~/components/partials/homepage/home-default/HomeAds";
-// import DownLoadApp from '~/components/partials/commons/DownLoadApp';
-// import Newletters from '~/components/partials/commons/Newletters';
-import HomeDefaultTopCategories from "~/components/partials/homepage/home-default/HomeDefaultTopCategories";
 import { getCollections } from "~/store/collection/action";
 import WPLayoutHomeDefault from "~/wp-components/layouts/WPLayoutHomeDefault";
 import WPNewArrivals from "~/wp-components/homepage/WPNewArrivals";
@@ -17,12 +12,6 @@ import { getBannersBySlugs, getPromotionsBySlugs } from "~/store/media/action";
 import ModalCookie from "~/components/elements/modalCookie";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Modal } from "antd";
-import { ErrorBoundary } from "react-error-boundary";
-
-// function ShowCookiePopUp(){
-
-// }
 
 const Index = (auth) => {
     const [isCookiesShowing, setIsCookiesShowing] = useState(false);
@@ -56,27 +45,20 @@ const Index = (auth) => {
         dispatch(getCollections(collectionsSlug));
     }, []);
 
-    const handleUIError = (error, info) => {
-        console.error(error);
-        console.log(info);
-    };
-
     return (
         <WPLayoutHomeDefault title="Multipurpose Marketplace React Ecommerce Template">
-            <ErrorBoundary onError={handleUIError}>
-                <HomeBanner />
-            </ErrorBoundary>
-            {/* <SiteFeatures /> */}
+            <HomeBanner />
+
             <WPDealOfDay />
-            <ErrorBoundary onError={handleUIError}>
-                <HomeAdsColumns />
-            </ErrorBoundary>
+
+            <HomeAdsColumns />
+
             {/* <HomeDefaultTopCategories /> */}
-            {/* <HomeAds /> */}
+
             <WPProductList categoryID={21} title="Art" />
+
             <WPProductList categoryID={24} title="Clothing" />
-            {/* <WPProductList categoryID={70} title="Clothing" /> */}
-            {/* <DownLoadApp /> */}
+
             <WPNewArrivals />
 
             {auth.isLoggedIn && <WPRecentlyViewed />}

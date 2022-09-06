@@ -1,19 +1,18 @@
-import App from 'next/app';
-import React from 'react';
-import { Provider } from 'react-redux';
-import withRedux from 'next-redux-wrapper';
-import withReduxSaga from 'next-redux-saga';
-import { persistStore } from 'redux-persist';
-import { PersistGate } from 'redux-persist/integration/react';
-import createStore from '../store/store';
-import DefaultLayout from '../components/layouts/DefaultLayout';
-import '../scss/style.scss';
-import '../scss/home-default.scss';
-import '../scss/market-place-1.scss';
-import 'slick-carousel/slick/slick.css';
-import { CookiesProvider } from 'react-cookie';
-import "bootstrap-icons/font/bootstrap-icons.scss"
-
+import App from "next/app";
+import React from "react";
+import { Provider } from "react-redux";
+import withRedux from "next-redux-wrapper";
+import withReduxSaga from "next-redux-saga";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+import createStore from "../store/store";
+import DefaultLayout from "../components/layouts/DefaultLayout";
+import "../scss/style.scss";
+import "../scss/home-default.scss";
+import "../scss/market-place-1.scss";
+import "slick-carousel/slick/slick.css";
+import { CookiesProvider } from "react-cookie";
+import "bootstrap-icons/font/bootstrap-icons.scss";
 /*import '../scss/electronic.scss';
 import '../scss/furniture.scss';
 import '../scss/organic.scss';
@@ -29,7 +28,7 @@ class MyApp extends App {
 
     componentDidMount() {
         setTimeout(function () {
-            document.getElementById('__next').classList.add('loaded');
+            document.getElementById("__next").classList.add("loaded");
         }, 100);
 
         this.setState({ open: true });
@@ -44,9 +43,9 @@ class MyApp extends App {
                 <PersistGate
                     loading={<Component {...pageProps} />}
                     persistor={this.persistor}>
-                   <CookiesProvider>
-                     <Component {...pageProps} />
-                   </CookiesProvider>
+                    <CookiesProvider>
+                        <Component {...pageProps} />
+                    </CookiesProvider>
                 </PersistGate>
             </Provider>
         );
