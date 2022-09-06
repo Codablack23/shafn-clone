@@ -31,7 +31,9 @@ class WPWishlist extends Component {
         let wishlistView;
         if (wishlistItems && wishlistItems.length > 0) {
             const items = wishlistItems.map((product) => (
-                <div className="ps__wishlist-item-row" key={product.id}>
+                <div
+                    className="ps__wishlist-item-row"
+                    key={`${product.id}-${product.variation_id}`}>
                     <div className="ps__wishlist-desc w-75">
                         <div className="w-100">
                             <CustomProductCart product={product}>
