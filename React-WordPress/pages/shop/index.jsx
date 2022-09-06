@@ -11,7 +11,7 @@ import WPWidgetFilterByPrices from "~/wp-components/shop/WPWidgetFilterByPrices"
 import WPShopProducts from "~/wp-components/shop/WPShopProducts";
 import WPProductRepository from "~/repositories/WP/WPProductRepository";
 import WPLayoutFullwidth from "~/wp-components/layouts/WPLayoutFullwidth";
-import WPShopCategories from "~/wp-components/shop/WPShopCategories";
+// import WPShopCategories from "~/wp-components/shop/WPShopCategories";
 import { scrollPageToTop } from "~/utilities/common-helpers";
 
 const WPShopPage = ({ query }) => {
@@ -83,7 +83,7 @@ const WPShopPage = ({ query }) => {
                     <div className="ps-container">
                         <ShopBanner />
                         {/* <ShopBrands /> */}
-                        <WPShopCategories />
+                        {/* <WPShopCategories /> */}
                         <div className="ps-layout--shop">
                             <div className="ps-layout__left">
                                 <WPWidgetCategories

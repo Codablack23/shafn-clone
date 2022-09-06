@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import Slider from 'react-slick';
-import NextArrow from '../../../elements/carousel/NextArrow';
-import PrevArrow from '../../../elements/carousel/PrevArrow';
-import { connect } from 'react-redux';
-import { getItemBySlug } from '../../../../utilities/product-helper';
-import Promotion from '../../../elements/media/Promotion';
-import BannerItem from '~/components/elements/media/BannerItem';
+import Slider from "react-slick";
+import NextArrow from "../../../elements/carousel/NextArrow";
+import PrevArrow from "../../../elements/carousel/PrevArrow";
+import { connect } from "react-redux";
+import { getItemBySlug } from "../../../../utilities/product-helper";
+import Promotion from "../../../elements/media/Promotion";
+import BannerItem from "~/components/elements/media/BannerItem";
 
 const HomeBanner = (props) => {
     const { banners, promotions } = props;
@@ -20,16 +20,16 @@ const HomeBanner = (props) => {
         prevArrow: <PrevArrow />,
     };
 
-    const bannerData = getItemBySlug(banners, 'banner-home-fullwidth');
+    const bannerData = getItemBySlug(banners, "banner-home-fullwidth");
     const promotionData = getItemBySlug(
         promotions,
-        'home_fullwidth_promotions'
+        "home_fullwidth_promotions"
     );
     let promotion1, promotion2;
 
     if (promotionData) {
-        promotion1 = getItemBySlug(promotionData.items, 'main_1');
-        promotion2 = getItemBySlug(promotionData.items, 'main_2');
+        promotion1 = getItemBySlug(promotionData.items, "main_1");
+        promotion2 = getItemBySlug(promotionData.items, "main_2");
     }
 
     // Views
@@ -39,6 +39,7 @@ const HomeBanner = (props) => {
             <BannerItem source={item} key={item.id} />
         ));
     }
+
     return (
         <div className="ps-home-banner ps-home-banner--1">
             <div className="ps-container">
@@ -48,7 +49,7 @@ const HomeBanner = (props) => {
                             {bannersView}
                         </Slider>
                     ) : (
-                        ''
+                        ""
                     )}
                 </div>
                 <div className="ps-section__right">
