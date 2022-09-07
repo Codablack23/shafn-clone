@@ -9,12 +9,7 @@ import {
     convertToURLEncoded,
 } from "~/utilities/WPHelpers";
 
-const WPFormCheckout = ({
-    customerId,
-    customerInfo,
-    amount,
-    checkoutItems,
-}) => {
+const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
     const dispatch = useDispatch();
     const [form] = Form.useForm();
     const [paymentGateways, setPaymentGateways] = useState(null);
@@ -46,7 +41,7 @@ const WPFormCheckout = ({
     async function handleSubmit(values) {
         let WPShipping, WPLineItems;
         let checkoutData = {
-            customer_id: customerId,
+            customer_id: auth?.id,
             payment_method: null,
             payment_method_title: null,
             set_paid: false,
@@ -339,7 +334,27 @@ const WPFormCheckout = ({
             form={form}
             name="control-hooks"
             className="ps-form--checkout"
-            initialValues={customerInfo}
+            initialValues={{
+                first_name: auth?.billing?.first_name,
+                last_name: auth?.billing?.last_name,
+                address_1: auth?.billing?.address_1,
+                address_2: auth?.billing?.address_2,
+                city: auth?.billing?.city,
+                state: auth?.billing?.state,
+                postcode: auth?.billing?.postcode,
+                country: auth?.billing?.country,
+                email: auth?.billing?.email,
+                phone: auth?.billing?.phone,
+
+                shipping_first_name: auth?.shipping?.first_name,
+                shipping_last_name: auth?.shipping?.last_name,
+                shipping_address_1: auth?.shipping?.address_1,
+                shipping_address_2: auth?.shipping?.address_2,
+                shipping_city: auth?.shipping?.city,
+                shipping_state: auth?.shipping?.state,
+                shipping_postcode: auth?.shipping?.postcode,
+                shipping_country: auth?.shipping?.country,
+            }}
             onFinish={handleSubmit}>
             <div className="row">
                 <div className="col-lg-8">
@@ -623,30 +638,10 @@ const WPFormCheckout = ({
 };
 
 const mapStateToProps = (state) => {
-    const { id, billing, shipping } = state.auth;
-    const customerInfo = {
-        first_name: billing?.first_name,
-        last_name: billing?.last_name,
-        address_1: billing?.address_1,
-        address_2: billing?.address_2,
-        city: billing?.city,
-        state: billing?.state,
-        postcode: billing?.postcode,
-        country: billing?.country,
-        email: billing?.email,
-        phone: billing?.phone,
-
-        shipping_first_name: shipping?.first_name,
-        shipping_last_name: shipping?.last_name,
-        shipping_address_1: shipping?.address_1,
-        shipping_address_2: shipping?.address_2,
-        shipping_city: shipping?.city,
-        shipping_state: shipping?.state,
-        shipping_postcode: shipping?.postcode,
-        shipping_country: shipping?.country,
+    return {
+        auth: state.auth,
+        ...state.checkoutItems,
     };
-
-    return { customerId: id, customerInfo, ...state.checkoutItems };
 };
 
 export default connect(mapStateToProps)(WPFormCheckout);
