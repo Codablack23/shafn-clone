@@ -82,18 +82,25 @@ function FormEditShippingAddress(auth) {
         }
     };
 
-    const getCustomer = async () => {
-        try {
-            // const _customer = await WPCustomerRepository.getCustomer(auth.id);
+    const _setStates = (_country) => {
+        const country = countries.find((country) => country.code === _country);
 
+        setStates(country.states);
+    };
+
+    const initializeState = async () => {
+        try {
             setShipping(auth.shipping);
+
             const _countries = await WPDataRepository.getCountries();
 
             setCountries(_countries);
 
-            // _setStates(_customer.shipping.country);
+            const _country = _countries.find(
+                (country) => country.code === auth.shipping.country
+            );
 
-            // setShipping(_customer.shipping);
+            setStates(_country.states);
         } catch (error) {
             return;
         } finally {
@@ -101,15 +108,9 @@ function FormEditShippingAddress(auth) {
         }
     };
 
-    const _setStates = (_country) => {
-        const country = countries.find((country) => country.code === _country);
-
-        setStates(country.states);
-    };
-
     useEffect(() => {
         if (auth.id) {
-            getCustomer();
+            initializeState();
         }
     }, []);
 
@@ -186,7 +187,6 @@ function FormEditShippingAddress(auth) {
                     <select
                         name="country"
                         className="form-control"
-                        title="countries"
                         value={shipping.country}
                         onChange={handleInputChange}
                         required>
@@ -205,7 +205,6 @@ function FormEditShippingAddress(auth) {
                     <select
                         name="state"
                         className="form-control"
-                        title="states"
                         value={shipping.state}
                         onChange={handleInputChange}
                         required>

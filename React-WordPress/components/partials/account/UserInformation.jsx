@@ -308,6 +308,7 @@ function UserInformation() {
                                                 className="form-control align-items-center d-flex justify-content-between"
                                                 type="text"
                                                 placeholder="Enter new password"
+                                                defaultValue=""
                                                 value={password}
                                                 onChange={(e) =>
                                                     setPassword(e.target.value)

@@ -13,11 +13,10 @@ const CheckoutPage = () => {
 
     useEffect(() => {
         dispatch(getCart());
+        if (!auth.isLoggedIn) {
+            Router.push("/account/login");
+        }
     }, [dispatch]);
-
-    if (!auth.isLoggedIn) {
-        Router.push("/account/login");
-    }
 
     return (
         <div ref={scrollPageToTop}>
