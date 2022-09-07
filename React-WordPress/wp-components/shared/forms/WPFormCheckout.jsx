@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Button, Select, Radio, Checkbox } from "antd";
+import {
+    Form,
+    Input,
+    Button,
+    Select,
+    Radio,
+    Checkbox,
+    notification,
+    Spin,
+} from "antd";
 import { connect, useDispatch } from "react-redux";
 import Link from "next/link";
 import WPOrderRepository from "~/repositories/WP/WPOrderRepository";
@@ -16,6 +25,7 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
     const [selectedGateway, setSelectedGateway] = useState(null);
     const [isDifferentAddress, setIsDifferentAddress] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     async function getCheckoutData() {
         const WPGateways = await WPOrderRepository.getPaymentGateWays();
@@ -106,10 +116,29 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
             checkoutData.shipping = WPShipping;
             checkoutData.line_items = WPLineItems;
             if (selectedGateway.id !== "paypal") {
-                const result = await WPOrderRepository.createNewOrder(
-                    convertToURLEncoded(checkoutData)
-                );
-                if (result) {
+                if (!isSubmitting) {
+                    setIsSubmitting(true);
+                    try {
+                        await WPOrderRepository.createNewOrder(
+                            convertToURLEncoded(checkoutData)
+                        );
+
+                        notification["success"]({
+                            message: "Order Successfully Placed",
+                        });
+                    } catch (error) {
+                        notification["error"]({
+                            message: "Unable to place order",
+                            description:
+                                error.response === undefined
+                                    ? ReactHtmlParser(String(error))
+                                    : ReactHtmlParser(
+                                          error.response.data.message
+                                      ),
+                        });
+                    } finally {
+                        setIsSubmitting(false);
+                    }
                 }
             } else {
                 window.open("https://www.paypal.com/", "_blank");
@@ -134,15 +163,13 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
 
     if (checkoutItems && checkoutItems.length > 0) {
         listItemsView = checkoutItems.map((product) => (
-            <Link href="/" key={`${product.id}-${product.variation_id}`}>
-                <a>
-                    <strong>
-                        {product.name}
-                        <span>x{product.quantity}</span>
-                    </strong>
-                    <small>${product.quantity * product.price}</small>
-                </a>
-            </Link>
+            <a key={`${product.id}-${product.variation_id}`}>
+                <strong>
+                    {product.name}
+                    <span>x{product.quantity}</span>
+                </strong>
+                <small>${product.quantity * product.price}</small>
+            </a>
         ));
     } else {
         listItemsView = <p>No Product.</p>;
@@ -172,14 +199,19 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
             );
             if (selectedGateway.id === "paypal") {
                 buttonOrderView = (
-                    <button className="ps-btn ps-btn--fullwidth">
-                        Proceed to PayPal
+                    <button
+                        className="ps-btn ps-btn--fullwidth"
+                        disabled={isSubmitting}>
+                        {isSubmitting ? <Spin /> : "Proceed to PayPal"}
                     </button>
                 );
             } else {
                 buttonOrderView = (
-                    <button className="ps-btn ps-btn--fullwidth" type="submit">
-                        Place Order
+                    <button
+                        className="ps-btn ps-btn--fullwidth"
+                        type="submit"
+                        disabled={isSubmitting}>
+                        {isSubmitting ? <Spin /> : "Place Order"}
                     </button>
                 );
             }

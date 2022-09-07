@@ -1,6 +1,7 @@
-import React from 'react';
-import Link from 'next/link';
-import { connect } from 'react-redux';
+import React from "react";
+import Link from "next/link";
+import { connect } from "react-redux";
+import { DashboardDomain } from "~/repositories/WP/WPRepository";
 
 const FooterWidgets = (auth) => (
     <div className="ps-footer__widgets">
@@ -96,7 +97,7 @@ const FooterWidgets = (auth) => (
                     </Link>
                 </li>
                 <p>
-                    <Link href="/vendors/become-a-vendor" scroll={false}>
+                    <Link href={DashboardDomain} scroll={false}>
                         <a className="text-white">Become A Vendor</a>
                     </Link>
                 </p>
