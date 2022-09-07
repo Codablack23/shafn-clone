@@ -1,5 +1,6 @@
-import { Divider } from "antd";
+import { Checkbox, Divider } from "antd";
 import { useState } from "react";
+import Link from "next/link";
 import HomepageLayout from "~/components/layouts/HomePageLayout";
 
 export default function Login(){
@@ -32,17 +33,27 @@ export default function Login(){
                         onClick={handleShowPassword}></i>
                     </span>
                  </div>
-                 <button className="register-btn">Sign Up</button>
+                 <div className="d-flex justify-content-between align-items-centr">
+                    <Checkbox>
+                        <p>Remember Me</p>
+                    </Checkbox>
+                    <div>
+                        <Link href={"/"}>
+                        <a><b>Forgot Password</b></a>
+                        </Link>
+                    </div>
+                 </div>
+                 <button className="register-btn"><b>Continue</b></button>
                  <Divider>OR</Divider>
                  <button className="oauth-btn">
                        <p>
-                         <span></span>
+                         <span><img src="/icons8-google.svg" width={20} height={20}/></span>
                          <span>Continue with Google</span>
                        </p>
                  </button>
                  <button className="oauth-btn">
                      <p>
-                         <span></span>
+                         <span><i className="bi bi-facebook"></i></span>
                          <span>Continue with Facebook</span>
                      </p>
                  </button>

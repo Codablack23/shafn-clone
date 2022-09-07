@@ -46,17 +46,17 @@ export default function Register(){
                         onClick={handleShowPassword}></i>
                     </span>
                  </div>
-                 <button className="register-btn">Register</button>
+                 <button className="register-btn"><b>Register</b></button>
                  <Divider>OR</Divider>
                  <button className="oauth-btn">
                        <p>
-                         <span></span>
+                         <span><img src="/icons8-google.svg" width={20} height={20}/></span>
                          <span>Continue with Google</span>
                        </p>
                  </button>
                  <button className="oauth-btn">
                      <p>
-                         <span></span>
+                         <span><i className="bi bi-facebook"></i></span>
                          <span>Continue with Facebook</span>
                      </p>
                  </button>
