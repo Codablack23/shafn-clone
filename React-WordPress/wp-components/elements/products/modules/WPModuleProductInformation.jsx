@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
+import { Tag } from "antd";
 import Router from "next/router";
 import { formatCurrency } from "~/utilities/product-helper";
 import { addItem } from "~/store/cart/action";
@@ -126,7 +127,11 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
     // const brandView = WPProductDetailBrandView(product);
     // const categoriesView = WPProductDetailCategoriesView(product);
     // const tagsView = WPProductDetailTagsView(product);
-    let productPriceView, stockStatus;
+    let productPriceView;
+    let stockStatus = {
+        status: "",
+        color: "success",
+    };
 
     if (product) {
         if (product.type === "variable") {
@@ -139,13 +144,15 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
 
         switch (product.stock_status) {
             case "instock":
-                stockStatus = "In stock";
-                break;
-            case "outofstock":
-                stockStatus = "Out of stock";
+                stockStatus.status = "In stock";
                 break;
             case "onbackorder":
-                stockStatus = "On back order";
+                stockStatus.status = "On back order";
+                stockStatus.color = "processing";
+                break;
+            case "outofstock":
+                stockStatus.status = "Out of stock";
+                stockStatus.color = "error";
                 break;
         }
     }
@@ -157,15 +164,9 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
 
             <hr className="w3-lightgrey" />
             <p>
-                <span>Delivery: 2 -4 Working days</span>
+                <span>Delivery: 2 - 4 Working days</span>
                 <br />
-                <span>
-                    <span
-                        className="text-danger"
-                        style={{ fontWeight: "bold" }}>
-                        {stockStatus}
-                    </span>
-                </span>
+                <Tag color={stockStatus.color}>{stockStatus.status}</Tag>
             </p>
             {children}
             <div className="d-none d-lg-block">
