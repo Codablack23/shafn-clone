@@ -62,13 +62,13 @@ function* removeItemWishlistSaga(payload) {
         let localWishlist = JSON.parse(
             JSON.parse(localStorage.getItem("persist:martfury")).wishlist
         );
-        localWishlist.wishlistTotal = localWishlist.wishlistTotal - 1;
-        let removedwishlist = localWishlist.wishlistItems.filter(
+        let index = localWishlist.wishlistItems.findIndex(
             (item) =>
-                item.id != product.id &&
+                item.id === product.id &&
                 item.variation_id === product.variation_id
         );
-        localWishlist.wishlistItems = removedwishlist;
+        localWishlist.wishlistTotal = localWishlist.wishlistTotal - 1;
+        localWishlist.wishlistItems.splice(index, 1);
         yield put(updateWishlistListSuccess(localWishlist));
         modalWarning("warning");
     } catch (err) {

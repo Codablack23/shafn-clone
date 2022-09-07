@@ -99,12 +99,34 @@ function* increaseQtySaga(payload) {
             JSON.parse(localStorage.getItem("persist:martfury")).cart
         );
         let selectedItem = localCart.cartItems.find(
-            (item) => item.id === product.id
+            (item) =>
+                item.id === product.id &&
+                item.variation_id === product.variation_id
         );
+
         if (selectedItem) {
-            selectedItem.quantity++;
-            localCart.cartTotal++;
-            localCart.amount = calculateAmount(localCart.cartItems);
+            const isVariableProduct = product.variation_id !== 0;
+            if (isVariableProduct) {
+                if (
+                    selectedItem.quantity !== product.variation_stock_quantity
+                ) {
+                    selectedItem.quantity++;
+                    localCart.cartTotal++;
+                    localCart.amount = calculateAmount(localCart.cartItems);
+                } else {
+                    notification["warning"]({
+                        description: "Cannot exceed stock quantity",
+                    });
+                }
+            } else if (selectedItem.quantity !== product.stock_quantity) {
+                selectedItem.quantity++;
+                localCart.cartTotal++;
+                localCart.amount = calculateAmount(localCart.cartItems);
+            } else {
+                notification["warning"]({
+                    description: "Cannot exceed stock quantity",
+                });
+            }
         }
         yield put(updateCartSuccess(localCart));
     } catch (err) {
@@ -119,10 +141,12 @@ function* decreaseItemQtySaga(payload) {
             JSON.parse(localStorage.getItem("persist:martfury")).cart
         );
         let selectedItem = localCart.cartItems.find(
-            (item) => item.id === product.id
+            (item) =>
+                item.id === product.id &&
+                item.variation_id === product.variation_id
         );
 
-        if (selectedItem) {
+        if (selectedItem && selectedItem.quantity > 0) {
             selectedItem.quantity--;
             localCart.cartTotal--;
             localCart.amount = calculateAmount(localCart.cartItems);

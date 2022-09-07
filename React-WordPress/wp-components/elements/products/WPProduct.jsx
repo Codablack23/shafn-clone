@@ -21,7 +21,14 @@ const WPProduct = ({ product }) => {
 
     const handleAddItemToCart = (e) => {
         e.preventDefault();
-        dispatch(addItem({ ...product, quantity: 1, variation_id: 0 }));
+        dispatch(
+            addItem({
+                ...product,
+                quantity: 1,
+                variation_id: 0,
+                variation_stock_quantity: 0,
+            })
+        );
 
         // let _product = product;
 
