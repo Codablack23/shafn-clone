@@ -1,29 +1,29 @@
-import { all, put, takeEvery } from 'redux-saga/effects';
-import { notification } from 'antd';
+import { all, put, takeEvery } from "redux-saga/effects";
+import { notification } from "antd";
 import {
     actionTypes,
     getWishlistListSuccess,
     updateWishlistListSuccess,
-} from './action';
+} from "./action";
 
 const modalSuccess = (type) => {
     notification[type]({
-        message: 'Added to wishlisht!',
-        description: 'This product has been added to wishlist!',
+        message: "Added to wishlisht!",
+        description: "This product has been added to wishlist!",
     });
 };
 
 const modalWarning = (type) => {
     notification[type]({
-        message: 'Removed from wishlist',
-        description: 'This product has been removed from wishlist!',
+        message: "Removed from wishlist",
+        description: "This product has been removed from wishlist!",
     });
 };
 
 function* getWishlistListSaga() {
     try {
         const localWishlistList = JSON.parse(
-            localStorage.getItem('persist:martfury')
+            localStorage.getItem("persist:martfury")
         ).wishlist;
         yield put(getWishlistListSuccess(localWishlistList));
     } catch (err) {
@@ -35,18 +35,20 @@ function* addItemToWishlistSaga(payload) {
     try {
         const { product } = payload;
         let localWishlist = JSON.parse(
-            JSON.parse(localStorage.getItem('persist:martfury')).wishlist
+            JSON.parse(localStorage.getItem("persist:martfury")).wishlist
         );
 
         let existItem = localWishlist.wishlistItems.find(
-            (item) => item.id === product.id
+            (item) =>
+                item.id === product.id &&
+                item.variation_id === product.variation_id
         );
 
         if (!existItem) {
             localWishlist.wishlistItems.push(product);
             localWishlist.wishlistTotal++;
             yield put(updateWishlistListSuccess(localWishlist));
-            modalSuccess('success');
+            modalSuccess("success");
         }
     } catch (err) {
         console.log(err);
@@ -58,16 +60,17 @@ function* removeItemWishlistSaga(payload) {
         const { product } = payload;
 
         let localWishlist = JSON.parse(
-            JSON.parse(localStorage.getItem('persist:martfury')).wishlist
+            JSON.parse(localStorage.getItem("persist:martfury")).wishlist
         );
         let index = localWishlist.wishlistItems.findIndex(
-            (item) => item.id === product.id
+            (item) =>
+                item.id === product.id &&
+                item.variation_id === product.variation_id
         );
         localWishlist.wishlistTotal = localWishlist.wishlistTotal - 1;
-        let removedwishlist= localWishlist.wishlistItems.filter(item=>item.id != product.id);
-        localWishlist.wishlistItems = removedwishlist
+        localWishlist.wishlistItems.splice(index, 1);
         yield put(updateWishlistListSuccess(localWishlist));
-        modalWarning('warning');
+        modalWarning("warning");
     } catch (err) {
         console.log(err);
     }

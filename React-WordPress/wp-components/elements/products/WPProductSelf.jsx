@@ -1,26 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { connect, useDispatch } from "react-redux";
 // import LazyLoad from 'react-lazyload';
-import Link from 'next/link';
-import { Modal } from 'antd';
-import Rating from '../../../components/elements/Rating';
-import { formatCurrency } from '~/utilities/product-helper';
-import { addItem } from '~/store/cart/action';
-import { addItemToCompare } from '~/store/compare/action';
-import { addItemToWishlist } from '~/store/wishlist/action';
-import WPModuleProductQuickview from '~/wp-components/elements/products/modules/WPModuleProductQuickview';
-import WPProductRepository from '~/repositories/WP/WPProductRepository';
-import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct';
+import Link from "next/link";
+import { Modal } from "antd";
+import Rating from "../../../components/elements/Rating";
+import { formatCurrency } from "~/utilities/product-helper";
+import { addItem } from "~/store/cart/action";
+import { addItemToCompare } from "~/store/compare/action";
+import { addItemToWishlist } from "~/store/wishlist/action";
+import WPModuleProductQuickview from "~/wp-components/elements/products/modules/WPModuleProductQuickview";
+import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import SkeletonProduct from "~/components/elements/skeletons/SkeletonProduct";
 import {
     WPProductPriceView,
     WPProductThumbnailView,
-} from '~/utilities/WPHelpers';
+} from "~/utilities/WPHelpers";
 
 const WPProductSelf = ({ productID }) => {
     const dispatch = useDispatch();
     const [product, setProduct] = useState(null);
     const [isQuickView, setIsQuickView] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [rating, setRating] = useState(0);
+
     let thumbnailImage, productPrice;
 
     const handleAddItemToCart = (e) => {
@@ -59,8 +61,38 @@ const WPProductSelf = ({ productID }) => {
         return result;
     }
 
+    async function getReviews() {
+        const reviews = await WPProductRepository.getReviews();
+
+        if (reviews) {
+            const p_reviews = reviews.filter(
+                (r) => r.product_id.toString() === product.id.toString()
+            );
+            return p_reviews;
+        }
+    }
+
+    async function averageStars() {
+        try {
+            const product_reviews = await getReviews();
+
+            const r_total =
+                product_reviews.length == 0 ? 1 : product_reviews.length;
+
+            const avg = parseFloat(
+                product_reviews.reduce((total, el) => (total += el.rating), 0) /
+                    r_total
+            );
+
+            setRating(parseInt(avg.toFixed(1)));
+        } catch (error) {
+            return;
+        }
+    }
+
     useEffect(() => {
         getProduct(productID);
+        averageStars();
     }, []);
 
     /*View Area*/
@@ -130,7 +162,7 @@ const WPProductSelf = ({ productID }) => {
                             {product.name}
                         </a>
                         <div className="ps-product__rating">
-                            <Rating />
+                            {rating >= 3 && <Rating rating={rating} />}
                             <span>{product.review_count}</span>
                         </div>
                         {priceView}

@@ -50,7 +50,11 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
     const handleAddItemToCart = (e) => {
         e.preventDefault();
 
-        let _product = { ...product, variation_id: 0 };
+        let _product = {
+            ...product,
+            variation_id: 0,
+            variation_stock_quantity: 0,
+        };
 
         if (product.type === "variable") {
             if (variant) {
@@ -63,6 +67,7 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
                     name: `${product.name}[${options}]`,
                     price: variant.price,
                     variation_id: variant.id,
+                    variation_stock_quantity: variant.stock_quantity,
                 };
             }
         }

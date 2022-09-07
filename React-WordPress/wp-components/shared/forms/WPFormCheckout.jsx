@@ -139,7 +139,7 @@ const WPFormCheckout = ({
 
     if (checkoutItems && checkoutItems.length > 0) {
         listItemsView = checkoutItems.map((product) => (
-            <Link href="/" key={product.id}>
+            <Link href="/" key={`${product.id}-${product.variation_id}`}>
                 <a>
                     <strong>
                         {product.name}

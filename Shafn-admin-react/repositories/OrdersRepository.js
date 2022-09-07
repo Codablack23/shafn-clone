@@ -47,7 +47,16 @@ class OrdersRepository {
     const endpoint = `${WPDomain}/wp-json/dokan/v1/orders/${id}`
     const config = this.getConfig()
 
-    const response = axios.get(endpoint, config).then((res) => res.data)
+    const response = await axios.get(endpoint, config).then((res) => res.data)
+
+    return response
+  }
+
+  async updateOrder(id, status) {
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/orders/${id}/?status=${status}`
+    const config = this.getConfig()
+
+    const response = await axios.put(endpoint, config).then((res) => res.data)
 
     return response
   }

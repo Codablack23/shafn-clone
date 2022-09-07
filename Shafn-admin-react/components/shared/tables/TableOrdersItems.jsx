@@ -1,29 +1,12 @@
 import React from "react"
 import Link from "next/link"
-import { Menu } from "antd"
-import DropdownAction from "~/components/elements/basic/DropdownAction"
 
 const TableOrdersItems = ({ orders }) => {
   let tableItemsView
 
   if (orders && Number(orders.totalItems) > 0) {
     tableItemsView = orders.items.map((item) => {
-      let status, fullfillmentView
-      const menuView = (
-        <Menu>
-          <Menu.Item key={0}>
-            <a className="dropdown-item" href="#">
-              Edit
-            </a>
-          </Menu.Item>
-          <Menu.Item key={0}>
-            <a className="dropdown-item" href="#">
-              <i className="icon-t"></i>
-              Delete
-            </a>
-          </Menu.Item>
-        </Menu>
-      )
+      let status
 
       if (item.status === "completed" || item.status === "refunded") {
         status = <span className="ps-fullfillment success">{item.status}</span>
@@ -58,10 +41,6 @@ const TableOrdersItems = ({ orders }) => {
           <td>
             <strong>{new Date(item.date_created).toDateString()}</strong>
           </td>
-
-          {/* <td>
-            <DropdownAction />
-          </td> */}
         </tr>
       )
     })
@@ -77,7 +56,6 @@ const TableOrdersItems = ({ orders }) => {
             <th>Total</th>
             <th>Billing</th>
             <th>Date</th>
-            {/* <th></th> */}
           </tr>
         </thead>
         <tbody>{tableItemsView}</tbody>

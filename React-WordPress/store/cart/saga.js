@@ -1,5 +1,5 @@
-import { all, put, takeEvery } from 'redux-saga/effects';
-import { notification } from 'antd';
+import { all, put, takeEvery } from "redux-saga/effects";
+import { notification } from "antd";
 
 import {
     actionTypes,
@@ -7,19 +7,19 @@ import {
     getCartSuccess,
     updateCartSuccess,
     updateCartError,
-} from './action';
+} from "./action";
 
 const modalSuccess = (type) => {
     notification[type]({
-        message: 'Success',
-        description: 'This product has been added to your cart!',
+        message: "Success",
+        description: "This product has been added to your cart!",
         duration: 1,
     });
 };
 const modalWarning = (type) => {
     notification[type]({
-        message: 'Remove A Item',
-        description: 'This product has been removed from your cart!',
+        message: "Remove A Item",
+        description: "This product has been removed from your cart!",
         duration: 1,
     });
 };
@@ -40,11 +40,14 @@ function* getCartSaga() {
 function* addItemSaga(payload) {
     try {
         const { product } = payload;
-        const localCart = JSON.parse(localStorage.getItem('persist:martfury'))
-            .cart;
+        const localCart = JSON.parse(
+            localStorage.getItem("persist:martfury")
+        ).cart;
         let currentCart = JSON.parse(localCart);
         let existItem = currentCart.cartItems.find(
-            (item) => item.id === product.id
+            (item) =>
+                item.id === product.id &&
+                item.variation_id === product.variation_id
         );
         if (existItem) {
             existItem.quantity += product.quantity;
@@ -57,7 +60,7 @@ function* addItemSaga(payload) {
         currentCart.amount = calculateAmount(currentCart.cartItems);
         currentCart.cartTotal++;
         yield put(updateCartSuccess(currentCart));
-        modalSuccess('success');
+        modalSuccess("success");
     } catch (err) {
         yield put(getCartError(err));
     }
@@ -67,10 +70,12 @@ function* removeItemSaga(payload) {
     try {
         const { product } = payload;
         let localCart = JSON.parse(
-            JSON.parse(localStorage.getItem('persist:martfury')).cart
+            JSON.parse(localStorage.getItem("persist:martfury")).cart
         );
         let index = localCart.cartItems.findIndex(
-            (item) => item.id === product.id
+            (item) =>
+                item.id === product.id &&
+                item.variation_id === product.variation_id
         );
         localCart.cartTotal = localCart.cartTotal - product.quantity;
         localCart.cartItems.splice(index, 1);
@@ -81,7 +86,7 @@ function* removeItemSaga(payload) {
             localCart.cartTotal = 0;
         }
         yield put(updateCartSuccess(localCart));
-        modalWarning('warning');
+        modalWarning("warning");
     } catch (err) {
         yield put(getCartError(err));
     }
@@ -91,15 +96,37 @@ function* increaseQtySaga(payload) {
     try {
         const { product } = payload;
         let localCart = JSON.parse(
-            JSON.parse(localStorage.getItem('persist:martfury')).cart
+            JSON.parse(localStorage.getItem("persist:martfury")).cart
         );
         let selectedItem = localCart.cartItems.find(
-            (item) => item.id === product.id
+            (item) =>
+                item.id === product.id &&
+                item.variation_id === product.variation_id
         );
+
         if (selectedItem) {
-            selectedItem.quantity++;
-            localCart.cartTotal++;
-            localCart.amount = calculateAmount(localCart.cartItems);
+            const isVariableProduct = product.variation_id !== 0;
+            if (isVariableProduct) {
+                if (
+                    selectedItem.quantity !== product.variation_stock_quantity
+                ) {
+                    selectedItem.quantity++;
+                    localCart.cartTotal++;
+                    localCart.amount = calculateAmount(localCart.cartItems);
+                } else {
+                    notification["warning"]({
+                        description: "Cannot exceed stock quantity",
+                    });
+                }
+            } else if (selectedItem.quantity !== product.stock_quantity) {
+                selectedItem.quantity++;
+                localCart.cartTotal++;
+                localCart.amount = calculateAmount(localCart.cartItems);
+            } else {
+                notification["warning"]({
+                    description: "Cannot exceed stock quantity",
+                });
+            }
         }
         yield put(updateCartSuccess(localCart));
     } catch (err) {
@@ -111,13 +138,15 @@ function* decreaseItemQtySaga(payload) {
     try {
         const { product } = payload;
         const localCart = JSON.parse(
-            JSON.parse(localStorage.getItem('persist:martfury')).cart
+            JSON.parse(localStorage.getItem("persist:martfury")).cart
         );
         let selectedItem = localCart.cartItems.find(
-            (item) => item.id === product.id
+            (item) =>
+                item.id === product.id &&
+                item.variation_id === product.variation_id
         );
 
-        if (selectedItem) {
+        if (selectedItem && selectedItem.quantity > 0) {
             selectedItem.quantity--;
             localCart.cartTotal--;
             localCart.amount = calculateAmount(localCart.cartItems);

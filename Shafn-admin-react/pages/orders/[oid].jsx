@@ -6,16 +6,51 @@ import ModuleOrderBillingInformation from "~/components/partials/orders/ModuleOr
 import HeaderDashboard from "~/components/shared/headers/HeaderDashboard"
 import { connect, useDispatch } from "react-redux"
 import { toggleDrawerMenu } from "~/store/app/action"
-import { notification } from "antd"
+import { notification, Select, Button, Popconfirm } from "antd"
 import OrdersRepository from "~/repositories/OrdersRepository"
 import ProductRepository from "~/repositories/ProductRepository"
 import { domain } from "~/repositories/Repository"
+
+const { Option } = Select
 
 const OrderDetailPage = ({ oid }) => {
   const dispatch = useDispatch()
 
   const [order, setOrder] = useState(null)
   const [products, setProducts] = useState([])
+  const [newStatus, setNewStatus] = useState("")
+  const [isUpdating, setIsUpdating] = useState(false)
+
+  const updateOrder = async () => {
+    if (isUpdating) return
+    if (newStatus) {
+      if (newStatus === order?.status) {
+        notification["warning"]({
+          description: "Cannot update to same status",
+        })
+      } else {
+        try {
+          setIsUpdating(true)
+          await OrdersRepository.updateOrder(oid, `wc-${newStatusS}`)
+
+          notification["success"]({
+            message: "Update successful",
+          })
+        } catch (error) {
+          notification["error"]({
+            message: "Unable to update order status",
+            description: "Please check your data connection and try again",
+          })
+        } finally {
+          setIsUpdating(false)
+        }
+      }
+    } else {
+      notification["warning"]({
+        description: "Select a new status",
+      })
+    }
+  }
 
   const getOrder = async () => {
     try {
@@ -87,6 +122,30 @@ const OrderDetailPage = ({ oid }) => {
           <div className="ps-card ps-card--track-order">
             <div className="ps-card__header">
               <h4>#{order?.number}</h4>
+              <Select
+                placeholder="Status"
+                className="ps-ant-dropdown"
+                listItemHeight={20}
+                value={newStatus || order?.status}
+                onChange={setNewStatus}
+              >
+                <Option value="pending">Pending</Option>
+                <Option value="processing">Processing</Option>
+                <Option value="on-hold">On-hold</Option>
+                <Option value="completed">Completed</Option>
+                <Option value="cancelled">Cancelled</Option>
+                <Option value="refunded">Refunded</Option>
+                <Option value="failed">Failed</Option>
+              </Select>
+
+              <Popconfirm
+                title={`Are you sure you want to update to ${newStatus} status?`}
+                onConfirm={updateOrder}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button>Update</Button>
+              </Popconfirm>
             </div>
             <div className="ps-card__content">
               <div className="table-responsive">

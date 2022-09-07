@@ -39,11 +39,13 @@ class DefaultDescription extends Component {
     async getReviews() {
         const product_id = window.location.pathname.split("-").pop();
         const reviews = await WPProductRepository.getReviews();
-        this.setState({
-            product_reviews: reviews.filter(
-                (r) => r.product_id.toString() === product_id.toString()
-            ),
-        });
+        if (reviews) {
+            this.setState({
+                product_reviews: reviews.filter(
+                    (r) => r.product_id.toString() === product_id.toString()
+                ),
+            });
+        }
     }
     componentDidMount() {
         this.getReviews();
