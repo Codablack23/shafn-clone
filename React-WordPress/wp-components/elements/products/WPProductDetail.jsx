@@ -1,24 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import DefaultDescription from "~/components/elements/detail/modules/description/DefaultDescription";
 import WPModuleProductDetailThumbnail from "~/wp-components/elements/products/modules/WPModuleProductDetailThumbnail";
 import WPModuleProductDetailInformation from "~/wp-components/elements/products/modules/WPModuleProductDetailInformation";
 import WPModuleDefaultDescription from "~/wp-components/elements/products/modules/WPModuleDefaultDescription";
 
-const WPProductDetail = ({ product, variations }) => {
-    // const [selectedColor, setSelectedColor] = useState(null);
-    const [activeVariant, setActiveVariant] = useState(null);
-
-    // function handleChangeColor(newColor) {
-    //     if (newColor !== selectedColor) {
-    //         setSelectedColor(newColor.toLowerCase());
-    //     }
-    //     variations.forEach((item) => {
-    //         if (item.attributes.some((attr) => attr.option === newColor)) {
-    //             setActiveVariant(item);
-    //         }
-    //     });
-    // }
-
+const WPProductDetail = ({
+    product,
+    variations,
+    activeVariant,
+    setActiveVariant,
+}) => {
     function handleAttributeChange(newOption) {
         variations.forEach((item) => {
             if (item.attributes.some((attr) => attr.option === newOption)) {
@@ -26,47 +17,10 @@ const WPProductDetail = ({ product, variations }) => {
             }
         });
     }
-
-    // Views
-    // let colorsView;
     let attributesView;
 
     if (product) {
         if (variations) {
-            // Colors View
-            // const WPProductColors = product.attributes.find(
-            //     (item) => item.name === "Color"
-            // );
-
-            // if (WPProductColors) {
-            //     const colorItems = WPProductColors.options.map((item) => (
-            //         <div
-            //             key={item}
-            //             className={`ps-variant ps-variant--size w3-circle ${
-            //                 selectedColor === item.toLowerCase() && "active"
-            //             }`}
-            //             style={{
-            //                 backgroundColor: item.toLowerCase(),
-            //                 borderRadius: 20,
-            //             }}
-            //             onClick={() => handleChangeColor(item)}
-            //         />
-            //     ));
-
-            //     colorsView = (
-            //         <div className="ps-product__variations">
-            //             <figure>
-            //                 <figcaption>Color</figcaption>
-            //                 {colorItems}
-            //             </figure>
-            //         </div>
-            //     );
-            // } else {
-            //     colorsView = <p>Color not found</p>;
-            // }
-
-            // Attributes View
-
             const variationAttributes = product.attributes.filter(
                 (attribute) => attribute.variation
             );
@@ -98,6 +52,21 @@ const WPProductDetail = ({ product, variations }) => {
         }
     }
 
+    useEffect(() => {
+        if (product) {
+            if (variations) {
+                const variationAttributes = product.attributes.filter(
+                    (attribute) => attribute.variation
+                );
+
+                const firstAttributeOption = variationAttributes[0]?.options[0];
+                if (firstAttributeOption) {
+                    handleAttributeChange(firstAttributeOption);
+                }
+            }
+        }
+    }, []);
+
     if (!variations) {
         return (
             <div className="ps-product--detail ps-product--fullwidth">
@@ -122,10 +91,7 @@ const WPProductDetail = ({ product, variations }) => {
                         product={product}
                         variations={variations}
                         variant={activeVariant && activeVariant}>
-                        <>
-                            {/* {colorsView} */}
-                            {attributesView}
-                        </>
+                        {attributesView}
                     </WPModuleProductDetailInformation>
                 </div>
                 <DefaultDescription product={product} />

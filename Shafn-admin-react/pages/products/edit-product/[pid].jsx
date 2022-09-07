@@ -286,7 +286,7 @@ const EditProductPage = ({ pid }) => {
           }, 1500)
         } catch (error) {
           notification["error"]({
-            message: "Product failed to update",
+            message: "Unable to update product",
             description: "Please check your network connection and try again",
           })
         }

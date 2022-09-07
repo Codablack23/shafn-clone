@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import Router from 'next/router';
-import WPStoreInformation from '~/wp-components/store/WPStoreInformation';
-import WPVendorRepository from '~/repositories/WP/WPVendorRepository';
-import SkeletonVendorInformation from '~/components/elements/skeletons/SkeletonVendorInformation';
-import { SkeletonBanner } from '~/components/elements/skeletons/SkeletonVendorInformation';
-import WPLayout from '~/wp-components/layouts/WPLayout';
-import WPVendorProducts from '~/wp-components/store/WPVendorProducts';
-import { generateTempArray, scrollPageToTop } from '~/utilities/common-helpers';
-import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct';
+import React, { useEffect, useState } from "react";
+import { connect, useDispatch } from "react-redux";
+import Router from "next/router";
+import WPStoreInformation from "~/wp-components/store/WPStoreInformation";
+import WPVendorRepository from "~/repositories/WP/WPVendorRepository";
+import SkeletonVendorInformation from "~/components/elements/skeletons/SkeletonVendorInformation";
+import { SkeletonBanner } from "~/components/elements/skeletons/SkeletonVendorInformation";
+import WPLayout from "~/wp-components/layouts/WPLayout";
+import WPVendorProducts from "~/wp-components/store/WPVendorProducts";
+import { generateTempArray, scrollPageToTop } from "~/utilities/common-helpers";
+import SkeletonProduct from "~/components/elements/skeletons/SkeletonProduct";
 
 const Banner = ({ store }) => (
     <div className="custom-banner">
@@ -53,7 +53,7 @@ const WPStorePage = ({ query }) => {
                 setStoreID(pid);
                 getVendorInformations(pid);
             } else {
-                Router.push('/page/page-404');
+                Router.push("/page/page-404");
             }
         }
     }, [dispatch]);
@@ -83,7 +83,7 @@ const WPStorePage = ({ query }) => {
     return (
         <div ref={scrollPageToTop}>
             <WPLayout
-                title={storeProfile ? storeProfile.store_name : 'Loading...'}>
+                title={storeProfile ? storeProfile.store_name : "Loading..."}>
                 <div className="ps-page--single ps-page--vendor">
                     <div className="ps-vendor-store">
                         <div className="container">
@@ -105,7 +105,7 @@ const WPStorePage = ({ query }) => {
 };
 
 WPStorePage.getInitialProps = async ({ query }) => {
-    let store_id = query.pid.split('-').pop();
+    let store_id = query.pid.split("-").pop();
     return { query: { pid: store_id } };
 };
 

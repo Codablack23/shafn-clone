@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { login } from "../../../store/auth/action";
 import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
+import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
 import OAuth from "./modules/OAuth";
 import ReactHtmlParser from "react-html-parser";
 
@@ -12,26 +13,19 @@ function Login() {
     const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth);
 
-    const [passVisibility, setPassVisibility] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
-    function togglePasswordVisibilty() {
-        let e = document.querySelector(".passVis");
-        e.classList.toggle("bi-eye-fill");
-        e.classList.toggle("bi-eye-slash-fill");
-        setPassVisibility((prev) => !prev);
-    }
-
     const handleLogin = async (type = "form", oauth) => {
         if (
-            (auth.user.email.toLowerCase() === email ||
-                auth.user.email.toLowerCase() === oauth.email) &&
+            auth.email &&
+            (auth.email.toLowerCase() === email ||
+                auth.email.toLowerCase() === oauth?.email) &&
             auth.isLoggedIn
         ) {
             notification["info"]({
-                message: "You're already logged in to this account",
+                message: "Already logged in",
             });
         } else if (!isLoading) {
             setIsLoading(true);
@@ -53,39 +47,37 @@ function Login() {
 
                 const role = _user.user_role[0].toLowerCase();
 
-                const { encrypt } = require("~/utilities/common-helpers");
-                const encryptedToken = encrypt(_user.token);
-
                 if (role === "customer") {
-                    dispatch(
-                        login({
-                            email: _user.user_email,
-                            token: encryptedToken,
-                        })
+                    const customer = await WPCustomerRepository.getCustomer(
+                        _user.user_id
                     );
+                    dispatch(login(customer));
                     Router.push("/");
+                } else {
+                    notification["error"]({
+                        message: "Not a customer account",
+                    });
                 }
 
-                if (role === "seller") {
-                    const domain =
-                        process.env.NODE_ENV === "production"
-                            ? "https://dashboard.shafn.com"
-                            : "http://localhost:5500";
+                // if (role === "seller") {
+                //     const domain =
+                //         process.env.NODE_ENV === "production"
+                //             ? "https://dashboard.shafn.com"
+                //             : "http://localhost:5500";
 
-                    window.location.assign(
-                        `${domain}/dashboard?auth_token=${_user.token}`
-                    );
-                }
-                setIsLoading(false);
+                //     window.location.assign(
+                //         `${domain}/dashboard?auth_token=${_user.token}`
+                //     );
+                // }
             } catch (error) {
                 notification["error"]({
-                    message: "Login failed!",
+                    message: "Unable to login user",
                     description:
                         error.response === undefined
                             ? ReactHtmlParser(String(error))
                             : ReactHtmlParser(error.response.data.message),
                 });
-
+            } finally {
                 setIsLoading(false);
             }
         }
@@ -120,7 +112,7 @@ function Login() {
                                     rules={[
                                         {
                                             required: true,
-                                            message: "Please input your email!",
+                                            message: "Please input your email",
                                         },
                                     ]}>
                                     <Input
@@ -143,46 +135,24 @@ function Login() {
                                     rules={[
                                         {
                                             required: true,
+                                            pattern: new RegExp(
+                                                /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+                                            ),
                                             message:
-                                                "Please input your password!",
+                                                "Password must contain at least 8 characters with at least one uppercase letter, one lowercase letter, one number and one special character(allowed characters => #, ?, !, @, $, %, ^, &, *, -)",
                                         },
                                     ]}>
-                                    <div className="form-control align-items-center d-flex justify-content-between">
-                                        <input
-                                            name="password"
-                                            type={`${
-                                                passVisibility
-                                                    ? "test"
-                                                    : "password"
-                                            }`}
-                                            aria-label="Password"
-                                            aria-required="true"
-                                            placeholder="Password..."
-                                            value={password}
-                                            onChange={(e) =>
-                                                setPassword(e.target.value)
-                                            }
-                                            style={{
-                                                border: "none",
-                                                outline: "none",
-                                            }}
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={togglePasswordVisibilty}
-                                            style={{
-                                                border: "none",
-                                                outline: "none",
-                                                cursor: "pointer",
-                                                background: "none",
-                                            }}>
-                                            <i
-                                                className="passVis bi bi-eye-fill"
-                                                style={{
-                                                    fontSize: "20px",
-                                                }}></i>
-                                        </button>
-                                    </div>
+                                    <Input.Password
+                                        className="form-control align-items-center d-flex justify-content-between"
+                                        name="password"
+                                        aria-label="Password"
+                                        aria-required="true"
+                                        placeholder="Password..."
+                                        value={password}
+                                        onChange={(e) =>
+                                            setPassword(e.target.value)
+                                        }
+                                    />
                                 </Form.Item>
                             </div>
                             <div className="form-group d-flex justify-content-between align-items-center">
@@ -197,7 +167,7 @@ function Login() {
                                         Remember me
                                     </label>
                                 </div>
-                                <Link href={"/"}>
+                                {/* <Link href={"/"}>
                                     <a
                                         style={{
                                             color: "#378fd3",
@@ -205,7 +175,7 @@ function Login() {
                                         }}>
                                         Forgot Password
                                     </a>
-                                </Link>
+                                </Link> */}
                             </div>
                             <div className="form-group submit">
                                 <button
@@ -218,6 +188,19 @@ function Login() {
                                     {isLoading ? <Spin /> : "Continue"}
                                 </button>
                             </div>
+
+                            <p>
+                                Don't have an account?
+                                <a
+                                    href="/account/register"
+                                    style={{
+                                        fontStyle: "italic",
+                                        color: "#29AAE1",
+                                        marginLeft: 2,
+                                    }}>
+                                    Register
+                                </a>
+                            </p>
                         </div>
                         <div className="ps-form__footer">
                             <div className="or">

@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import { useRouter } from 'next/router';
-import { getProductsByCategory } from '~/store/product/action';
-import { WPGetProducts } from '~/store/wp/action';
-import ShopBanner from '~/components/partials/shop/ShopBanner';
+import React, { useEffect, useState } from "react";
+import { connect, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { getProductsByCategory } from "~/store/product/action";
+import { WPGetProducts } from "~/store/wp/action";
+import ShopBanner from "~/components/partials/shop/ShopBanner";
 
-import WPWidgetCategories from '~/wp-components/shop/WPWidgetCategories';
+import WPWidgetCategories from "~/wp-components/shop/WPWidgetCategories";
 
-import WPWidgetFilterByPrices from '~/wp-components/shop/WPWidgetFilterByPrices';
-import WPShopProducts from '~/wp-components/shop/WPShopProducts';
-import WPProductRepository from '~/repositories/WP/WPProductRepository';
-import WPLayoutFullwidth from '~/wp-components/layouts/WPLayoutFullwidth';
-import WPShopCategories from '~/wp-components/shop/WPShopCategories';
-import { scrollPageToTop } from '~/utilities/common-helpers';
+import WPWidgetFilterByPrices from "~/wp-components/shop/WPWidgetFilterByPrices";
+import WPShopProducts from "~/wp-components/shop/WPShopProducts";
+import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import WPLayoutFullwidth from "~/wp-components/layouts/WPLayoutFullwidth";
+import WPShopCategories from "~/wp-components/shop/WPShopCategories";
+import { scrollPageToTop } from "~/utilities/common-helpers";
 
 const WPShopPage = ({ query }) => {
     const dispatch = useDispatch();
@@ -30,9 +30,14 @@ const WPShopPage = ({ query }) => {
         }
     }
 
-    async function getProductOnChangeURL(url) {
-        const nextPid = url.split('category=').pop();
-        if (nextPid !== '' && isNaN(parseInt(nextPid)) === false) {
+    async function getShopOnChangeUrl(url) {
+        const isShopRoute = url.includes("/shop/");
+        const nextPid = url.split("category=").pop();
+        if (
+            isShopRoute &&
+            nextPid !== "" &&
+            isNaN(parseInt(nextPid)) === false
+        ) {
             const queries = {
                 page: 1,
                 per_page: 24,
@@ -64,10 +69,10 @@ const WPShopPage = ({ query }) => {
             }
         }
 
-        router.events.on('routeChangeStart', getProductOnChangeURL);
+        router.events.on("routeChangeStart", getShopOnChangeUrl);
 
         return () => {
-            router.events.off('routeChangeStart', getProductOnChangeURL);
+            router.events.off("routeChangeStart", getShopOnChangeUrl);
         };
     }, [dispatch]);
 

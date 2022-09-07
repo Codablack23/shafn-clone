@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import Link from 'next/link';
-import { removeItem } from '~/store/cart/action';
-import { connect } from 'react-redux';
-import { WPProductThumbnailView } from '~/utilities/WPHelpers';
+import React, { Component } from "react";
+import Link from "next/link";
+import { removeItem } from "~/store/cart/action";
+import { connect } from "react-redux";
+import { WPProductThumbnailView } from "~/utilities/WPHelpers";
 
 class WPProductOnCart extends Component {
     constructor() {
@@ -42,11 +42,11 @@ class WPProductOnCart extends Component {
                         <a className="ps-product__title">{product.name}</a>
                     </Link>
                     <p>
-                        <strong>Sold by:</strong>{' '}
+                        <strong>Sold by:</strong>{" "}
                         {product.store && product.store.name}
                     </p>
                     <small>
-                        {product.quantity} x €{product.regular_price}
+                        {product.quantity} x €{product.price}
                     </small>
                 </div>
             </div>

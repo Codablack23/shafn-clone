@@ -25,11 +25,11 @@ const MenuSidebar = () => {
       url: "/withdraw",
       icon: "icon-users2",
     },
-    {
-      text: "Categories",
-      url: "/categories",
-      icon: "icon-database",
-    },
+    // {
+    //   text: "Categories",
+    //   url: "/categories",
+    //   icon: "icon-database",
+    // },
     {
       text: "Settings",
       url: "/settings",

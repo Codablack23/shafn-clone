@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Form, Input, notification, Spin } from "antd";
 import { login } from "../../../store/auth/action";
 import { useDispatch } from "react-redux";
 import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
+// import WPVendorRepository from "~/repositories/WP/WPVendorRepository";
 import OAuth from "./modules/OAuth";
 import Router from "next/router";
 import ReactHtmlParser from "react-html-parser";
@@ -14,25 +15,17 @@ function Register() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [firstname, setFirstname] = useState("");
-    const [lastname, setLastname] = useState("");
-    const [storename, setStorename] = useState("");
-    const [isVendor, setIsVendor] = useState(false);
+    // const [firstname, setFirstname] = useState("");
+    // const [lastname, setLastname] = useState("");
+    // const [storename, setStorename] = useState("");
+    // const [isVendor, setIsVendor] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [passVisibility, setPassVisibility] = useState(false);
     const [otp, setOtp] = useState({
         code: "",
         createdAt: 0,
         expiresAt: 0,
         allowResendAt: 0,
     });
-
-    function togglePasswordVisibilty() {
-        let e = document.querySelector(".passVis");
-        e.classList.toggle("bi-eye-fill");
-        e.classList.toggle("bi-eye-slash-fill");
-        setPassVisibility((prev) => !prev);
-    }
 
     const verifyEmail = async () => {
         setIsLoading(true);
@@ -43,9 +36,6 @@ function Register() {
                 name: username,
                 email,
             });
-
-            console.log("Code Verified");
-            console.log(response);
 
             setOtp({
                 code: response.data.code,
@@ -59,8 +49,9 @@ function Register() {
             });
         } catch (error) {
             notification["error"]({
-                message:
-                    "Failed to send verification code. Please check your network connection and try again",
+                message: "Unable to send verification code",
+                description:
+                    "Please check your network connection and try again",
             });
         } finally {
             setIsLoading(false);
@@ -74,11 +65,12 @@ function Register() {
             username,
             email,
             password,
+            roles: ["customer"],
         };
 
-        const storeData = {
-            store_name: storename,
-        };
+        // const storeData = {
+        //     store_name: storename,
+        // };
 
         // Use oauth data if registration is with oauth
         if (type === "oauth") {
@@ -89,31 +81,31 @@ function Register() {
             };
         }
 
-        if (isVendor) {
-            if (type === "oauth") {
-                // Use data provided by oauth
-                user = {
-                    ...user,
-                    first_name: oauth.firstname,
-                    last_name: oauth.lastname,
-                    roles: ["seller"],
-                };
-            } else {
-                // Use data provided by form
-                user = {
-                    ...user,
-                    first_name: firstname,
-                    last_name: lastname,
-                    roles: ["seller"],
-                };
-            }
-        } else {
-            // Set customer role if is registering as customer
-            user = {
-                ...user,
-                roles: ["customer"],
-            };
-        }
+        // if (isVendor) {
+        //     if (type === "oauth") {
+        //         // Use data provided by oauth
+        //         user = {
+        //             ...user,
+        //             first_name: oauth.firstname,
+        //             last_name: oauth.lastname,
+        //             roles: ["seller"],
+        //         };
+        //     } else {
+        //         // Use data provided by form
+        //         user = {
+        //             ...user,
+        //             first_name: firstname,
+        //             last_name: lastname,
+        //             roles: ["seller"],
+        //         };
+        //     }
+        // } else {
+        //     // Set customer role if is registering as customer
+        //     user = {
+        //         ...user,
+        //         roles: ["customer"],
+        //     };
+        // }
 
         if (!isLoading) {
             try {
@@ -136,52 +128,49 @@ function Register() {
                 // Login user
                 const loggedUser = await WPAuthRepository.login(_user);
 
-                if (user.roles[0] === "seller") {
-                    try {
-                        // Update vendor store name
-                        await WPAuthRepository.updateVendorSettings(
-                            storeData,
-                            loggedUser.token
-                        );
+                // if (user.roles[0] === "seller") {
+                //     try {
+                //         // Update vendor store name
+                //         await WPVendorRepository.updateVendorSettings({
+                //             storeId: loggedUser.id,
+                //             token: loggedUser.token,
+                //             data: storeData,
+                //         });
+                //     } catch (error) {
+                //         notification["error"]({
+                //             message: "Unable to register store name",
+                //             description:
+                //                 "This can be registered in your profile settings",
+                //         });
+                //     } finally {
+                //         const domain =
+                //             process.env.NODE_ENV === "development"
+                //                 ? "http://localhost:5500"
+                //                 : "https://dashboard.shafn.com";
+                //         // Go to vendor page
+                //         window.location.assign(
+                //             `${domain}/dashboard?auth_token=${loggedUser.token}`
+                //         );
+                //     }
+                // } else {
+                // const { encrypt } = require("~/utilities/common-helpers");
+                // const encryptedToken = encrypt(loggedUser.token);
 
-                        notification["success"]({
-                            message: "Registration Successful!",
-                        });
-                    } catch (error) {
-                        notification["error"]({
-                            message:
-                                "Could not update store name. Please check your data connection and update it from your dashboard settings.",
-                        });
-                    } finally {
-                        const domain =
-                            process.env.NODE_ENV === "development"
-                                ? "http://localhost:5500"
-                                : "https://dashboard.shafn.com";
-                        // Go to vendor page
-                        window.location.assign(
-                            `${domain}/dashboard?auth_token=${loggedUser.token}`
-                        );
-                    }
-                } else {
-                    notification["success"]({
-                        message: "Registration Successful!",
-                    });
+                const customer = await WPCustomerRepository.getCustomer(
+                    loggedUser.user_id
+                );
 
-                    const { encrypt } = require("~/utilities/common-helpers");
-                    const encryptedToken = encrypt(loggedUser.token);
+                dispatch(login(customer));
 
-                    dispatch(
-                        login({
-                            email: loggedUser.user_email,
-                            token: encryptedToken,
-                        })
-                    );
+                Router.push("/");
+                // }
 
-                    Router.push("/"); // Go to homepage
-                }
+                notification["success"]({
+                    message: "Registration Successful!",
+                });
             } catch (error) {
                 notification["error"]({
-                    message: "Registration failed",
+                    message: "Unable to register user",
                     description:
                         error.response === undefined
                             ? ReactHtmlParser(String(error))
@@ -265,7 +254,7 @@ function Register() {
                                     </Form.Item>
                                 </div>
 
-                                <div className="form-group form-forgot">
+                                <div className="form-group">
                                     <Form.Item
                                         name="password"
                                         rules={[
@@ -278,47 +267,20 @@ function Register() {
                                                     "Password must contain at least 8 characters with at least one uppercase letter, one lowercase letter, one number and one special character(allowed characters => #, ?, !, @, $, %, ^, &, *, -)",
                                             },
                                         ]}>
-                                        <div className="form-control align-items-center d-flex justify-content-between">
-                                            <input
-                                                name="password"
-                                                type={`${
-                                                    passVisibility
-                                                        ? "test"
-                                                        : "password"
-                                                }`}
-                                                placeholder="Password..."
-                                                value={password}
-                                                onChange={(e) =>
-                                                    setPassword(e.target.value)
-                                                }
-                                                style={{
-                                                    border: "none",
-                                                    outline: "none",
-                                                }}
-                                            />
-                                            <button
-                                                type="button"
-                                                onClick={
-                                                    togglePasswordVisibilty
-                                                }
-                                                style={{
-                                                    border: "none",
-                                                    outline: "none",
-                                                    cursor: "pointer",
-                                                    background: "none",
-                                                }}>
-                                                <i
-                                                    className="passVis bi bi-eye-fill"
-                                                    style={{
-                                                        fontSize: "20px",
-                                                    }}></i>
-                                            </button>
-                                        </div>
+                                        <Input.Password
+                                            className="form-control align-items-center d-flex justify-content-between"
+                                            name="password"
+                                            placeholder="Password..."
+                                            value={password}
+                                            onChange={(e) =>
+                                                setPassword(e.target.value)
+                                            }
+                                        />
                                     </Form.Item>
                                 </div>
 
                                 {/* Extra data from vendors only */}
-                                {isVendor && (
+                                {/* {isVendor && (
                                     <>
                                         <div className="form-group">
                                             <Form.Item
@@ -332,7 +294,7 @@ function Register() {
                                                 <Input
                                                     className="form-control"
                                                     type="text"
-                                                    placeholder="First Name"
+                                                    placeholder="First name"
                                                     value={firstname}
                                                     onChange={(e) =>
                                                         setFirstname(
@@ -355,7 +317,7 @@ function Register() {
                                                 <Input
                                                     className="form-control"
                                                     type="text"
-                                                    placeholder="Last Name"
+                                                    placeholder="Last name"
                                                     value={lastname}
                                                     onChange={(e) =>
                                                         setLastname(
@@ -367,11 +329,11 @@ function Register() {
                                         </div>
 
                                         <div className="form-group">
-                                            <Form.Item name="text">
+                                            <Form.Item name="store_name">
                                                 <Input
                                                     className="form-control"
                                                     type="text"
-                                                    placeholder="Store Name"
+                                                    placeholder="Store name"
                                                     value={storename}
                                                     onChange={(e) =>
                                                         setStorename(
@@ -382,9 +344,9 @@ function Register() {
                                             </Form.Item>
                                         </div>
                                     </>
-                                )}
+                                )} */}
 
-                                <div className="form-group">
+                                {/* <div className="form-group">
                                     <div className="ps-checkbox">
                                         <input
                                             checked={isVendor}
@@ -402,7 +364,7 @@ function Register() {
                                             I am a vendor
                                         </label>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <div className="form-group submit">
                                     <button
@@ -415,7 +377,21 @@ function Register() {
                                         {isLoading ? <Spin /> : "Register"}
                                     </button>
                                 </div>
+
+                                <p>
+                                    Already have an account?
+                                    <a
+                                        href="/account/login"
+                                        style={{
+                                            fontStyle: "italic",
+                                            color: "#29AAE1",
+                                            marginLeft: 2,
+                                        }}>
+                                        Login
+                                    </a>
+                                </p>
                             </div>
+
                             <div className="ps-form__footer">
                                 <div className="or">
                                     <hr />

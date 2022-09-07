@@ -33,13 +33,6 @@ class WPAuthRepository {
 
         return response;
     }
-
-    async logout() {
-        const endpoint = `${WPDomain}/route`;
-        const response = await axios.post(endpoint).then((res) => res);
-
-        return response;
-    }
 }
 
 export default new WPAuthRepository();

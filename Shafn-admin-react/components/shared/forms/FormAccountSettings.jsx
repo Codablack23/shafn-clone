@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react"
-import axios from "axios"
 import Router from "next/router"
 import { notification } from "antd"
-import { WPDomain } from "~/repositories/Repository"
 import FileRepository from "~/repositories/FileRepository"
 import SettingsRepository from "~/repositories/SettingsRepository"
-import { allStates } from "~/utilities/stateList"
 import PhoneInput from "react-phone-number-input"
 import UserRepository from "~/repositories/UserRepository"
+import DataRepository from "~/repositories/DataRepository"
 
 const FormAccountSettings = () => {
-  const { data } = allStates
   const [name, setName] = useState("")
-  const [countryStates, setStates] = useState([])
+  const [countries, setCountries] = useState([])
+  const [states, setStates] = useState([])
   const [address, setAddress] = useState({
     city: "",
     country: "",
@@ -68,19 +66,10 @@ const FormAccountSettings = () => {
   const selectCountry = (e) => {
     if (e.target.value) {
       setAddr(e.target.name, e.target.value)
-      const stateList = data.filter((country) => country.name == e.target.value)
-      setStates(stateList[0].states)
+      _setStates(e.target.value)
     } else {
       setStates([])
     }
-  }
-
-  const renderCountries = () => {
-    return data.map((country, index) => (
-      <option key={index} value={country.name}>
-        {country.name}
-      </option>
-    ))
   }
 
   const handleOnSubmit = async (e) => {
@@ -141,38 +130,47 @@ const FormAccountSettings = () => {
       setIsUploading(false)
       notification["error"]({
         message: "Unable to update settings",
-        description: "Check your data connection and try again.",
+        description: "Please check your data connection and try again.",
       })
     }
   }
 
   const getSettings = async () => {
     try {
-      let user = await UserRepository.getUser()
+      const _user = await UserRepository.getUser()
 
-      let vendor = await SettingsRepository.getStoreById(user.id)
+      const _vendor = await SettingsRepository.getStoreById(_user.id)
 
-      setProfileImage(vendor.gravatar)
-      setBanner(vendor.banner)
-      setName(vendor.store_name)
-      setAddress(vendor.address)
-      setNumber(vendor.phone)
-      setShowEmail(vendor.show_email)
-      setEnableTNC(vendor.toc_enabled)
+      const _countries = await DataRepository.getCountries()
+
+      setCountries(_countries)
+      setProfileImage(_vendor.gravatar)
+      setBanner(_vendor.banner)
+      setName(_vendor.store_name)
+      setAddress(_vendor.address)
+      setNumber(_vendor.phone)
+      setShowEmail(_vendor.show_email)
+      setEnableTNC(_vendor.toc_enabled)
+
+      _setStates(_vendor.address.country)
     } catch (err) {
-      return
+      notification["error"]({
+        message: "Unable to get settings",
+        description: "Please check your data connection and try again.",
+      })
     }
+  }
+
+  const _setStates = (_country) => {
+    const country = countries.find((country) => country.name == _country)
+    setStates(country.states)
   }
 
   useEffect(() => {
     getSettings()
   }, [])
   return (
-    <form
-      className="ps-form--account-settings"
-      action="index.html"
-      method="get"
-    >
+    <form className="ps-form--account-settings">
       <div className="row">
         <div className="col-sm-12">
           {/* Banner */}
@@ -306,7 +304,11 @@ const FormAccountSettings = () => {
                   onChange={(e) => selectCountry(e)}
                 >
                   <option value="">Select Country</option>
-                  {renderCountries()}
+                  {countries.map((country, _) => (
+                    <option key={country.code} value={country.name}>
+                      {country.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -316,13 +318,13 @@ const FormAccountSettings = () => {
                 <select
                   name="state"
                   className="ps-select"
-                  title="countries"
+                  title="states"
                   style={{ width: "100%" }}
                   value={address.state}
                   onChange={(e) => setAddr(e.target.name, e.target.value)}
                 >
                   <option value="">Select State</option>
-                  {countryStates.map((state) => (
+                  {states.map((state) => (
                     <option key={state.name} value={state.name}>
                       {state.name}
                     </option>

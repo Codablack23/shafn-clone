@@ -1,25 +1,25 @@
-import React, { useEffect } from 'react';
-import { notification } from 'antd';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import { GoogleLogin } from 'react-google-login';
+import React, { useEffect } from "react";
+import { notification } from "antd";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import { GoogleLogin } from "react-google-login";
 
 const OAuth = ({ onSuccess }) => {
-    const handleOnSuccess = (id, email, firstname = '', lastname = '') => {
+    const handleOnSuccess = (id, email, firstname = "", lastname = "") => {
         if (email) {
             onSuccess({ id, email, firstname, lastname });
         } else {
-            notification['error']({
-                message: 'Login failed!',
+            notification["error"]({
+                message: "Login failed!",
                 description:
-                    'Could not retrieve email from provider. Please fill the form to complete registration.',
+                    "Could not retrieve email from provider. Please fill the form to complete registration.",
             });
         }
     };
 
     useEffect(() => {
-        const { gapi, loadAuth2 } = require('gapi-script');
+        const { gapi, loadAuth2 } = require("gapi-script");
         const loadGoogleAuth = async () => {
-            await loadAuth2(gapi, process.env.google_clientID, '');
+            await loadAuth2(gapi, process.env.google_clientID, "");
         };
 
         loadGoogleAuth();
@@ -41,22 +41,24 @@ const OAuth = ({ onSuccess }) => {
                     );
                 }}
                 onFailure={({ error }) => {
-                    if (error !== 'popup_closed_by_user') {
-                        notification['error']({
-                            message: 'Google login failed!',
+                    if (error !== "popup_closed_by_user") {
+                        notification["error"]({
+                            message: "Google login failed!",
                             description:
-                                'Please check your network connectivity and try again!',
+                                "Please check your network connectivity and try again!",
                         });
                     }
                 }}
-                cookiePolicy={'single_host_origin'}
+                cookiePolicy={"single_host_origin"}
                 render={(renderProps) => (
-                    <li onClick={renderProps.onClick} style={{cursor: 'pointer'}}>
+                    <li
+                        onClick={renderProps.onClick}
+                        style={{ cursor: "pointer" }}>
                         <a className="google handles">
                             <span>
                                 <img
                                     style={{
-                                        objectFit: 'contain',
+                                        objectFit: "contain",
                                     }}
                                     src="/icons/google.svg"
                                 />
@@ -75,14 +77,16 @@ const OAuth = ({ onSuccess }) => {
                     handleOnSuccess(res.id, res?.email);
                 }}
                 onFailure={(error) => {
-                    notification['error']({
-                        message: 'Facebook login failed!',
+                    notification["error"]({
+                        message: "Facebook login failed!",
                         description:
-                            'Please check your network connectivity and try again!',
+                            "Please check your network connectivity and try again!",
                     });
                 }}
                 render={(renderProps) => (
-                    <li onClick={renderProps.onClick} style={{cursor: 'pointer'}}>
+                    <li
+                        onClick={renderProps.onClick}
+                        style={{ cursor: "pointer" }}>
                         <a className="facebook handles">
                             <span>
                                 <i className="fa fa-facebook w3-text-blue"></i>

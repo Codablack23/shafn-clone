@@ -1,64 +1,164 @@
-import { Checkbox, Divider } from "antd";
-import { useState } from "react";
-import Link from "next/link";
-import HomepageLayout from "~/components/layouts/HomePageLayout";
+import React from "react"
+import { Form, Input, Checkbox, notification, Spin, Divider } from "antd"
+import { useState } from "react"
+import HomepageLayout from "~/components/layouts/HomePageLayout"
+import OAuth from "~/components/partials/OAuth"
+import Router from "next/router"
+import ReactHtmlParser from "react-html-parser"
+import { useDispatch, useSelector } from "react-redux"
+import AuthRepository from "~/repositories/AuthRepository"
 
-export default function Login(){
-    const [isPassword,setIsPassword] = useState(true)
-    const handleShowPassword =(e)=>{
-        setIsPassword(prev=>!prev)
-        e.target.classList.toggle("bi-eye-fill")
-        e.target.classList.toggle("bi-eye-slash-fill")
+export default function Login() {
+  const dispatch = useDispatch()
+  const auth = useSelector((state) => state.auth)
+
+  const [vendor, setVendor] = useState({
+    email: "",
+    password: "",
+  })
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleInputChange = (e) => {
+    setVendor((current) => ({ ...current, [e.target.name]: e.target.value }))
+  }
+
+  const handleLogin = async (type = "form", oauth) => {
+    if (
+      auth.email &&
+      (auth.email.toLowerCase() === email ||
+        auth.email.toLowerCase() === oauth?.email) &&
+      auth.isLoggedIn
+    ) {
+      notification["info"]({
+        message: "Already logged in",
+      })
+    } else if (!isLoading) {
+      setIsLoading(true)
+
+      let _vendor = { username: vendor.email, password: vendor.password }
+
+      if (type === "oauth") {
+        user = {
+          username: oauth.email,
+          password: oauth.password,
+        }
+      }
+
+      try {
+        const _user = await AuthRepository.login(_vendor)
+
+        const role = _user.user_role[0].toLowerCase()
+
+        if (role === "seller") {
+          const { encrypt } = require("~/utilities/helperfunctions")
+
+          const encryptedToken = encrypt(_user.token)
+
+          localStorage.setItem("auth_token", encryptedToken)
+          // TO-DO: Store vendor data in redux
+          Router.push("/dashboard")
+        } else {
+          notification["error"]({
+            message: "Not a vendor account",
+          })
+        }
+      } catch (error) {
+        notification["error"]({
+          message: "Unable to login user",
+          description:
+            error.response === undefined
+              ? ReactHtmlParser(String(error))
+              : ReactHtmlParser(error.response.data.message),
+        })
+      } finally {
+        setIsLoading(false)
+      }
     }
-    return(
-        <HomepageLayout title={"login"} page={"accounts"}>
-            
-            <div className="account-container">
-                <div className="logo">
-                <img src={"/img/logo_light.png"} alt="logo"/>
-                </div>
-               <form action="">
-                 <p className="title mb-2">Sign in</p>
-                   
-                    <input 
-                    type="email" 
-                    placeholder="Email address"
-                    className="input"/>
-                   
-                 <div className="input-container">
-                    <input type={isPassword?"password":"text"} placeholder="Password" name="" id="" />
-                    <span style={{cursor:"pointer",width:"9%"}} >
-                        <i className="bi bi-eye-fill" 
-                        style={{fontSize:"18px"}}
-                        onClick={handleShowPassword}></i>
-                    </span>
-                 </div>
-                 <div className="d-flex justify-content-between align-items-centr">
-                    <Checkbox>
-                        <p>Remember Me</p>
-                    </Checkbox>
-                    <div>
-                        <Link href={"/"}>
-                        <a><b>Forgot Password</b></a>
-                        </Link>
-                    </div>
-                 </div>
-                 <button className="register-btn"><b>Continue</b></button>
-                 <Divider>OR</Divider>
-                 <button className="oauth-btn">
-                       <p>
-                         <span><img src="/icons8-google.svg" width={20} height={20}/></span>
-                         <span>Continue with Google</span>
-                       </p>
-                 </button>
-                 <button className="oauth-btn">
-                     <p>
-                         <span><i className="bi bi-facebook"></i></span>
-                         <span>Continue with Facebook</span>
-                     </p>
-                 </button>
-               </form>
-            </div>
-        </HomepageLayout>
-    )
+  }
+
+  return (
+    <HomepageLayout title={"login"} page={"accounts"}>
+      <div className="account-container">
+        <div className="logo">
+          <img src={"/img/logo_light.png"} alt="logo" />
+        </div>
+
+        <Form onFinish={!isLoading && handleLogin}>
+          <p className="title mb-2" style={{ paddingBottom: 10 }}>
+            Sign in
+          </p>
+          <div className="form-group">
+            <Form.Item
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your email",
+                },
+              ]}
+            >
+              <Input
+                className="form-control"
+                type="text"
+                aria-label="Email address"
+                aria-required="true"
+                placeholder="Email address"
+                value={vendor.email}
+                onChange={handleInputChange}
+                autoFocus
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  pattern: new RegExp(
+                    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+                  ),
+                  message:
+                    "Password must contain at least 8 characters with at least one uppercase letter, one lowercase letter, one number and one special character(allowed characters => #, ?, !, @, $, %, ^, &, *, -)",
+                },
+              ]}
+            >
+              <Input.Password
+                className="form-control"
+                placeholder="Password"
+                aria-label="Email address"
+                aria-required="true"
+                value={vendor.password}
+                onChange={handleInputChange}
+              />
+            </Form.Item>
+
+            <Form.Item name="remember" valuePropName="checked">
+              <Checkbox>Remember me</Checkbox>
+            </Form.Item>
+
+            <button type="submit" className="register-btn" disabled={isLoading}>
+              {isLoading ? <Spin /> : "Continue"}
+            </button>
+
+            <p>
+              Don't have an account?
+              <a
+                href="/register"
+                style={{
+                  fontStyle: "italic",
+                  color: "#29AAE1",
+                  marginLeft: 2,
+                }}
+              >
+                Register
+              </a>
+            </p>
+
+            <Divider>OR</Divider>
+            <OAuth onSuccess={(user) => console.log(user)} />
+          </div>
+        </Form>
+      </div>
+    </HomepageLayout>
+  )
 }

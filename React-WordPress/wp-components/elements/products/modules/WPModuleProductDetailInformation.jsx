@@ -1,20 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect, useDispatch } from "react-redux";
 import Link from "next/link";
 import { formatCurrency } from "~/utilities/product-helper";
-import { addItem } from "~/store/cart/action";
-import { addCheckoutItem } from "~/store/checkout-items/action";
 import { addItemToWishlist } from "~/store/wishlist/action";
-// import ModuleProductDetailSharing from '~/components/elements/detail/modules/elements/ModuleProductDetailSharing';
 
-import {
-    WPProductDetailBrandView,
-    WPProductDetailCategoriesView,
-    WPProductDetailRatingView,
-    WPProductDetailShortDescView,
-    WPProductDetailTagsView,
-    Button,
-} from "~/utilities/WPHelpers";
+import { WPProductDetailShortDescView, Button } from "~/utilities/WPHelpers";
 
 const WPModuleProductDetailInformation = ({
     product,
@@ -24,39 +14,25 @@ const WPModuleProductDetailInformation = ({
     isWidget,
 }) => {
     const dispatch = useDispatch();
-    const [quantity, setQuantity] = useState(1);
 
-    const handleAddToCheckoutItems = () => {
-        const item = {
-            amount: product.price,
-            cartItems: [product],
-            cartTotal: 1,
-        };
-
-        dispatch(addCheckoutItem(item));
-    };
-
-    const handleAddItemToCart = (e) => {
-        e.preventDefault();
-        let tempProduct = product;
-        tempProduct.quantity = quantity;
-        dispatch(addItem(product));
-    };
-
-    const handleIncreaseItemQty = (e) => {
-        e.preventDefault();
-        setQuantity(quantity + 1);
-    };
-
-    const handleDecreaseItemQty = (e) => {
-        e.preventDefault();
-        if (quantity > 1) {
-            setQuantity(quantity - 1);
-        }
-    };
     const handleAddItemToWishlist = (e) => {
         e.preventDefault();
-        dispatch(addItemToWishlist(product));
+        let _product = product;
+        if (product.type === "variable") {
+            if (variant) {
+                const options = variant.attributes
+                    .map((attribute) => attribute.option)
+                    .join(", ");
+
+                _product = {
+                    ...product,
+                    name: `${product.name}[${options}]`,
+                    price: variant.price,
+                };
+            }
+        }
+
+        dispatch(addItemToWishlist(_product));
     };
 
     const handleRenderPriceRange = () => {
@@ -109,11 +85,11 @@ const WPModuleProductDetailInformation = ({
         return priceView;
     };
     // Views
-    const ratingView = WPProductDetailRatingView(product);
+    // const ratingView = WPProductDetailRatingView(product);
     const shortDescView = WPProductDetailShortDescView(product);
-    const brandView = WPProductDetailBrandView(product);
-    const categoriesView = WPProductDetailCategoriesView(product);
-    const tagsView = WPProductDetailTagsView(product);
+    // const brandView = WPProductDetailBrandView(product);
+    // const categoriesView = WPProductDetailCategoriesView(product);
+    // const tagsView = WPProductDetailTagsView(product);
     let variationPriceRangeView, productPriceView, productVendorView;
 
     if (product) {
@@ -129,10 +105,14 @@ const WPModuleProductDetailInformation = ({
         }
 
         if (product.store) {
+            const query = `${product.store.shop_name
+                .toLowerCase()
+                .replace(/ /g, "-")}-${product.store.id}`.trim();
+
             productVendorView = (
                 <p>
                     SOLD BY:
-                    <Link href="/shop">
+                    <Link href="/store/[pid]" as={`/store/${query}`}>
                         <a className="ml-2">
                             <strong> {product.store.shop_name}</strong>
                         </a>
@@ -153,6 +133,7 @@ const WPModuleProductDetailInformation = ({
                 {shortDescView}
             </div>
             {children}
+            {/*
             <div
                 className="d-block d-lg-none m-auto w3-center"
                 style={{ minWidth: "60%" }}>
@@ -182,33 +163,26 @@ const WPModuleProductDetailInformation = ({
                     </figure>
                 </div>
             </div>
-            <div className="mt-2 d-block w3-center d-lg-none">
+             <div className="mt-2 d-block w3-center d-lg-none">
                 <Button
                     width={250}
                     classes={`w3-0309A5 btn-hover`}
                     hoverColor="white"
                     eventHandler={handleAddItemToCart}
                     text="Add to cart"
+                    disabled={product.type === "simple" ? false : !variant}
                 />
                 <br />
 
-                <Link href="/account/checkout">
-                    <a onClick={handleAddToCheckoutItems}>
-                        <Button
-                            width={250}
-                            classes={`w3-orange btn-hover`}
-                            text="Buy Now"
-                        />
-                    </a>
-                </Link>
-            </div>
-            {/* <button 
-                className="btn rounded-pill btn-lg btn-hover w3-light-grey p-3 pl-4 pr-4 w3-border w3-border-white w3-hover-border-grey w3-hover-none" 
-                style={{minWidth:250}}
-                onClick={handleAddItemToWishlist}
-                >
-                    Add To WatchList
-                </button> */}
+                <a onClick={handleAddToCheckoutItems}>
+                    <Button
+                        width={250}
+                        classes={`w3-orange btn-hover`}
+                        text="Buy Now"
+                        disabled={product.type === "simple" ? false : !variant}
+                    />
+                </a>
+            </div> */}
             <div className="text-center text-lg-left">
                 <Button
                     width={250}
@@ -218,11 +192,12 @@ const WPModuleProductDetailInformation = ({
                     hoverColor="grey"
                     eventHandler={handleAddItemToWishlist}
                     text="Add to WishLIst"
+                    disabled={product.type === "simple" ? false : !variant}
                 />
                 <br />
             </div>
-            <div className="ps-product__specification">
-                {/* <Link href="/page/blank">
+            {/* <div className="ps-product__specification">
+                <Link href="/page/blank">
                     <a className="report">Report Abuse</a>
                 </Link>
                 <p>
@@ -231,13 +206,13 @@ const WPModuleProductDetailInformation = ({
                 <p className="categories">
                     <strong> Categories:</strong>
                     {categoriesView}
-                </p> */}
-                {/* <p className="tags">
+                </p>
+                <p className="tags">
                     <strong>Tags: </strong>
                     {tagsView}
-                </p> */}
+                </p>
             </div>
-            {/* <ModuleProductDetailSharing /> */}
+            <ModuleProductDetailSharing /> */}
         </div>
     );
 };

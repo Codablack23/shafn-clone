@@ -10,9 +10,12 @@ class ProductRepository {
 
   getConfig() {
     const auth_token = localStorage.getItem("auth_token")
+
+    const { decrypt } = require("~/utilities/helperfunctions")
+
     const config = {
       headers: {
-        Authorization: `Bearer ${auth_token}`,
+        Authorization: `Bearer ${decrypt(auth_token)}`,
       },
     }
 
@@ -134,7 +137,7 @@ class ProductRepository {
   }
 
   async createVariations(productId, attributePairs) {
-    console.log("Creating Variations...")
+    // console.log("Creating Variations...")
 
     let variations = []
 
@@ -147,12 +150,12 @@ class ProductRepository {
 
         variations.unshift(variation)
       } catch (error) {
-        console.log("!!! FAILED TO CREATE VARIATIONS !!!")
-        console.log(error)
+        // console.log("!!! FAILED TO CREATE VARIATIONS !!!")
+        // console.log(error)
       }
     }
 
-    console.log("Created Variations Successfully")
+    // console.log("Created Variations Successfully")
 
     return variations
   }
@@ -167,7 +170,7 @@ class ProductRepository {
   }
 
   async updateVariations(productId, variations) {
-    console.log("Updating Variations...")
+    // console.log("Updating Variations...")
 
     let updatedVariations = []
     for (const variation of Array.from(variations)) {
@@ -179,12 +182,12 @@ class ProductRepository {
         )
         updatedVariations.push(updatedVariation)
       } catch (error) {
-        console.log(`!!! FAILED TO UPDATE VARIATION ${variation.id} !!!`)
-        console.log(error)
+        // console.log(`!!! FAILED TO UPDATE VARIATION ${variation.id} !!!`)
+        // console.log(error)
       }
     }
 
-    console.log("Updated Variations Successfully")
+    // console.log("Updated Variations Successfully")
 
     return updatedVariations
   }
@@ -197,18 +200,18 @@ class ProductRepository {
   }
 
   async deleteVariations(productId, variations) {
-    console.log("Deleting Variations...")
+    // console.log("Deleting Variations...")
 
     for (const variation of Array.from(variations)) {
       try {
         await this.deleteVariation(productId, variation.id, variation)
       } catch (error) {
-        console.log(`!!! FAILED TO DELETE VARIATION ${variation.id} !!!`)
-        console.log(error)
+        // console.log(`!!! FAILED TO DELETE VARIATION ${variation.id} !!!`)
+        // console.log(error)
       }
     }
 
-    console.log("Deleted Variations Successfully")
+    // console.log("Deleted Variations Successfully")
   }
 
   async getCategories() {

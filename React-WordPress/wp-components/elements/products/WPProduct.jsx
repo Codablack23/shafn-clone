@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 // import LazyLoad from 'react-lazyload';
 import Link from "next/link";
 import { Modal } from "antd";
 import Rating from "../../../components/elements/Rating";
 import { addItem } from "~/store/cart/action";
-import { addItemToCompare } from "~/store/compare/action";
-import { addItemToWishlist } from "~/store/wishlist/action";
 import WPModuleProductQuickview from "~/wp-components/elements/products/modules/WPModuleProductQuickview";
 import {
     WPProductBadgeView,
@@ -19,26 +17,45 @@ const WPProduct = ({ product }) => {
     const dispatch = useDispatch();
     const [isQuickView, setIsQuickView] = useState(false);
     const [priceRangeView, setPriceRangeView] = useState(null);
+    const [rating, setRating] = useState(0);
 
     const handleAddItemToCart = (e) => {
         e.preventDefault();
         dispatch(addItem(product));
+
+        // let _product = product;
+
+        // if (product.type === "variable") {
+        //     if (variant) {
+        //         const options = variant.attributes
+        //             .map((attribute) => attribute.option)
+        //             .join(", ");
+
+        //         _product = {
+        //             ...product,
+        //             name: `${product.name}[${options}]`,
+        //             price: variant.price,
+        //         };
+        //     }
+        // }
+
+        // dispatch(addItem({ ..._product, quantity }));
     };
 
-    const handleAddItemToCompare = (e) => {
-        e.preventDefault();
-        dispatch(addItemToCompare(product));
-    };
+    // const handleAddItemToCompare = (e) => {
+    //     e.preventDefault();
+    //     dispatch(addItemToCompare(product));
+    // };
 
-    const handleAddItemToWishlist = (e) => {
-        e.preventDefault();
-        dispatch(addItemToWishlist(product));
-    };
+    // const handleAddItemToWishlist = (e) => {
+    //     e.preventDefault();
+    //     dispatch(addItemToWishlist(product));
+    // };
 
-    const handleShowQuickView = (e) => {
-        e.preventDefault();
-        setIsQuickView(true);
-    };
+    // const handleShowQuickView = (e) => {
+    //     e.preventDefault();
+    //     setIsQuickView(true);
+    // };
 
     const handleHideQuickView = (e) => {
         e.preventDefault();
@@ -85,6 +102,39 @@ const WPProduct = ({ product }) => {
             }
         );
     }
+
+    async function getReviews() {
+        const reviews = await WPProductRepository.getReviews();
+
+        if (reviews) {
+            const p_reviews = reviews.filter(
+                (r) => r.product_id.toString() === product.id.toString()
+            );
+            return p_reviews;
+        }
+    }
+
+    async function averageStars() {
+        try {
+            const product_reviews = await getReviews();
+
+            const r_total =
+                product_reviews.length == 0 ? 1 : product_reviews.length;
+
+            const avg = parseFloat(
+                product_reviews.reduce((total, el) => (total += el.rating), 0) /
+                    r_total
+            );
+
+            setRating(parseInt(avg.toFixed(1)));
+        } catch (error) {
+            return;
+        }
+    }
+
+    useEffect(() => {
+        averageStars();
+    }, []);
 
     const query = `${product.slug}-${product.id}`.trim();
 
@@ -149,7 +199,7 @@ const WPProduct = ({ product }) => {
                         <a className="ps-product__title">{product.name}</a>
                     </Link>
                     <div className="ps-product__rating">
-                        <Rating />
+                        {rating >= 3 && <Rating rating={rating} />}
                         <span>{product.review_count}</span>
                     </div>
                     {priceView}
@@ -161,9 +211,20 @@ const WPProduct = ({ product }) => {
                     </Link>
                     {priceView}
                 </div>
-                <button className="hover-show" onClick={handleAddItemToCart}>
-                    Add To Cart
-                </button>
+
+                {product.type === "simple" ? (
+                    <>
+                        <button
+                            className="hover-show"
+                            onClick={handleAddItemToCart}>
+                            Add To Cart
+                        </button>
+                    </>
+                ) : (
+                    <p className="hover-show">
+                        View product to select variation to add to cart
+                    </p>
+                )}
             </div>
             <Modal
                 centered
