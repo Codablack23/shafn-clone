@@ -10,6 +10,7 @@ import { notification, Select, Button, Popconfirm } from "antd"
 import OrdersRepository from "~/repositories/OrdersRepository"
 import ProductRepository from "~/repositories/ProductRepository"
 import { domain } from "~/repositories/Repository"
+import DefaultLayout from "~/components/layouts/DefaultLayout"
 
 const { Option } = Select
 
@@ -105,105 +106,111 @@ const OrderDetailPage = ({ oid }) => {
   }, [])
 
   return (
-    <ContainerDefault title="Order Detail">
-      <HeaderDashboard title="Order Detail" description="ShafN Order Detail" />
-      <section className="ps-dashboard">
-        <div className="ps-section__left">
-          <div className="row">
-            <div className="col-md-6">
-              <ModuleOrderShippingInformation
-                shipping={order && order.shipping}
-              />
+    <DefaultLayout>
+      <ContainerDefault title="Order Detail">
+        <HeaderDashboard
+          title="Order Detail"
+          description="ShafN Order Detail"
+        />
+        <section className="ps-dashboard">
+          <div className="ps-section__left">
+            <div className="row">
+              <div className="col-md-6">
+                <ModuleOrderShippingInformation
+                  shipping={order && order.shipping}
+                />
+              </div>
+              <div className="col-md-6">
+                <ModuleOrderBillingInformation
+                  billing={order && order.billing}
+                />
+              </div>
             </div>
-            <div className="col-md-6">
-              <ModuleOrderBillingInformation billing={order && order.billing} />
-            </div>
-          </div>
-          <div className="ps-card ps-card--track-order">
-            <div className="ps-card__header">
-              <h4>#{order?.number}</h4>
-              <Select
-                placeholder="Status"
-                className="ps-ant-dropdown"
-                listItemHeight={20}
-                value={newStatus || order?.status}
-                onChange={setNewStatus}
-              >
-                <Option value="pending">Pending</Option>
-                <Option value="processing">Processing</Option>
-                <Option value="on-hold">On-hold</Option>
-                <Option value="completed">Completed</Option>
-                <Option value="cancelled">Cancelled</Option>
-                <Option value="refunded">Refunded</Option>
-                <Option value="failed">Failed</Option>
-              </Select>
+            <div className="ps-card ps-card--track-order">
+              <div className="ps-card__header">
+                <h4>#{order?.number}</h4>
+                <Select
+                  placeholder="Status"
+                  className="ps-ant-dropdown"
+                  listItemHeight={20}
+                  value={newStatus || order?.status}
+                  onChange={setNewStatus}
+                >
+                  <Option value="pending">Pending</Option>
+                  <Option value="processing">Processing</Option>
+                  <Option value="on-hold">On-hold</Option>
+                  <Option value="completed">Completed</Option>
+                  <Option value="cancelled">Cancelled</Option>
+                  <Option value="refunded">Refunded</Option>
+                  <Option value="failed">Failed</Option>
+                </Select>
 
-              <Popconfirm
-                title={`Are you sure you want to update to ${newStatus} status?`}
-                onConfirm={updateOrder}
-                okText="Yes"
-                cancelText="No"
-              >
-                <Button>Update</Button>
-              </Popconfirm>
-            </div>
-            <div className="ps-card__content">
-              <div className="table-responsive">
-                <table className="table ps-table">
-                  <thead>
-                    <tr>
-                      <th>Product</th>
-                      <th>Options</th>
-                      <th>Quantity</th>
-                      <th>Price</th>
-                      <th>Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {products.map((product) => (
+                <Popconfirm
+                  title={`Are you sure you want to update to ${newStatus} status?`}
+                  onConfirm={updateOrder}
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  <Button>Update</Button>
+                </Popconfirm>
+              </div>
+              <div className="ps-card__content">
+                <div className="table-responsive">
+                  <table className="table ps-table">
+                    <thead>
                       <tr>
-                        <td>
-                          <Link
-                            href={`${domain}/product/${product.slug}-${product.product_id}`}
-                          >
-                            <a>{product.name}</a>
-                          </Link>
+                        <th>Product</th>
+                        <th>Options</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {products.map((product) => (
+                        <tr>
+                          <td>
+                            <Link
+                              href={`${domain}/product/${product.slug}-${product.product_id}`}
+                            >
+                              <a>{product.name}</a>
+                            </Link>
+                          </td>
+                          <td>{product.options.join(", ")}</td>
+                          <td>{product.quantity}</td>
+                          <td>
+                            {order?.currency_symbol}
+                            {product.price}
+                          </td>
+                          <td>
+                            {order?.currency_symbol}
+                            {product.price}
+                          </td>
+                        </tr>
+                      ))}
+                      <tr>
+                        <td colSpan="3">
+                          <strong>Shipping Charge:</strong>
                         </td>
-                        <td>{product.options.join(", ")}</td>
-                        <td>{product.quantity}</td>
                         <td>
-                          {order?.currency_symbol}
-                          {product.price}
-                        </td>
-                        <td>
-                          {order?.currency_symbol}
-                          {product.price}
+                          <strong>{order?.shipping_total}</strong>
                         </td>
                       </tr>
-                    ))}
-                    <tr>
-                      <td colSpan="3">
-                        <strong>Shipping Charge:</strong>
-                      </td>
-                      <td>
-                        <strong>{order?.shipping_total}</strong>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colSpan="3">
-                        <strong>Total:</strong>
-                      </td>
-                      <td>
-                        <strong>{order?.total}</strong>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                      <tr>
+                        <td colSpan="3">
+                          <strong>Total:</strong>
+                        </td>
+                        <td>
+                          <strong>{order?.total}</strong>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        {/* <div className="ps-section__right">
+          {/* <div className="ps-section__right">
           <div className="ps-card ps-card--track-order">
             <div className="ps-card__header">
               <h4>Track Order</h4>
@@ -256,8 +263,9 @@ const OrderDetailPage = ({ oid }) => {
             </div>
           </div>
         </div> */}
-      </section>
-    </ContainerDefault>
+        </section>
+      </ContainerDefault>
+    </DefaultLayout>
   )
 }
 

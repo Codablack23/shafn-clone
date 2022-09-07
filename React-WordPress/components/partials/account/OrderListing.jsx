@@ -123,7 +123,7 @@ export default function OrdersListing() {
         };
 
         try {
-            const orders = await WPOrderRepository.getOrders(params);
+            const orders = await WPOrderRepository.getOrders(auth.id, params);
             setOrders(orders);
         } catch (error) {
             notification["error"]({
@@ -137,11 +137,10 @@ export default function OrdersListing() {
         const params = {
             page: 1,
             per_page: 10,
-            customer_id: auth.id,
         };
 
         try {
-            const orders = await WPOrderRepository.getOrders(params);
+            const orders = await WPOrderRepository.getOrders(auth.id, params);
             setOrders(orders);
         } catch (error) {
             notification["error"]({
@@ -165,7 +164,8 @@ export default function OrdersListing() {
                 <p className="ps__orders-heading">Orders</p>
                 <p className="sub-heading">Your Order's Listing</p>
             </header>
-            <section className="filter-container mt-5 d-lg-flex align-items-center">
+            <br />
+            {/* <section className="filter-container mt-5 d-lg-flex align-items-center">
                 <input
                     type="text"
                     placeholder="Search"
@@ -196,7 +196,7 @@ export default function OrdersListing() {
                     {isFiltering ? <Spin style={{ marginTop: 5 }} /> : "Filter"}
                 </button>
             </section>
-            <br />
+            <br /> */}
             <section>
                 <Table
                     columns={columns}

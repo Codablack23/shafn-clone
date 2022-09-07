@@ -9,7 +9,6 @@ class DataRepository {
   async getCountries() {
     const endpoint = `${WPDomain}/wp-json/wc/v3/data/countries?${serializeQuery(
       {
-        ...payload,
         ...oathInfo,
       }
     )}`

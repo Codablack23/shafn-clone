@@ -1,7 +1,7 @@
 import { WPDomain } from "./Repository"
 import axios from "axios"
 
-class WPAuthRepository {
+class AuthRepository {
   constructor(callback) {
     this.callback = callback
   }
@@ -33,4 +33,4 @@ class WPAuthRepository {
   }
 }
 
-export default new WPAuthRepository()
+export default new AuthRepository()

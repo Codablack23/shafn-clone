@@ -144,6 +144,12 @@ const FormAccountSettings = () => {
       const _countries = await DataRepository.getCountries()
 
       setCountries(_countries)
+
+      const _country = _countries.find(
+        (country) => country.name === _vendor.address.country
+      )
+      setStates(_country.states)
+
       setProfileImage(_vendor.gravatar)
       setBanner(_vendor.banner)
       setName(_vendor.store_name)
@@ -151,8 +157,6 @@ const FormAccountSettings = () => {
       setNumber(_vendor.phone)
       setShowEmail(_vendor.show_email)
       setEnableTNC(_vendor.toc_enabled)
-
-      _setStates(_vendor.address.country)
     } catch (err) {
       notification["error"]({
         message: "Unable to get settings",

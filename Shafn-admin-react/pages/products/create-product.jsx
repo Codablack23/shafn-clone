@@ -13,6 +13,7 @@ import Select from "react-select"
 import "react-image-lightbox/style.css"
 import "suneditor/dist/css/suneditor.min.css"
 import ImageSelectTiles from "~/components/elements/products/ImageSelectTiles"
+import DefaultLayout from "~/components/layouts/DefaultLayout"
 
 import { CustomModal } from "~/components/elements/custom/index"
 import FileRepository from "~/repositories/FileRepository"
@@ -267,273 +268,275 @@ const CreateProductPage = () => {
   }, [])
 
   return (
-    <ContainerDefault title="Create new product">
-      <HeaderDashboard
-        title="Create Product"
-        description="ShafN Create New Product"
-      />
-      <section className="ps-new-item">
-        <form
-          className="ps-form ps-form--new-product"
-          action=""
-          method="get"
-          onSubmit={handleOnSubmit}
-        >
-          <div className="ps-form__content">
-            <div className="row">
-              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                <figure className="ps-block--form-box">
-                  <figcaption>General</figcaption>
-                  <div className="ps-block__content">
-                    <div className="form-group">
-                      <label>
-                        Product Name<sup>*</sup>
-                      </label>
-                      <input
-                        name="name"
-                        className="form-control"
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>
-                        Regular Price<sup>*</sup>
-                      </label>
-                      <input
-                        name="regular_price"
-                        className="form-control"
-                        type="text"
-                        placeholder="Note: Add shipping cost"
-                        value={regularPrice}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>
-                        Discounted Price<sup>*</sup>
-                      </label>
-                      <input
-                        name="sale_price"
-                        className="form-control"
-                        type="text"
-                        placeholder="Note: Add shipping cost"
-                        value={salePrice}
-                        onChange={handleInputChange}
-                      />
-                      <p style={{ color: "red" }} hidden={isPriceValid}>
-                        Discounted Price must be less than the Sale Price
-                      </p>
-                    </div>
-                    <div className="form-group form-group--select">
-                      <label>
-                        Category<sup>*</sup>
-                      </label>
-                      <div className="form-group__content">
-                        <select
-                          name="categories"
-                          className="ps-select"
-                          title="Status"
-                          defaultValue={category}
-                          onChange={(e) =>
-                            setCategory([{ id: e.target.value }])
-                          }
-                        >
-                          <option value="">Select a category</option>
-                          {categories.map((category) => (
-                            <option key={category.id} value={category.id}>
-                              {ReactHtmlParser(category.name)}
-                            </option>
-                          ))}
-                        </select>
+    <DefaultLayout>
+      <ContainerDefault title="Create new product">
+        <HeaderDashboard
+          title="Create Product"
+          description="ShafN Create New Product"
+        />
+        <section className="ps-new-item">
+          <form
+            className="ps-form ps-form--new-product"
+            action=""
+            method="get"
+            onSubmit={handleOnSubmit}
+          >
+            <div className="ps-form__content">
+              <div className="row">
+                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                  <figure className="ps-block--form-box">
+                    <figcaption>General</figcaption>
+                    <div className="ps-block__content">
+                      <div className="form-group">
+                        <label>
+                          Product Name<sup>*</sup>
+                        </label>
+                        <input
+                          name="name"
+                          className="form-control"
+                          type="text"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>
+                          Regular Price<sup>*</sup>
+                        </label>
+                        <input
+                          name="regular_price"
+                          className="form-control"
+                          type="text"
+                          placeholder="Note: Add shipping cost"
+                          value={regularPrice}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>
+                          Discounted Price<sup>*</sup>
+                        </label>
+                        <input
+                          name="sale_price"
+                          className="form-control"
+                          type="text"
+                          placeholder="Note: Add shipping cost"
+                          value={salePrice}
+                          onChange={handleInputChange}
+                        />
+                        <p style={{ color: "red" }} hidden={isPriceValid}>
+                          Discounted Price must be less than the Sale Price
+                        </p>
+                      </div>
+                      <div className="form-group form-group--select">
+                        <label>
+                          Category<sup>*</sup>
+                        </label>
+                        <div className="form-group__content">
+                          <select
+                            name="categories"
+                            className="ps-select"
+                            title="Status"
+                            defaultValue={category}
+                            onChange={(e) =>
+                              setCategory([{ id: e.target.value }])
+                            }
+                          >
+                            <option value="">Select a category</option>
+                            {categories.map((category) => (
+                              <option key={category.id} value={category.id}>
+                                {ReactHtmlParser(category.name)}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="form-group">
+                        <label>
+                          Sale Quantity<sup>*</sup>
+                        </label>
+                        <input
+                          name="stock_quantity"
+                          className="form-control"
+                          type="text"
+                          placeholder=""
+                          required
+                          value={qty}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label>
+                          Short Description<sup>*</sup>
+                        </label>
+                        <SunEditor
+                          height="100px"
+                          onChange={(val) => setShortDescription(val)}
+                          setOptions={{
+                            buttonList: short_buttonList,
+                            maxCharCount: 100,
+                          }}
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label>
+                          Product Description<sup>*</sup>
+                        </label>
+                        <SunEditor
+                          height="200px"
+                          onChange={(val) => setDescription(val)}
+                          setOptions={{
+                            buttonList,
+                          }}
+                        />
                       </div>
                     </div>
-
-                    <div className="form-group">
-                      <label>
-                        Sale Quantity<sup>*</sup>
-                      </label>
-                      <input
-                        name="stock_quantity"
-                        className="form-control"
-                        type="text"
-                        placeholder=""
-                        required
-                        value={qty}
-                        onChange={handleInputChange}
+                  </figure>
+                </div>
+                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                  <figure className="ps-block--form-box">
+                    <figcaption>Product Images</figcaption>
+                    <div className="pt-3 product-img-container">
+                      <ImageSelectTiles
+                        numOfTiles={9}
+                        onSelect={(file) =>
+                          setImages((current) =>
+                            file.id === "img-1"
+                              ? [file, ...current]
+                              : [...current, file]
+                          )
+                        }
+                        onDelete={(id) =>
+                          setImages((current) =>
+                            current.filter((img) => img.id !== id)
+                          )
+                        }
                       />
                     </div>
+                  </figure>
+                  <figure className="ps-block--form-box">
+                    <figcaption>Inventory</figcaption>
+                    <div className="ps-block__content">
+                      <div className="form-group">
+                        <label>
+                          SKU<sup>*</sup>
+                        </label>
+                        <input
+                          name="sku"
+                          className="form-control"
+                          type="text"
+                          value={sku}
+                          onChange={(e) => setSku(e.target.value)}
+                        />
+                      </div>
 
-                    <div className="form-group">
-                      <label>
-                        Short Description<sup>*</sup>
-                      </label>
-                      <SunEditor
-                        height="100px"
-                        onChange={(val) => setShortDescription(val)}
-                        setOptions={{
-                          buttonList: short_buttonList,
-                          maxCharCount: 100,
-                        }}
-                      />
+                      <div className="form-group">
+                        <label>
+                          Tags<sup>*</sup>
+                        </label>
+
+                        <Select
+                          isMulti
+                          name="tags"
+                          placeholder="Select product tags"
+                          options={tagOptions}
+                          onChange={(options) => {
+                            let tags = options.map((option) => ({
+                              id: option.value,
+                            }))
+                            setTags(tags)
+                          }}
+                        />
+
+                        <button
+                          className="ps-btn mt-4"
+                          onClick={() => setShowNewTagInputField(true)}
+                        >
+                          Add New
+                        </button>
+                      </div>
                     </div>
-
-                    <div className="form-group">
-                      <label>
-                        Product Description<sup>*</sup>
-                      </label>
-                      <SunEditor
-                        height="200px"
-                        onChange={(val) => setDescription(val)}
-                        setOptions={{
-                          buttonList,
-                        }}
-                      />
-                    </div>
-                  </div>
-                </figure>
-              </div>
-              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                <figure className="ps-block--form-box">
-                  <figcaption>Product Images</figcaption>
-                  <div className="pt-3 product-img-container">
-                    <ImageSelectTiles
-                      numOfTiles={9}
-                      onSelect={(file) =>
-                        setImages((current) =>
-                          file.id === "img-1"
-                            ? [file, ...current]
-                            : [...current, file]
-                        )
-                      }
-                      onDelete={(id) =>
-                        setImages((current) =>
-                          current.filter((img) => img.id !== id)
-                        )
-                      }
-                    />
-                  </div>
-                </figure>
-                <figure className="ps-block--form-box">
-                  <figcaption>Inventory</figcaption>
-                  <div className="ps-block__content">
-                    <div className="form-group">
-                      <label>
-                        SKU<sup>*</sup>
-                      </label>
-                      <input
-                        name="sku"
-                        className="form-control"
-                        type="text"
-                        value={sku}
-                        onChange={(e) => setSku(e.target.value)}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label>
-                        Tags<sup>*</sup>
-                      </label>
-
-                      <Select
-                        isMulti
-                        name="tags"
-                        placeholder="Select product tags"
-                        options={tagOptions}
-                        onChange={(options) => {
-                          let tags = options.map((option) => ({
-                            id: option.value,
-                          }))
-                          setTags(tags)
-                        }}
-                      />
-
-                      <button
-                        className="ps-btn mt-4"
-                        onClick={() => setShowNewTagInputField(true)}
-                      >
-                        Add New
-                      </button>
-                    </div>
-                  </div>
-                </figure>
+                  </figure>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="ps-form__bottom">
-            <a className="ps-btn ps-btn--black" href="/">
-              Back
-            </a>
-            <button className="ps-btn ps-btn--gray">Cancel</button>
-            <button
-              disabled={isUploading}
-              type="submit"
-              className="ps-btn"
-              onClick={handleOnSubmit}
-            >
-              Submit
-            </button>
-          </div>
-        </form>
-      </section>
-      {/* Products Viewer */}
-      <CustomModal isOpen={isUploading}>
-        <div className="row">
-          <div className="col-12 col-md-3"></div>
-          <div className="col-12 col-md-6 mt-5">
-            <div className="mt-5">
-              <Spin size="large" />
-              {progress !== images.length * 100 && (
-                <>
-                  <Progress type="line" percent={progress} />
-                  <span>{`${progress}%`}</span>
-                  <p>Uploading images</p>
-                </>
-              )}
+            <div className="ps-form__bottom">
+              <a className="ps-btn ps-btn--black" href="/">
+                Back
+              </a>
+              <button className="ps-btn ps-btn--gray">Cancel</button>
+              <button
+                disabled={isUploading}
+                type="submit"
+                className="ps-btn"
+                onClick={handleOnSubmit}
+              >
+                Submit
+              </button>
             </div>
-          </div>
-          <div className="col-12 col-md-3"></div>
-        </div>
-      </CustomModal>
-      {/* New Tag Input Field */}
-      <CustomModal isOpen={showNewTagInputField}>
-        <div className="row">
-          <div className="col-12 col-md-3"></div>
-          <div className="col-12 col-md-6">
-            <div className="form-group bg-white p-5 new-tag-dialog">
-              <label className="">
-                New Tag<sup>*</sup>
-              </label>
-              <input
-                name="new tag"
-                className="form-control"
-                type="text"
-                value={newTag}
-                onChange={(e) => setNewTag(e.target.value)}
-              />
-              <br />
-
-              <div class="d-flex w-100 justify-content-around">
-                <button
-                  className="ps-btn"
-                  onClick={() => setShowNewTagInputField(false)}
-                >
-                  Cancel
-                </button>
-
-                <button className="ps-btn ps-btn--gray" onClick={addTag}>
-                  Add
-                </button>
+          </form>
+        </section>
+        {/* Products Viewer */}
+        <CustomModal isOpen={isUploading}>
+          <div className="row">
+            <div className="col-12 col-md-3"></div>
+            <div className="col-12 col-md-6 mt-5">
+              <div className="mt-5">
+                <Spin size="large" />
+                {progress !== images.length * 100 && (
+                  <>
+                    <Progress type="line" percent={progress} />
+                    <span>{`${progress}%`}</span>
+                    <p>Uploading images</p>
+                  </>
+                )}
               </div>
             </div>
+            <div className="col-12 col-md-3"></div>
           </div>
-          <div className="col-12 col-md-3"></div>
-        </div>
-      </CustomModal>
-    </ContainerDefault>
+        </CustomModal>
+        {/* New Tag Input Field */}
+        <CustomModal isOpen={showNewTagInputField}>
+          <div className="row">
+            <div className="col-12 col-md-3"></div>
+            <div className="col-12 col-md-6">
+              <div className="form-group bg-white p-5 new-tag-dialog">
+                <label className="">
+                  New Tag<sup>*</sup>
+                </label>
+                <input
+                  name="new tag"
+                  className="form-control"
+                  type="text"
+                  value={newTag}
+                  onChange={(e) => setNewTag(e.target.value)}
+                />
+                <br />
+
+                <div class="d-flex w-100 justify-content-around">
+                  <button
+                    className="ps-btn"
+                    onClick={() => setShowNewTagInputField(false)}
+                  >
+                    Cancel
+                  </button>
+
+                  <button className="ps-btn ps-btn--gray" onClick={addTag}>
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-md-3"></div>
+          </div>
+        </CustomModal>
+      </ContainerDefault>
+    </DefaultLayout>
   )
 }
 export default CreateProductPage

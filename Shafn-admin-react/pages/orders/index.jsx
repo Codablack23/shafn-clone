@@ -8,6 +8,7 @@ import { connect, useDispatch } from "react-redux"
 import { toggleDrawerMenu } from "~/store/app/action"
 import OrdersRepository from "~/repositories/OrdersRepository"
 import ReactHtmlParser from "react-html-parser"
+import DefaultLayout from "~/components/layouts/DefaultLayout"
 
 const { Option } = Select
 const OrdersPage = () => {
@@ -97,62 +98,63 @@ const OrdersPage = () => {
     getOrders()
   }, [])
   return (
-    <ContainerDefault>
-      <HeaderDashboard title="Orders" description="ShafN Orders Listing" />
-      <section className="ps-items-listing">
-        <div className="ps-section__header simple">
-          <div className="ps-section__filter">
-            <form className="ps-form--filter">
-              <div className="ps-form__left">
-                <div className="form-group">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Search..."
-                    onChange={(e) => setSearchKeyword(e.target.value)}
-                  />
+    <DefaultLayout>
+      <ContainerDefault>
+        <HeaderDashboard title="Orders" description="ShafN Orders Listing" />
+        <section className="ps-items-listing">
+          <div className="ps-section__header simple">
+            <div className="ps-section__filter">
+              <form className="ps-form--filter">
+                <div className="ps-form__left">
+                  <div className="form-group">
+                    <input
+                      className="form-control"
+                      type="text"
+                      placeholder="Search..."
+                      onChange={(e) => setSearchKeyword(e.target.value)}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <Select
+                      placeholder="Status"
+                      className="ps-ant-dropdown"
+                      listItemHeight={20}
+                      onChange={(value) =>
+                        setFilterParams((params) => ({
+                          ...params,
+                          status: value,
+                        }))
+                      }
+                    >
+                      <Option value="pending">Pending</Option>
+                      <Option value="processing">Processing</Option>
+                      <Option value="on-hold">On-hold</Option>
+                      <Option value="completed">Completed</Option>
+                      <Option value="cancelled">Cancelled</Option>
+                      <Option value="refunded">Refunded</Option>
+                      <Option value="failed">Failed</Option>
+                    </Select>
+                  </div>
                 </div>
-                <div className="form-group">
-                  <Select
-                    placeholder="Status"
-                    className="ps-ant-dropdown"
-                    listItemHeight={20}
-                    onChange={(value) =>
-                      setFilterParams((params) => ({
-                        ...params,
-                        status: value,
-                      }))
-                    }
+                <div className="ps-form__right">
+                  <button
+                    className="ps-btn ps-btn--gray"
+                    onClick={filter}
+                    disabled={isFiltering}
                   >
-                    <Option value="pending">Pending</Option>
-                    <Option value="processing">Processing</Option>
-                    <Option value="on-hold">On-hold</Option>
-                    <Option value="completed">Completed</Option>
-                    <Option value="cancelled">Cancelled</Option>
-                    <Option value="refunded">Refunded</Option>
-                    <Option value="failed">Failed</Option>
-                  </Select>
+                    {isFiltering ? (
+                      <Spin style={{ marginTop: 5 }} />
+                    ) : (
+                      <>
+                        <i className="icon icon-funnel mr-2"></i>
+                        Filter
+                      </>
+                    )}
+                  </button>
                 </div>
-              </div>
-              <div className="ps-form__right">
-                <button
-                  className="ps-btn ps-btn--gray"
-                  onClick={filter}
-                  disabled={isFiltering}
-                >
-                  {isFiltering ? (
-                    <Spin style={{ marginTop: 5 }} />
-                  ) : (
-                    <>
-                      <i className="icon icon-funnel mr-2"></i>
-                      Filter
-                    </>
-                  )}
-                </button>
-              </div>
-            </form>
-          </div>
-          {/* <div className="ps-section__actions">
+              </form>
+            </div>
+            {/* <div className="ps-section__actions">
             <Link href="/products/create-product">
               <a className="ps-btn success">
                 <i className="icon icon-plus mr-2"></i>New Order
@@ -162,28 +164,29 @@ const OrdersPage = () => {
               <i className="icon icon-download2 mr-2"></i>Export
             </a>
           </div> */}
-        </div>
-        <div className="ps-section__content">
-          <TableOrdersItems orders={orders} />
+          </div>
+          <div className="ps-section__content">
+            <TableOrdersItems orders={orders} />
 
-          {loading && <Spin />}
+            {loading && <Spin />}
 
-          {orders && Number(orders.totalItems) === 0 && <p>No orders yet</p>}
+            {orders && Number(orders.totalItems) === 0 && <p>No orders yet</p>}
 
-          {orders && Number(orders.totalItems) > 0 && (
-            <div className="ps-section__footer">
-              <Pagination
-                total={orders && orders.totalItems}
-                pageSize={10}
-                responsive={true}
-                current={currentPage}
-                onChange={handlePagination}
-              />
-            </div>
-          )}
-        </div>
-      </section>
-    </ContainerDefault>
+            {orders && Number(orders.totalItems) > 0 && (
+              <div className="ps-section__footer">
+                <Pagination
+                  total={orders && orders.totalItems}
+                  pageSize={10}
+                  responsive={true}
+                  current={currentPage}
+                  onChange={handlePagination}
+                />
+              </div>
+            )}
+          </div>
+        </section>
+      </ContainerDefault>
+    </DefaultLayout>
   )
 }
 export default connect((state) => state.app)(OrdersPage)

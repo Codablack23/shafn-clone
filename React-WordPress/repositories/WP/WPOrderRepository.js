@@ -18,23 +18,23 @@ class WPOrderRespository {
         const endPoint = `wp-json/wc/v3/orders?${serializeQuery({
             ...oathInfo,
         })}`;
-        return await WPRepository.post(`${WPDomain}/${endPoint}`, payload)
-            .then((response) => {
+        return await WPRepository.post(`${WPDomain}/${endPoint}`, payload).then(
+            (response) => {
                 return response.data;
-            })
-            .catch(() => {
-                return null;
-            });
+            }
+        );
     }
 
-    async getOrders(payload) {
+    async getOrders(customerId, payload) {
         const endPoint = `wp-json/wc/v3/orders?${serializeQuery({
             ...payload,
             ...oathInfo,
         })}`;
         return await WPRepository.get(`${WPDomain}/${endPoint}`).then(
             (response) => {
-                return response.data;
+                return response.data.filter(
+                    (order) => order.customer_id === customerId
+                );
             }
         );
     }
