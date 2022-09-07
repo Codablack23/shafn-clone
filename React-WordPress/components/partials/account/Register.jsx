@@ -15,10 +15,6 @@ function Register() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    // const [firstname, setFirstname] = useState("");
-    // const [lastname, setLastname] = useState("");
-    // const [storename, setStorename] = useState("");
-    // const [isVendor, setIsVendor] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [otp, setOtp] = useState({
         code: "",
@@ -68,10 +64,6 @@ function Register() {
             roles: ["customer"],
         };
 
-        // const storeData = {
-        //     store_name: storename,
-        // };
-
         // Use oauth data if registration is with oauth
         if (type === "oauth") {
             user = {
@@ -80,32 +72,6 @@ function Register() {
                 password: oauth.password,
             };
         }
-
-        // if (isVendor) {
-        //     if (type === "oauth") {
-        //         // Use data provided by oauth
-        //         user = {
-        //             ...user,
-        //             first_name: oauth.firstname,
-        //             last_name: oauth.lastname,
-        //             roles: ["seller"],
-        //         };
-        //     } else {
-        //         // Use data provided by form
-        //         user = {
-        //             ...user,
-        //             first_name: firstname,
-        //             last_name: lastname,
-        //             roles: ["seller"],
-        //         };
-        //     }
-        // } else {
-        //     // Set customer role if is registering as customer
-        //     user = {
-        //         ...user,
-        //         roles: ["customer"],
-        //     };
-        // }
 
         if (!isLoading) {
             try {
@@ -127,34 +93,6 @@ function Register() {
 
                 // Login user
                 const loggedUser = await WPAuthRepository.login(_user);
-
-                // if (user.roles[0] === "seller") {
-                //     try {
-                //         // Update vendor store name
-                //         await WPVendorRepository.updateVendorSettings({
-                //             storeId: loggedUser.id,
-                //             token: loggedUser.token,
-                //             data: storeData,
-                //         });
-                //     } catch (error) {
-                //         notification["error"]({
-                //             message: "Unable to register store name",
-                //             description:
-                //                 "This can be registered in your profile settings",
-                //         });
-                //     } finally {
-                //         const domain =
-                //             process.env.NODE_ENV === "development"
-                //                 ? "http://localhost:5500"
-                //                 : "https://dashboard.shafn.com";
-                //         // Go to vendor page
-                //         window.location.assign(
-                //             `${domain}/dashboard?auth_token=${loggedUser.token}`
-                //         );
-                //     }
-                // } else {
-                // const { encrypt } = require("~/utilities/common-helpers");
-                // const encryptedToken = encrypt(loggedUser.token);
 
                 const customer = await WPCustomerRepository.getCustomer(
                     loggedUser.user_id
@@ -219,6 +157,7 @@ function Register() {
                                             },
                                         ]}>
                                         <Input
+                                            name="username"
                                             className="form-control"
                                             type="text"
                                             placeholder="Username"
@@ -243,6 +182,7 @@ function Register() {
                                             },
                                         ]}>
                                         <Input
+                                            name="email"
                                             className="form-control"
                                             type="email"
                                             placeholder="Email address"
@@ -278,93 +218,6 @@ function Register() {
                                         />
                                     </Form.Item>
                                 </div>
-
-                                {/* Extra data from vendors only */}
-                                {/* {isVendor && (
-                                    <>
-                                        <div className="form-group">
-                                            <Form.Item
-                                                rules={[
-                                                    {
-                                                        required: true,
-                                                        message:
-                                                            "Please input your first name",
-                                                    },
-                                                ]}>
-                                                <Input
-                                                    className="form-control"
-                                                    type="text"
-                                                    placeholder="First name"
-                                                    value={firstname}
-                                                    onChange={(e) =>
-                                                        setFirstname(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                />
-                                            </Form.Item>
-                                        </div>
-
-                                        <div className="form-group">
-                                            <Form.Item
-                                                rules={[
-                                                    {
-                                                        required: true,
-                                                        message:
-                                                            "Please input your last name",
-                                                    },
-                                                ]}>
-                                                <Input
-                                                    className="form-control"
-                                                    type="text"
-                                                    placeholder="Last name"
-                                                    value={lastname}
-                                                    onChange={(e) =>
-                                                        setLastname(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                />
-                                            </Form.Item>
-                                        </div>
-
-                                        <div className="form-group">
-                                            <Form.Item name="store_name">
-                                                <Input
-                                                    className="form-control"
-                                                    type="text"
-                                                    placeholder="Store name"
-                                                    value={storename}
-                                                    onChange={(e) =>
-                                                        setStorename(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                />
-                                            </Form.Item>
-                                        </div>
-                                    </>
-                                )} */}
-
-                                {/* <div className="form-group">
-                                    <div className="ps-checkbox">
-                                        <input
-                                            checked={isVendor}
-                                            className="form-control"
-                                            type="checkbox"
-                                            id="customer"
-                                            name="customer"
-                                            onChange={(e) =>
-                                                setIsVendor(
-                                                    (current) => !current
-                                                )
-                                            }
-                                        />
-                                        <label htmlFor="customer">
-                                            I am a vendor
-                                        </label>
-                                    </div>
-                                </div> */}
 
                                 <div className="form-group submit">
                                     <button

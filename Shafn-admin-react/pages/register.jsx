@@ -7,6 +7,7 @@ import SettingsRepository from "~/repositories/SettingsRepository"
 import OAuth from "~/components/partials/OAuth"
 import Router from "next/router"
 import ReactHtmlParser from "react-html-parser"
+import WPVerification from "~/components/shared/widgets/WPVerification"
 
 export default function Register() {
   const [isLoading, setIsLoading] = useState(false)
@@ -29,7 +30,7 @@ export default function Register() {
   const handleInputChange = (e) => {
     setVendor((current) => ({
       ...current,
-      [e.target.name]: [e.target.value],
+      [e.target.name]: e.target.value,
     }))
   }
 
@@ -37,7 +38,6 @@ export default function Register() {
     setIsLoading(true)
 
     try {
-      console.log("Sending verification code...")
       const response = await AuthRepository.verifyEmail({
         name: vendor.username,
         email: vendor.email,
@@ -144,138 +144,162 @@ export default function Register() {
           <img src={"/img/logo_light.png"} alt="logo" />
         </div>
 
-        <Form onFinish={!isLoading && verifyEmail}>
-          <p className="title mb-2" style={{ paddingBottom: 10 }}>
-            Register An Account
-          </p>
-          <div className="form-group">
-            <Form.Item
-              name="username"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your preferred username",
-                },
-              ]}
-            >
-              <Input
-                className="form-control"
-                type="text"
-                placeholder="Username"
-                value={vendor.username}
-                onChange={handleInputChange}
-                autoFocus
-              />
-            </Form.Item>
-
-            <Form.Item
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  type: "email",
-                  message: "Please input your email",
-                },
-              ]}
-            >
-              <Input
-                className="form-control"
-                type="email"
-                placeholder="Email address"
-                value={vendor.email}
-                onChange={handleInputChange}
-              />
-            </Form.Item>
-
-            <Form.Item
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  pattern: new RegExp(
-                    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
-                  ),
-                  message:
-                    "Password must contain at least 8 characters with at least one uppercase letter, one lowercase letter, one number and one special character(allowed characters include #, ?, !, @, $, %, ^, &, *, -)",
-                },
-              ]}
-            >
-              <Input.Password
-                className="form-control"
-                placeholder="Password"
-                value={vendor.password}
-                onChange={handleInputChange}
-              />
-            </Form.Item>
-
-            <Form.Item name="store_name">
-              <Input
-                className="form-control"
-                type="text"
-                placeholder="Store name"
-                value={vendor.store_name}
-                onChange={handleInputChange}
-              />
-            </Form.Item>
-
-            <Form.Item
-              name="first_name"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your first name",
-                },
-              ]}
-            >
-              <Input
-                className="form-control"
-                type="text"
-                placeholder="First name"
-                value={vendor.first_name}
-                onChange={handleInputChange}
-              />
-            </Form.Item>
-
-            <Form.Item
-              name="last_name"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your last name",
-                },
-              ]}
-            >
-              <Input
-                className="form-control"
-                type="text"
-                placeholder="Last name"
-                value={vendor.last_name}
-                onChange={handleInputChange}
-              />
-            </Form.Item>
-
-            <button type="submit" className="register-btn" disabled={isLoading}>
-              {isLoading ? <Spin /> : "Register"}
-            </button>
-
-            <p>
-              Already have an account?
-              <a
-                href="/login"
-                style={{
-                  fontStyle: "italic",
-                  color: "#29AAE1",
-                  marginLeft: 2,
-                }}
-              >
-                Login
-              </a>
+        {!otp.code ? (
+          <Form onFinish={!isLoading && verifyEmail}>
+            <p className="title mb-2" style={{ paddingBottom: 10 }}>
+              Register An Account
             </p>
+            <div className="form-group">
+              <Form.Item
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your preferred username",
+                  },
+                ]}
+              >
+                <Input
+                  name="username"
+                  className="form-control"
+                  type="text"
+                  placeholder="Username"
+                  value={vendor.username}
+                  onChange={handleInputChange}
+                  autoFocus
+                />
+              </Form.Item>
 
-            <Divider>OR</Divider>
-            <OAuth onSuccess={(user) => console.log(user)} />
-          </div>
-        </Form>
+              <Form.Item
+                rules={[
+                  {
+                    required: true,
+                    type: "email",
+                    message: "Please input your email",
+                  },
+                ]}
+              >
+                <Input
+                  name="email"
+                  className="form-control"
+                  type="email"
+                  placeholder="Email address"
+                  value={vendor.email}
+                  onChange={handleInputChange}
+                />
+              </Form.Item>
+
+              <Form.Item
+                rules={[
+                  {
+                    required: true,
+                    pattern: new RegExp(
+                      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+                    ),
+                    message:
+                      "Password must contain at least 8 characters with at least one uppercase letter, one lowercase letter, one number and one special character(allowed characters include #, ?, !, @, $, %, ^, &, *, -)",
+                  },
+                ]}
+              >
+                <Input.Password
+                  name="password"
+                  className="form-control"
+                  placeholder="Password"
+                  value={vendor.password}
+                  onChange={handleInputChange}
+                />
+              </Form.Item>
+
+              <Form.Item>
+                <Input
+                  name="store_name"
+                  className="form-control"
+                  type="text"
+                  placeholder="Store name"
+                  value={vendor.store_name}
+                  onChange={handleInputChange}
+                />
+              </Form.Item>
+
+              <Form.Item
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your first name",
+                  },
+                ]}
+              >
+                <Input
+                  name="first_name"
+                  className="form-control"
+                  type="text"
+                  placeholder="First name"
+                  value={vendor.first_name}
+                  onChange={handleInputChange}
+                />
+              </Form.Item>
+
+              <Form.Item
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your last name",
+                  },
+                ]}
+              >
+                <Input
+                  name="last_name"
+                  className="form-control"
+                  type="text"
+                  placeholder="Last name"
+                  value={vendor.last_name}
+                  onChange={handleInputChange}
+                />
+              </Form.Item>
+
+              <button
+                type="submit"
+                className="register-btn"
+                disabled={isLoading}
+              >
+                {isLoading ? <Spin /> : "Register"}
+              </button>
+
+              <p>
+                Already have an account?
+                <a
+                  href="/login"
+                  style={{
+                    fontStyle: "italic",
+                    color: "#29AAE1",
+                    marginLeft: 2,
+                  }}
+                >
+                  Login
+                </a>
+              </p>
+
+              <Divider>OR</Divider>
+              <OAuth
+                onSuccess={(user) =>
+                  handleRegistration("oauth", {
+                    email: user.email,
+                    password: user.id,
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                  })
+                }
+              />
+            </div>
+          </Form>
+        ) : (
+          <WPVerification
+            email={vendor.email}
+            otp={otp}
+            isLoading={isLoading}
+            verifyEmail={verifyEmail}
+            handleRegistration={handleRegistration}
+          />
+        )}
       </div>
     </HomepageLayout>
   )
