@@ -6,11 +6,19 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import { notification } from "antd";
 
-const appId = process.env.NEXT_PUBLIC_speechly_appID?
-(process.env.NEXT_PUBLIC_speechly_appID):
-(process.env.speechly_appID );
-const SpeechlySpeechRecognition = createSpeechlySpeechRecognition(appId);
-SpeechRecognition.applyPolyfill(SpeechlySpeechRecognition);
+function getSpeechReg(){
+  try {
+    const appId = process.env.NEXT_PUBLIC_speechly_appID?
+    (process.env.NEXT_PUBLIC_speechly_appID):
+    (process.env.speechly_appID ?process.env.speechly_appID:"");
+    const SpeechlySpeechRecognition = createSpeechlySpeechRecognition(appId);
+    SpeechRecognition.applyPolyfill(SpeechlySpeechRecognition);
+
+    return SpeechlySpeechRecognition
+  } catch (error) {
+    return null
+  }
+}
 
 // const SpeechRecognition =
 //     window.SpeechRecognition || window.webkitSpeechRecognition;
