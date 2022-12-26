@@ -24,7 +24,7 @@ const WPLayoutFullwidth = ({ children, title }) => {
             <WPNavigationBottom />
             {children}
             <FooterFullwidth />
-            {/*<SubscribePopup active={subscribe} />*/}
+            {/* <SubscribePopup active={subscribe} /> */}
         </div>
     );
 };
