@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Menu } from '@headlessui/react'
 import ProductRepository from '~/repositories/ProductRepository';
 import React from 'react';
 
@@ -36,13 +37,16 @@ export default function HeaderNav() {
                     </Link >
                     </li> 
                 </ul> 
-                {/* <ul className="nav--list nav--right">
+                <ul className="nav--list nav--right">
                          <li>
                             <Link href="/account/register">
-                                <a>Sell on shafN</a>
+                                <a>Sales</a>
                             </Link>
                         </li> 
-                </ul>  */}
+                </ul> 
         </nav>
     );
 }
+
+
+
