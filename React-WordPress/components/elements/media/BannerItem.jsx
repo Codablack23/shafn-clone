@@ -1,8 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
+import {Image} from 'antd'
 import { baseUrl } from '../../../repositories/Repository';
+import { useEffect } from 'react';
 
 const BannerItem = ({ source }) => {
+    useEffect(()=>{
+        console.log(`${baseUrl}${source.image.url}`)
+    },[])
     if (source) {
         return (
             <Link href="/shop">
@@ -20,7 +25,7 @@ const BannerItem = ({ source }) => {
             <Link href="/shop">
                 <a>
                     <a className="ps-collection">
-                        <img src="/static/img/not-found.jpg" alt="shafN" />
+                        <Image src="/static/img/not-found.jpg" alt="shafN" />
                     </a>
                 </a>
             </Link>

@@ -1,29 +1,14 @@
 import Link from 'next/link';
 import ProductRepository from '~/repositories/ProductRepository';
 import React from 'react';
-
-const Categories = [
-
- {id: 16, name: 'Fashion', slug: 'fashion',} ,
- {id: 24, name: 'Clothing', slug: 'clothing',} ,
- {id: 22, name: 'Fabrics', slug: 'fabrics',} ,
- {id: 73, name: 'Beauty & Cosmetics', slug: 'beauty-cosmetic',} ,
- {id: 74, name: 'Books', slug: 'books',} ,
- {id: 71, name: 'Groceries', slug: 'groceries',} ,
- {id: 18, name: 'Home & Living', slug: 'home-living',} ,
- {id: 20, name: 'Toys & Entertainment', slug: 'toys-entertainment',} ,
- {id: 17, name: 'Accessories', slug: 'jewelry-accessories',} ,
- {id: 21, name: 'Art', slug: 'art',} ,
- {id: 19, name: 'Wedding & Party', slug: 'wedding-party'}, 
- 
-]
+import {Categories} from './categories'
 
 
 export default function HeaderNav() {
     // getProducts();
     return (
         <nav className="custom--navigation">
-            <ul className="nav--list nav--center">
+            <ul className="nav--list">
                 <li>
                     <Link href="/shop">
                         <a className="shop">Shop</a>
@@ -31,10 +16,23 @@ export default function HeaderNav() {
                 </li>
                 {Categories.length > 0
                     ? Categories.map((category) => (
-                          <li key={category.id}>
+                          <li key={category.id} className="nav-dropdown">
                               <Link href={`/shop/?category=${category.id}`}>
                                   <a className="nav--link">{category.name}</a>
                               </Link>
+                              {category.sub_cat?
+                              <ul className="nav-dropdown-menu">
+                                 
+                                 {category.sub_cat.map(sub=>(
+                                    <div>
+                                        <h5>{sub.title}</h5>
+                                        {sub.categories.map(cat=>(
+                                            <p>{cat.name}</p>
+                                        ))}
+                                    </div>
+                                 ))}
+                              </ul>
+                           :null}
                           </li>
                       ))
                     : null}

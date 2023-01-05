@@ -1,9 +1,11 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import Link from 'next/link';
+import {Image} from 'antd'
 import { baseUrl } from '../../../repositories/Repository';
 
+
 const Promotion = ({ link, image }) => {
-    if (image) {
+   if (image) {
         return (
             <Link href={link}>
                 <a className="ps-collection">

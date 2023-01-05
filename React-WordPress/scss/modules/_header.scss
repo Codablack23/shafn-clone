@@ -730,22 +730,45 @@
 }
 .custom--navigation{
     display: block;
-    width: 100%;
-    margin: auto;
+    position: relative;
     padding:0.8em 2.2em;
     .nav--list{
         display: flex;
         height: 50px;
+        width: 85%;
+        margin: auto;
         align-items: center;
         justify-content: center;
+        
         li{
+            &:hover{
+                color:#0309A5;
+                .nav-dropdown-menu{
+                    display: grid;
+                }
+            }
+            
+            .nav-dropdown-menu{
+                padding:32px ;
+                grid-template-columns: repeat(2,1fr);
+                gap: 16px;
+                position: absolute;
+                width: 100vw;
+                right: 0;
+                left: 0;
+                display: none;
+                height: 86vh;
+                overflow-y: auto;
+                background-color: #fff;
+            }
             .shop{
-                font-size: 16px;
+                font-size: 14px;
+                font-weight: 600;
             }
             > *{
                 color: #000000;
                 line-height: 20px;
-                font-weight: 400;
+                font-weight: 600;
                 font-size: 14px;
                 &:hover{
                     color:#0309A5;
