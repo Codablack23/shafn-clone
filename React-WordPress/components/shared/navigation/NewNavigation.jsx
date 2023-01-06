@@ -23,11 +23,11 @@ export default function HeaderNav() {
                               {category.sub_cat?
                               <ul className="nav-dropdown-menu">
                                  
-                                 {category.sub_cat.map(sub=>(
-                                    <div>
+                                 {category.sub_cat.map((sub,i)=>(
+                                    <div key={`${i}-sub-title`}>
                                         <h5>{sub.title}</h5>
-                                        {sub.categories.map(cat=>(
-                                            <p>{cat.name}</p>
+                                        {sub.categories.map((cat,i)=>(
+                                            <p key={`${i}-cat`}>{cat.name}</p>
                                         ))}
                                     </div>
                                  ))}
@@ -36,6 +36,16 @@ export default function HeaderNav() {
                           </li>
                       ))
                     : null}
+                <li>
+                    <Link href = "/vendors" >
+                    <a> Brand </a>  
+                    </Link >
+                </li> 
+                <li>
+                    <Link href="/account/register">
+                        <a>Sales</a>
+                    </Link>
+                </li> 
             </ul>
             {/* <ul className="nav--list nav--right">
              <li>

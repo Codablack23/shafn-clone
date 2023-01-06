@@ -320,8 +320,6 @@ export const Categories = [
         ],
         slug: 'fabrics',
     } ,
-    {id: 73, name: 'Brand', slug: 'beauty-cosmetic',} ,
-    {id: 74, name: 'Sales', slug: 'books',} ,
    ]
 
 // BODY

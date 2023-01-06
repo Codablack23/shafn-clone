@@ -91,7 +91,7 @@ const WPClothings = ({ products, collectionSlug, collections }) => {
         <div className="ps-product-list ps-garden-kitchen">
             <div className="ps-container">
                 <div className="ps-section__header">
-                    <h3>Clothings</h3>
+                    <h3>Make Up</h3>
                     <ul className="ps-section__links">
                         {sectionLinksView}
                         <li>
