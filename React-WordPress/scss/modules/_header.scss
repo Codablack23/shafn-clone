@@ -631,25 +631,31 @@
         margin: auto;
         align-items: center;
         justify-content: center;
-        
+        .nav--link{
+            padding-block: 6px;
+          &:hover{
+            border-bottom: 4px solid black;
+          }
+        }
         li{
+            margin-bottom: 10px;
             &:hover{
-                color:#0309A5;
                 .nav-dropdown-menu{
                     display: grid;
                 }
             }
             
             .nav-dropdown-menu{
+                top: 53px;
                 padding:32px ;
-                grid-template-columns: repeat(2,1fr);
+                grid-template-columns: repeat(3,1fr);
                 gap: 16px;
                 position: absolute;
                 width: 100vw;
                 right: 0;
                 left: 0;
                 display: none;
-                height: 86vh;
+                height: 50vh;
                 overflow-y: auto;
                 background-color: #fff;
             }
@@ -662,19 +668,15 @@
                 line-height: 20px;
                 font-weight: 600;
                 font-size: 14px;
-                &:hover {
-                    color: #0309A5;
-                }
             }
             margin:auto;
         }
     }
     .nav--center {
         margin: auto;
-        text-align: center;
         justify-content: center;
         li {
-            margin: auto 0.7em;
+            margin: auto 1.5em;
         }
     }
     .nav--right {

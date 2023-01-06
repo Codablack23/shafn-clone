@@ -8,7 +8,7 @@ export default function HeaderNav() {
     // getProducts();
     return (
         <nav className="custom--navigation">
-            <ul className="nav--list">
+            <ul className="nav--list nav--center">
                 <li>
                     <Link href="/shop">
                         <a className="shop">Shop</a>
@@ -27,7 +27,9 @@ export default function HeaderNav() {
                                     <div key={`${i}-sub-title`}>
                                         <h5>{sub.title}</h5>
                                         {sub.categories.map((cat,i)=>(
-                                            <p key={`${i}-cat`}>{cat.name}</p>
+                                            <Link href={"/"} key={`${i}-cat`}>
+                                             <a className="d-block text-black">{cat.name}</a>
+                                            </Link>
                                         ))}
                                     </div>
                                  ))}
@@ -38,12 +40,12 @@ export default function HeaderNav() {
                     : null}
                 <li>
                     <Link href = "/vendors" >
-                    <a> Brand </a>  
+                    <a className='nav--link'> Brand </a>  
                     </Link >
                 </li> 
                 <li>
                     <Link href="/account/register">
-                        <a>Sales</a>
+                        <a className='nav-link'>Sales</a>
                     </Link>
                 </li> 
             </ul>
