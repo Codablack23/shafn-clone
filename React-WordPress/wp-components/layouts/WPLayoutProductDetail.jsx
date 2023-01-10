@@ -8,9 +8,9 @@ import FooterDefault from "~/components/shared/footers/FooterDefault";
 const WPLayoutProductDetail = ({ children, title = "Homepage" }) => {
     let titleView;
     if (title !== null) {
-        titleView = process.env.title + " | " + title;
+        titleView = process.env.TITLE + " | " + title;
     } else {
-        titleView = process.env.title + " | " + process.env.titleDescription;
+        titleView = process.env.TITLE + " | " + process.env.TITLE_DESCRIPTION;
     }
     return (
         <div className="shafn">

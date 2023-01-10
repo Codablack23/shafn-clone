@@ -76,8 +76,8 @@ function Register() {
         if (!isLoading) {
             try {
                 const _admin = {
-                    username: process.env.username,
-                    password: process.env.password,
+                    username: process.env.ADMIN_USERNAME,
+                    password: process.env.ADMIN_PASSWORD,
                 };
 
                 const _user = {
