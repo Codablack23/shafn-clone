@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
-import { getProductsByKeyword } from '../../../store/product/action';
-import ProductResult from '../../elements/products/ProductSearchResult';
-import { connect } from 'react-redux';
-import SpeechRecognition from '~/components/elements/SpeechRecognition';
+import React, { Component } from "react";
+import { getProductsByKeyword } from "../../../store/product/action";
+import ProductResult from "../../elements/products/ProductSearchResult";
+import { connect } from "react-redux";
 
 class PanelSearch extends Component {
     constructor(props) {
@@ -10,13 +9,13 @@ class PanelSearch extends Component {
         this.state = {
             searchPanel: false,
             searchProducts: [],
-            keyword: '',
+            keyword: "",
         };
     }
 
     searchByProductName = (keyword, object) => {
         let matches = [];
-        let regexp = new RegExp(keyword.toLowerCase(), 'g');
+        let regexp = new RegExp(keyword.toLowerCase(), "g");
 
         object.forEach((product) => {
             if (product.title.toLowerCase().match(regexp))
@@ -32,7 +31,7 @@ class PanelSearch extends Component {
         Router.push(`/search?keyword=${keyword}`);
     }
     handleSearch = (e) => {
-        if (e.target.value !== '') {
+        if (e.target.value !== "") {
             const keyword = e.target.value;
             this.props.dispatch(getProductsByKeyword(keyword));
             this.setState({
@@ -60,15 +59,6 @@ class PanelSearch extends Component {
                             placeholder="Search something..."
                             onChange={this.handleSearch}
                         />
-                        <span className="ps-form__action">
-                            <SpeechRecognition
-                                onListening={(transcript) =>
-                                    this.handleSearch({
-                                        target: { value: transcript },
-                                    })
-                                }
-                            />
-                        </span>
                     </div>
                     <button>
                         <i className="icon-magnifier"></i>

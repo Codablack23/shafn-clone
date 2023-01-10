@@ -5,13 +5,6 @@ import WPProductSearchResult from "~/wp-components/elements/products/WPProductSe
 import WPProductRepository from "~/repositories/WP/WPProductRepository";
 import { Spin } from "antd";
 
-const Microphone = dynamic(
-    () => import("~/components/elements/SpeechRecognition"),
-    {
-        ssr: false,
-    }
-);
-
 const exampleCategories = [
     "All",
     "Babies & Moms",
@@ -224,14 +217,6 @@ const WPSearchHeader = () => {
                     }}
                     onChange={(e) => setKeyword(e.target.value)}
                 />
-                <span
-                    className="ps-form__action"
-                    style={{ cursor: "pointer" }}
-                    aria-label="Voice search">
-                    <Microphone
-                        onListening={(transcript) => setKeyword(transcript)}
-                    />
-                </span>
             </div>
             <button
                 title="Search"
