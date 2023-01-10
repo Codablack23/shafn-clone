@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { addItem } from '../../../store/cart/action';
-import { addItemToCompare } from '../../../store/compare/action';
-import { addItemToWishlist } from '../../../store/wishlist/action';
-import Link from 'next/link';
-import { Rate, Modal } from 'antd';
-import ProductDetailQuickView from '../detail/ProductDetailQuickView';
-import Rating from '../Rating';
-import { formatCurrency } from '../../../utilities/product-helper';
-import { isStaticData } from '../../../utilities/app-settings';
-import { baseUrl } from '../../../repositories/Repository';
-import ThumbnailImage from '../detail/modules/elements/ThumbnailImage';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { addItem } from "../../../store/cart/action";
+import { addItemToCompare } from "../../../store/compare/action";
+import { addItemToWishlist } from "../../../store/wishlist/action";
+import Link from "next/link";
+import { Rate, Modal } from "antd";
+import ProductDetailQuickView from "../detail/ProductDetailQuickView";
+import Rating from "../Rating";
+import { formatCurrency } from "../../../utilities/product-helper";
+import { isStaticData } from "../../../utilities/app-settings";
+import { baseUrl } from "../../../repositories/Repository";
+import ThumbnailImage from "../detail/modules/elements/ThumbnailImage";
 
 class ProductSimple extends Component {
     constructor(props) {
@@ -53,11 +53,11 @@ class ProductSimple extends Component {
         let productBadge = null;
         if (product.badge && product.badge !== null) {
             product.badge.map((badge) => {
-                if (badge.type === 'sale') {
+                if (badge.type === "sale") {
                     return (productBadge = (
                         <div className="ps-product__badge">{badge.value}</div>
                     ));
-                } else if (badge.type === 'outStock') {
+                } else if (badge.type === "outStock") {
                     return (productBadge = (
                         <div className="ps-product__badge out-stock">
                             {badge.value}
@@ -86,7 +86,7 @@ class ProductSimple extends Component {
                             <ThumbnailImage url={product.thumbnail.url} />
                         </a>
                     </Link>
-                    {product.badge ? productBadge : ''}
+                    {product.badge ? productBadge : ""}
                     <ul className="ps-product__actions">
                         <li>
                             <a
@@ -145,16 +145,16 @@ class ProductSimple extends Component {
                         </div>
                         {product.is_sale === true ? (
                             <p className="ps-product__price sale">
-                                {currency ? currency.symbol : '$'}
-                                {formatCurrency(product.price)}{' '}
+                                {currency ? currency.symbol : "$"}
+                                {formatCurrency(product.price)}{" "}
                                 <del className="ml-1">
-                                    {currency ? currency.symbol : '$'}
+                                    {currency ? currency.symbol : "$"}
                                     {formatCurrency(product.sale_price)}
                                 </del>
                             </p>
                         ) : (
                             <p className="ps-product__price">
-                                {currency ? currency.symbol : '$'}
+                                {currency ? currency.symbol : "$"}
                                 {formatCurrency(product.price)}
                             </p>
                         )}
@@ -166,7 +166,7 @@ class ProductSimple extends Component {
                     footer={null}
                     width={1024}
                     onCancel={this.handleHideQuickView}
-                    visible={this.state.isQuickView}>
+                    open={this.state.isQuickView}>
                     <ProductDetailQuickView product={product} />
                 </Modal>
             </div>

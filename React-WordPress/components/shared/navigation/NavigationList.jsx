@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Drawer } from 'antd';
-import PanelMenu from '../panel/PanelMenu';
-import PanelCartMobile from '../panel/PanelCartMobile';
-import PanelSearch from '../panel/PanelSearch';
-import PanelCategories from '../panel/PanelCategories';
-import Link from 'next/link';
-import { isStaticData } from '../../../utilities/app-settings';
-import { baseUrl } from '../../../repositories/Repository';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Drawer } from "antd";
+import PanelMenu from "../panel/PanelMenu";
+import PanelCartMobile from "../panel/PanelCartMobile";
+import PanelSearch from "../panel/PanelSearch";
+import PanelCategories from "../panel/PanelCategories";
+import Link from "next/link";
+import { isStaticData } from "../../../utilities/app-settings";
+import { baseUrl } from "../../../repositories/Repository";
 
 class NavigationList extends Component {
     constructor(props) {
@@ -64,12 +64,8 @@ class NavigationList extends Component {
     };
 
     render() {
-        const {
-            menuDrawer,
-            searchDrawer,
-            cartDrawer,
-            categoriesDrawer,
-        } = this.state;
+        const { menuDrawer, searchDrawer, cartDrawer, categoriesDrawer } =
+            this.state;
 
         return (
             <div className="navigation--list">
@@ -78,7 +74,7 @@ class NavigationList extends Component {
                     placement="right"
                     closable={false}
                     onClose={this.handleDrawerClose}
-                    visible={this.state.menuDrawer}>
+                    open={this.state.menuDrawer}>
                     <div className="ps-panel--wrapper">
                         <div className="ps-panel__header">
                             <h3>Menu</h3>
@@ -98,7 +94,7 @@ class NavigationList extends Component {
                     placement="right"
                     closable={false}
                     onClose={this.handleDrawerClose}
-                    visible={this.state.cartDrawer}>
+                    open={this.state.cartDrawer}>
                     <div className="ps-panel--wrapper">
                         <div className="ps-panel__header">
                             <h3>Shopping Cart</h3>
@@ -118,7 +114,7 @@ class NavigationList extends Component {
                     placement="right"
                     closable={false}
                     onClose={this.handleDrawerClose}
-                    visible={this.state.searchDrawer}>
+                    open={this.state.searchDrawer}>
                     <div className="ps-panel--wrapper">
                         <div className="ps-panel__header">
                             <h3>Search</h3>
@@ -138,7 +134,7 @@ class NavigationList extends Component {
                     placement="right"
                     closable={false}
                     onClose={this.handleDrawerClose}
-                    visible={this.state.categoriesDrawer}>
+                    open={this.state.categoriesDrawer}>
                     <div className="ps-panel--wrapper">
                         <div className="ps-panel__header">
                             <h3>Categories</h3>
@@ -156,7 +152,7 @@ class NavigationList extends Component {
                 <div className="navigation__content">
                     <a
                         className={`navigation__item ${
-                            menuDrawer === true ? 'active' : ''
+                            menuDrawer === true ? "active" : ""
                         }`}
                         onClick={this.handleShowMenuDrawer}>
                         <i className="icon-menu"></i>
@@ -164,7 +160,7 @@ class NavigationList extends Component {
                     </a>
                     <a
                         className={`navigation__item ${
-                            categoriesDrawer === true ? 'active' : ''
+                            categoriesDrawer === true ? "active" : ""
                         }`}
                         onClick={this.handleShowCategoriesDrawer}>
                         <i className="icon-list4"></i>
@@ -172,7 +168,7 @@ class NavigationList extends Component {
                     </a>
                     <a
                         className={`navigation__item ${
-                            searchDrawer === true ? 'active' : ''
+                            searchDrawer === true ? "active" : ""
                         }`}
                         onClick={this.handleShowSearchDrawer}>
                         <i className="icon-magnifier"></i>
@@ -180,7 +176,7 @@ class NavigationList extends Component {
                     </a>
                     <a
                         className={`navigation__item ${
-                            cartDrawer === true ? 'active' : ''
+                            cartDrawer === true ? "active" : ""
                         }`}
                         onClick={this.handleShowCartDrawer}>
                         <i className="icon-bag2"></i>

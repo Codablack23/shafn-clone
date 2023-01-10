@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import Slider from 'react-slick';
-import NextArrow from '../../../carousel/NextArrow';
-import PrevArrow from '../../../carousel/PrevArrow';
-import { Modal } from 'antd';
+import React, { Component } from "react";
+import Slider from "react-slick";
+import NextArrow from "../../../carousel/NextArrow";
+import PrevArrow from "../../../carousel/PrevArrow";
+import { Modal } from "antd";
 class ThumbnailVideoFeatured extends Component {
     constructor(props) {
         super(props);
@@ -12,13 +12,13 @@ class ThumbnailVideoFeatured extends Component {
             modalVisible: false,
         };
     }
-    handleCloseModal = e => {
+    handleCloseModal = (e) => {
         e.preventDefault();
         this.setState({
             modalVisible: false,
         });
     };
-    handleOpenModal = e => {
+    handleOpenModal = (e) => {
         e.preventDefault();
         this.setState({
             modalVisible: true,
@@ -49,7 +49,7 @@ class ThumbnailVideoFeatured extends Component {
                     <div className="ps-wrapper">
                         <Slider
                             {...gallerySetting}
-                            ref={slider => (this.slider1 = slider)}
+                            ref={(slider) => (this.slider1 = slider)}
                             asNavFor={this.state.variantCarousel}
                             className="ps-product__gallery ps-carousel inside">
                             <div className="item">
@@ -79,16 +79,16 @@ class ThumbnailVideoFeatured extends Component {
                             <div className="ps-video">
                                 <a
                                     href="https://www.youtube.com/watch?v=ilw-qmqZ5zY"
-                                    onClick={e => this.handleOpenModal(e)}>
+                                    onClick={(e) => this.handleOpenModal(e)}>
                                     <img
                                         src="/static/img/products/detail/fullwidth/3.jpg"
                                         alt="martfury"
                                     />
                                 </a>
                                 <Modal
-                                    visible={this.state.modalVisible}
-                                    onOk={e => this.handleOpenModal(e)}
-                                    onCancel={e => this.handleCloseModal(e)}
+                                    open={this.state.modalVisible}
+                                    onOk={(e) => this.handleOpenModal(e)}
+                                    onCancel={(e) => this.handleCloseModal(e)}
                                     width={1024}
                                     footer={null}>
                                     <div className="embed-responsive embed-responsive-16by9">
@@ -107,7 +107,7 @@ class ThumbnailVideoFeatured extends Component {
                 </figure>
                 <Slider
                     asNavFor={this.state.galleryCarousel}
-                    ref={slider => (this.slider2 = slider)}
+                    ref={(slider) => (this.slider2 = slider)}
                     swipeToSlide={true}
                     slidesToShow={6}
                     vertical={false}
@@ -138,7 +138,7 @@ class ThumbnailVideoFeatured extends Component {
                         <div className="ps-video">
                             <a
                                 href="https://www.youtube.com/watch?v=ilw-qmqZ5zY"
-                                onClick={e => e.preventDefault()}>
+                                onClick={(e) => e.preventDefault()}>
                                 <img
                                     src="/static/img/products/detail/fullwidth/3.jpg"
                                     alt="martfury"

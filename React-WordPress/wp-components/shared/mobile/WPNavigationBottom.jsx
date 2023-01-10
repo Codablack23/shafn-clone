@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { Drawer } from 'antd';
-import PanelMenu from '~/components/shared/panel/PanelMenu';
-import PanelSearch from '~/components/shared/panel/PanelSearch';
-import PanelCategories from '~/components/shared/panel/PanelCategories';
-import Link from 'next/link';
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Drawer } from "antd";
+import PanelMenu from "~/components/shared/panel/PanelMenu";
+import PanelSearch from "~/components/shared/panel/PanelSearch";
+import PanelCategories from "~/components/shared/panel/PanelCategories";
+import Link from "next/link";
 
 const DrawerMobile = ({ closeEvent, visibleStatus, children }) => {
     return (
@@ -13,7 +13,7 @@ const DrawerMobile = ({ closeEvent, visibleStatus, children }) => {
             placement="right"
             closable={false}
             onClose={closeEvent}
-            visible={visibleStatus}>
+            open={visibleStatus}>
             {children}
         </Drawer>
     );
@@ -81,11 +81,11 @@ const WPNavigationBottom = () => {
     );
     const categoriesDrawerView = (
         <div className="ps-panel--wrapper">
-            <div className="ps-panel__header"
-            style={{
-                backgroundColor: '#2A3147',
-            }}
-            >
+            <div
+                className="ps-panel__header"
+                style={{
+                    backgroundColor: "#2A3147",
+                }}>
                 <h3>Categories</h3>
                 <span className="ps-panel__close" onClick={handleDrawerClose}>
                     <i className="icon-cross text-white"></i>
@@ -137,7 +137,7 @@ const WPNavigationBottom = () => {
                 </a> */}
                 <a
                     className={`navigation__item ${
-                        activeDrawer.categories === true && 'active'
+                        activeDrawer.categories === true && "active"
                     }`}
                     onClick={handleShowCategoriesDrawer}>
                     <i className="icon-list4"></i>
