@@ -6,6 +6,7 @@ class ProductRepository {
     }
 
     async getRecords(params) {
+        console.log(params)
         const reponse = await Repository.get(
             `${baseUrl}/products?${serializeQuery(params)}`,
         )
@@ -81,6 +82,7 @@ class ProductRepository {
     }
 
     async getProductsByPriceRange(payload) {
+        console.log(payload)
         const reponse = await Repository.get(
             `${baseUrl}/products?${serializeQuery(payload)}`,
         )
@@ -93,6 +95,7 @@ class ProductRepository {
 
 
     async getProductWP(payload) {
+        console.log(payload)
         const enpoint = 'wp-json';
         const reponse = await Repository.get(`${baseUrl}/${enpoint}`)
             .then(response => {

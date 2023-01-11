@@ -15,8 +15,8 @@ export default function HeaderNav() {
                     </Link>
                 </li>
                 {Categories.length > 0
-                    ? Categories.map((category) => (
-                          <li key={category.id} className="nav-dropdown">
+                    ? Categories.map((category,i1) => (
+                          <li key={i1} className="nav-dropdown">
                               <Link href={`/shop/?category=${category.id}`}>
                                   <a className="nav--link">{category.name}</a>
                               </Link>
@@ -24,7 +24,7 @@ export default function HeaderNav() {
                               <ul className="nav-dropdown-menu">
                                  
                                  {category.sub_cat.map((sub,i)=>(
-                                    <div key={`${i}-sub-title`}>
+                                    <div key={`${Math.random()}-${i}-${i1}-sub-title`}>
                                         <h5>{sub.title}</h5>
                                         {sub.categories.map((cat,i)=>(
                                             <Link href={"/"} key={`${i}-cat`}>
