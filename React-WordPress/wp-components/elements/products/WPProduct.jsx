@@ -238,7 +238,7 @@ const WPProduct = ({ product }) => {
                 footer={null}
                 width={1024}
                 onCancel={(e) => handleHideQuickView(e)}
-                visible={isQuickView}
+                open={isQuickView}
                 closeIcon={<i className="icon icon-cross2"></i>}>
                 <WPModuleProductQuickview productID={product.id} />
             </Modal>

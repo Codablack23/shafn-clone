@@ -76,8 +76,8 @@ function Register() {
         if (!isLoading) {
             try {
                 const _admin = {
-                    username: process.env.username,
-                    password: process.env.password,
+                    username: process.env.ADMIN_USERNAME,
+                    password: process.env.ADMIN_PASSWORD,
                 };
 
                 const _user = {
@@ -112,7 +112,11 @@ function Register() {
                     description:
                         error.response === undefined
                             ? ReactHtmlParser(String(error))
-                            : ReactHtmlParser(error.response.data.message),
+                            : error.message
+                            ? ReactHtmlParser(error.message)
+                            : error.response.data !== undefined
+                            ? ReactHtmlParser(error.response.data.message)
+                            : null,
                 });
             } finally {
                 setIsLoading(false);

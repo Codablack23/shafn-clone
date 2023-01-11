@@ -181,7 +181,7 @@ const WPProductSelf = ({ productID }) => {
                     footer={null}
                     width={1024}
                     onCancel={(e) => handleHideQuickView(e)}
-                    visible={isQuickView}>
+                    open={isQuickView}>
                     <WPModuleProductQuickview productID={product.id} />
                 </Modal>
             </div>

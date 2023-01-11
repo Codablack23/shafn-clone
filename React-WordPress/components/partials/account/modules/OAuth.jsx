@@ -19,7 +19,7 @@ const OAuth = ({ onSuccess }) => {
     useEffect(() => {
         const { gapi, loadAuth2 } = require("gapi-script");
         const loadGoogleAuth = async () => {
-            await loadAuth2(gapi, process.env.google_clientID, "");
+            await loadAuth2(gapi, process.env.GOOGLE_CLIENTID, "");
         };
 
         loadGoogleAuth();
@@ -28,7 +28,7 @@ const OAuth = ({ onSuccess }) => {
     return (
         <ul className="social-links">
             <GoogleLogin
-                clientId={process.env.google_clientID}
+                clientId={process.env.GOOGLE_CLIENTID}
                 jsSrc="https://accounts.google.com/gsi/client"
                 uxMode="redirect"
                 onSuccess={(res) => {
@@ -70,7 +70,7 @@ const OAuth = ({ onSuccess }) => {
             />
 
             <FacebookLogin
-                appId={process.env.fb_appID}
+                appId={process.env.FACEBOOK_APPID}
                 fields="name,email,picture"
                 scope="email"
                 callback={(res) => {

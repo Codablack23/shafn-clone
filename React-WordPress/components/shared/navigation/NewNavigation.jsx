@@ -1,11 +1,10 @@
-import Link from 'next/link';
-import ProductRepository from '~/repositories/ProductRepository';
-import React from 'react';
-import {Categories} from './categories'
-
+import Link from "next/link";
+import ProductRepository from "~/repositories/ProductRepository";
+import React from "react";
+import { Categories } from "./categories";
 
 export default function HeaderNav() {
-    // getProducts();
+    // getProducts();s
     return (
         <nav className="custom--navigation">
             <ul className="nav--list nav--center">
@@ -15,39 +14,42 @@ export default function HeaderNav() {
                     </Link>
                 </li>
                 {Categories.length > 0
-                    ? Categories.map((category,i1) => (
-                          <li key={i1} className="nav-dropdown">
+                    ? Categories.map((category) => (
+                          <li key={category.name} className="nav-dropdown">
                               <Link href={`/shop/?category=${category.id}`}>
                                   <a className="nav--link">{category.name}</a>
                               </Link>
-                              {category.sub_cat?
-                              <ul className="nav-dropdown-menu">
-                                 
-                                 {category.sub_cat.map((sub,i)=>(
-                                    <div key={`${Math.random()}-${i}-${i1}-sub-title`}>
-                                        <h5>{sub.title}</h5>
-                                        {sub.categories.map((cat,i)=>(
-                                            <Link href={"/"} key={`${i}-cat`}>
-                                             <a className="d-block text-black">{cat.name}</a>
-                                            </Link>
-                                        ))}
-                                    </div>
-                                 ))}
-                              </ul>
-                           :null}
+                              {category.sub_cat ? (
+                                  <ul className="nav-dropdown-menu">
+                                      {category.sub_cat.map((sub, i) => (
+                                          <div key={`${i}-sub-title`}>
+                                              <h5>{sub.title}</h5>
+                                              {sub.categories.map((cat, i) => (
+                                                  <Link
+                                                      href={"/"}
+                                                      key={`${i}-cat`}>
+                                                      <a className="d-block text-black">
+                                                          {cat.name}
+                                                      </a>
+                                                  </Link>
+                                              ))}
+                                          </div>
+                                      ))}
+                                  </ul>
+                              ) : null}
                           </li>
                       ))
                     : null}
                 <li>
-                    <Link href = "/vendors" >
-                    <a className='nav--link'> Brand </a>  
-                    </Link >
-                </li> 
-                <li>
-                    <Link href="/account/register">
-                        <a className='nav-link'>Sales</a>
+                    <Link href="/vendors">
+                        <a className="nav--link"> Brand </a>
                     </Link>
-                </li> 
+                </li>
+                <li>
+                    <Link href="/sales">
+                        <a className="nav-link">Sales</a>
+                    </Link>
+                </li>
             </ul>
             {/* <ul className="nav--list nav--right">
              <li>

@@ -1,20 +1,20 @@
-import React from 'react';
-import Head from 'next/head';
+import React from "react";
+import Head from "next/head";
 //import WPNavigationBottom from '~/wp-components/shared/mobile/WPNavigationBottom';
-import FooterDefault from '~/components/shared/footers/FooterDefault';
+import FooterDefault from "~/components/shared/footers/FooterDefault";
 // import Newsletters from '~/components/partials/commons/Newletters';
-import WPHeaderDefault from '~/wp-components/shared/headers/WPHeaderDefault';
-import WPHeaderMobile from '../shared/mobile/WPHeaderMobile';
+import WPHeaderDefault from "~/wp-components/shared/headers/WPHeaderDefault";
+import WPHeaderMobile from "../shared/mobile/WPHeaderMobile";
 // import WPHeaderMarketPlace from '~/wp-components/shared/headers/WPHeaderMarketPlace';
 // import WPHeaderMobile from '~/wp-components/shared/mobile/WPHeaderMobile';
-import WPNavigationBottom from '~/wp-components/shared/mobile/WPNavigationBottom';
+import WPNavigationBottom from "~/wp-components/shared/mobile/WPNavigationBottom";
 
 const WPLayout = ({ children, title }) => {
     let titleView;
     if (title !== undefined) {
-        titleView = process.env.title + ' | ' + title;
+        titleView = process.env.TITLE + " | " + title;
     } else {
-        titleView = process.env.title + ' | ' + process.env.titleDescription;
+        titleView = process.env.TITLE + " | " + process.env.TITLE_DESCRIPTION;
     }
 
     return (
@@ -23,7 +23,7 @@ const WPLayout = ({ children, title }) => {
                 <title>{titleView}</title>
             </Head>
             <WPHeaderDefault />
-            <WPHeaderMobile/>
+            <WPHeaderMobile />
             <WPNavigationBottom />
             {children}
             {/* <Newsletters layout="container" /> */}

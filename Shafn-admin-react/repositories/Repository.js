@@ -32,8 +32,8 @@ export async function fetchData(query) {
 }
 
 export const oathInfo = {
-  consumer_key: process.env.consumer_key,
-  consumer_secret: process.env.consumer_secret,
+  consumer_key: process.env.CONSUMER_KEY,
+  consumer_secret: process.env.CONSUMER_SECRET,
 }
 
 export const serializeQuery = (query) => {

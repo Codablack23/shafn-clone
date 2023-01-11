@@ -10,9 +10,9 @@ import { CustomModal } from "~/components/elements/custom/index";
 const ContainerDefault = ({ children, title }) => {
     let titleView;
     if (title !== undefined) {
-        titleView = process.env.title + ' | ' + title;
+        titleView = process.env.TITLE + ' | ' + title;
     } else {
-        titleView = process.env.title + ' | ' + process.env.titleDescription;
+        titleView = process.env.TITLE + ' | ' + process.env.TITLE_DESCRIPTION;
     }
 
     return (

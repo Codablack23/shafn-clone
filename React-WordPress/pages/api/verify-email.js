@@ -6,15 +6,15 @@ export default function handler(req, res) {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: process.env.GOOGLE_USER,
-            pass: process.env.GOOGLE_PASSWORD,
+            user: process.env.NODEMAILER_AUTH_USER,
+            pass: process.env.NODEMAILER_AUTH_PASSWORD,
         },
     });
 
     const code = crypto.randomInt(0, 1000000).toString().padStart(6, "0");
 
     const message = {
-        from: process.env.GOOGLE_USER,
+        from: process.env.NODEMAILER_AUTH_USER,
         to: email,
         subject: "ShafN - Verification Code",
         html: `

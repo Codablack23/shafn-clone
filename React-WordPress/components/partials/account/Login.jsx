@@ -75,7 +75,11 @@ function Login() {
                     description:
                         error.response === undefined
                             ? ReactHtmlParser(String(error))
-                            : ReactHtmlParser(error.response.data.message),
+                            : error.message
+                            ? ReactHtmlParser(error.message)
+                            : error.response.data !== undefined
+                            ? ReactHtmlParser(error.response.data.message)
+                            : null,
                 });
             } finally {
                 setIsLoading(false);
