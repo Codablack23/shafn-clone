@@ -1,17 +1,17 @@
-import React from 'react';
+import React from "react";
 
 export function formatCurrency(num) {
     if (num !== undefined) {
         return parseFloat(num)
             .toString()
-            .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+            .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     } else {
     }
 }
 
 export function getDiscountPercent(regularPrice, salePrice) {
     const percent = ((regularPrice - salePrice) / regularPrice) * 100;
-    return `${percent}%`;
+    return `${percent.toFixed(2)}%`;
 }
 
 export function getColletionBySlug(collections, slug) {
@@ -44,10 +44,10 @@ export function getItemBySlug(banners, slug) {
 
 /*Work only with Strapi API*/
 export function convertSlugsQueryString(payload) {
-    let query = '';
+    let query = "";
     if (payload.length > 0) {
         payload.forEach((item) => {
-            if (query === '') {
+            if (query === "") {
                 query = `slug_in=${item}`;
             } else {
                 query = query + `&slug_in=${item}`;
