@@ -46,7 +46,7 @@ export default function HeaderNav() {
                     </Link>
                 </li>
                 <li>
-                    <Link href="/account/register">
+                    <Link href="/sales">
                         <a className="nav-link">Sales</a>
                     </Link>
                 </li>
