@@ -40,13 +40,13 @@ class WPMiniCart extends Component {
                         </h3>
                         <figure>
                             <Link href="/account/shopping-cart">
-                                <a className="w3-orange rounded" style={style}>
+                                <a className="w3-black rounded" style={style}>
                                     View Cart
                                 </a>
                             </Link>
                             <Link href="/account/checkout">
                                 <a
-                                    className="w3-orange rounded"
+                                    className="w3-black rounded"
                                     style={style}
                                     onClick={() =>
                                         this.handleAddToCheckoutItems()
