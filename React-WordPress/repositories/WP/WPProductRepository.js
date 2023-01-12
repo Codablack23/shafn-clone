@@ -50,7 +50,7 @@ class WPProductRepository {
         return response;
     }
 
-    async getProducts(payload) {
+    async getProducts(payload, cancelToken) {
         let enpoint;
         if (payload) {
             enpoint = `wp-json/wc/v3/products?${serializeQuery({
@@ -60,7 +60,9 @@ class WPProductRepository {
         } else {
             enpoint = "wp-json/wc/v3/products";
         }
-        const reponse = await WPRepository.get(`${WPDomain}/${enpoint}`)
+        const reponse = await WPRepository.get(`${WPDomain}/${enpoint}`, {
+            cancelToken,
+        })
             .then((response) => {
                 if (response.data && response.data.length > 0) {
                     const data = {
@@ -71,7 +73,39 @@ class WPProductRepository {
                     return data;
                 } else return null;
             })
-            .catch(() => {
+            .catch((error) => {
+                return null;
+            });
+        return reponse;
+    }
+
+    async getOnSaleProducts(payload, cancelToken) {
+        let enpoint;
+        if (payload) {
+            enpoint = `wp-json/wc/v3/products?${serializeQuery({
+                ...payload,
+                ...oathInfo,
+            })}`;
+        } else {
+            enpoint = "wp-json/wc/v3/products";
+        }
+        const reponse = await WPRepository.get(`${WPDomain}/${enpoint}`, {
+            cancelToken,
+        })
+            .then((response) => {
+                if (response.data && response.data.length > 0) {
+                    const onSaleProducts = Array.from(response.data).filter(
+                        (product) => product.on_sale === true
+                    );
+                    const data = {
+                        items: onSaleProducts,
+                        totalItems: response.headers["x-wp-total"],
+                        totalPages: response.headers["x-wp-totalpages"],
+                    };
+                    return data;
+                } else return null;
+            })
+            .catch((error) => {
                 return null;
             });
         return reponse;
@@ -104,7 +138,7 @@ class WPProductRepository {
             });
     }
 
-    async getProductCategories(payload) {
+    async getProductCategories(payload, cancelToken) {
         let enpoint;
         if (payload) {
             enpoint = `wp-json/wc/v3/products/categories?${serializeQuery({
@@ -114,7 +148,9 @@ class WPProductRepository {
         } else {
             enpoint = "wp-json/wc/v3/products/categories";
         }
-        const reponse = await WPRepository.get(`${WPDomain}/${enpoint}`)
+        const reponse = await WPRepository.get(`${WPDomain}/${enpoint}`, {
+            cancelToken,
+        })
             .then((response) => {
                 if (response.data && response.data.length > 0) {
                     const data = {

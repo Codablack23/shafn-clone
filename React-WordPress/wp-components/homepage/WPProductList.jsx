@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import WPModuleProductItems from '~/wp-components/homepage/modules/WPModuleProductItems';
-import WPProductRepository from '~/repositories/WP/WPProductRepository';
-import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct';
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import WPModuleProductItems from "~/wp-components/homepage/modules/WPModuleProductItems";
+import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import SkeletonProduct from "~/components/elements/skeletons/SkeletonProduct";
 
 const WPProductList = ({ categoryID, title }) => {
     const [productItems, setProductItems] = useState(null);
-    const [currentCollection, setCurrentCollection] = useState('newArrivals');
+    const [currentCollection, setCurrentCollection] = useState("newArrivals");
     const [loading, setLoading] = useState(true);
     const query = {
         page: 1,
@@ -16,29 +16,29 @@ const WPProductList = ({ categoryID, title }) => {
 
     const sectionLinks = [
         {
-            title: 'New Arrivals',
-            name: 'newArrivals',
+            title: "New Arrivals",
+            name: "newArrivals",
             params: {
                 ...query,
             },
         },
         {
-            title: 'Best seller',
-            name: 'bestSeller',
+            title: "Best seller",
+            name: "bestSeller",
             params: {
                 page: 1,
-                order: 'desc',
-                orderby: 'price',
+                order: "desc",
+                orderby: "price",
                 category: categoryID,
             },
         },
         {
-            title: 'Most Popular',
-            name: 'mostPopular',
+            title: "Most Popular",
+            name: "mostPopular",
             params: {
                 page: 1,
-                order: 'asc',
-                orderby: 'title',
+                order: "asc",
+                orderby: "title",
                 category: categoryID,
             },
         },
@@ -64,6 +64,7 @@ const WPProductList = ({ categoryID, title }) => {
             setTimeout(function () {
                 setLoading(false);
             }, 200);
+
             setProductItems(WPProducts.items);
             return WPProducts;
         } else {
@@ -78,7 +79,7 @@ const WPProductList = ({ categoryID, title }) => {
 
     const sectionLinksView = sectionLinks.map((link) => (
         <li
-            className={currentCollection === link.name ? 'active' : ''}
+            className={currentCollection === link.name ? "active" : ""}
             key={link.name}>
             <a onClick={(e) => handleChangeProduct(e, link.name, link.params)}>
                 {link.title}
@@ -118,9 +119,7 @@ const WPProductList = ({ categoryID, title }) => {
                         </li>
                     </ul> */}
                 </div>
-                <div className="">
-                {productItemsView}
-                </div>
+                <div className="">{productItemsView}</div>
                 {/* <div className="ps-section__content">{productItemsView}</div> */}
             </div>
         </div>
