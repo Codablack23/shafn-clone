@@ -3,7 +3,9 @@ import Link from "next/link";
 import WPProductRepository from "~/repositories/WP/WPProductRepository";
 import WPProductHorizontal from "~/wp-components/elements/products/WPProductHorizontal";
 import SkeletonProductHorizontal from "~/components/elements/skeletons/SkeletonProductHorizontal";
+import axios from "axios";
 
+let productReqSource;
 const WPNewArrivals = () => {
     const [productItems, setProductItems] = useState(null);
     const [categories, setCategories] = useState(null);
@@ -18,7 +20,10 @@ const WPNewArrivals = () => {
             page: 1,
             per_page: 4,
         };
-        const WPProducts = await WPProductRepository.getProducts(params);
+        const WPProducts = await WPProductRepository.getProducts(
+            params,
+            productReqSource.token
+        );
         const WPCategories = await WPProductRepository.getProductCategories(
             categoryQueries
         );
@@ -34,13 +39,15 @@ const WPNewArrivals = () => {
     }
 
     useEffect(() => {
+        productReqSource = axios.CancelToken.source();
         getProducts();
-    }, []);
 
-    const handleUIError = (error, info) => {
-        console.error(error);
-        console.log(info);
-    };
+        return () => {
+            if (productReqSource) {
+                productReqSource.cancel();
+            }
+        };
+    }, []);
 
     // Views
     let productsView, categoriedView;

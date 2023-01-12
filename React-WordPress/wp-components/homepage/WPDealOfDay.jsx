@@ -5,8 +5,10 @@ import WPProductRepository from "~/repositories/WP/WPProductRepository";
 import SkeletonProduct from "~/components/elements/skeletons/SkeletonProduct";
 import { carouselFullwidth } from "~/utilities/carousel-helpers";
 import WPProductDealOfDay from "~/wp-components/elements/products/WPProductDealOfDay";
+import axios from "axios";
 // import CountDownSimple from "~/components/elements/CountDownSimple";
 
+let productReqSource;
 const WPDealOfDay = () => {
     const [productItems, setProductItems] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -16,7 +18,10 @@ const WPDealOfDay = () => {
             pages: 1,
             per_page: 15,
         };
-        const WPProducts = await WPProductRepository.getProducts(params);
+        const WPProducts = await WPProductRepository.getProducts(
+            params,
+            productReqSource.token
+        );
 
         if (WPProducts) {
             setTimeout(function () {
@@ -27,7 +32,14 @@ const WPDealOfDay = () => {
     }
 
     useEffect(() => {
+        productReqSource = axios.CancelToken.source();
         getSectionProducts();
+
+        return () => {
+            if (productReqSource) {
+                productReqSource.cancel();
+            }
+        };
     }, []);
 
     // Views
