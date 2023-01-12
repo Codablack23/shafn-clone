@@ -1,0 +1,77 @@
+import React, { useEffect, useState } from "react";
+import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import { serializeQuery } from "~/repositories/Repository";
+import Link from "next/link";
+import Spiner from "~/components/elements/common/Spiner";
+import SkeletonWidgetBrands from "~/components/elements/skeletons/SkeletonWidgetBrands";
+import axios from "axios";
+
+let categoriesSource;
+const WPWidgetCategories = ({ activeID }) => {
+    const [loading, setLoading] = useState(true);
+    const [categoryItems, setCategoryItems] = useState(null);
+    async function getCategoryItems() {
+        const queries = {
+            pages: 1,
+            per_page: 99,
+        };
+        const categories = await WPProductRepository.getProductCategories(
+            queries,
+            categoriesSource.token
+        );
+        if (categories) {
+            setTimeout(function () {
+                setLoading(false);
+            }, 500);
+            setCategoryItems(categories.items);
+        }
+        return categories;
+    }
+
+    useEffect(() => {
+        categoriesSource = axios.CancelToken.source();
+        getCategoryItems();
+
+        return () => categoriesSource.cancel();
+    }, []);
+
+    let categoryItemsView;
+    if (categoryItems && categoryItems.length > 0 && !loading) {
+        const items = categoryItems.map((item) => (
+            <li key={item.id}>
+                <Link href={`/sales?category=${item.id}`}>
+                    <a
+                        className={
+                            activeID === item.id.toString() ? "active" : ""
+                        }
+                        dangerouslySetInnerHTML={{
+                            __html: `${item.name}`,
+                        }}></a>
+                </Link>
+            </li>
+        ));
+        categoryItemsView = (
+            <ul className="ps-list--categories">
+                <li>
+                    <Link href="/sales">
+                        <a className={activeID === undefined ? "active" : ""}>
+                            All
+                        </a>
+                    </Link>
+                </li>
+                {items}
+            </ul>
+        );
+    } else {
+        categoryItemsView = <SkeletonWidgetBrands />;
+    }
+
+    return (
+        <aside className="widget widget_shop">
+            <h4 className="widget-title">Categories</h4>
+            {categoryItemsView}
+        </aside>
+    );
+};
+
+export default WPWidgetCategories;
