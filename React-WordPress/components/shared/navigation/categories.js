@@ -51,9 +51,9 @@ export const Categories = [
             {name:"Lip Care & Balm",slug:""},
             {name:"Lip gloss",slug:""},
             {name:"Lip liner",slug:""},
-            {name:" Lip Plumpers",slug:""},
-            {name:" Lipstick",slug:""},
-            {name:" Liquid lipstick",slug:""}
+            {name:"Lip Plumpers",slug:""},
+            {name:"Lipstick",slug:""},
+            {name:"Liquid lipstick",slug:""}
            ]
        },
        {       
