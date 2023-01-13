@@ -14,6 +14,7 @@ const HomeBanner = (props) => {
         dots: true,
         infinite: true,
         speed: 500,
+        autoplay:true,
         slidesToShow: 1,
         slidesToScroll: 1,
         nextArrow: <NextArrow />,
@@ -45,7 +46,7 @@ const HomeBanner = (props) => {
             <div className="ps-container">
                 <div className="ps-section__left">
                     {bannerData !== null ? (
-                        <Slider {...carouselSetting} className="ps-carousel">
+                        <Slider autoplaySpeed={5000}  {...carouselSetting} className="ps-carousel">
                             {bannersView}
                         </Slider>
                     ) : (
