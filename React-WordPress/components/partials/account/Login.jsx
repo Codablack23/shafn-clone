@@ -70,6 +70,7 @@ function Login() {
                 //     );
                 // }
             } catch (error) {
+                console.log(error);
                 notification["error"]({
                     message: "Unable to login user",
                     description:

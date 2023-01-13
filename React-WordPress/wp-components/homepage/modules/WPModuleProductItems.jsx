@@ -7,7 +7,7 @@ const WPModuleProductItems = ({ products }) => {
     return (
         <Slider
             {...carouselFullwidth}
-            infinite={products.length > 7 ? true : false}
+            infinite={products.length > 7}
             className="ps-carousel outside">
             {products.map((product) => (
                 <div className="item" key={product.id}>
