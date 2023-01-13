@@ -11,7 +11,7 @@ import BannerItem from "~/components/elements/media/BannerItem";
 const HomeBanner = (props) => {
     const { banners, promotions } = props;
     const carouselSetting = {
-        dots: false,
+        dots: true,
         infinite: true,
         speed: 500,
         slidesToShow: 1,

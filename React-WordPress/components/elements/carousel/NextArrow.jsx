@@ -9,7 +9,7 @@ const NextArrow = props => {
             {icon ? (
                 <i className={icon}></i>
             ) : (
-                <i className="icon-chevron-right"></i>
+                <i className=""></i>
             )}
         </button>
     );
