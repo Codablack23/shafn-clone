@@ -27,7 +27,6 @@ function Register() {
         setIsLoading(true);
 
         try {
-            console.log("Sending verification code...");
             const response = await WPAuthRepository.verifyEmail({
                 name: username,
                 email,
@@ -85,12 +84,15 @@ function Register() {
                     password: user.password,
                 };
 
+                console.log("Logging admin...");
                 // Login Admin
                 const admin = await WPAuthRepository.login(_admin);
 
+                console.log("Registering user...");
                 // Register user with admin token
                 await WPAuthRepository.register(user, admin.token);
 
+                console.log("Logging user...");
                 // Login user
                 const loggedUser = await WPAuthRepository.login(_user);
 
@@ -107,15 +109,16 @@ function Register() {
                     message: "Registration Successful!",
                 });
             } catch (error) {
+                console.log(error);
                 notification["error"]({
                     message: "Unable to register user",
                     description:
                         error.response === undefined
                             ? ReactHtmlParser(String(error))
-                            : error.message
-                            ? ReactHtmlParser(error.message)
                             : error.response.data !== undefined
                             ? ReactHtmlParser(error.response.data.message)
+                            : error.message
+                            ? ReactHtmlParser(error.message)
                             : null,
                 });
             } finally {
@@ -267,16 +270,18 @@ function Register() {
                                 />
                             </div>
                         </div>
-                    ) : (
-                        <WPVerification
-                            email={email}
-                            otp={otp}
-                            isLoading={isLoading}
-                            verifyEmail={verifyEmail}
-                            handleRegistration={handleRegistration}
-                        />
-                    )}
+                    ) : null}
                 </Form>
+
+                {otp.code ? (
+                    <WPVerification
+                        email={email}
+                        otp={otp}
+                        isLoading={isLoading}
+                        verifyEmail={verifyEmail}
+                        handleRegistration={handleRegistration}
+                    />
+                ) : null}
             </div>
         </div>
     );

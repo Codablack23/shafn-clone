@@ -4,7 +4,7 @@
  * */
 import axios from "axios";
 
-export const WPDomain = "https://shafn.com";
+export const WPDomain = "https://api.shafn.com";
 export const VendorDomain = "http://localhost:5000";
 export const DashboardDomain =
     process.env.NODE_ENV === "production"

@@ -25,11 +25,14 @@ export default function handler(req, res) {
                   `,
     };
 
-    transporter.sendMail(message, function (err, info) {
-        if (err) {
-            res.status(err.responseCode).json(err);
-        } else {
-            res.status(200).json({ code });
-        }
+    return new Promise((resolve, reject) => {
+        transporter.sendMail(message, function (err, info) {
+            if (err) {
+                res.status(err.responseCode || 500).json(err);
+            } else {
+                res.status(200).json({ code });
+                resolve();
+            }
+        });
     });
 }
