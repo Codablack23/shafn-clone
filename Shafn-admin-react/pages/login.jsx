@@ -1,26 +1,26 @@
-import React from "react"
-import { Form, Input, Checkbox, notification, Spin, Divider } from "antd"
-import { useState } from "react"
-import HomepageLayout from "~/components/layouts/HomePageLayout"
-import OAuth from "~/components/partials/OAuth"
-import Router from "next/router"
-import ReactHtmlParser from "react-html-parser"
-import { useDispatch, useSelector } from "react-redux"
-import AuthRepository from "~/repositories/AuthRepository"
+import React from "react";
+import { Form, Input, Checkbox, notification, Spin, Divider } from "antd";
+import { useState } from "react";
+import HomepageLayout from "~/components/layouts/HomePageLayout";
+import OAuth from "~/components/partials/OAuth";
+import Router from "next/router";
+import ReactHtmlParser from "react-html-parser";
+import { useDispatch, useSelector } from "react-redux";
+import AuthRepository from "~/repositories/AuthRepository";
 
 export default function Login() {
-  const dispatch = useDispatch()
-  const auth = useSelector((state) => state.auth)
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
 
   const [vendor, setVendor] = useState({
     email: "",
     password: "",
-  })
-  const [isLoading, setIsLoading] = useState(false)
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (e) => {
-    setVendor((current) => ({ ...current, [e.target.name]: e.target.value }))
-  }
+    setVendor((current) => ({ ...current, [e.target.name]: e.target.value }));
+  };
 
   const handleLogin = async (type = "form", oauth) => {
     if (
@@ -31,36 +31,38 @@ export default function Login() {
     ) {
       notification["info"]({
         message: "Already logged in",
-      })
+      });
     } else if (!isLoading) {
-      setIsLoading(true)
+      setIsLoading(true);
 
-      let _vendor = { username: vendor.email, password: vendor.password }
+      let _vendor = { username: vendor.email, password: vendor.password };
 
       if (type === "oauth") {
         user = {
           username: oauth.email,
           password: oauth.password,
-        }
+        };
       }
 
-      try {
-        const _user = await AuthRepository.login(_vendor)
+      console.log("Vendor: ", _vendor);
 
-        const role = _user.user_role[0].toLowerCase()
+      try {
+        const _user = await AuthRepository.login(_vendor);
+
+        const role = _user.user_role[0].toLowerCase();
 
         if (role === "seller") {
-          const { encrypt } = require("~/utilities/helperFunctions")
+          const { encrypt } = require("~/utilities/helperFunctions");
 
-          const encryptedToken = encrypt(_user.token)
+          const encryptedToken = encrypt(_user.token);
 
-          localStorage.setItem("auth_token", encryptedToken)
+          localStorage.setItem("auth_token", encryptedToken);
           // TO-DO: Store vendor data in redux
-          Router.push("/dashboard")
+          Router.push("/dashboard");
         } else {
           notification["error"]({
             message: "Not a vendor account",
-          })
+          });
         }
       } catch (error) {
         notification["error"]({
@@ -69,12 +71,12 @@ export default function Login() {
             error.response === undefined
               ? ReactHtmlParser(String(error))
               : ReactHtmlParser(error.response.data.message),
-        })
+        });
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
     }
-  }
+  };
 
   return (
     <HomepageLayout title={"login"} page={"accounts"}>
@@ -98,6 +100,7 @@ export default function Login() {
               ]}
             >
               <Input
+                name="email"
                 className="form-control"
                 type="text"
                 aria-label="Email address"
@@ -123,6 +126,7 @@ export default function Login() {
               ]}
             >
               <Input.Password
+                name="password"
                 className="form-control"
                 placeholder="Password"
                 aria-label="Email address"
@@ -160,5 +164,5 @@ export default function Login() {
         </Form>
       </div>
     </HomepageLayout>
-  )
+  );
 }

@@ -1,17 +1,17 @@
-const crypto = require("crypto")
-const nodemailer = require("nodemailer")
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
 
 export default function handler(req, res) {
-  const { name, email } = req.body
+  const { name, email } = req.body;
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: process.env.NODEMAILER_AUTH_USER,
       pass: process.env.NODEMAILER_AUTH_PASSWORD,
     },
-  })
+  });
 
-  const code = crypto.randomInt(0, 1000000).toString().padStart(6, "0")
+  const code = crypto.randomInt(0, 1000000).toString().padStart(6, "0");
 
   const message = {
     from: process.env.NODEMAILER_AUTH_USER,
@@ -23,13 +23,16 @@ export default function handler(req, res) {
 
                     <p>Thanks, <br /> ShafN Team</p>
                   `,
-  }
+  };
 
-  transporter.sendMail(message, function (err, info) {
-    if (err) {
-      res.status(err.responseCode).json(err)
-    } else {
-      res.status(200).json({ code })
-    }
-  })
+  return new Promise((resolve, reject) => {
+    transporter.sendMail(message, function (err, info) {
+      if (err) {
+        res.status(err.responseCode || 500).json(err);
+      } else {
+        res.status(200).json({ code });
+        resolve();
+      }
+    });
+  });
 }

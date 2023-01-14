@@ -72,7 +72,7 @@ const WPSalesProducts = (props) => {
                 ));
                 producItemView = <div className="row">{productItems}</div>;
             }
-            if (WPProducts.totalPages > 1) {
+            if (WPProducts.totalPages > 1 && WPProducts.items.length > 0) {
                 sectionPaginationView = (
                     <div className="ps-shopping__footer text-center pt-40">
                         <Pagination
