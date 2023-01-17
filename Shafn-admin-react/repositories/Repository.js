@@ -12,8 +12,8 @@ export const baseUrl = `${baseDomain}`;
 export const WPDomain = "https://api.shafn.com";
 export const domain =
   process.env.NODE_ENV === "production"
-    ? "https://shafn.com"
-    : "http://localhost:3000";
+    ? "https://dashboard.shafn.com"
+    : "http://localhost:5500";
 
 export default axios.create({
   baseUrl,

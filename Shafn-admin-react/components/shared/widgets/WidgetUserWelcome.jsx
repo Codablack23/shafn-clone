@@ -1,38 +1,39 @@
-import React, { useState, useEffect } from "react"
-import { useDispatch } from "react-redux"
-import { addProfile } from "~/store/profile/action"
-import SettingsRepository from "~/repositories/SettingsRepository"
-import UserRepository from "~/repositories/UserRepository"
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { addProfile } from "~/store/profile/action";
+import SettingsRepository from "~/repositories/SettingsRepository";
+import UserRepository from "~/repositories/UserRepository";
+import { domain } from "~/repositories/Repository";
 
 const WidgetUserWelcome = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const [name, setName] = useState("")
-  const [avatarUrl, setAvatarUrl] = useState("")
+  const [name, setName] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState("");
 
   const logout = () => {
-    localStorage.removeItem("auth_token")
-    window.location.assign("http://localhost:3000/account/login")
-  }
+    localStorage.removeItem("auth_token");
+    window.location.assign(`${domain}/login`);
+  };
 
   const getStoreData = async () => {
     try {
-      const settings = await SettingsRepository.getStore()
-      setName(settings.store_name)
-      dispatch(addProfile({ name: settings.store_name }))
+      const settings = await SettingsRepository.getStore();
+      setName(settings.store_name);
+      dispatch(addProfile({ name: settings.store_name }));
 
-      const user = await UserRepository.getUser()
-      const store = await SettingsRepository.getStoreById(user.id)
-      setAvatarUrl(store.gravatar)
+      const user = await UserRepository.getUser();
+      const store = await SettingsRepository.getStoreById(user.id);
+      setAvatarUrl(store.gravatar);
     } catch (error) {
-      console.log("Failed to get store data")
-      console.log(error)
+      console.log("Failed to get store data");
+      console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
-    getStoreData()
-  }, [])
+    getStoreData();
+  }, []);
 
   return (
     <div className="ps-block--user-wellcome">
@@ -52,8 +53,8 @@ const WidgetUserWelcome = () => {
         <i className="icon-exit"></i>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const styles = {
   img: {
@@ -61,6 +62,6 @@ const styles = {
     height: 60,
     borderRadius: 50,
   },
-}
+};
 
-export default WidgetUserWelcome
+export default WidgetUserWelcome;
