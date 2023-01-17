@@ -75,7 +75,7 @@ class WPMiniCart extends Component {
                     className="header__extra w3-hover-lightgrey"
                     href="#">
                     <i
-                        className="icon-bag2"
+                        className="bi bi-cart"
                         style={{
                             fontSize: "22px",
                             color: "#2A3147",

@@ -40,7 +40,7 @@ class AccountQuickLinks extends Component {
                                 cursor: "pointer",
                             }}>
                             <i
-                                className="icon-user"
+                                className="bi bi-person"
                                 style={{
                                     fontSize: "22px",
                                     cursor: "pointer",
@@ -79,7 +79,7 @@ class AccountQuickLinks extends Component {
                                     cursor: "pointer",
                                 }}>
                                 <i
-                                    className="icon-user"
+                                    className="bi bi-person"
                                     style={{
                                         fontSize: "22px",
                                         cursor: "pointer",
