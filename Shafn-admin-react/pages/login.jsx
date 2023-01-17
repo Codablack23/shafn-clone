@@ -44,8 +44,6 @@ export default function Login() {
         };
       }
 
-      console.log("Vendor: ", _vendor);
-
       try {
         const _user = await AuthRepository.login(_vendor);
 
@@ -65,12 +63,17 @@ export default function Login() {
           });
         }
       } catch (error) {
+        console.log(error);
         notification["error"]({
           message: "Unable to login user",
           description:
             error.response === undefined
               ? ReactHtmlParser(String(error))
-              : ReactHtmlParser(error.response.data.message),
+              : error.response.data !== undefined
+              ? ReactHtmlParser(error.response.data.message)
+              : error.message
+              ? ReactHtmlParser(error.message)
+              : null,
         });
       } finally {
         setIsLoading(false);

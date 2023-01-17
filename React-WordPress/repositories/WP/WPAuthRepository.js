@@ -14,7 +14,7 @@ class WPAuthRepository {
     }
 
     async register(user, adminToken) {
-        const endpoint = `${WPDomain}/wp-json/wp/v2/users`;
+        const endpoint = `${WPDomain}/wp-json/wp/v2/users/register`;
         const config = {
             headers: {
                 Authorization: `Bearer ${adminToken}`,
