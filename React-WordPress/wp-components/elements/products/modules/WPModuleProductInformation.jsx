@@ -199,10 +199,11 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
             <div className="mt-2 d-none d-lg-block">
                 <Button
                     width={"300px"}
-                    classes={`w3-0309A5 btn-hover`}
-                    hoverColor="white"
+                    classes={`w3-black w3-border-black btn-hover`}
+                    hoverColor="black"
                     eventHandler={handleAddItemToCart}
                     text="Add to cart"
+                    hoverBg={"white"}
                     disabled={product.type === "simple" ? false : !variant}
                 />
                 <br />

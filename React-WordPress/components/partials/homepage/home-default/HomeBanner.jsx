@@ -17,8 +17,6 @@ const HomeBanner = (props) => {
         autoplay:true,
         slidesToShow: 1,
         slidesToScroll: 1,
-        nextArrow: <NextArrow />,
-        prevArrow: <PrevArrow />,
     };
 
     const bannerData = getItemBySlug(banners, "banner-home-fullwidth");
@@ -46,7 +44,7 @@ const HomeBanner = (props) => {
             <div className="ps-container">
                 <div className="ps-section__left">
                     {bannerData !== null ? (
-                        <Slider autoplaySpeed={5000}  {...carouselSetting} className="ps-carousel">
+                        <Slider arrows={false} autoplaySpeed={5000}   {...carouselSetting} className="ps-carousel">
                             {bannersView}
                         </Slider>
                     ) : (
