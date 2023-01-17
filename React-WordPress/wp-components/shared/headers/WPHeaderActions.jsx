@@ -28,7 +28,7 @@ class WPHeaderActions extends Component {
                                 cursor: "pointer",
                             }}>
                             <i
-                                className="fa fa-bell-o"
+                                className="bi bi-bell"
                                 style={{
                                     fontSize: "22px",
                                     color: "#2A3147",
@@ -46,7 +46,7 @@ class WPHeaderActions extends Component {
                                 cursor: "pointer",
                             }}>
                             <i
-                                className="icon-heart"
+                                className="bi bi-heart"
                                 style={{
                                     fontSize: "22px",
                                     color: "#2A3147",
