@@ -47,7 +47,7 @@ class WPWishlist extends Component {
                     <div className="ps__wishlist-actions">
                         <Button
                             width={150}
-                            classes={`w3-0309A5 rounded btn-hover`}
+                            classes={`w3-0309A5 w3-hover-black rounded btn-hover`}
                             hoverColor="white"
                             eventHandler={(e) => {
                                 this.handleAddItemToCart(e, product);

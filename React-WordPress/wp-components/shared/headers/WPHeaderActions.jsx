@@ -33,7 +33,7 @@ class WPHeaderActions extends Component {
                                     fontSize: "22px",
                                     color: "#2A3147",
                                 }}></i>
-                            <span>
+                            <span style={{height:17,right:"-2px",width:17}}>
                                 <i>{compare && compare.compareTotal}</i>
                             </span>
                         </span>
@@ -51,7 +51,7 @@ class WPHeaderActions extends Component {
                                     fontSize: "22px",
                                     color: "#2A3147",
                                 }}></i>
-                            <span>
+                            <span className="sub" style={{height:17,right:"-2px",width:17}}>
                                 <i>{wishlist.wishlistTotal}</i>
                             </span>
                         </span>
