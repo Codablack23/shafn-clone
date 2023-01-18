@@ -1,9 +1,9 @@
-import React from 'react';
-import Rating from '~/components/elements/Rating';
-import Link from 'next/link';
+import React from "react";
+import Rating from "~/components/elements/Rating";
+import Link from "next/link";
 
 const WPStore = ({ store }) => {
-    let query = `${store.store_name.toLowerCase().replace(/ /g, '-')}-${
+    let query = `${store.store_name.toLowerCase().replace(/ /g, "-")}-${
         store.id
     }`.trim();
 
@@ -20,14 +20,14 @@ const WPStore = ({ store }) => {
                         <Rating />
                     </div>
                     <p>
-                        {store.address.street_1} {store.address.city}{' '}
-                        {store.address.state} {store.address.zip},{' '}
+                        {store.address.street_1} {store.address.city}{" "}
+                        {store.address.state} {store.address.zip},{" "}
                         {store.address.country}
                     </p>
-                    <p>
+                    {/* <p>
                         <i className="icon-telephone"></i>{' '}
                         {store.phone && store.phone}
-                    </p>
+                    </p> */}
                 </figure>
             </div>
             <div className="ps-block__author p-3">
