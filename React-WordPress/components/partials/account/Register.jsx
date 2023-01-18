@@ -4,6 +4,7 @@ import { Form, Input, notification, Spin } from "antd";
 import { login } from "../../../store/auth/action";
 import { useDispatch } from "react-redux";
 import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
+import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
 // import WPVendorRepository from "~/repositories/WP/WPVendorRepository";
 import OAuth from "./modules/OAuth";
 import Router from "next/router";
@@ -60,7 +61,7 @@ function Register() {
             username,
             email,
             password,
-            roles: ["customer"],
+            role: "customer",
         };
 
         // Use oauth data if registration is with oauth
@@ -84,15 +85,12 @@ function Register() {
                     password: user.password,
                 };
 
-                console.log("Logging admin...");
                 // Login Admin
                 const admin = await WPAuthRepository.login(_admin);
 
-                console.log("Registering user...");
                 // Register user with admin token
                 await WPAuthRepository.register(user, admin.token);
 
-                console.log("Logging user...");
                 // Login user
                 const loggedUser = await WPAuthRepository.login(_user);
 
@@ -109,7 +107,6 @@ function Register() {
                     message: "Registration Successful!",
                 });
             } catch (error) {
-                console.log(error);
                 notification["error"]({
                     message: "Unable to register user",
                     description:

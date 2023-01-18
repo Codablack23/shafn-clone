@@ -46,7 +46,7 @@ const Index = (auth) => {
     }, []);
 
     return (
-        <WPLayoutHomeDefault title="Multipurpose Marketplace React Ecommerce Template">
+        <WPLayoutHomeDefault title={process.env.TITLE_DESCRIPTION}>
             <HomeBanner />
 
             <WPDealOfDay />
