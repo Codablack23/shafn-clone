@@ -10,6 +10,10 @@ export const customHeaders = {
 
 export const baseUrl = `${baseDomain}`;
 export const WPDomain = "https://api.shafn.com";
+export const MAIN_DOMAIN =
+  process.env.NODE_ENV === "production"
+    ? "https://www.shafn.com"
+    : "http://localhost:3000";
 export const domain =
   process.env.NODE_ENV === "production"
     ? "https://dashboard.shafn.com"
