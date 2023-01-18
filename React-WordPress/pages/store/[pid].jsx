@@ -34,16 +34,20 @@ const WPStorePage = ({ query }) => {
             { per_page: 12 }
         );
 
-        if (profile && vendorProducts) {
+        if (profile) {
             await setStoreProfile(profile);
-            await setStoreProducts(vendorProducts);
-            setTimeout(
-                function () {
-                    setLoading(false);
-                }.bind(this),
-                250
-            );
         }
+
+        if (vendorProducts) {
+            await setStoreProducts(vendorProducts);
+        }
+
+        setTimeout(
+            function () {
+                setLoading(false);
+            }.bind(this),
+            250
+        );
     }
 
     useEffect(() => {
