@@ -20,36 +20,49 @@ const DrawerMobile = ({ closeEvent, visibleStatus, children }) => {
         </Drawer>
     );
 };
-const SideBar=({shown})=>{
+const SideBar=({shown,handleClose})=>{
     const {Panel} = Collapse
 
     return( 
     <aside className={`shafn-sidebar-mobile w3-card ${shown?"shown":""}`}>
         <div className="shafn-mobile-header">
-            <p>Categories</p>
+            <p>Menu</p>
+            <button className="close-btn" onClick={handleClose}>
+                <i className="bi bi-x-lg"></i>
+            </button>
         </div>
         <div className="mt-5 p-3">
-                <div style={{marginLeft:10,marginBlock:10}}>
-                    <Link href="/shop">
-                     <a className={"ml-2 mt-4 mb-4 w3-text-black"}><b>Shop</b></a>
-                    </Link>
-                </div>
-                <Collapse ghost expandIconPosition="right" style={{marfinLeft:0}}>
-                  {Categories.map((c,i)=>(
-                    <Panel style={{paddingLeft:"0px"}} header={<b>{c.name}</b>} key={i+1} >
-                       {c.sub_cat.map((sc,i)=>(
-                        <div>
-                            <p className='w-text-black'><b>{sc.title}</b></p>
-                            {sc.categories.map(sub_c=>(
-                                <Link href="/shop">
-                                <a className="d-block mt-2 mb-2">{sub_c.name}</a>
-                                </Link>
-                            ))}
-                        </div>
-                       ))}
-                    </Panel>
+            <div style={{marginLeft:10,marginBlock:10}}>
+                <Link href="/shop">
+                    <a className={"ml-2 mt-4 mb-4 w3-text-black"}><b>Shop</b></a>
+                </Link>
+            </div>
+            <Collapse ghost expandIconPosition="right" style={{marfinLeft:0}}>
+                {Categories.map((c,i)=>(
+                <Panel style={{paddingLeft:"0px"}} header={<b>{c.name}</b>} key={i+1} >
+                    {c.sub_cat.map((sc,i)=>(
+                    <div>
+                        <p className='w-text-black'><b>{sc.title}</b></p>
+                        {sc.categories.map(sub_c=>(
+                            <Link href="/shop">
+                            <a className="d-block mt-2 mb-2">{sub_c.name}</a>
+                            </Link>
+                        ))}
+                    </div>
                     ))}
-                </Collapse>
+                </Panel>
+                ))}
+            </Collapse>
+             <div style={{marginLeft:10,marginBlock:10}}>
+             <Link href="/vendors">
+                 <a className={"ml-2 mt-4 mb-4 w3-text-black"}><b>Brand</b></a>
+             </Link>
+         </div>
+          <div style={{marginLeft:10,marginBlock:20}}>
+          <Link href="/sales">
+              <a className={"ml-2 mt-4 mb-4 w3-text-black"}><b>Sales</b></a>
+          </Link>
+      </div>
         </div>
     </aside>
     )
@@ -161,7 +174,10 @@ const WPNavigationBottom = () => {
             {/* <DrawerMobile visibleStatus={isDrawerShow}>
                 {drawerView}
             </DrawerMobile> */}
-            <SideBar shown={isDrawerShow}/>
+            <SideBar 
+            shown={isDrawerShow}
+            handleClose={()=>setIsDrawerShow(false)}
+            />
 
             <div className="navigation__content">
                 {/* <a
@@ -176,7 +192,6 @@ const WPNavigationBottom = () => {
                     className={`navigation__item`}
                     onClick={()=>setIsDrawerShow(prev=>!prev)}>
                     <i className="icon-list4"></i>
-                    <span> Categories</span>
                 </a>
                 {/* <a
                     className={`navigation__item ${
