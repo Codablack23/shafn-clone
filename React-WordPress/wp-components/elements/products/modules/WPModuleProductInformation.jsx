@@ -169,7 +169,7 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
                 <Tag color={stockStatus.color}>{stockStatus.status}</Tag>
             </p>
             {children}
-            <div className="d-none d-lg-block">
+            <div className="d-lg-block">
                 <div className="w-100 m-auto">
                     <figure>
                         <figcaption>Quantity</figcaption>

@@ -5,6 +5,8 @@ import PanelMenu from "~/components/shared/panel/PanelMenu";
 import PanelSearch from "~/components/shared/panel/PanelSearch";
 import PanelCategories from "~/components/shared/panel/PanelCategories";
 import Link from "next/link";
+import { Categories } from '~/components/shared/navigation/categories';
+import { Collapse } from 'antd';
 
 const DrawerMobile = ({ closeEvent, visibleStatus, children }) => {
     return (
@@ -13,15 +15,48 @@ const DrawerMobile = ({ closeEvent, visibleStatus, children }) => {
             placement="right"
             closable={false}
             onClose={closeEvent}
-            open={visibleStatus}>
+            open={true}>
             {children}
         </Drawer>
     );
 };
+const SideBar=({shown})=>{
+    const {Panel} = Collapse
 
+    return( 
+    <aside className={`shafn-sidebar-mobile w3-card ${shown?"shown":""}`}>
+        <div className="shafn-mobile-header">
+            <p>Categories</p>
+        </div>
+        <div className="mt-5 p-3">
+                <div style={{marginLeft:10,marginBlock:10}}>
+                    <Link href="/shop">
+                     <a className={"ml-2 mt-4 mb-4 w3-text-black"}><b>Shop</b></a>
+                    </Link>
+                </div>
+                <Collapse ghost expandIconPosition="right" style={{marfinLeft:0}}>
+                  {Categories.map((c,i)=>(
+                    <Panel style={{paddingLeft:"0px"}} header={<b>{c.name}</b>} key={i+1} >
+                       {c.sub_cat.map((sc,i)=>(
+                        <div>
+                            <p className='w-text-black'><b>{sc.title}</b></p>
+                            {sc.categories.map(sub_c=>(
+                                <Link href="/shop">
+                                <a className="d-block mt-2 mb-2">{sub_c.name}</a>
+                                </Link>
+                            ))}
+                        </div>
+                       ))}
+                    </Panel>
+                    ))}
+                </Collapse>
+        </div>
+    </aside>
+    )
+}
 const WPNavigationBottom = () => {
     const [activeDrawer, setActiveDrawer] = useState({
-        menu: false,
+        menu: true,
         cart: false,
         search: false,
         categories: false,
@@ -123,9 +158,11 @@ const WPNavigationBottom = () => {
 
     return (
         <div className="navigation--list">
-            <DrawerMobile visibleStatus={isDrawerShow}>
+            {/* <DrawerMobile visibleStatus={isDrawerShow}>
                 {drawerView}
-            </DrawerMobile>
+            </DrawerMobile> */}
+            <SideBar shown={isDrawerShow}/>
+
             <div className="navigation__content">
                 {/* <a
                     className={`navigation__item ${
@@ -136,10 +173,8 @@ const WPNavigationBottom = () => {
                     <span> Menu</span>
                 </a> */}
                 <a
-                    className={`navigation__item ${
-                        activeDrawer.categories === true && "active"
-                    }`}
-                    onClick={handleShowCategoriesDrawer}>
+                    className={`navigation__item`}
+                    onClick={()=>setIsDrawerShow(prev=>!prev)}>
                     <i className="icon-list4"></i>
                     <span> Categories</span>
                 </a>

@@ -69,7 +69,7 @@ const OAuth = ({ onSuccess }) => {
                 )}
             />
 
-            <FacebookLogin
+            {/* <FacebookLogin
                 appId={process.env.FACEBOOK_APPID}
                 fields="name,email,picture"
                 scope="email"
@@ -95,7 +95,7 @@ const OAuth = ({ onSuccess }) => {
                         </a>
                     </li>
                 )}
-            />
+            /> */}
         </ul>
     );
 };

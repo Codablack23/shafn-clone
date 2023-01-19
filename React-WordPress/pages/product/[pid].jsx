@@ -11,6 +11,8 @@ import WPWidgetProductsSameBrand from "~/wp-components/product/WPWidgetProductsS
 import WPProductWidgets from "~/wp-components/product/WPProductWidgets";
 import WPLayoutProductDetail from "~/wp-components/layouts/WPLayoutProductDetail";
 import WPHeaderDefault from "~/wp-components/shared/headers/WPHeaderDefault";
+import WPModuleDefaultDescription from "~/wp-components/elements/products/modules/WPModuleDefaultDescription";
+
 
 import { addRecentlyViewedProduct } from "~/store/recently-viewed-products/action";
 import { scrollPageToTop } from "~/utilities/common-helpers";
@@ -143,11 +145,14 @@ const WPProductDetailPage = ({ pid }) => {
                 <WPHeaderDefault />
                 <div className="ps-page--product mt-3">
                     <div className="ps-container">
-                        <div className="ps-page__container">
-                            <div className="ps-page__left">{productView}</div>
-                            <div className="" style={{ width: "100%" }}>
+                        <div className="row">
+                            <div className="col-lg-7">{productView}</div>
+                            <div className="col-lg-4" style={{ width: "100%" }}>
                                 {widgetView}
                             </div>
+                        </div>
+                        <div className="d-lg-none">
+                        <WPModuleDefaultDescription product={product}/>
                         </div>
                         {relatedProducts && relatedProducts.length > 0 && (
                             <WPRelatedProducts products={relatedProducts} />
