@@ -46,7 +46,7 @@ const Index = (auth) => {
     }, []);
 
     return (
-        <WPLayoutHomeDefault title={process.env.TITLE_DESCRIPTION}>
+        <WPLayoutHomeDefault title={process.env.NEXT_PUBLIC_TITLE_DESCRIPTION}>
             <HomeBanner />
 
             <WPDealOfDay />

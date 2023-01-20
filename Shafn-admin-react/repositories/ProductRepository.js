@@ -243,8 +243,8 @@ class ProductRepository {
 
   async addTag(name) {
     const adminLogin = {
-      username: process.env.ADMIN_USERNAME,
-      password: process.env.ADMIN_PASSWORD,
+      username: process.env.NEXT_PUBLIC_ADMIN_USERNAME,
+      password: process.env.NEXT_PUBLIC_ADMIN_PASSWORD,
     };
 
     const admin = await UserRepository.getAuthToken(adminLogin);

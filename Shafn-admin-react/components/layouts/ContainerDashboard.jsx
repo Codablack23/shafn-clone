@@ -9,9 +9,12 @@ import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
 const ContainerDashboard = ({ children, title }) => {
   let titleView;
   if (title !== undefined) {
-    titleView = process.env.TITLE + " | " + title;
+    titleView = process.env.NEXT_PUBLIC_TITLE + " | " + title;
   } else {
-    titleView = process.env.TITLE + " | " + process.env.TITLE_DESCRIPTION;
+    titleView =
+      process.env.NEXT_PUBLIC_TITLE +
+      " | " +
+      process.env.NEXT_PUBLIC_TITLE_DESCRIPTION;
   }
 
   return (
