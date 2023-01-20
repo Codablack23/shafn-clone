@@ -109,7 +109,7 @@ export function WPProductThumbnailView(product) {
         view = <img 
         src={product.images[0].src} 
           style={{
-            maxWidth:200,
+            width:"100%",
             display:"block",
             margin:"auto"
         }} 

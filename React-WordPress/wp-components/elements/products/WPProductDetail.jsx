@@ -74,7 +74,9 @@ const WPProductDetail = ({
                     <WPModuleProductDetailThumbnail product={product} />
                     <WPModuleProductDetailInformation product={product} />
                 </div>
+                <div className="d-none d-lg-block">
                 <WPModuleDefaultDescription product={product} />
+                </div>
             </div>
         );
     } else {

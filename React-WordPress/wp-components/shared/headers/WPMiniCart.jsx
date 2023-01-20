@@ -80,7 +80,7 @@ class WPMiniCart extends Component {
                             fontSize: "22px",
                             color: "#2A3147",
                         }}></i>
-                    <span>
+                    <span style={{height:15,right:"-1px",width:15}}>
                         <i>{cartTotal ? cartTotal : 0}</i>
                     </span>
                 </span>

@@ -69,8 +69,8 @@ const OAuth = ({ onSuccess }) => {
                 )}
             />
 
-            <FacebookLogin
-                appId={process.env.NEXT_PUBLIC_FACEBOOK_APPID}
+            {/* <FacebookLogin
+                appId={process.env.FACEBOOK_APPID}
                 fields="name,email,picture"
                 scope="email"
                 callback={(res) => {
@@ -95,7 +95,7 @@ const OAuth = ({ onSuccess }) => {
                         </a>
                     </li>
                 )}
-            />
+            /> */}
         </ul>
     );
 };

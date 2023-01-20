@@ -221,7 +221,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    z-index: 1000;
+    z-index: 10000;
     padding: 10px 30px;
     border-top: 1px solid #ccc;
     background-color: #ffffff;
@@ -342,4 +342,47 @@
             @include transform(translate(0, 0));
         }
     }
+}
+
+.shafn-sidebar-mobile{
+    position: fixed;
+    overflow-y: auto;
+    width:50%;
+    height:100%;
+    background-color: #ffffff;
+    top: 0px;
+    left: 0;
+    z-index: 999999999;
+    transition: all ease 0.5s;
+    transform:translateX(-100%) ;
+    .shafn-mobile-header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        background-color: #2A3147;
+        color: #fff ;
+        padding:10px 16px;
+        p{
+            font-size: 20px;
+            color: #fff;
+            font-weight: 700;
+        }
+        .close-btn{
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: 900;
+            font-size: 20px;
+        }
+
+    }
+    @include media("<sm"){
+        width: 75%;
+    }
+}
+.shafn-sidebar-mobile.shown{
+    transform:translateX(0%) ;
+  
 }

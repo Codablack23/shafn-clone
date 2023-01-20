@@ -13,7 +13,7 @@ const WPMobileHeaderActions = (props) => {
         quickLinksView = (
             <div className="">
                 <Link href="/account/login">
-                    <i className="icon-user text-white action-links"></i>
+                    <i className="bi bi-person text-white action-links"></i>
                 </Link>
             </div>
         );
@@ -23,7 +23,7 @@ const WPMobileHeaderActions = (props) => {
         <div className="header-mobile-actions">
              <Link href="/account/compare">
                 <a className="action-links w3-hover-lightgrey">
-                    <i className="fa fa-bell-o text-white" aria-hidden="true"></i>
+                    <i className="bi bi-bell text-white" aria-hidden="true"></i>
                     <span  className='sub'>
                         {compare && compare.compareTotal}
                     </span>
@@ -31,7 +31,7 @@ const WPMobileHeaderActions = (props) => {
             </Link>
             <Link href="/account/wishlist">
                 <a className="action-links w3-hover-lightgrey">
-                    <i className="icon-heart text-white"></i>
+                    <i className="bi bi-heart text-white"></i>
                     <span  className='sub'>
                        {wishlist.wishlistTotal}
                     </span>
@@ -39,7 +39,7 @@ const WPMobileHeaderActions = (props) => {
             </Link> 
             <Link href="/account/shopping-cart">
                 <a className="action-links">
-                    <i className="icon-bag2 text-white"></i>
+                    <i className="bi bi-cart text-white"></i>
                     <span className='sub'>
                        {cartTotal ? cartTotal : 0}
                     </span>

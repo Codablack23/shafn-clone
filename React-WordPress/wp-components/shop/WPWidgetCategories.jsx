@@ -4,66 +4,93 @@ import { serializeQuery } from '~/repositories/Repository';
 import Link from 'next/link';
 import Spiner from '~/components/elements/common/Spiner';
 import SkeletonWidgetBrands from '~/components/elements/skeletons/SkeletonWidgetBrands';
+import { Categories } from '~/components/shared/navigation/categories';
+import { Collapse } from 'antd';
+
 
 const WPWidgetCategories = ({ activeID }) => {
     const [loading, setLoading] = useState(true);
     const [categoryItems, setCategoryItems] = useState(null);
-    async function getCategoryItems() {
-        const queries = {
-            pages: 1,
-            per_page: 99,
-        };
-        const categories = await WPProductRepository.getProductCategories(
-            queries
-        );
-        if (categories) {
-            setTimeout(function () {
-                setLoading(false);
-            }, 500);
-            setCategoryItems(categories.items);
-        }
-        return categories;
-    }
+    // async function getCategoryItems() {
+    //     const queries = {
+    //         pages: 1,
+    //         per_page: 99,
+    //     };
+    //     const categories = await WPProductRepository.getProductCategories(
+    //         queries
+    //     );
+    //     if (categories) {
+    //         setTimeout(function () {
+    //             setLoading(false);
+    //         }, 500);
+    //         setCategoryItems(categories.items);
+    //     }
+    //     return categories;
+    // }
 
     useEffect(() => {
-        getCategoryItems();
+        // getCategoryItems();
     }, []);
 
-    let categoryItemsView;
-    if (categoryItems && categoryItems.length > 0 && !loading) {
-        const items = categoryItems.map((item) => (
-            <li key={item.id}>
-                <Link href={`/shop?category=${item.id}`}>
-                    <a
-                        className={
-                            activeID === item.id.toString() ? 'active' : ''
-                        }
-                        dangerouslySetInnerHTML={{
-                            __html: `${item.name}`,
-                        }}></a>
-                </Link>
-            </li>
-        ));
-        categoryItemsView = (
-            <ul className="ps-list--categories">
-                <li>
-                    <Link href="/shop">
-                        <a className={activeID === undefined ? 'active' : ''}>
-                            All
-                        </a>
-                    </Link>
-                </li>
-                {items}
-            </ul>
-        );
-    } else {
-        categoryItemsView = <SkeletonWidgetBrands />;
-    }
+    // let categoryItemsView;
+    // if (categoryItems && categoryItems.length > 0 && !loading) {
+    //     const items = categoryItems.map((item) => (
+    //         <li key={item.id}>
+    //             <Link href={`/shop?category=${item.id}`}>
+    //                 <a
+    //                     className={
+    //                         activeID === item.id.toString() ? 'active' : ''
+    //                     }
+    //                     dangerouslySetInnerHTML={{
+    //                         __html: `${item.name}`,
+    //                     }}></a>
+    //             </Link>
+    //         </li>
+    //     ));
+    //     categoryItemsView = (
+    //         <ul className="ps-list--categories">
+    //             <li>
+    //                 <Link href="/shop">
+    //                     <a className={activeID === undefined ? 'active' : ''}>
+    //                         All
+    //                     </a>
+    //                 </Link>
+    //             </li>
+    //             {items}
+    //         </ul>
+    //     );
+    // } else {
+    //     categoryItemsView = <SkeletonWidgetBrands />;
+    // }
+    const {Panel} = Collapse
 
     return (
         <aside className="widget widget_shop">
             <h4 className="widget-title">Categories</h4>
-            {categoryItemsView}
+            <div>
+                <div style={{marginLeft:10,marginBlock:10}}>
+                    <Link href="/shop">
+                     <a className={activeID === undefined ? 'ml-2 mt-4 mb-4 w3-text-black' : ''}>All</a>
+                    </Link>
+                </div>
+                <Collapse ghost expandIconPosition="right" style={{marfinLeft:0}}>
+                  {Categories.map((c,i)=>(
+                    <Panel style={{paddingLeft:"0px"}} header={<b>{c.name}</b>} key={i+1} >
+                       {c.sub_cat.map((sc,i)=>(
+                        <div>
+                            <p className='w-text-black'><b>{sc.title}</b></p>
+                            {sc.categories.map(sub_c=>(
+                                <Link href="/shop">
+                                <a className="d-block mt-2 mb-2">{sub_c.name}</a>
+                                </Link>
+                            ))}
+                        </div>
+                       ))}
+                    </Panel>
+                    ))}
+                </Collapse>
+            </div>
+            {/* {categoryItemsView} */}
         </aside>
     );
 };
