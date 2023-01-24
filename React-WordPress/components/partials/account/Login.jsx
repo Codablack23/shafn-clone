@@ -4,7 +4,7 @@ import Router from "next/router";
 import { login } from "../../../store/auth/action";
 import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
 import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
-import OAuth from "./modules/OAuth";
+// import OAuth from "./modules/OAuth";
 import ReactHtmlParser from "react-html-parser";
 
 import { Form, Input, notification, Spin } from "antd";
@@ -198,7 +198,7 @@ function Login() {
                                 </a>
                             </p>
                         </div>
-                        <div className="ps-form__footer">
+                        {/* <div className="ps-form__footer">
                             <div className="or">
                                 <hr />
                                 <p>OR</p>
@@ -212,7 +212,7 @@ function Login() {
                                     })
                                 }
                             />
-                        </div>
+                        </div> */}
                     </div>
                 </Form>
             </div>

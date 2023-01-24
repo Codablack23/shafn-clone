@@ -1,29 +1,31 @@
-import React from 'react';
-import Link from 'next/link';
-import CurrencyDropdown from '~/components/shared/headers/modules/CurrencyDropdown';
-import LanguageSwicher from '~/components/shared/headers/modules/LanguageSwicher';
-import MobileHeaderActions from '~/components/shared/headers/modules/MobileHeaderActions';
-import WPMobileHeaderActions from '~/wp-components/shared/mobile/WPMobileHeaderActions';
-import WPSearchHeader from '~/wp-components/shared/headers/WPSearchHeader';
-import Logo from '~/components/elements/common/Logo';
+import React from "react";
+import Link from "next/link";
+import CurrencyDropdown from "~/components/shared/headers/modules/CurrencyDropdown";
+import LanguageSwicher from "~/components/shared/headers/modules/LanguageSwicher";
+import MobileHeaderActions from "~/components/shared/headers/modules/MobileHeaderActions";
+import WPMobileHeaderActions from "~/wp-components/shared/mobile/WPMobileHeaderActions";
+import WPSearchHeader from "~/wp-components/shared/headers/WPSearchHeader";
+import Logo from "~/components/elements/common/Logo";
 
 const WPHeaderMobile = () => {
     return (
         <header className="header--mobile bg-white">
-            <div className="header-mobile-top w-100" style={{
-                backgroundColor:'#2A3147',
-            }}>
+            <div
+                className="header-mobile-top w-100"
+                style={{
+                    backgroundColor: "#2A3147",
+                }}>
                 <div className="d-flex align-items-center">
-                    <p className='text-white'>
+                    <p className="text-white">
                         <Link href={"/"}>
                             <a className="ps__logo-mobile">
-                                <img src={'/static/img/Logo-dark.png'} alt="" />
+                                <img src={"/static/img/Logo-dark.png"} alt="" />
                             </a>
                         </Link>
                     </p>
                 </div>
-                <div className='flex'>
-                <WPMobileHeaderActions />
+                <div className="flex">
+                    <WPMobileHeaderActions />
                 </div>
                 {/* <div className="header__right">
                     <ul className="navigation__extra">
@@ -62,8 +64,8 @@ const WPHeaderMobile = () => {
                 </div>
                 <WPMobileHeaderActions />
             </div> */}
-            <div className='search-mobile'>
-                <WPSearchHeader/>
+            <div className="search-mobile">
+                <WPSearchHeader />
             </div>
         </header>
     );

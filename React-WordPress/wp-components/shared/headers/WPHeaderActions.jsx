@@ -16,11 +16,11 @@ class WPHeaderActions extends Component {
         return (
             <div className="header__actions">
                 <div
-                    className="w-100 d-flex justify-content-between"
+                    className="w-100 d-flex justify-content-around"
                     style={{
                         alignItems: "center",
                     }}>
-                    <Link href="/account/compare">
+                    {/* <Link href="/account/compare">
                         <span
                             title="Notifications"
                             className="header__extra w3-hover-lightgrey"
@@ -37,7 +37,7 @@ class WPHeaderActions extends Component {
                                 <i>{compare && compare.compareTotal}</i>
                             </span>
                         </span>
-                    </Link>
+                    </Link> */}
                     <Link href="/account/wishlist">
                         <span
                             title="Wishlist"
@@ -51,7 +51,13 @@ class WPHeaderActions extends Component {
                                     fontSize: "22px",
                                     color: "#2A3147",
                                 }}></i>
-                            <span className="sub" style={{height:17,right:"-2px",width:17}}>
+                            <span
+                                className="sub"
+                                style={{
+                                    height: 17,
+                                    right: "-2px",
+                                    width: 17,
+                                }}>
                                 <i>{wishlist.wishlistTotal}</i>
                             </span>
                         </span>
