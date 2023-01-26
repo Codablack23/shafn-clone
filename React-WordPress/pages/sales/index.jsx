@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { getProductsByCategory } from "~/store/product/action";
 import { WPGetOnSaleProducts } from "~/store/sales/action";
 
-import WPWidgetCategories from "~/wp-components/sales/WPWidgetCategories";
+import WPWidgetCategories from "~/wp-components/shop/WPWidgetCategories";
 
 import WPWidgetFilterByPrices from "~/wp-components/sales/WPWidgetFilterByPrices";
 import WPSalesProducts from "~/wp-components/sales/WPSalesProducts";
@@ -84,6 +84,7 @@ const WPSalesPage = ({ query }) => {
                             <div className="ps-layout__left">
                                 <WPWidgetCategories
                                     activeID={query && query.category}
+                                    page={"sales"}
                                 />
                                 <WPWidgetFilterByPrices />
                             </div>

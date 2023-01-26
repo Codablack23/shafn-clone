@@ -87,7 +87,8 @@ const WPShopPage = ({ query }) => {
                         <div className="ps-layout--shop">
                             <div className="ps-layout__left">
                                 <WPWidgetCategories
-                                    activeID={query && query.category}
+                                    activeID={router && router.query.category}
+                                    page={"shop"}
                                 />
                                 {/* <WPWidgetBrand /> */}
                                 <WPWidgetFilterByPrices />

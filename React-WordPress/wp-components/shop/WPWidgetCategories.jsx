@@ -8,28 +8,31 @@ import { Categories } from '~/components/shared/navigation/categories';
 import { Collapse } from 'antd';
 
 
-const WPWidgetCategories = ({ activeID }) => {
+const WPWidgetCategories = ({ activeID,page}) => {
     const [loading, setLoading] = useState(true);
     const [categoryItems, setCategoryItems] = useState(null);
-    // async function getCategoryItems() {
-    //     const queries = {
-    //         pages: 1,
-    //         per_page: 99,
-    //     };
-    //     const categories = await WPProductRepository.getProductCategories(
-    //         queries
-    //     );
-    //     if (categories) {
-    //         setTimeout(function () {
-    //             setLoading(false);
-    //         }, 500);
-    //         setCategoryItems(categories.items);
-    //     }
-    //     return categories;
-    // }
+    async function getCategoryItems() {
+        const queries = {
+            pages: 1,
+            per_page: 99,
+        };
+        const categories = await WPProductRepository.getProductCategories(
+            queries
+        );
+        if (categories) {
+            setTimeout(function () {
+                setLoading(false);
+            }, 500);
+            console.log({
+                categories
+            })
+            setCategoryItems(categories.items);
+        }
+        return categories;
+    }
 
     useEffect(() => {
-        // getCategoryItems();
+        getCategoryItems();
     }, []);
 
     // let categoryItemsView;
@@ -79,11 +82,15 @@ const WPWidgetCategories = ({ activeID }) => {
                        {c.sub_cat.map((sc,i)=>(
                         <div>
                             <p className='w-text-black'><b>{sc.title}</b></p>
-                            {sc.categories.map(sub_c=>(
-                                <Link href="/shop">
-                                <a className="d-block mt-2 mb-2">{sub_c.name}</a>
+                            {sc.categories.map(sub_c=>{
+                                const cat = categoryItems?categoryItems.find(({name})=>
+                                name.replace("&amp;","&").toLowerCase().trim() == sub_c.name.toLowerCase().trim() 
+                                ):""
+                                const cat_id = cat?cat.id:""
+                             return <Link href={`/${page}?category=${cat_id}`}>
+                                <a className={`d-block mt-2 mb-2 ${parseInt(activeID) === cat_id?"w3-text-orange":""}`}>{sub_c.name}</a>
                                 </Link>
-                            ))}
+                             })}
                         </div>
                        ))}
                     </Panel>

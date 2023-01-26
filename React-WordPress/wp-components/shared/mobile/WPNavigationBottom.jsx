@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { connect } from "react-redux";
 import { Drawer } from "antd";
 import PanelMenu from "~/components/shared/panel/PanelMenu";
 import PanelSearch from "~/components/shared/panel/PanelSearch";
 import PanelCategories from "~/components/shared/panel/PanelCategories";
+import WPProductRepository from '~/repositories/WP/WPProductRepository';
 import Link from "next/link";
 import { Categories } from '~/components/shared/navigation/categories';
 import { Collapse } from 'antd';
+import { useRouter } from "next/router";
 
 const DrawerMobile = ({ closeEvent, visibleStatus, children }) => {
     return (
@@ -21,12 +23,44 @@ const DrawerMobile = ({ closeEvent, visibleStatus, children }) => {
     );
 };
 const SideBar=({shown,handleClose})=>{
+    const router = useRouter()
+    const [page,setPage] = useState("shop")
+    const [activeID,setActiveID] = useState("")
+    const [loading, setLoading] = useState(true);
+    const [categoryItems, setCategoryItems] = useState(null);
+    async function getCategoryItems() {
+        const queries = {
+            pages: 1,
+            per_page: 99,
+        };
+        const categories = await WPProductRepository.getProductCategories(
+            queries
+        );
+        if (categories) {
+            setTimeout(function () {
+                setLoading(false);
+            }, 500);
+            console.log({
+                categories
+            })
+            setCategoryItems(categories.items);
+        }
+        return categories;
+    }
+
+    useEffect(() => {
+        getCategoryItems();
+        setPage(router.pathname === "/sales"?"sales":"shop")
+        setActiveID(router.query.category?router.query.category:"")
+    }, []);
     const {Panel} = Collapse
 
     return( 
     <aside className={`shafn-sidebar-mobile w3-card ${shown?"shown":""}`}>
         <div className="shafn-mobile-header">
-            <p>Menu</p>
+            <div>
+            <i className="icon-list4"></i>
+            </div>
             <button className="close-btn" onClick={handleClose}>
                 <i className="bi bi-x-lg"></i>
             </button>
@@ -43,12 +77,17 @@ const SideBar=({shown,handleClose})=>{
                     {c.sub_cat.map((sc,i)=>(
                     <div>
                         <p className='w-text-black'><b>{sc.title}</b></p>
-                        {sc.categories.map(sub_c=>(
-                            <Link href="/shop">
-                            <a className="d-block mt-2 mb-2">{sub_c.name}</a>
-                            </Link>
-                        ))}
+                        {sc.categories.map(sub_c=>{
+                                const cat = categoryItems?categoryItems.find(({name})=>
+                                name.replace("&amp;","&").toLowerCase().trim() == sub_c.name.toLowerCase().trim() 
+                                ):""
+                                const cat_id = cat?cat.id:""
+                             return <Link href={`/${page}?category=${cat_id}`}>
+                                <a className={`d-block mt-2 mb-2 ${parseInt(activeID) === cat_id?"w3-text-orange":""}`}>{sub_c.name}</a>
+                                </Link>
+                        })}
                     </div>
+                    
                     ))}
                 </Panel>
                 ))}
