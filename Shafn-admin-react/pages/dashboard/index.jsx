@@ -1,19 +1,19 @@
-import React, { useEffect } from "react"
+import React, { useEffect } from "react";
 // import Router from "next/router"
-import CardRecentOrders from "~/components/shared/cards/CardRecentOrders"
-import CardSaleReport from "~/components/shared/cards/CardSaleReport"
-import CardEarning from "~/components/shared/cards/CardEarning"
-import CardStatics from "~/components/shared/cards/CardStatics"
-import ContainerDashboard from "~/components/layouts/ContainerDashboard"
-import { useDispatch } from "react-redux"
-import { toggleDrawerMenu } from "~/store/app/action"
-import DefaultLayout from "~/components/layouts/DefaultLayout"
+import CardRecentOrders from "~/components/shared/cards/CardRecentOrders";
+import CardSaleReport from "~/components/shared/cards/CardSaleReport";
+import CardEarning from "~/components/shared/cards/CardEarning";
+import CardStatics from "~/components/shared/cards/CardStatics";
+import ContainerDashboard from "~/components/layouts/ContainerDashboard";
+import { useDispatch } from "react-redux";
+import { toggleDrawerMenu } from "~/store/app/action";
+import DefaultLayout from "~/components/layouts/DefaultLayout";
 // import CardTopCountries from "~/components/shared/cards/CardTopCountries"
 // import UserRepository from "~/repositories/UserRepository"
 // import { Spin } from "antd"
 
 const Dashboard = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   // const [isLoading, setIsLoading] = useState(true)
 
@@ -39,7 +39,7 @@ const Dashboard = () => {
   //     setIsLoading(false)
   //   } else {
   //     const domain =
-  //       process.env.NODE_ENV === "production"
+  //       process.env.NEXT_PUBLIC_NODE_ENV === "production"
   //         ? "https://shafn.com"
   //         : "http://localhost:3000"
   //     window.location.assign(`${domain}/account/login`)
@@ -48,8 +48,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     // handleAuthToken()
-    dispatch(toggleDrawerMenu(false))
-  }, [])
+    dispatch(toggleDrawerMenu(false));
+  }, []);
 
   return (
     <DefaultLayout>
@@ -73,7 +73,7 @@ const Dashboard = () => {
         </section>
       </ContainerDashboard>
     </DefaultLayout>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

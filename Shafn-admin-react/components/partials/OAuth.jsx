@@ -1,44 +1,44 @@
-import React, { useEffect } from "react"
-import { notification } from "antd"
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props"
-import { GoogleLogin } from "react-google-login"
+import React, { useEffect } from "react";
+import { notification } from "antd";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import { GoogleLogin } from "react-google-login";
 
 const OAuth = ({ onSuccess }) => {
   const handleOnSuccess = (id, email, firstname = "", lastname = "") => {
     if (email) {
-      onSuccess({ id, email, firstname, lastname })
+      onSuccess({ id, email, firstname, lastname });
     } else {
       notification["error"]({
         message: "Login failed!",
         description:
           "Could not retrieve email from provider. Please fill the form to complete registration.",
-      })
+      });
     }
-  }
+  };
 
   useEffect(() => {
-    const { gapi, loadAuth2 } = require("gapi-script")
+    const { gapi, loadAuth2 } = require("gapi-script");
     const loadGoogleAuth = async () => {
-      await loadAuth2(gapi, process.env.GOOGLE_CLIENTID, "")
-    }
+      await loadAuth2(gapi, process.env.NEXT_PUBLIC_GOOGLE_CLIENTID, "");
+    };
 
-    loadGoogleAuth()
-  }, [])
+    loadGoogleAuth();
+  }, []);
 
   return (
     <>
       <GoogleLogin
-        clientId={process.env.GOOGLE_CLIENTID}
+        clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENTID}
         jsSrc="https://accounts.google.com/gsi/client"
         uxMode="redirect"
         onSuccess={(res) => {
-          const user = res.profileObj
+          const user = res.profileObj;
           handleOnSuccess(
             user.googleId,
             user.email,
             user.givenName,
             user.familyName
-          )
+          );
         }}
         onFailure={({ error }) => {
           if (error !== "popup_closed_by_user") {
@@ -46,7 +46,7 @@ const OAuth = ({ onSuccess }) => {
               message: "Google login failed!",
               description:
                 "Please check your network connectivity and try again!",
-            })
+            });
           }
         }}
         cookiePolicy={"single_host_origin"}
@@ -61,18 +61,18 @@ const OAuth = ({ onSuccess }) => {
       />
 
       <FacebookLogin
-        appId={process.env.FACEBOOK_APPID}
+        appId={process.env.NEXT_PUBLIC_FACEBOOK_APPID}
         fields="name,email,picture"
         scope="email"
         callback={(res) => {
-          handleOnSuccess(res.id, res?.email)
+          handleOnSuccess(res.id, res?.email);
         }}
         onFailure={(error) => {
           notification["error"]({
             message: "Facebook login failed!",
             description:
               "Please check your network connectivity and try again!",
-          })
+          });
         }}
         render={(renderProps) => (
           <button className="oauth-btn" onClick={renderProps.onClick}>
@@ -84,7 +84,7 @@ const OAuth = ({ onSuccess }) => {
         )}
       />
     </>
-  )
-}
+  );
+};
 
-export default OAuth
+export default OAuth;

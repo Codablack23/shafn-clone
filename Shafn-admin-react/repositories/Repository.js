@@ -11,11 +11,11 @@ export const customHeaders = {
 export const baseUrl = `${baseDomain}`;
 export const WPDomain = "https://api.shafn.com";
 export const MAIN_DOMAIN =
-  process.env.NODE_ENV === "production"
+  process.env.NEXT_PUBLIC_NODE_ENV === "production"
     ? "https://www.shafn.com"
     : "http://localhost:3000";
 export const domain =
-  process.env.NODE_ENV === "production"
+  process.env.NEXT_PUBLIC_NODE_ENV === "production"
     ? "https://dashboard.shafn.com"
     : "http://localhost:5500";
 
@@ -38,8 +38,8 @@ export async function fetchData(query) {
 }
 
 export const oathInfo = {
-  consumer_key: process.env.CONSUMER_KEY,
-  consumer_secret: process.env.CONSUMER_SECRET,
+  consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY,
+  consumer_secret: process.env.NEXT_PUBLIC_CONSUMER_SECRET,
 };
 
 export const serializeQuery = (query) => {

@@ -94,11 +94,8 @@ class WPProductRepository {
         })
             .then((response) => {
                 if (response.data && response.data.length > 0) {
-                    const onSaleProducts = Array.from(response.data).filter(
-                        (product) => product.on_sale === true
-                    );
                     const data = {
-                        items: onSaleProducts,
+                        items: response.data,
                         totalItems: response.headers["x-wp-total"],
                         totalPages: response.headers["x-wp-totalpages"],
                     };

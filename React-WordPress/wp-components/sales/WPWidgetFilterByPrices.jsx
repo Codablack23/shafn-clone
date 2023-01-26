@@ -16,6 +16,7 @@ const WPWidgetFilterByPrices = () => {
             per_page: 20,
             min_price: value[0],
             max_price: value[1],
+            on_sale: true,
         };
         dispatch(WPGetOnSaleProducts(queries));
     };

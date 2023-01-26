@@ -81,8 +81,8 @@ export default function Register() {
     if (!isLoading) {
       try {
         const _admin = {
-          username: process.env.ADMIN_USERNAME,
-          password: process.env.ADMIN_PASSWORD,
+          username: process.env.NEXT_PUBLIC_ADMIN_USERNAME,
+          password: process.env.NEXT_PUBLIC_ADMIN_PASSWORD,
         };
 
         const _user = {

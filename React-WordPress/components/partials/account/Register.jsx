@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
 import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
 // import WPVendorRepository from "~/repositories/WP/WPVendorRepository";
-import OAuth from "./modules/OAuth";
+// import OAuth from "./modules/OAuth";
 import Router from "next/router";
 import ReactHtmlParser from "react-html-parser";
 import WPVerification from "~/wp-components/account/WPVerification";
@@ -76,8 +76,8 @@ function Register() {
         if (!isLoading) {
             try {
                 const _admin = {
-                    username: process.env.ADMIN_USERNAME,
-                    password: process.env.ADMIN_PASSWORD,
+                    username: process.env.NEXT_PUBLIC_ADMIN_USERNAME,
+                    password: process.env.NEXT_PUBLIC_ADMIN_PASSWORD,
                 };
 
                 const _user = {
@@ -249,7 +249,7 @@ function Register() {
                                 </p>
                             </div>
 
-                            <div className="ps-form__footer">
+                            {/* <div className="ps-form__footer">
                                 <div className="or">
                                     <hr />
                                     <p>OR</p>
@@ -265,7 +265,7 @@ function Register() {
                                         })
                                     }
                                 />
-                            </div>
+                            </div> */}
                         </div>
                     ) : null}
                 </Form>

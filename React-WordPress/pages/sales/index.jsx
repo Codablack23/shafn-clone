@@ -41,6 +41,7 @@ const WPSalesPage = ({ query }) => {
                 page: 1,
                 per_page: 24,
                 category: nextPid,
+                on_sale: true,
             };
             dispatch(WPGetOnSaleProducts(queries));
             getCategory(nextPid);
@@ -48,6 +49,7 @@ const WPSalesPage = ({ query }) => {
             const queries = {
                 page: 1,
                 per_page: 24,
+                on_sale: true,
             };
             dispatch(WPGetOnSaleProducts(queries));
         }
@@ -58,6 +60,7 @@ const WPSalesPage = ({ query }) => {
             const queries = {
                 page: 1,
                 per_page: 24,
+                on_sale: true,
             };
             dispatch(WPGetOnSaleProducts(queries));
 

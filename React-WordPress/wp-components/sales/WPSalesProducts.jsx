@@ -24,6 +24,7 @@ const WPSalesProducts = (props) => {
         const params = {
             page: page,
             per_page: pageSize,
+            on_sale: true,
         };
         setLoading(true);
         dispatch(WPGetOnSaleProducts(params));

@@ -33,7 +33,7 @@ export const encrypt = (data) => {
 
     const encryptedData = CryptoJS.AES.encrypt(
         data,
-        process.env.ADMIN_PASSWORD
+        process.env.NEXT_PUBLIC_ADMIN_PASSWORD
     ).toString();
 
     return encryptedData;
@@ -44,7 +44,7 @@ export const decrypt = (encryptedData) => {
 
     const bytes = CryptoJS.AES.decrypt(
         encryptedData,
-        process.env.ADMIN_PASSWORD
+        process.env.NEXT_PUBLIC_ADMIN_PASSWORD
     );
     const data = bytes.toString(CryptoJS.enc.Utf8);
 
