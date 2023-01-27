@@ -41,8 +41,10 @@ const WPShopPage = ({ query }) => {
             const queries = {
                 page: 1,
                 per_page: 24,
-                category: nextPid,
+                category: router.query.category,
             };
+            console.log(WPGetProducts(queries))
+
             dispatch(WPGetProducts(queries));
             getCategory(nextPid);
         } else {

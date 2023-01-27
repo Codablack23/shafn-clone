@@ -1,10 +1,33 @@
+import {useEffect,useState} from 'react'
 import Link from "next/link";
-import ProductRepository from "~/repositories/ProductRepository";
+import WPProductRepository from '~/repositories/WP/WPProductRepository';
 import React from "react";
 import { Categories } from "./categories";
 
 export default function HeaderNav() {
     // getProducts();s
+    const [loading, setLoading] = useState(true);
+    const [categoryItems, setCategoryItems] = useState(null);
+    async function getCategoryItems() {
+        const queries = {
+            pages: 1,
+            per_page: 99,
+        };
+        const categories = await WPProductRepository.getProductCategories(
+            queries
+        );
+        if (categories) {
+            setTimeout(function () {
+                setLoading(false);
+            }, 500);
+            setCategoryItems(categories.items);
+        }
+        return categories;
+    }
+
+    useEffect(() => {
+        getCategoryItems();
+    }, []);
     return (
         <nav className="custom--navigation">
             <ul className="nav--list nav--center">
@@ -24,15 +47,22 @@ export default function HeaderNav() {
                                       {category.sub_cat.map((sub, i) => (
                                           <div key={`${i}-sub-title`}>
                                               <h5>{sub.title}</h5>
-                                              {sub.categories.map((cat, i) => (
-                                                  <Link
-                                                      href={"/"}
-                                                      key={`${i}-cat`}>
-                                                      <a className="d-block text-black">
-                                                          {cat.name}
-                                                      </a>
-                                                  </Link>
-                                              ))}
+                                              {sub.categories.map((cat, i) => {
+                                                  const cat2 = categoryItems?categoryItems.find(({name})=>
+                                                  name.replace("&amp;","&").toLowerCase().trim() == cat.name.toLowerCase().trim() 
+                                                  ):""
+                                                  const cat_id = cat2?cat2.id:""
+                                                 return cat2?(
+                                                    <Link
+                                                    href={`/shop?category=${cat_id}`}
+                                                    key={`${i}-cat`}>
+                                                    <a className="d-block text-black">
+                                                        {cat.name}
+                                                    </a>
+                                                </Link>
+                                                 ):null
+                                                
+                                               })}
                                           </div>
                                       ))}
                                   </ul>

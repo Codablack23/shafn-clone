@@ -23,9 +23,6 @@ const WPWidgetCategories = ({ activeID,page}) => {
             setTimeout(function () {
                 setLoading(false);
             }, 500);
-            console.log({
-                categories
-            })
             setCategoryItems(categories.items);
         }
         return categories;
@@ -78,18 +75,20 @@ const WPWidgetCategories = ({ activeID,page}) => {
                 </div>
                 <Collapse ghost expandIconPosition="right" style={{marfinLeft:0}}>
                   {Categories.map((c,i)=>(
-                    <Panel style={{paddingLeft:"0px"}} header={<b>{c.name}</b>} key={i+1} >
+                    <Panel style={{paddingLeft:"0px"}} header={<b>{c.name}</b>} key={`${c.name}-${i+1}`} >
                        {c.sub_cat.map((sc,i)=>(
-                        <div>
+                        <div  key ={sc.title}>
                             <p className='w-text-black'><b>{sc.title}</b></p>
                             {sc.categories.map(sub_c=>{
                                 const cat = categoryItems?categoryItems.find(({name})=>
                                 name.replace("&amp;","&").toLowerCase().trim() == sub_c.name.toLowerCase().trim() 
                                 ):""
                                 const cat_id = cat?cat.id:""
-                             return <Link href={`/${page}?category=${cat_id}`}>
+                             return cat?(
+                                <Link href={`/${page}?category=${cat_id}`} key={Math.random() * Math.random()}>
                                 <a className={`d-block mt-2 mb-2 ${parseInt(activeID) === cat_id?"w3-text-orange":""}`}>{sub_c.name}</a>
                                 </Link>
+                             ):null
                              })}
                         </div>
                        ))}

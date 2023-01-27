@@ -40,9 +40,6 @@ const SideBar=({shown,handleClose})=>{
             setTimeout(function () {
                 setLoading(false);
             }, 500);
-            console.log({
-                categories
-            })
             setCategoryItems(categories.items);
         }
         return categories;
