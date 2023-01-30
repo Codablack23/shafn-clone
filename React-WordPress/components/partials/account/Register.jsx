@@ -5,8 +5,6 @@ import { login } from "../../../store/auth/action";
 import { useDispatch } from "react-redux";
 import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
 import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
-// import WPVendorRepository from "~/repositories/WP/WPVendorRepository";
-// import OAuth from "./modules/OAuth";
 import Router from "next/router";
 import ReactHtmlParser from "react-html-parser";
 import WPVerification from "~/wp-components/account/WPVerification";
@@ -54,7 +52,7 @@ function Register() {
         }
     };
 
-    const handleRegistration = async (type = "form", oauth) => {
+    const handleRegistration = async () => {
         setIsLoading(true);
 
         let user = {
@@ -63,15 +61,6 @@ function Register() {
             password,
             role: "customer",
         };
-
-        // Use oauth data if registration is with oauth
-        if (type === "oauth") {
-            user = {
-                username: oauth.email,
-                email: oauth.email,
-                password: oauth.password,
-            };
-        }
 
         if (!isLoading) {
             try {

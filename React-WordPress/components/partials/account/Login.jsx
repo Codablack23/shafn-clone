@@ -18,12 +18,11 @@ function Login() {
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleLogin = async (type = "form", oauth) => {
+    const handleLogin = async () => {
         if (
             (auth.email || auth.username) &&
             (auth.email.toLowerCase() === email.toLowerCase() ||
-                auth.username.toLowerCase() === email.toLowerCase() ||
-                auth.email.toLowerCase() === oauth?.email.toLowerCase()) &&
+                auth.username.toLowerCase() === email.toLowerCase()) &&
             auth.isLoggedIn
         ) {
             notification["info"]({
@@ -36,13 +35,6 @@ function Login() {
                 username: email,
                 password,
             };
-
-            if (type === "oauth") {
-                user = {
-                    username: oauth.email,
-                    password: oauth.password,
-                };
-            }
 
             try {
                 const _user = await WPAuthRepository.login(user);

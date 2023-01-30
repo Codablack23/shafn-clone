@@ -31,7 +31,7 @@ const WPShopPage = ({ query }) => {
     }
 
     async function getShopOnChangeUrl(url) {
-        const isShopRoute = url.includes("/shop/");
+        const isShopRoute = url.includes("/shop");
         const nextPid = url.split("category=").pop();
         if (
             isShopRoute &&
@@ -43,7 +43,7 @@ const WPShopPage = ({ query }) => {
                 per_page: 24,
                 category: router.query.category,
             };
-            console.log(WPGetProducts(queries))
+            console.log(WPGetProducts(queries));
 
             dispatch(WPGetProducts(queries));
             getCategory(nextPid);
