@@ -17,6 +17,12 @@ import {
     convertJsonToFormData,
     convertToURLEncoded,
 } from "~/utilities/WPHelpers";
+import WPPaymentRepository from "~/repositories/WP/WPPaymentRepository";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
 
 const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
     const dispatch = useDispatch();
@@ -148,6 +154,39 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
 
     function handleChangeDifferentAddress(e) {
         setIsDifferentAddress(e.target.checked);
+    }
+
+    async function handlePayment() {
+        try {
+            setIsSubmitting(true);
+            const products = checkoutItems.map((item) => ({
+                id: item.id,
+                name: item.name,
+                amount: item.price,
+                quantity: item.quantity,
+            }));
+
+            const payload = {
+                email: auth.email,
+                products,
+            };
+
+            const stripe = await stripePromise;
+            const { data } = await WPPaymentRepository.placeOrder(payload);
+
+            console.log(
+                "Order placed successfully. Redirecting to checkout..."
+            );
+
+            await stripe.redirectToCheckout({
+                sessionId: data.stripeSession.id,
+            });
+        } catch (error) {
+            console.log("Error making payment");
+            console.log(error);
+        } finally {
+            setIsSubmitting(false);
+        }
     }
 
     useEffect(() => {
@@ -660,7 +699,13 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                     {selectedPaymentGateway}
                                 </div>
                             </div>
-                            {buttonOrderView}
+                            <button
+                                className="ps-btn ps-btn--fullwidth"
+                                // type="submit"
+                                onClick={handlePayment}
+                                disabled={isSubmitting}>
+                                {isSubmitting ? <Spin /> : "Continue"}
+                            </button>
                         </div>
                     </div>
                 </div>
