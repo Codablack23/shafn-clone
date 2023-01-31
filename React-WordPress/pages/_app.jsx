@@ -7,12 +7,14 @@ import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import createStore from "../store/store";
 import DefaultLayout from "../components/layouts/DefaultLayout";
+import "../public/static/css/bootstrap.min.css";
 import "../scss/style.scss";
 import "../scss/home-default.scss";
 import "../scss/market-place-1.scss";
 import "slick-carousel/slick/slick.css";
 import { CookiesProvider } from "react-cookie";
-import "bootstrap-icons/font/bootstrap-icons.scss";
+import "bootstrap-icons/font/bootstrap-icons.css";
+
 /*import '../scss/electronic.scss';
 import '../scss/furniture.scss';
 import '../scss/organic.scss';

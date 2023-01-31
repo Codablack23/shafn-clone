@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Link from "next/link";
+import Router from "next/router";
 import { login } from "../../../store/auth/action";
 import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
 import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
-import OAuth from "./modules/OAuth";
+// import OAuth from "./modules/OAuth";
 import ReactHtmlParser from "react-html-parser";
 
 import { Form, Input, notification, Spin } from "antd";
@@ -17,11 +18,11 @@ function Login() {
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleLogin = async (type = "form", oauth) => {
+    const handleLogin = async () => {
         if (
-            auth.email &&
-            (auth.email.toLowerCase() === email ||
-                auth.email.toLowerCase() === oauth?.email) &&
+            (auth.email || auth.username) &&
+            (auth.email.toLowerCase() === email.toLowerCase() ||
+                auth.username.toLowerCase() === email.toLowerCase()) &&
             auth.isLoggedIn
         ) {
             notification["info"]({
@@ -34,13 +35,6 @@ function Login() {
                 username: email,
                 password,
             };
-
-            if (type === "oauth") {
-                user = {
-                    username: oauth.email,
-                    password: oauth.password,
-                };
-            }
 
             try {
                 const _user = await WPAuthRepository.login(user);
@@ -58,17 +52,6 @@ function Login() {
                         message: "Not a customer account",
                     });
                 }
-
-                // if (role === "seller") {
-                //     const domain =
-                //         process.env.NODE_ENV === "production"
-                //             ? "https://dashboard.shafn.com"
-                //             : "http://localhost:5500";
-
-                //     window.location.assign(
-                //         `${domain}/dashboard?auth_token=${_user.token}`
-                //     );
-                // }
             } catch (error) {
                 console.log(error);
                 notification["error"]({
@@ -113,7 +96,7 @@ function Login() {
                             <h5>Sign In</h5>
                             <div className="form-group">
                                 <Form.Item
-                                    name="email"
+                                    name="text"
                                     rules={[
                                         {
                                             required: true,
@@ -123,9 +106,9 @@ function Login() {
                                     <Input
                                         className="form-control"
                                         type="text"
-                                        aria-label="Email address"
+                                        aria-label="Username or Email address"
                                         aria-required="true"
-                                        placeholder="Email address"
+                                        placeholder="Username or Email address"
                                         value={email}
                                         onChange={(e) =>
                                             setEmail(e.target.value)
@@ -207,7 +190,7 @@ function Login() {
                                 </a>
                             </p>
                         </div>
-                        <div className="ps-form__footer">
+                        {/* <div className="ps-form__footer">
                             <div className="or">
                                 <hr />
                                 <p>OR</p>
@@ -221,7 +204,7 @@ function Login() {
                                     })
                                 }
                             />
-                        </div>
+                        </div> */}
                     </div>
                 </Form>
             </div>

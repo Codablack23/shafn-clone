@@ -30,24 +30,26 @@ const WPSalesPage = ({ query }) => {
     }
 
     async function getSalesOnChangeUrl(url) {
-        const isSalesRoute = url.includes("/sales/");
-        const nextPid = url.split("category=").pop();
+        const isSalesRoute = url.includes("/sales");
+        const categoryId = url.split("category=").pop();
         if (
             isSalesRoute &&
-            nextPid !== "" &&
-            isNaN(parseInt(nextPid)) === false
+            categoryId !== "" &&
+            isNaN(parseInt(categoryId)) === false
         ) {
             const queries = {
                 page: 1,
                 per_page: 24,
-                category: nextPid,
+                category: categoryId,
+                on_sale: true,
             };
             dispatch(WPGetOnSaleProducts(queries));
-            getCategory(nextPid);
+            getCategory(categoryId);
         } else {
             const queries = {
                 page: 1,
                 per_page: 24,
+                on_sale: true,
             };
             dispatch(WPGetOnSaleProducts(queries));
         }
@@ -58,6 +60,7 @@ const WPSalesPage = ({ query }) => {
             const queries = {
                 page: 1,
                 per_page: 24,
+                on_sale: true,
             };
             dispatch(WPGetOnSaleProducts(queries));
 
@@ -84,6 +87,7 @@ const WPSalesPage = ({ query }) => {
                             <div className="ps-layout__left">
                                 <WPWidgetCategories
                                     activeID={query && query.category}
+                                    page={"sales"}
                                 />
                                 <WPWidgetFilterByPrices />
                             </div>

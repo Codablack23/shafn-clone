@@ -169,7 +169,8 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
                 <Tag color={stockStatus.color}>{stockStatus.status}</Tag>
             </p>
             {children}
-            <div className="d-none d-lg-block">
+            <div className="shafn-centered-sm">
+            <div className="d-lg-block">
                 <div className="w-100 m-auto">
                     <figure>
                         <figcaption>Quantity</figcaption>
@@ -178,13 +179,14 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
                             style={{ width: "300px", border: "none" }}>
                             <button
                                 className="up"
+                                style={{fontSize:"24px"}}
                                 onClick={handleIncreaseItemQty}>
-                                <i className="fa fa-plus"></i>
+                                <i className="bi bi-plus"></i>
                             </button>
                             <button
                                 className="down"
                                 onClick={handleDecreaseItemQty}>
-                                <i className="fa fa-minus"></i>
+                                <i className="bi bi-dash-lg" style={{fontSize:"24px"}}></i>
                             </button>
                             <input
                                 className="form-control"
@@ -196,13 +198,14 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
                     </figure>
                 </div>
             </div>
-            <div className="mt-2 d-none d-lg-block">
+            <div className="mt-2 d-lg-block">
                 <Button
                     width={"300px"}
-                    classes={`w3-0309A5 btn-hover`}
-                    hoverColor="white"
+                    classes={`w3-black w3-border-black btn-hover`}
+                    hoverColor="black"
                     eventHandler={handleAddItemToCart}
                     text="Add to cart"
+                    hoverBg={"white"}
                     disabled={product.type === "simple" ? false : !variant}
                 />
                 <br />
@@ -223,6 +226,7 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
                 <div className="flex">
                     <SocialShareButtons url={window.location.href} />
                 </div>
+            </div>
             </div>
         </div>
     );

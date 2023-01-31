@@ -16,11 +16,11 @@ class WPHeaderActions extends Component {
         return (
             <div className="header__actions">
                 <div
-                    className="w-100 d-flex justify-content-between"
+                    className="w-100 d-flex justify-content-around"
                     style={{
                         alignItems: "center",
                     }}>
-                    <Link href="/account/compare">
+                    {/* <Link href="/account/compare">
                         <span
                             title="Notifications"
                             className="header__extra w3-hover-lightgrey"
@@ -28,16 +28,16 @@ class WPHeaderActions extends Component {
                                 cursor: "pointer",
                             }}>
                             <i
-                                className="fa fa-bell-o"
+                                className="bi bi-bell"
                                 style={{
                                     fontSize: "22px",
                                     color: "#2A3147",
                                 }}></i>
-                            <span>
+                            <span style={{height:17,right:"-2px",width:17}}>
                                 <i>{compare && compare.compareTotal}</i>
                             </span>
                         </span>
-                    </Link>
+                    </Link> */}
                     <Link href="/account/wishlist">
                         <span
                             title="Wishlist"
@@ -46,12 +46,18 @@ class WPHeaderActions extends Component {
                                 cursor: "pointer",
                             }}>
                             <i
-                                className="icon-heart"
+                                className="bi bi-heart"
                                 style={{
                                     fontSize: "22px",
                                     color: "#2A3147",
                                 }}></i>
-                            <span>
+                            <span
+                                className="sub"
+                                style={{
+                                    height: 17,
+                                    right: "-2px",
+                                    width: 17,
+                                }}>
                                 <i>{wishlist.wishlistTotal}</i>
                             </span>
                         </span>

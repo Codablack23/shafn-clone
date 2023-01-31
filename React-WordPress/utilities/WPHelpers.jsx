@@ -8,8 +8,8 @@ import { formatCurrency } from "~/utilities/product-helper";
 import Rating from "~/components/elements/Rating";
 import Link from "next/link";
 
-export function convertToURLEncoded(element, key, list) {
-    var list = list || [];
+export function convertToURLEncoded(element, key, l) {
+    let list = l || [];
     if (typeof element == "object") {
         for (var idx in element)
             convertToURLEncoded(
@@ -106,7 +106,14 @@ export function WPProductPriceView(product) {
 export function WPProductThumbnailView(product) {
     let view;
     if (product.images && product.images.length > 0) {
-        view = <img src={product.images[0].src} alt={product.name} />;
+        view = <img 
+        src={product.images[0].src} 
+          style={{
+            width:"100%",
+            display:"block",
+            margin:"auto"
+        }} 
+        alt={product.name} />;
     } else {
         view = (
             <img

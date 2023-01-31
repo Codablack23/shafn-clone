@@ -105,8 +105,8 @@ const WPProductSelf = ({ productID }) => {
 
         return (
             <div className="ps-product">
-                <div className="ps-product__thumbnail hover-popup">
-                    <a href={`/product/${query}`}>{thumbnailImage}</a>
+                <div className="ps-product__thumbnail hover-popup w3-text-black">
+                    <a href={`/product/${query}`}>{thumbnailImage}</a><br />
                     {/*  {product.badge ? productBadge : ''}*/}
                     {/* <ul className="ps-product__actions">
                         <li>

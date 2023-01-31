@@ -43,6 +43,7 @@ const WPShopProducts = (props) => {
                 }.bind(this),
                 200
             );
+            console.log(WPProducts)
         }
     }, []);
 
@@ -50,6 +51,7 @@ const WPShopProducts = (props) => {
 
     if (!WPLoading) {
         if (WPProducts && WPProducts.items) {
+            console.log(WPProducts)
             countProductsView = (
                 <p>
                     <strong>{WPProducts.totalItems}</strong> Product(s) found.

@@ -31,20 +31,21 @@ const WPShopPage = ({ query }) => {
     }
 
     async function getShopOnChangeUrl(url) {
-        const isShopRoute = url.includes("/shop/");
-        const nextPid = url.split("category=").pop();
+        const isShopRoute = url.includes("/shop");
+        const categoryId = url.split("category=").pop();
         if (
             isShopRoute &&
-            nextPid !== "" &&
-            isNaN(parseInt(nextPid)) === false
+            categoryId !== "" &&
+            isNaN(parseInt(categoryId)) === false
         ) {
             const queries = {
                 page: 1,
                 per_page: 24,
-                category: nextPid,
+                category: categoryId,
             };
+
             dispatch(WPGetProducts(queries));
-            getCategory(nextPid);
+            getCategory(categoryId);
         } else {
             const queries = {
                 page: 1,
@@ -87,7 +88,8 @@ const WPShopPage = ({ query }) => {
                         <div className="ps-layout--shop">
                             <div className="ps-layout__left">
                                 <WPWidgetCategories
-                                    activeID={query && query.category}
+                                    activeID={router && router.query.category}
+                                    page={"shop"}
                                 />
                                 {/* <WPWidgetBrand /> */}
                                 <WPWidgetFilterByPrices />

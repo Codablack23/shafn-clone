@@ -1,36 +1,36 @@
-import { WPDomain } from "./Repository"
-import axios from "axios"
+import { WPDomain } from "./Repository";
+import axios from "axios";
 
 class AuthRepository {
   constructor(callback) {
-    this.callback = callback
+    this.callback = callback;
   }
 
   async verifyEmail(user) {
-    const endpoint = `/api/verify-email`
-    const response = await axios.post(endpoint, user)
+    const endpoint = `/api/verify-email`;
+    const response = await axios.post(endpoint, user);
 
-    return response
+    return response;
   }
 
   async register(user, adminToken) {
-    const endpoint = `${WPDomain}/wp-json/wp/v2/users`
+    const endpoint = `${WPDomain}/wp-json/wp/v2/users/register`;
     const config = {
       headers: {
         Authorization: `Bearer ${adminToken}`,
       },
-    }
-    const response = await axios.post(endpoint, user, config)
+    };
+    const response = await axios.post(endpoint, user, config);
 
-    return response
+    return response;
   }
 
   async login(user) {
-    const endpoint = `${WPDomain}/wp-json/jwt-auth/v1/token`
-    const response = await axios.post(endpoint, user).then((res) => res.data)
+    const endpoint = `${WPDomain}/wp-json/jwt-auth/v1/token`;
+    const response = await axios.post(endpoint, user).then((res) => res.data);
 
-    return response
+    return response;
   }
 }
 
-export default new AuthRepository()
+export default new AuthRepository();

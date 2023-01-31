@@ -2557,3 +2557,8 @@
         cursor: pointer;
     }
 }
+.shafn-centered-sm{
+    @include media("<md"){
+        text-align: center;
+    }
+}

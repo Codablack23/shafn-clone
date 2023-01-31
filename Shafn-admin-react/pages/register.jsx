@@ -1,16 +1,16 @@
-import { Form, Input, notification, Spin, Divider } from "antd"
-import { useState } from "react"
-import HomepageLayout from "~/components/layouts/HomePageLayout"
-import { useDispatch } from "react-redux"
-import AuthRepository from "~/repositories/AuthRepository"
-import SettingsRepository from "~/repositories/SettingsRepository"
-import OAuth from "~/components/partials/OAuth"
-import Router from "next/router"
-import ReactHtmlParser from "react-html-parser"
-import WPVerification from "~/components/shared/widgets/WPVerification"
+import { Form, Input, notification, Spin, Divider } from "antd";
+import { useState } from "react";
+import HomepageLayout from "~/components/layouts/HomePageLayout";
+import { useDispatch } from "react-redux";
+import AuthRepository from "~/repositories/AuthRepository";
+import SettingsRepository from "~/repositories/SettingsRepository";
+import OAuth from "~/components/partials/OAuth";
+import Router from "next/router";
+import ReactHtmlParser from "react-html-parser";
+import WPVerification from "~/components/shared/widgets/WPVerification";
 
 export default function Register() {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const [vendor, setVendor] = useState({
     username: "",
     email: "",
@@ -18,111 +18,113 @@ export default function Register() {
     store_name: "",
     first_name: "",
     last_name: "",
-    roles: ["seller"],
-  })
+    role: "seller",
+  });
   const [otp, setOtp] = useState({
     code: "",
     createdAt: 0,
     expiresAt: 0,
     allowResendAt: 0,
-  })
+  });
 
   const handleInputChange = (e) => {
     setVendor((current) => ({
       ...current,
       [e.target.name]: e.target.value,
-    }))
-  }
+    }));
+  };
 
   const verifyEmail = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
       const response = await AuthRepository.verifyEmail({
         name: vendor.username,
         email: vendor.email,
-      })
+      });
 
       setOtp({
         code: response.data.code,
         createdAt: Date.now(),
         expiresAt: Date.now() + 3600000,
         allowResendAt: Date.now() + 120000,
-      })
+      });
 
       notification["info"]({
         message: "Email verification code sent",
-      })
+      });
     } catch (error) {
       notification["error"]({
         message: "Unable to send verification code",
         description: "Please check your network connection and try again",
-      })
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleRegistration = async (type = "form", oauth) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
-    let _vendor = vendor
+    let _vendor = vendor;
 
-    delete _vendor.store_name
+    delete _vendor.store_name;
 
     if (type === "oauth") {
       _vendor = {
         ..._vendor,
         first_name: oauth.first_name,
         last_name: oauth.last_name,
-      }
+      };
     }
 
     if (!isLoading) {
       try {
         const _admin = {
-          username: process.env.username,
-          password: process.env.password,
-        }
+          username: process.env.NEXT_PUBLIC_ADMIN_USERNAME,
+          password: process.env.NEXT_PUBLIC_ADMIN_PASSWORD,
+        };
 
         const _user = {
           username: _vendor.email,
           password: _vendor.password,
-        }
+        };
 
         // Login Admin
-        const admin = await AuthRepository.login(_admin)
+        const admin = await AuthRepository.login(_admin);
 
         // Register vendor with admin token
-        await AuthRepository.register(_vendor, admin.token)
+        await AuthRepository.register(_vendor, admin.token);
 
         // Login vendor
-        const vendorData = await AuthRepository.login(_user)
+        const vendorData = await AuthRepository.login(_user);
 
-        const { encrypt } = require("~/utilities/helperFunctions")
+        const { encrypt } = require("~/utilities/helperFunctions");
 
-        const encryptedToken = encrypt(vendorData.token)
+        const encryptedToken = encrypt(vendorData.token);
 
-        localStorage.setItem("auth_token", encryptedToken)
+        localStorage.setItem("auth_token", encryptedToken);
 
         try {
-          await SettingsRepository.updateStore(vendorData.id, {
+          await SettingsRepository.updateStore(vendorData.user_id, {
             store_name: vendor.store_name,
-          })
+          });
         } catch (error) {
+          console.log("Error updating store name");
+          console.log(error);
           notification["error"]({
             message: "Unable to register store name",
             description: "This can be registered in the settings page",
-          })
+          });
         }
 
         // TO-DO: Store vendor data in redux
 
         notification["success"]({
           message: "Registration Successful!",
-        })
+        });
 
-        Router.push("/dashboard")
+        Router.push("/dashboard");
       } catch (error) {
         notification["error"]({
           message: "Unable to register user",
@@ -130,12 +132,12 @@ export default function Register() {
             error.response === undefined
               ? ReactHtmlParser(String(error))
               : ReactHtmlParser(error.response.data.message),
-        })
+        });
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
     }
-  }
+  };
 
   return (
     <HomepageLayout title="Register" page="accounts">
@@ -302,5 +304,5 @@ export default function Register() {
         )}
       </div>
     </HomepageLayout>
-  )
+  );
 }

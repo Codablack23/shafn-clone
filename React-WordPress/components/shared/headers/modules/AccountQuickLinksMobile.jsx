@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Link from 'next/link';
-import { logOut } from '../../../../store/auth/action';
-import { Dropdown, Menu } from 'antd';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import Link from "next/link";
+import Router from "next/router";
+import { logOut } from "../../../../store/auth/action";
+import { Dropdown, Menu } from "antd";
 class AccountQuickLinks extends Component {
     constructor(props) {
         super(props);
@@ -11,33 +12,34 @@ class AccountQuickLinks extends Component {
     handleLogout = (e) => {
         e.preventDefault();
         this.props.dispatch(logOut());
+        Router.push("/");
     };
 
     render() {
         const accountLinks = [
             {
-                text: 'Account Information',
-                url: '/account/user-information',
+                text: "Account Information",
+                url: "/account/user-information",
             },
             // {
             //     text: 'Notifications',
             //     url: '/account/notifications',
             // },
             {
-                text: 'Invoices',
-                url: '/account/invoices',
+                text: "Invoices",
+                url: "/account/invoices",
             },
             {
-                text: 'Address',
-                url: '/account/addresses',
+                text: "Address",
+                url: "/account/addresses",
             },
             // {
             //     text: 'Recent Viewed Product',
             //     url: '/account/recent-viewed-product',
             // },
             {
-                text: 'Wishlist',
-                url: '/account/wishlist',
+                text: "Wishlist",
+                url: "/account/wishlist",
             },
         ];
         const menu = (
@@ -59,12 +61,14 @@ class AccountQuickLinks extends Component {
         );
 
         return (
-            <Dropdown overlay={menu} placement="bottomLeft">
-                <a
+            <Dropdown menu={menu} placement="bottomLeft">
+                <Link
                     href="/account/user-information"
                     className="header__extra ps-user--mobile">
-                    <i className="icon-user"></i>
-                </a>
+                    <i
+                        className="icon-user text-white"
+                        style={{ cursor: "pointer" }}></i>
+                </Link>
             </Dropdown>
         );
     }

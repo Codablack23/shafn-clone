@@ -4,8 +4,7 @@ import { Form, Input, notification, Spin } from "antd";
 import { login } from "../../../store/auth/action";
 import { useDispatch } from "react-redux";
 import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
-// import WPVendorRepository from "~/repositories/WP/WPVendorRepository";
-import OAuth from "./modules/OAuth";
+import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
 import Router from "next/router";
 import ReactHtmlParser from "react-html-parser";
 import WPVerification from "~/wp-components/account/WPVerification";
@@ -53,30 +52,21 @@ function Register() {
         }
     };
 
-    const handleRegistration = async (type = "form", oauth) => {
+    const handleRegistration = async () => {
         setIsLoading(true);
 
         let user = {
             username,
             email,
             password,
-            roles: ["customer"],
+            role: "customer",
         };
-
-        // Use oauth data if registration is with oauth
-        if (type === "oauth") {
-            user = {
-                username: oauth.email,
-                email: oauth.email,
-                password: oauth.password,
-            };
-        }
 
         if (!isLoading) {
             try {
                 const _admin = {
-                    username: process.env.ADMIN_USERNAME,
-                    password: process.env.ADMIN_PASSWORD,
+                    username: process.env.NEXT_PUBLIC_ADMIN_USERNAME,
+                    password: process.env.NEXT_PUBLIC_ADMIN_PASSWORD,
                 };
 
                 const _user = {
@@ -84,15 +74,12 @@ function Register() {
                     password: user.password,
                 };
 
-                console.log("Logging admin...");
                 // Login Admin
                 const admin = await WPAuthRepository.login(_admin);
 
-                console.log("Registering user...");
                 // Register user with admin token
                 await WPAuthRepository.register(user, admin.token);
 
-                console.log("Logging user...");
                 // Login user
                 const loggedUser = await WPAuthRepository.login(_user);
 
@@ -109,7 +96,6 @@ function Register() {
                     message: "Registration Successful!",
                 });
             } catch (error) {
-                console.log(error);
                 notification["error"]({
                     message: "Unable to register user",
                     description:
@@ -252,7 +238,7 @@ function Register() {
                                 </p>
                             </div>
 
-                            <div className="ps-form__footer">
+                            {/* <div className="ps-form__footer">
                                 <div className="or">
                                     <hr />
                                     <p>OR</p>
@@ -268,7 +254,7 @@ function Register() {
                                         })
                                     }
                                 />
-                            </div>
+                            </div> */}
                         </div>
                     ) : null}
                 </Form>
