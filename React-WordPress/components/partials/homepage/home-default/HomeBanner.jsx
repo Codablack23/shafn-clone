@@ -19,7 +19,65 @@ const HomeBanner = (props) => {
         slidesToScroll: 1,
     };
 
-    const bannerData = getItemBySlug(banners, "banner-home-fullwidth");
+    // const bannerData = getItemBySlug(banners, "banner-home-fullwidth");
+    const bannerData = {
+      items:[
+        {
+            id:1,
+            image:{
+                url:"/static/images/slider1.jpg"
+            }
+        },
+        {
+            id:2,
+            image:{
+                url:"/static/images/slider2.jpg"
+            }
+        },
+        {
+            id:3,
+            image:{
+                url:"/static/images/slider3.jpg"
+            }
+        },
+        {
+            id:4,
+            image:{
+                url:"/static/images/slider4.jpg"
+            }
+        },
+        {
+            id:5,
+            image:{
+                url:"/static/images/slider5.jpg"
+            }
+        },
+        {
+            id:6,
+            image:{
+                url:"/static/images/slider6.jpg"
+            }
+        },
+         {
+            id:7,
+            image:{
+                url:"/static/images/slider7.jpg"
+            }
+        },
+         {
+            id:8,
+            image:{
+                url:"/static/images/slider8.jpg"
+            }
+        },
+        {
+            id:9,
+            image:{
+                url:"/static/images/slider9.jpg"
+            }
+        },
+      ]
+    }
     const promotionData = getItemBySlug(
         promotions,
         "home_fullwidth_promotions"

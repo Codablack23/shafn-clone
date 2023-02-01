@@ -56,7 +56,7 @@ const SideBar=({shown,handleClose})=>{
     <aside className={`shafn-sidebar-mobile w3-card ${shown?"shown":""}`}>
         <div className="shafn-mobile-header">
             <div>
-            <i className="icon-list4"></i>
+            <i className="bi bi-justify"></i>
             </div>
             <button className="close-btn" onClick={handleClose}>
                 <i className="bi bi-x-lg"></i>
@@ -227,7 +227,7 @@ const WPNavigationBottom = () => {
                 <a
                     className={`navigation__item`}
                     onClick={()=>setIsDrawerShow(prev=>!prev)}>
-                    <i className="icon-list4"></i>
+                    <i className="bi bi-justify"></i>
                 </a>
                 {/* <a
                     className={`navigation__item ${
