@@ -10,9 +10,10 @@ const BannerItem = ({ source }) => {
     // },[])
     if (source) {
         return (
-            <Link href="/shop">
+           <div className="pb-3">
+             <Link href="/shop">
                 <div
-                    className=" bg--cover"
+                    className=" bg--cover "
                     style={{
                         // backgroundImage: `url('${baseUrl}${source.image.url}')` old implementation,
                         backgroundImage: `linear-gradient(to right,rgba(240,240,240,0.1),rgba(0,0,0,0.0)), url('${source.image.url}')`,
@@ -23,6 +24,7 @@ const BannerItem = ({ source }) => {
                     </div>
                 </div>
             </Link>
+           </div>
         );
     } else {
         return (

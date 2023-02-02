@@ -1,24 +1,23 @@
 import React,{useEffect} from 'react';
 import Link from 'next/link';
-import {Image} from 'antd'
 import { baseUrl } from '../../../repositories/Repository';
 
 
-const Promotion = ({ link, image }) => {
+const Promotion = ({ link, image ,defImage}) => {
    if (image) {
         return (
             <Link href={link}>
-                <a className="ps-collection">
-                    <img src={`${baseUrl}${image.url}`} alt="martfury" />
-                </a>
+                <div className="ps-collection" style={{height:220}}>
+                    <img style={{width:"100%",objectFit:"cover"}} src={`${baseUrl}${image.url}`} alt="martfury" />
+                </div>
             </Link>
         );
     } else {
         return (
             <Link href={link ? link : '/shop'}>
-                <a className="ps-collection">
-                    <img src="/static/img/not-found.jpg" alt="martfury" />
-                </a>
+                <div className="ps-collection" style={{height:220}}>
+                    <img style={{width:"100%",height:220,objectFit:"cover"}} src={defImage} alt="martfury" />
+                </div>
             </Link>
         );
     }
