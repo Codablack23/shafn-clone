@@ -38,6 +38,7 @@ const persistConfig = {
     storage,
     whitelist: [
         "cart",
+        "checkoutItems",
         "compare",
         "auth",
         "wishlist",

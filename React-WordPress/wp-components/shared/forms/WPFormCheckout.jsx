@@ -19,6 +19,8 @@ import {
 } from "~/utilities/WPHelpers";
 import WPPaymentRepository from "~/repositories/WP/WPPaymentRepository";
 import { loadStripe } from "@stripe/stripe-js";
+import ReactHtmlParser from "react-html-parser";
+import { clearCheckoutItems } from "~/store/checkout-items/action";
 
 const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -32,6 +34,32 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
     const [isDifferentAddress, setIsDifferentAddress] = useState(false);
     const [loading, setLoading] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+
+    const [billing, setBilling] = useState({
+        first_name: auth?.billing?.first_name,
+        last_name: auth?.billing?.last_name,
+        address_1: auth?.billing?.address_1,
+        address_2: auth?.billing?.address_2,
+        city: auth?.billing?.city,
+        state: auth?.billing?.state,
+        postcode: auth?.billing?.postcode,
+        country: auth?.billing?.country,
+        email: auth?.billing?.email,
+        phone: auth?.billing?.phone,
+    });
+
+    const [shipping, setShipping] = useState({
+        first_name: auth?.shipping?.first_name,
+        last_name: auth?.shipping?.last_name,
+        address_1: auth?.shipping?.address_1,
+        address_2: auth?.shipping?.address_2,
+        city: auth?.shipping?.city,
+        state: auth?.shipping?.state,
+        postcode: auth?.shipping?.postcode,
+        country: auth?.shipping?.country,
+        email: auth?.shipping?.email,
+    });
 
     async function getCheckoutData() {
         const WPGateways = await WPOrderRepository.getPaymentGateWays();
@@ -54,7 +82,8 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
         setSelectedGateway(selectedGateway);
     }
 
-    async function handleSubmit(values) {
+    async function placeOrder() {
+        let WPBilling = billing;
         let WPShipping, WPLineItems;
         let checkoutData = {
             customer_id: auth?.id,
@@ -72,82 +101,58 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                 },
             ],
         };
-        let WPBilling = {
-            first_name: values.first_name,
-            last_name: values.last_name,
-            address_1: values.address_1,
-            address_2: values.address_2,
-            city: values.city,
-            state: values.state,
-            postcode: values.postcode,
-            country: values.country,
-            email: values.email,
-            phone: values.phone,
-        };
 
         if (isDifferentAddress) {
             WPShipping = {
-                first_name: values.shipping_first_name,
-                last_name: values.shipping_last_name,
-                address_1: values.shipping_address_1,
-                address_2: values.shipping_address_2,
-                city: values.shipping_city,
-                state: values.shipping_state,
-                postcode: values.shipping_state,
-                country: values.shipping_country,
+                first_name: shipping.first_name,
+                last_name: shipping.last_name,
+                address_1: shipping.address_1,
+                address_2: shipping.address_2,
+                city: shipping.city,
+                state: shipping.state,
+                postcode: shipping.state,
+                country: shipping.country,
             };
         } else {
             WPShipping = {
-                first_name: values.first_name,
-                last_name: values.last_name,
-                address_1: values.address_1,
-                address_2: values.address_2,
-                city: values.city,
-                state: values.state,
-                postcode: values.postcode,
-                country: values.country,
+                first_name: billing.first_name,
+                last_name: billing.last_name,
+                address_1: billing.address_1,
+                address_2: billing.address_2,
+                city: billing.city,
+                state: billing.state,
+                postcode: billing.state,
+                country: billing.country,
             };
         }
-        if (selectedGateway) {
-            if (checkoutItems) {
-                WPLineItems = checkoutItems.map((item) => ({
-                    product_id: item.id,
-                    variation_id: item.variation_id,
-                    quantity: item.quantity,
-                }));
-            }
-            checkoutData.payment_method = selectedGateway.id;
-            checkoutData.payment_method_title = selectedGateway.title;
-            checkoutData.billing = WPBilling;
-            checkoutData.shipping = WPShipping;
-            checkoutData.line_items = WPLineItems;
-            if (selectedGateway.id !== "paypal") {
-                if (!isSubmitting) {
-                    setIsSubmitting(true);
-                    try {
-                        await WPOrderRepository.createNewOrder(
-                            convertToURLEncoded(checkoutData)
-                        );
+        if (checkoutItems) {
+            WPLineItems = checkoutItems.map((item) => ({
+                product_id: item.id,
+                variation_id: item.variation_id,
+                quantity: item.quantity,
+            }));
+        }
+        // checkoutData.payment_method = selectedGateway.id;
+        // checkoutData.payment_method_title = selectedGateway.title;
+        checkoutData.billing = WPBilling;
+        checkoutData.shipping = WPShipping;
+        checkoutData.line_items = WPLineItems;
 
-                        notification["success"]({
-                            message: "Order Successfully Placed",
-                        });
-                    } catch (error) {
-                        notification["error"]({
-                            message: "Unable to place order",
-                            description:
-                                error.response === undefined
-                                    ? ReactHtmlParser(String(error))
-                                    : ReactHtmlParser(
-                                          error.response.data.message
-                                      ),
-                        });
-                    } finally {
-                        setIsSubmitting(false);
-                    }
-                }
-            } else {
-                window.open("https://www.paypal.com/", "_blank");
+        if (!isSubmitting) {
+            try {
+                const order = await WPOrderRepository.createNewOrder(
+                    convertToURLEncoded(checkoutData)
+                );
+
+                localStorage.setItem("order-id", order.id);
+            } catch (error) {
+                notification["error"]({
+                    message: "Unable to place order",
+                    description:
+                        error.response === undefined
+                            ? ReactHtmlParser(String(error))
+                            : ReactHtmlParser(error.response.data.message),
+                });
             }
         }
     }
@@ -159,6 +164,7 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
     async function handlePayment() {
         try {
             setIsSubmitting(true);
+
             const products = checkoutItems.map((item) => ({
                 id: item.id,
                 name: item.name,
@@ -172,11 +178,12 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
             };
 
             const stripe = await stripePromise;
-            const { data } = await WPPaymentRepository.placeOrder(payload);
-
-            console.log(
-                "Order placed successfully. Redirecting to checkout..."
+            const { data } = await WPPaymentRepository.createOrderSession(
+                payload
             );
+
+            // Place order to woocommerce
+            await placeOrder();
 
             await stripe.redirectToCheckout({
                 sessionId: data.stripeSession.id,
@@ -189,9 +196,49 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
         }
     }
 
+    async function updateOrder(payload) {
+        try {
+            setIsPlacingOrder(true);
+            await WPOrderRepository.updateOrder({
+                orderId: localStorage.getItem("order-id"),
+                data: payload,
+            });
+
+            localStorage.removeItem("order-id");
+            dispatch(clearCheckoutItems());
+
+            notification["success"]({
+                message: "Order Completed",
+            });
+        } catch (error) {
+            console.log("Error updating order status");
+            console.error(error);
+        } finally {
+            setIsPlacingOrder(false);
+        }
+    }
+
     useEffect(() => {
         getCheckoutData();
     }, [dispatch]);
+
+    useEffect(() => {
+        (async () => {
+            if (!isPlacingOrder) {
+                // Check to see if this is a redirect back from Checkout
+                const query = new URLSearchParams(window.location.search);
+                if (query.get("payment_status") === "success") {
+                    await updateOrder({
+                        status: "processing",
+                    });
+                }
+
+                if (query.get("payment_status") === "cancelled") {
+                    localStorage.removeItem("order-id");
+                }
+            }
+        })();
+    }, []);
 
     // Views
     let listItemsView,
@@ -275,7 +322,17 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                         message: "This field is required.",
                                     },
                                 ]}>
-                                <Input className="form-control" type="text" />
+                                <Input
+                                    className="form-control"
+                                    type="text"
+                                    value={shipping.first_name}
+                                    onChange={(e) =>
+                                        setShipping((current) => ({
+                                            ...current,
+                                            first_name: e.target.value,
+                                        }))
+                                    }
+                                />
                             </Form.Item>
                         </div>
                     </div>
@@ -292,7 +349,17 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                         message: "This field is required.",
                                     },
                                 ]}>
-                                <Input className="form-control" type="text" />
+                                <Input
+                                    className="form-control"
+                                    type="text"
+                                    value={shipping.last_name}
+                                    onChange={(e) =>
+                                        setShipping((current) => ({
+                                            ...current,
+                                            last_name: e.target.value,
+                                        }))
+                                    }
+                                />
                             </Form.Item>
                         </div>
                     </div>
@@ -309,7 +376,17 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                         message: "This field is required.",
                                     },
                                 ]}>
-                                <Input className="form-control" type="text" />
+                                <Input
+                                    className="form-control"
+                                    type="text"
+                                    value={shipping.address_1}
+                                    onChange={(e) =>
+                                        setShipping((current) => ({
+                                            ...current,
+                                            address_1: e.target.value,
+                                        }))
+                                    }
+                                />
                             </Form.Item>
                         </div>
                     </div>
@@ -323,7 +400,17 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                         required: false,
                                     },
                                 ]}>
-                                <Input className="form-control" type="text" />
+                                <Input
+                                    className="form-control"
+                                    type="text"
+                                    value={shipping.address_2}
+                                    onChange={(e) =>
+                                        setShipping((current) => ({
+                                            ...current,
+                                            address_2: e.target.value,
+                                        }))
+                                    }
+                                />
                             </Form.Item>
                         </div>
                     </div>
@@ -340,7 +427,17 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                         message: "This field is required.",
                                     },
                                 ]}>
-                                <Input className="form-control" type="text" />
+                                <Input
+                                    className="form-control"
+                                    type="text"
+                                    value={shipping.city}
+                                    onChange={(e) =>
+                                        setShipping((current) => ({
+                                            ...current,
+                                            city: e.target.value,
+                                        }))
+                                    }
+                                />
                             </Form.Item>
                         </div>
                     </div>
@@ -357,7 +454,17 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                         message: "This field is required.",
                                     },
                                 ]}>
-                                <Input className="form-control" type="text" />
+                                <Input
+                                    className="form-control"
+                                    type="text"
+                                    value={shipping.state}
+                                    onChange={(e) =>
+                                        setShipping((current) => ({
+                                            ...current,
+                                            state: e.target.value,
+                                        }))
+                                    }
+                                />
                             </Form.Item>
                         </div>
                     </div>
@@ -374,7 +481,17 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                         message: "This field is required.",
                                     },
                                 ]}>
-                                <Input className="form-control" type="text" />
+                                <Input
+                                    className="form-control"
+                                    type="text"
+                                    value={shipping.postcode}
+                                    onChange={(e) =>
+                                        setShipping((current) => ({
+                                            ...current,
+                                            postcode: e.target.value,
+                                        }))
+                                    }
+                                />
                             </Form.Item>
                         </div>
                     </div>
@@ -391,7 +508,17 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                         message: "This field is required.",
                                     },
                                 ]}>
-                                <Input className="form-control" type="text" />
+                                <Input
+                                    className="form-control"
+                                    type="text"
+                                    value={shipping.country}
+                                    onChange={(e) =>
+                                        setShipping((current) => ({
+                                            ...current,
+                                            country: e.target.value,
+                                        }))
+                                    }
+                                />
                             </Form.Item>
                         </div>
                     </div>
@@ -426,7 +553,8 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                 shipping_postcode: auth?.shipping?.postcode,
                 shipping_country: auth?.shipping?.country,
             }}
-            onFinish={handleSubmit}>
+            // onFinish={handleSubmit}
+        >
             <div className="row">
                 <div className="col-lg-8">
                     <figure>
@@ -452,6 +580,13 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                         <Input
                                             className="form-control"
                                             type="text"
+                                            value={billing.first_name}
+                                            onChange={(e) =>
+                                                setBilling((current) => ({
+                                                    ...current,
+                                                    first_name: e.target.value,
+                                                }))
+                                            }
                                         />
                                     </Form.Item>
                                 </div>
@@ -474,6 +609,13 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                         <Input
                                             className="form-control"
                                             type="text"
+                                            value={billing.last_name}
+                                            onChange={(e) =>
+                                                setBilling((current) => ({
+                                                    ...current,
+                                                    last_name: e.target.value,
+                                                }))
+                                            }
                                         />
                                     </Form.Item>
                                 </div>
@@ -496,6 +638,13 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                         <Input
                                             className="form-control"
                                             type="text"
+                                            value={billing.address_1}
+                                            onChange={(e) =>
+                                                setBilling((current) => ({
+                                                    ...current,
+                                                    address_1: e.target.value,
+                                                }))
+                                            }
                                         />
                                     </Form.Item>
                                 </div>
@@ -513,6 +662,13 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                         <Input
                                             className="form-control"
                                             type="text"
+                                            value={billing.address_2}
+                                            onChange={(e) =>
+                                                setBilling((current) => ({
+                                                    ...current,
+                                                    address_2: e.target.value,
+                                                }))
+                                            }
                                         />
                                     </Form.Item>
                                 </div>
@@ -534,6 +690,13 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                         <Input
                                             className="form-control"
                                             type="text"
+                                            value={billing.city}
+                                            onChange={(e) =>
+                                                setBilling((current) => ({
+                                                    ...current,
+                                                    city: e.target.value,
+                                                }))
+                                            }
                                         />
                                     </Form.Item>
                                 </div>
@@ -556,6 +719,13 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                         <Input
                                             className="form-control"
                                             type="text"
+                                            value={billing.state}
+                                            onChange={(e) =>
+                                                setBilling((current) => ({
+                                                    ...current,
+                                                    state: e.target.value,
+                                                }))
+                                            }
                                         />
                                     </Form.Item>
                                 </div>
@@ -578,6 +748,13 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                         <Input
                                             className="form-control"
                                             type="text"
+                                            value={billing.postcode}
+                                            onChange={(e) =>
+                                                setBilling((current) => ({
+                                                    ...current,
+                                                    postcode: e.target.value,
+                                                }))
+                                            }
                                         />
                                     </Form.Item>
                                 </div>
@@ -600,6 +777,13 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                         <Input
                                             className="form-control"
                                             type="text"
+                                            value={billing.country}
+                                            onChange={(e) =>
+                                                setBilling((current) => ({
+                                                    ...current,
+                                                    country: e.target.value,
+                                                }))
+                                            }
                                         />
                                     </Form.Item>
                                 </div>
@@ -622,6 +806,13 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                         <Input
                                             className="form-control"
                                             type="text"
+                                            value={billing.email}
+                                            onChange={(e) =>
+                                                setBilling((current) => ({
+                                                    ...current,
+                                                    email: e.target.value,
+                                                }))
+                                            }
                                         />
                                     </Form.Item>
                                 </div>
@@ -644,6 +835,13 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                         <Input
                                             className="form-control"
                                             type="text"
+                                            value={billing.phone}
+                                            onChange={(e) =>
+                                                setBilling((current) => ({
+                                                    ...current,
+                                                    phone: e.target.value,
+                                                }))
+                                            }
                                         />
                                     </Form.Item>
                                 </div>
@@ -703,7 +901,7 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                 className="ps-btn ps-btn--fullwidth"
                                 // type="submit"
                                 onClick={handlePayment}
-                                disabled={isSubmitting}>
+                                disabled={isSubmitting || !(amount > 0)}>
                                 {isSubmitting ? <Spin /> : "Continue"}
                             </button>
                         </div>

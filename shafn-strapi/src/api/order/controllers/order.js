@@ -23,18 +23,16 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
       quantity: product.quantity,
     }));
 
-    console.log(line_items);
     try {
-      console.log("creating session...");
       const session = await stripe.checkout.sessions.create({
         line_items,
         mode: "payment",
         customer_email: email,
+        payment_method_types: ["card"],
         success_url: `${process.env.SHAFN_DOMAIN}/account/checkout?payment_status=success`,
         cancel_url: `${process.env.SHAFN_DOMAIN}/account/checkout?payment_status=cancelled`,
       });
 
-      console.log("creating order...");
       await strapi.service("api::order.order").create({
         data: {
           stripe_id: session.id,

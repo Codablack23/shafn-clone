@@ -18,11 +18,26 @@ class WPOrderRespository {
         const endPoint = `wp-json/wc/v3/orders?${serializeQuery({
             ...oathInfo,
         })}`;
-        return await WPRepository.post(`${WPDomain}/${endPoint}`, payload).then(
-            (response) => {
-                return response.data;
-            }
+        const response = await WPRepository.post(
+            `${WPDomain}/${endPoint}`,
+            payload
         );
+
+        return response.data;
+    }
+
+    async updateOrder(payload) {
+        const endPoint = `wp-json/wc/v3/orders/${
+            payload.orderId
+        }?${serializeQuery({
+            ...oathInfo,
+        })}`;
+        return await WPRepository.put(
+            `${WPDomain}/${endPoint}`,
+            payload.data
+        ).then((response) => {
+            return response.data;
+        });
     }
 
     async getOrders(customerId, payload) {

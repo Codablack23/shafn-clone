@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { getCart } from "~/store/cart/action";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import WPLayout from "~/wp-components/layouts/WPLayout";
 import WPFormCheckout from "~/wp-components/shared/forms/WPFormCheckout";
 import { scrollPageToTop } from "~/utilities/common-helpers";
@@ -9,13 +9,21 @@ import Router from "next/router";
 const CheckoutPage = () => {
     const dispatch = useDispatch();
 
-    const auth = useSelector((state) => state.auth);
+    const [auth, setAuth] = useState(null);
+    useLayoutEffect(() => {
+        let auth = JSON.parse(
+            JSON.parse(localStorage.getItem("persist:martfury")).auth
+        );
 
-    useEffect(() => {
-        dispatch(getCart());
+        setAuth(auth);
+
         if (!auth.isLoggedIn) {
             Router.push("/account/login");
         }
+    }, []);
+
+    useEffect(() => {
+        dispatch(getCart());
     }, [dispatch]);
 
     return (
@@ -28,7 +36,7 @@ const CheckoutPage = () => {
                             <h1>Checkout Information</h1>
                         </div> */}
                             <div className="ps-section__content">
-                                {auth.isLoggedIn && <WPFormCheckout />}
+                                {auth?.isLoggedIn && <WPFormCheckout />}
                             </div>
                         </div>
                     </div>

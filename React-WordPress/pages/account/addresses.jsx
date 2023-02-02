@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { useSelector } from "react-redux";
 import Router from "next/router";
 import Addresses from "~/components/partials/account/Addresses";
@@ -8,7 +8,11 @@ import { scrollPageToTop } from "~/utilities/common-helpers";
 const MyAccountPage = () => {
     const auth = useSelector((state) => state.auth);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
+        let auth = JSON.parse(
+            JSON.parse(localStorage.getItem("persist:martfury")).auth
+        );
+
         if (!auth.isLoggedIn) {
             Router.push("/account/login");
         }

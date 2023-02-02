@@ -13,7 +13,7 @@ class WPPaymentRepository {
         return response.data;
     }
 
-    async placeOrder(payload) {
+    async createOrderSession(payload) {
         const endpoint = `${STRAPI_DOMAIN}/api/orders`;
         const response = await axios.post(
             endpoint,
