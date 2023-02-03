@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import {
     Form,
     Input,
@@ -11,6 +11,7 @@ import {
 } from "antd";
 import { connect, useDispatch } from "react-redux";
 import Link from "next/link";
+import Router from "next/router";
 import WPOrderRepository from "~/repositories/WP/WPOrderRepository";
 import {
     convertFormData,
@@ -140,21 +141,11 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
         checkoutData.line_items = WPLineItems;
 
         if (!isSubmitting) {
-            try {
-                const order = await WPOrderRepository.createNewOrder(
-                    convertToURLEncoded(checkoutData)
-                );
+            const order = await WPOrderRepository.createNewOrder(
+                convertToURLEncoded(checkoutData)
+            );
 
-                return order;
-            } catch (error) {
-                notification["error"]({
-                    message: "Unable to place order",
-                    description:
-                        error.response === undefined
-                            ? ReactHtmlParser(String(error))
-                            : ReactHtmlParser(error.response.data.message),
-                });
-            }
+            return order;
         }
     }
 
@@ -162,7 +153,7 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
         setIsDifferentAddress(e.target.checked);
     }
 
-    async function handlePayment() {
+    async function goToCheckout() {
         try {
             setIsSubmitting(true);
 
@@ -223,6 +214,16 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
             setIsPlacingOrder(false);
         }
     }
+
+    useLayoutEffect(() => {
+        let auth = JSON.parse(
+            JSON.parse(localStorage.getItem("persist:martfury")).auth
+        );
+
+        if (!auth.isLoggedIn) {
+            Router.push("/account/login");
+        }
+    }, []);
 
     useEffect(() => {
         getCheckoutData();
@@ -901,7 +902,7 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                             </div>
                             <button
                                 className="ps-btn ps-btn--fullwidth"
-                                onClick={handlePayment}
+                                onClick={goToCheckout}
                                 disabled={isSubmitting || !(amount > 0)}>
                                 {isSubmitting ? <Spin /> : "Continue"}
                             </button>

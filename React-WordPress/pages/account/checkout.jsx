@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { getCart } from "~/store/cart/action";
 import { useDispatch } from "react-redux";
 import WPLayout from "~/wp-components/layouts/WPLayout";
@@ -8,19 +8,6 @@ import Router from "next/router";
 
 const CheckoutPage = () => {
     const dispatch = useDispatch();
-
-    const [auth, setAuth] = useState(null);
-    useLayoutEffect(() => {
-        let auth = JSON.parse(
-            JSON.parse(localStorage.getItem("persist:martfury")).auth
-        );
-
-        setAuth(auth);
-
-        if (!auth.isLoggedIn) {
-            Router.push("/account/login");
-        }
-    }, []);
 
     useEffect(() => {
         dispatch(getCart());
@@ -36,7 +23,7 @@ const CheckoutPage = () => {
                             <h1>Checkout Information</h1>
                         </div> */}
                             <div className="ps-section__content">
-                                {auth?.isLoggedIn && <WPFormCheckout />}
+                                {<WPFormCheckout />}
                             </div>
                         </div>
                     </div>

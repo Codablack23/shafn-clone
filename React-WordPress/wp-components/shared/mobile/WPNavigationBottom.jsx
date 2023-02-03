@@ -1,13 +1,13 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Drawer } from "antd";
 import PanelMenu from "~/components/shared/panel/PanelMenu";
 import PanelSearch from "~/components/shared/panel/PanelSearch";
 import PanelCategories from "~/components/shared/panel/PanelCategories";
-import WPProductRepository from '~/repositories/WP/WPProductRepository';
+import WPProductRepository from "~/repositories/WP/WPProductRepository";
 import Link from "next/link";
-import { Categories } from '~/components/shared/navigation/categories';
-import { Collapse } from 'antd';
+import { Categories } from "~/components/shared/navigation/categories";
+import { Collapse } from "antd";
 import { useRouter } from "next/router";
 
 const DrawerMobile = ({ closeEvent, visibleStatus, children }) => {
@@ -22,10 +22,10 @@ const DrawerMobile = ({ closeEvent, visibleStatus, children }) => {
         </Drawer>
     );
 };
-const SideBar=({shown,handleClose})=>{
-    const router = useRouter()
-    const [page,setPage] = useState("shop")
-    const [activeID,setActiveID] = useState("")
+const SideBar = ({ shown, handleClose }) => {
+    const router = useRouter();
+    const [page, setPage] = useState("shop");
+    const [activeID, setActiveID] = useState("");
     const [loading, setLoading] = useState(true);
     const [categoryItems, setCategoryItems] = useState(null);
     async function getCategoryItems() {
@@ -47,62 +47,97 @@ const SideBar=({shown,handleClose})=>{
 
     useEffect(() => {
         getCategoryItems();
-        setPage(router.pathname === "/sales"?"sales":"shop")
-        setActiveID(router.query.category?router.query.category:"")
+        setPage(router.pathname === "/sales" ? "sales" : "shop");
+        setActiveID(router.query.category ? router.query.category : "");
     }, []);
-    const {Panel} = Collapse
+    const { Panel } = Collapse;
 
-    return( 
-    <aside className={`shafn-sidebar-mobile w3-card ${shown?"shown":""}`}>
-        <div className="shafn-mobile-header">
-            <div>
-            <i className="icon-list4"></i>
+    return (
+        <aside
+            className={`shafn-sidebar-mobile w3-card ${shown ? "shown" : ""}`}>
+            <div className="shafn-mobile-header">
+                <div>
+                    <i className="icon-list4"></i>
+                </div>
+                <button className="close-btn" onClick={handleClose}>
+                    <i className="bi bi-x-lg"></i>
+                </button>
             </div>
-            <button className="close-btn" onClick={handleClose}>
-                <i className="bi bi-x-lg"></i>
-            </button>
-        </div>
-        <div className="mt-5 p-3">
-            <div style={{marginLeft:10,marginBlock:10}}>
-                <Link href="/shop">
-                    <a className={"ml-2 mt-4 mb-4 w3-text-black"}><b>Shop</b></a>
-                </Link>
-            </div>
-            <Collapse ghost expandIconPosition="right" style={{marfinLeft:0}}>
-                {Categories.map((c,i)=>(
-                <Panel style={{paddingLeft:"0px"}} header={<b>{c.name}</b>} key={i+1} >
-                    {c.sub_cat.map((sc,i)=>(
-                    <div>
-                        <p className='w-text-black'><b>{sc.title}</b></p>
-                        {sc.categories.map(sub_c=>{
-                                const cat = categoryItems?categoryItems.find(({name})=>
-                                name.replace("&amp;","&").toLowerCase().trim() == sub_c.name.toLowerCase().trim() 
-                                ):""
-                                const cat_id = cat?cat.id:""
-                             return <Link href={`/${page}?category=${cat_id}`}>
-                                <a className={`d-block mt-2 mb-2 ${parseInt(activeID) === cat_id?"w3-text-orange":""}`}>{sub_c.name}</a>
-                                </Link>
-                        })}
-                    </div>
-                    
+            <div className="mt-5 p-3">
+                <div style={{ marginLeft: 10, marginBlock: 10 }}>
+                    <Link href="/shop">
+                        <a className={"ml-2 mt-4 mb-4 w3-text-black"}>
+                            <b>Shop</b>
+                        </a>
+                    </Link>
+                </div>
+                <Collapse
+                    ghost
+                    expandIconPosition="end"
+                    style={{ marfinLeft: 0 }}>
+                    {Categories.map((c, i) => (
+                        <Panel
+                            style={{ paddingLeft: "0px" }}
+                            header={<b>{c.name}</b>}
+                            key={i + 1}>
+                            {c.sub_cat.map((sc, i) => (
+                                <div key={sc.title}>
+                                    <p className="w-text-black">
+                                        <b>{sc.title}</b>
+                                    </p>
+                                    {sc.categories.map((sub_c) => {
+                                        const cat = categoryItems
+                                            ? categoryItems.find(
+                                                  ({ name }) =>
+                                                      name
+                                                          .replace("&amp;", "&")
+                                                          .toLowerCase()
+                                                          .trim() ==
+                                                      sub_c.name
+                                                          .toLowerCase()
+                                                          .trim()
+                                              )
+                                            : "";
+                                        const cat_id = cat ? cat.id : "";
+                                        return (
+                                            <Link
+                                                key={cat_id}
+                                                href={`/${page}?category=${cat_id}`}>
+                                                <a
+                                                    className={`d-block mt-2 mb-2 ${
+                                                        parseInt(activeID) ===
+                                                        cat_id
+                                                            ? "w3-text-orange"
+                                                            : ""
+                                                    }`}>
+                                                    {sub_c.name}
+                                                </a>
+                                            </Link>
+                                        );
+                                    })}
+                                </div>
+                            ))}
+                        </Panel>
                     ))}
-                </Panel>
-                ))}
-            </Collapse>
-             <div style={{marginLeft:10,marginBlock:10}}>
-             <Link href="/vendors">
-                 <a className={"ml-2 mt-4 mb-4 w3-text-black"}><b>Brand</b></a>
-             </Link>
-         </div>
-          <div style={{marginLeft:10,marginBlock:20}}>
-          <Link href="/sales">
-              <a className={"ml-2 mt-4 mb-4 w3-text-black"}><b>Sales</b></a>
-          </Link>
-      </div>
-        </div>
-    </aside>
-    )
-}
+                </Collapse>
+                <div style={{ marginLeft: 10, marginBlock: 10 }}>
+                    <Link href="/vendors">
+                        <a className={"ml-2 mt-4 mb-4 w3-text-black"}>
+                            <b>Brand</b>
+                        </a>
+                    </Link>
+                </div>
+                <div style={{ marginLeft: 10, marginBlock: 20 }}>
+                    <Link href="/sales">
+                        <a className={"ml-2 mt-4 mb-4 w3-text-black"}>
+                            <b>Sales</b>
+                        </a>
+                    </Link>
+                </div>
+            </div>
+        </aside>
+    );
+};
 const WPNavigationBottom = () => {
     const [activeDrawer, setActiveDrawer] = useState({
         menu: true,
@@ -210,9 +245,9 @@ const WPNavigationBottom = () => {
             {/* <DrawerMobile visibleStatus={isDrawerShow}>
                 {drawerView}
             </DrawerMobile> */}
-            <SideBar 
-            shown={isDrawerShow}
-            handleClose={()=>setIsDrawerShow(false)}
+            <SideBar
+                shown={isDrawerShow}
+                handleClose={() => setIsDrawerShow(false)}
             />
 
             <div className="navigation__content">
@@ -226,7 +261,7 @@ const WPNavigationBottom = () => {
                 </a> */}
                 <a
                     className={`navigation__item`}
-                    onClick={()=>setIsDrawerShow(prev=>!prev)}>
+                    onClick={() => setIsDrawerShow((prev) => !prev)}>
                     <i className="icon-list4"></i>
                 </a>
                 {/* <a

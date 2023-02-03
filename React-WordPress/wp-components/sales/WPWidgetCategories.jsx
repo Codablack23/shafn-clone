@@ -81,7 +81,7 @@ const WPWidgetCategories = ({ activeID, page }) => {
                 </div>
                 <Collapse
                     ghost
-                    expandIconPosition="right"
+                    expandIconPosition="end"
                     style={{ marfinLeft: 0 }}>
                     {Categories.map((c, i) => (
                         <Panel
