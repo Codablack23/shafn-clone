@@ -109,7 +109,7 @@ const WPProductList = ({ categoryID, title }) => {
         <div className="ps-product-list">
             <div className="ps-container">
                 <div className="ps-section__header">
-                    <h3>{title}</h3>
+                    {/* <h3>{title}</h3> */}
                     {/* <ul className="ps-section__links">
                         {sectionLinksView}
                         <li>
