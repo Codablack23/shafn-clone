@@ -145,7 +145,7 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                     convertToURLEncoded(checkoutData)
                 );
 
-                localStorage.setItem("order-id", order.id);
+                return order;
             } catch (error) {
                 notification["error"]({
                     message: "Unable to place order",
@@ -166,6 +166,9 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
         try {
             setIsSubmitting(true);
 
+            // Place pending order to woocommerce
+            const order = await placeOrder();
+
             const products = checkoutItems.map((item) => ({
                 id: item.id,
                 name: item.name,
@@ -174,17 +177,18 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
             }));
 
             const payload = {
-                email: auth.email,
                 products,
+                orderId: order.id,
+                user: {
+                    ...auth.billing,
+                    email: auth.email,
+                },
             };
 
             const stripe = await stripePromise;
             const { data } = await WPPaymentRepository.createOrderSession(
                 payload
             );
-
-            // Place order to woocommerce
-            await placeOrder();
 
             await stripe.redirectToCheckout({
                 sessionId: data.stripeSession.id,
@@ -234,7 +238,6 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
             }
 
             if (query.get("payment_status") === "cancelled") {
-                localStorage.removeItem("order-id");
             }
         })();
     }, []);
