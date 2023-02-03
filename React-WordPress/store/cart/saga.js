@@ -92,6 +92,49 @@ function* removeItemSaga(payload) {
     }
 }
 
+function* removeItemsSaga(payload) {
+    try {
+        const { products } = payload;
+
+        console.log(products);
+
+        let localCart = JSON.parse(
+            JSON.parse(localStorage.getItem("persist:martfury")).cart
+        );
+
+        products.forEach((product) => {
+            const productIndex = localCart.cartItems.findIndex(
+                (item) => item.id === product.id
+            );
+
+            if (productIndex !== -1) {
+                const cartProduct = localCart.cartItems[productIndex];
+                const remQty = cartProduct.quantity - (product.quantity || 1);
+
+                if (remQty < 1) {
+                    localCart.cartItems.splice(productIndex, 1);
+                    localCart.cartTotal--;
+                } else {
+                    localCart.cartItems[productIndex] = {
+                        ...cartProduct,
+                        quantity: remQty,
+                    };
+                }
+            }
+        });
+
+        localCart.amount = calculateAmount(localCart.cartItems);
+        if (localCart.cartItems.length === 0) {
+            localCart.cartItems = [];
+            localCart.amount = 0;
+            localCart.cartTotal = 0;
+        }
+        yield put(updateCartSuccess(localCart));
+    } catch (err) {
+        yield put(getCartError(err));
+    }
+}
+
 function* increaseQtySaga(payload) {
     try {
         const { product } = payload;
@@ -174,6 +217,7 @@ export default function* rootSaga() {
     yield all([takeEvery(actionTypes.GET_CART, getCartSaga)]);
     yield all([takeEvery(actionTypes.ADD_ITEM, addItemSaga)]);
     yield all([takeEvery(actionTypes.REMOVE_ITEM, removeItemSaga)]);
+    yield all([takeEvery(actionTypes.REMOVE_ITEMS, removeItemsSaga)]);
     yield all([takeEvery(actionTypes.INCREASE_QTY, increaseQtySaga)]);
     yield all([takeEvery(actionTypes.DECREASE_QTY, decreaseItemQtySaga)]);
 }

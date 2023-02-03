@@ -13,6 +13,7 @@
         "@headlessui/react": "^1.7.7",
         "@redux-saga/core": "^1.2.1",
         "@speechly/speech-recognition-polyfill": "^1.1.0",
+        "@stripe/stripe-js": "^1.46.0",
         "antd": "^4.5.2",
         "axios": "0.27.2",
         "bootstrap-icons": "^1.8.3",

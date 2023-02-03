@@ -21,6 +21,7 @@ import WPPaymentRepository from "~/repositories/WP/WPPaymentRepository";
 import { loadStripe } from "@stripe/stripe-js";
 import ReactHtmlParser from "react-html-parser";
 import { clearCheckoutItems } from "~/store/checkout-items/action";
+import { removeItems } from "~/store/cart/action";
 
 const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -206,6 +207,7 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
 
             localStorage.removeItem("order-id");
             dispatch(clearCheckoutItems());
+            dispatch(removeItems(checkoutItems));
 
             notification["success"]({
                 message: "Order Completed",
@@ -224,18 +226,15 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
 
     useEffect(() => {
         (async () => {
-            if (!isPlacingOrder) {
-                // Check to see if this is a redirect back from Checkout
-                const query = new URLSearchParams(window.location.search);
-                if (query.get("payment_status") === "success") {
-                    await updateOrder({
-                        status: "processing",
-                    });
-                }
+            // Check to see if this is a redirect back from Checkout
+            const query = new URLSearchParams(window.location.search);
+            if (query.get("payment_status") === "success") {
+                dispatch(clearCheckoutItems());
+                dispatch(removeItems(checkoutItems));
+            }
 
-                if (query.get("payment_status") === "cancelled") {
-                    localStorage.removeItem("order-id");
-                }
+            if (query.get("payment_status") === "cancelled") {
+                localStorage.removeItem("order-id");
             }
         })();
     }, []);
@@ -899,7 +898,6 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                             </div>
                             <button
                                 className="ps-btn ps-btn--fullwidth"
-                                // type="submit"
                                 onClick={handlePayment}
                                 disabled={isSubmitting || !(amount > 0)}>
                                 {isSubmitting ? <Spin /> : "Continue"}
