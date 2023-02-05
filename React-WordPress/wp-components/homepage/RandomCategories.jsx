@@ -23,9 +23,9 @@ function RandomCategories() {
             for (let i = 0; i < 2; i++) {
                 // random index must not exceed categories length - 1
                 let randomIndex = Math.floor(
-                    Math.random() * WPCategories.length
+                    Math.random() * WPCategories.items.length
                 );
-                categories.push(WPCategories[randomIndex]);
+                categories.push(WPCategories.items[randomIndex]);
             }
             setCategories(categories);
         }
@@ -40,15 +40,17 @@ function RandomCategories() {
             }
         };
     }, []);
+
     return (
         <>
-            {categories.map((category) => (
-                <WPProductList
-                    key={category.id}
-                    categoryID={category.id}
-                    title={category.name}
-                />
-            ))}
+            {categories &&
+                categories.map((category) => (
+                    <WPProductList
+                        key={category.id}
+                        categoryID={category.id}
+                        title={category.name}
+                    />
+                ))}
         </>
     );
 }

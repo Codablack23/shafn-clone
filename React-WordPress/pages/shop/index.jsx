@@ -32,21 +32,20 @@ const WPShopPage = ({ query }) => {
 
     async function getShopOnChangeUrl(url) {
         const isShopRoute = url.includes("/shop");
-        const nextPid = url.split("category=").pop();
+        const categoryId = url.split("category=").pop();
         if (
             isShopRoute &&
-            nextPid !== "" &&
-            isNaN(parseInt(nextPid)) === false
+            categoryId !== "" &&
+            isNaN(parseInt(categoryId)) === false
         ) {
             const queries = {
                 page: 1,
                 per_page: 24,
-                category: router.query.category,
+                category: categoryId,
             };
-            console.log(WPGetProducts(queries));
 
             dispatch(WPGetProducts(queries));
-            getCategory(nextPid);
+            getCategory(categoryId);
         } else {
             const queries = {
                 page: 1,

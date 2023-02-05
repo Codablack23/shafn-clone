@@ -57,82 +57,83 @@ const SideBar = ({ shown, handleClose }) => {
             className={`shafn-sidebar-mobile w3-card ${shown ? "shown" : ""}`}>
             <div className="shafn-mobile-header">
                 <div>
-                    <i className="icon-list4"></i>
+                    <i className="bi bi-justify"></i>
                 </div>
-                <button className="close-btn" onClick={handleClose}>
-                    <i className="bi bi-x-lg"></i>
-                </button>
-            </div>
-            <div className="mt-5 p-3">
-                <div style={{ marginLeft: 10, marginBlock: 10 }}>
-                    <Link href="/shop">
-                        <a className={"ml-2 mt-4 mb-4 w3-text-black"}>
-                            <b>Shop</b>
-                        </a>
-                    </Link>
-                </div>
-                <Collapse
-                    ghost
-                    expandIconPosition="end"
-                    style={{ marfinLeft: 0 }}>
-                    {Categories.map((c, i) => (
-                        <Panel
-                            style={{ paddingLeft: "0px" }}
-                            header={<b>{c.name}</b>}
-                            key={i + 1}>
-                            {c.sub_cat.map((sc, i) => (
-                                <div key={sc.title}>
-                                    <p className="w-text-black">
-                                        <b>{sc.title}</b>
-                                    </p>
-                                    {sc.categories.map((sub_c) => {
-                                        const cat = categoryItems
-                                            ? categoryItems.find(
-                                                  ({ name }) =>
-                                                      name
-                                                          .replace("&amp;", "&")
-                                                          .toLowerCase()
-                                                          .trim() ==
-                                                      sub_c.name
-                                                          .toLowerCase()
-                                                          .trim()
-                                              )
-                                            : "";
-                                        const cat_id = cat ? cat.id : "";
-                                        return (
-                                            <Link
-                                                key={cat_id}
-                                                href={`/${page}?category=${cat_id}`}>
-                                                <a
-                                                    className={`d-block mt-2 mb-2 ${
-                                                        parseInt(activeID) ===
-                                                        cat_id
-                                                            ? "w3-text-orange"
-                                                            : ""
-                                                    }`}>
-                                                    {sub_c.name}
-                                                </a>
-                                            </Link>
-                                        );
-                                    })}
-                                </div>
-                            ))}
-                        </Panel>
-                    ))}
-                </Collapse>
-                <div style={{ marginLeft: 10, marginBlock: 10 }}>
-                    <Link href="/vendors">
-                        <a className={"ml-2 mt-4 mb-4 w3-text-black"}>
-                            <b>Brand</b>
-                        </a>
-                    </Link>
-                </div>
-                <div style={{ marginLeft: 10, marginBlock: 20 }}>
-                    <Link href="/sales">
-                        <a className={"ml-2 mt-4 mb-4 w3-text-black"}>
-                            <b>Sales</b>
-                        </a>
-                    </Link>
+                <div className="mt-5 p-3">
+                    <div style={{ marginLeft: 10, marginBlock: 10 }}>
+                        <Link href="/shop">
+                            <a className={"ml-2 mt-4 mb-4 w3-text-black"}>
+                                <b>Shop</b>
+                            </a>
+                        </Link>
+                    </div>
+                    <Collapse
+                        ghost
+                        expandIconPosition="end"
+                        style={{ marfinLeft: 0 }}>
+                        {Categories.map((c, i) => (
+                            <Panel
+                                style={{ paddingLeft: "0px" }}
+                                header={<b>{c.name}</b>}
+                                key={i + 1}>
+                                {c.sub_cat.map((sc, i) => (
+                                    <div key={sc.title}>
+                                        <p className="w-text-black">
+                                            <b>{sc.title}</b>
+                                        </p>
+                                        {sc.categories.map((sub_c) => {
+                                            const cat = categoryItems
+                                                ? categoryItems.find(
+                                                      ({ name }) =>
+                                                          name
+                                                              .replace(
+                                                                  "&amp;",
+                                                                  "&"
+                                                              )
+                                                              .toLowerCase()
+                                                              .trim() ==
+                                                          sub_c.name
+                                                              .toLowerCase()
+                                                              .trim()
+                                                  )
+                                                : "";
+                                            const cat_id = cat ? cat.id : "";
+                                            return (
+                                                <Link
+                                                    key={cat_id}
+                                                    href={`/${page}?category=${cat_id}`}>
+                                                    <a
+                                                        className={`d-block mt-2 mb-2 ${
+                                                            parseInt(
+                                                                activeID
+                                                            ) === cat_id
+                                                                ? "w3-text-orange"
+                                                                : ""
+                                                        }`}>
+                                                        {sub_c.name}
+                                                    </a>
+                                                </Link>
+                                            );
+                                        })}
+                                    </div>
+                                ))}
+                            </Panel>
+                        ))}
+                    </Collapse>
+                    <div style={{ marginLeft: 10, marginBlock: 10 }}>
+                        <Link href="/vendors">
+                            <a className={"ml-2 mt-4 mb-4 w3-text-black"}>
+                                <b>Brand</b>
+                            </a>
+                        </Link>
+                    </div>
+                    <div style={{ marginLeft: 10, marginBlock: 20 }}>
+                        <Link href="/sales">
+                            <a className={"ml-2 mt-4 mb-4 w3-text-black"}>
+                                <b>Sales</b>
+                            </a>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </aside>
@@ -262,7 +263,7 @@ const WPNavigationBottom = () => {
                 <a
                     className={`navigation__item`}
                     onClick={() => setIsDrawerShow((prev) => !prev)}>
-                    <i className="icon-list4"></i>
+                    <i className="bi bi-justify"></i>
                 </a>
                 {/* <a
                     className={`navigation__item ${

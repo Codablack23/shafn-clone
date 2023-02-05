@@ -84,8 +84,7 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
         setSelectedGateway(selectedGateway);
     }
 
-    async function placeOrder() {
-        let WPBilling = billing;
+    async function placeOrder(values) {
         let WPShipping, WPLineItems;
         let checkoutData = {
             customer_id: auth?.id,
@@ -141,78 +140,48 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
         checkoutData.line_items = WPLineItems;
 
         if (!isSubmitting) {
-            const order = await WPOrderRepository.createNewOrder(
-                convertToURLEncoded(checkoutData)
-            );
+            setIsSubmitting(true);
 
-            return order;
+            try {
+                const order = await WPOrderRepository.createNewOrder(
+                    convertToURLEncoded(checkoutData)
+                );
+
+                const products = checkoutItems.map((item) => ({
+                    id: item.id,
+                    name: item.name,
+                    amount: item.price,
+                    quantity: item.quantity,
+                }));
+
+                const payload = {
+                    products,
+                    orderId: order.id,
+                    user: {
+                        ...WPBilling,
+                        email: auth.email,
+                    },
+                };
+
+                const stripe = await stripePromise;
+                const { data } = await WPPaymentRepository.createOrderSession(
+                    payload
+                );
+
+                await stripe.redirectToCheckout({
+                    sessionId: data.stripeSession.id,
+                });
+            } catch (error) {
+                console.log("Error making payment");
+                console.log(error);
+            } finally {
+                setIsSubmitting(false);
+            }
         }
     }
 
     function handleChangeDifferentAddress(e) {
         setIsDifferentAddress(e.target.checked);
-    }
-
-    async function goToCheckout() {
-        try {
-            setIsSubmitting(true);
-
-            // Place pending order to woocommerce
-            const order = await placeOrder();
-
-            const products = checkoutItems.map((item) => ({
-                id: item.id,
-                name: item.name,
-                amount: item.price,
-                quantity: item.quantity,
-            }));
-
-            const payload = {
-                products,
-                orderId: order.id,
-                user: {
-                    ...auth.billing,
-                    email: auth.email,
-                },
-            };
-
-            const stripe = await stripePromise;
-            const { data } = await WPPaymentRepository.createOrderSession(
-                payload
-            );
-
-            await stripe.redirectToCheckout({
-                sessionId: data.stripeSession.id,
-            });
-        } catch (error) {
-            console.log("Error making payment");
-            console.log(error);
-        } finally {
-            setIsSubmitting(false);
-        }
-    }
-
-    async function updateOrder(payload) {
-        try {
-            setIsPlacingOrder(true);
-            await WPOrderRepository.updateOrder({
-                orderId: localStorage.getItem("order-id"),
-                data: payload,
-            });
-
-            localStorage.removeItem("order-id");
-            dispatch(clearCheckoutItems());
-            dispatch(removeItems(checkoutItems));
-
-            notification["success"]({
-                message: "Order Completed",
-            });
-        } catch (error) {
-            console.log("Error updating order status");
-            console.error(error);
-        } finally {
-            setIsPlacingOrder(false);
-        }
     }
 
     useLayoutEffect(() => {
@@ -247,8 +216,7 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
     let listItemsView,
         shippingInfoView,
         paymentGatewaysView,
-        selectedPaymentGateway,
-        buttonOrderView;
+        selectedPaymentGateway;
 
     if (checkoutItems && checkoutItems.length > 0) {
         listItemsView = checkoutItems.map((product) => (
@@ -262,49 +230,6 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
         ));
     } else {
         listItemsView = <p>No Product.</p>;
-    }
-
-    if (paymentGateways) {
-        const radioItems = paymentGateways.map((item) => {
-            if (item.enabled) {
-                return (
-                    <Radio value={item.id} key={item.id}>
-                        {item.title}
-                    </Radio>
-                );
-            }
-        });
-        paymentGatewaysView = (
-            <Radio.Group onChange={(e) => handleSelectPaymentGateway(e)}>
-                {radioItems}
-            </Radio.Group>
-        );
-        if (selectedGateway) {
-            selectedPaymentGateway = (
-                <div className="ps-selected-payment-gateway">
-                    <h4>{selectedGateway.title}</h4>
-                    <p>{selectedGateway.description}</p>
-                </div>
-            );
-            if (selectedGateway.id === "paypal") {
-                buttonOrderView = (
-                    <button
-                        className="ps-btn ps-btn--fullwidth"
-                        disabled={isSubmitting}>
-                        {isSubmitting ? <Spin /> : "Proceed to PayPal"}
-                    </button>
-                );
-            } else {
-                buttonOrderView = (
-                    <button
-                        className="ps-btn ps-btn--fullwidth"
-                        type="submit"
-                        disabled={isSubmitting}>
-                        {isSubmitting ? <Spin /> : "Place Order"}
-                    </button>
-                );
-            }
-        }
     }
 
     if (isDifferentAddress) {
@@ -895,6 +820,7 @@ const WPFormCheckout = ({ auth, amount, checkoutItems }) => {
                                         </strong>
                                     </figcaption>
                                 </figure>
+
                                 <div className="ps-block__payment-gateways">
                                     {paymentGatewaysView}
                                     {selectedPaymentGateway}

@@ -50,8 +50,6 @@ const Index = (auth) => {
 
             <HomeAdsColumns />
 
-            {/* <HomeDefaultTopCategories /> */}
-
             <RandomCategories />
 
             <WPNewArrivals />

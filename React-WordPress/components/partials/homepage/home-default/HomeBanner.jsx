@@ -19,7 +19,41 @@ const HomeBanner = (props) => {
         slidesToScroll: 1,
     };
 
-    const bannerData = getItemBySlug(banners, "banner-home-fullwidth");
+    // const bannerData = getItemBySlug(banners, "banner-home-fullwidth");
+    const bannerData = {
+      items:[
+        {
+            id:1,
+            image:{
+                url:"/static/images/slider1.jpg"
+            }
+        },
+        {
+            id:2,
+            image:{
+                url:"/static/images/slider2.jpg"
+            }
+        },
+        {
+            id:3,
+            image:{
+                url:"/static/images/slider9.jpg"
+            }
+        },
+        {
+            id:4,
+            image:{
+                url:"/static/images/slider10.jpg"
+            }
+        },
+        {
+            id:5,
+            image:{
+                url:"/static/images/slider5.jpg"
+            }
+        },
+      ]
+    }
     const promotionData = getItemBySlug(
         promotions,
         "home_fullwidth_promotions"
@@ -42,7 +76,7 @@ const HomeBanner = (props) => {
     return (
         <div className="ps-home-banner ps-home-banner--1">
             <div className="ps-container">
-                <div className="ps-section__left">
+                <div className="ps-section__left" style={{height:"480px",marginBottom:18}}>
                     {bannerData !== null ? (
                         <Slider arrows={false} autoplaySpeed={5000}   {...carouselSetting} className="ps-carousel">
                             {bannersView}
@@ -54,11 +88,13 @@ const HomeBanner = (props) => {
                 <div className="ps-section__right">
                     <Promotion
                         link="/shop"
-                        image={promotion1 ? promotion1.image : null}
+                        image={promotion1 ?null : null}
+                        defImage={"/static/images/slider3.jpg"}
                     />
                     <Promotion
                         link="/shop"
-                        image={promotion2 ? promotion2.image : null}
+                        image={promotion2 ? null : null}
+                        defImage={"/static/images/slider12.jpg"}
                     />
                 </div>
             </div>
