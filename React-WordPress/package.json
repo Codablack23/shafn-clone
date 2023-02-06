@@ -7,13 +7,15 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhook"
     },
     "dependencies": {
         "@headlessui/react": "^1.7.7",
         "@redux-saga/core": "^1.2.1",
         "@speechly/speech-recognition-polyfill": "^1.1.0",
         "@stripe/stripe-js": "^1.46.0",
+        "@types/node": "^18.11.19",
         "antd": "^4.5.2",
         "axios": "0.27.2",
         "bootstrap-icons": "^1.8.3",
@@ -35,6 +37,7 @@
         "next-share": "^0.16.0",
         "nodemailer": "^6.7.8",
         "prettier": "^2.0.5",
+        "raw-body": "^2.5.1",
         "react": "^17.0.2",
         "react-cookie": "^4.1.1",
         "react-custom-scrollbars": "^4.2.1",

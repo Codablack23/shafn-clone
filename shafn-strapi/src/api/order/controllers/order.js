@@ -18,7 +18,7 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
         product_data: {
           name: product.name,
         },
-        unit_amount: Number(product.amount) * 100,
+        unit_amount: Math.floor(Number(product.amount) * 100),
       },
       quantity: product.quantity,
     }));
@@ -29,7 +29,7 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
         mode: "payment",
         customer_email: user.email,
         payment_method_types: ["card"],
-        success_url: `${process.env.SHAFN_DOMAIN}/account/checkout?payment_status=success`,
+        success_url: `${process.env.SHAFN_DOMAIN}/account/checkout-success`,
         cancel_url: `${process.env.SHAFN_DOMAIN}/account/checkout?payment_status=cancelled`,
         metadata: {
           orderId,

@@ -1,15 +1,17 @@
-const stripe = require("stripe")(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY);
-
+import getRawBody from "raw-body";
 import WPOrderRepository from "~/repositories/WP/WPOrderRepository";
 
+const stripe = require("stripe")(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY);
+
 export default async function handler(req, res) {
+    const rawBody = await getRawBody(req);
     const sig = req.headers["stripe-signature"];
 
     let event;
 
     try {
         event = stripe.webhooks.constructEvent(
-            req.body,
+            rawBody,
             sig,
             process.env.NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET
         );
@@ -20,7 +22,7 @@ export default async function handler(req, res) {
     }
 
     const handlePaymentSuccess = async () => {
-        const { orderId, user } = event.data.object.metadata;
+        const { orderId } = event.data.object.metadata;
         await WPOrderRepository.updateOrder({
             orderId,
             data: {
@@ -31,18 +33,10 @@ export default async function handler(req, res) {
 
     // Handle the event
     switch (event.type) {
-        case "payment_intent.succeeded":
+        case "checkout.session.completed":
             console.log("Payment successful");
             await handlePaymentSuccess();
             break;
-        case "payment_method.attached":
-            const paymentMethod = event.data.object;
-
-            console.log("Payment attached");
-            // Then define and call a method to handle the successful attachment of a PaymentMethod.
-            // handlePaymentMethodAttached(paymentMethod);
-            break;
-        // ... handle other event types
         default:
             console.log(`Unhandled event type ${event.type}`);
     }
@@ -50,3 +44,9 @@ export default async function handler(req, res) {
     // Return a response to acknowledge receipt of the event
     res.json({ received: true });
 }
+
+export const config = {
+    api: {
+        bodyParser: false,
+    },
+};
