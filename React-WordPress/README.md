@@ -18,16 +18,19 @@
     [guide](https://developers.google.com/time/guides) for your OS. Note:
     Replace `time.google.com` with `time.android.com`
 
--   Open terminal. From the react-wordpress folder, run:
-
-    ```shell
-    yarn dev
-    ```
-
 -   Open another terminal. From the react-wordpress folder, run:
 
     ```shell
     yarn stripe:listen
+    ```
+
+-   Copy webhook signing secret from terminal and set as env variable
+    (NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET) in the `.env.local` file
+
+-   Open terminal. From the react-wordpress folder, run:
+
+    ```shell
+    yarn dev
     ```
 
 -   In the checkout page, use `4242 4242 4242 4242` as card number, `04/24` as
