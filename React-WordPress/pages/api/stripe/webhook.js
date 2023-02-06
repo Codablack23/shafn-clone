@@ -23,20 +23,26 @@ export default async function handler(req, res) {
 
     const handlePaymentSuccess = async () => {
         const { orderId } = event.data.object.metadata;
-        await WPOrderRepository.updateOrder({
-            orderId,
-            data: {
-                status: "processing",
-            },
-        });
+        try {
+            await WPOrderRepository.updateOrder({
+                orderId,
+                data: {
+                    set_paid: true,
+                },
+            });
+        } catch (error) {
+            console.log("error updating order...");
+            console.error(error);
+        }
     };
 
     // Handle the event
     switch (event.type) {
-        case "checkout.session.completed":
+        case "payment_intent.succeeded":
             console.log("Payment successful");
             await handlePaymentSuccess();
             break;
+
         default:
             console.log(`Unhandled event type ${event.type}`);
     }

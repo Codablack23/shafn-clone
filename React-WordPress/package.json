@@ -8,12 +8,13 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhook"
+        "stripe:listen": "stripe listen --forward-to localhost:3000/api/stripe/webhook"
     },
     "dependencies": {
         "@headlessui/react": "^1.7.7",
         "@redux-saga/core": "^1.2.1",
         "@speechly/speech-recognition-polyfill": "^1.1.0",
+        "@stripe/react-stripe-js": "^1.16.4",
         "@stripe/stripe-js": "^1.46.0",
         "@types/node": "^18.11.19",
         "antd": "^4.5.2",

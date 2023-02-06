@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { getCart } from '~/store/cart/action';
-import { connect, useDispatch } from 'react-redux';
-import WPLayout from '~/wp-components/layouts/WPLayout';
-import { scrollPageToTop } from '~/utilities/common-helpers';
+import React, { useEffect } from "react";
+import { getCart } from "~/store/cart/action";
+import { connect, useDispatch } from "react-redux";
+import WPLayout from "~/wp-components/layouts/WPLayout";
+import { scrollPageToTop } from "~/utilities/common-helpers";
 
 const CheckoutSuccessPage = () => {
     const dispatch = useDispatch();
