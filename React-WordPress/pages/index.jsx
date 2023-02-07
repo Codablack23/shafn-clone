@@ -12,16 +12,13 @@ import { getBannersBySlugs, getPromotionsBySlugs } from "~/store/media/action";
 import ModalCookie from "~/components/elements/modalCookie";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import RandomCategories from "~/wp-components/homepage/RandomCategories";
 
 const Index = (auth) => {
     const [isCookiesShowing, setIsCookiesShowing] = useState(false);
-    const [isShowing, setIsShowing] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        setTimeout(() => {
-            setIsShowing(true);
-        }, 4000);
         setTimeout(() => {
             setIsCookiesShowing(true);
         }, 5000);
@@ -53,11 +50,7 @@ const Index = (auth) => {
 
             <HomeAdsColumns />
 
-            {/* <HomeDefaultTopCategories /> */}
-
-            <WPProductList categoryID={21} title="Art" />
-
-            <WPProductList categoryID={24} title="Clothing" />
+            <RandomCategories />
 
             <WPNewArrivals />
 
