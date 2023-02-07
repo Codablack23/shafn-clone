@@ -32,15 +32,15 @@ const WPFormCheckout = ({ auth, amount, checkoutItems, paymentIntentId }) => {
     const elements = useElements();
 
     async function placeOrder(values) {
-        if (amount <= 0) {
-            notification["error"]({
-                message: "Insufficient amount",
-            });
-            return;
-        }
         if (checkoutItems.length === 0) {
             notification["info"]({
                 message: "You have no items to checkout",
+            });
+            return;
+        }
+        if (amount <= 0) {
+            notification["error"]({
+                message: "Insufficient amount",
             });
             return;
         }
@@ -140,7 +140,7 @@ const WPFormCheckout = ({ auth, amount, checkoutItems, paymentIntentId }) => {
                     elements,
                     confirmParams: {
                         // Make sure to change this to your payment completion page
-                        return_url: `${DOMAIN}/account/checkout`,
+                        return_url: `${DOMAIN}/account/checkout-success?order_number=${order.number}`,
                     },
                 });
 
@@ -195,44 +195,6 @@ const WPFormCheckout = ({ auth, amount, checkoutItems, paymentIntentId }) => {
             Router.push("/account/login");
         }
     }, []);
-
-    useEffect(() => {
-        if (!stripe) {
-            return;
-        }
-
-        const clientSecret = new URLSearchParams(window.location.search).get(
-            "payment_intent_client_secret"
-        );
-
-        if (!clientSecret) {
-            return;
-        }
-
-        stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-            switch (paymentIntent.status) {
-                case "succeeded":
-                    notification["success"]({
-                        message:
-                            "Your order has been received and is being processed",
-                    });
-                    dispatch(clearCheckoutItems());
-                    dispatch(removeItems(checkoutItems));
-                    break;
-                case "processing":
-                    console.log("Your payment is processing.");
-                    break;
-                case "requires_payment_method":
-                    console.log(
-                        "Your payment was not successful, please try again."
-                    );
-                    break;
-                default:
-                    console.log("Something went wrong.");
-                    break;
-            }
-        });
-    }, [stripe]);
 
     // Views
     let listItemsView, shippingInfoView;
