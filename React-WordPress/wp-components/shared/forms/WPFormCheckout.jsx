@@ -19,7 +19,6 @@ import ShippingInfoForm from "./modules/ShippingInfoForm";
 import BillingInfoForm from "./modules/BillingInfoForm";
 
 const WPFormCheckout = ({ auth, amount, checkoutItems, paymentIntentId }) => {
-    const dispatch = useDispatch();
     const [form] = Form.useForm();
     const [isDifferentAddress, setIsDifferentAddress] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
