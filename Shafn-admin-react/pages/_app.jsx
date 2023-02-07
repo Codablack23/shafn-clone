@@ -3,8 +3,8 @@ import React, { useEffect } from "react"
 import { wrapper } from "~/store/store"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
-import "~/styles/style.scss"
 import "antd/dist/antd.min.css"
+import "~/styles/style.scss"
 
 function App({ Component, pageProps }) {
   //   const getLayout =
