@@ -80,7 +80,7 @@ const WPShopProducts = (props) => {
                         <Pagination
                             total={WPProducts && WPProducts.totalItems}
                             pageSize={24}
-                            responsive={true}
+                            responsive={false}
                             current={currentPage}
                             onChange={handlePagination}
                         />
