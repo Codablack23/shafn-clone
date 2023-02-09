@@ -84,11 +84,11 @@ const WPWidgetCategories = ({ activeID,page}) => {
                                 name.replace("&amp;","&").toLowerCase().trim() == sub_c.name.toLowerCase().trim() 
                                 ):""
                                 const cat_id = cat?cat.id:""
-                             return cat?(
+                             return (
                                 <Link href={`/${page}?category=${cat_id}`} key={Math.random() * Math.random()}>
                                 <a className={`d-block mt-2 mb-2 ${parseInt(activeID) === cat_id?"w3-text-orange":""}`}>{sub_c.name}</a>
                                 </Link>
-                             ):null
+                             )
                              })}
                         </div>
                        ))}

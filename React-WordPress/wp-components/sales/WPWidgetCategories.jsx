@@ -107,7 +107,7 @@ const WPWidgetCategories = ({ activeID, page }) => {
                                               )
                                             : "";
                                         const cat_id = cat ? cat.id : "";
-                                        return cat ? (
+                                        return  (
                                             <Link
                                                 href={`/${page}?category=${cat_id}`}
                                                 key={
@@ -124,7 +124,7 @@ const WPWidgetCategories = ({ activeID, page }) => {
                                                     {sub_c.name}
                                                 </a>
                                             </Link>
-                                        ) : null;
+                                        )
                                     })}
                                 </div>
                             ))}
