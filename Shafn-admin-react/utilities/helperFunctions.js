@@ -4,7 +4,8 @@ const generateSlug = (string) => {
     .replace(/  +/g, " ")
     .split(" ")
     .join("-")
-    .trim();
+    .trim()
+    .toLowerCase();
 };
 
 const objectsEqual = (o1, o2) => {
