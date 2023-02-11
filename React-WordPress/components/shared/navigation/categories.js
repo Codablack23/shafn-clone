@@ -1,6 +1,6 @@
 export const Categories = [
 
-    {id: 16, name: 'Make Up', sub_cat:[
+    {id: 16, name: 'Makeup', sub_cat:[
        {
            title:"BRUSH AND SPONGE ACCESSORIES MAKEUP",
            categories:[
@@ -27,17 +27,6 @@ export const Categories = [
            ]
        },
        {
-           title:"EYES",
-           categories:[
-            {name:"Eyebrow gel",slug:"",id:""},
-            {name:"Eyeliner & Kajal",slug:"",id:""},
-            {name:"Eyeshadow",slug:"",id:""},
-            {name:"Lashes",slug:"",id:""},
-            {name:"Mascara",slug:"",id:""},
-            {name:"Pallets",slug:"",id:""},
-           ]
-       },
-       {
            title:"EYEBROWS",
            categories:[
             {name:"Eyebrow gel",slug:"",id:""},
@@ -45,6 +34,17 @@ export const Categories = [
             {name:"Eyebrow set",slug:"",id:""},
            ]
        },
+       {
+        title:"EYES",
+        categories:[
+         {name:"Eyebrow shadow base",slug:"",id:""},
+         {name:"Eyeliner & Kajal",slug:"",id:""},
+         {name:"Eyeshadow",slug:"",id:""},
+         {name:"Lashes",slug:"",id:""},
+         {name:"Mascara",slug:"",id:""},
+         {name:"Pallets",slug:"",id:""},
+        ]
+    },
        {
            title:"LIPS",
            categories:[
@@ -59,8 +59,8 @@ export const Categories = [
        {       
            title:"MAKE UP SETS",
            categories:[
-            {name:"Lippenstift Set",slug:"",id:""},
-            {name:"Make up Set",slug:"",id:""},
+            {name:"Lipstick Set",slug:"",id:""},
+            {name:"Makeup Set",slug:"",id:""},
             {name:"Mascara Set",slug:"",id:""},
            ]
        },
@@ -113,34 +113,32 @@ export const Categories = [
             {
                 title:"MASKS",
                 categories:[
-                 {name:"Cream mask",slug:"",id:""},
-                 {name:" Day cream",slug:"",id:""},
-                 {name:"Eye care",slug:"",id:""},
-                 {name:"Eyelash and eyebrow care",slug:"",id:""},
-                 {name:"Facial Care",slug:"",id:""},
-                 {name:"Lip care",slug:"",id:""},
-                 {name:"Neck and décolleté care",slug:"",id:""},
-                 {name:"Night cream",slug:"",id:""},
-                 {name:"Serum",slug:"",id:""},
                  {name:"Sheet mask",slug:"",id:""},
+                 {name:"Cream mask",slug:"",id:""},
                 ]
             },
-            {
-                title:"NATURAL",
+            {    
+                title:"FACIAL CARE",
                 categories:[
-                 {name:"Natural skin care",slug:"",id:""},
-                 {name:"Vegan skin care",slug:"",id:""},
+                 {name:"Serum",slug:"",id:""},
+                 {name:"Day cream",slug:"",id:""},
+                 {name:"Night cream",slug:"",id:""},
+                 {name:"Eye care",slug:"",id:""},
+                 {name:"Eyelash and eyebrow care",slug:"",id:""},
+                 {name:"Lip Care",slug:"",id:""},
+                 {name:"Neck and décolleté care",slug:"",id:""},
                 ]
             },
             {    
                 title:"SKIN TYPES",
                 categories:[
-                 {name:"Antiaging",slug:"",id:""},
-                 {name:"Blemishes",slug:"",id:""},
                  {name:"Dry skin",slug:"",id:""},
                  {name:"Oily skin",slug:"",id:""},
+                 {name:"Antiaging",slug:"",id:""},
+                 {name:"Blemishes",slug:"",id:""},
                  {name:"Pigment spots",slug:"",id:""},
                  {name:"Sensible skin",slug:"",id:""},
+                 {name:"Redness",slug:"",id:""},
                 ]
             },
             {
@@ -165,15 +163,18 @@ export const Categories = [
              {name:"Shaving gel & aftershave",slug:"",id:""},
              {name:"Shower gel & soap",slug:"",id:""},
              {name:"Toilette",slug:"",id:""},
+             {name:"Parfum",slug:"",id:""},
             ]
         },
         {
            title:"WOMEN'S FRAGRANCES",
             categories:[
-             {name:"Cologne",slug:"",id:""},
-             {name:"Deodorant",slug:"",id:""},
-             {name:"Hair perfume",slug:"",id:""},
              {name:"Toilette",slug:"",id:""},
+             {name:"Parfum",slug:"",id:""},
+             {name:"Perfume extract",slug:"",id:""},
+             {name:"Cologne",slug:"",id:""},
+             {name:"Perfumed body care",slug:"",id:""},
+             {name:"Hair perfume",slug:"",id:""},
             ]
         },
         {
@@ -218,6 +219,7 @@ export const Categories = [
                  {name:"Hair accessories",slug:"",id:""},
                  {name:"Hair dryer",slug:"",id:""},
                  {name:"Hair straighteners and curling irons",slug:"",id:""},
+                 {name:"Irons",slug:"",id:""},
                 ]
             },
             {   
@@ -242,9 +244,7 @@ export const Categories = [
                  {name:"Dry hair",slug:"",id:""},
                  {name:"Dull hair",slug:"",id:""},
                  {name:"Fine hair",slug:"",id:""},
-                 {name:"Natural hair care",slug:"",id:""},
                  {name:"Oily hair",slug:"",id:""},
-                 {name:"Vegan hair care",slug:"",id:""},
                 ]
             },
             {
@@ -285,19 +285,24 @@ export const Categories = [
             },
             {
                 title:"BODY ACCESSORIES",
+                categories:[]
+            },
+            {
+                title:"WELLNESS",
                 categories:[
                  {name:"Lube",slug:"",id:""},
                  {name:"Sex toys",slug:"",id:""},
+                 {name:"Intimate hygiene",slug:"",id:""},
                 ]
-            },
+            }, 
             {
-                title:"ORAL HYGIENE SPECIAL CARE",
+                title:"SPECIAL CARE",
                 categories:[
                  {name:"Cellulite",slug:"",id:""},
                  {name:"Dry skin",slug:"",id:""},
                  {name:"Stretch marks",slug:"",id:""},
                 ]
-            },
+            },  
             {
                 title:"PERSONAL HYGIENE",
                 categories:[
@@ -314,7 +319,8 @@ export const Categories = [
                 title:"SUN & PROTECTION",
                 categories:[
                  {name:"After Sun",slug:"",id:""},
-                 {name:"Sun protection",slug:"",id:""}
+                 {name:"Sun protection",slug:"",id:""},
+                 {name:"Self tanner",slug:"",id:""}
                 ]
             },
         ],

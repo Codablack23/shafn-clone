@@ -66,6 +66,10 @@
 }
 
 .ant-pagination {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    width: 100%;
     li {
         height: auto;
         > a, > button{
@@ -73,8 +77,8 @@
             justify-content: center;
             align-items: center;
             padding: 0.5em;
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             font-size: 16px;
         }
         &:hover {
@@ -86,6 +90,7 @@
         }
     }
     .ant-select-selector{
+        // min-height: 50px;
         &:hover{
             border-color: transparent;
             background-color: #000;
@@ -100,8 +105,8 @@
             justify-content: center;
             align-items: center;
             padding: 0.5em;
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             font-size: 16px;
             &:hover{
                 border-color: transparent;
@@ -121,6 +126,16 @@
                 color: #fff;
             }
     }
-
+    @include media("<md"){
+      li{
+        border-color: transparent;
+      }
+      .ant-pagination-prev,  .ant-pagination-next {
+        .ant-pagination-item-link{
+           border: transparent;
+         
+        }
+    }
+    }
 }
 
