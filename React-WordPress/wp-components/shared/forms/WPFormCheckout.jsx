@@ -18,7 +18,13 @@ import { DOMAIN } from "~/repositories/WP/WPRepository";
 import ShippingInfoForm from "./modules/ShippingInfoForm";
 import BillingInfoForm from "./modules/BillingInfoForm";
 
-const WPFormCheckout = ({ auth, amount, checkoutItems, paymentIntentId }) => {
+const WPFormCheckout = ({
+    auth,
+    amount,
+    checkoutItems,
+    order_session_id,
+    paymentIntentId,
+}) => {
     const [form] = Form.useForm();
     const [isDifferentAddress, setIsDifferentAddress] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,6 +37,19 @@ const WPFormCheckout = ({ auth, amount, checkoutItems, paymentIntentId }) => {
     const elements = useElements();
 
     async function placeOrder(values) {
+        try {
+            await WPPaymentRepository.updateOrderSession({
+                id: 2,
+                data: {
+                    paid: false,
+                },
+            });
+        } catch (error) {
+            console.log("error updating order session");
+            console.log(error);
+        }
+
+        return;
         if (checkoutItems.length === 0) {
             notification["info"]({
                 message: "You have no items to checkout",
@@ -132,13 +151,15 @@ const WPFormCheckout = ({ auth, amount, checkoutItems, paymentIntentId }) => {
 
                 await WPPaymentRepository.updatePaymentIntent({
                     id: paymentIntentId,
-                    orderId: order.id,
+                    data: {
+                        orderId: order.id,
+                        order_session_id,
+                    },
                 });
 
                 const { error } = await stripe.confirmPayment({
                     elements,
                     confirmParams: {
-                        // Make sure to change this to your payment completion page
                         return_url: `${DOMAIN}/account/checkout-success?order_number=${order.number}`,
                     },
                 });

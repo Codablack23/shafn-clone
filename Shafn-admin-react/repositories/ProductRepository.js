@@ -15,6 +15,7 @@ class ProductRepository {
 
     const config = {
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${decrypt(auth_token)}`,
       },
     };

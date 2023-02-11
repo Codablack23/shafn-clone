@@ -1,5 +1,6 @@
 import getRawBody from "raw-body";
 import WPOrderRepository from "~/repositories/WP/WPOrderRepository";
+import WPPaymentRepository from "~/repositories/WP/WPPaymentRepository";
 
 const stripe = require("stripe")(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY);
 
@@ -16,18 +17,24 @@ export default async function handler(req, res) {
             process.env.NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET
         );
     } catch (err) {
-        console.log(`Webhook Error: ${err.message}`);
         res.status(400).send(`Webhook Error: ${err.message}`);
         return;
     }
 
     const handlePaymentSuccess = async () => {
-        const { orderId } = event.data.object.metadata;
+        const { orderId, order_session_id } = event.data.object.metadata;
         try {
             await WPOrderRepository.updateOrder({
                 orderId,
                 data: {
                     set_paid: true,
+                },
+            });
+
+            await WPPaymentRepository.updateOrderSession({
+                id: order_session_id,
+                data: {
+                    paid: true,
                 },
             });
         } catch (error) {

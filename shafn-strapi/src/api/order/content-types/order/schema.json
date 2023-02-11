@@ -4,21 +4,32 @@
   "info": {
     "singularName": "order",
     "pluralName": "orders",
-    "displayName": "order"
+    "displayName": "order",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "stripe_id": {
+    "products": {
+      "type": "json",
+      "required": true
+    },
+    "paymentIntent_id": {
       "type": "string",
       "required": true,
       "unique": true
     },
-    "products": {
-      "type": "json",
-      "required": true
+    "user": {
+      "type": "email",
+      "required": true,
+      "unique": false
+    },
+    "paid": {
+      "type": "boolean",
+      "required": true,
+      "default": false
     }
   }
 }

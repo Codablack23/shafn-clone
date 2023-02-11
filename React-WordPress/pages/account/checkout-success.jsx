@@ -5,10 +5,15 @@ import { scrollPageToTop } from "~/utilities/common-helpers";
 import { clearCheckoutItems } from "~/store/checkout-items/action";
 import { removeItems } from "~/store/cart/action";
 import { loadStripe } from "@stripe/stripe-js";
+import { Spin } from "antd";
 
 const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-);
+).catch((error) => {
+    console.log("error loading stripe");
+    console.error(error);
+    return;
+});
 
 const CheckoutSuccessPage = () => {
     const dispatch = useDispatch();

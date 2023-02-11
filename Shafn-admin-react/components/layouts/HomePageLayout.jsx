@@ -1,6 +1,7 @@
 import Head from "next/head"
 import Header from "../home/Header"
 import ModalCookie from "../home/modalCookie"
+import Footer from "../home/Footer"
 
 export default function HomepageLayout({ children, title, page }) {
   return (
@@ -11,6 +12,7 @@ export default function HomepageLayout({ children, title, page }) {
       <Header />
       {children}
       {page != "accounts" && <ModalCookie />}
+      <Footer/>
     </div>
   )
 }

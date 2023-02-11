@@ -256,12 +256,14 @@ class WPProductRepository {
         return reponse;
     }
 
-    async getReviews() {
+    async getReviews(cancelToken) {
         const endpoint = `wp-json/wc/v3/products/reviews/?${serializeQuery({
             ...oathInfo,
         })}`;
 
-        const reponse = await WPRepository.get(`${WPDomain}/${endpoint}`)
+        const reponse = await WPRepository.get(`${WPDomain}/${endpoint}`, {
+            cancelToken,
+        })
             .then((response) => {
                 if (response.data) {
                     return response.data;

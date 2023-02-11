@@ -113,6 +113,7 @@ body{
     max-width: 1280px;
     margin: auto;
     padding: 8px 16px;
+  
   }
   header{
     background-color: #fff;
@@ -121,10 +122,11 @@ body{
     position: sticky;
     top: 0;
     z-index: 100;
+    background-color: #fff;
   }
   .ps__navbar{
     display: flex;
-
+    background-color: #fff;
     justify-content: space-between;
     align-items: center;
     max-width: 100%;
@@ -136,7 +138,7 @@ body{
       align-items: center;
       a{
         &:first-child{
-          background-color: #0309A5;
+          background-color: #000;
           color: #fff;
         }
         display: flex;
@@ -171,6 +173,7 @@ body{
     text-align: center;
     max-width: 998px;
     margin: auto;
+    color: #fff;
   }
   .hero-btn-container{
   display: flex;
@@ -197,6 +200,7 @@ body{
   font-size: 45px;
   letter-spacing: 1px;
   text-transform: capitalize;
+  color: #fff;
 }
 
 .why-sell{
@@ -354,6 +358,7 @@ body{
       z-index: 1;
       background-color: #fff;
       min-height: 200px;
+      padding: 16px ;
     }
     .quote-icon{
       font-size: 34px;
@@ -499,7 +504,7 @@ body{
 .account-container{
   background-color: #F6F6F6;
   min-height: 93vh;
-  padding-top: 50px;
+  padding-block: 50px;
   .logo{
     max-width: 95px;
     margin: 0 auto;
@@ -861,7 +866,7 @@ body{
           &:focus{
               border-bottom: 2px solid #026CDF; 
           }
-          -moz-appearance: textfield;
+          appearance: textfield;
           text-align: center;
           display: block;
           border: none;
@@ -895,3 +900,7 @@ body{
   }
 }
 }
+.text-white{
+  color: #fff;
+}
+//footer styles

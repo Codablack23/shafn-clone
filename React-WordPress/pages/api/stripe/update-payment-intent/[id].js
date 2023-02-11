@@ -2,13 +2,14 @@ const stripe = require("stripe")(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY);
 
 export default function handler(req, res) {
     const { id } = req.query;
-    const { orderId } = req.body;
+    const { orderId, order_session_id } = req.body;
 
     return new Promise(async (resolve, reject) => {
         try {
             const paymentIntent = await stripe.paymentIntents.update(id, {
                 metadata: {
                     orderId,
+                    order_session_id,
                 },
             });
 

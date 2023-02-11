@@ -1,4 +1,4 @@
-import { STRAPI_DOMAIN, WPDomain } from "~/repositories/WP/WPRepository";
+import { STRAPI_DOMAIN } from "~/repositories/WP/WPRepository";
 import axios from "axios";
 
 class WPPaymentRepository {
@@ -15,9 +15,7 @@ class WPPaymentRepository {
 
     async updatePaymentIntent(payload) {
         const endpoint = `/api/stripe/update-payment-intent/${payload.id}`;
-        const response = await axios.post(endpoint, {
-            orderId: payload.orderId,
-        });
+        const response = await axios.post(endpoint, payload.data);
 
         return response.data;
     }
@@ -35,6 +33,19 @@ class WPPaymentRepository {
         );
 
         return response;
+    }
+
+    async updateOrderSession(payload) {
+        const endpoint = `${STRAPI_DOMAIN}/api/orders/${payload.id}`;
+        await axios.put(
+            endpoint,
+            { data: payload.data },
+            {
+                headers: {
+                    Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+                },
+            }
+        );
     }
 }
 

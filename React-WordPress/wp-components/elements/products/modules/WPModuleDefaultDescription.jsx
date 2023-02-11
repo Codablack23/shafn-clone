@@ -1,39 +1,74 @@
-import React, { Component } from 'react';
-import { Tabs } from 'antd';
-import PartialSpecification from '~/components/elements/detail/modules/description/PartialSpecification';
-import PartialVendor from '~/components/elements/detail/modules/description/PartialVendor';
-import PartialReview from '~/components/elements/detail/modules/description/PartialReview';
-import PartialOffer from '~/components/elements/detail/modules/description/PartialOffer';
+import React, { useEffect, useState } from "react";
+import { Tabs } from "antd";
+import PartialSpecification from "~/components/elements/detail/modules/description/PartialSpecification";
+import PartialReview from "~/components/elements/detail/modules/description/PartialReview";
+import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import axios from "axios";
+
 const { TabPane } = Tabs;
-const WPModuleDefaultDescription = ({product})=>  {
-    function expandDesc(e){
-      const desc = document.querySelector('#desc')
-      if(desc.style.maxHeight){
-        desc.style.maxHeight = null
-        e.target.innerText = "Read More"
-      }
-      else{
-        desc.style.maxHeight = '500px'
-        e.target.innerText = "Show Less"
-      }
+let reviewSource;
+const WPModuleDefaultDescription = ({ product }) => {
+    const [reviews, setReviews] = useState([]);
+
+    function expandDesc(e) {
+        const desc = document.querySelector("#desc");
+        if (desc.style.maxHeight) {
+            desc.style.maxHeight = null;
+            e.target.innerText = "Read More";
+        } else {
+            desc.style.maxHeight = "500px";
+            e.target.innerText = "Show Less";
+        }
     }
     let descView;
     if (product) {
         if (product.description) {
-            descView = <div className="ps-document">
-                <div id='desc' className='ps__desc-md' dangerouslySetInnerHTML={{
-                    __html: `${product.description}`,
-                }}>
+            descView = (
+                <div className="ps-document">
+                    <div
+                        id="desc"
+                        className="ps__desc-md"
+                        dangerouslySetInnerHTML={{
+                            __html: `${product.description}`,
+                        }}></div>
+                    <span onClick={expandDesc} className="ps__read-more">
+                        Read More
+                    </span>
                 </div>
-                <span
-                onClick={expandDesc}
-                className="ps__read-more">Read More</span>
-            </div>
+            );
+        }
+    } else {
+        descView = (
+            <p>
+                <i>This product hasn't description.</i>
+            </p>
+        );
+    }
+
+    async function getReviews() {
+        const product_id = window.location.pathname.split("-").pop();
+        const reviews = await WPProductRepository.getReviews(
+            reviewSource.token
+        );
+
+        if (reviews) {
+            const product_reviews = reviews.filter(
+                (r) => r.product_id.toString() === product_id.toString()
+            );
+            setReviews(product_reviews);
         }
     }
-    else {
-        descView = <p><i>This product hasn't description.</i></p>
-    }
+
+    useEffect(() => {
+        reviewSource = axios.CancelToken.source();
+        getReviews();
+        return () => {
+            if (reviewSource) {
+                reviewSource.cancel();
+            }
+        };
+    }, []);
+
     return (
         <div>
             <div className="ps-product__content ps-tab-root">
@@ -42,24 +77,17 @@ const WPModuleDefaultDescription = ({product})=>  {
                         {descView}
                     </TabPane>
                     <TabPane tab="Specification" key="2">
-                        <PartialSpecification />
+                        <PartialSpecification
+                            attributes={product?.attributes}
+                        />
                     </TabPane>
-                    {/* <TabPane tab="Vendor" key="3">
-                        <PartialVendor />
-                    </TabPane> */}
-                    <TabPane tab="Reviews (1)" key="4">
+                    <TabPane tab={`Reviews (${reviews.length})`} key="4">
                         <PartialReview />
                     </TabPane>
-                    <TabPane tab="Questions and Answers" key="5">
-                        Content of Tab Pane 3
-                    </TabPane>
-                    {/* <TabPane tab="More Offers" key="6">
-                        <PartialOffer />
-                    </TabPane> */}
                 </Tabs>
             </div>
         </div>
     );
-}
+};
 
 export default WPModuleDefaultDescription;

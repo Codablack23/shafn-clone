@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react"
-import Router from "next/router"
-import { notification } from "antd"
-import FileRepository from "~/repositories/FileRepository"
-import SettingsRepository from "~/repositories/SettingsRepository"
-import PhoneInput from "react-phone-number-input"
-import UserRepository from "~/repositories/UserRepository"
-import DataRepository from "~/repositories/DataRepository"
+import React, { useState, useEffect } from "react";
+import Router from "next/router";
+import { notification } from "antd";
+import FileRepository from "~/repositories/FileRepository";
+import SettingsRepository from "~/repositories/SettingsRepository";
+import PhoneInput from "react-phone-number-input";
+import UserRepository from "~/repositories/UserRepository";
+import DataRepository from "~/repositories/DataRepository";
 
 const FormAccountSettings = () => {
-  const [name, setName] = useState("")
-  const [countries, setCountries] = useState([])
-  const [states, setStates] = useState([])
+  const [name, setName] = useState("");
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
   const [address, setAddress] = useState({
     city: "",
     country: "",
@@ -18,64 +18,64 @@ const FormAccountSettings = () => {
     street_1: "",
     street_2: "",
     zip: "",
-  })
-  const [number, setNumber] = useState("")
-  const [showEmail, setShowEmail] = useState("")
-  const [enableTNC, setEnableTNC] = useState("")
-  const [banner, setBanner] = useState("")
-  const [profileImage, setProfileImage] = useState("")
+  });
+  const [number, setNumber] = useState("");
+  const [showEmail, setShowEmail] = useState("");
+  const [enableTNC, setEnableTNC] = useState("");
+  const [banner, setBanner] = useState("");
+  const [profileImage, setProfileImage] = useState("");
 
-  const [bannerFile, setBannerFile] = useState("")
-  const [profileImageFile, setProfileImageFile] = useState("")
+  const [bannerFile, setBannerFile] = useState("");
+  const [profileImageFile, setProfileImageFile] = useState("");
 
-  const [isUploading, setIsUploading] = useState(false)
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleImageSelection = (e) => {
-    e.persist()
+    e.persist();
 
-    let name = e.target.name
-    let image = e.target.files[0]
-    let type = image.type.split("/").pop()
-    let allowedTypes = ["jpeg", "jpg", "png", "gif"]
+    let name = e.target.name;
+    let image = e.target.files[0];
+    let type = image.type.split("/").pop();
+    let allowedTypes = ["jpeg", "jpg", "png", "gif"];
 
     if (image) {
       if (allowedTypes.includes(type)) {
-        let imgUrl = URL.createObjectURL(image)
+        let imgUrl = URL.createObjectURL(image);
 
         if (name === "profileImage") {
-          setProfileImage(imgUrl)
-          setProfileImageFile(image)
+          setProfileImage(imgUrl);
+          setProfileImageFile(image);
         } else {
-          setBanner(imgUrl)
-          setBannerFile(image)
+          setBanner(imgUrl);
+          setBannerFile(image);
         }
-        URL.revokeObjectURL(image)
+        URL.revokeObjectURL(image);
       } else {
         notification["error"]({
           message: "Invalid image type!",
           description: "Image type must be jpg, png or gif",
-        })
+        });
       }
     }
-  }
+  };
 
   const setAddr = (name, value) => {
-    setAddress((current) => ({ ...current, [name]: value }))
-  }
+    setAddress((current) => ({ ...current, [name]: value }));
+  };
 
   const selectCountry = (e) => {
     if (e.target.value) {
-      setAddr(e.target.name, e.target.value)
-      _setStates(e.target.value)
+      setAddr(e.target.name, e.target.value);
+      _setStates(e.target.value);
     } else {
-      setStates([])
+      setStates([]);
     }
-  }
+  };
 
   const handleOnSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    setIsUploading(true)
+    setIsUploading(true);
 
     const settings = {
       store_name: name,
@@ -83,19 +83,19 @@ const FormAccountSettings = () => {
       phone: number,
       show_email: showEmail,
       enable_tnc: enableTNC,
-    }
+    };
 
     try {
-      let banner = null
-      let profileImage = null
+      let banner = null;
+      let profileImage = null;
 
       // Only upload changed images
-      if (bannerFile) banner = await FileRepository.uploadImage(bannerFile)
+      if (bannerFile) banner = await FileRepository.uploadImage(bannerFile);
 
       if (profileImageFile)
-        profileImage = await FileRepository.uploadImage(profileImageFile)
+        profileImage = await FileRepository.uploadImage(profileImageFile);
 
-      const user = await UserRepository.getUser()
+      const user = await UserRepository.getUser();
 
       if (banner && profileImage) {
         // Both images uploaded
@@ -103,76 +103,77 @@ const FormAccountSettings = () => {
           ...settings,
           banner_id: banner.id,
           gravatar_id: profileImage.id,
-        })
+        });
       } else if (banner) {
         // Only banner uploaded
         await SettingsRepository.updateStore(user.id, {
           ...settings,
           banner_id: banner.id,
-        })
+        });
       } else if (profileImage) {
         // Only profile image uploaded
         await SettingsRepository.updateStore(user.id, {
           ...settings,
           gravatar_id: profileImage.id,
-        })
+        });
       } else {
         // None uploaded
-        await SettingsRepository.updateStore(user.id, settings)
+        await SettingsRepository.updateStore(user.id, settings);
       }
 
-      setIsUploading(false)
+      setIsUploading(false);
       notification["success"]({
         message: "Updated settings uccessfully",
-      })
-      Router.reload(window.location.pathname)
+      });
+      Router.reload(window.location.pathname);
     } catch (err) {
-      setIsUploading(false)
+      setIsUploading(false);
+      console.log(err);
       notification["error"]({
         message: "Unable to update settings",
         description: "Please check your data connection and try again.",
-      })
+      });
     }
-  }
+  };
 
   const getSettings = async () => {
     try {
-      const _user = await UserRepository.getUser()
+      const _user = await UserRepository.getUser();
 
-      const _vendor = await SettingsRepository.getStoreById(_user.id)
+      const _vendor = await SettingsRepository.getStoreById(_user.id);
 
-      const _countries = await DataRepository.getCountries()
+      const _countries = await DataRepository.getCountries();
 
-      setCountries(_countries)
+      setCountries(_countries);
 
       const _country = _countries.find(
         (country) => country.name === _vendor.address.country
-      )
-      setStates(_country.states)
+      );
+      setStates(_country.states);
 
-      setProfileImage(_vendor.gravatar)
-      setBanner(_vendor.banner)
-      setName(_vendor.store_name)
-      setAddress(_vendor.address)
-      setNumber(_vendor.phone)
-      setShowEmail(_vendor.show_email)
-      setEnableTNC(_vendor.toc_enabled)
+      setProfileImage(_vendor.gravatar);
+      setBanner(_vendor.banner);
+      setName(_vendor.store_name);
+      setAddress(_vendor.address);
+      setNumber(_vendor.phone);
+      setShowEmail(_vendor.show_email);
+      setEnableTNC(_vendor.toc_enabled);
     } catch (err) {
       notification["error"]({
         message: "Unable to get settings",
         description: "Please check your data connection and try again.",
-      })
+      });
     }
-  }
+  };
 
   const _setStates = (_country) => {
-    const country = countries.find((country) => country.name == _country)
-    setStates(country.states)
-  }
+    const country = countries.find((country) => country.name == _country);
+    setStates(country.states);
+  };
 
   useEffect(() => {
-    getSettings()
-  }, [])
+    getSettings();
+  }, []);
   return (
     <form className="ps-form--account-settings">
       <div className="row">
@@ -417,8 +418,8 @@ const FormAccountSettings = () => {
         </button>
       </div>
     </form>
-  )
-}
+  );
+};
 
 const styles = {
   imgPicker: {
@@ -441,6 +442,6 @@ const styles = {
     marginBottom: 20,
     marginLeft: "2em",
   },
-}
+};
 
-export default FormAccountSettings
+export default FormAccountSettings;
