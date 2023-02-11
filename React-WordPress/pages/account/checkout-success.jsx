@@ -42,7 +42,7 @@ const CheckoutSuccessPage = () => {
                 .retrievePaymentIntent(clientSecret)
                 .then(({ paymentIntent }) => {
                     switch (paymentIntent.status) {
-                        case "succeeded":
+                        case "succeeded": {
                             let checkoutItems = JSON.parse(
                                 JSON.parse(
                                     localStorage.getItem("persist:martfury")
@@ -52,6 +52,7 @@ const CheckoutSuccessPage = () => {
                             dispatch(clearCheckoutItems());
                             dispatch(removeItems(checkoutItems));
                             break;
+                        }
                         case "processing":
                             console.log("Your payment is processing.");
                             break;
@@ -78,11 +79,11 @@ const CheckoutSuccessPage = () => {
                                 <h1>Checkout Success</h1>
                                 <p>Thank you. Your order has been received</p>
                                 <p>
-                                    Your order number is{" "}
-                                    {!!orderNumber ? (
-                                        <strong>{orderNumber}</strong>
+                                    Your order number is
+                                    {orderNumber ? (
+                                        <strong> {orderNumber}</strong>
                                     ) : (
-                                        <Spin />
+                                        <Spin style={{ marginLeft: 5 }} />
                                     )}
                                 </p>
                             </div>
