@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-import WPVendorRepository from '~/repositories/WP/WPVendorRepository';
-import WPStore from '~/wp-components/elements/stores/WPStore';
-import { generateTempArray } from '~/utilities/common-helpers';
-import SkeletonVendor from '~/components/elements/skeletons/SkeletonVendor';
+import WPVendorRepository from "~/repositories/WP/WPVendorRepository";
+import WPStore from "~/wp-components/elements/stores/WPStore";
+import { generateTempArray } from "~/utilities/common-helpers";
+import SkeletonVendor from "~/components/elements/skeletons/SkeletonVendor";
+import { Spin, notification } from "antd";
+import ReactHtmlParser from "react-html-parser";
 
 const WPStores = () => {
     const [loading, setLoading] = useState(true);
     const [storeItems, setStoreItems] = useState(null);
+    const [searchKeyword, setSearchKeyword] = useState("");
+    const [isSearching, setIsSearching] = useState(false);
 
     async function getStores() {
         const params = {
@@ -22,6 +26,45 @@ const WPStores = () => {
             }, 200);
             setStoreItems(WPStores.items);
         }
+    }
+
+    async function search(e) {
+        e.preventDefault();
+        if (!isSearching) {
+            const params = {
+                page: 1,
+                per_page: 10,
+                search: searchKeyword,
+            };
+
+            setIsSearching(true);
+
+            try {
+                const stores = await WPVendorRepository.getStores(params);
+
+                if (stores && stores.items.length > 0) {
+                    setStoreItems(stores.items);
+                } else {
+                    notification["info"]({
+                        message: `No result found for '${searchKeyword}'`,
+                    });
+                }
+            } catch (error) {
+                notification["error"]({
+                    message: "Unable to search product",
+                    description:
+                        error.response === undefined
+                            ? ReactHtmlParser(String(error))
+                            : ReactHtmlParser(error.response.data.message),
+                });
+            } finally {
+                setIsSearching(false);
+            }
+        }
+    }
+
+    function handleSearchValue(e) {
+        setSearchKeyword(e.target.value);
     }
 
     useEffect(() => {
@@ -60,14 +103,23 @@ const WPStores = () => {
                     <div className="ps-section__search row">
                         <div className="col-md-4">
                             <div className="form-group">
-                                <button>
-                                    <i className="icon-magnifier"></i>
-                                </button>
-                                <input
-                                    className="form-control"
-                                    type="text"
-                                    placeholder="Search vendor..."
-                                />
+                                <form onSubmit={search}>
+                                    <button
+                                        onClick={search}
+                                        disabled={isSearching}>
+                                        {isSearching ? (
+                                            <Spin style={{ marginTop: 5 }} />
+                                        ) : (
+                                            <i className="icon icon-magnifier"></i>
+                                        )}
+                                    </button>
+                                    <input
+                                        className="form-control"
+                                        type="text"
+                                        placeholder="Search vendor..."
+                                        onChange={handleSearchValue}
+                                    />
+                                </form>
                             </div>
                         </div>
                     </div>

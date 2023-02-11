@@ -14,8 +14,11 @@ class WPVendorRepository {
         this.callback = callback;
     }
 
-    async getStores() {
-        const endpoint = "wp-json/dokan/v1/stores";
+    async getStores(params) {
+        const endpoint = `wp-json/dokan/v1/stores?${serializeQuery({
+            ...params,
+            ...oathInfo,
+        })}`;
         const reponse = await WPRepository.get(`${WPDomain}/${endpoint}`)
             .then((response) => {
                 if (response.data && response.data.length > 0) {
