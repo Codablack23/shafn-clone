@@ -40,7 +40,9 @@ class WPMiniCart extends Component {
                         </h3>
                         <figure>
                             <Link href="/account/shopping-cart">
-                                <a className="w3-black w3-border w3-hover-white rounded" style={style}>
+                                <a
+                                    className="w3-black w3-border w3-hover-white rounded"
+                                    style={style}>
                                     View Cart
                                 </a>
                             </Link>
@@ -80,7 +82,7 @@ class WPMiniCart extends Component {
                             fontSize: "22px",
                             color: "#2A3147",
                         }}></i>
-                    <span style={{height:15,right:"-1px",width:15}}>
+                    <span style={{ height: 15, right: "-1px", width: 15 }}>
                         <i>{cartTotal ? cartTotal : 0}</i>
                     </span>
                 </span>

@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Link from 'next/link';
-import { getCart, removeItem } from '../../../../store/cart/action';
-import { isStaticData } from '../../../../utilities/app-settings';
-import { baseUrl } from '../../../../repositories/Repository';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import Link from "next/link";
+import { getCart, removeItem } from "../../../../store/cart/action";
+import { isStaticData } from "../../../../utilities/app-settings";
+import { baseUrl } from "../../../../repositories/Repository";
 class MiniCart extends Component {
     constructor(props) {
         super(props);
@@ -13,7 +13,7 @@ class MiniCart extends Component {
         this.props.dispatch(getCart());
     }
 
-    handleRemoveCartItem = product => {
+    handleRemoveCartItem = (product) => {
         this.props.dispatch(removeItem(product));
     };
 
@@ -31,7 +31,7 @@ class MiniCart extends Component {
                     <div className="ps-cart__content">
                         <div className="ps-cart__items">
                             {cartItems && cartItems.length > 0
-                                ? cartItems.map(product => (
+                                ? cartItems.map((product) => (
                                       <div
                                           className="ps-product--cart-mobile"
                                           key={product.id}>
@@ -71,7 +71,7 @@ class MiniCart extends Component {
                                                   </a>
                                               </Link>
                                               <p>
-                                                  <strong>Sold by:</strong>{' '}
+                                                  <strong>Sold by:</strong>{" "}
                                                   {product.vendor}
                                               </p>
                                               <small>
@@ -81,7 +81,7 @@ class MiniCart extends Component {
                                           </div>
                                       </div>
                                   ))
-                                : ''}
+                                : ""}
                         </div>
                         <div className="ps-cart__footer">
                             <h3>
@@ -110,7 +110,7 @@ class MiniCart extends Component {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return state.cart;
 };
 

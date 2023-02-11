@@ -1,15 +1,15 @@
 import React, { useLayoutEffect } from "react";
-import { useSelector, connect } from "react-redux";
 import Router from "next/router";
 import UserInformation from "~/components/partials/account/UserInformation";
 import WPLayout from "~/wp-components/layouts/WPLayout";
 import { scrollPageToTop } from "~/utilities/common-helpers";
 
-const UserInformationPage = (props) => {
-    const { auth } = props;
-
+const UserInformationPage = () => {
     useLayoutEffect(() => {
-        console.log(auth.isLoggedIn);
+        let auth = JSON.parse(
+            JSON.parse(localStorage.getItem("persist:martfury")).auth
+        );
+
         if (!auth.isLoggedIn) {
             Router.push("/account/login");
         }
@@ -26,4 +26,4 @@ const UserInformationPage = (props) => {
     );
 };
 
-export default connect((state) => state)(UserInformationPage);
+export default UserInformationPage;

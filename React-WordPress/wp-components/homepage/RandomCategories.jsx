@@ -43,13 +43,14 @@ function RandomCategories() {
 
     return (
         <>
-            {categories.map((category,i) => (
-                <WPProductList
-                    key={category?category.id:i}
-                    categoryID={category ?category.id:""}
-                    title={category?category.name:""}
-                />
-            ))}
+            {categories &&
+                categories.map((category) => (
+                    <WPProductList
+                        key={category.id}
+                        categoryID={category.id}
+                        title={category.name}
+                    />
+                ))}
         </>
     );
 }
