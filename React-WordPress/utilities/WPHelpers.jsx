@@ -30,12 +30,19 @@ function caculateDiscount(price, salePrice) {
 export function WPGetProductImage(product) {
     let image;
     if (product.images && product.images.length > 0) {
-        image = <img src={product.images[0].src} alt={product.name} />;
+        image = (
+            <img
+                src={product.images[0].src}
+                alt={product.name}
+                loading="lazy"
+            />
+        );
     } else {
         image = (
             <img
                 src="/static/img/undefined-product-thumbnail.jpg"
                 alt={product.name}
+                loading="lazy"
             />
         );
     }
@@ -106,19 +113,24 @@ export function WPProductPriceView(product) {
 export function WPProductThumbnailView(product) {
     let view;
     if (product.images && product.images.length > 0) {
-        view = <img 
-        src={product.images[0].src} 
-          style={{
-            width:"100%",
-            display:"block",
-            margin:"auto"
-        }} 
-        alt={product.name} />;
+        view = (
+            <img
+                src={product.images[0].src}
+                style={{
+                    width: "100%",
+                    display: "block",
+                    margin: "auto",
+                }}
+                alt={product.name}
+                loading="lazy"
+            />
+        );
     } else {
         view = (
             <img
                 src="/static/img/undefined-product-thumbnail.jpg"
                 alt={product.name}
+                loading="lazy"
             />
         );
     }

@@ -96,8 +96,6 @@ function* removeItemsSaga(payload) {
     try {
         const { products } = payload;
 
-        console.log(products);
-
         let localCart = JSON.parse(
             JSON.parse(localStorage.getItem("persist:martfury")).cart
         );
