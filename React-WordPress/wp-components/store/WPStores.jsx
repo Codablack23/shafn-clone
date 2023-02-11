@@ -4,19 +4,20 @@ import WPVendorRepository from "~/repositories/WP/WPVendorRepository";
 import WPStore from "~/wp-components/elements/stores/WPStore";
 import { generateTempArray } from "~/utilities/common-helpers";
 import SkeletonVendor from "~/components/elements/skeletons/SkeletonVendor";
-import { Spin, notification } from "antd";
+import { Spin, notification, Pagination } from "antd";
 import ReactHtmlParser from "react-html-parser";
 
 const WPStores = () => {
     const [loading, setLoading] = useState(true);
-    const [storeItems, setStoreItems] = useState(null);
+    const [stores, setStores] = useState(null);
     const [searchKeyword, setSearchKeyword] = useState("");
     const [isSearching, setIsSearching] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
 
     async function getStores() {
         const params = {
             pages: 1,
-            per_page: 8,
+            per_page: 10,
         };
         const WPStores = await WPVendorRepository.getStores(params);
 
@@ -24,7 +25,7 @@ const WPStores = () => {
             setTimeout(function () {
                 setLoading(false);
             }, 200);
-            setStoreItems(WPStores.items);
+            setStores(WPStores);
         }
     }
 
@@ -43,7 +44,7 @@ const WPStores = () => {
                 const stores = await WPVendorRepository.getStores(params);
 
                 if (stores && stores.items.length > 0) {
-                    setStoreItems(stores.items);
+                    setStores(stores);
                 } else {
                     notification["info"]({
                         message: `No result found for '${searchKeyword}'`,
@@ -67,15 +68,34 @@ const WPStores = () => {
         setSearchKeyword(e.target.value);
     }
 
+    async function handlePagination(page, pageSize) {
+        setCurrentPage(page);
+        const params = {
+            page,
+            per_page: pageSize,
+        };
+
+        try {
+            const stores = await WPVendorRepository.getStores(params);
+
+            setStores(stores);
+        } catch (error) {
+            notification["error"]({
+                message: "Unable to get stores",
+                description: "Please check your data connection and try again.",
+            });
+        }
+    }
+
     useEffect(() => {
         getStores();
     }, []);
 
     // Views
-    let storeItemsView;
+    let storesView;
     if (!loading) {
-        if (storeItems) {
-            storeItemsView = storeItems.map((item) => (
+        if (stores) {
+            storesView = stores?.items.map((item) => (
                 <div
                     className="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12 "
                     key={item.id}>
@@ -83,10 +103,10 @@ const WPStores = () => {
                 </div>
             ));
         } else {
-            storeItemsView = <p>No store found.</p>;
+            storesView = <p>No store found.</p>;
         }
     } else {
-        storeItemsView = generateTempArray(3).map((item) => (
+        storesView = generateTempArray(3).map((item) => (
             <div className="col-md-4" key={item}>
                 <SkeletonVendor key={item} />
             </div>
@@ -123,7 +143,15 @@ const WPStores = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="row">{storeItemsView}</div>
+                    <div className="row">{storesView}</div>
+                    <Pagination
+                        total={stores && stores.totalItems}
+                        pageSize={10}
+                        responsive={true}
+                        current={currentPage}
+                        onChange={handlePagination}
+                        style={{ marginBottom: 10 }}
+                    />
                 </div>
             </div>
         </section>
