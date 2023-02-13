@@ -16,7 +16,7 @@
         }
     }
 
-    @include media('<lg') {
+    @include media("<lg") {
         p {
             margin-bottom: 10px;
         }
@@ -39,10 +39,10 @@
         vertical-align: top;
 
         &:after {
-            content: '\e93a';
+            content: "\e93a";
             @include vertical-align();
             right: 8px;
-            font-family: 'Linearicons';
+            font-family: "Linearicons";
             font-size: 12px;
         }
 
@@ -343,6 +343,7 @@
 
     .ps-form__content {
         padding: 30px 30px 0;
+        padding-bottom: 30px;
 
         h5 {
             margin: 0 0 25px;
@@ -381,7 +382,7 @@
         }
     }
 
-    @include media('<md') {
+    @include media("<md") {
         .form-group {
             > label {
                 font-size: 16px;
@@ -505,8 +506,8 @@
         margin-bottom: 10px;
 
         &:after {
-            content: '\e789';
-            font-family: 'Linearicons';
+            content: "\e789";
+            font-family: "Linearicons";
             @include vertical-align();
             right: 10px;
             font-size: 16px;
@@ -553,7 +554,7 @@
         position: relative;
 
         &:before {
-            content: '';
+            content: "";
             @include vertical-align();
             left: 0;
             width: 1px;

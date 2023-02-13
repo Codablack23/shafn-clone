@@ -39,10 +39,10 @@
 .ps-section--gray {
     padding: 70px 0;
     background-color: #f4f5f5;
-    @include media('<sm') {
+    @include media("<sm") {
         padding: 50px 0;
     }
-    @include media('<xs') {
+    @include media("<xs") {
         padding: 35px 0;
     }
 }
@@ -69,7 +69,7 @@
         }
     }
 
-    @include media('<md') {
+    @include media("<md") {
         padding: 75px 0;
         .ps-section__header {
             padding-bottom: 50px;
@@ -79,7 +79,7 @@
             }
         }
     }
-    @include media('<sm') {
+    @include media("<sm") {
         padding: 60px 0;
         .ps-section__header {
             h4 {
@@ -87,7 +87,7 @@
             }
         }
     }
-    @include media('<xs') {
+    @include media("<xs") {
         padding: 50px 0;
         .ps-section__header {
             p {
@@ -115,7 +115,7 @@
         }
     }
 
-    @include media('<md') {
+    @include media("<md") {
         padding: 75px 0;
         .ps-section__header {
             h1 {
@@ -123,7 +123,7 @@
             }
         }
     }
-    @include media('<sm') {
+    @include media("<sm") {
         padding: 60px 0;
         .ps-section__header {
             padding-bottom: 40px;
@@ -133,7 +133,7 @@
             }
         }
     }
-    @include media('<xs') {
+    @include media("<xs") {
         padding: 50px 0;
     }
 }
@@ -142,7 +142,7 @@
     padding: 65px 0;
     border-top: 1px solid #e1e1e1;
     border-bottom: 1px solid #e1e1e1;
-    @include media('<sm') {
+    @include media("<sm") {
         padding: 50px 0;
     }
 }
@@ -214,13 +214,13 @@
         }
     }
 
-    @include media('<lg') {
+    @include media("<lg") {
         .ps-section__header {
             flex-flow: row wrap;
         }
     }
 
-    @include media('<md') {
+    @include media("<md") {
         .ps-section__header {
             h3 {
                 padding-bottom: 10px;
@@ -236,7 +236,7 @@
         }
     }
 
-    @include media('<sm') {
+    @include media("<sm") {
         .row {
             margin: 0 -2px;
 
@@ -270,7 +270,7 @@
             }
         }
     }
-    @include media('<md') {
+    @include media("<md") {
         .ps-section__content {
             .col-12 {
                 max-width: 50%;
@@ -338,14 +338,14 @@
     flex-flow: row nowrap;
     justify-content: space-between;
     align-items: center;
-    @include media('<sm') {
+    @include media("<sm") {
         flex-flow: row wrap;
         > * {
             max-width: 20%;
             padding: 5px 10px;
         }
     }
-    @include media('<xs') {
+    @include media("<xs") {
         > * {
             max-width: 25%;
         }
@@ -372,7 +372,7 @@
         max-width: calc(100% - 320px);
     }
 
-    @include media('<lg') {
+    @include media("<lg") {
         flex-flow: column-reverse wrap;
         .ps-layout__left {
             max-width: 100%;
@@ -385,7 +385,7 @@
         }
     }
 
-    @include media('<sm') {
+    @include media("<sm") {
         padding-bottom: 45px;
     }
 }
@@ -514,11 +514,11 @@
         }
     }
 
-    @include media('<lg') {
+    @include media("<lg") {
         margin-top: 40px;
     }
 
-    @include media('<sm') {
+    @include media("<sm") {
         .ps-shopping__header {
             flex-flow: row nowrap;
             justify-content: space-between;
@@ -543,7 +543,7 @@
         }
     }
 
-    @include media('<xs') {
+    @include media("<xs") {
         .ps-shopping__header {
             flex-flow: row wrap;
             p {
@@ -653,7 +653,7 @@
         }
     }
 
-    @include media('<md') {
+    @include media("<md") {
         .ps-image-list {
             border: 1px solid rgba(#000, 0.15);
 
@@ -665,7 +665,7 @@
         }
     }
 
-    @include media('<sm') {
+    @include media("<sm") {
         .ps-image-list {
             li {
                 min-width: 33.3333%;
@@ -674,7 +674,7 @@
         }
     }
 
-    @include media('<xs') {
+    @include media("<xs") {
         .ps-image-list {
             li {
                 min-width: 50%;
@@ -727,7 +727,7 @@
         }
     }
 
-    @include media('<xs') {
+    @include media("<xs") {
         .ps-section__header {
             h3 {
                 font-size: 18px;
@@ -757,7 +757,7 @@
         }
     }
 
-    @include media('<sm') {
+    @include media("<sm") {
         .ps-section__header {
             flex-flow: row wrap;
 
@@ -777,7 +777,7 @@
         @extend %list-reset;
     }
 
-    @include media('<sm') {
+    @include media("<sm") {
         padding-bottom: 50px;
     }
 }
@@ -818,7 +818,7 @@
         }
     }
 
-    @include media('<lg') {
+    @include media("<lg") {
         .ps-blog__left {
             padding-right: 0;
         }
@@ -829,7 +829,7 @@
             }
         }
     }
-    @include media('<md') {
+    @include media("<md") {
         flex-flow: column wrap;
         .ps-blog__left {
             margin-bottom: 50px;
@@ -845,10 +845,10 @@
             }
         }
     }
-    @include media('<sm') {
+    @include media("<sm") {
         padding-bottom: 45px;
     }
-    @include media('<xs') {
+    @include media("<xs") {
         padding-bottom: 30px;
     }
 }
@@ -911,15 +911,15 @@
         padding-top: 90px;
     }
 
-    @include media('<lg') {
+    @include media("<lg") {
         padding: 80px 0;
     }
 
-    @include media('<md') {
+    @include media("<md") {
         padding: 70px 0;
     }
 
-    @include media('<sm') {
+    @include media("<sm") {
         padding: 50px 0;
         .ps-section__header {
             h4 {
@@ -965,13 +965,13 @@
         }
     }
 
-    @include media('<lg') {
+    @include media("<lg") {
         .ps-section__header {
             padding-left: 0;
             padding-bottom: 50px;
         }
     }
-    @include media('<md') {
+    @include media("<md") {
         padding: 90px 0;
         .ps-section__header {
             padding-bottom: 40px;
@@ -986,7 +986,7 @@
             }
         }
     }
-    @include media('<sm') {
+    @include media("<sm") {
         padding: 60px 0;
         .ps-section__header {
             padding-bottom: 30px;
@@ -1001,7 +1001,7 @@
             }
         }
     }
-    @include media('<xs') {
+    @include media("<xs") {
     }
 }
 
@@ -1033,15 +1033,15 @@
     .ps-section__content {
     }
 
-    @include media('<lg') {
+    @include media("<lg") {
         padding: 100px 0;
     }
 
-    @include media('<md') {
+    @include media("<md") {
         padding: 80px 0;
     }
 
-    @include media('<sm') {
+    @include media("<sm") {
         padding: 70px 0;
         .ps-section__header {
             h4 {
@@ -1055,7 +1055,7 @@
         }
     }
 
-    @include media('<xs') {
+    @include media("<xs") {
         padding: 50px 0;
     }
 }
@@ -1070,13 +1070,13 @@
         font-weight: 600;
     }
 
-    @include media('<md') {
+    @include media("<md") {
         padding: 60px 0;
         h3 {
             font-size: 24px;
         }
     }
-    @include media('<xs') {
+    @include media("<xs") {
         padding: 45px 0;
         h3 {
             font-size: 20px;
@@ -1097,12 +1097,12 @@
         line-height: 1em;
     }
 
-    @include media('<md') {
+    @include media("<md") {
         h3 {
             font-size: 24px;
         }
     }
-    @include media('<xs') {
+    @include media("<xs") {
         h3 {
             font-size: 20px;
         }
@@ -1122,7 +1122,7 @@
         }
     }
 
-    @include media('<sm') {
+    @include media("<sm") {
         .ps-section__header {
             padding-bottom: 50px;
 
@@ -1153,13 +1153,13 @@
         }
     }
 
-    @include media('<md') {
+    @include media("<md") {
         padding: 100px 0;
     }
-    @include media('<sm') {
+    @include media("<sm") {
         padding: 80px 0;
     }
-    @include media('<xs') {
+    @include media("<xs") {
         padding: 65px 0;
     }
 }
@@ -1189,13 +1189,13 @@
         border-radius: 0;
     }
 
-    @include media('<lg') {
+    @include media("<lg") {
         padding: 120px 0;
         h2 {
             font-size: 36px;
         }
     }
-    @include media('<md') {
+    @include media("<md") {
         padding: 100px 0;
         h2 {
             font-size: 28px;
@@ -1205,13 +1205,13 @@
             padding: 15px 30px;
         }
     }
-    @include media('<sm') {
+    @include media("<sm") {
         padding: 80px 0;
         .ps-btn {
             font-size: 16px;
         }
     }
-    @include media('<xs') {
+    @include media("<xs") {
         padding: 60px 0;
         h2 {
             font-size: 24px;
@@ -1220,7 +1220,7 @@
 }
 
 .ps-vendor-about {
-    @include media('<md') {
+    @include media("<md") {
         .ps-block--icon-box-2 {
             max-width: 450px;
             margin: 0 auto 40px;
@@ -1334,7 +1334,7 @@
         }
     }
 
-    @include media('<sm') {
+    @include media("<sm") {
         .ps-section__content {
             > h5 {
                 font-size: 16px;
@@ -1363,7 +1363,7 @@
         }
     }
 
-    @include media('<xs') {
+    @include media("<xs") {
         .ps-section__numbers {
             figure {
                 width: 100px;
@@ -1427,7 +1427,7 @@
         }
     }
 
-    @include media('<md') {
+    @include media("<md") {
         .ps-section__footer {
             padding-top: 60px;
 
@@ -1441,7 +1441,7 @@
             }
         }
     }
-    @include media('<xs') {
+    @include media("<xs") {
         .ps-section__footer {
             padding-top: 50px;
 
@@ -1478,7 +1478,7 @@
         }
     }
 
-    @include media('<md') {
+    @include media("<md") {
         padding: 75px 0;
         .ps-section__header {
             padding-bottom: 60px;
@@ -1493,10 +1493,10 @@
             }
         }
     }
-    @include media('<sm') {
+    @include media("<sm") {
         padding: 60px 0;
     }
-    @include media('<xs') {
+    @include media("<xs") {
         .ps-section__header {
             padding-bottom: 40px;
         }
@@ -1548,8 +1548,8 @@
                 margin-bottom: 35px;
 
                 &:after {
-                    content: '\e93a';
-                    font-family: 'Linearicons';
+                    content: "\e93a";
+                    font-family: "Linearicons";
                     @include vertical-align();
                     right: 0;
                 }
@@ -1582,7 +1582,7 @@
         }
     }
 
-    @include media('<xs') {
+    @include media("<xs") {
         .ps-section__cart-actions {
             flex-flow: row wrap;
 
@@ -1620,7 +1620,7 @@
         margin-bottom: 45px;
     }
 
-    @include media('<lg') {
+    @include media("<lg") {
         .ps-section__container {
             flex-flow: column wrap;
 
@@ -1707,7 +1707,7 @@
         }
     }
 
-    @include media('<sm') {
+    @include media("<sm") {
         .ps-section__header {
             padding: 60px 0;
 
@@ -1729,7 +1729,7 @@
             }
         }
     }
-    @include media('<xs') {
+    @include media("<xs") {
         .ps-section__header {
             padding: 50px 0;
 
@@ -1867,7 +1867,7 @@
                 }
             }
 
-            input[type='radio']:checked ~ label {
+            input[type="radio"]:checked ~ label {
                 &:before {
                     background-color: transparent;
                     border-color: $color-heading;
@@ -2204,21 +2204,21 @@
         padding-bottom: 100px;
     }
 }
-.custom--select{
+.custom--select {
     color: #000;
     font-size: 17px;
     font-weight: 500;
-    width:250px;
+    width: 250px;
     cursor: pointer;
     padding: 0.6em;
-    background-color: #F1F1F1;
-    *{
+    background-color: #f1f1f1;
+    * {
         font-size: 17px;
         font-weight: 500;
     }
-    select{
-        &:focus{
-            outline: none; 
+    select {
+        &:focus {
+            outline: none;
         }
         outline: none;
         border: none;
@@ -2228,26 +2228,26 @@
         display: block;
     }
     transition: all ease-in 0.2s;
-    &:hover{
+    &:hover {
         background-color: transparent;
-        border: 1px solid #CECECE;
+        border: 1px solid #cecece;
         transform: scale(1.025);
-      }
+    }
 }
-.share{
-    .social-link{
-        margin-right:12px;
-        i{
-            font-size:24px;
+.share {
+    .social-link {
+        margin-right: 12px;
+        i {
+            font-size: 24px;
         }
     }
-    i.bi-facebook{
-        color: #1B74E4;
+    i.bi-facebook {
+        color: #1b74e4;
     }
-    i.bi-twitter{
-        color: #1D9BF0;
+    i.bi-twitter {
+        color: #1d9bf0;
     }
-    i.bi-pinterest{
-        color:#CC0000 ;
+    i.bi-pinterest {
+        color: #cc0000;
     }
 }

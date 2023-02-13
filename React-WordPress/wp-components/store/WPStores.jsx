@@ -92,7 +92,7 @@ const WPStores = () => {
     }, []);
 
     // Views
-    let storesView;
+    let storesView, paginationView;
     if (!loading) {
         if (stores) {
             storesView = stores?.items.map((item) => (
@@ -102,6 +102,20 @@ const WPStores = () => {
                     <WPStore store={item} />
                 </div>
             ));
+
+            if (stores.totalPages > 1) {
+                paginationView = (
+                    <div className="pb-40">
+                        <Pagination
+                            total={stores && stores.totalItems}
+                            pageSize={10}
+                            responsive={false}
+                            current={currentPage}
+                            onChange={handlePagination}
+                        />
+                    </div>
+                );
+            }
         } else {
             storesView = <p>No store found.</p>;
         }
@@ -135,7 +149,7 @@ const WPStores = () => {
                                     </button>
                                     <input
                                         className="form-control"
-                                        type="text"
+                                        type="search"
                                         placeholder="Search vendor..."
                                         onChange={handleSearchValue}
                                     />
@@ -144,14 +158,7 @@ const WPStores = () => {
                         </div>
                     </div>
                     <div className="row">{storesView}</div>
-                    <Pagination
-                        total={stores && stores.totalItems}
-                        pageSize={10}
-                        responsive={true}
-                        current={currentPage}
-                        onChange={handlePagination}
-                        style={{ marginBottom: 10 }}
-                    />
+                    {paginationView}
                 </div>
             </div>
         </section>

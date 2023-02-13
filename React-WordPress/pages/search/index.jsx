@@ -7,11 +7,13 @@ import WPLayout from "~/wp-components/layouts/WPLayout";
 import WPProduct from "~/wp-components/elements/products/WPProduct";
 import { generateTempArray, scrollPageToTop } from "~/utilities/common-helpers";
 import SkeletonProduct from "~/components/elements/skeletons/SkeletonProduct";
+import { Pagination } from "antd";
 
 const WPSearchPage = ({ query }) => {
     const [keyword, setKeyword] = useState(null);
     const [products, setProducts] = useState(null);
     const [loading, setLoading] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
 
     async function getCategory(id) {
         const category = await WPProductRepository.getCategoryByID(id);
@@ -41,6 +43,33 @@ const WPSearchPage = ({ query }) => {
         }
     }
 
+    async function handlePagination(page, pageSize) {
+        if (query && query.keyword) {
+            setCurrentPage(page);
+            const params = {
+                page,
+                per_page: pageSize,
+                search: query.keyword,
+            };
+
+            try {
+                const WPProducts = await WPProductRepository.getProducts(
+                    params
+                );
+
+                if (WPProducts) {
+                    setProducts(WPProducts);
+                }
+            } catch (error) {
+                notification["error"]({
+                    message: "Unable to get products",
+                    description:
+                        "Please check your data connection and try again.",
+                });
+            }
+        }
+    }
+
     async function getProductResult() {
         if (query && query.keyword) {
             setKeyword(query.keyword);
@@ -51,6 +80,7 @@ const WPSearchPage = ({ query }) => {
             };
             setLoading(true);
             const WPProducts = await WPProductRepository.getProducts(queries);
+
             if (WPProducts || WPProducts === null) {
                 setProducts(WPProducts);
                 setTimeout(
@@ -70,11 +100,12 @@ const WPSearchPage = ({ query }) => {
              router.events.off('routeChangeStart', getProductOnChangeURL);
          };*/
     }
+
     useEffect(() => {
         getProductResult();
     }, []);
 
-    let productItemView, countProductsView;
+    let productItemView, paginationView, countProductsView;
 
     if (!loading) {
         if (products && products.items) {
@@ -84,6 +115,20 @@ const WPSearchPage = ({ query }) => {
                 </div>
             ));
             productItemView = <div className="row">{productItems}</div>;
+
+            if (products.totalPages > 1) {
+                paginationView = (
+                    <div className="pb-40">
+                        <Pagination
+                            total={products && products.totalItems}
+                            pageSize={10}
+                            responsive={false}
+                            current={currentPage}
+                            onChange={handlePagination}
+                        />
+                    </div>
+                );
+            }
         } else {
             productItemView = (
                 <div className="ps-not-found text-center pt-100 pb-100">
@@ -113,6 +158,7 @@ const WPSearchPage = ({ query }) => {
                             <div className="ps-section__content">
                                 {productItemView}
                             </div>
+                            {paginationView}
                         </section>
                     </div>
                 </div>
