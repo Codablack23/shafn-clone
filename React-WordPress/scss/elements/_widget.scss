@@ -2,7 +2,6 @@
     position: relative;
     padding-bottom: 20px;
     margin-bottom: 20px;
-
     .widget-title {
         margin-bottom: 2.5rem;
         font-weight: 700;
@@ -40,7 +39,7 @@
                 color: $color-text;
 
                 &:before {
-                    content: '\f105';
+                    content: "\f105";
                     font-family: FontAwesome;
                     @include hidden;
                     position: absolute;
@@ -115,7 +114,7 @@
             font-size: 14px;
         }
 
-        input[type='checkbox']:checked ~ label {
+        input[type="checkbox"]:checked ~ label {
             font-weight: 500;
             color: $color-1st;
 
@@ -552,7 +551,7 @@
             color: #999;
 
             &:after {
-                content: ',';
+                content: ",";
             }
 
             &:hover {
@@ -603,7 +602,7 @@
             color: $color-heading;
 
             &:before {
-                content: '\f105';
+                content: "\f105";
                 font-size: 20px;
             }
         }
