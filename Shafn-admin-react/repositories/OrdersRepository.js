@@ -1,23 +1,24 @@
-import { WPDomain, oathInfo, serializeQuery } from "./Repository"
-import axios from "axios"
+import { WPDomain, oathInfo, serializeQuery } from "./Repository";
+import axios from "axios";
 
 class OrdersRepository {
   constructor(callback) {
-    this.callback = callback
+    this.callback = callback;
   }
 
   getConfig() {
-    const auth_token = localStorage.getItem("auth_token")
+    const auth_token = localStorage.getItem("auth_token");
 
-    const { decrypt } = require("~/utilities/helperFunctions")
+    const { decrypt } = require("~/utilities/helperFunctions");
 
     const config = {
       headers: {
         Authorization: `Bearer ${decrypt(auth_token)}`,
       },
-    }
+    };
 
-    return config
+    console.log("config: ", config);
+    return config;
   }
 
   async getOrders(payload) {
@@ -26,8 +27,8 @@ class OrdersRepository {
           ...payload,
           ...oathInfo,
         })}`
-      : `${WPDomain}/wp-json/dokan/v1/orders`
-    const config = this.getConfig()
+      : `${WPDomain}/wp-json/dokan/v1/orders`;
+    const config = this.getConfig();
 
     const response = axios.get(endpoint, config).then((res) => {
       if (res.data && res.data.length > 0) {
@@ -35,31 +36,31 @@ class OrdersRepository {
           items: res.data,
           totalItems: res.headers["x-wp-total"],
           totalPages: res.headers["x-wp-totalpages"],
-        }
-        return data
-      } else return null
-    })
+        };
+        return data;
+      } else return null;
+    });
 
-    return response
+    return response;
   }
 
   async getOrderById(id) {
-    const endpoint = `${WPDomain}/wp-json/dokan/v1/orders/${id}`
-    const config = this.getConfig()
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/orders/${id}`;
+    const config = this.getConfig();
 
-    const response = await axios.get(endpoint, config).then((res) => res.data)
+    const response = await axios.get(endpoint, config).then((res) => res.data);
 
-    return response
+    return response;
   }
 
   async updateOrder(id, status) {
-    const endpoint = `${WPDomain}/wp-json/dokan/v1/orders/${id}/?status=${status}`
-    const config = this.getConfig()
+    const endpoint = `${WPDomain}/wp-json/dokan/v1/orders/${id}/?status=${status}`;
+    const config = this.getConfig();
 
-    const response = await axios.put(endpoint, config).then((res) => res.data)
+    const response = await axios.put(endpoint, config).then((res) => res.data);
 
-    return response
+    return response;
   }
 }
 
-export default new OrdersRepository()
+export default new OrdersRepository();

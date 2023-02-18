@@ -1,19 +1,19 @@
-import React from "react"
-import Link from "next/link"
+import React from "react";
+import Link from "next/link";
 
 const TableOrdersItems = ({ orders }) => {
-  let tableItemsView
+  let tableItemsView;
 
-  if (orders && Number(orders.totalItems) > 0) {
+  if (orders && orders.items.length > 0) {
     tableItemsView = orders.items.map((item) => {
-      let status
+      let status;
 
       if (item.status === "completed" || item.status === "refunded") {
-        status = <span className="ps-fullfillment success">{item.status}</span>
+        status = <span className="ps-fullfillment success">{item.status}</span>;
       } else if (item.status === "failed" || item.status === "cancelled") {
-        status = <span className="ps-fullfillment danger">{item.status}</span>
+        status = <span className="ps-fullfillment danger">{item.status}</span>;
       } else {
-        status = <span className="ps-fullfillment warning">{item.status}</span>
+        status = <span className="ps-fullfillment warning">{item.status}</span>;
       }
 
       return (
@@ -42,8 +42,8 @@ const TableOrdersItems = ({ orders }) => {
             <strong>{new Date(item.date_created).toDateString()}</strong>
           </td>
         </tr>
-      )
-    })
+      );
+    });
   }
 
   return (
@@ -61,7 +61,7 @@ const TableOrdersItems = ({ orders }) => {
         <tbody>{tableItemsView}</tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
-export default TableOrdersItems
+export default TableOrdersItems;

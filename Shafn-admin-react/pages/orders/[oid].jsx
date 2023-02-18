@@ -1,109 +1,111 @@
-import React, { useState, useEffect } from "react"
-import Link from "next/link"
-import ContainerDefault from "~/components/layouts/ContainerDefault"
-import ModuleOrderShippingInformation from "~/components/partials/orders/ModuleOrderShippingInformation"
-import ModuleOrderBillingInformation from "~/components/partials/orders/ModuleOrderBillingInformation"
-import HeaderDashboard from "~/components/shared/headers/HeaderDashboard"
-import { connect, useDispatch } from "react-redux"
-import { toggleDrawerMenu } from "~/store/app/action"
-import { notification, Select, Button, Popconfirm } from "antd"
-import OrdersRepository from "~/repositories/OrdersRepository"
-import ProductRepository from "~/repositories/ProductRepository"
-import { domain } from "~/repositories/Repository"
-import DefaultLayout from "~/components/layouts/DefaultLayout"
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import ContainerDefault from "~/components/layouts/ContainerDefault";
+import ModuleOrderShippingInformation from "~/components/partials/orders/ModuleOrderShippingInformation";
+import ModuleOrderBillingInformation from "~/components/partials/orders/ModuleOrderBillingInformation";
+import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
+import { connect, useDispatch } from "react-redux";
+import { toggleDrawerMenu } from "~/store/app/action";
+import { notification, Select, Button, Popconfirm } from "antd";
+import OrdersRepository from "~/repositories/OrdersRepository";
+import ProductRepository from "~/repositories/ProductRepository";
+import { domain } from "~/repositories/Repository";
+import DefaultLayout from "~/components/layouts/DefaultLayout";
 
-const { Option } = Select
+const { Option } = Select;
 
 const OrderDetailPage = ({ oid }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const [order, setOrder] = useState(null)
-  const [products, setProducts] = useState([])
-  const [newStatus, setNewStatus] = useState("")
-  const [isUpdating, setIsUpdating] = useState(false)
+  const [order, setOrder] = useState(null);
+  const [products, setProducts] = useState([]);
+  const [newStatus, setNewStatus] = useState("");
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const updateOrder = async () => {
-    if (isUpdating) return
+    if (isUpdating) return;
     if (newStatus) {
       if (newStatus === order?.status) {
         notification["warning"]({
           description: "Cannot update to same status",
-        })
+        });
       } else {
         try {
-          setIsUpdating(true)
-          await OrdersRepository.updateOrder(oid, `wc-${newStatusS}`)
+          setIsUpdating(true);
+          await OrdersRepository.updateOrder(oid, `wc-${newStatus}`);
 
           notification["success"]({
             message: "Update successful",
-          })
+          });
         } catch (error) {
+          console.log("Error updating order status");
+          console.error(error);
           notification["error"]({
             message: "Unable to update order status",
             description: "Please check your data connection and try again",
-          })
+          });
         } finally {
-          setIsUpdating(false)
+          setIsUpdating(false);
         }
       }
     } else {
       notification["warning"]({
         description: "Select a new status",
-      })
+      });
     }
-  }
+  };
 
   const getOrder = async () => {
     try {
-      const _order = await OrdersRepository.getOrderById(oid)
-
+      const _order = await OrdersRepository.getOrderById(oid);
       try {
-        let _products = []
-        for (let i = 0; i < _orders.line_items.length; i++) {
-          let item = { ..._orders.line_items[i], options: [] }
+        let _products = [];
+
+        for (let i = 0; i < _order.line_items.length; i++) {
+          let item = { ..._order.line_items[i], options: [] };
 
           const _product = await ProductRepository.getProductByID(
             item.product_id
-          )
+          );
 
-          item.slug = _product.slug
+          item.slug = _product.slug;
 
           if (item.variation_id !== 0) {
             const variant = await ProductRepository.getVariationById(
               item.product_id,
               item.variation_id
-            )
+            );
 
             item.options = variant.attributes.map(
               (attribute) => attribute.option
-            )
-            item.price = variant.price
+            );
+            item.price = variant.price;
           }
 
-          _products.push(item)
+          _products.push(item);
         }
 
-        setProducts(_products)
+        setProducts(_products);
       } catch (error) {
         notification["error"]({
           message: "Unable to get products",
           description: "Please check your data connection",
-        })
+        });
       }
 
-      setOrder(_order)
+      setOrder(_order);
     } catch (error) {
       notification["error"]({
         message: "Unable to get order",
         description: "Please check your data connection",
-      })
+      });
     }
-  }
+  };
 
   useEffect(() => {
-    dispatch(toggleDrawerMenu(false))
-    // getOrder()
-  }, [])
+    dispatch(toggleDrawerMenu(false));
+    getOrder();
+  }, []);
 
   return (
     <DefaultLayout>
@@ -129,12 +131,14 @@ const OrderDetailPage = ({ oid }) => {
             <div className="ps-card ps-card--track-order">
               <div className="ps-card__header">
                 <h4>#{order?.number}</h4>
+
                 <Select
                   placeholder="Status"
                   className="ps-ant-dropdown"
                   listItemHeight={20}
                   value={newStatus || order?.status}
                   onChange={setNewStatus}
+                  style={{ width: 200, marginRight: 10 }}
                 >
                   <Option value="pending">Pending</Option>
                   <Option value="processing">Processing</Option>
@@ -266,11 +270,11 @@ const OrderDetailPage = ({ oid }) => {
         </section>
       </ContainerDefault>
     </DefaultLayout>
-  )
-}
+  );
+};
 
 OrderDetailPage.getInitialProps = async ({ query }) => {
-  return { oid: query.oid }
-}
+  return { oid: query.oid };
+};
 
-export default connect((state) => state.app)(OrderDetailPage)
+export default connect((state) => state.app)(OrderDetailPage);

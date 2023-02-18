@@ -49,7 +49,7 @@ export default function Login() {
 
         const role = _user.user_role[0].toLowerCase();
 
-        if (role === "seller") {
+        if (role === "seller" || role === "administrator") {
           const { encrypt } = require("~/utilities/helperFunctions");
 
           const encryptedToken = encrypt(_user.token);
@@ -80,6 +80,13 @@ export default function Login() {
       }
     }
   };
+
+  /*
+    Password RegEx:
+    pattern: new RegExp(
+                    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+                  ),
+  */
 
   return (
     <HomepageLayout title={"login"} page={"accounts"}>
@@ -120,9 +127,6 @@ export default function Login() {
               rules={[
                 {
                   required: true,
-                  pattern: new RegExp(
-                    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
-                  ),
                   message:
                     "Password must contain at least 8 characters with at least one uppercase letter, one lowercase letter, one number and one special character(allowed characters => #, ?, !, @, $, %, ^, &, *, -)",
                 },
