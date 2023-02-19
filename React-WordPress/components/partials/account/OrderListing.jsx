@@ -85,7 +85,7 @@ export default function OrdersListing() {
         e.preventDefault();
 
         let params = {
-            page: currentPage,
+            page: 1,
             per_page: 10,
             customer_id: auth.id,
         };
