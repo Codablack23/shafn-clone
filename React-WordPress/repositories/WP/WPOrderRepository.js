@@ -40,16 +40,19 @@ class WPOrderRespository {
         });
     }
 
-    async getOrders(customerId, payload) {
+    async getOrders(payload) {
         const endPoint = `wp-json/wc/v3/orders?${serializeQuery({
             ...payload,
             ...oathInfo,
         })}`;
         return await WPRepository.get(`${WPDomain}/${endPoint}`).then(
             (response) => {
-                return response.data.filter(
-                    (order) => order.customer_id === customerId
-                );
+                const data = {
+                    items: response.data,
+                    totalItems: response.headers["x-wp-total"],
+                    totalPages: response.headers["x-wp-totalpages"],
+                };
+                return data;
             }
         );
     }

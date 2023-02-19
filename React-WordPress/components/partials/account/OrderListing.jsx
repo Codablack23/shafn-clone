@@ -9,6 +9,12 @@ export default function OrdersListing() {
 
     const auth = useSelector((state) => state.auth);
     const [orders, setOrders] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isFiltering, setIsFiltering] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [filterParams, setFilterParams] = useState({
+        status: "",
+    });
     const status = [
         "Pending",
         "Processing",
@@ -18,13 +24,6 @@ export default function OrdersListing() {
         "Refunded",
         "Failed",
     ];
-    const [isLoading, setIsLoading] = useState(true);
-    const [isFiltering, setIsFiltering] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [filterParams, setFilterParams] = useState({
-        status: "",
-    });
-    const [searchKeyword, setSearchKeyword] = useState("");
 
     const columns = [
         {
@@ -85,17 +84,20 @@ export default function OrdersListing() {
     const filter = async (e) => {
         e.preventDefault();
 
-        const params = {
+        let params = {
             page: currentPage,
             per_page: 10,
-            status: filterParams.status,
-            search: searchKeyword,
+            customer_id: auth.id,
         };
+        if (filterParams.status) {
+            params.status = filterParams.status;
+        }
 
         try {
             setIsFiltering(true);
             const orders = await WPOrderRepository.getOrders(params);
-            if (orders && orders.length > 0) {
+            if (orders && orders.items.length > 0) {
+                setCurrentPage(1);
                 setOrders(orders);
             } else {
                 notification["info"]({
@@ -117,13 +119,17 @@ export default function OrdersListing() {
 
     const handlePagination = async (page, pageSize) => {
         setCurrentPage(page);
-        const params = {
+        let params = {
             page,
             per_page: pageSize,
+            customer_id: auth.id,
         };
+        if (filterParams.status) {
+            params.status = filterParams.status;
+        }
 
         try {
-            const orders = await WPOrderRepository.getOrders(auth.id, params);
+            const orders = await WPOrderRepository.getOrders(params);
             setOrders(orders);
         } catch (error) {
             notification["error"]({
@@ -137,10 +143,11 @@ export default function OrdersListing() {
         const params = {
             page: 1,
             per_page: 10,
+            customer_id: auth.id,
         };
 
         try {
-            const orders = await WPOrderRepository.getOrders(auth.id, params);
+            const orders = await WPOrderRepository.getOrders(params);
             setOrders(orders);
         } catch (error) {
             notification["error"]({
@@ -153,7 +160,7 @@ export default function OrdersListing() {
     };
 
     useEffect(() => {
-        if (auth.id) {
+        if (auth?.id) {
             getOrders();
         }
     }, []);
@@ -165,15 +172,11 @@ export default function OrdersListing() {
                 <p className="sub-heading">Your Order's Listing</p>
             </header>
             <br />
-            {/* <section className="filter-container mt-5 d-lg-flex align-items-center">
-                <input
-                    type="text"
-                    placeholder="Search"
-                    onChange={(e) => setSearchKeyword(e.target.value)}
-                />
+            <section className="filter-container mt-5 d-lg-flex align-items-center">
                 <div className="select-component">
                     <Select
                         className="select-element"
+                        placeholder="Status"
                         style={{ width: "100%" }}
                         onChange={(value) =>
                             setFilterParams((params) => ({
@@ -181,6 +184,7 @@ export default function OrdersListing() {
                                 status: value,
                             }))
                         }>
+                        <Option value="">All</Option>
                         {status.map((s, i) => (
                             <Option key={`${i}-orders`} value={s.toLowerCase()}>
                                 {s}
@@ -196,11 +200,11 @@ export default function OrdersListing() {
                     {isFiltering ? <Spin style={{ marginTop: 5 }} /> : "Filter"}
                 </button>
             </section>
-            <br /> */}
+            <br />
             <section>
                 <Table
                     columns={columns}
-                    dataSource={orders}
+                    dataSource={orders.items}
                     scroll={{ x: 20 }}
                     onRow={(row) => {
                         return {
@@ -211,7 +215,7 @@ export default function OrdersListing() {
                     }}
                     loading={isLoading}
                     pagination={{
-                        total: orders.length,
+                        total: orders && orders.totalItems,
                         pageSize: 10,
                         responsive: true,
                         current: currentPage,
