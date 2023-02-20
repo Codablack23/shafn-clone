@@ -36,7 +36,7 @@ const TableOrdersItems = ({ orders }) => {
               {item.billing.address_1}, {item.billing.city} {item.billing.state}{" "}
               {item.billing.postcode}, {item.billing.country}
             </p>
-            <p>via {item.payment_method_title}</p>
+            {/* <p>via {item.payment_method_title}</p> */}
           </td>
           <td>
             <strong>{new Date(item.date_created).toDateString()}</strong>

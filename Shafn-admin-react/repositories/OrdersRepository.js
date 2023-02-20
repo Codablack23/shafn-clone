@@ -17,7 +17,6 @@ class OrdersRepository {
       },
     };
 
-    console.log("config: ", config);
     return config;
   }
 

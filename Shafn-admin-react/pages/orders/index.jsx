@@ -27,10 +27,10 @@ const OrdersPage = () => {
     e.preventDefault();
 
     const params = {
-      page: currentPage,
+      page: 1,
       per_page: 10,
       status: filterParams.status,
-      search: searchKeyword,
+      // search: searchKeyword,
     };
 
     try {
