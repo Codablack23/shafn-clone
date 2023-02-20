@@ -34,7 +34,7 @@ const ProductPage = () => {
     e.preventDefault();
 
     const params = {
-      page: currentPage,
+      page: 1,
       per_page: 10,
       category: filterParams.category,
       type: filterParams.type,
@@ -72,7 +72,7 @@ const ProductPage = () => {
       setProducts(products);
     } else {
       const params = {
-        page: currentPage,
+        page: 1,
         per_page: 10,
         search: searchKeyword,
       };
@@ -260,7 +260,7 @@ const ProductPage = () => {
             </div>
           </div>
           <div className="ps-section__content">
-            <TableProjectItems products={products} />
+            <TableProjectItems products={products} page={currentPage} />
 
             {loading && <Spin />}
 
