@@ -166,7 +166,7 @@ const OrdersPage = () => {
           </div> */}
           </div>
           <div className="ps-section__content">
-            <TableOrdersItems orders={orders} />
+            <TableOrdersItems orders={orders} page={currentPage} />
 
             {loading && <Spin />}
 

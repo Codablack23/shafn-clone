@@ -260,7 +260,7 @@ const ProductPage = () => {
             </div>
           </div>
           <div className="ps-section__content">
-            <TableProjectItems products={products} />
+            <TableProjectItems products={products} page={currentPage} />
 
             {loading && <Spin />}
 
