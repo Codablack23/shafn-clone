@@ -1,10 +1,8 @@
-import { Form, Input, notification, Spin, Divider } from "antd";
+import { Form, Input, notification, Spin } from "antd";
 import { useState } from "react";
 import HomepageLayout from "~/components/layouts/HomePageLayout";
-import { useDispatch } from "react-redux";
 import AuthRepository from "~/repositories/AuthRepository";
 import SettingsRepository from "~/repositories/SettingsRepository";
-import OAuth from "~/components/partials/OAuth";
 import Router from "next/router";
 import ReactHtmlParser from "react-html-parser";
 import WPVerification from "~/components/shared/widgets/WPVerification";
@@ -69,14 +67,6 @@ export default function Register() {
     let _vendor = vendor;
 
     delete _vendor.store_name;
-
-    if (type === "oauth") {
-      _vendor = {
-        ..._vendor,
-        first_name: oauth.first_name,
-        last_name: oauth.last_name,
-      };
-    }
 
     if (!isLoading) {
       try {
@@ -279,18 +269,6 @@ export default function Register() {
                   Login
                 </a>
               </p>
-
-              <Divider>OR</Divider>
-              <OAuth
-                onSuccess={(user) =>
-                  handleRegistration("oauth", {
-                    email: user.email,
-                    password: user.id,
-                    firstname: user.firstname,
-                    lastname: user.lastname,
-                  })
-                }
-              />
             </div>
           </Form>
         ) : (
