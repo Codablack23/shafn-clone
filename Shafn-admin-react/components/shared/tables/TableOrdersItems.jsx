@@ -1,11 +1,11 @@
 import React from "react";
 import Link from "next/link";
 
-const TableOrdersItems = ({ orders }) => {
+const TableOrdersItems = ({ orders, page }) => {
   let tableItemsView;
 
   if (orders && orders.items.length > 0) {
-    tableItemsView = orders.items.map((item) => {
+    tableItemsView = orders.items.map((item, index) => {
       let status;
 
       if (item.status === "completed" || item.status === "refunded") {
@@ -17,31 +17,30 @@ const TableOrdersItems = ({ orders }) => {
       }
 
       return (
-        <tr key={item.id}>
-          <td>
-            <Link href="/orders/[oid]" as={`/orders/${item.id}`}>
-              <a>
-                <strong>{item.id}</strong>
-              </a>
-            </Link>
-          </td>
-          <td>{status}</td>
-          <td>
-            <strong>{item.total}</strong>
-          </td>
+        <Link href="/orders/[oid]" as={`/orders/${item.id}`}>
+          <tr key={item.id}>
+            <td>
+              <strong>{index + 1 + 10 * (page - 1)}</strong>
+            </td>
+            <td>{status}</td>
+            <td>
+              <strong>{item.total}</strong>
+            </td>
 
-          <td>
-            <p>
-              {item.billing.first_name} {item.billing.last_name},{" "}
-              {item.billing.address_1}, {item.billing.city} {item.billing.state}{" "}
-              {item.billing.postcode}, {item.billing.country}
-            </p>
-            <p>via {item.payment_method_title}</p>
-          </td>
-          <td>
-            <strong>{new Date(item.date_created).toDateString()}</strong>
-          </td>
-        </tr>
+            <td>
+              <p>
+                {item.billing.first_name} {item.billing.last_name},{" "}
+                {item.billing.address_1}, {item.billing.city}{" "}
+                {item.billing.state} {item.billing.postcode},{" "}
+                {item.billing.country}
+              </p>
+              {/* <p>via {item.payment_method_title}</p> */}
+            </td>
+            <td>
+              <strong>{new Date(item.date_created).toDateString()}</strong>
+            </td>
+          </tr>
+        </Link>
       );
     });
   }

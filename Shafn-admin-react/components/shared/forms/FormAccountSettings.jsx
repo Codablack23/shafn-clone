@@ -146,10 +146,13 @@ const FormAccountSettings = () => {
 
       setCountries(_countries);
 
-      const _country = _countries.find(
-        (country) => country.name === _vendor.address.country
-      );
-      setStates(_country.states);
+      if (_vendor.address.country) {
+        const _country = _countries.find(
+          (country) => country.name === _vendor.address.country
+        );
+
+        setStates(_country.states);
+      }
 
       setProfileImage(_vendor.gravatar);
       setBanner(_vendor.banner);
@@ -159,6 +162,7 @@ const FormAccountSettings = () => {
       setShowEmail(_vendor.show_email);
       setEnableTNC(_vendor.toc_enabled);
     } catch (err) {
+      console.log(err);
       notification["error"]({
         message: "Unable to get settings",
         description: "Please check your data connection and try again.",

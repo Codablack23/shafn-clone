@@ -1,5 +1,8 @@
 import { applyMiddleware, createStore } from "redux";
 import createSagaMiddleware from "redux-saga";
+import { persistReducer } from "redux-persist";
+// import createWebStorage from "redux-persist/es/storage/createWebStorage";
+import storage from "redux-persist/lib/storage";
 
 import rootReducer from "./rootReducer";
 import rootSaga from "./rootSaga";
@@ -13,9 +16,36 @@ const bindMiddleware = (middleware) => {
   return applyMiddleware(...middleware);
 };
 
-export const makeStore = (context) => {
+// const createNoopStorage = () => {
+//   return {
+//     getItem(_key) {
+//       return Promise.resolve(null);
+//     },
+//     setItem(_key, value) {
+//       return Promise.resolve(value);
+//     },
+//     removeItem(_key) {
+//       return Promise.resolve();
+//     },
+//   };
+// };
+
+// const storage =
+//   typeof window !== "undefined"
+//     ? createWebStorage("local")
+//     : createNoopStorage();
+
+const persistConfig = {
+  key: "shafn",
+  storage,
+  blacklist: ["configs"],
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const makeStore = () => {
   const sagaMiddleware = createSagaMiddleware();
-  const store = createStore(rootReducer, bindMiddleware([sagaMiddleware]));
+  const store = createStore(persistedReducer, bindMiddleware([sagaMiddleware]));
 
   store.sagaTask = sagaMiddleware.run(rootSaga);
 

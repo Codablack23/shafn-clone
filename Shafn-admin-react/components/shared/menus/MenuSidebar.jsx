@@ -1,9 +1,9 @@
-import React from "react"
-import Link from "next/link"
-import { useRouter } from "next/router"
+import React from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const MenuSidebar = () => {
-  const router = useRouter()
+  const router = useRouter();
   const menuItems = [
     {
       text: "Dashboard",
@@ -35,7 +35,7 @@ const MenuSidebar = () => {
       url: "/settings",
       icon: "icon-cog",
     },
-  ]
+  ];
 
   return (
     <ul className="menu">
@@ -53,7 +53,7 @@ const MenuSidebar = () => {
         </li>
       ))}
     </ul>
-  )
-}
+  );
+};
 
-export default MenuSidebar
+export default MenuSidebar;
