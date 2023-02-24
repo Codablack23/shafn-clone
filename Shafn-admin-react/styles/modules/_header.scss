@@ -163,6 +163,16 @@
     .ps-block--user-wellcome {
       margin-bottom: 30px;
     }
+    .ps-block--earning-count {
+      .earning-count {
+        display: flex;
+        align-items: center;
+        i {
+          margin-left: 10px;
+          font-size: medium;
+        }
+      }
+    }
   }
 
   .ps-drawer__content {

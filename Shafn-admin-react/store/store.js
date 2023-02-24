@@ -1,6 +1,6 @@
 import { applyMiddleware, createStore } from "redux";
 import createSagaMiddleware from "redux-saga";
-import { persistReducer } from "redux-persist";
+import { persistReducer, persistStore } from "redux-persist";
 // import createWebStorage from "redux-persist/es/storage/createWebStorage";
 import storage from "redux-persist/lib/storage";
 
@@ -42,14 +42,19 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
+let persistor;
 
-export const makeStore = () => {
+const makeStore = (context) => {
   const sagaMiddleware = createSagaMiddleware();
   const store = createStore(persistedReducer, bindMiddleware([sagaMiddleware]));
 
   store.sagaTask = sagaMiddleware.run(rootSaga);
 
+  persistor = persistStore(store);
+
   return store;
 };
 
-export const wrapper = createWrapper(makeStore, { debug: false });
+const wrapper = createWrapper(makeStore, { debug: false });
+
+export { makeStore, persistor, wrapper };

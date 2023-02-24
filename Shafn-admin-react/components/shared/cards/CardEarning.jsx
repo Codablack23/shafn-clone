@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react"
-import { notification } from "antd"
-import ReactHtmlParser from "react-html-parser"
-import dynamic from "next/dynamic"
+import React, { useState, useEffect } from "react";
+import { notification } from "antd";
+import ReactHtmlParser from "react-html-parser";
+import dynamic from "next/dynamic";
 
-import ReportsRepository from "~/repositories/ReportsRepository"
+import ReportsRepository from "~/repositories/ReportsRepository";
+import { useSelector } from "react-redux";
 
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false })
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const CardEarning = () => {
-  const [sellerBalance, setSellerBalance] = useState(0)
+  const isEarningsHidden = useSelector((state) => state.app.isEarningsHidden);
+  const [sellerBalance, setSellerBalance] = useState(0);
 
   const state = {
     series: [44, 55, 41],
@@ -41,23 +43,23 @@ const CardEarning = () => {
         },
       ],
     },
-  }
+  };
 
   const getSellerBalance = async () => {
     try {
-      const data = await ReportsRepository.getReportOverview()
+      const data = await ReportsRepository.getReportOverview();
 
-      setSellerBalance(data.seller_balance)
+      setSellerBalance(data.seller_balance);
     } catch (error) {
-      console.log("Failed to get seller balance")
-      console.error(error)
-      return
+      console.log("Failed to get seller balance");
+      console.error(error);
+      return;
     }
-  }
+  };
 
   useEffect(() => {
-    getSellerBalance()
-  }, [])
+    getSellerBalance();
+  }, []);
 
   return (
     <div className="ps-card ps-card--earning">
@@ -69,7 +71,11 @@ const CardEarning = () => {
           <Chart options={state.options} series={state.series} type="donut" />
           <div className="ps-card__information">
             <i className="icon icon-wallet"></i>
-            <strong>{ReactHtmlParser(sellerBalance)}</strong>
+            {isEarningsHidden ? (
+              <strong>*****</strong>
+            ) : (
+              <strong>{ReactHtmlParser(sellerBalance)}</strong>
+            )}
             <small>Balance</small>
           </div>
         </div>
@@ -89,7 +95,7 @@ const CardEarning = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CardEarning
+export default CardEarning;
