@@ -20,62 +20,80 @@ const WPShopPage = ({ query }) => {
 
     const [categoryName, setCategoryName] = useState(null);
 
-    async function getCategory(id) {
-        const category = await WPProductRepository.getCategoryByID(id);
-        if (category) {
-            setCategoryName(category.name);
-            return category;
-        } else {
-            return null;
-        }
-    }
+    // async function getCategory(id) {
+    //     const category = await WPProductRepository.getCategoryByID(35);
+    //     console.log({category})
+    //     if (category) {
+    //         setCategoryName(category.name);
+    //         return category;
+    //     } else {
+    //         return null;
+    //     }
+    // }
 
-    async function getShopOnChangeUrl(url) {
-        const isShopRoute = url.includes("/shop");
-        const categoryId = url.split("category=").pop();
-        if (
-            isShopRoute &&
-            categoryId !== "" &&
-            isNaN(parseInt(categoryId)) === false
-        ) {
-            const queries = {
-                page: 1,
-                per_page: 24,
-                category: categoryId,
-            };
+    // async function getShopOnChangeUrl(url) {
+    //     const isShopRoute = url.includes("/shop");
+    //     const categoryId = url.split("category=").pop();
+    //     console.log({
+    //         categoryId
+    //     })
+    //     if (
+    //         isShopRoute &&
+    //         categoryId !== "" &&
+    //         isNaN(parseInt(categoryId)) === false
+    //     ) {
+    //         const queries = {
+    //             page: 1,
+    //             per_page: 24,
+    //             category: categoryId,
+    //         };
 
+    //         dispatch(WPGetProducts(queries));
+    //         getCategory(categoryId);
+    //     } else {
+    //         const queries = {
+    //             page: 1,
+    //             per_page: 24,
+    //         };
+    //         dispatch(WPGetProducts(queries));
+    //     }
+    // }
+
+    async function getProducts(){
+        const  category = router.query.category
+        if(category){
+            const queries = {page: 1,per_page: 24,category,};
             dispatch(WPGetProducts(queries));
-            getCategory(categoryId);
-        } else {
-            const queries = {
-                page: 1,
-                per_page: 24,
-            };
+            // getCategory(category);
+        }else{
+            const queries = { page: 1,per_page: 24,};
             dispatch(WPGetProducts(queries));
         }
     }
 
     useEffect(() => {
-        if (query) {
-            const queries = {
-                page: 1,
-                per_page: 24,
-            };
-            dispatch(WPGetProducts(queries));
+        console.log(router.query)
+        getProducts();
+        // if (query) {
+        //     const queries = {
+        //         page: 1,
+        //         per_page: 24,
+        //     };
+        //     dispatch(WPGetProducts(queries));
 
-            if (query.category) {
-                dispatch(getProductsByCategory(query.category));
-                getCategory(query.category);
-            } else {
-            }
-        }
+        //     if (query.category) {
+        //         dispatch(getProductsByCategory(query.category));
+        //         getCategory(query.category);
+        //     } else {
+        //     }
+        // }
 
-        router.events.on("routeChangeStart", getShopOnChangeUrl);
+        // router.events.on("routeChangeStart", getShopOnChangeUrl);
 
-        return () => {
-            router.events.off("routeChangeStart", getShopOnChangeUrl);
-        };
-    }, [dispatch]);
+        // return () => {
+        //     router.events.off("routeChangeStart", getShopOnChangeUrl);
+        // };
+    }, [router.query]);
 
     return (
         <div ref={scrollPageToTop}>

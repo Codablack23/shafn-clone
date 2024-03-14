@@ -1,3 +1,12 @@
+.font-bold{
+    font-weight: bold;
+}
+.font-semibold{
+    font-weight: 600;
+}
+.font-medium{
+    font-weight: 500;
+}
 .ps-badge {
     position: absolute;
     padding: 5px 15px;
@@ -132,15 +141,16 @@
         padding: 0 0 5px;
         font-size: 14px;
         line-height: 1.2em;
-        color: #06c;
+        font-weight: 600;
+        // color: #06c;
         --max-lines: 2;
         max-height: calc(1.2em * var(--max-lines));
         overflow: hidden;
         padding-right: 1rem;
 
-        &:hover {
-            color: $color-1st;
-        }
+        // &:hover {
+        //     color: $color-1st;
+        // }
     }
 
     .ps-product__progress-bar {
@@ -457,11 +467,7 @@
         padding: 0 0 5px;
         font-size: 14px;
         line-height: 1.2em;
-        color: #06c;
-
-        &:hover {
-            color: $color-1st;
-        }
+        font-weight: 600;
     }
 
     .ps-product__price {

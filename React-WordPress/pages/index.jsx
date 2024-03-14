@@ -42,6 +42,7 @@ const Index = (auth) => {
         dispatch(getCollections(collectionsSlug));
     }, []);
 
+    // console.log(auth)
     return (
         <WPLayoutHomeDefault title={process.env.NEXT_PUBLIC_TITLE_DESCRIPTION}>
             <HomeBanner />

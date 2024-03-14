@@ -64,7 +64,7 @@ const WPWidgetCategories = ({ activeID, page }) => {
     const { Panel } = Collapse;
 
     return (
-        <aside className="widget widget_shop">
+        <aside className="widget widget_shop font-poppins">
             <h4 className="widget-title">Categories</h4>
             <div>
                 <div style={{ marginLeft: 10, marginBlock: 10 }}>
@@ -85,8 +85,8 @@ const WPWidgetCategories = ({ activeID, page }) => {
                     style={{ marfinLeft: 0 }}>
                     {Categories.map((c, i) => (
                         <Panel
-                            style={{ paddingLeft: "0px" }}
-                            header={<b>{c.name}</b>}
+                            style={{ padding: "0px",margin:0 }}
+                            header={<b className="m-0">{c.name}</b>}
                             key={`${c.name}-${i + 1}`}>
                             {c.sub_cat.map((sc, i) => (
                                 <div key={sc.title}>

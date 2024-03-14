@@ -54,7 +54,7 @@ const SideBar = ({ shown, handleClose }) => {
 
     return (
         <aside
-            className={`shafn-sidebar-mobile w3-card ${shown ? "shown" : ""}`}>
+            className={`shafn-sidebar-mobile font-poppins  w3-card ${shown ? "shown" : ""}`}>
             <div className="shafn-mobile-header">
                 <div>
                     <i className="bi bi-justify"></i>
