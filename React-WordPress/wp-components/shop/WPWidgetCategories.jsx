@@ -115,7 +115,7 @@ const WPWidgetCategories = ({ activeID, page }) => {
                                                     Math.random()
                                                 }>
                                                 <a
-                                                    className={`d-block mt-2 mb-2 ${
+                                                    className={`d-block font-bold mt-2 mb-2 ${
                                                         parseInt(activeID) ===
                                                         cat_id
                                                             ? "w3-text-orange"

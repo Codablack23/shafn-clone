@@ -39,7 +39,7 @@ class WPProductOnCart extends Component {
                         <i className="icon-cross"></i>
                     </a>
                     <Link href="/product/[pid]" as={`/product/${query}`}>
-                        <a className="ps-product__title">{product.name}</a>
+                        <a className="ps-product__title font-bold">{product.name}</a>
                     </Link>
                     <p>
                         <strong>Sold by:</strong>{" "}
