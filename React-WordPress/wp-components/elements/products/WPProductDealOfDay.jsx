@@ -231,7 +231,7 @@ const WPProduct = ({ product }) => {
                 <div className="ps-product__content">
                     {priceRangeView || productPrice}
                     <Link href="/product/[pid]" as={`/product/${query}`}>
-                        <a className="font-medium">{product.name}</a>
+                        <a className="font-bold">{product.name}</a>
                     </Link>
                     <div className="ps-product__rating">
                         {rating >= 3 && <Rating rating={rating} />}

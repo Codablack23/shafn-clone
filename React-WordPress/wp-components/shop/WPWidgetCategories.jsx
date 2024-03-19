@@ -65,7 +65,7 @@ const WPWidgetCategories = ({ activeID, page }) => {
 
     return (
         <aside className="widget widget_shop font-poppins">
-            <h4 className="widget-title">Categories</h4>
+            <h4 className="font-bold mb-4" style={{textTransform:"uppercase"}}>Categories</h4><br />
             <div>
                 <div style={{ marginLeft: 10, marginBlock: 10 }}>
                     <Link href="/shop">
@@ -73,7 +73,7 @@ const WPWidgetCategories = ({ activeID, page }) => {
                             className={
                                 activeID === undefined
                                     ? "ml-2 mt-4 mb-4 w3-text-black"
-                                    : ""
+                                    : "ml-2 mt-4 mb-4 font-bold"
                             }>
                             All
                         </a>
@@ -85,12 +85,12 @@ const WPWidgetCategories = ({ activeID, page }) => {
                     style={{ marfinLeft: 0 }}>
                     {Categories.map((c, i) => (
                         <Panel
-                            style={{ padding: "0px",margin:0 }}
+                            style={{ padding: "0px",marginBottom:"6px" }}
                             header={<b className="m-0">{c.name}</b>}
                             key={`${c.name}-${i + 1}`}>
                             {c.sub_cat.map((sc, i) => (
-                                <div key={sc.title}>
-                                    <p className="w-text-black">
+                                <div key={sc.title} style={{marginBottom:"8px"}}>
+                                    <p className="w-text-black" style={{marginBottom:-5,color:"black"}}>
                                         <b>{sc.title}</b>
                                     </p>
                                     {sc.categories.map((sub_c) => {
@@ -115,10 +115,10 @@ const WPWidgetCategories = ({ activeID, page }) => {
                                                     Math.random()
                                                 }>
                                                 <a
-                                                    className={`d-block font-bold mt-2 mb-2 ${
+                                                    className={`d-block category-link font-bold mt-2 mb-2 ${
                                                         parseInt(activeID) ===
                                                         cat_id
-                                                            ? "w3-text-orange"
+                                                            ? "active"
                                                             : ""
                                                     }`}>
                                                     {sub_c.name}
@@ -126,6 +126,7 @@ const WPWidgetCategories = ({ activeID, page }) => {
                                             </Link>
                                         );
                                     })}
+                                    <br />
                                 </div>
                             ))}
                         </Panel>

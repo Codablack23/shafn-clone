@@ -19,10 +19,12 @@ const WPWidgetFilterByPrices = () => {
         };
         dispatch(WPGetProducts(queries));
     };
+// #d92282
+// #ff083a
 
     return (
-        <aside className="widget widget_shop">
-            <h4 className="widget-title">By Price</h4>
+        <aside className="widget widget_shop font-bold">
+            <h4 className="font-bold" style={{textTransform:"uppercase"}}>By Price</h4>
             <div className="widget__conent">
                 <Slider
                     range
@@ -30,7 +32,7 @@ const WPWidgetFilterByPrices = () => {
                     max={2000}
                     onAfterChange={(value) => handleFilterByPrices(value)}
                 />
-                <p>
+                <p className="font-bold">
                     Price: ${minPrice} - ${maxPrice}
                 </p>
             </div>

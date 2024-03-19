@@ -71,7 +71,7 @@ const WPModuleDefaultDescription = ({ product }) => {
 
     const tabStyle = {marginBottom:0}
     return (
-        <div className="font-poppins">
+        <div className="font-poppins font-bold">
             <div className="ps-product__content ps-tab-root">
                 <Tabs defaultActiveKey="1">
                     <TabPane tab={<p style={tabStyle}>Description</p>} key="1">

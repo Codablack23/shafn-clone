@@ -2180,13 +2180,13 @@
             color: $color-text;
         }
 
-        a {
-            color: #06c;
+        // a {
+        //     color: #06c;
 
-            &:hover {
-                color: $color-1st;
-            }
-        }
+        //     &:hover {
+        //         color: $color-1st;
+        //     }
+        // }
 
         p {
             strong {
@@ -2566,5 +2566,15 @@
 .shafn-centered-sm{
     @include media("<md"){
         text-align: center;
+    }
+}
+
+.category-link{
+    transition: all ease 0.4s;
+    text-transform: capitalize;
+    &:hover,
+    &.active
+    {
+        color: #ff083a ;
     }
 }
