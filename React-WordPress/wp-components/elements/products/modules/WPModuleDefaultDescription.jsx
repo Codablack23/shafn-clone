@@ -71,18 +71,18 @@ const WPModuleDefaultDescription = ({ product }) => {
 
     const tabStyle = {marginBottom:0}
     return (
-        <div className="font-poppins font-bold">
+        <div className="font-poppins">
             <div className="ps-product__content ps-tab-root">
                 <Tabs defaultActiveKey="1">
-                    <TabPane tab={<p style={tabStyle}>Description</p>} key="1">
+                    <TabPane tab={<p className="font-bold" style={tabStyle}>Description</p>} key="1">
                         {descView}
                     </TabPane>
-                    <TabPane tab={<p style={tabStyle}>Specification</p>} key="2">
+                    <TabPane tab={<p className="font-bold" style={tabStyle}>Specification</p>} key="2">
                         <PartialSpecification
                             attributes={product?.attributes}
                         />
                     </TabPane>
-                    <TabPane tab={<p style={tabStyle}>Reviews({reviews.length})</p>} key="4">
+                    <TabPane tab={<p className="font-bold" style={tabStyle}>Reviews({reviews.length})</p>} key="4">
                         <PartialReview />
                     </TabPane>
                 </Tabs>

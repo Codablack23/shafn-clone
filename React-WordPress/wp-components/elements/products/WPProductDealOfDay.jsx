@@ -128,7 +128,7 @@ const WPProduct = ({ product }) => {
                 );
             } else {
                 productPrice = (
-                    <p className="ps-product__price">
+                    <p className="font-bold" style={{fontSize:"18px"}}>
                         <span>€</span>
                         {formatCurrency(product.price)}
                     </p>

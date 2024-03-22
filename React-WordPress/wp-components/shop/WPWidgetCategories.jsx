@@ -72,7 +72,7 @@ const WPWidgetCategories = ({ activeID, page }) => {
                         <a
                             className={
                                 activeID === undefined
-                                    ? "ml-2 mt-4 mb-4 w3-text-black"
+                                    ? "ml-2 mt-4 mb-4 font-bold w3-text-black"
                                     : "ml-2 mt-4 mb-4 font-bold"
                             }>
                             All
