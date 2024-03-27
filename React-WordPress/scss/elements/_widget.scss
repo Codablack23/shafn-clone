@@ -702,3 +702,11 @@
         }
     }
 }
+
+.ant-tabs-tab.ant-tabs-tab-active {
+    border-bottom: 2px solid #000 !important;
+    z-index: 2;
+}
+.ant-tabs-ink-bar {
+    background: #000 !important;
+}

@@ -146,7 +146,7 @@ const WPProductDetailPage = ({ pid }) => {
                 <div className="ps-page--product mt-3">
                     <div className="ps-container">
                         <div className="row">
-                            <div className="col-lg-7">{productView}</div>
+                            <div className="col-lg-8">{productView}</div>
                             <div className="col-lg-4" style={{ width: "100%" }}>
                                 {widgetView}
                             </div>

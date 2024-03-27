@@ -6,7 +6,7 @@ const WPWidgetProductsSameBrand = ({ products }) => {
     if (products) {
         productItemsView = products.map((item, index) => {
             if (index < 2) {
-                return <div style={{maxWidth:250}}>
+                return <div style={{maxWidth:250,marginInline:"auto"}}>
                     <WPProductSelf productID={item} key={index} />
                 </div>;
             }
