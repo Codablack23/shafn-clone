@@ -158,7 +158,7 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
     }
 
     return (
-        <div className="">
+        <div style={{maxWidth:"300px",marginInline:"auto"}}>
             {/* {!isWidget && <h1>{product?.name}</h1>} */}
             {/* {productPriceView} */}
 

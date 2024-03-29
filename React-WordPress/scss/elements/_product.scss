@@ -2578,3 +2578,19 @@
         color: #ff083a ;
     }
 }
+.ps-related__product{
+    .hidden-content{
+        display: block;
+    }
+    .shown-content{
+        display: none;
+    }
+    &:hover{
+        .hidden-content{
+            display: none;
+        }
+        .shown-content{
+            display: block;
+        }
+    }
+}

@@ -297,6 +297,7 @@ export function Button({
     hoverColor,
     hoverBorder,
     color,
+    style,
     height,
     disabled,
 }) {
@@ -307,6 +308,31 @@ export function Button({
             className={`btn btn-lg p-3 m-2 rounded-pill w3-text-${color} ${classes} ${hoverClass}`}
             onClick={eventHandler}
             style={{ minWidth: width, height }}
+            disabled={!!disabled}>
+            {text}
+        </button>
+    );
+}
+export function DefaultButton({
+    text,
+    eventHandler,
+    classes,
+    width,
+    hoverBg,
+    hoverColor,
+    hoverBorder,
+    color,
+    style,
+    height,
+    disabled,
+}) {
+    let hoverClass = "";
+    hoverClass = `w3-hover-${hoverBg} w3-hover-text-${hoverColor} w3-hover-border-${hoverBorder}`;
+    return (
+        <button
+            className={`btn btn-lg p-3 m-2 w3-text-${color} ${classes} ${hoverClass}`}
+            onClick={eventHandler}
+            style={{ minWidth: width, height,...style }}
             disabled={!!disabled}>
             {text}
         </button>

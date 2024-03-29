@@ -2,13 +2,14 @@ import React from 'react';
 import Slider from 'react-slick';
 import { carouselFullwidth } from '~/utilities/carousel-helpers';
 import WPProductSelf from '~/wp-components/elements/products/WPProductSelf';
+import WPRelatedProduct from '../elements/products/WPRelatedProduct';
 
 const WPRelatedProducts = ({ products }) => {
     let productItems;
     if (products) {
         productItems = products.map((item) => (
             <div className="slide-item" key={item}>
-                <WPProductSelf productID={item} />
+                <WPRelatedProduct productID={item} />
             </div>
         ));
     }
