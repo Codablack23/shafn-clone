@@ -105,8 +105,8 @@ const WPRelatedProduct = ({ productID }) => {
         const query = `${product.slug}-${product.id}`.trim();
 
         return (
-            <div className="ps-related__product">
-                <div className="ps-product__thumbnail hover-popup w3-text-black">
+            <div className="ps-related__product hover-popup" style={{margin:"8px",marginRight:"16px"}}>
+                <div className="ps-product__thumbnail w3-text-black">
                     <a href={`/product/${query}`}>{thumbnailImage}</a><br />
                     {/*  {product.badge ? productBadge : ''}*/}
                     {/* <ul className="ps-product__actions">
