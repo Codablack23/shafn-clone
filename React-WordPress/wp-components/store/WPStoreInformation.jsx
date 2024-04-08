@@ -11,7 +11,7 @@ const WPStoreInformation = ({ store }) => {
         storeBannerView = <img src={store.banner} alt={store.store_name} />;
     } else {
         storeBannerView = (
-            <img src="/static/img/vendor/vendor-store.jpg" alt="martfury" />
+            <img src="/static/img/vendor/vendor-store.jpg" alt="Shafn" />
         );
     }
 
@@ -19,7 +19,7 @@ const WPStoreInformation = ({ store }) => {
         storeGravatarView = <img src={store.gravatar} alt={store.store_name} />;
     } else {
         storeGravatarView = (
-            <img src="/static/img/vendor/vendor-store.jpg" alt="martfury" />
+            <img src="/static/img/vendor/vendor-store.jpg" alt="Shafn" />
         );
     }
 
