@@ -223,11 +223,9 @@ const WPProduct = ({ product }) => {
                 </ul> */}
             </div>
             <div className="ps-product__container">
-                <Link href="/shop">
                     <a className="ps-product__vendor">
                         {product.store && product.store.name}
                     </a>
-                </Link>
                 <div className="ps-product__content">
                     {priceRangeView || productPrice}
                     <Link href="/product/[pid]" as={`/product/${query}`}>

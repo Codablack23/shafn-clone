@@ -57,7 +57,7 @@ const WPDealOfDay = () => {
                 <Splide
                 aria-label="My Favorite Images"
                 options={{
-                    perPage:productItems.length >= 7?5:productItems.length,
+                    perPage:7,
                     type:"loop",
                     gap:"1em",
                     pagination:true,
@@ -66,12 +66,15 @@ const WPDealOfDay = () => {
                     },
                     rewind:true,
                     breakpoints:{
+                        1240:{
+                            perPage:6,
+                        },
                         960:{
                             perPage:3
                         },
                         600:{
                             perPage:1,
-                            arrows:null
+                            arrows:false
                         }
                     }
                 }}>
