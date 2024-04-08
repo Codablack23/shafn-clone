@@ -3,7 +3,7 @@ import Head from "next/head";
 
 const StyleSheets = () => (
     <Head>
-        <title>shafN | leading you to the future</title>
+        <title>shafN | Smarter Beauty Shopping</title>
         <link rel="shortcut icon" href="/static/img/favi.png" />
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
