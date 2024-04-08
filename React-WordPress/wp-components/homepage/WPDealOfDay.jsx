@@ -6,6 +6,7 @@ import SkeletonProduct from "~/components/elements/skeletons/SkeletonProduct";
 import { carouselFullwidth } from "~/utilities/carousel-helpers";
 import WPProductDealOfDay from "~/wp-components/elements/products/WPProductDealOfDay";
 import axios from "axios";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
 // import CountDownSimple from "~/components/elements/CountDownSimple";
 
 let productReqSource;
@@ -48,12 +49,34 @@ const WPDealOfDay = () => {
     if (!loading) {
         if (productItems && productItems.length > 0) {
             const slideItems = productItems.map((item) => (
-                <WPProductDealOfDay product={item} key={item.id} />
+                <SplideSlide>
+                    <WPProductDealOfDay product={item} key={item.id} />
+                </SplideSlide>
             ));
             productItemsView = (
-                <Slider {...carouselFullwidth} className="ps-carousel outside">
+                <Splide
+                aria-label="My Favorite Images"
+                options={{
+                    perPage:productItems.length >= 7?5:productItems.length,
+                    type:"loop",
+                    gap:"1em",
+                    pagination:true,
+                    padding:{
+                        bottom:"1em"
+                    },
+                    rewind:true,
+                    breakpoints:{
+                        960:{
+                            perPage:3
+                        },
+                        600:{
+                            perPage:1,
+                            arrows:null
+                        }
+                    }
+                }}>
                     {slideItems}
-                </Slider>
+                </Splide>
             );
         } else {
             productItemsView = <p>No product(s) found.</p>;

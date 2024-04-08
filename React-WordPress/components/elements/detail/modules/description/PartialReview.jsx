@@ -140,9 +140,10 @@ const PartialReview = () => {
                 <form
                     className="ps-form--review"
                     method="post"
+                    style={{color:"black"}}
                     onSubmit={handleSubmit}>
                     <h4>Submit Your Review</h4>
-                    <p>Your email address will not be published.</p>
+                    <p style={{color:"black"}}>Your email address will not be published.</p>
                     <div className="form-group form-group__rating">
                         <label>Add this product rating</label>
                         <Rate

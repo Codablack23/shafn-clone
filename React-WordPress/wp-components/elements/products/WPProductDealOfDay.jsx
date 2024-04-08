@@ -128,7 +128,7 @@ const WPProduct = ({ product }) => {
                 );
             } else {
                 productPrice = (
-                    <p className="ps-product__price">
+                    <p className="font-bold" style={{fontSize:"18px"}}>
                         <span>€</span>
                         {formatCurrency(product.price)}
                     </p>
@@ -231,7 +231,7 @@ const WPProduct = ({ product }) => {
                 <div className="ps-product__content">
                     {priceRangeView || productPrice}
                     <Link href="/product/[pid]" as={`/product/${query}`}>
-                        <a className="ps-product__title">{product.name}</a>
+                        <a className="font-bold">{product.name}</a>
                     </Link>
                     <div className="ps-product__rating">
                         {rating >= 3 && <Rating rating={rating} />}

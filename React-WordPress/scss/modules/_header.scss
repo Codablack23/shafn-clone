@@ -646,6 +646,7 @@
             }
             
             .nav-dropdown-menu{
+                border:1px solid rgba(0, 0, 0, 0.25);
                 top: 53px;
                 padding:32px ;
                 grid-template-columns: repeat(3,1fr);
@@ -666,7 +667,7 @@
             >* {
                 color: #000000;
                 line-height: 20px;
-                font-weight: 600;
+                font-weight: 800;
                 font-size: 14px;
             }
             margin:auto;
@@ -757,5 +758,12 @@
     }
     @include media('<sm') {
         margin-left: 2px;
+    }
+}
+
+.font-bold{
+    font-weight: 600;
+    *{
+        font-weight: 600;
     }
 }

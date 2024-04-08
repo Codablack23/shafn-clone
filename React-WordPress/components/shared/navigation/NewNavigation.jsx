@@ -60,7 +60,7 @@ export default function HeaderNav() {
                                                     <Link
                                                     href={`/shop?category=${cat_id}`}
                                                     key={`${i}-cat`}>
-                                                    <a className="d-block text-black">
+                                                    <a className="d-block category-link font-bold text-black">
                                                         {cat.name}
                                                     </a>
                                                 </Link>

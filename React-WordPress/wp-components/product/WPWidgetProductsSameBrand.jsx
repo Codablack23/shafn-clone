@@ -6,7 +6,7 @@ const WPWidgetProductsSameBrand = ({ products }) => {
     if (products) {
         productItemsView = products.map((item, index) => {
             if (index < 2) {
-                return <div style={{maxWidth:250}}>
+                return <div style={{maxWidth:300,marginInline:"auto"}}>
                     <WPProductSelf productID={item} key={index} />
                 </div>;
             }
@@ -16,7 +16,7 @@ const WPWidgetProductsSameBrand = ({ products }) => {
     }
     return (
         <aside className="widget widget_same-brand d-none d-lg-block" style={{border:"none"}}>
-            <h3 className='text-center bg-white'>Same Brand</h3>
+            <h3 className='text-center bg-white' style={{marginBottom:"-10px"}}>Same Brand</h3>
             <div className="widget__content">{productItemsView}</div>
         </aside>
     );

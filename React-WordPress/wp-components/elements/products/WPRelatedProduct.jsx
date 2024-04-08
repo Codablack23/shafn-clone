@@ -12,11 +12,12 @@ import WPModuleProductQuickview from "~/wp-components/elements/products/modules/
 import WPProductRepository from "~/repositories/WP/WPProductRepository";
 import SkeletonProduct from "~/components/elements/skeletons/SkeletonProduct";
 import {
+    DefaultButton,
     WPProductPriceView,
     WPProductThumbnailView,
 } from "~/utilities/WPHelpers";
 
-const WPProductSelf = ({ productID }) => {
+const WPRelatedProduct = ({ productID }) => {
     const dispatch = useDispatch();
     const [product, setProduct] = useState(null);
     const [isQuickView, setIsQuickView] = useState(false);
@@ -104,8 +105,8 @@ const WPProductSelf = ({ productID }) => {
         const query = `${product.slug}-${product.id}`.trim();
 
         return (
-            <div className="ps-product hover-popup">
-                <div className="ps-product__thumbnail  w3-text-black">
+            <div className="ps-related__product hover-popup" style={{margin:"8px",marginRight:"16px"}}>
+                <div className="ps-product__thumbnail w3-text-black">
                     <a href={`/product/${query}`}>{thumbnailImage}</a><br />
                     {/*  {product.badge ? productBadge : ''}*/}
                     {/* <ul className="ps-product__actions">
@@ -151,13 +152,13 @@ const WPProductSelf = ({ productID }) => {
                         </li>
                     </ul> */}
                 </div>
-                <div className="ps-product__container">
+                <div className="ps-product__container hidden-content">
                     {/*<Link href="/shop">
                         <a className="ps-product__vendor">Young Shop</a>
                     </Link>*/}
                     <div className="ps-product__content">
                         <a
-                            className="ps-product__title"
+                            className="ps-product__title font-bold"
                             href={`/product/${query}`}>
                             {product.name}
                         </a>
@@ -167,14 +168,25 @@ const WPProductSelf = ({ productID }) => {
                         </div>
                         {priceView}
                     </div>
-                    <div className="ps-product__content hover">
+                    {/* <div className="ps-product__content hover">
                         <a
                             className="ps-product__title"
                             href={`/product/${query}`}>
                             {product.name}
                         </a>
                         {priceView}
-                    </div>
+                    </div> */}
+                </div>
+                <div className="text-center shown-content p-4">
+                    <a href={`/product/${query}`}>
+                    <DefaultButton
+                        width={"90%"}
+                        classes={`w3-black`}
+                        style={{borderRadius:"12px"}}
+                        text="See Product"
+                        disabled={product.type === "simple" ? false : !variant}
+                    />
+                    </a>
                 </div>
                 <Modal
                     centered
@@ -191,4 +203,4 @@ const WPProductSelf = ({ productID }) => {
     }
 };
 
-export default connect()(WPProductSelf);
+export default connect()(WPRelatedProduct);

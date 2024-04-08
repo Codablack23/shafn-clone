@@ -54,8 +54,8 @@ const SideBar = ({ shown, handleClose }) => {
 
     return (
         <aside
-            className={`shafn-sidebar-mobile w3-card ${shown ? "shown" : ""}`}>
-            <div className="shafn-mobile-header">
+            className={`shafn-sidebar-mobile font-poppins  w3-card ${shown ? "shown" : ""}`}>
+            <div className="shafn-mobile-header" style={{zIndex:10}}>
                 <div>
                     <i className="bi bi-justify"></i>
                 </div>
@@ -74,15 +74,15 @@ const SideBar = ({ shown, handleClose }) => {
                 <Collapse
                     ghost
                     expandIconPosition="right"
-                    style={{ marfinLeft: 0 }}>
+                    style={{ marginLeft: 0 }}>
                     {Categories.map((c, i) => (
                         <Panel
-                            style={{ paddingLeft: "0px" }}
-                            header={<b>{c.name}</b>}
+                            style={{ padding: "0px",marginBottom:"6px" }}
+                            header={<b className="m-0">{c.name}</b>}
                             key={i + 1}>
                             {c.sub_cat.map((sc, i) => (
                                 <div>
-                                    <p className="w-text-black">
+                                     <p className="w-text-black" style={{marginBottom:-5,color:"black"}}>
                                         <b>{sc.title}</b>
                                     </p>
                                     {sc.categories.map((sub_c) => {
@@ -103,10 +103,10 @@ const SideBar = ({ shown, handleClose }) => {
                                             <Link
                                                 href={`/${page}?category=${cat_id}`}>
                                                 <a
-                                                    className={`d-block mt-2 mb-2 ${
+                                                    className={`d-block category-link font-bold mt-2 mb-2 mt-2 mb-2 ${
                                                         parseInt(activeID) ===
                                                         cat_id
-                                                            ? "w3-text-orange"
+                                                            ? "active"
                                                             : ""
                                                     }`}>
                                                     {sub_c.name}
@@ -114,6 +114,7 @@ const SideBar = ({ shown, handleClose }) => {
                                             </Link>
                                         );
                                     })}
+                                    <br />
                                 </div>
                             ))}
                         </Panel>

@@ -82,9 +82,9 @@ export const carouselFullwidth = {
     speed: 750,
     slidesToShow: 7,
     slidesToScroll: 3,
-    arrows: true,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    // arrows: true,
+    // nextArrow: <NextArrow />,
+    // prevArrow: <PrevArrow />,
     lazyload: true,
     responsive: [
         {

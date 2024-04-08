@@ -131,7 +131,7 @@ const WPModuleProductDetailInformation = ({
 
     return (
         <div className="ps-product__info">
-            {!isWidget && <p style={{ fontSize: 20 }}>{product?.name}</p>}
+            {!isWidget && <p style={{ fontSize: 20,color:"black" }}>{product?.name}</p>}
             {variationPriceRangeView}
             {productPriceView}
             <hr className="w3-lightgrey" />
