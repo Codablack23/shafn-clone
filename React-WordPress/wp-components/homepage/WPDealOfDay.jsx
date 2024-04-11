@@ -57,9 +57,9 @@ const WPDealOfDay = () => {
                 <Splide
                 aria-label="My Favorite Images"
                 options={{
-                    perPage:7,
+                    perPage:6,
                     type:"loop",
-                    gap:"1em",
+                    gap:"2em",
                     pagination:true,
                     padding:{
                         bottom:"1em"
