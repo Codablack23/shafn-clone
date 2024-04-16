@@ -25,18 +25,21 @@ const HomeAdsColumns = props => {
                         <Promotion
                             link="/shop"
                             image={promotion1 ? promotion1.image : null}
+                            defImage={"/promotion-images/promotion-1.jpg"}
                         />
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 ">
                         <Promotion
                             link="/shop"
                             image={promotion2 ? promotion2.image : null}
+                            defImage={"/promotion-images/promotion-2.jpg"}
                         />
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 ">
                         <Promotion
                             link="/shop"
                             image={promotion3 ? promotion3.image : null}
+                            defImage={"/promotion-images/promotion-3.jpg"}
                         />
                     </div>
                 </div>
