@@ -88,7 +88,7 @@ const WPNewArrivals = () => {
     return (
         <div className="ps-product-list ps-new-arrivals">
             <div className="ps-container">
-                <div className="ps-section__header">
+                <div className="">
                     <h3>Hot New Arrivals</h3>
                     {/* <ul className="ps-section__links">
                         {categoriedView}
