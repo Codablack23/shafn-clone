@@ -1,9 +1,9 @@
 import React from 'react';
 
 const FooterCopyright = () => (
-    <div className="ps-footer__copyright">
+    <div className="ps-footer__copyright" style={{display:"flex", justifyContent: "center"}}>
         <p>&copy;Shafn {new Date().getFullYear()} All Rights Reserved</p> 
-        <p>
+        {/* <p>
             <span>We Using Safe Payment For:</span>
             <a href="#">
                 <img src="/static/img/payment-method/1.jpg" alt="Shafn" />
@@ -20,7 +20,7 @@ const FooterCopyright = () => (
             <a href="#">
                 <img src="/static/img/payment-method/5.jpg" alt="Shafn" />
             </a>
-        </p>
+        </p> */}
     </div>
 );
 
