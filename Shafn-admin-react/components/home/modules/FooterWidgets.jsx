@@ -88,7 +88,7 @@ const FooterWidgets = () => (
           </Link>
         </li>
         <p>
-          <Link href={"/"} scroll={false}>
+          <Link href={"https://www.seller.shafn.com/"} scroll={false}>
             <a className="text-white">Become A Vendor</a>
           </Link>
         </p>

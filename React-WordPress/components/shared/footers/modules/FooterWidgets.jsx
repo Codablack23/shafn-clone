@@ -97,7 +97,7 @@ const FooterWidgets = (auth) => (
                     </Link>
                 </li>
                 <p>
-                    <Link href={DashboardDomain} scroll={false}>
+                    <Link href={"https://www.seller.shafn.com/"} scroll={false}>
                         <a className="text-white">Become A Vendor</a>
                     </Link>
                 </p>

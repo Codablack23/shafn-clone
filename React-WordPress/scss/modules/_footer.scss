@@ -232,3 +232,14 @@
         }
     }
 }
+
+.ps-footer__copyright{
+    display: flex;
+    justify-content: center;
+}
+
+@include media("<sm"){
+    .ps-footer__copyright{
+        padding-bottom:100px ;
+    }
+}
