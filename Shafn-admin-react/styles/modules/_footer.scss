@@ -4,13 +4,18 @@ $color-photo: #c81919;
 .ps-footer {
   padding-top: 70px;
   padding-inline: 16px;
-  background-color: $color-dark;
+  background-color: #161824;
   .ps-footer__content_wrapper {
     margin: auto;
+  }
+  a:hover{
+    color: #fff;
   }
   ul {
     margin: 0;
     padding: 0;
+    list-style: none;
+   
   }
   &__widgets {
     display: flex;
