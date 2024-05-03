@@ -13,6 +13,7 @@ import ModalCookie from "~/components/elements/modalCookie";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import RandomCategories from "~/wp-components/homepage/RandomCategories";
+import AdSection from "~/components/partials/homepage/AdSection";
 
 const Index = (auth) => {
     const [isCookiesShowing, setIsCookiesShowing] = useState(false);
@@ -52,7 +53,7 @@ const Index = (auth) => {
             <HomeAdsColumns />
 
             <RandomCategories />
-
+            <AdSection/>
             <WPNewArrivals />
 
             {auth.isLoggedIn && <WPRecentlyViewed />}

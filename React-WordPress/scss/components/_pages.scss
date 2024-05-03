@@ -463,3 +463,97 @@
          }
     };
 }
+.ps__ad-section{
+    background-color: #eee1ff;
+    min-height: 600px;
+    margin: 16px auto;
+    padding: 32px 8px;
+    display: flex;
+    align-items: center;
+    .ps-grid{
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        gap: 32px;
+    }
+    .ps-store{
+        background: #D3EBEB;
+        padding: 8px 16px;
+        cursor: pointer;
+        color: #fff;
+        text-transform: uppercase;
+        .store-img-container{
+            background-color: #fff;
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-block: 12px;
+           
+            p{
+                color: #fff;
+                font-size: 18px;
+            }
+            img{
+                height: 180px;
+                border-radius: 100%;
+                width: 180px;
+            }
+        }
+    }
+    .ps-category{
+        &:first-child{
+            background-color: #b46b7c;
+        }
+        background-color: #dea885;
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 12px;
+        padding: 16px;
+        text-transform: uppercase;
+        text-align: center;
+        .item{
+            cursor: pointer;
+            padding: 16px;
+            width: 100%;
+            height: 120px;
+            background-color: #fff;
+            img{
+                height: 100px;
+                object-fit: cover;
+            }
+        }
+    }
+    .ps-become-a_vendor{
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        padding: 16px;
+        min-height: 300px;
+        button{
+            background-color: #000;
+            color: #fff;
+            font-size: 18px;
+            width: 100%;
+            border-radius: 100px;
+            padding: 16px 8px;
+            font-weight: 600;
+            border: none;
+        }
+    }
+    @include media("<md"){
+        .ps-grid{
+            grid-template-columns: repeat(2,1fr);
+        }
+    } 
+    @include media("<sm"){
+        .ps-grid{
+            grid-template-columns: 1fr;
+        }
+        .ps-become-a_vendor{
+            min-height: 150px;
+            button{
+                font-size: 14px;
+            }
+        }
+    }
+}
