@@ -474,9 +474,7 @@
         display: grid;
         grid-template-columns: repeat(4,1fr);
         min-height: 400px;
-        width: 70%;
         gap: 32px;
-        font-weight: 500;
     }
     .ps-store{
         background: #72d6d6;
@@ -491,15 +489,15 @@
             align-items: center;
             justify-content: center;
             margin-block: 12px;
-            p .text-white{
+            .text-white title p{
                 font-size: 18px;
-                font-weight: 400;
+                font-weight: 600;
             }
            
             p{
                 color: #fff;
                 font-size: 18px;
-                font-weight: 400;
+                font-weight: 600;
 
             }
             img{
