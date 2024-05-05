@@ -474,6 +474,7 @@
         display: grid;
         grid-template-columns: repeat(4,1fr);
         min-height: 400px;
+        max-width: 500px;
         gap: 32px;
     }
     .ps-store{
