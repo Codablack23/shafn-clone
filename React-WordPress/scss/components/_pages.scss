@@ -473,14 +473,16 @@
     .ps-grid{
         display: grid;
         grid-template-columns: repeat(4,1fr);
+        min-height: fit-content;
         gap: 32px;
     }
     .ps-store{
-        background: #D3EBEB;
+        background: #6ad7d7;
         padding: 8px 16px;
         cursor: pointer;
         color: #fff;
         text-transform: uppercase;
+        font-weight: bold;
         .store-img-container{
             background-color: #fff;
             min-height: 250px;
@@ -492,6 +494,8 @@
             p{
                 color: #fff;
                 font-size: 18px;
+                font-weight: bold;
+
             }
             img{
                 height: 180px;
