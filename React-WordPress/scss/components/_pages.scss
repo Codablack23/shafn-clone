@@ -476,6 +476,7 @@
         min-height: 400px;
         width: 70%;
         gap: 32px;
+        font-weight: 500;
     }
     .ps-store{
         background: #72d6d6;
@@ -483,7 +484,6 @@
         cursor: pointer;
         color: #fff;
         text-transform: uppercase;
-        font-weight: bolder;
         .store-img-container{
             background-color: #fff;
             min-height: 250px;
