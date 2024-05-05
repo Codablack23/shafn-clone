@@ -482,7 +482,7 @@
         cursor: pointer;
         color: #fff;
         text-transform: uppercase;
-        // font-weight: bolder;
+        font-weight: bolder;
         .store-img-container{
             background-color: #fff;
             min-height: 250px;
@@ -490,11 +490,15 @@
             align-items: center;
             justify-content: center;
             margin-block: 12px;
+            p .text-white{
+                font-size: 18px;
+                font-weight: bolder;
+            }
            
             p{
                 color: #fff;
+                font-size: 18px;
                 font-weight: bolder;
-                // font-size: 18px;
 
             }
             img{
