@@ -78,7 +78,7 @@ export default function AdSection(){
                <Link href={storeQuery?`/store/${storeQuery}`:"/vendors"}>
                <div className="ps-store text-center">
                         <>
-                        <p className="text-white title" style={{ fontWeight: 600 }}>STORE</p>
+                        <p className="text-white title">STORE</p>
                         <div className="store-img-container">
                         {store !== null?(
                             <img
@@ -87,7 +87,7 @@ export default function AdSection(){
                             />
                         ):null}
                         </div>
-                        <p className="text-white title" style={{ fontWeight: 600 }}>{store?store.store_name:"Loading Store"}</p>
+                        <p className="text-white title">{store?store.store_name:"Loading Store"}</p>
                         </>
                </div>
                </Link>
