@@ -474,10 +474,11 @@
         display: grid;
         width: 100%;
         grid-template-columns: repeat(4,1fr);
+        min-height: 400px;
         gap: 32px;
     }
     .ps-store{
-        background: #D3EBEB;
+        background: #72d6d6;
         padding: 8px 16px;
         cursor: pointer;
         color: #fff;
@@ -489,9 +490,13 @@
             align-items: center;
             justify-content: center;
             margin-block: 12px;
-           
-            p{
+            p .text-white .title{
                 color: #fff;
+                font-size: 18px;
+                font-weight: 400;
+
+            }
+            .text-white.title{
                 font-size: 18px;
             }
             img{

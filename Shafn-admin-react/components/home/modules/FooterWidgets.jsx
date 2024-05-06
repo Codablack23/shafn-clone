@@ -17,28 +17,28 @@ const FooterWidgets = () => (
       <h4 className="widget-title text-white">Quick links</h4>
       <ul className="ps-list--link">
         <li>
-          <Link href="/privacy-policy" scroll={false}>
+        <Link href={"https://shafn.com/page/blank"} scroll={false}>
             <a className="text-white">Policy</a>
           </Link>
         </li>
 
         <li>
-          <Link href="/page/blank" scroll={false}>
+        <Link href={"https://shafn.com/page/blank"} scroll={false}>
             <a className="text-white">Term & Condition</a>
           </Link>
         </li>
         <li>
-          <Link href="/page/blank" scroll={false}>
+        <Link href={"https://shafn.com/page/blank"} scroll={false}>
             <a className="text-white">Shipping</a>
           </Link>
         </li>
         <li>
-          <Link href="/page/blank" scroll={false}>
+        <Link href={"https://shafn.com/page/blank"} scroll={false}>
             <a className="text-white">Return</a>
           </Link>
         </li>
         <li>
-          <Link href="/page/faqs" scroll={false}>
+        <Link href={"https://shafn.com/page/faqs"} scroll={false}>
             <a className="text-white">FAQs</a>
           </Link>
         </li>
@@ -48,7 +48,7 @@ const FooterWidgets = () => (
       <h4 className="widget-title text-white">Company</h4>
       <ul className="ps-list--link">
         <li>
-          <Link href="/page/about-us" scroll={false}>
+        <Link href={"https://shafn.com/page/about-us"} scroll={false}>
             <a className="text-white">About Us</a>
           </Link>
         </li>
@@ -63,7 +63,7 @@ const FooterWidgets = () => (
                     </Link>
                 </li> */}
         <li>
-          <Link href="/page/contact-us" scroll={false}>
+        <Link href={"https://shafn.com/page/contact-us"} scroll={false}>
             <a className="text-white">Contact</a>
           </Link>
         </li>
@@ -78,12 +78,12 @@ const FooterWidgets = () => (
                     </Link>
                 </li> */}
         <li>
-          <Link href="/account/checkout" scroll={false}>
+        <Link href={"https://shafn.com/account/checkout"} scroll={false}>
             <a className="text-white">Checkout</a>
           </Link>
         </li>
         <li>
-          <Link href="/shop" scroll={false}>
+        <Link href={"https://shafn.com/shop"} scroll={false}>
             <a className="text-white">Shop</a>
           </Link>
         </li>
@@ -93,17 +93,17 @@ const FooterWidgets = () => (
           </Link>
         </p>
         <p>
-          <Link href="/vendors" scroll={false}>
+        <Link href={"https://shafn.com/vendors"} scroll={false}>
             <a className="text-white">Vendor Stores</a>
           </Link>
         </p>
         <p>
-          <Link href="/account/order-tracking" scroll={false}>
+        <Link href={"https://shafn.com/account/order-tracking"} scroll={false}>
             <a className="text-white">Track your order</a>
           </Link>
         </p>
         <p>
-          <Link href="/account/register" scroll={false}>
+        <Link href={"https://shafn.com/account/register"} scroll={false}>
             <a className="text-white">Sell on shafN</a>
           </Link>
         </p>

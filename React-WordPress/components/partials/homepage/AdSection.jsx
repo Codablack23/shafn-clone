@@ -87,7 +87,7 @@ export default function AdSection(){
                             />
                         ):null}
                         </div>
-                        <p className="title text-white">{store?store.store_name:"Loading Store"}</p>
+                        <p className="text-white title">{store?store.store_name:"Loading Store"}</p>
                         </>
                </div>
                </Link>
