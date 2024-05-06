@@ -8,11 +8,15 @@ $color-photo: #c81919;
   .ps-footer__content_wrapper {
     margin: auto;
   }
+  .widget_footer{
+    margin-bottom: 16px;
+  }
   a:hover{
     color: #fff;
   }
   ul {
     margin: 0;
+    margin-top: 8px;
     padding: 0;
     list-style: none;
    
@@ -127,7 +131,7 @@ $color-photo: #c81919;
       flex-flow: column wrap;
       align-items: center;
       text-align: center;
-      margin-bottom: 100px;
+      // margin-bottom: 100px;
 
       p {
         display: block;
