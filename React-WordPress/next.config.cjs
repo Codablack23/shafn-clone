@@ -3,7 +3,7 @@ const withImages = require("next-images");
 const nextSettings = {
     env: {
         TITLE: "ShafN",
-        TITLE_DESCRIPTION: "ShafN We are here to serve you",
+        TITLE_DESCRIPTION: "Smarter Beauty Shopping",
         GOOGLE_CLIENTID: "652023039992-oj4618l3ombdnpb168umti2a5nehi6ha.apps.googleusercontent.com",
         FACEBOOK_APPID: "1188145718594459",
         ADMIN_USERNAME: "floppiessofficial@gmail.com",
