@@ -11,7 +11,6 @@ import WPRecentlyViewed from "~/wp-components/homepage/WPRecentlyViewed";
 import { getBannersBySlugs, getPromotionsBySlugs } from "~/store/media/action";
 import ModalCookie from "~/components/elements/modalCookie";
 import { useState } from "react";
-import { motion } from "framer-motion";
 import RandomCategories from "~/wp-components/homepage/RandomCategories";
 import AdSection from "~/components/partials/homepage/AdSection";
 
