@@ -12,7 +12,7 @@
         "stripe:listen": "stripe listen --forward-to localhost:3000/api/stripe/webhook"
     },
     "dependencies": {
-        "@headlessui/react": "^1.7.18",
+        "@headlessui/react": "^2.0.0",
         "@redux-saga/core": "^1.2.1",
         "@speechly/speech-recognition-polyfill": "^1.1.0",
         "@splidejs/react-splide": "^0.7.12",
