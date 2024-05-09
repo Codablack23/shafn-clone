@@ -3,9 +3,6 @@
     "name": "shafn",
     "version": "1.4.0",
     "private": true,
-    "presets": [
-        "@babel/preset-env"
-    ],
     "scripts": {
         "server": "node server.js",
         "dev": "next dev",
