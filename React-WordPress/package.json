@@ -42,7 +42,6 @@
         "raw-body": "^2.5.1",
         "react": "^18.2.0",
         "react-cookie": "^7.1.4",
-        "react-custom-scrollbars": "^3.1.0",
         "react-dom": "^18.3.1",
         "react-facebook-login": "^4.1.1",
         "react-google-login": "^5.2.2",
