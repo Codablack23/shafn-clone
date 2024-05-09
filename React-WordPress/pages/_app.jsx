@@ -15,7 +15,6 @@ import "slick-carousel/slick/slick.css";
 import { CookiesProvider } from "react-cookie";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import '@splidejs/react-splide/css';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 
 /*import '../scss/electronic.scss';
