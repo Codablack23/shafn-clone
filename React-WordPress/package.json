@@ -12,7 +12,7 @@
         "stripe:listen": "stripe listen --forward-to localhost:3000/api/stripe/webhook"
     },
     "dependencies": {
-        "@headlessui/react": "^2.0.1",
+        "@headlessui/react": "^2.0.3",
         "@redux-saga/core": "^1.2.1",
         "@speechly/speech-recognition-polyfill": "^1.1.0",
         "@splidejs/react-splide": "^0.7.12",
@@ -52,7 +52,7 @@
         "react-images": "^0.6.7",
         "react-lazyload": "^3.2.1",
         "react-otp-input": "^3.1.1",
-        "react-phone-number-input": "^3.2.11",
+        "react-phone-number-input": "^3.4.1",
         "react-redux": "^7.2.9",
         "react-slick": "^0.27.12",
         "react-speech-recognition": "^3.9.1",
