@@ -12,7 +12,7 @@
         "stripe:listen": "stripe listen --forward-to localhost:3000/api/stripe/webhook"
     },
     "dependencies": {
-        "@headlessui/react": "^2.0.3",
+        "@headlessui/react": "^2.0.0",
         "@redux-saga/core": "^1.2.1",
         "@speechly/speech-recognition-polyfill": "^1.1.0",
         "@splidejs/react-splide": "^0.7.12",
@@ -40,7 +40,7 @@
         "nodemailer": "^6.9.13",
         "prettier": "^3.2.5",
         "raw-body": "^2.5.1",
-        "react": "^17.0.2",
+        "react": "^16.0.0",
         "react-cookie": "^7.1.4",
         "react-dom": "^18.3.1",
         "react-html-parser": "^2.0.2",
