@@ -7,7 +7,7 @@ const WPShopCategories = ({ sidebar }) => {
     const generateLinks = (links) => {
         return links.map((item) => (
             <li key={item}>
-                <Link href="/shop">
+                <Link legacyBehavior href="/shop">
                     <a>{item}</a>
                 </Link>
             </li>

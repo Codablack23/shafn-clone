@@ -68,7 +68,7 @@ const WPModuleProductQuickviewInformation = ({ product }) => {
             productVendorView = (
                 <p>
                     Sold By:
-                    <Link href="/shop">
+                    <Link legacyBehavior href="/shop">
                         <a className="ml-2">
                             <strong> {product.store.name}</strong>
                         </a>
@@ -84,7 +84,7 @@ const WPModuleProductQuickviewInformation = ({ product }) => {
             <div className="ps-product__meta">
                 <p>
                     Brand:
-                    {/*<Link href="/shop">
+                    {/*<Link legacyBehavior href="/shop">
                             <a className="ml-2 text-capitalize">{product.vendor}</a>
                         </Link>*/}
                 </p>
@@ -131,7 +131,7 @@ const WPModuleProductQuickviewInformation = ({ product }) => {
                     onClick={handleAddItemToCart}>
                     Add to cart
                 </a>
-                <Link href="/account/checkout">
+                <Link legacyBehavior href="/account/checkout">
                     <a className="ps-btn" onClick={handleAddToCheckoutItems}>
                         Buy Now
                     </a>

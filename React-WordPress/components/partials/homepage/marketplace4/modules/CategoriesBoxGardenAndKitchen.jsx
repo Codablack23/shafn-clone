@@ -7,12 +7,12 @@ const CategoriesBoxClothings = () => (
             <h3>Home, Garden & Kitchen</h3>
             <ul>
                 <li>
-                    <Link href="/shop">
+                    <Link legacyBehavior href="/shop">
                         <a>New Arrivals</a>
                     </Link>
                 </li>
                 <li>
-                    <Link href="/shop">
+                    <Link legacyBehavior href="/shop">
                         <a>Best Seller</a>
                     </Link>
                 </li>

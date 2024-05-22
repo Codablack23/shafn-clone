@@ -148,7 +148,7 @@ const WPProduct = ({ product }) => {
     return (
         <div className="ps-product hover-scale">
             <div className="ps-product__thumbnail">
-                <Link href="/product/[pid]" as={`/product/${query}`}>
+                <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
                     <a>{thumbnailImage}</a>
                 </Link>
                 {badgeView}
@@ -196,13 +196,13 @@ const WPProduct = ({ product }) => {
                 </ul> */}
             </div>
             <div className="ps-product__container">
-                <Link href="/shop">
+                <Link legacyBehavior href="/shop">
                     <a className="ps-product__vendor">
                         {product.store && product.store.name}
                     </a>
                 </Link>
                 <div className="hover-hide">
-                    <Link href="/product/[pid]" as={`/product/${query}`}>
+                    <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
                         <a className="ps-product__title">{product.name}</a>
                     </Link>
                     <div className="ps-product__rating">
@@ -213,7 +213,7 @@ const WPProduct = ({ product }) => {
                 </div>
 
                 <div className="hover-show">
-                    <Link href="/product/[pid]" as={`/product/${query}`}>
+                    <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
                         <a className="ps-product__title">{product.name}</a>
                     </Link>
                     {priceView}

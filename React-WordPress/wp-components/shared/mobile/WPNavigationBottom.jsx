@@ -65,7 +65,7 @@ const SideBar = ({ shown, handleClose }) => {
             </div>
             <div className="mt-5 p-3">
                 <div style={{ marginLeft: 10, marginBlock: 10 }}>
-                    <Link href="/shop">
+                    <Link legacyBehavior href="/shop">
                         <a className={"ml-2 mt-4 mb-4 w3-text-black"}>
                             <b>Shop</b>
                         </a>
@@ -100,7 +100,7 @@ const SideBar = ({ shown, handleClose }) => {
                                             : "";
                                         const cat_id = cat ? cat.id : "";
                                         return (
-                                            <Link
+                                            <Link legacyBehavior
                                                 href={`/${page}?category=${cat_id}`}>
                                                 <a
                                                     className={`d-block category-link font-bold mt-2 mb-2 mt-2 mb-2 ${
@@ -121,14 +121,14 @@ const SideBar = ({ shown, handleClose }) => {
                     ))}
                 </Collapse>
                 <div style={{ marginLeft: 10, marginBlock: 10 }}>
-                    <Link href="/vendors">
+                    <Link legacyBehavior href="/vendors">
                         <a className={"ml-2 mt-4 mb-4 w3-text-black"}>
                             <b>Brand</b>
                         </a>
                     </Link>
                 </div>
                 <div style={{ marginLeft: 10, marginBlock: 20 }}>
-                    <Link href="/sales">
+                    <Link legacyBehavior href="/sales">
                         <a className={"ml-2 mt-4 mb-4 w3-text-black"}>
                             <b>Sales</b>
                         </a>
@@ -272,7 +272,7 @@ const WPNavigationBottom = () => {
                     <i className="icon-magnifier"></i>
                     <span> Search</span>
                 </a> */}
-                <Link href="/account/shopping-cart">
+                <Link legacyBehavior href="/account/shopping-cart">
                     <a className="navigation__item">
                         <i className="icon-bag2"></i>
                         <span> Cart</span>

@@ -16,13 +16,13 @@ class MenuDropdownMobile extends Component {
                 key="sub1"
                 title={
                     menuData.type === 'dynamic' ? (
-                        <Link
+                        <Link legacyBehavior
                             href={`${menuData.url}/[pid]`}
                             as={`${menuData.url}/${menuData.endPoint}`}>
                             <a>{menuData.text}</a>
                         </Link>
                     ) : (
-                        <Link href={menuData.url} as={menuData.alias}>
+                        <Link legacyBehavior href={menuData.url} as={menuData.alias}>
                             <a>{menuData.text}</a>
                         </Link>
                     )
@@ -45,11 +45,11 @@ class MenuDropdownMobile extends Component {
             <li className={menuData.subMenu ? 'menu-item-has-children dropdown' : ''}>
 
                 {menuData.type === 'dynamic' ? (
-                    <Link href={`${menuData.url}/[pid]`} as={`${menuData.url}/${menuData.endPoint}`}>
+                    <Link legacyBehavior href={`${menuData.url}/[pid]`} as={`${menuData.url}/${menuData.endPoint}`}>
                         <a>{menuData.text}</a>
                     </Link>
                 ) : (
-                    <Link href={menuData.url} as={menuData.alias}>
+                    <Link legacyBehavior href={menuData.url} as={menuData.alias}>
                         <a>{menuData.text}</a>
                     </Link>
                 )}

@@ -27,32 +27,32 @@ class Market3ConsumerElectronics extends Component {
                     </h3>
                     <ul>
                         <li>
-                            <Link href="/shop">
+                            <Link legacyBehavior href="/shop">
                                 <a>Women</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop">
+                            <Link legacyBehavior href="/shop">
                                 <a>Men</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop">
+                            <Link legacyBehavior href="/shop">
                                 <a>Girl</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop">
+                            <Link legacyBehavior href="/shop">
                                 <a>Boy</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop">
+                            <Link legacyBehavior href="/shop">
                                 <a>Baby</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop">
+                            <Link legacyBehavior href="/shop">
                                 <a>Accessories</a>
                             </Link>
                         </li>
@@ -62,7 +62,7 @@ class Market3ConsumerElectronics extends Component {
                     <div className="ps-block__left">
                         <Slider {...carouselSingle} className="ps-carousel">
                             <div className="item">
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>
                                         <img
                                             src="/static/img/promotions/home-5/clothing-1.jpg"
@@ -72,7 +72,7 @@ class Market3ConsumerElectronics extends Component {
                                 </Link>
                             </div>
                             <div className="item">
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>
                                         <img
                                             src="/static/img/promotions/home-5/clothing-2.jpg"

@@ -20,37 +20,37 @@ class BlogGrid extends Component {
                 <div className="ps-blog__header">
                     <ul className="ps-list--blog-links">
                         <li className="active">
-                            <Link href="/blog">
+                            <Link legacyBehavior href="/blog">
                                 <a>All</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/blog">
+                            <Link legacyBehavior href="/blog">
                                 <a>Life Style</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/blog">
+                            <Link legacyBehavior href="/blog">
                                 <a>Technology</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/blog">
+                            <Link legacyBehavior href="/blog">
                                 <a>Entertaiment</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/blog">
+                            <Link legacyBehavior href="/blog">
                                 <a>Business</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/blog">
+                            <Link legacyBehavior href="/blog">
                                 <a>Others</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/blog">
+                            <Link legacyBehavior href="/blog">
                                 <a>Fashion</a>
                             </Link>
                         </li>

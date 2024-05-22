@@ -22,22 +22,22 @@ class Market2ConsumerElectronics extends Component {
                         <h3>Consumer Electronics</h3>
                         <ul className="ps-section__links">
                             <li>
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>New Arrivals</a>
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>Best seller</a>
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>Must Popular</a>
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>View All</a>
                                 </Link>
                             </li>

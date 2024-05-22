@@ -154,7 +154,7 @@ function UserInformation() {
                                                 className={
                                                     link.active ? "active" : ""
                                                 }>
-                                                <Link href={link.url}>
+                                                <Link legacyBehavior href={link.url}>
                                                     <a>
                                                         <i
                                                             className={

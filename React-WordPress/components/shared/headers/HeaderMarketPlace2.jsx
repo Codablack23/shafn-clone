@@ -67,12 +67,12 @@ class HeaderMarketPlace2 extends Component {
                         <div className="header__right">
                             <ul className="header__top-links">
                                 <li>
-                                    <Link href="/vendor/store-list">
+                                    <Link legacyBehavior href="/vendor/store-list">
                                         <a>Store Location</a>
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/page/blank">
+                                    <Link legacyBehavior href="/page/blank">
                                         <a>Track Your Order</a>
                                     </Link>
                                 </li>
@@ -89,7 +89,7 @@ class HeaderMarketPlace2 extends Component {
                 <div className="header__content">
                     <div className="container">
                         <div className="header__content-left">
-                            <Link href="/home/market-place-2">
+                            <Link legacyBehavior href="/home/market-place-2">
                                 <a className="ps-logo">
                                     <img
                                         src="/static/img/logo.png"
@@ -113,25 +113,25 @@ class HeaderMarketPlace2 extends Component {
                         <div className="header__content-center">
                             <SearchHeader />
                             <p>
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>iphone x</a>
                                 </Link>
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>virtual</a>
                                 </Link>
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>apple</a>
                                 </Link>
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>wireless</a>
                                 </Link>
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>simple chair</a>
                                 </Link>
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>classic watch</a>
                                 </Link>
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>macbook</a>
                                 </Link>
                             </p>

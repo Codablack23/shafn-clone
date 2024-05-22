@@ -22,57 +22,57 @@ class MarketComputerAndTechnology extends Component {
                     <h3>Computer & Techologies</h3>
                     <ul>
                         <li>
-                            <Link href="/shop" as="/shop/best-seller">
+                            <Link legacyBehavior href="/shop" as="/shop/best-seller">
                                 <a>Best Seller</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/new-arrivals">
+                            <Link legacyBehavior href="/shop" as="/shop/new-arrivals">
                                 <a>New Arrivals</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/women">
+                            <Link legacyBehavior href="/shop" as="/shop/women">
                                 <a>Desktop PC</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/men">
+                            <Link legacyBehavior href="/shop" as="/shop/men">
                                 <a>Laptop</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/smartphone">
+                            <Link legacyBehavior href="/shop" as="/shop/smartphone">
                                 <a>Smartphones</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/tablets">
+                            <Link legacyBehavior href="/shop" as="/shop/tablets">
                                 <a>Tablets</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/storage-and-memory">
+                            <Link legacyBehavior href="/shop" as="/shop/storage-and-memory">
                                 <a>Storage & Memory</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/pc-component">
+                            <Link legacyBehavior href="/shop" as="/shop/pc-component">
                                 <a>PC Component</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/game-accessories">
+                            <Link legacyBehavior href="/shop" as="/shop/game-accessories">
                                 <a>Game Accessories</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/sale-and-deal">
+                            <Link legacyBehavior href="/shop" as="/shop/sale-and-deal">
                                 <a>Sales & Deals</a>
                             </Link>
                         </li>
                     </ul>
-                    <Link href="/shop">
+                    <Link legacyBehavior href="/shop">
                         <a className="ps-block__more-link">View All</a>
                     </Link>
                 </div>

@@ -21,22 +21,22 @@ class AutopartRecommendForYou extends Component {
                         <h3>RECOMMENDED FOR YOU</h3>
                         <ul className="ps-section__links">
                             <li>
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>Best Seller</a>
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>New Arrival</a>
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>Top Rated</a>
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>Trending Products</a>
                                 </Link>
                             </li>

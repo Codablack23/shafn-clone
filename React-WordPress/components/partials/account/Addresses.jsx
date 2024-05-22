@@ -63,7 +63,7 @@ function Addresses() {
                                                 className={
                                                     link.active ? "active" : ""
                                                 }>
-                                                <Link href={link.url}>
+                                                <Link legacyBehavior href={link.url}>
                                                     <a>
                                                         <i
                                                             className={
@@ -99,7 +99,7 @@ function Addresses() {
                                                     customer={auth.billing}
                                                     isBilling={true}
                                                 />
-                                                <Link href="/account/edit-billing-address">
+                                                <Link legacyBehavior href="/account/edit-billing-address">
                                                     <a>Edit</a>
                                                 </Link>
                                             </div>
@@ -115,7 +115,7 @@ function Addresses() {
                                                     customer={auth.shipping}
                                                     isBilling={false}
                                                 />
-                                                <Link href="/account/edit-shipping-address">
+                                                <Link legacyBehavior href="/account/edit-shipping-address">
                                                     <a>Edit</a>
                                                 </Link>
                                             </div>

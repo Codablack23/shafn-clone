@@ -33,7 +33,7 @@ class AccountQuickLinks extends Component {
         if (isLoggedIn === true) {
             return (
                 <div className="ps-block--user-account mt-3">
-                    <Link href="/account/user-information">
+                    <Link legacyBehavior href="/account/user-information">
                         <span
                             className="w3-hover-lightgrey"
                             style={{
@@ -52,7 +52,7 @@ class AccountQuickLinks extends Component {
                         <ul className="ps-list--arrow">
                             {accountLinks.map((link) => (
                                 <li key={link.text}>
-                                    <Link href={link.url}>
+                                    <Link legacyBehavior href={link.url}>
                                         <a>{link.text}</a>
                                     </Link>
                                 </li>
@@ -72,7 +72,7 @@ class AccountQuickLinks extends Component {
             return (
                 <div className="ps-block--user-header mt-3">
                     <div className="ps-block__right">
-                        <Link href="/account/login">
+                        <Link legacyBehavior href="/account/login">
                             <span
                                 className="w3-hover-lightgrey"
                                 style={{
@@ -87,7 +87,7 @@ class AccountQuickLinks extends Component {
                                     }}></i>
                             </span>
                         </Link>
-                        {/* <Link href="/account/register">
+                        {/* <Link legacyBehavior href="/account/register">
                             <a>Register</a>
                         </Link> */}
                     </div>

@@ -71,7 +71,7 @@ const WPHeaderProduct = ({ product }) => {
             <div className="header__top">
                 <div className="ps-container">
                     <div className="header__left">
-                        <Link href="/">
+                        <Link legacyBehavior href="/">
                             <a className="ps-logo">
                                 <img
                                     src="/static/img/logo_light.png"
@@ -106,7 +106,7 @@ const WPHeaderProduct = ({ product }) => {
                         </div>
                         <div className="ps-product__wrapper">
                             <div className="ps-product__content">
-                                <Link
+                                <Link legacyBehavior
                                     href="/product/[pid]"
                                     as={`/product/${product.id}`}>
                                     <a className="ps-product__title">

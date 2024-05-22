@@ -189,7 +189,7 @@ class InvoiceDetail extends Component {
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <Link href="/account/invoices">
+                                        <Link legacyBehavior href="/account/invoices">
                                             <a className="ps-btn ps-btn--sm ">
                                                 Back to invoices
                                             </a>

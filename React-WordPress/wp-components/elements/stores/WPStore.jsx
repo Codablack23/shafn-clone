@@ -34,7 +34,7 @@ const WPStore = ({ store }) => {
                 <a className="store-profile" href="#">
                     <img src={store.gravatar} alt="martfury" />
                 </a>
-                <Link href="/store/[pid]" as={`/store/${query}`}>
+                <Link legacyBehavior href="/store/[pid]" as={`/store/${query}`}>
                     <a className="ps-btn"> Visit Store</a>
                 </Link>
             </div>

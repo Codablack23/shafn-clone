@@ -209,7 +209,7 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
                     disabled={product.type === "simple" ? false : !variant}
                 />
                 <br />
-                {/* <Link href="/account/checkout"> */}
+                {/* <Link legacyBehavior href="/account/checkout"> */}
                 <a onClick={handleAddToCheckoutItems}>
                     <Button
                         width={"300px"}

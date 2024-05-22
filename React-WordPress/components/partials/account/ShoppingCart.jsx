@@ -64,7 +64,7 @@ class ShoppingCart extends Component {
                                                 />
                                                 {/*<div className="ps-product--cart">
                                                     <div className="ps-product__thumbnail">
-                                                        <Link
+                                                        <Link legacyBehavior
                                                             href="/product/[pid]"
                                                             as={`/product/${product.id}`}>
                                                             <a>
@@ -78,7 +78,7 @@ class ShoppingCart extends Component {
                                                         </Link>
                                                     </div>
                                                     <div className="ps-product__content">
-                                                        <Link
+                                                        <Link legacyBehavior
                                                             href="/product/[pid]"
                                                             as={`/product/${product.id}`}>
                                                             <a className="ps-product__title">
@@ -145,7 +145,7 @@ class ShoppingCart extends Component {
                             </table>
                         </div>
                         <div className="ps-section__cart-actions">
-                            <Link href="/shop">
+                            <Link legacyBehavior href="/shop">
                                 <a>
                                     <i className="icon-arrow-left mr-2"></i>
                                     Back to Shop
@@ -174,7 +174,7 @@ class ShoppingCart extends Component {
                                                                           product.id
                                                                       }>
                                                                       <span className="ps-block__estimate">
-                                                                          <Link
+                                                                          <Link legacyBehavior
                                                                               href="/product/[pid]"
                                                                               as={`/product/${product.id}`}>
                                                                               <a className="ps-product__title">
@@ -201,7 +201,7 @@ class ShoppingCart extends Component {
                                         </h3>
                                     </div>
                                 </div>
-                                <Link href="/account/checkout">
+                                <Link legacyBehavior href="/account/checkout">
                                     <a className="ps-btn ps-btn--fullwidth">
                                         Proceed to checkout
                                     </a>

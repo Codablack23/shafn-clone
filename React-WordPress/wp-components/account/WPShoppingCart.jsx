@@ -101,7 +101,7 @@ class WPShoppingCart extends Component {
                 return (
                     <li key={product.id}>
                         <span className="ps-block__estimate">
-                            <Link
+                            <Link legacyBehavior
                                 href="/product/[pid]"
                                 as={`/product/${product.id}`}>
                                 <a className="ps-product__title">
@@ -133,7 +133,7 @@ class WPShoppingCart extends Component {
                             <div>{tableContentView}</div>
                         </div>
                         <div className="ps-section__cart-actions">
-                            <Link href="/shop">
+                            <Link legacyBehavior href="/shop">
                                 <a>
                                     <i className="icon-arrow-left mr-2"></i>
                                     Back to Shop
@@ -159,7 +159,7 @@ class WPShoppingCart extends Component {
                                         </h3>
                                     </div>
                                 </div>
-                                <Link href="/account/checkout">
+                                <Link legacyBehavior href="/account/checkout">
                                     <a
                                         className="ps-btn ps-btn--fullwidth"
                                         onClick={() =>

@@ -15,7 +15,7 @@ const BreadCrumb = ({ breacrumb, layout }) => {
                         } else {
                             return (
                                 <li key={item.text}>
-                                    <Link href={item.url}>
+                                    <Link legacyBehavior href={item.url}>
                                         <a>{item.text}</a>
                                     </Link>
                                 </li>

@@ -11,7 +11,7 @@ const BannerItem = ({ source }) => {
     if (source) {
         return (
            <div className="pb-3">
-             <Link href="/shop">
+             <Link legacyBehavior href="/shop">
                 <div
                     className=" bg--cover "
                     style={{
@@ -28,7 +28,7 @@ const BannerItem = ({ source }) => {
         );
     } else {
         return (
-            <Link href="/shop">
+            <Link legacyBehavior href="/shop">
                 <a>
                     <a className="ps-collection">
                         <Image src="/static/img/not-found.jpg" alt="shafN" />

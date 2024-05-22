@@ -23,7 +23,7 @@ const ShopCategories = () => (
                                     {category.links &&
                                         category.links.map((link) => (
                                             <li key={link}>
-                                                <Link href="/shop" as={`/shop`}>
+                                                <Link legacyBehavior href="/shop" as={`/shop`}>
                                                     <a>{link}</a>
                                                 </Link>
                                             </li>

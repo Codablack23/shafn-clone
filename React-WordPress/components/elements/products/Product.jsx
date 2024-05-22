@@ -75,7 +75,7 @@ class Product extends Component {
         return (
             <div className="ps-product">
                 <div className="ps-product__thumbnail">
-                    <Link href="/product/[pid]" as={`/product/${product.id}`}>
+                    <Link legacyBehavior href="/product/[pid]" as={`/product/${product.id}`}>
                         <a>
                             <LazyLoad>
                                 <img
@@ -138,11 +138,11 @@ class Product extends Component {
                     </ul>
                 </div>
                 <div className="ps-product__container">
-                    <Link href="/shop">
+                    <Link legacyBehavior href="/shop">
                         <a className="ps-product__vendor">Young Shop</a>
                     </Link>
                     <div className="ps-product__content">
-                        <Link
+                        <Link legacyBehavior
                             href="/product/[pid]"
                             as={`/product/${product.id}`}>
                             <a className="ps-product__title">{product.title}</a>
@@ -168,7 +168,7 @@ class Product extends Component {
                         )}
                     </div>
                     <div className="ps-product__content hover">
-                        <Link
+                        <Link legacyBehavior
                             href="/product/[pid]"
                             as={`/product/${product.id}`}>
                             <a className="ps-product__title">{product.title}</a>

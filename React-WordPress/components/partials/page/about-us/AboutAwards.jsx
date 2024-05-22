@@ -70,7 +70,7 @@ class AboutAwards extends Component {
                     <div className="ps-section__content">
                         <Slider {...carouselSetting} className="ps-carousel">
                             <div className="item">
-                                <Link href="/page/blank">
+                                <Link legacyBehavior href="/page/blank">
                                     <a>
                                         <img
                                             src="/static/img/awards/1.png"
@@ -80,7 +80,7 @@ class AboutAwards extends Component {
                                 </Link>
                             </div>
                             <div className="item">
-                                <Link href="/page/blank">
+                                <Link legacyBehavior href="/page/blank">
                                     <a>
                                         <img
                                             src="/static/img/awards/2.png"
@@ -90,7 +90,7 @@ class AboutAwards extends Component {
                                 </Link>
                             </div>
                             <div className="item">
-                                <Link href="/page/blank">
+                                <Link legacyBehavior href="/page/blank">
                                     <a>
                                         <img
                                             src="/static/img/awards/3.png"
@@ -100,7 +100,7 @@ class AboutAwards extends Component {
                                 </Link>
                             </div>
                             <div className="item">
-                                <Link href="/page/blank">
+                                <Link legacyBehavior href="/page/blank">
                                     <a>
                                         <img
                                             src="/static/img/awards/4.png"
@@ -110,7 +110,7 @@ class AboutAwards extends Component {
                                 </Link>
                             </div>
                             <div className="item">
-                                <Link href="/page/blank">
+                                <Link legacyBehavior href="/page/blank">
                                     <a>
                                         <img
                                             src="/static/img/awards/5.png"

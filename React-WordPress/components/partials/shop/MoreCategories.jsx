@@ -7,7 +7,7 @@ const MoreCategories = ({ data }) => (
             <h3>Best Seller Items</h3>
             <ul className="ps-section__links">
                 <li>
-                    <Link href="/shop">
+                    <Link legacyBehavior href="/shop">
                         <a href="shop-grid.html">Clothing & Apparel</a>
                     </Link>
                 </li>
@@ -32,7 +32,7 @@ const MoreCategories = ({ data }) => (
                                 <ul>
                                     {category.links.map(item => (
                                         <li key={item}>
-                                            <Link href="/shop">
+                                            <Link legacyBehavior href="/shop">
                                                 <a>{item}</a>
                                             </Link>
                                         </li>

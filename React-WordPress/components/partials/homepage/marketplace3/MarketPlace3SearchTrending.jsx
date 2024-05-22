@@ -47,7 +47,7 @@ class MarketPlace3SearchTrending extends Component {
                                         key="hottrending">
                                         <div className="ps-block__item">
                                             {trendingCategories.map(category => (
-                                                <Link href="/shop" key={category.text}>
+                                                <Link legacyBehavior href="/shop" key={category.text}>
                                                     <a>
                                                         <img
                                                             src={category.imagePath}

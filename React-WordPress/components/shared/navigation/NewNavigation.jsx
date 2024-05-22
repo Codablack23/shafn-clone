@@ -32,14 +32,14 @@ export default function HeaderNav() {
         <nav className="custom--navigation">
             <ul className="nav--list nav--center">
                 <li>
-                    <Link href="/shop">
+                    <Link legacyBehavior href="/shop">
                         <a className="shop">Shop</a>
                     </Link>
                 </li>
                 {Categories.length > 0
                     ? Categories.map((category) => (
                           <li key={category.name} className="nav-dropdown">
-                              <Link href={`/shop/?category=${category.id}`}>
+                              <Link legacyBehavior href={`/shop/?category=${category.id}`}>
                                   <a className="nav--link">{category.name}</a>
                               </Link>
                               {category.sub_cat ? (
@@ -57,7 +57,7 @@ export default function HeaderNav() {
                                                    }):""
                                                   const cat_id = cat2?cat2.id:""
                                                  return(
-                                                    <Link
+                                                    <Link legacyBehavior
                                                     href={`/shop?category=${cat_id}`}
                                                     key={`${i}-cat`}>
                                                     <a className="d-block category-link font-bold text-black">
@@ -75,24 +75,24 @@ export default function HeaderNav() {
                       ))
                     : null}
                 <li>
-                    <Link href="/vendors">
+                    <Link legacyBehavior href="/vendors">
                         <a className="nav--link"> Brand </a>
                     </Link>
                 </li>
                 <li>
-                    <Link href="/sales">
+                    <Link legacyBehavior href="/sales">
                         <a className="nav-link">Sales</a>
                     </Link>
                 </li>
             </ul>
             {/* <ul className="nav--list nav--right">
              <li>
-                <Link href="/account/register">
+                <Link legacyBehavior href="/account/register">
                     <a>Sell on shafN</a>
                 </Link>
              </li>
              <li>
-                <Link href="/account/order-tracking">
+                <Link legacyBehavior href="/account/order-tracking">
                     <a>Tract your order</a>
                 </Link>
              </li>

@@ -39,14 +39,14 @@ class WPMiniCart extends Component {
                             <strong>${amount ? amount : 0}</strong>
                         </h3>
                         <figure>
-                            <Link href="/account/shopping-cart">
+                            <Link legacyBehavior href="/account/shopping-cart">
                                 <a
                                     className="w3-black w3-border w3-hover-white rounded"
                                     style={style}>
                                     View Cart
                                 </a>
                             </Link>
-                            <Link href="/account/checkout">
+                            <Link legacyBehavior href="/account/checkout">
                                 <a
                                     className="w3-black w3-hover-white w3-border rounded"
                                     style={style}

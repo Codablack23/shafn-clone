@@ -75,7 +75,7 @@ export default function ModalCookie() {
                     onClick={() => CreateCookie("accepted")}>
                     Accept all cookies
                 </button>
-                <Link href={"/privacy-policy"}>
+                <Link legacyBehavior href={"/privacy-policy"}>
                     <button className="reject">View Our Cookie Policy</button>
                 </Link>
             </div>

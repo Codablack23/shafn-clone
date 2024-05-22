@@ -20,7 +20,7 @@ class WPHeaderActions extends Component {
                     style={{
                         alignItems: "center",
                     }}>
-                    {/* <Link href="/account/compare">
+                    {/* <Link legacyBehavior href="/account/compare">
                         <span
                             title="Notifications"
                             className="header__extra w3-hover-lightgrey"
@@ -38,7 +38,7 @@ class WPHeaderActions extends Component {
                             </span>
                         </span>
                     </Link> */}
-                    <Link href="/account/wishlist">
+                    <Link legacyBehavior href="/account/wishlist">
                         <span
                             title="Wishlist"
                             className="header__extra w3-hover-lightgrey"
@@ -62,7 +62,7 @@ class WPHeaderActions extends Component {
                             </span>
                         </span>
                     </Link>
-                    {/* <Link href="/">
+                    {/* <Link legacyBehavior href="/">
                     <a className="header__extra">
                         <i className="fa fa-bell"></i>
                         <span>

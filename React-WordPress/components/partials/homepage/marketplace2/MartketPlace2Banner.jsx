@@ -27,7 +27,7 @@ class MartketPlace2Banner extends Component {
                     <div className="ps-section__left">
                         <Slider {...carouselSettings} className="ps-carousel">
                             <div className="item">
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>
                                         <img
                                             src="/static/img/slider/home-4/1.jpg"
@@ -37,7 +37,7 @@ class MartketPlace2Banner extends Component {
                                 </Link>
                             </div>
                             <div className="item">
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>
                                         <img
                                             src="/static/img/slider/home-4/2.jpg"
@@ -47,7 +47,7 @@ class MartketPlace2Banner extends Component {
                                 </Link>
                             </div>
                             <div className="item">
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>
                                         <img
                                             src="/static/img/slider/home-4/3.jpg"
@@ -59,7 +59,7 @@ class MartketPlace2Banner extends Component {
                         </Slider>
                     </div>
                     <div className="ps-section__right">
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a className="ps-collection">
                                 <img
                                     src="/static/img/slider/home-4/left.jpg"

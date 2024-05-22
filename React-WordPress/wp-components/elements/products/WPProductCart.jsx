@@ -10,12 +10,12 @@ const WPProductCart = ({ product }) => {
     return (
         <div className="ps-product--cart">
             <div className="ps-product__thumbnail">
-                <Link href="/product/[pid]" as={`/product/${query}`}>
+                <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
                     <a>{thumbnailImage}</a>
                 </Link>
             </div>
             <div className="ps-product__content">
-                <Link href="/product/[pid]" as={`/product/${query}`}>
+                <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
                     <a className="ps-product__title">{product.name}</a>
                 </Link>
             </div>
@@ -33,12 +33,12 @@ export function CustomProductCart({product,children}){
     return (
         <div className="ps__product-cart">
             <div className="ps-product__thumbnail">
-                <Link href="/product/[pid]" as={`/product/${query}`}>
+                <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
                     <a>{thumbnailImage}</a>
                 </Link>
             </div>
             <div className="ps__product-content">
-                <Link href="/product/[pid]" as={`/product/${query}`}>
+                <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
                     <a className="ps-product__title d-block">{product.name}</a>
                 </Link>
                {children}

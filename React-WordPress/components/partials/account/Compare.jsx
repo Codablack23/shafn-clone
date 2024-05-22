@@ -67,7 +67,7 @@ class Compare extends Component {
                                                 <td key={product.id}>
                                                     <div className="ps-product--compare">
                                                         <div className="ps-product__thumbnail">
-                                                            <Link
+                                                            <Link legacyBehavior
                                                                 href="/product/[pid]"
                                                                 as={`/product/${product.id}`}>
                                                                 <a>
@@ -81,7 +81,7 @@ class Compare extends Component {
                                                             </Link>
                                                         </div>
                                                         <div className="ps-product__content">
-                                                            <Link
+                                                            <Link legacyBehavior
                                                                 href="/product/[pid]"
                                                                 as={`/product/${product.id}`}>
                                                                 <a className="ps-product__title">
@@ -161,7 +161,7 @@ class Compare extends Component {
                                         compareItems.length > 0 ? (
                                             compareItems.map(product => (
                                                 <td key={product.id}>
-                                                    <Link href="/vendor/store-list">
+                                                    <Link legacyBehavior href="/vendor/store-list">
                                                         <a>
                                                             {product.vendor}
                                                         </a>

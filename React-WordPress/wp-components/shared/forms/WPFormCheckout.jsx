@@ -298,7 +298,7 @@ const WPFormCheckout = ({
                                     </figcaption>
                                 </figure>
 
-                                <LinkAuthenticationElement />
+                                <Link legacyBehaviorAuthenticationElement />
                                 <PaymentElement
                                     options={{ layout: "tabs" }}
                                     onReady={handlePaymentElementReady}

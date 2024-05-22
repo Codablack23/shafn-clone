@@ -75,7 +75,7 @@ export default function AdSection(){
                       :[]
                     }
                 />
-               <Link href={storeQuery?`/store/${storeQuery}`:"/vendors"}>
+               <Link legacyBehavior href={storeQuery?`/store/${storeQuery}`:"/vendors"}>
                <div className="ps-store text-center">
                         <>
                         <p className="text-white title">STORE</p>
@@ -92,7 +92,7 @@ export default function AdSection(){
                </div>
                </Link>
                <div className="ps-become-a_vendor">
-                 <Link target="_blank" href={"https://seller.shafn.com"}>
+                 <Link legacyBehavior target="_blank" href={"https://seller.shafn.com"}>
                    <button>BECOME A VENDOR</button>
                  </Link>
                </div>

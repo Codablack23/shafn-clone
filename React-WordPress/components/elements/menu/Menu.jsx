@@ -16,11 +16,11 @@ const Menu = ({ data, className }) => (
                     return (
                         <li key={item.text}>
                             {item.type === 'dynamic' ? (
-                                <Link href={`${item.url}/[pid]`} as={`${item.url}/${item.endPoint}`}>
+                                <Link legacyBehavior href={`${item.url}/[pid]`} as={`${item.url}/${item.endPoint}`}>
                                     <a>{item.text}</a>
                                 </Link>
                             ) : (
-                                <Link href={item.url} as={item.alias}>
+                                <Link legacyBehavior href={item.url} as={item.alias}>
                                     <a>{item.text}</a>
                                 </Link>
                             )}

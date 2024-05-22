@@ -28,12 +28,12 @@ const WPHeaderMarketPlace = () => {
                     <div className="header__right">
                         <ul className="header__top-links">
                             <li>
-                                <Link href="/vendor/store-list">
+                                <Link legacyBehavior href="/vendor/store-list">
                                     <a>Store Location</a>
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/page/blank">
+                                <Link legacyBehavior href="/page/blank">
                                     <a>Track Your Order</a>
                                 </Link>
                             </li>

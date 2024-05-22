@@ -39,7 +39,7 @@ const WPProductWidgets = ({ product, variant, children }) => {
             />
 
             {/* <aside className="widget widget_ads">
-                <Link href="/shop">
+                <Link legacyBehavior href="/shop">
                     <a>
                         <img src="/static/img/ads/product-ads.png" alt="shafn" />
                     </a>

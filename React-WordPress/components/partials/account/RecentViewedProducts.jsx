@@ -65,7 +65,7 @@ class RecentViewedProducts extends Component {
                                                             ? 'active'
                                                             : ''
                                                     }>
-                                                    <Link href={link.url}>
+                                                    <Link legacyBehavior href={link.url}>
                                                         <a>
                                                             <i
                                                                 className={
@@ -77,7 +77,7 @@ class RecentViewedProducts extends Component {
                                                 </li>
                                             ))}
                                             <li>
-                                                <Link href="/account/my-account">
+                                                <Link legacyBehavior href="/account/my-account">
                                                     <a>
                                                         <i className="icon-power-switch"></i>
                                                         Logout

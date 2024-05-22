@@ -14,48 +14,48 @@ const StyleSheets = () => (
         {/*<meta name="description" content="Description" />*/}
         {/*<meta name="keywords" content="Keywords" />*/}
 
-        {/*<link rel="manifest" href="/manifest.json" />*/}
-        {/*<link*/}
+        {/*<Link legacyBehavior rel="manifest" href="/manifest.json" />*/}
+        {/*<Link legacyBehavior*/}
         {/*    href="/favicon-16x16-dunplab-manifest-15113.png"*/}
         {/*    rel="icon"*/}
         {/*    type="image/png"*/}
         {/*    sizes="16x16"*/}
         {/*/>*/}
-        {/*<link*/}
+        {/*<Link legacyBehavior*/}
         {/*    href="/favicon-32x32-dunplab-manifest-15113.png"*/}
         {/*    rel="icon"*/}
         {/*    type="image/png"*/}
         {/*    sizes="32x32"*/}
         {/*/>*/}
-        {/*<link rel="apple-touch-icon" href="/apple-icon-60x60-dunplab-manifest-15113.png"></link>*/}
+        {/*<Link legacyBehavior rel="apple-touch-icon" href="/apple-icon-60x60-dunplab-manifest-15113.png"></link>*/}
         {/*<meta name="theme-color" content="#fcb800" />*/}
 {/* 
-        <link
+        <Link legacyBehavior
             rel="stylesheet"
             type="text/css"
             href="https://www.w3schools.com/w3css/4/w3.css"
         /> */}
 
-        {/* <link
+        {/* <Link legacyBehavior
             href=""
             rel="stylesheet"
         /> */}
-        {/* <link
+        {/* <Link legacyBehavior
             rel="stylesheet"
             href="/static/fonts/Linearicons/Font/demo-files/demo.css"
         /> */}
 
-        {/* <link
+        {/* <Link legacyBehavior
             rel="stylesheet"
             href="/static/fonts/font-awesome/css/font-awesome.min.css"
         /> */}
 
-        {/* <link
+        {/* <Link legacyBehavior
             rel="stylesheet"
             type="text/css"
             href="/static/css/bootstrap.min.css"
         /> */}
-        {/* <link rel="stylesheet" type="text/css" href="/static/css/custom.css" /> */}
+        {/* <Link legacyBehavior rel="stylesheet" type="text/css" href="/static/css/custom.css" /> */}
     </Head>
 );
 

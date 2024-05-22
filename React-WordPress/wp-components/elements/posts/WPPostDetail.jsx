@@ -30,14 +30,14 @@ const WPPostDetail = ({ post }) => {
             const tags = post._embedded['wp:term'][1];
             if (categories) {
                 postCategoriesView = categories.map((item) => (
-                    <Link href="/shop" key={item.id}>
+                    <Link legacyBehavior href="/shop" key={item.id}>
                         <a>{item.name}</a>
                     </Link>
                 ));
             }
             if (tags) {
                 postTagsView = tags.map((item) => (
-                    <Link href="/shop" key={item.id}>
+                    <Link legacyBehavior href="/shop" key={item.id}>
                         <a>{item.name}</a>
                     </Link>
                 ));
@@ -47,7 +47,7 @@ const WPPostDetail = ({ post }) => {
         //author
         if (post._embedded.author) {
             postAuthorView = (
-                <Link href="/blog">
+                <Link legacyBehavior href="/blog">
                     <a href="#">{post._embedded.author[0].name}</a>
                 </Link>
             );

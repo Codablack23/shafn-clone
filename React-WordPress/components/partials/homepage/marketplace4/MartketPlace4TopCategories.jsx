@@ -14,7 +14,7 @@ class MartketPlace4TopCategories extends Component {
                     <div className="row">
                         <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
                             <div className="ps-block--category">
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a className="ps-block__overlay"></a>
                                 </Link>
                                 <img
@@ -27,7 +27,7 @@ class MartketPlace4TopCategories extends Component {
                         </div>
                         <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
                             <div className="ps-block--category">
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a className="ps-block__overlay"></a>
                                 </Link>
                                 <img
@@ -39,7 +39,7 @@ class MartketPlace4TopCategories extends Component {
                         </div>
                         <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
                             <div className="ps-block--category">
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a className="ps-block__overlay"></a>
                                 </Link>
                                 <img
@@ -51,7 +51,7 @@ class MartketPlace4TopCategories extends Component {
                         </div>
                         <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
                             <div className="ps-block--category">
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a className="ps-block__overlay"></a>
                                 </Link>
                                 <img
@@ -63,7 +63,7 @@ class MartketPlace4TopCategories extends Component {
                         </div>
                         <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
                             <div className="ps-block--category">
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a className="ps-block__overlay"></a>
                                 </Link>
                                 <img
@@ -75,7 +75,7 @@ class MartketPlace4TopCategories extends Component {
                         </div>
                         <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
                             <div className="ps-block--category">
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a className="ps-block__overlay"></a>
                                 </Link>
                                 <img

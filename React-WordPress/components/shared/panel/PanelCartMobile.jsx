@@ -29,7 +29,7 @@ class PanelCartMobile extends Component {
                                 className="ps-product--cart-mobile"
                                 key={product.id}>
                                 <div className="ps-product__thumbnail">
-                                    <Link
+                                    <Link legacyBehavior
                                         href="/product/[pid]"
                                         as={`/product/${product.id}`}>
                                         <a>
@@ -53,7 +53,7 @@ class PanelCartMobile extends Component {
                                         )}>
                                         <i className="icon-cross"></i>
                                     </a>
-                                    <Link
+                                    <Link legacyBehavior
                                         href="/product/[pid]"
                                         as={`/product/${product.id}`}>
                                         <a className="ps-product__title">
@@ -82,17 +82,17 @@ class PanelCartMobile extends Component {
                             Sub Total:<strong>${amount}</strong>
                         </h3>
                         <figure>
-                            <Link href="/account/shopping-cart">
+                            <Link legacyBehavior href="/account/shopping-cart">
                                 <a className="ps-btn">View Cart</a>
                             </Link>
-                            <Link href="/account/checkout">
+                            <Link legacyBehavior href="/account/checkout">
                                 <a className="ps-btn">Checkout</a>
                             </Link>
                         </figure>
                     </div>
                 ) : (
                     <div className="ps-cart__footer">
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a className="ps-btn ps-btn--fullwidth">Shop now</a>
                         </Link>
                     </div>

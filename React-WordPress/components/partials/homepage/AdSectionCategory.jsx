@@ -7,7 +7,7 @@ function Category({category,product}){
             :null
         :null
     return (
-        <Link href={`/shop?category=${category.id}`}>
+        <Link legacyBehavior href={`/shop?category=${category.id}`}>
         <div>
             <div className="item">
                 <img src={img} alt={category.name} />

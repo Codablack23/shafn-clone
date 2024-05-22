@@ -29,7 +29,7 @@ const WPPostGrid = ({ post }) => {
             const categories = post._embedded['wp:term'][0];
             if (categories) {
                 postCategoriesView = categories.map((item) => (
-                    <Link href="/shop" key={item.id}>
+                    <Link legacyBehavior href="/shop" key={item.id}>
                         <a>{item.name}</a>
                     </Link>
                 ));
@@ -39,7 +39,7 @@ const WPPostGrid = ({ post }) => {
         //author
         if (post._embedded.author) {
             postAuthorView = (
-                <Link href="/blog">
+                <Link legacyBehavior href="/blog">
                     <a href="#">{post._embedded.author[0].name}</a>
                 </Link>
             );
@@ -48,14 +48,14 @@ const WPPostGrid = ({ post }) => {
     return (
         <article className="ps-post">
             <div className="ps-post__thumbnail">
-                <Link href="/post/[pid]" as={`/post/${post.id}`}>
+                <Link legacyBehavior href="/post/[pid]" as={`/post/${post.id}`}>
                     <a className="ps-post__overlay"></a>
                 </Link>
                 {postThumbnailView}
             </div>
             <div className="ps-post__content">
                 <div className="ps-post__meta">{postCategoriesView}</div>
-                <Link href="/post/[pid]" as={`/post/${post.id}`}>
+                <Link legacyBehavior href="/post/[pid]" as={`/post/${post.id}`}>
                     <a className="ps-post__title">{post.title.rendered}</a>
                 </Link>
                 <p>

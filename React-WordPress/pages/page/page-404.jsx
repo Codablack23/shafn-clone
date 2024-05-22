@@ -15,7 +15,7 @@ const Page404 = () => (
                             <p>
                                 It seems we can't find what you're looking for.
                                 Perhaps searching can help or go back to
-                                <Link href="/">
+                                <Link legacyBehavior href="/">
                                     <a> Homepage</a>
                                 </Link>
                             </p>

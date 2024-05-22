@@ -90,12 +90,12 @@ const WPProductHorizontal = ({ product }) => {
     return (
         <div className="ps-product--horizontal">
             <div className="ps-product__thumbnail hover-popup">
-                <Link href="/product/[pid]" as={`/product/${query}`}>
+                <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
                     <a>{thumbnailImage}</a>
                 </Link>
             </div>
             <div className="ps-product__content">
-                <Link href="/product/[pid]" as={`/product/${query}`}>
+                <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
                     <a className="font-bold">{product.name}</a>
                 </Link>
                 <div className="ps-product__rating">

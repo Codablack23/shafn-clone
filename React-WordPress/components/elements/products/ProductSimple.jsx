@@ -81,7 +81,7 @@ class ProductSimple extends Component {
         return (
             <div className="ps-product ps-product--simple">
                 <div className="ps-product__thumbnail">
-                    <Link href="/product/[pid]" as={`/product/${product.id}`}>
+                    <Link legacyBehavior href="/product/[pid]" as={`/product/${product.id}`}>
                         <a>
                             <ThumbnailImage url={product.thumbnail.url} />
                         </a>
@@ -136,7 +136,7 @@ class ProductSimple extends Component {
                 </div>
                 <div className="ps-product__container">
                     <div className="ps-product__content">
-                        <Link href="/product/[pid]">
+                        <Link legacyBehavior href="/product/[pid]">
                             <a className="ps-product__title">{product.title}</a>
                         </Link>
                         <div className="ps-product__rating">

@@ -80,7 +80,7 @@ class ProductDealOfDay extends Component {
         return (
             <div className="ps-product ps-product--inner">
                 <div className="ps-product__thumbnail">
-                    <Link href="/product/[pid]" as={`/product/${product.id}`}>
+                    <Link legacyBehavior href="/product/[pid]" as={`/product/${product.id}`}>
                         <a>
                             <LazyLoad>
                                 <img src={thumbnail} alt="martfury" />
@@ -136,7 +136,7 @@ class ProductDealOfDay extends Component {
                     </ul>
                 </div>
                 <div className="ps-product__container">
-                    <Link href="/shop">
+                    <Link legacyBehavior href="/shop">
                         <a className="ps-product__vendor">Young Shop</a>
                     </Link>
                     <div className="ps-product__content">
@@ -156,7 +156,7 @@ class ProductDealOfDay extends Component {
                                 {formatCurrency(product.price)}
                             </p>
                         )}
-                        <Link
+                        <Link legacyBehavior
                             href="/product/[pid]"
                             as={`/product/${product.id}`}>
                             <a className="ps-product__title">{product.title}</a>

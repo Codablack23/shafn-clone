@@ -71,7 +71,7 @@ class ProductWide extends Component {
         return (
             <div className="ps-product ps-product--wide">
                 <div className="ps-product__thumbnail">
-                    <Link href="/product/[pid]" as={`/product/${product.id}`}>
+                    <Link legacyBehavior href="/product/[pid]" as={`/product/${product.id}`}>
                         <a>
                             <img
                                 src={
@@ -86,14 +86,14 @@ class ProductWide extends Component {
                 </div>
                 <div className="ps-product__container">
                     <div className="ps-product__content">
-                        <Link
+                        <Link legacyBehavior
                             href="/product/[pid]"
                             as={`/product/${product.id}`}>
                             <a className="ps-product__title">{product.title}</a>
                         </Link>
                         <p className="ps-product__vendor">
                             Sold by:
-                            <Link href="/shop">
+                            <Link legacyBehavior href="/shop">
                                 <a>{product.vendor}</a>
                             </Link>
                         </p>

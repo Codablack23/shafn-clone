@@ -33,7 +33,7 @@ class HomeDefaultDealOfDay extends Component {
                                 </figure>
                             </div>
                         </div>
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a>View all</a>
                         </Link>
                     </div>

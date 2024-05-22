@@ -142,7 +142,7 @@ class WPCompare extends Component {
                                             compareItems.length > 0 ? (
                                                 compareItems.map((product) => (
                                                     <td key={product.id}>
-                                                        <Link href="/vendor/store-list">
+                                                        <Link legacyBehavior href="/vendor/store-list">
                                                             <a>
                                                                 {product.vendor}
                                                             </a>

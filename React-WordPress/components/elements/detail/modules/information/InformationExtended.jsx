@@ -55,7 +55,7 @@ class InformationExtended extends Component {
                 <div className="ps-product__meta">
                     <p>
                         Brand:
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a className="ml-2 text-capitalize">{product.vendor}</a>
                         </Link>
                     </p>
@@ -82,7 +82,7 @@ class InformationExtended extends Component {
                 <div className="ps-product__desc">
                     <p>
                         Sold By:
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a>
                                 <strong> {product.vendor}</strong>
                             </a>
@@ -157,7 +157,7 @@ class InformationExtended extends Component {
                     </a>
                 </div>
                 <div className="ps-product__specification">
-                    <Link href="/page/blank">
+                    <Link legacyBehavior href="/page/blank">
                         <a className="report">Report Abuse</a>
                     </Link>
                     <p>

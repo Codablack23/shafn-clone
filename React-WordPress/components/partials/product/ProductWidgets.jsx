@@ -31,13 +31,13 @@ class ProductWidgets extends Component{
                 <aside className="widget widget_sell-on-site">
                     <p>
                         <i className="icon-store"></i> Sell on Martfury?
-                        <Link href="/account/register">
+                        <Link legacyBehavior href="/account/register">
                             <a> Register Now !</a>
                         </Link>
                     </p>
                 </aside>
                 <aside className="widget widget_ads">
-                    <Link href="/shop">
+                    <Link legacyBehavior href="/shop">
                         <a>
                             <img src="/static/img/ads/product-ads.png" alt="martfury" />
                         </a>

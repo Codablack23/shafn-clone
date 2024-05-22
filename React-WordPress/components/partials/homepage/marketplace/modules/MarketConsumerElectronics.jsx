@@ -21,57 +21,57 @@ class MarketConsumerElectronics extends Component {
                     <h3>Consumer Electronics</h3>
                     <ul>
                         <li>
-                            <Link href="/shop" as="/shop/best-seller">
+                            <Link legacyBehavior href="/shop" as="/shop/best-seller">
                                 <a>Best Seller</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/new-arrivals">
+                            <Link legacyBehavior href="/shop" as="/shop/new-arrivals">
                                 <a>New Arrivals</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/tv-television">
+                            <Link legacyBehavior href="/shop" as="/shop/tv-television">
                                 <a>TV Television</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/air-conditions">
+                            <Link legacyBehavior href="/shop" as="/shop/air-conditions">
                                 <a>Air Condition</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/washing-machine">
+                            <Link legacyBehavior href="/shop" as="/shop/washing-machine">
                                 <a>Washing Machine</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/microware">
+                            <Link legacyBehavior href="/shop" as="/shop/microware">
                                 <a>Microwave</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/refrigerator">
+                            <Link legacyBehavior href="/shop" as="/shop/refrigerator">
                                 <a>Refrigerator</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/office-electronic">
+                            <Link legacyBehavior href="/shop" as="/shop/office-electronic">
                                 <a>Office Electronic</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/car-electronic">
+                            <Link legacyBehavior href="/shop" as="/shop/car-electronic">
                                 <a>Car Electronic</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/sale-and-deal">
+                            <Link legacyBehavior href="/shop" as="/shop/sale-and-deal">
                                 <a>Sales & Deals</a>
                             </Link>
                         </li>
                     </ul>
-                    <Link href="/shop">
+                    <Link legacyBehavior href="/shop">
                         <a className="ps-block__more-link">View All</a>
                     </Link>
                 </div>

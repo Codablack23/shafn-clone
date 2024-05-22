@@ -29,7 +29,7 @@ class MobileHeaderActions extends Component {
         const { cartTotal } = this.props.cart;
         return (
             <div className="navigation__right">
-                <Link href="/account/shopping-cart">
+                <Link legacyBehavior href="/account/shopping-cart">
                     <a className="header__extra" href="#">
                         <i className="icon-bag2"></i>
                         <span>
@@ -41,7 +41,7 @@ class MobileHeaderActions extends Component {
                     <AccountQuickLinksMobile />
                 ) : (
                     <div className="header__extra">
-                        <Link href="/account/login">
+                        <Link legacyBehavior href="/account/login">
                             <i className="icon-user"></i>
                         </Link>
                     </div>

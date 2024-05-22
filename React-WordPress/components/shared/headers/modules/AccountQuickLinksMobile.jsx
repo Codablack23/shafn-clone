@@ -46,7 +46,7 @@ class AccountQuickLinks extends Component {
             <Menu>
                 {accountLinks.map((link) => (
                     <Menu.Item key={link.url}>
-                        <Link href={link.url}>
+                        <Link legacyBehavior href={link.url}>
                             <a>{link.text}</a>
                         </Link>
                     </Menu.Item>
@@ -62,7 +62,7 @@ class AccountQuickLinks extends Component {
 
         return (
             <Dropdown menu={menu} placement="bottomLeft">
-                <Link
+                <Link legacyBehavior
                     href="/account/user-information"
                     className="header__extra ps-user--mobile">
                     <i

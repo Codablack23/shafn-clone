@@ -207,7 +207,7 @@ export function WPProductDetailBrandView(product) {
             view = (
                 <p>
                     Brand:
-                    <Link href="/shop">
+                    <Link legacyBehavior href="/shop">
                         <a className="ml-2 text-capitalize">
                             {" "}
                             {brand.options[0]}
@@ -226,7 +226,7 @@ export function WPProductDetailCategoriesView(product) {
     let view;
     if (product?.categories) {
         view = product.categories.map((item) => (
-            <Link href="/shop" key={item.id}>
+            <Link legacyBehavior href="/shop" key={item.id}>
                 <a
                     className="ps-document"
                     dangerouslySetInnerHTML={{
@@ -244,7 +244,7 @@ export function WPProductDetailTagsView(product) {
     let view;
     if (product?.tags && product.tags.length > 0) {
         view = product.tags.map((item) => (
-            <Link href="/shop" key={item.id}>
+            <Link legacyBehavior href="/shop" key={item.id}>
                 <a
                     className="ps-document"
                     dangerouslySetInnerHTML={{
@@ -264,7 +264,7 @@ export function WPProductDetailStoreView(product) {
         view = (
             <p>
                 SOLD BY:
-                <Link href="/shop">
+                <Link legacyBehavior href="/shop">
                     <a className="ml-2">
                         <strong> {product.store.name}</strong>
                     </a>

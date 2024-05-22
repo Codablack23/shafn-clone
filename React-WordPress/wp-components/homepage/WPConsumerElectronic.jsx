@@ -99,7 +99,7 @@ const WPConsumerElectronic = ({ products, collectionSlug, collections }) => {
                     <ul className="ps-section__links">
                         {sectionLinksView}
                         <li>
-                            <Link href="/shop">
+                            <Link legacyBehavior href="/shop">
                                 <a>View All</a>
                             </Link>
                         </li>

@@ -138,7 +138,7 @@ const WPSearchHeader = () => {
             if (resultItems.items.length > 5) {
                 loadMoreView = (
                     <div className="ps-panel__footer text-center">
-                        <Link href="/search">
+                        <Link legacyBehavior href="/search">
                             <a>See all results</a>
                         </Link>
                     </div>

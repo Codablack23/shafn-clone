@@ -21,7 +21,7 @@ class HeaderActions extends Component {
         }
         return (
             <div className="header__actions">
-                <Link href="/account/compare">
+                <Link legacyBehavior href="/account/compare">
                     <a className="header__extra">
                         <i className="icon-chart-bars"></i>
                         <span>
@@ -29,7 +29,7 @@ class HeaderActions extends Component {
                         </span>
                     </a>
                 </Link>
-                <Link href="/account/wishlist">
+                <Link legacyBehavior href="/account/wishlist">
                     <a className="header__extra">
                         <i className="icon-heart"></i>
                         <span>

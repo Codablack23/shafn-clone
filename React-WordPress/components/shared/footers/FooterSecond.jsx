@@ -15,27 +15,27 @@ const FooterSecond = () => (
                                     </h4>
                                     <ul className="ps-list--link">
                                         <li>
-                                            <Link href="/page/blank">
+                                            <Link legacyBehavior href="/page/blank">
                                                 <a>Policy</a>
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/page/blank">
+                                            <Link legacyBehavior href="/page/blank">
                                                 <a>Term & Condition</a>
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/page/blank">
+                                            <Link legacyBehavior href="/page/blank">
                                                 <a>Shipping</a>
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/page/blank">
+                                            <Link legacyBehavior href="/page/blank">
                                                 <a>Return</a>
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/page/faqs">
+                                            <Link legacyBehavior href="/page/faqs">
                                                 <a>FAQs</a>
                                             </Link>
                                         </li>
@@ -47,22 +47,22 @@ const FooterSecond = () => (
                                     <h4 className="widget-title">Company</h4>
                                     <ul className="ps-list--link">
                                         <li>
-                                            <Link href="/page/about-us">
+                                            <Link legacyBehavior href="/page/about-us">
                                                 <a>About Us</a>
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/product/affiliate">
+                                            <Link legacyBehavior href="/product/affiliate">
                                                 <a>Affilate</a>
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/page/blank">
+                                            <Link legacyBehavior href="/page/blank">
                                                 <a>Career</a>
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/page/contact-us">
+                                            <Link legacyBehavior href="/page/contact-us">
                                                 <a>Contact</a>
                                             </Link>
                                         </li>
@@ -74,22 +74,22 @@ const FooterSecond = () => (
                                     <h4 className="widget-title">Bussiness</h4>
                                     <ul className="ps-list--link">
                                         <li>
-                                            <Link href="/blog">
+                                            <Link legacyBehavior href="/blog">
                                                 <a>Our Press</a>
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/account/checkout">
+                                            <Link legacyBehavior href="/account/checkout">
                                                 <a>Checkout</a>
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/account/login">
+                                            <Link legacyBehavior href="/account/login">
                                                 <a>My account</a>
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/shop">
+                                            <Link legacyBehavior href="/shop">
                                                 <a>Shop</a>
                                             </Link>
                                         </li>
@@ -147,7 +147,7 @@ const FooterSecond = () => (
                 <p>© 2018 Martfury. All Rights Reserved</p>
                 <p>
                     <span>We Using Safe Payment For:</span>
-                    <Link href="/page/blank">
+                    <Link legacyBehavior href="/page/blank">
                         <a>
                             <img
                                 src="/static/img/payment-method/1.jpg"
@@ -155,7 +155,7 @@ const FooterSecond = () => (
                             />
                         </a>
                     </Link>
-                    <Link href="/page/blank">
+                    <Link legacyBehavior href="/page/blank">
                         <a>
                             <img
                                 src="/static/img/payment-method/2.jpg"
@@ -163,7 +163,7 @@ const FooterSecond = () => (
                             />
                         </a>
                     </Link>
-                    <Link href="/page/blank">
+                    <Link legacyBehavior href="/page/blank">
                         <a>
                             <img
                                 src="/static/img/payment-method/3.jpg"
@@ -171,7 +171,7 @@ const FooterSecond = () => (
                             />
                         </a>
                     </Link>
-                    <Link href="/page/blank">
+                    <Link legacyBehavior href="/page/blank">
                         <a>
                             <img
                                 src="/static/img/payment-method/4.jpg"
@@ -179,7 +179,7 @@ const FooterSecond = () => (
                             />
                         </a>
                     </Link>
-                    <Link href="/page/blank">
+                    <Link legacyBehavior href="/page/blank">
                         <a>
                             <img
                                 src="/static/img/payment-method/5.jpg"

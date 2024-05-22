@@ -11,10 +11,10 @@ const PostDetail = () => (
                 </h1>
                 <p>
                     December 17/ 2017 / By drfurion / in
-                    <Link href="/blog">
+                    <Link legacyBehavior href="/blog">
                         <a>Life Style</a>
                     </Link>
-                    <Link href="/blog">
+                    <Link legacyBehavior href="/blog">
                         <a>Others</a>
                     </Link>
                 </p>

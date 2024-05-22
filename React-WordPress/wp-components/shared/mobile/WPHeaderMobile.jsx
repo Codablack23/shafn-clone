@@ -17,7 +17,7 @@ const WPHeaderMobile = () => {
                 }}>
                 <div className="d-flex align-items-center">
                     <p className="text-white">
-                        <Link href={"/"}>
+                        <Link legacyBehavior href={"/"}>
                             <a className="ps__logo-mobile">
                                 <img src={"/static/img/Logo-dark.png"} alt="" />
                             </a>
@@ -30,12 +30,12 @@ const WPHeaderMobile = () => {
                 {/* <div className="header__right">
                     <ul className="navigation__extra">
                         <li>
-                            <Link href="/vendor/become-a-vendor">
+                            <Link legacyBehavior href="/vendor/become-a-vendor">
                                 <a className='text-white'>Sell on Martfury</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/account/order-tracking">
+                            <Link legacyBehavior href="/account/order-tracking">
                                 <a className='text-white'>Tract your order</a>
                             </Link>
                         </li>
@@ -50,7 +50,7 @@ const WPHeaderMobile = () => {
             </div>
             {/* <div className="navigation--mobile bg-white">
                 <div className="navigation__left bg-white">
-                    <Link href="/">
+                    <Link legacyBehavior href="/">
                         <a
                             className="ps-logo"
                             style={{

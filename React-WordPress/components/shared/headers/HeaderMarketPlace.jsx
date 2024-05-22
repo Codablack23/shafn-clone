@@ -32,12 +32,12 @@ class HeaderMarketPlace extends Component {
                         <div className="header__right">
                             <ul className="header__top-links">
                                 <li>
-                                    <Link href="/vendor/store-list">
+                                    <Link legacyBehavior href="/vendor/store-list">
                                         <a>Store Location</a>
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/page/blank">
+                                    <Link legacyBehavior href="/page/blank">
                                         <a>Track Your Order</a>
                                     </Link>
                                 </li>
@@ -54,7 +54,7 @@ class HeaderMarketPlace extends Component {
                 <div className="header__content">
                     <div className="container">
                         <div className="header__content-left">
-                            <Link href="/home/market-place">
+                            <Link legacyBehavior href="/home/market-place">
                                 <a className="ps-logo">
                                     <img
                                         src="/static/img/logo.png"

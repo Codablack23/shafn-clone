@@ -25,27 +25,27 @@ class MyAccount extends Component {
                                     <div className="ps-widget__content">
                                         <ul>
                                             <li className="active">
-                                                <Link href="/account/my-account">
+                                                <Link legacyBehavior href="/account/my-account">
                                                     <a>Dashboard</a>
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link href="/account/my-account">
+                                                <Link legacyBehavior href="/account/my-account">
                                                     <a>Orders</a>
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link href="/account/my-account">
+                                                <Link legacyBehavior href="/account/my-account">
                                                     <a>Addresses</a>
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link href="/account/my-account">
+                                                <Link legacyBehavior href="/account/my-account">
                                                     <a>Account Details</a>
                                                 </Link>
                                             </li>
                                             <li>
-                                                <Link href="/account/my-account">
+                                                <Link legacyBehavior href="/account/my-account">
                                                     <a>Logout</a>
                                                 </Link>
                                             </li>
@@ -63,17 +63,17 @@ class MyAccount extends Component {
                                     <p>
                                         From your account dashboard you can view
                                         your{' '}
-                                        <Link href="/account/orders">
+                                        <Link legacyBehavior href="/account/orders">
                                             <a>recent orders</a>
                                         </Link>
                                         , manage your{' '}
-                                        <Link href="/account/user-information">
+                                        <Link legacyBehavior href="/account/user-information">
                                             <a>
                                                 shipping and billing addresses
                                             </a>
                                         </Link>
                                         , and{' '}
-                                        <Link href="/account/user-information">
+                                        <Link legacyBehavior href="/account/user-information">
                                             <a>
                                                 edit your password and account
                                                 details

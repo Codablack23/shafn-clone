@@ -121,7 +121,7 @@ function Register() {
                     onFinish={!isLoading && verifyEmail}>
                     <ul className="ps-tab-list">
                         <li className="active m-auto" style={style.head}>
-                            <Link href="/account/login">
+                            <Link legacyBehavior href="/account/login">
                                 <img
                                     src="/static/img/logo_light.png"
                                     className="img-fluid"

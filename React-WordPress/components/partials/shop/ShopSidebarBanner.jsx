@@ -9,7 +9,7 @@ class ShopSidebarBanner extends Component {
             <div className="ps-shop-banner">
                 <Slider {...carouselSingle} className="ps-carousel blur">
                     <div className="item">
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <img
                                 src="/static/img/slider/shop-sidebar/1.jpg"
                                 alt="martfury"
@@ -17,7 +17,7 @@ class ShopSidebarBanner extends Component {
                         </Link>
                     </div>
                     <div className="item">
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <img
                                 src="/static/img/slider/shop-sidebar/2.jpg"
                                 alt="martfury"

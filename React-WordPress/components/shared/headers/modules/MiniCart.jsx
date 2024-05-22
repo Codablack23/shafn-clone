@@ -36,7 +36,7 @@ class MiniCart extends Component {
                                           className="ps-product--cart-mobile"
                                           key={product.id}>
                                           <div className="ps-product__thumbnail">
-                                              <Link
+                                              <Link legacyBehavior
                                                   href="/product/[pid]"
                                                   as={`/product/${product.id}`}>
                                                   <a>
@@ -63,7 +63,7 @@ class MiniCart extends Component {
                                                   )}>
                                                   <i className="icon-cross"></i>
                                               </a>
-                                              <Link
+                                              <Link legacyBehavior
                                                   href="/product/[pid]"
                                                   as={`/product/${product.id}`}>
                                                   <a className="ps-product__title">
@@ -89,10 +89,10 @@ class MiniCart extends Component {
                                 <strong>${amount ? amount : 0}</strong>
                             </h3>
                             <figure>
-                                <Link href="/account/shopping-cart">
+                                <Link legacyBehavior href="/account/shopping-cart">
                                     <a className="ps-btn">View Cart</a>
                                 </Link>
-                                <Link href="/account/checkout">
+                                <Link legacyBehavior href="/account/checkout">
                                     <a className="ps-btn">Checkout</a>
                                 </Link>
                             </figure>

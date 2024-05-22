@@ -18,32 +18,32 @@ class NewArrivals extends Component {
                         <h3>New Arrivals</h3>
                         <ul className="ps-section__links">
                             <li>
-                                <Link href="/shop?category=computers-and-technologies">
+                                <Link legacyBehavior href="/shop?category=computers-and-technologies">
                                     <a>Technologies</a>
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/shop?category=consumer-electrics">
+                                <Link legacyBehavior href="/shop?category=consumer-electrics">
                                     <a>Electronic</a>
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/shop?category=furniture">
+                                <Link legacyBehavior href="/shop?category=furniture">
                                     <a>Furnitures</a>
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/shop?category=clothing-and-parel">
+                                <Link legacyBehavior href="/shop?category=clothing-and-parel">
                                     <a>Clothing & Apparel</a>
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/shop?category=health-and-beauty">
+                                <Link legacyBehavior href="/shop?category=health-and-beauty">
                                     <a>Health & Beauty</a>
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>View All</a>
                                 </Link>
                             </li>

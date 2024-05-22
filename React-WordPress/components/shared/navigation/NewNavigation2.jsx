@@ -17,14 +17,14 @@ export default function HeaderNav() {
     return ( <nav className = "custom--navigation" >
         <ul className = "nav--list nav--center">
         <li>
-        <Link href = "/shop">
+        <Link legacyBehavior href = "/shop">
         <a className = "shop" > Shop </a> 
         </Link> 
         </li> {
             Categories.length > 0 ?
                 Categories.map((category) => ( 
                     <li key = { category.id }>
-                    <Link href = { `/shop/?category=${category.id}` }>
+                    <Link legacyBehavior href = { `/shop/?category=${category.id}` }>
                     <a className = "nav--link" > { category.name } </a> 
                     </Link> 
                     </li>
@@ -32,7 +32,7 @@ export default function HeaderNav() {
                 null
                 } 
                     <li>
-                    <Link href = "/vendors" >
+                    <Link legacyBehavior href = "/vendors" >
                     <a> Brand </a>  
                     </Link >
                     </li> 

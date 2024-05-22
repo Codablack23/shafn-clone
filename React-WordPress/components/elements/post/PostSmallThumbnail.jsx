@@ -5,7 +5,7 @@ const PostSmallThumbnail = ({ data }) => {
     return (
         <article className="ps-post ps-post--small-thumbnail">
             <div className="ps-post__thumbnail">
-                <Link href="/post/[pid]" as={`/post/${data.id}`}>
+                <Link legacyBehavior href="/post/[pid]" as={`/post/${data.id}`}>
                     <a className="ps-post__overlay"></a>
                 </Link>
                 <img src={data.thumbnail} alt="martfury" />
@@ -21,14 +21,14 @@ const PostSmallThumbnail = ({ data }) => {
                 <div className="ps-post__top">
                     <div className="ps-post__meta">
                         {data.categories.map(category => (
-                            <Link
+                            <Link legacyBehavior
                                 href="/shop"
                                 key={category.id + category.text}>
                                 <a>{category.text}</a>
                             </Link>
                         ))}
                     </div>
-                    <Link href="/post/[pid]" as={`/post/${data.id}`}>
+                    <Link legacyBehavior href="/post/[pid]" as={`/post/${data.id}`}>
                         <a className="ps-post__title">{data.title}</a>
                     </Link>
                     <p>
@@ -38,7 +38,7 @@ const PostSmallThumbnail = ({ data }) => {
                 </div>
                 <p>
                     December 17, 2017 by
-                    <Link href="/blog">
+                    <Link legacyBehavior href="/blog">
                         <a href="#"> drfurion</a>
                     </Link>
                 </p>

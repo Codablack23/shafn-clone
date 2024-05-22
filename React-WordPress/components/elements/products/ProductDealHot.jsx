@@ -22,7 +22,7 @@ class ProductDealHot extends React.Component {
                     <div className="ps-product__info">
                         <h5>Investor</h5>
                         <h3 className="ps-product__name">
-                            <Link
+                            <Link legacyBehavior
                                 href="/product/[pid]"
                                 as={`/product/${product.id}`}>
                                 <a>{product.title}</a>

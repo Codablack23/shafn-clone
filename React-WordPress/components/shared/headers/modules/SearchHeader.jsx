@@ -147,7 +147,7 @@ class SearchHeader extends Component {
                         )}
                     </div>
                     <div className="ps-panel__footer text-center">
-                        <Link href="/search">
+                        <Link legacyBehavior href="/search">
                             <a>See all results</a>
                         </Link>
                     </div>

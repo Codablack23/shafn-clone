@@ -14,7 +14,7 @@ const AccountMenuSidebar = ({ data }) => (
             <ul>
                 {data.map((link) => (
                     <li key={link.text} className={link.active ? 'active' : ''}>
-                        <Link href={link.url}>
+                        <Link legacyBehavior href={link.url}>
                             <a>
                                 <i className={link.icon}></i>
                                 {link.text}
@@ -23,7 +23,7 @@ const AccountMenuSidebar = ({ data }) => (
                     </li>
                 ))}
                 <li>
-                    <Link href="/account/my-account">
+                    <Link legacyBehavior href="/account/my-account">
                         <a>Logout</a>
                     </Link>
                 </li>

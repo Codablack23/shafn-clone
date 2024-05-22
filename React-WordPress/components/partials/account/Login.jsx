@@ -79,7 +79,7 @@ function Login() {
                     onFinish={!isLoading && handleLogin}>
                     <ul className="ps-tab-list">
                         <li className="active m-auto" style={style.head}>
-                            <Link href="/account/login">
+                            <Link legacyBehavior href="/account/login">
                                 <img
                                     src="/static/img/logo_light.png"
                                     className="img-fluid"
@@ -155,7 +155,7 @@ function Login() {
                                         Remember me
                                     </label>
                                 </div>
-                                {/* <Link href={"/"}>
+                                {/* <Link legacyBehavior href={"/"}>
                                     <a
                                         style={{
                                             color: "#378fd3",

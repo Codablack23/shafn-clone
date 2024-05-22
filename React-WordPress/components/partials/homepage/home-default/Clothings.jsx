@@ -84,7 +84,7 @@ class Clothings extends Component {
                                 </li>
                             ))}
                             <li>
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>View All</a>
                                 </Link>
                             </li>

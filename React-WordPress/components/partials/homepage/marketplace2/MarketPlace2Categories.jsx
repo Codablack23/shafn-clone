@@ -18,32 +18,32 @@ const MarketPlace2Categories = () => (
                                 <h4>Electronics</h4>
                                 <ul>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>TV Televisions</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Air Conditioners</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Washing Machines</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Audio & Theaters</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Audio & Theaters</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Office Electronics</a>
                                         </Link>
                                     </li>
@@ -60,27 +60,27 @@ const MarketPlace2Categories = () => (
                                 <h4>Clothings</h4>
                                 <ul>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Office Electronics</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Womens</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Mens</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Bags & Backpacks</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Accessories</a>
                                         </Link>
                                     </li>
@@ -97,27 +97,27 @@ const MarketPlace2Categories = () => (
                                 <h4>Computers</h4>
                                 <ul>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Desktop PC</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Laptop</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>PC Gaming</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Storage & Memory</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>PC Components</a>
                                         </Link>
                                     </li>
@@ -134,27 +134,27 @@ const MarketPlace2Categories = () => (
                                 <h4>Home & Kitchen</h4>
                                 <ul>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Funitures</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Decor</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Cookwares</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Utensil & Gadgets</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Garden Tools</a>
                                         </Link>
                                     </li>
@@ -171,27 +171,27 @@ const MarketPlace2Categories = () => (
                                 <h4>Healthy & Beauty</h4>
                                 <ul>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Makeup</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Skin Care</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Hair Care</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Tools & Equipments</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Perfurmes</a>
                                         </Link>
                                     </li>
@@ -208,27 +208,27 @@ const MarketPlace2Categories = () => (
                                 <h4>Jewelry & Watch</h4>
                                 <ul>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Pendant</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Necklace</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Watch</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Bracelets</a>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="/shop">
+                                        <Link legacyBehavior href="/shop">
                                             <a>Accessories</a>
                                         </Link>
                                     </li>

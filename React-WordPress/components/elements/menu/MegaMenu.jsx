@@ -17,13 +17,13 @@ class Menu extends Component {
                         : ''
                 }>
                 {menuData.type === 'dynamic' ? (
-                    <Link
+                    <Link legacyBehavior
                         href={`${menuData.url}/[pid]`}
                         as={`${menuData.url}/${menuData.endPoint}`}>
                         <a>{menuData.text}</a>
                     </Link>
                 ) : (
-                    <Link href={menuData.url} as={menuData.url}>
+                    <Link legacyBehavior href={menuData.url} as={menuData.url}>
                         <a>{menuData.text}</a>
                     </Link>
                 )}
@@ -38,13 +38,13 @@ class Menu extends Component {
                                     {megaItem.megaItems.map(megaSubItem => (
                                         <li key={megaSubItem.text}>
                                             {megaSubItem.type === 'dynamic' ? (
-                                                <Link
+                                                <Link legacyBehavior
                                                     href={`${megaSubItem.url}/[pid]`}
                                                     as={`${megaSubItem.url}/${megaSubItem.endPoint}`}>
                                                     <a>{megaSubItem.text}</a>
                                                 </Link>
                                             ) : (
-                                                <Link
+                                                <Link legacyBehavior
                                                     href={megaSubItem.url}
                                                     as={megaSubItem.url}>
                                                     <a>{megaSubItem.text}</a>

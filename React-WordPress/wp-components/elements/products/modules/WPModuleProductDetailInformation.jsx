@@ -119,7 +119,7 @@ const WPModuleProductDetailInformation = ({
             productVendorView = (
                 <p>
                     SOLD BY:
-                    <Link href="/store/[pid]" as={`/store/${query}`}>
+                    <Link legacyBehavior href="/store/[pid]" as={`/store/${query}`}>
                         <a className="ml-2">
                             <strong> {product.store.shop_name}</strong>
                         </a>
@@ -204,7 +204,7 @@ const WPModuleProductDetailInformation = ({
                 <br />
             </div>
             {/* <div className="ps-product__specification">
-                <Link href="/page/blank">
+                <Link legacyBehavior href="/page/blank">
                     <a className="report">Report Abuse</a>
                 </Link>
                 <p>

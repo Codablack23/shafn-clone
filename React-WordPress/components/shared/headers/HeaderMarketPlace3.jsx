@@ -38,7 +38,7 @@ class HeaderMarketPlace3 extends Component {
                                     />
                                 </div>
                             </div>
-                            <Link href="/home/market-place-3">
+                            <Link legacyBehavior href="/home/market-place-3">
                                 <a className="ps-logo">
                                     <img
                                         src="/static/img/logo_light.png"
@@ -74,12 +74,12 @@ class HeaderMarketPlace3 extends Component {
                         <div className="navigation__right">
                             <ul className="menu menu--recent-view">
                                 <li className="menu-item-has-children">
-                                    <Link href="/page/blank">
+                                    <Link legacyBehavior href="/page/blank">
                                         <a>Your Recently Viewed</a>
                                     </Link>
                                     <div className="navigation__recent-products">
                                         <p>
-                                            <Link href="/page/blank">
+                                            <Link legacyBehavior href="/page/blank">
                                                 <a>
                                                     See all your recently viewed
                                                     items
@@ -91,12 +91,12 @@ class HeaderMarketPlace3 extends Component {
                             </ul>
                             <ul className="navigation__extra">
                                 <li>
-                                    <Link href="/vendor/become-a-vendor">
+                                    <Link legacyBehavior href="/vendor/become-a-vendor">
                                         <a>Sell on Martfury</a>
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/account/order-tracking">
+                                    <Link legacyBehavior href="/account/order-tracking">
                                         <a>Tract your order</a>
                                     </Link>
                                 </li>

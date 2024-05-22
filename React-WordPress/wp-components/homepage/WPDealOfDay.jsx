@@ -97,7 +97,7 @@ const WPDealOfDay = () => {
         <div className="ps-deal-of-day">
             <div className="ps-container">
                 {/* <div className="ps-section__header">
-                    <Link href="/shop">
+                    <Link legacyBehavior href="/shop">
                         <a>View all</a>
                     </Link> */}
                 {/* <div className="ps-block--countdown-deal"> */}

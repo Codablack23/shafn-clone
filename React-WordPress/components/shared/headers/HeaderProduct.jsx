@@ -56,7 +56,7 @@ class HeaderProduct extends Component {
                 <div className="header__top">
                     <div className="ps-container">
                         <div className="header__left">
-                            <Link href="/">
+                            <Link legacyBehavior href="/">
                                 <a className="ps-logo">
                                     <img
                                         src="/static/img/logo_light.png"
@@ -98,7 +98,7 @@ class HeaderProduct extends Component {
                             </div>
                             <div className="ps-product__wrapper">
                                 <div className="ps-product__content">
-                                    <Link
+                                    <Link legacyBehavior
                                         href="/product/[pid]"
                                         as={`/product/${singleProduct.id}`}>
                                         <a className="ps-product__title">

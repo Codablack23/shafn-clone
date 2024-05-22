@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { motion } from "framer-motion";
 import { connect, useDispatch } from "react-redux";
 import HomeBanner from "~/components/partials/homepage/home-default/HomeBanner";
 import HomeAdsColumns from "~/components/partials/homepage/home-default/HomeAdsColumns";
@@ -56,7 +57,6 @@ const Index = (auth) => {
             <WPNewArrivals />
 
             {auth.isLoggedIn && <WPRecentlyViewed />}
-
             <motion.div animate={{ opacity: isCookiesShowing ? 1 : 0 }}>
                 <div>
                     <ModalCookie />

@@ -42,7 +42,7 @@ class WPPayment extends Component {
                                         <figure>
                                             <small>Contact</small>
                                             <p>test@gmail.com</p>
-                                            <Link href="/account/checkout">
+                                            <Link legacyBehavior href="/account/checkout">
                                                 <a>Change</a>
                                             </Link>
                                         </figure>
@@ -52,7 +52,7 @@ class WPPayment extends Component {
                                                 2015 South Street, Midland,
                                                 Texas
                                             </p>
-                                            <Link href="/account/checkout">
+                                            <Link legacyBehavior href="/account/checkout">
                                                 <a>Change</a>
                                             </Link>
                                         </figure>
@@ -190,7 +190,7 @@ class WPPayment extends Component {
                                         </div>
                                     </div>
                                     <div className="ps-block__footer">
-                                        <Link href="/account/shipping">
+                                        <Link legacyBehavior href="/account/shipping">
                                             <a>
                                                 <i className="icon-arrow-left mr-2"></i>
                                                 Return to shipping

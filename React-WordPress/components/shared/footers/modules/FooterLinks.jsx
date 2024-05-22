@@ -180,7 +180,7 @@ const FooterLinks = () => (
         <p>
             <strong>Consumer Electric:</strong>
             {Links.consumerElectric.map(item => (
-                <Link href={item.url} key={item.text}>
+                <Link legacyBehavior href={item.url} key={item.text}>
                     <a>{item.text}</a>
                 </Link>
             ))}
@@ -188,7 +188,7 @@ const FooterLinks = () => (
         <p>
             <strong>Clothing &amp; Apparel:</strong>
             {Links.clothingAndApparel.map(item => (
-                <Link href={item.url} key={item.text}>
+                <Link legacyBehavior href={item.url} key={item.text}>
                     <a>{item.text}</a>
                 </Link>
             ))}
@@ -196,7 +196,7 @@ const FooterLinks = () => (
         <p>
             <strong>Home, Garden &amp; Kitchen:</strong>
             {Links.gardenAndKitchen.map(item => (
-                <Link href={item.url} key={item.text}>
+                <Link legacyBehavior href={item.url} key={item.text}>
                     <a>{item.text}</a>
                 </Link>
             ))}
@@ -204,7 +204,7 @@ const FooterLinks = () => (
         <p>
             <strong>Health &amp; Beauty:</strong>
             {Links.healthAndBeauty.map(item => (
-                <Link href={item.url} key={item.text}>
+                <Link legacyBehavior href={item.url} key={item.text}>
                     <a>{item.text}</a>
                 </Link>
             ))}
@@ -212,7 +212,7 @@ const FooterLinks = () => (
         <p>
             <strong>Jewelry &amp; Watches:</strong>
             {Links.jewelryAndWatch.map(item => (
-                <Link href={item.url} key={item.text}>
+                <Link legacyBehavior href={item.url} key={item.text}>
                     <a>{item.text}</a>
                 </Link>
             ))}
@@ -220,7 +220,7 @@ const FooterLinks = () => (
         <p>
             <strong>Computer &amp; Technologies:</strong>
             {Links.computerAndTechnology.map(item => (
-                <Link href={item.url} key={item.text}>
+                <Link legacyBehavior href={item.url} key={item.text}>
                     <a>{item.text}</a>
                 </Link>
             ))}

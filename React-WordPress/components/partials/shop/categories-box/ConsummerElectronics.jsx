@@ -7,12 +7,12 @@ const ConsummerElectronics = ({ data }) => (
             <h3>Consumer Electronics</h3>
             <ul>
                 <li>
-                    <Link href="/shop">
+                    <Link legacyBehavior href="/shop">
                         <a>New Arrivals</a>
                     </Link>
                 </li>
                 <li>
-                    <Link href="/shop">
+                    <Link legacyBehavior href="/shop">
                         <a>Best Sellers</a>
                     </Link>
                 </li>
@@ -30,7 +30,7 @@ const ConsummerElectronics = ({ data }) => (
                     } else {
                         return (
                             <div className="ps-block__item" key={category.text}>
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a className="ps-block__overlay"></a>
                                 </Link>
                                 <img src={category.imagePath} alt="martfury" />

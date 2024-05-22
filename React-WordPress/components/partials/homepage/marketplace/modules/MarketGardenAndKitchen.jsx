@@ -23,47 +23,47 @@ class MarketGardenAndKitchen extends Component {
                     </h3>
                     <ul>
                         <li>
-                            <Link href="/shop" as="/shop/best-seller">
+                            <Link legacyBehavior href="/shop" as="/shop/best-seller">
                                 <a>Best Seller</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/new-arrivals">
+                            <Link legacyBehavior href="/shop" as="/shop/new-arrivals">
                                 <a>New Arrivals</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/furniture">
+                            <Link legacyBehavior href="/shop" as="/shop/furniture">
                                 <a>Furniture</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/home-decor">
+                            <Link legacyBehavior href="/shop" as="/shop/home-decor">
                                 <a>Home Decor</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/cookware">
+                            <Link legacyBehavior href="/shop" as="/shop/cookware">
                                 <a>Cookware</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/utensils-and-gadget">
+                            <Link legacyBehavior href="/shop" as="/shop/utensils-and-gadget">
                                 <a>Utensils & Gadget</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/garden-tools">
+                            <Link legacyBehavior href="/shop" as="/shop/garden-tools">
                                 <a>Garden Tools</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/acessesories">
+                            <Link legacyBehavior href="/shop" as="/shop/acessesories">
                                 <a>Acessesories</a>
                             </Link>
                         </li>
                     </ul>
-                    <Link href="/shop">
+                    <Link legacyBehavior href="/shop">
                         <a className="ps-block__more-link">View All</a>
                     </Link>
                 </div>

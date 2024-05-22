@@ -18,7 +18,7 @@ function Error({ statusCode }) {
                                 It seems we can't find what you're looking for.{' '}
                                 <br />
                                 Go back to
-                                <Link href="/">
+                                <Link legacyBehavior href="/">
                                     <a> Homepage</a>
                                 </Link>
                             </p>

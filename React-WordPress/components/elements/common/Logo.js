@@ -40,7 +40,7 @@ const Logo = ({ type }) => {
         };
     }
     return (
-        <Link href={data.url}>
+        <Link legacyBehavior href={data.url}>
             <a className="ps-logo header-item">
                 <img src={data.img} alt="" />
             </a>

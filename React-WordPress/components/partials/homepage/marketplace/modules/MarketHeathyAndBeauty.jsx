@@ -23,47 +23,47 @@ class MarketHeathyAndBeauty extends Component {
                     </h3>
                     <ul>
                         <li>
-                            <Link href="/shop" as="/shop/best-seller">
+                            <Link legacyBehavior href="/shop" as="/shop/best-seller">
                                 <a>Best Seller</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/new-arrivals">
+                            <Link legacyBehavior href="/shop" as="/shop/new-arrivals">
                                 <a>New Arrivals</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/women">
+                            <Link legacyBehavior href="/shop" as="/shop/women">
                                 <a>Women</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/men">
+                            <Link legacyBehavior href="/shop" as="/shop/men">
                                 <a>Men</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/girls">
+                            <Link legacyBehavior href="/shop" as="/shop/girls">
                                 <a>Girls</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/boys">
+                            <Link legacyBehavior href="/shop" as="/shop/boys">
                                 <a>Boys</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/baby">
+                            <Link legacyBehavior href="/shop" as="/shop/baby">
                                 <a>Baby</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop" as="/shop/sale-and-deal">
+                            <Link legacyBehavior href="/shop" as="/shop/sale-and-deal">
                                 <a>Sales & Deals</a>
                             </Link>
                         </li>
                     </ul>
-                    <Link href="/shop">
+                    <Link legacyBehavior href="/shop">
                         <a className="ps-block__more-link">View All</a>
                     </Link>
                 </div>

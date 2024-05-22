@@ -5,10 +5,11 @@ import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 
 import rootReducer from "./rootReducer";
 import rootSaga from "./rootSaga";
+import { createWrapper } from "next-redux-wrapper";
 
 const bindMiddleware = (middleware) => {
     if (process.env.NEXT_PUBLIC_NODE_ENV !== "production") {
-        const { composeWithDevTools } = require("redux-devtools-extension");
+        const { composeWithDevTools } = require("@redux-devtools/extension");
         return composeWithDevTools(applyMiddleware(...middleware));
     }
     return applyMiddleware(...middleware);
@@ -60,4 +61,4 @@ function configureStore(initialState) {
     return store;
 }
 
-export default configureStore;
+export default createWrapper(configureStore);

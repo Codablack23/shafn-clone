@@ -33,12 +33,12 @@ class WPNavigationDefault extends Component {
                         <Menu data={menuData.WPMenu} className="menu" />
                         <ul className="navigation__extra">
                             <li>
-                                <Link href="/account/register">
+                                <Link legacyBehavior href="/account/register">
                                     <a>Sell on shafN</a>
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/account/order-tracking">
+                                <Link legacyBehavior href="/account/order-tracking">
                                     <a>Track your order</a>
                                 </Link>
                             </li>

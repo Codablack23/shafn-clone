@@ -8,7 +8,7 @@ const HomeDefaultTopCategories = () => (
             <div className="row">
                 <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
                     <div className="ps-block--category hover-popup">
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a className="ps-block__overlay"></a>
                         </Link>
                         <img
@@ -20,7 +20,7 @@ const HomeDefaultTopCategories = () => (
                 </div>
                 <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
                     <div className="ps-block--category hover-popup">
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a className="ps-block__overlay"></a>
                         </Link>
                         <img
@@ -32,7 +32,7 @@ const HomeDefaultTopCategories = () => (
                 </div>
                 <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
                     <div className="ps-block--category hover-popup">
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a className="ps-block__overlay"></a>
                         </Link>
                         <img
@@ -44,7 +44,7 @@ const HomeDefaultTopCategories = () => (
                 </div>
                 <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
                     <div className="ps-block--category hover-popup">
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a className="ps-block__overlay"></a>
                         </Link>
                         <img
@@ -56,7 +56,7 @@ const HomeDefaultTopCategories = () => (
                 </div>
                 <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
                     <div className="ps-block--category hover-popup">
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a className="ps-block__overlay"></a>
                         </Link>
                         <img
@@ -68,7 +68,7 @@ const HomeDefaultTopCategories = () => (
                 </div>
                 <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
                     <div className="ps-block--category hover-popup">
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a className="ps-block__overlay"></a>
                         </Link>
                         <img
@@ -80,7 +80,7 @@ const HomeDefaultTopCategories = () => (
                 </div>
                 <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
                     <div className="ps-block--category hover-popup">
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a className="ps-block__overlay"></a>
                         </Link>
                         <img
@@ -92,7 +92,7 @@ const HomeDefaultTopCategories = () => (
                 </div>
                 <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
                     <div className="ps-block--category hover-popup">
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a className="ps-block__overlay"></a>
                         </Link>
                         <img

@@ -54,7 +54,7 @@ const WPNewArrivals = () => {
     if (categories) {
         categoriedView = categories?.items.map((item) => (
             <li key={item.id}>
-                <Link href={`/shop?category=${item.slug}`}>
+                <Link legacyBehavior href={`/shop?category=${item.slug}`}>
                     <a
                         className="ps-document"
                         dangerouslySetInnerHTML={{
@@ -93,7 +93,7 @@ const WPNewArrivals = () => {
                     {/* <ul className="ps-section__links">
                         {categoriedView}
                         <li>
-                            <Link href="/shop">
+                            <Link legacyBehavior href="/shop">
                                 <a>View All</a>
                             </Link>
                         </li>

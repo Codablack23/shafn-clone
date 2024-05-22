@@ -55,7 +55,7 @@ const WPBlogGrid = () => {
         if (postCategories) {
             const links = postCategories.map((item) => (
                 <li key={item.id}>
-                    <Link
+                    <Link legacyBehavior
                         href={`/blog?category=${item.id}`}
                         as={`/blog?category=${item.slug}`}>
                         <a>{item.name}</a>
@@ -66,7 +66,7 @@ const WPBlogGrid = () => {
             blogLinksView = (
                 <ul className="ps-list--blog-links">
                     <li className="active">
-                        <Link href="/blog">
+                        <Link legacyBehavior href="/blog">
                             <a>All</a>
                         </Link>
                     </li>

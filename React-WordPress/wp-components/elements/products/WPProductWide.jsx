@@ -35,18 +35,18 @@ const WPProductWide = ({ product }) => {
     return (
         <div className="ps-product ps-product--wide">
             <div className="ps-product__thumbnail">
-                <Link href="/product/[pid]" as={`/product/${query}`}>
+                <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
                     <a>{thumbnailImage}</a>
                 </Link>
             </div>
             <div className="ps-product__container">
                 <div className="ps-product__content">
-                    <Link href="/product/[pid]" as={`/product/${query}`}>
+                    <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
                         <a className="ps-product__title">{product.name}</a>
                     </Link>
                     <p className="ps-product__vendor">
                         Sold by:
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a>Young Shop</a>
                         </Link>
                     </p>

@@ -12,7 +12,7 @@ const WPMobileHeaderActions = (props) => {
     } else {
         quickLinksView = (
             <div className="">
-                <Link href="/account/login">
+                <Link legacyBehavior href="/account/login">
                     <i
                         className="bi bi-person text-white action-links"
                         style={{ cursor: "pointer" }}></i>
@@ -23,7 +23,7 @@ const WPMobileHeaderActions = (props) => {
 
     return (
         <div className="header-mobile-actions">
-            {/* <Link href="/account/compare">
+            {/* <Link legacyBehavior href="/account/compare">
                 <a className="action-links w3-hover-lightgrey">
                     <i className="bi bi-bell text-white" aria-hidden="true"></i>
                     <span  className='sub'>
@@ -31,13 +31,13 @@ const WPMobileHeaderActions = (props) => {
                     </span>
                 </a>
             </Link> */}
-            <Link href="/account/wishlist">
+            <Link legacyBehavior href="/account/wishlist">
                 <a className="action-links w3-hover-lightgrey">
                     <i className="bi bi-heart text-white"></i>
                     <span className="sub">{wishlist.wishlistTotal}</span>
                 </a>
             </Link>
-            <Link href="/account/shopping-cart">
+            <Link legacyBehavior href="/account/shopping-cart">
                 <a className="action-links">
                     <i className="bi bi-cart text-white"></i>
                     <span className="sub">{cartTotal ? cartTotal : 0}</span>

@@ -20,7 +20,7 @@ class WPHeaderActions2 extends Component {
         }
         return (
             <div className="header__actions">
-                <Link href="/account/wishlist">
+                <Link legacyBehavior href="/account/wishlist">
                     <a className="header__extra">
                         <i className="icon-heart"></i>
                         <span>

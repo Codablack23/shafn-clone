@@ -35,7 +35,7 @@ const WPWidgetCategories = ({ activeID, page }) => {
     // if (categoryItems && categoryItems.length > 0 && !loading) {
     //     const items = categoryItems.map((item) => (
     //         <li key={item.id}>
-    //             <Link href={`/shop?category=${item.id}`}>
+    //             <Link legacyBehavior href={`/shop?category=${item.id}`}>
     //                 <a
     //                     className={
     //                         activeID === item.id.toString() ? 'active' : ''
@@ -49,7 +49,7 @@ const WPWidgetCategories = ({ activeID, page }) => {
     //     categoryItemsView = (
     //         <ul className="ps-list--categories">
     //             <li>
-    //                 <Link href="/shop">
+    //                 <Link legacyBehavior href="/shop">
     //                     <a className={activeID === undefined ? 'active' : ''}>
     //                         All
     //                     </a>
@@ -68,7 +68,7 @@ const WPWidgetCategories = ({ activeID, page }) => {
             <h4 className="widget-title">Categories</h4>
             <div>
                 <div style={{ marginLeft: 10, marginBlock: 10 }}>
-                    <Link href="/shop">
+                    <Link legacyBehavior href="/shop">
                         <a
                             className={
                                 activeID === undefined
@@ -108,7 +108,7 @@ const WPWidgetCategories = ({ activeID, page }) => {
                                             : "";
                                         const cat_id = cat ? cat.id : "";
                                         return  (
-                                            <Link
+                                            <Link legacyBehavior
                                                 href={`/${page}?category=${cat_id}`}
                                                 key={
                                                     Math.random() *

@@ -6,7 +6,7 @@ const ModulePaymentOrderSummary = ({ shipping, amount, cartItems }) => {
     let listItemsView, shippingView, totalView;
     if (cartItems && cartItems.length > 0) {
         listItemsView = cartItems.map(product => (
-            <Link href="/" key={product.id}>
+            <Link legacyBehavior href="/" key={product.id}>
                 <a>
                     <strong>
                         {product.title}

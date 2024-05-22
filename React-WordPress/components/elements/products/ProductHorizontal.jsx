@@ -21,14 +21,14 @@ class ProductHorizontal extends Component {
         return (
             <div className="ps-product--horizontal">
                 <div className="ps-product__thumbnail">
-                    <Link href="/shop">
+                    <Link legacyBehavior href="/shop">
                         <a>
                             <img src={thumbnail} alt="martfury" />
                         </a>
                     </Link>
                 </div>
                 <div className="ps-product__content">
-                    <Link href="/product/[pid]" as={`/product/${product.id}`}>
+                    <Link legacyBehavior href="/product/[pid]" as={`/product/${product.id}`}>
                         <a className="ps-product__title">{product.title}</a>
                     </Link>
                     <div className="ps-product__rating">

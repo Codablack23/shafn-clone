@@ -45,13 +45,13 @@ class PanelMenu extends Component {
                             <SubMenu
                                 key={item.text}
                                 title={
-                                    <Link href={item.url}>
+                                    <Link legacyBehavior href={item.url}>
                                         <a>{item.text}</a>
                                     </Link>
                                 }>
                                 {item.subMenu.map((subItem) => (
                                     <Menu.Item key={subItem.text}>
-                                        <Link href={subItem.url}>
+                                        <Link legacyBehavior href={subItem.url}>
                                             <a>{subItem.text}</a>
                                         </Link>
                                     </Menu.Item>
@@ -63,7 +63,7 @@ class PanelMenu extends Component {
                             <SubMenu
                                 key={item.text}
                                 title={
-                                    <Link href={item.url}>
+                                    <Link legacyBehavior href={item.url}>
                                         <a>{item.text}</a>
                                     </Link>
                                 }>
@@ -75,7 +75,7 @@ class PanelMenu extends Component {
                                             (megaSubItem) => (
                                                 <Menu.Item
                                                     key={megaSubItem.text}>
-                                                    <Link href={item.url}>
+                                                    <Link legacyBehavior href={item.url}>
                                                         <a>
                                                             {megaSubItem.text}
                                                         </a>
@@ -91,13 +91,13 @@ class PanelMenu extends Component {
                         return (
                             <Menu.Item key={item.text}>
                                 {item.type === 'dynamic' ? (
-                                    <Link
+                                    <Link legacyBehavior
                                         href={`${item.url}/[pid]`}
                                         as={`${item.url}/${item.endPoint}`}>
                                         l<a>{item.text}</a>
                                     </Link>
                                 ) : (
-                                    <Link href={item.url} as={item.alias}>
+                                    <Link legacyBehavior href={item.url} as={item.alias}>
                                         <a>{item.text}</a>
                                     </Link>
                                 )}

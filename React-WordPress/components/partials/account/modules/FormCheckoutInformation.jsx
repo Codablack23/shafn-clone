@@ -169,7 +169,7 @@ class FormCheckoutInformation extends Component {
                     </div>
                 </div>
                 <div className="ps-form__submit">
-                    <Link href="/account/cart">
+                    <Link legacyBehavior href="/account/cart">
                         <a>
                             <i className="icon-arrow-left mr-2"></i>
                             Return to shopping cart

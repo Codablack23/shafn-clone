@@ -19,12 +19,12 @@ class HeaderMobile extends Component {
                     <div className="header__right">
                         <ul className="navigation__extra">
                             <li>
-                                <Link href="/vendor/become-a-vendor">
+                                <Link legacyBehavior href="/vendor/become-a-vendor">
                                     <a>Sell on Martfury</a>
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/account/order-tracking">
+                                <Link legacyBehavior href="/account/order-tracking">
                                     <a>Tract your order</a>
                                 </Link>
                             </li>
@@ -39,7 +39,7 @@ class HeaderMobile extends Component {
                 </div>
                 <div className="navigation--mobile">
                     <div className="navigation__left">
-                        <Link href="/">
+                        <Link legacyBehavior href="/">
                             <a className="ps-logo">
                                 <img
                                     src="/static/img/logo_light.png"

@@ -24,7 +24,7 @@ const CatalogTop = () => (
                                                         catalog.extraClass
                                                     }
                                                     key={catalog.text}>
-                                                    <Link href="/shop">
+                                                    <Link legacyBehavior href="/shop">
                                                         <a>{catalog.text}</a>
                                                     </Link>
                                                     <ul
@@ -40,7 +40,7 @@ const CatalogTop = () => (
                                                                     key={
                                                                         item.text
                                                                     }>
-                                                                    <Link href="/shop">
+                                                                    <Link legacyBehavior href="/shop">
                                                                         <a>
                                                                             {
                                                                                 item.text
@@ -56,7 +56,7 @@ const CatalogTop = () => (
                                         } else {
                                             return (
                                                 <li>
-                                                    <Link href="/shop">
+                                                    <Link legacyBehavior href="/shop">
                                                         <a>{catalog.text}</a>
                                                     </Link>
                                                 </li>
@@ -93,7 +93,7 @@ const CatalogTop = () => (
                                                     category.links.map(
                                                         (link) => (
                                                             <li key={link}>
-                                                                <Link
+                                                                <Link legacyBehavior
                                                                     href="/shop"
                                                                     as={`/shop`}>
                                                                     <a>

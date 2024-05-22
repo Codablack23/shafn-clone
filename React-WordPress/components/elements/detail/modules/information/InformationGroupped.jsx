@@ -53,7 +53,7 @@ class InformationGroupped extends Component {
                 <div className="ps-product__meta">
                     <p>
                         Brand:
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a className="ml-2 text-capitalize">
                                 {product.vendor}
                             </a>
@@ -82,7 +82,7 @@ class InformationGroupped extends Component {
                 <div className="ps-product__desc">
                     <p>
                         Sold By:
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a>
                                 <strong> {product.vendor}</strong>
                             </a>
@@ -193,7 +193,7 @@ class InformationGroupped extends Component {
                     </div>
                 </div>
                 <div className="ps-product__specification">
-                    <Link href="/page/blank">
+                    <Link legacyBehavior href="/page/blank">
                         <a className="report">Report Abuse</a>
                     </Link>
                     <p>
@@ -201,25 +201,25 @@ class InformationGroupped extends Component {
                     </p>
                     <p className="categories">
                         <strong> Categories:</strong>
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a>Consumer Electronics</a>
                         </Link>
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a>Refrigerator</a>
                         </Link>
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a>Babies & Moms</a>
                         </Link>
                     </p>
                     <p className="tags">
                         <strong> Tags</strong>
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a>sofa</a>
                         </Link>
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a>technologies</a>
                         </Link>
-                        <Link href="/shop">
+                        <Link legacyBehavior href="/shop">
                             <a>wireless</a>
                         </Link>
                     </p>

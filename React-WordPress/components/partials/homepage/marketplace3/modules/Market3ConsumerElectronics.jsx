@@ -26,27 +26,27 @@ class Market3ConsumerElectronics extends Component {
                     </h3>
                     <ul>
                         <li>
-                            <Link href="/shop">
+                            <Link legacyBehavior href="/shop">
                                 <a>TV Televisions</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop">
+                            <Link legacyBehavior href="/shop">
                                 <a>Air Conditioner</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop">
+                            <Link legacyBehavior href="/shop">
                                 <a>Washing Machine</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop">
+                            <Link legacyBehavior href="/shop">
                                 <a>Refrigerator</a>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/shop">
+                            <Link legacyBehavior href="/shop">
                                 <a>Microwave</a>
                             </Link>
                         </li>
@@ -56,7 +56,7 @@ class Market3ConsumerElectronics extends Component {
                     <div className="ps-block__left">
                         <Slider {...carouselSingle} className="ps-carousel">
                             <div className="item">
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>
                                         <img
                                             src="/static/img/promotions/home-5/electronic-1.jpg"
@@ -66,7 +66,7 @@ class Market3ConsumerElectronics extends Component {
                                 </Link>
                             </div>
                             <div className="item">
-                                <Link href="/shop">
+                                <Link legacyBehavior href="/shop">
                                     <a>
                                         <img
                                             src="/static/img/promotions/home-5/electronic-2.jpg"

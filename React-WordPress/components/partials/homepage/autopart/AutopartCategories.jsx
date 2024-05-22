@@ -71,13 +71,13 @@ const AutopartCategories = ({ data }) => {
                                         {category.links &&
                                             category.links.map(link => (
                                                 <li key={link}>
-                                                    <Link href="/shop">
+                                                    <Link legacyBehavior href="/shop">
                                                         <a>{link}</a>
                                                     </Link>
                                                 </li>
                                             ))}
                                         <li className="more">
-                                            <Link href="/shop">
+                                            <Link legacyBehavior href="/shop">
                                                 <a>
                                                     More
                                                     <i className="icon-chevron-right"></i>

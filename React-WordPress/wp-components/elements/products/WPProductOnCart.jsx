@@ -28,7 +28,7 @@ class WPProductOnCart extends Component {
         return (
             <div className="ps-product--cart-mobile">
                 <div className="ps-product__thumbnail">
-                    <Link href="/product/[pid]" as={`/product/${query}`}>
+                    <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
                         <a>{thumbnailImage}</a>
                     </Link>
                 </div>
@@ -38,7 +38,7 @@ class WPProductOnCart extends Component {
                         onClick={(e) => this.removeCartItem()}>
                         <i className="icon-cross"></i>
                     </a>
-                    <Link href="/product/[pid]" as={`/product/${query}`}>
+                    <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
                         <a className="font-bold">{product.name}</a>
                     </Link>
                     <p>
