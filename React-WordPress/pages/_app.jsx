@@ -16,6 +16,7 @@ import { CookiesProvider } from "react-cookie";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import '@splidejs/react-splide/css';
 
+
 /*import '../scss/electronic.scss';
 import '../scss/furniture.scss';
 import '../scss/organic.scss';
