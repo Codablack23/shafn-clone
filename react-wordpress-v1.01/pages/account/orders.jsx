@@ -5,7 +5,7 @@ import Router from "next/router";
 import { scrollPageToTop } from "~/utilities/common-helpers";
 
 import WPLayout from "~/wp-components/layouts/WPLayout";
-import Orders from "~/components/partials/account/Orders";
+// import Orders from "~/components/partials/account/Orders";
 
 const MyOrders = () => {
     const auth = useSelector((state) => state.auth);
@@ -24,7 +24,7 @@ const MyOrders = () => {
         <div ref={scrollPageToTop}>
             <WPLayout>
                 <div className="ps-page--my-account">
-                    <Orders />
+                    {/* <Orders /> */}
                 </div>
             </WPLayout>
         </div>

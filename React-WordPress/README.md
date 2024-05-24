@@ -1,39 +1,36 @@
-# Development setup
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
--   Install dependencies:
+## Getting Started
 
-    ```shell
-    yarn
-    ```
+First, run the development server:
 
--   Create Stripe account and set Publishable and Secret key from
-    [dashboard](https://dashboard.stripe.com) as environment variables
-    (NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY and NEXT_PUBLIC_STRIPE_SECRET_KEY
-    respectively) in the `.env.example` file. Add remaining variable values from
-    `next.config.js` file and rename `.env.example` to `.env.local`
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
--   [Install the Stripe CLI](https://stripe.com/docs/stripe-cli)
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
--   Sync local timestamp with Stripe's timestamp by following this
-    [guide](https://developers.google.com/time/guides) for your OS. Note:
-    Replace `time.google.com` with `time.android.com`
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
--   Open another terminal. From the react-wordpress folder, run:
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-    ```shell
-    yarn stripe:listen
-    ```
+## Learn More
 
--   Copy webhook signing secret from terminal and set as env variable
-    (NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET) in the `.env.local` file
+To learn more about Next.js, take a look at the following resources:
 
--   Open terminal. From the react-wordpress folder, run:
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-    ```shell
-    yarn dev
-    ```
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
--   In the checkout page, use `4242 4242 4242 4242` as card number, `04/24` as
-    date and `424` as CVV
+## Deploy on Vercel
 
-    ### Happy Coding!
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

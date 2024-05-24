@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Divider, Tag } from 'antd';
+import { Table} from 'antd';
 import Link from 'next/link';
 
 class TableInvoices extends Component {

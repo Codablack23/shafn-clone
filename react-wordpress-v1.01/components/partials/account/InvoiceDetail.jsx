@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AccountMenuSidebar from './modules/AccountMenuSidebar';
-import TableNotifications from './modules/TableNotifications';
+// import TableNotifications from './modules/TableNotifications';
 import Link from 'next/link';
 import ProductCart from '../../elements/products/ProductCart';
 

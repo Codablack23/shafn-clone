@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import CurrencyDropdown from "~/components/shared/headers/modules/CurrencyDropdown";
-import LanguageSwicher from "~/components/shared/headers/modules/LanguageSwicher";
-import MobileHeaderActions from "~/components/shared/headers/modules/MobileHeaderActions";
+// import CurrencyDropdown from "~/components/shared/headers/modules/CurrencyDropdown";
+// import LanguageSwicher from "~/components/shared/headers/modules/LanguageSwicher";
+// import MobileHeaderActions from "~/components/shared/headers/modules/MobileHeaderActions";
 import WPMobileHeaderActions from "~/wp-components/shared/mobile/WPMobileHeaderActions";
 import WPSearchHeader from "~/wp-components/shared/headers/WPSearchHeader";
 import Logo from "~/components/elements/common/Logo";

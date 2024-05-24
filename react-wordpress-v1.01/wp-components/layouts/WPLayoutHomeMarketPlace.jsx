@@ -23,7 +23,7 @@ const WPLayoutHomeMarketPlace = ({ children, title }) => {
                 <title>{titleView}</title>
             </Head>
             <WPHeaderMarketPlace />
-            <WPHeaderMobile />
+            {/* <WPHeaderMobile /> */}
             <WPNavigationBottom />
             {/*<SubscribePopup active={subscribe} />*/}
             {children}
