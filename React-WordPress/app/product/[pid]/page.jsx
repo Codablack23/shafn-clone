@@ -1,12 +1,12 @@
+
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import Router, { useRouter } from "next/router";
-import Head from "next/head";
+import Router, { useRouter } from "next/navigation";
 import WPProductDetail from "~/wp-components/elements/products/WPProductDetail";
 import WPProductRepository from "~/repositories/WP/WPProductRepository";
 import WPHeaderProduct from "~/wp-components/shared/headers/WPHeaderProduct";
 import WPRelatedProducts from "~/wp-components/product/WPRelatedProducts";
-import SkeletonProductDetail from "~/components/elements/skeletons/SkeletonProductDetail";
+import SkeletonProductDetail from "~/app/components/elements/skeletons/SkeletonProductDetail";
 import WPWidgetProductsSameBrand from "~/wp-components/product/WPWidgetProductsSameBrand";
 import WPProductWidgets from "~/wp-components/product/WPProductWidgets";
 import WPLayoutProductDetail from "~/wp-components/layouts/WPLayoutProductDetail";
@@ -17,8 +17,11 @@ import WPModuleDefaultDescription from "~/wp-components/elements/products/module
 import { addRecentlyViewedProduct } from "~/store/recently-viewed-products/action";
 import { scrollPageToTop } from "~/utilities/common-helpers";
 
+//make this function a default export
+// do it like this
+// export default function WPProductDetailPage({pid}){
 const WPProductDetailPage = ({ pid }) => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
     const router = useRouter();
 
     const [product, setProduct] = useState(null);
@@ -170,4 +173,4 @@ WPProductDetailPage.getInitialProps = async ({ query }) => {
     return { pid: product_id };
 };
 
-export default connect()(WPProductDetailPage);
+export default connect()(WPProductDetailPage);// delete this on every page
