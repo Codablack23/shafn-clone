@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./scss/style.scss";
+import '@splidejs/react-splide/css';
 import CustomReduxProvider from "../redux-store/provider";
 
 

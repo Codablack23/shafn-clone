@@ -3,9 +3,11 @@ import Link from 'next/link';
 import { connect } from 'react-redux';
 import { getItemBySlug } from '@/utilities/product-helper';
 import Promotion from '@/app/components/elements/media/Promotion';
+import { useAppSelector } from '@/redux-store/hooks';
 
-const HomeAdsColumns = props => {
-    const { promotions } = props;
+export default function HomeAdsColumns (){
+    const media = useAppSelector(state=>state.media)
+    const {promotions} = media
     const promotionData = getItemBySlug(
         promotions,
         'home_fullwidth_promotions'
@@ -47,5 +49,3 @@ const HomeAdsColumns = props => {
         </div>
     );
 };
-
-export default connect(state => state.media)(HomeAdsColumns);

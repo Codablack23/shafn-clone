@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 
 import Slider from "react-slick";
-import NextArrow from "@/app/components/elements/carousel/NextArrow";
-import PrevArrow from "@/app/components/elements/carousel/PrevArrow";
-import { connect } from "react-redux";
 import { getItemBySlug } from "@/utilities/product-helper";
 import Promotion from "@/app/components/elements/media/Promotion";
 import BannerItem from "~/app/components/elements/media/BannerItem";
+import { useAppSelector } from "@/redux-store/hooks";
 
-const HomeBanner = (props) => {
-    const { banners, promotions } = props;
+export default function HomeBanner (props) {
+    // const { banners, promotions } = props;
+    const media = useAppSelector((state)=>state.media)
+    const {banners,promotions} = media
     const carouselSetting = {
         dots: true,
         infinite: true,
@@ -25,31 +25,31 @@ const HomeBanner = (props) => {
         {
             id:1,
             image:{
-                url:"/static/images/slider1.jpg"
+                url:"/images/slider1.jpg"
             }
         },
         {
             id:2,
             image:{
-                url:"/static/images/slider2.jpg"
+                url:"/images/slider2.jpg"
             }
         },
         {
             id:3,
             image:{
-                url:"/static/images/slider9.jpg"
+                url:"/images/slider9.jpg"
             }
         },
         {
             id:4,
             image:{
-                url:"/static/images/slider10.jpg"
+                url:"/images/slider10.jpg"
             }
         },
         {
             id:5,
             image:{
-                url:"/static/images/slider5.jpg"
+                url:"/images/slider5.jpg"
             }
         },
       ]
@@ -102,4 +102,4 @@ const HomeBanner = (props) => {
     );
 };
 
-export default connect((state) => state.media)(HomeBanner);
+
