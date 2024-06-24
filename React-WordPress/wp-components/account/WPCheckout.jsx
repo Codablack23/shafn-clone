@@ -1,5 +1,5 @@
 import React from 'react';
-import FormCheckoutInformation from '~/components/partials/account/modules/FormCheckoutInformation';
+import FormCheckoutInformation from '~/app/components/partials/account/modules/FormCheckoutInformation';
 import WPModulePaymentOrderSummary from '~/wp-components/account/WPModulePaymentOrderSummary';
 
 const WPCheckout = () => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import MyAccount from '~/components/partials/account/MyAccount';
+import MyAccount from '~/app/components/partials/account/MyAccount';
 import { scrollPageToTop } from '~/utilities/common-helpers';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 

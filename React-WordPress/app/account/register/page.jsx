@@ -1,5 +1,5 @@
 import React from 'react';
-import Register from '~/components/partials/account/Register';
+import Register from '~/app/components/partials/account/Register';
 import { scrollPageToTop } from '~/utilities/common-helpers';
 
 import WPLayout from '~/wp-components/layouts/WPLayout';

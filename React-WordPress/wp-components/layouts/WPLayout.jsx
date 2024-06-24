@@ -1,8 +1,8 @@
 import React from "react";
 import Head from "next/head";
 //import WPNavigationBottom from '~/wp-components/shared/mobile/WPNavigationBottom';
-import FooterDefault from "~/components/shared/footers/FooterDefault";
-// import Newsletters from '~/components/partials/commons/Newletters';
+import FooterDefault from "~/app/components/shared/footers/FooterDefault";
+// import Newsletters from '~/app/components/partials/commons/Newletters';
 import WPHeaderDefault from "~/wp-components/shared/headers/WPHeaderDefault";
 import WPHeaderMobile from "../shared/mobile/WPHeaderMobile";
 // import WPHeaderMarketPlace from '~/wp-components/shared/headers/WPHeaderMarketPlace';

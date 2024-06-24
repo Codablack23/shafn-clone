@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Link from 'next/link';
 import Slider from 'react-slick';
-import Product from '../../../components/elements/products/Product';
+import Product from '../../../app/components/elements/products/Product';
 import { carouselStandard } from '../../../utilities/carousel-helpers';
 
 class CategoriesBestSeller extends Component {

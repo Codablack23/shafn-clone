@@ -1,5 +1,5 @@
 import React from 'react';
-import Login from '~/components/partials/account/Login';
+import Login from '~/app/components/partials/account/Login';
 import { scrollPageToTop } from '~/utilities/common-helpers';
 
 import WPLayout from '~/wp-components/layouts/WPLayout';

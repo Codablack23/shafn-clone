@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Slider from 'react-slick';
 
 import product from '../../../public/static/data/product';
-import Product from '../../../components/elements/products/Product';
+import Product from '../../../app/components/elements/products/Product';
 
 class RelatedProductFullwidth extends Component {
     constructor(props) {

@@ -8,7 +8,7 @@ import { addCheckoutItem } from "~/store/checkout-items/action";
 
 import { Button } from "~/utilities/WPHelpers";
 
-import SocialShareButtons from "~/components/elements/media/SocialShareButtons";
+import SocialShareButtons from "~/app/components/elements/media/SocialShareButtons";
 
 const WPModuleProductInformation = ({ product, variant, children }) => {
     const dispatch = useDispatch();

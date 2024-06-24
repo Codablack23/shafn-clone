@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import WPProductRepository from "~/repositories/WP/WPProductRepository";
 import { serializeQuery } from "~/repositories/Repository";
 import Link from "next/link";
-import Spiner from "~/components/elements/common/Spiner";
-import SkeletonWidgetBrands from "~/components/elements/skeletons/SkeletonWidgetBrands";
-import { Categories } from "~/components/shared/navigation/categories";
+import Spiner from "~/app/components/elements/common/Spiner";
+import SkeletonWidgetBrands from "~/app/components/elements/skeletons/SkeletonWidgetBrands";
+import { Categories } from "~/app/components/shared/navigation/categories";
 import { Collapse } from "antd";
 
 const WPWidgetCategories = ({ activeID, page }) => {

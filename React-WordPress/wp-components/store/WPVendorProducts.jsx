@@ -6,7 +6,7 @@ import { Pagination } from "antd";
 // import { useDispatch } from "react-redux";
 import WPVendorRepository from "~/repositories/WP/WPVendorRepository";
 import { generateTempArray } from "~/utilities/common-helpers";
-import SkeletonProduct from "~/components/elements/skeletons/SkeletonProduct";
+import SkeletonProduct from "~/app/components/elements/skeletons/SkeletonProduct";
 
 const WPVendorProducts = ({ products, id }) => {
     // const [listView, setListView] = useState(true);

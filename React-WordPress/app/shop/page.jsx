@@ -1,9 +1,11 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { getProductsByCategory } from "~/store/product/action";
 import { WPGetProducts } from "~/store/wp/action";
-import ShopBanner from "~/components/partials/shop/ShopBanner";
+import ShopBanner from "~/app/components/partials/shop/ShopBanner";
 
 import WPWidgetCategories from "~/wp-components/shop/WPWidgetCategories";
 

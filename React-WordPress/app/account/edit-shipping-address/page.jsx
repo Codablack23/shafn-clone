@@ -2,7 +2,7 @@ import React, { useLayoutEffect } from "react";
 import { useSelector } from "react-redux";
 import Router from "next/router";
 
-import EditShippingAddress from "~/components/partials/account/EditShippingAddress";
+import EditShippingAddress from "~/app/components/partials/account/EditShippingAddress";
 import { scrollPageToTop } from "~/utilities/common-helpers";
 
 import WPLayout from "~/wp-components/layouts/WPLayout";

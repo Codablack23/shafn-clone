@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import WPVendorRepository from "~/repositories/WP/WPVendorRepository";
 import WPStore from "~/wp-components/elements/stores/WPStore";
 import { generateTempArray } from "~/utilities/common-helpers";
-import SkeletonVendor from "~/components/elements/skeletons/SkeletonVendor";
+import SkeletonVendor from "~/app/components/elements/skeletons/SkeletonVendor";
 import { Spin, notification, Pagination } from "antd";
 import ReactHtmlParser from "react-html-parser";
 

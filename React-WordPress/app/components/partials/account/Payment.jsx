@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Link from 'next/link';
 import { Radio, Select } from 'antd';
-import ModulePaymentOrderSummary from '~/components/partials/account/modules/ModulePaymentOrderSummary';
+import ModulePaymentOrderSummary from '~/app/components/partials/account/modules/ModulePaymentOrderSummary';
 
 const { Option } = Select;
 

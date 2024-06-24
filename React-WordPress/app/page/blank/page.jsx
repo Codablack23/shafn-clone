@@ -1,5 +1,5 @@
 import React from 'react';
-import BlankContent from '~/components/partials/page/Blank';
+import BlankContent from '~/app/components/partials/page/Blank';
 import { scrollPageToTop } from '~/utilities/common-helpers';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 

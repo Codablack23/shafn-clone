@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MyAccount2 from '~/components/partials/account/MyAccount2';
+import MyAccount2 from '~/app/components/partials/account/MyAccount2';
 import { scrollPageToTop } from '~/utilities/common-helpers';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 
