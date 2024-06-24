@@ -4,7 +4,7 @@ import Slider from 'react-slick';
 import { connect } from 'react-redux';
 import { carouselStandard } from '../../../utilities/carousel-helpers';
 
-import Product from '../../../components/elements/products/Product';
+import Product from '../../../app/components/elements/products/Product';
 class CategoriesRecommendItems extends Component {
     constructor(props) {
         super(props);

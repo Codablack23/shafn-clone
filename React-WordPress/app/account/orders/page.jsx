@@ -5,7 +5,7 @@ import Router from "next/router";
 import { scrollPageToTop } from "~/utilities/common-helpers";
 
 import WPLayout from "~/wp-components/layouts/WPLayout";
-// import Orders from "~/components/partials/account/Orders";
+// import Orders from "~/app/components/partials/account/Orders";
 
 const MyOrders = () => {
     const auth = useSelector((state) => state.auth);

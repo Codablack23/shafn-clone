@@ -11,7 +11,7 @@ import WPShopProducts from '~/wp-components/shop/WPShopProducts';
 import WPProductRepository from '~/repositories/WP/WPProductRepository';
 
 import WPLayout from '~/wp-components/layouts/WPLayout';
-import ShopSidebarBanner from '~/components/partials/shop/ShopSidebarBanner';
+import ShopSidebarBanner from '~/app/components/partials/shop/ShopSidebarBanner';
 import { scrollPageToTop } from '~/utilities/common-helpers';
 
 const WPShopSidebarPage = ({ query }) => {

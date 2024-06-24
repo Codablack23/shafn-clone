@@ -5,7 +5,7 @@ import WPProduct from '~/wp-components/elements/products/WPProduct';
 import WPProductWide from '~/wp-components/elements/products/WPProductWide';
 import { WPGetProducts } from '~/store/wp/action';
 import { generateTempArray } from '~/utilities/common-helpers';
-import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct';
+import SkeletonProduct from '~/app/components/elements/skeletons/SkeletonProduct';
 
 const WPSearchProducts = (props) => {
     const { WPProducts, WPLoading, sidebar } = props;

@@ -6,7 +6,7 @@ import WPProductDetail from "~/wp-components/elements/products/WPProductDetail";
 import WPProductRepository from "~/repositories/WP/WPProductRepository";
 import WPHeaderProduct from "~/wp-components/shared/headers/WPHeaderProduct";
 import WPRelatedProducts from "~/wp-components/product/WPRelatedProducts";
-import SkeletonProductDetail from "~/components/elements/skeletons/SkeletonProductDetail";
+import SkeletonProductDetail from "~/app/components/elements/skeletons/SkeletonProductDetail";
 import WPWidgetProductsSameBrand from "~/wp-components/product/WPWidgetProductsSameBrand";
 import WPProductWidgets from "~/wp-components/product/WPProductWidgets";
 import WPLayoutProductDetail from "~/wp-components/layouts/WPLayoutProductDetail";

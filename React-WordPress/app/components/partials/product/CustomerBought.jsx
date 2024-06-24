@@ -1,6 +1,6 @@
 import React from 'react';
 import Slider from 'react-slick';
-import Product from '../../../components/elements/products/Product';
+import Product from '../../../app/components/elements/products/Product';
 import {
     carouselFullwidth,
     carouselStandard,

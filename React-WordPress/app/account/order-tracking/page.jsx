@@ -1,5 +1,5 @@
 import React from 'react';
-import OrderTracking from '~/components/partials/account/OrderTracking';
+import OrderTracking from '~/app/components/partials/account/OrderTracking';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import { scrollPageToTop } from '~/utilities/common-helpers';
 

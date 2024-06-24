@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import DefaultDescription from "~/components/elements/detail/modules/description/DefaultDescription";
+import DefaultDescription from "~/app/components/elements/detail/modules/description/DefaultDescription";
 import WPModuleProductDetailThumbnail from "~/wp-components/elements/products/modules/WPModuleProductDetailThumbnail";
 import WPModuleProductDetailInformation from "~/wp-components/elements/products/modules/WPModuleProductDetailInformation";
 import WPModuleDefaultDescription from "~/wp-components/elements/products/modules/WPModuleDefaultDescription";

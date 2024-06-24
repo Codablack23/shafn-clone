@@ -3,14 +3,14 @@ import { connect, useDispatch } from "react-redux";
 // import LazyLoad from 'react-lazyload';
 import Link from "next/link";
 import { Modal } from "antd";
-import Rating from "../../../components/elements/Rating";
+import Rating from "../../../app/components/elements/Rating";
 import { formatCurrency } from "~/utilities/product-helper";
 import { addItem } from "~/store/cart/action";
 import { addItemToCompare } from "~/store/compare/action";
 import { addItemToWishlist } from "~/store/wishlist/action";
 import WPModuleProductQuickview from "~/wp-components/elements/products/modules/WPModuleProductQuickview";
 import WPProductRepository from "~/repositories/WP/WPProductRepository";
-import SkeletonProduct from "~/components/elements/skeletons/SkeletonProduct";
+import SkeletonProduct from "~/app/components/elements/skeletons/SkeletonProduct";
 import {
     DefaultButton,
     WPProductPriceView,

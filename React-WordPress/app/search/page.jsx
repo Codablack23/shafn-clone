@@ -6,7 +6,7 @@ import WPProductRepository from "~/repositories/WP/WPProductRepository";
 import WPLayout from "~/wp-components/layouts/WPLayout";
 import WPProduct from "~/wp-components/elements/products/WPProduct";
 import { generateTempArray, scrollPageToTop } from "~/utilities/common-helpers";
-import SkeletonProduct from "~/components/elements/skeletons/SkeletonProduct";
+import SkeletonProduct from "~/app/components/elements/skeletons/SkeletonProduct";
 import { Pagination } from "antd";
 
 const WPSearchPage = ({ query }) => {

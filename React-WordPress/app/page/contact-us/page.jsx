@@ -1,9 +1,9 @@
 import React from 'react';
-import ContactInfo from '~/components/partials/page/ContactInfo';
-import ContactForm from '~/components/partials/page/ContactForm';
-import ContactMap from '~/components/partials/page/ContactMap';
+import ContactInfo from '~/app/components/partials/page/ContactInfo';
+import ContactForm from '~/app/components/partials/page/ContactForm';
+import ContactMap from '~/app/components/partials/page/ContactMap';
 import WPLayout from '~/wp-components/layouts/WPLayout';
-import Newsletters from '~/components/partials/commons/Newletters';
+import Newsletters from '~/app/components/partials/commons/Newletters';
 import { scrollPageToTop } from '~/utilities/common-helpers';
 
 const ContactUsPage = () => (

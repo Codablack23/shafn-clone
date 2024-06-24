@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import RelatedPosts from '../../components/partials/post/RelatedPosts';
-import PostComments from '../../components/partials/post/PostComments';
+import RelatedPosts from '../../app/components/partials/post/RelatedPosts';
+import PostComments from '../../app/components/partials/post/PostComments';
 import WPPostRepository from '~/repositories/WP/WPPostRepository';
 import WPPostDetail from '~/wp-components/elements/posts/WPPostDetail';
 import WPLayout from '~/wp-components/layouts/WPLayout';
-import SkeletonSinglePost from '~/components/elements/skeletons/SkeletonSinglePost';
+import SkeletonSinglePost from '~/app/components/elements/skeletons/SkeletonSinglePost';
 import { scrollPageToTop } from '~/utilities/common-helpers';
 
 const WPSinglePost = ({ query }) => {

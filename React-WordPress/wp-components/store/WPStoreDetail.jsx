@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import WPStoreInformation from '~/wp-components/store/WPStoreInformation';
-import VendorProducts from '~/components/partials/vendor/modules/VendorProducts';
+import VendorProducts from '~/app/components/partials/vendor/modules/VendorProducts';
 
 class WPStoreDetail extends Component {
     render() {

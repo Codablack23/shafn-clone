@@ -1,5 +1,5 @@
 import React from 'react';
-import FaqsContent from '../../components/partials/page/FaqsContent';
+import FaqsContent from '../../app/components/partials/page/FaqsContent';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import { scrollPageToTop } from '~/utilities/common-helpers';
 

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { connect } from "react-redux";
 import WPProductRepository from "~/repositories/WP/WPProductRepository";
 import WPProductHorizontal from "~/wp-components/elements/products/WPProductHorizontal";
-import SkeletonProductHorizontal from "~/components/elements/skeletons/SkeletonProductHorizontal";
+import SkeletonProductHorizontal from "~/app/components/elements/skeletons/SkeletonProductHorizontal";
 
 const WPRecentlyViewed = ({ products }) => {
     let productsView;

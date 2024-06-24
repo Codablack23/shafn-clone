@@ -4,7 +4,7 @@ import WPPostGrid from '~/wp-components/elements/posts/WPPostGrid';
 import WPPostRepository from '~/repositories/WP/WPPostRepository';
 import { generateTempArray } from '~/utilities/common-helpers';
 import { Pagination, Skeleton } from 'antd';
-import SkeletonPostGrid from '~/components/elements/skeletons/SkeletonPostGrid';
+import SkeletonPostGrid from '~/app/components/elements/skeletons/SkeletonPostGrid';
 
 const WPBlogGrid = () => {
     const [loading, setLoading] = useState(false);

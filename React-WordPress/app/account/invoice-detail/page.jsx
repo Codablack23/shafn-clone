@@ -1,5 +1,5 @@
 import React from 'react';
-import InvoiceDetail from '~/components/partials/account/InvoiceDetail';
+import InvoiceDetail from '~/app/components/partials/account/InvoiceDetail';
 import { scrollPageToTop } from '~/utilities/common-helpers';
 
 import WPLayout from '~/wp-components/layouts/WPLayout';

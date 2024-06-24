@@ -3,12 +3,12 @@ import { connect, useDispatch } from "react-redux";
 import Router from "next/router";
 import WPStoreInformation from "~/wp-components/store/WPStoreInformation";
 import WPVendorRepository from "~/repositories/WP/WPVendorRepository";
-import SkeletonVendorInformation from "~/components/elements/skeletons/SkeletonVendorInformation";
-import { SkeletonBanner } from "~/components/elements/skeletons/SkeletonVendorInformation";
+import SkeletonVendorInformation from "~/app/components/elements/skeletons/SkeletonVendorInformation";
+import { SkeletonBanner } from "~/app/components/elements/skeletons/SkeletonVendorInformation";
 import WPLayout from "~/wp-components/layouts/WPLayout";
 import WPVendorProducts from "~/wp-components/store/WPVendorProducts";
 import { generateTempArray, scrollPageToTop } from "~/utilities/common-helpers";
-import SkeletonProduct from "~/components/elements/skeletons/SkeletonProduct";
+import SkeletonProduct from "~/app/components/elements/skeletons/SkeletonProduct";
 
 const Banner = ({ store }) => (
     <div className="custom-banner">

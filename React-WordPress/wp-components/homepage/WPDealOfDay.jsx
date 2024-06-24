@@ -7,7 +7,7 @@ import { carouselFullwidth } from "~/utilities/carousel-helpers";
 import WPProductDealOfDay from "~/wp-components/elements/products/WPProductDealOfDay";
 import axios from "axios";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
-// import CountDownSimple from "~/components/elements/CountDownSimple";
+// import CountDownSimple from "~/app/components/elements/CountDownSimple";
 
 let productReqSource;
 const WPDealOfDay = () => {
