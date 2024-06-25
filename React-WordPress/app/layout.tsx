@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./scss/style.scss";
+import "./globals.css"
+import "bootstrap-icons/font/bootstrap-icons.min.css";
 import '@splidejs/react-splide/css';
 import CustomReduxProvider from "../redux-store/provider";
 

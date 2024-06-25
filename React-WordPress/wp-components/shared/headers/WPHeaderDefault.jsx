@@ -10,9 +10,7 @@ import WPSearchHeader from '~/wp-components/shared/headers/WPSearchHeader';
 
 const WPHeaderDefault = () => {
     useEffect(() => {
-        if (process.browser) {
             window.addEventListener('scroll', stickyHeader);
-        }
     }, []);
     return (
         <header

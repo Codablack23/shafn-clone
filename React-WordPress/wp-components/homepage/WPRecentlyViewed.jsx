@@ -4,8 +4,10 @@ import { connect } from "react-redux";
 import WPProductRepository from "~/repositories/WP/WPProductRepository";
 import WPProductHorizontal from "~/wp-components/elements/products/WPProductHorizontal";
 import SkeletonProductHorizontal from "~/app/components/elements/skeletons/SkeletonProductHorizontal";
+import { useAppSelector } from "@/redux-store/hooks";
 
-const WPRecentlyViewed = ({ products }) => {
+export default function WPRecentlyViewed (){
+    const {products} = useAppSelector(state=>state.recentProducts)
     let productsView;
 
     if (products && products.length === 0) {
@@ -38,8 +40,3 @@ const WPRecentlyViewed = ({ products }) => {
     );
 };
 
-const mapStateToProps = (state) => {
-    return state.recentlyViewedProducts;
-};
-
-export default connect(mapStateToProps)(WPRecentlyViewed);

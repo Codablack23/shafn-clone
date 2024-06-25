@@ -1,4 +1,4 @@
-
+"use client";
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import Router, { useRouter } from "next/navigation";

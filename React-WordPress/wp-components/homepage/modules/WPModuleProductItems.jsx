@@ -5,16 +5,14 @@ import Slider from "react-slick";
 
 const WPModuleProductItems = ({ products }) => {
     return (
-        <Slider
-            {...carouselFullwidth}
-            infinite={products.length > 7}
-            className="ps-carousel outside">
+        <div
+            className="grid grid-cols-2">
             {products.map((product) => (
                 <div className="item" key={product.id}>
                     <WPProduct product={product} />
                 </div>
             ))}
-        </Slider>
+        </div>
     );
 };
 

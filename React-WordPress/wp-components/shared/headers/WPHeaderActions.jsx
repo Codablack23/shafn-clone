@@ -3,16 +3,13 @@ import { connect } from "react-redux";
 import Link from "next/link";
 import AccountQuickLinks from "~/app/components/shared/headers/modules/AccountQuickLinks";
 import WPMiniCart from "~/wp-components/shared/headers/WPMiniCart";
+import { useAppSelector } from "@/redux-store/hooks";
 
-class WPHeaderActions extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        const { compare, wishlist, auth } = this.props;
+export default function  WPHeaderActions(){
+        const {compare,auth,wishlist} = useAppSelector(state=>state)
+        // const { compare, wishlist, auth } = this.props;
         // Views
-        let accountView = <AccountQuickLinks isLoggedIn={false} />;
+        let accountView = <AccountQuickLinks isLoggedIn={auth.isLoggedIn} />;
         return (
             <div className="header__actions">
                 <div
@@ -76,10 +73,10 @@ class WPHeaderActions extends Component {
             </div>
         );
     }
-}
 
-const mapStateToProps = (state) => {
-    return state;
-};
 
-export default connect(mapStateToProps)(WPHeaderActions);
+// const mapStateToProps = (state) => {
+//     return state;
+// };
+
+// export default connect(mapStateToProps)(WPHeaderActions);
