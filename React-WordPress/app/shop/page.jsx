@@ -15,6 +15,17 @@ import WPProductRepository from "~/repositories/WP/WPProductRepository";
 import WPLayoutFullwidth from "~/wp-components/layouts/WPLayoutFullwidth";
 // import WPShopCategories from "~/wp-components/shop/WPShopCategories";
 import { scrollPageToTop } from "~/utilities/common-helpers";
+import { useRouter } from 'next/router';
+
+
+//make this function a default export
+//export default function WPProductDetailPage({pid}){
+
+export default function WPProductDetailPage ({pid}){
+    const dispatch = useDispatch()
+    const router = useRouter();
+
+}
 
 const WPShopPage = ({ query }) => {
     const dispatch = useDispatch();
@@ -129,4 +140,4 @@ WPShopPage.getInitialProps = async ({ query }) => {
     return { query: query };
 };
 
-export default connect()(WPShopPage);
+

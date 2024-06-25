@@ -12,6 +12,17 @@ import {
     WPProductThumbnailView,
 } from "~/utilities/WPHelpers";
 import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import { useRouter } from 'next/router';
+
+
+//make this function a default export
+//export default function WPProductDetailPage({pid}){
+
+export default function WPProductDetailPage ({pid}){
+    const dispatch = useDispatch()
+    const router = useRouter();
+
+}
 
 const WPProduct = ({ product }) => {
     const dispatch = useDispatch();
@@ -246,4 +257,4 @@ const WPProduct = ({ product }) => {
     );
 };
 
-export default connect()(WPProduct);
+

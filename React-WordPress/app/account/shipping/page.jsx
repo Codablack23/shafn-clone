@@ -4,6 +4,18 @@ import { getCart } from '~/store/cart/action';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import WPShipping from '~/wp-components/account/WPShipping';
 import { scrollPageToTop } from '~/utilities/common-helpers';
+import { useRouter } from 'next/router';
+
+
+//make this function a default export
+//export default function WPProductDetailPage({pid}){
+
+export default function WPProductDetailPage ({pid}){
+    const dispatch = useDispatch()
+    const router = useRouter();
+
+}
+
 
 const ShippingPage = () => {
     const dispatch = useDispatch();
@@ -22,4 +34,4 @@ const ShippingPage = () => {
     );
 };
 
-export default connect()(ShippingPage);
+

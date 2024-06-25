@@ -1,8 +1,19 @@
 import React, { Component } from "react";
 import Link from "next/link";
 import { removeItem } from "~/store/cart/action";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { WPProductThumbnailView } from "~/utilities/WPHelpers";
+import { useRouter } from 'next/router';
+
+
+//make this function a default export
+//export default function WPProductDetailPage({pid}){
+
+export default function WPProductDetailPage ({pid}){
+    const dispatch = useDispatch()
+    const router = useRouter();
+
+}
 
 class WPProductOnCart extends Component {
     constructor() {
@@ -54,4 +65,4 @@ class WPProductOnCart extends Component {
     }
 }
 
-export default connect()(WPProductOnCart);
+

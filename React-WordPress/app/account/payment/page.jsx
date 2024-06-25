@@ -4,6 +4,17 @@ import { getCart } from '~/store/cart/action';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import WPPayment from '~/wp-components/account/WPPayment';
 import { scrollPageToTop } from '~/utilities/common-helpers';
+import { useRouter } from 'next/router';
+
+
+//make this function a default export
+//export default function WPProductDetailPage({pid}){
+
+export default function WPProductDetailPage ({pid}){
+    const dispatch = useDispatch()
+    const router = useRouter();
+}
+
 
 const PaymentPage = () => {
     const dispatch = useDispatch();
@@ -22,4 +33,4 @@ const PaymentPage = () => {
     );
 };
 
-export default connect()(PaymentPage);
+

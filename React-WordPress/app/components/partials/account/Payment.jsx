@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { Radio, Select } from 'antd';
 import ModulePaymentOrderSummary from '~/app/components/partials/account/modules/ModulePaymentOrderSummary';
+import { useRouter } from 'next/router';
+
+
+//make this function a default export
+//export default function WPProductDetailPage({pid}){
+
+export default function WPProductDetailPage ({pid}){
+    const dispatch = useDispatch()
+    const router = useRouter();
+
+}
 
 const { Option } = Select;
 
@@ -207,4 +218,4 @@ class Payment extends Component {
     }
 }
 
-export default connect()(Payment);
+

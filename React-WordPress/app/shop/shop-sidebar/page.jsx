@@ -13,6 +13,17 @@ import WPProductRepository from '~/repositories/WP/WPProductRepository';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import ShopSidebarBanner from '~/app/components/partials/shop/ShopSidebarBanner';
 import { scrollPageToTop } from '~/utilities/common-helpers';
+import { useRouter } from 'next/router';
+
+
+//make this function a default export
+//export default function WPProductDetailPage({pid}){
+
+export default function WPProductDetailPage ({pid}){
+    const dispatch = useDispatch()
+    const router = useRouter();
+
+}
 
 const WPShopSidebarPage = ({ query }) => {
     const dispatch = useDispatch();
@@ -102,4 +113,4 @@ WPShopSidebarPage.getInitialProps = async ({ query }) => {
     return { query: query };
 };
 
-export default connect()(WPShopSidebarPage);
+

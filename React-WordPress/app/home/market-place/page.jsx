@@ -8,6 +8,17 @@ import MarketPlaceHomeBanner from '~/app/components/partials/homepage/marketplac
 import { getCategories, getCollections } from '~/store/collection/action';
 import WPLayoutHomeMarketPlace from '~/wp-components/layouts/WPLayoutHomeMarketPlace';
 import { scrollPageToTop } from '~/utilities/common-helpers';
+import { useRouter } from 'next/router';
+
+
+//make this function a default export
+//export default function WPProductDetailPage({pid}){
+
+export default function WPProductDetailPage ({pid}){
+    const dispatch = useDispatch()
+    const router = useRouter();
+
+}
 
 const HomeMarketPlacePage = () => {
     const dispatch = useDispatch();
@@ -39,4 +50,4 @@ const HomeMarketPlacePage = () => {
         </div>
     );
 };
-export default connect()(HomeMarketPlacePage);
+

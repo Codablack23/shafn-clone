@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { getProductsByCategory } from "~/store/product/action";
 import { WPGetProducts } from "~/store/wp/action";
 import WPProductRepository from "~/repositories/WP/WPProductRepository";
@@ -8,6 +8,18 @@ import WPProduct from "~/wp-components/elements/products/WPProduct";
 import { generateTempArray, scrollPageToTop } from "~/utilities/common-helpers";
 import SkeletonProduct from "~/app/components/elements/skeletons/SkeletonProduct";
 import { Pagination } from "antd";
+import { useRouter } from 'next/router';
+
+
+//make this function a default export
+//export default function WPProductDetailPage({pid}){
+
+export default function WPProductDetailPage ({pid}){
+    const dispatch = useDispatch()
+    const router = useRouter();
+
+}
+
 
 const WPSearchPage = ({ query }) => {
     const [keyword, setKeyword] = useState(null);
@@ -171,4 +183,4 @@ WPSearchPage.getInitialProps = async ({ query }) => {
     return { query: query };
 };
 
-export default connect()(WPSearchPage);
+

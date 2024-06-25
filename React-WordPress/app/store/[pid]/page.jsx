@@ -9,6 +9,17 @@ import WPLayout from "~/wp-components/layouts/WPLayout";
 import WPVendorProducts from "~/wp-components/store/WPVendorProducts";
 import { generateTempArray, scrollPageToTop } from "~/utilities/common-helpers";
 import SkeletonProduct from "~/app/components/elements/skeletons/SkeletonProduct";
+import { useRouter } from 'next/router';
+
+
+//make this function a default export
+//export default function WPProductDetailPage({pid}){
+
+export default function WPProductDetailPage ({pid}){
+    const dispatch = useDispatch()
+    const router = useRouter();
+
+}
 
 const Banner = ({ store }) => (
     <div className="custom-banner">
@@ -113,4 +124,4 @@ WPStorePage.getInitialProps = async ({ query }) => {
     return { query: { pid: store_id } };
 };
 
-export default connect()(WPStorePage);
+

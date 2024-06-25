@@ -6,7 +6,12 @@ import { connect, useDispatch } from 'react-redux';
 import { WPGetProducts } from '~/store/wp/action';
 import { useRouter } from 'next/router';
 
-const WPWidgetBrand = () => {
+
+//make this function a default export
+//export default function WPProductDetailPage({pid}){
+
+
+export default function WPWidgetBrand (){
     const dispatch = useDispatch();
     const router = useRouter();
     const [loading, setLoading] = useState(true);
@@ -85,5 +90,3 @@ const WPWidgetBrand = () => {
         </aside>
     );
 };
-
-export default connect()(WPWidgetBrand);
