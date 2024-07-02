@@ -9,7 +9,7 @@ interface WishlistState{
     error?:boolean
 }
 
-const initialState: WishlistState = {
+export const initialState: WishlistState = {
     wishlistItems: [],
     wishlistTotal: 0,
     error: false

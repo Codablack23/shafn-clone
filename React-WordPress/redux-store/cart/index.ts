@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 
-interface CartItem{
+export interface CartItem{
     [key:string]:any
 }
 
@@ -11,7 +11,7 @@ interface CartState{
     cartTotal:number,
     error?:boolean
 }
-const initialState:CartState = {
+export const initialState:CartState = {
     cartItems: [],
     amount: 0,
     cartTotal: 0,

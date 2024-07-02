@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+import { useCart } from "@/redux-store/hooks/useCart";
+import useWishList from "@/redux-store/hooks/useWishList";
 import Head from "next/head";
 import FooterFullwidth from "~/app/components/shared/footers/FooterFullwidth";
 import SwicherDemo from "~/app/components/shared/switcher-demo/SwitcherDemo";
@@ -7,6 +9,8 @@ import WPHeaderMobile from "~/wp-components/shared/mobile/WPHeaderMobile";
 import WPNavigationBottom from "~/wp-components/shared/mobile/WPNavigationBottom";
 
 const WPLayoutHomeDefault = ({ children, title }) => {
+    useCart()
+    useWishList()
     let titleView;
     if (title !== null) {
         titleView = process.env.NEXT_PUBLIC_TITLE + " | " + title;

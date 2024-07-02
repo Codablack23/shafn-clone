@@ -12,23 +12,23 @@ import {
     WPProductThumbnailView,
 } from "~/utilities/WPHelpers";
 import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import { useCartFunctions } from "@/redux-store/hooks/useCart";
 
 const WPProduct = ({ product }) => {
-    const dispatch = useDispatch();
+    const {addToCart} = useCartFunctions();
     const [isQuickView, setIsQuickView] = useState(false);
     const [priceRangeView, setPriceRangeView] = useState(null);
     const [rating, setRating] = useState(0);
 
     const handleAddItemToCart = (e) => {
         e.preventDefault();
-        dispatch(
-            addItem({
+            addToCart({
                 ...product,
                 quantity: 1,
                 variation_id: 0,
                 variation_stock_quantity: 0,
             })
-        );
+        
 
         // let _product = product;
 

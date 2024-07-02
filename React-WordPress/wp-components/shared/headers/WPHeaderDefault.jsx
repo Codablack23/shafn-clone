@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect } from 'react';
 import HeaderNav from '~/app/components/shared/navigation/NewNavigation';
 import { stickyHeader } from '~/utilities/common-helpers';

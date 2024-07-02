@@ -4,26 +4,23 @@ import Link from "next/link";
 import { getCart, removeItem } from "~/store/cart/action";
 import { addCheckoutItem } from "~/store/checkout-items/action";
 import WPProductOnCart from "~/wp-components/elements/products/WPProductOnCart";
+import { useAppSelector } from "@/redux-store/hooks";
 
-class WPMiniCart extends Component {
-    constructor() {
-        super();
+export default function WPMiniCart() {
+  
+
+    const handleAddToCheckoutItems=()=> {
+        // this.props.dispatch(addCheckoutItem(this.props));
     }
 
-    handleAddToCheckoutItems() {
-        this.props.dispatch(addCheckoutItem(this.props));
+    const  handleRemoveCartItem=(product)=> {
+        // this.props.dispatch(removeItem(product));
     }
 
-    handleRemoveCartItem(product) {
-        this.props.dispatch(removeItem(product));
-    }
+        const cartData = useAppSelector(state=>state.cart);
+        const { amount, cartTotal, cartItems } = cartData;
 
-    componentDidMount() {
-        this.props.dispatch(getCart());
-    }
-
-    render() {
-        const { amount, cartTotal, cartItems } = this.props;
+        console.log({cartData})
         // views
         let cartItemsView;
         if (cartItems && cartItems.length > 0) {
@@ -90,9 +87,8 @@ class WPMiniCart extends Component {
             </div>
         );
     }
-}
 
-export default connect((state) => state.cart)(WPMiniCart);
+
 
 const style = {
     minWidth: "140px",

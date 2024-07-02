@@ -1,12 +1,14 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+"use client";
 import Link from "next/link";
 import AccountQuickLinks from "~/app/components/shared/headers/modules/AccountQuickLinks";
 import WPMiniCart from "~/wp-components/shared/headers/WPMiniCart";
 import { useAppSelector } from "@/redux-store/hooks";
 
 export default function  WPHeaderActions(){
-        const {compare,auth,wishlist} = useAppSelector(state=>state)
+        const auth = useAppSelector(state=>state.auth)
+        const comapre = useAppSelector(state=>state.compare)
+        const wishlist = useAppSelector(state=>state.wishlist)
+
         // const { compare, wishlist, auth } = this.props;
         // Views
         let accountView = <AccountQuickLinks isLoggedIn={auth.isLoggedIn} />;
@@ -55,7 +57,7 @@ export default function  WPHeaderActions(){
                                     right: "-2px",
                                     width: 17,
                                 }}>
-                                <i>{0}</i>
+                                <i>{wishlist.wishlistTotal}</i>
                             </span>
                         </span>
                     </Link>

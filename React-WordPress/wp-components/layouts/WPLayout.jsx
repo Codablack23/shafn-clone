@@ -8,6 +8,8 @@ import WPHeaderMobile from "../shared/mobile/WPHeaderMobile";
 // import WPHeaderMarketPlace from '~/wp-components/shared/headers/WPHeaderMarketPlace';
 // import WPHeaderMobile from '~/wp-components/shared/mobile/WPHeaderMobile';
 import WPNavigationBottom from "~/wp-components/shared/mobile/WPNavigationBottom";
+import { useCart } from "@/redux-store/hooks/useCart";
+import useWishList from "@/redux-store/hooks/useWishList";
 
 const WPLayout = ({ children, title }) => {
     let titleView;
@@ -20,6 +22,9 @@ const WPLayout = ({ children, title }) => {
             process.env.NEXT_PUBLIC_TITLE_DESCRIPTION;
     }
 
+    useCart()
+    useWishList()
+    
     return (
         <div className="shafn">
             <Head>
