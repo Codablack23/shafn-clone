@@ -10,8 +10,14 @@ import { useRouter } from 'next/router';
 //make this function a default export
 //export default function WPProductDetailPage({pid}){
 
+const WPProductDetailPage = ({ pid }) => {
+    const dispatch = useDispatch()
+    const router = useRouter();
 
-export default function WPWidgetBrand (){
+}
+
+
+const WPWidgetBrand = () => {
     const dispatch = useDispatch();
     const router = useRouter();
     const [loading, setLoading] = useState(true);
@@ -90,3 +96,5 @@ export default function WPWidgetBrand (){
         </aside>
     );
 };
+
+export default connect()(WPWidgetBrand);

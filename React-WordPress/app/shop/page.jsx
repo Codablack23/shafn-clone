@@ -21,7 +21,7 @@ import { useRouter } from 'next/router';
 //make this function a default export
 //export default function WPProductDetailPage({pid}){
 
-export default function WPProductDetailPage ({pid}){
+const WPProductDetailPage = ({ pid }) => {
     const dispatch = useDispatch()
     const router = useRouter();
 
@@ -140,4 +140,4 @@ WPShopPage.getInitialProps = async ({ query }) => {
     return { query: query };
 };
 
-
+export default connect()(WPShopPage);

@@ -17,7 +17,7 @@ import WPModuleDefaultDescription from "~/wp-components/elements/products/module
 import { addRecentlyViewedProduct } from "~/store/recently-viewed-products/action";
 import { scrollPageToTop } from "~/utilities/common-helpers";
 
-export default function WPProductDetailPage ({pid}){
+const WPProductDetailPage = ({ pid }) => {
     const dispatch = useDispatch();
     const router = useRouter();
 
@@ -170,4 +170,4 @@ WPProductDetailPage.getInitialProps = async ({ query }) => {
     return { pid: product_id };
 };
 
-
+export default connect()(WPProductDetailPage);
