@@ -1,30 +1,25 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import Link from "next/link";
-import { getCart, removeItem } from "../../../../store/cart/action";
-import { isStaticData } from "../../../../utilities/app-settings";
-import { baseUrl } from "../../../../repositories/Repository";
-class MiniCart extends Component {
-    constructor(props) {
-        super(props);
-    }
+import { isStaticData } from "@/utilities/app-settings";
+import { baseUrl } from "@/repositories/Repository";
+import { useCartFunctions } from "@/redux-store/hooks/useCart";
 
-    componentDidMount() {
-        this.props.dispatch(getCart());
-    }
 
-    handleRemoveCartItem = (product) => {
-        this.props.dispatch(removeItem(product));
-    };
+export default function MiniCart () {
 
-    render() {
-        const { amount, cartTotal, cartItems } = this.props;
+        const {removeFromCart,cartState} = useCartFunctions()
+
+        const handleRemoveCartItem = (product) => {
+            removeFromCart(product);
+        };
+
+        const { amount, cartTotal, cartItems } = cartState;
         return (
             <div className="ps-cart--mini">
                 <a className="header__extra" href="#">
                     <i className="icon-bag2"></i>
                     <span>
-                        <i>{cartTotal ? cartTotal : 0}</i>
+                        <i>{cartTotal }</i>
                     </span>
                 </a>
                 {cartItems && cartItems.length > 0 ? (
@@ -57,10 +52,7 @@ class MiniCart extends Component {
                                           <div className="ps-product__content">
                                               <a
                                                   className="ps-product__remove"
-                                                  onClick={this.handleRemoveCartItem.bind(
-                                                      this,
-                                                      product
-                                                  )}>
+                                                  onClick={()=>handleRemoveCartItem(product)}>
                                                   <i className="icon-cross"></i>
                                               </a>
                                               <Link legacyBehavior
@@ -107,11 +99,6 @@ class MiniCart extends Component {
                 )}
             </div>
         );
-    }
+    
 }
 
-const mapStateToProps = (state) => {
-    return state.cart;
-};
-
-export default connect(mapStateToProps)(MiniCart);

@@ -5,19 +5,32 @@ import { getItemBySlug } from "@/utilities/product-helper";
 import Promotion from "@/app/components/elements/media/Promotion";
 import BannerItem from "~/app/components/elements/media/BannerItem";
 import { useAppSelector } from "@/redux-store/hooks";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+
+const sliderOptions = {
+    perPage:1,
+    type:"loop",
+    gap:"2em",
+    arrows:false,
+    interval:10000,
+    speed:500,
+    autoplay:true,
+    pagination:true,
+    rewind:true,
+}
 
 export default function HomeBanner (props) {
     // const { banners, promotions } = props;
     const media = useAppSelector((state)=>state.media)
     const {banners,promotions} = media
-    const carouselSetting = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        autoplay:true,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-    };
+    // const carouselSetting = {
+    //     dots: true,
+    //     infinite: true,
+    //     speed: 500,
+    //     autoplay:true,
+    //     slidesToShow: 1,
+    //     slidesToScroll: 1,
+    // };
 
     // const bannerData = getItemBySlug(banners, "banner-home-fullwidth");
     const bannerData = {
@@ -69,28 +82,34 @@ export default function HomeBanner (props) {
     let bannersView;
     if (bannerData) {
         bannersView = bannerData.items.map((item) => (
-            <BannerItem source={item} key={item.id} />
+            <SplideSlide key={item.id}>
+                <BannerItem source={item}/>
+            </SplideSlide>
         ));
     }
-
+    
     return (
-        <div className="ps-home-banner ps-home-banner--1">
-            <div className="ps-container">
-                <div className="ps-section__left" style={{height:"480px",marginBottom:18}}>
-                    {bannerData !== null ? (
-                        <Slider arrows={false} autoplaySpeed={5000}   {...carouselSetting} className="ps-carousel">
+        <div className="ps-home-banner ps-home-banner--1 my-10 mt-14">
+            <div className="ps-container flex gap-2">
+                <div className="flex-[2]">
+                    <div className="flex-[2]">
+                        {bannerData !== null ? (
+                        <Splide aria-label="My Favorite Images" options={sliderOptions}>
                             {bannersView}
-                        </Slider>
-                    ) : (
-                        ""
-                    )}
+                        </Splide>
+                        ) : (
+                            ""
+                        )}
+                    </div>
                 </div>
-                <div className="ps-section__right">
-                    <Promotion
-                        link="/shop"
-                        image={promotion1 ?null : null}
-                        defImage={"/static/images/slider3.jpg"}
-                    />
+                <div className="flex-1">
+                    <div className="mb-2">
+                        <Promotion
+                            link="/shop"
+                            image={promotion1 ?null : null}
+                            defImage={"/static/images/slider3.jpg"}
+                        />
+                    </div>
                     <Promotion
                         link="/shop"
                         image={promotion2 ? null : null}

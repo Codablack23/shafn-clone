@@ -159,6 +159,7 @@ export function useCartFunctions(){
 
     }
     return {
+        cartState,
         increaseQuantity,
         removeFromCart,
         addToCart,

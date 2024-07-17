@@ -9,8 +9,6 @@ import WPHeaderMobile from "~/wp-components/shared/mobile/WPHeaderMobile";
 import WPNavigationBottom from "~/wp-components/shared/mobile/WPNavigationBottom";
 
 const WPLayoutHomeDefault = ({ children, title }) => {
-    useCart()
-    useWishList()
     let titleView;
     if (title !== null) {
         titleView = process.env.NEXT_PUBLIC_TITLE + " | " + title;

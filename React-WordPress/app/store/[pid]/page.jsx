@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import Router from "next/router";
@@ -19,8 +21,10 @@ const Banner = ({ store }) => (
     </div>
 );
 
-const WPStorePage = ({ query }) => {
-    const dispatch = useDispatch();
+export default function WPStorePage ({ params }){
+
+    let store_id = params.pid.split("-").pop();
+    let query= { pid: store_id };
 
     const [loading, setLoading] = useState(true);
     const [storeID, setStoreID] = useState(null);
@@ -60,7 +64,7 @@ const WPStorePage = ({ query }) => {
                 Router.push("/page/page-404");
             }
         }
-    }, [dispatch]);
+    }, [params,query]);
 
     // Views
     let storeInformationView, storeProductsView, bannerView;
@@ -108,9 +112,3 @@ const WPStorePage = ({ query }) => {
     );
 };
 
-WPStorePage.getInitialProps = async ({ query }) => {
-    let store_id = query.pid.split("-").pop();
-    return { query: { pid: store_id } };
-};
-
-export default connect()(WPStorePage);

@@ -19,8 +19,7 @@ export default function WPMiniCart() {
 
         const cartData = useAppSelector(state=>state.cart);
         const { amount, cartTotal, cartItems } = cartData;
-
-        console.log({cartData})
+        
         // views
         let cartItemsView;
         if (cartItems && cartItems.length > 0) {

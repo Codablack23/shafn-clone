@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { getProductsByCategory } from "~/store/product/action";
 import { WPGetProducts } from "~/store/wp/action";
 import ShopBanner from "~/app/components/partials/shop/ShopBanner";
@@ -16,9 +16,11 @@ import WPLayoutFullwidth from "~/wp-components/layouts/WPLayoutFullwidth";
 // import WPShopCategories from "~/wp-components/shop/WPShopCategories";
 import { scrollPageToTop } from "~/utilities/common-helpers";
 
-const WPShopPage = ({ query }) => {
-    const dispatch = useDispatch();
-    const router = useRouter();
+export default function WPShopPage() {
+    // const dispatch = useDispatch();
+    // const router = useRouter();
+    const params = useSearchParams()
+    const category = params.get("categories")
 
     const [categoryName, setCategoryName] = useState(null);
 
@@ -62,19 +64,17 @@ const WPShopPage = ({ query }) => {
     // }
 
     async function getProducts(){
-        const  category = router.query.category
         if(category){
             const queries = {page: 1,per_page: 24,category,};
-            dispatch(WPGetProducts(queries));
+            // dispatch(WPGetProducts(queries));
             // getCategory(category);
         }else{
             const queries = { page: 1,per_page: 24,};
-            dispatch(WPGetProducts(queries));
+            // dispatch(WPGetProducts(queries));
         }
     }
 
     useEffect(() => {
-        console.log(router.query)
         getProducts();
         // if (query) {
         //     const queries = {
@@ -95,7 +95,7 @@ const WPShopPage = ({ query }) => {
         // return () => {
         //     router.events.off("routeChangeStart", getShopOnChangeUrl);
         // };
-    }, [router.query]);
+    }, [category]);
 
     return (
         <div ref={scrollPageToTop}>
@@ -108,7 +108,7 @@ const WPShopPage = ({ query }) => {
                         <div className="ps-layout--shop">
                             <div className="ps-layout__left">
                                 <WPWidgetCategories
-                                    activeID={router && router.query.category}
+                                    activeID={category?category:""}
                                     page={"shop"}
                                 />
                                 {/* <WPWidgetBrand /> */}
@@ -125,8 +125,8 @@ const WPShopPage = ({ query }) => {
     );
 };
 
-WPShopPage.getInitialProps = async ({ query }) => {
-    return { query: query };
-};
+// WPShopPage.getInitialProps = async ({ query }) => {
+//     return { query: query };
+// };
 
-export default connect()(WPShopPage);
+// export default connect()(WPShopPage);

@@ -1,16 +1,16 @@
+"use client";
+
 import React, { useState } from "react";
 import Link from "next/link";
 import { Form, Input, notification, Spin } from "antd";
-import { login } from "../../../store/auth/action";
+// import { login } from "../../../store/auth/action";
 import { useDispatch } from "react-redux";
 import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
 import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
 import Router from "next/router";
-import ReactHtmlParser from "react-html-parser";
 import WPVerification from "~/wp-components/account/WPVerification";
 
 function Register() {
-    const dispatch = useDispatch();
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -87,7 +87,7 @@ function Register() {
                     loggedUser.user_id
                 );
 
-                dispatch(login(customer));
+                // dispatch(login(customer));
 
                 Router.push("/");
                 // }

@@ -1,10 +1,9 @@
 import React from 'react';
-import FaqsContent from '../../app/components/partials/page/FaqsContent';
+import FaqsContent from '@/app/components/partials/page/FaqsContent';
 import WPLayout from '~/wp-components/layouts/WPLayout';
-import { scrollPageToTop } from '~/utilities/common-helpers';
 
 const FaqsPage = () => (
-    <div ref={scrollPageToTop}>
+    <div>
         <WPLayout title="FAQ">
             <div className="ps-page--single">
                 <div className="container">

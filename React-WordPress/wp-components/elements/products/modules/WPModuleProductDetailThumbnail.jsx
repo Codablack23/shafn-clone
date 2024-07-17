@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Slider from 'react-slick';
 import NextArrow from '~/app/components/elements/carousel/NextArrow';
 import PrevArrow from '~/app/components/elements/carousel/PrevArrow';
-import Lightbox from 'react-image-lightbox';
-import 'react-image-lightbox/style.css';
+// import Lightbox from 'react-image-lightbox';
+// import 'react-image-lightbox/style.css';
 class WPModuleProductDetailThumbnail extends Component {
     constructor(props) {
         super(props);
@@ -139,7 +139,7 @@ class WPModuleProductDetailThumbnail extends Component {
                     className="ps-product__variants">
                     {slideItems}
                 </Slider>
-                {isOpen && (
+                {/* {isOpen && (
                     <Lightbox
                         mainSrc={lightboxImages[photoIndex]}
                         nextSrc={
@@ -168,7 +168,7 @@ class WPModuleProductDetailThumbnail extends Component {
                             })
                         }
                     />
-                )}
+                )} */}
             </div>
         );
     }

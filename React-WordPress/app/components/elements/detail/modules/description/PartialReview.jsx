@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Modal, notification, Progress, Rate, Spin } from "antd";
+import { useState,useEffect } from "react";
+import { notification, Progress, Rate, Spin } from "antd";
 import Rating from "../../../Rating";
 import WPProductRepository from "~/repositories/WP/WPProductRepository";
-import ReactHtmlParser from "react-html-parser";
-import { useEffect } from "react";
+// import ReactHtmlParser from "react-html-parser";
+
 const PartialReview = () => {
     const [product_reviews, setProductReviews] = useState([]);
     const [reviewSent, setReviewSent] = useState(0);

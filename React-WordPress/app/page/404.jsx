@@ -1,10 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import WPLayout from '~/wp-components/layouts/WPLayout';
-import { scrollPageToTop } from '~/utilities/common-helpers';
 
 const Page404 = () => (
-    <div ref={scrollPageToTop}>
+    <div>
         <WPLayout title="Page not found.">
             <div className="ps-page--404">
                 <div className="container">
