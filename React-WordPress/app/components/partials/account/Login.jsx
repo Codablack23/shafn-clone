@@ -1,11 +1,10 @@
+"use client";
 import React, { useState } from "react";
 import Link from "next/link";
 import Router from "next/router";
-import { login } from "../../../store/auth/action";
 import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
 import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
 // import OAuth from "./modules/OAuth";
-import ReactHtmlParser from "react-html-parser";
 
 import { Form, Input, notification, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,7 +44,6 @@ function Login() {
                     const customer = await WPCustomerRepository.getCustomer(
                         _user.user_id
                     );
-                    dispatch(login(customer));
                     Router.push("/");
                 } else {
                     notification["error"]({

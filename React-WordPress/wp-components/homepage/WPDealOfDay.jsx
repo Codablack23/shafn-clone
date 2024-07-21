@@ -94,8 +94,8 @@ const WPDealOfDay = () => {
         productItemsView = <div className="row">{skeletons}</div>;
     }
     return (
-        <div className="ps-deal-of-day">
-            <div className="ps-container">
+        <div className="ps-deal-of-day my-8">
+            <div className="py-8">
                 {/* <div className="ps-section__header">
                     <Link legacyBehavior href="/shop">
                         <a>View all</a>

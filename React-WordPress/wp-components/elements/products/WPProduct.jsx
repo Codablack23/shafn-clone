@@ -12,34 +12,23 @@ import {
     WPProductThumbnailView,
 } from "~/utilities/WPHelpers";
 import WPProductRepository from "~/repositories/WP/WPProductRepository";
-import { useRouter } from 'next/router';
-
-
-//make this function a default export
-//export default function WPProductDetailPage({pid}){
-
-const WPProductDetailPage = ({ pid }) => {
-    const dispatch = useDispatch()
-    const router = useRouter();
-
-}
+import { useCartFunctions } from "@/redux-store/hooks/useCart";
 
 const WPProduct = ({ product }) => {
-    const dispatch = useDispatch();
+    const {addToCart} = useCartFunctions();
     const [isQuickView, setIsQuickView] = useState(false);
     const [priceRangeView, setPriceRangeView] = useState(null);
     const [rating, setRating] = useState(0);
 
     const handleAddItemToCart = (e) => {
         e.preventDefault();
-        dispatch(
-            addItem({
+            addToCart({
                 ...product,
                 quantity: 1,
                 variation_id: 0,
                 variation_stock_quantity: 0,
             })
-        );
+        
 
         // let _product = product;
 
@@ -157,7 +146,7 @@ const WPProduct = ({ product }) => {
     const query = `${product.slug}-${product.id}`.trim();
 
     return (
-        <div className="ps-product hover-scale">
+        <div className="hover-scale">
             <div className="ps-product__thumbnail">
                 <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
                     <a>{thumbnailImage}</a>
@@ -206,33 +195,40 @@ const WPProduct = ({ product }) => {
                     </li>
                 </ul> */}
             </div>
-            <div className="ps-product__container">
+            <div className="">
                 <Link legacyBehavior href="/shop">
-                    <a className="ps-product__vendor">
+                    <a className=" border-t-gray-300" >
                         {product.store && product.store.name}
+                        <hr />
                     </a>
                 </Link>
                 <div className="hover-hide">
                     <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
-                        <a className="ps-product__title">{product.name}</a>
+                        <a 
+                        style={{ paddingTop: "20px" }}
+                        className="ps-product__title font-bold">{product.name}</a>
                     </Link>
                     <div className="ps-product__rating">
                         {rating >= 3 && <Rating rating={rating} />}
                         <span>{product.review_count}</span>
                     </div>
-                    {priceView}
+                    <div className="text-2xl" >{priceView}</div>
                 </div>
 
                 <div className="hover-show">
                     <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
-                        <a className="ps-product__title">{product.name}</a>
+                        
+                        <a 
+                        style={{ paddingTop: "20px" }}
+                        className="ps-product__title font-bold">{product.name}</a>
                     </Link>
-                    {priceView}
+                    <div className="text-2xl" >{priceView}</div>
                 </div>
 
                 {product.type === "simple" ? (
                     <>
                         <button
+                            style={{maxWidth:"220px", marginTop:"10px"}}
                             className="hover-show"
                             onClick={handleAddItemToCart}>
                             Add To Cart
@@ -257,4 +253,4 @@ const WPProduct = ({ product }) => {
     );
 };
 
-export default connect()(WPProduct);
+ export default connect()(WPProduct);

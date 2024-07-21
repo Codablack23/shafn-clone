@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+import { useCart } from "@/redux-store/hooks/useCart";
+import useWishList from "@/redux-store/hooks/useWishList";
 import Head from "next/head";
 import FooterFullwidth from "~/app/components/shared/footers/FooterFullwidth";
 import SwicherDemo from "~/app/components/shared/switcher-demo/SwitcherDemo";

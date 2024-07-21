@@ -1,22 +1,18 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+
 import Link from "next/link";
-import Router from "next/router";
+import Router from "next/navigation";
 // import { logOut } from "../../../../store/auth/action";
 import { Dropdown, Menu } from "antd";
-class AccountQuickLinks extends Component {
-    constructor(props) {
-        super(props);
-    }
+export default function AccountQuickLinks() {
+  
 
-    handleLogout = (e) => {
+    const handleLogout = (e) => {
         e.preventDefault();
-        this.props.dispatch(logOut());
-        Router.push("/");
+        // this.props.dispatch(logOut());
+        // Router.push("/");
     };
 
-    render() {
-        const accountLinks = [
+    const accountLinks = [
             {
                 text: "Account Information",
                 url: "/account/user-information",
@@ -71,9 +67,5 @@ class AccountQuickLinks extends Component {
                 </Link>
             </Dropdown>
         );
-    }
 }
-const mapStateToProps = (state) => {
-    return state;
-};
-export default connect(mapStateToProps)(AccountQuickLinks);
+

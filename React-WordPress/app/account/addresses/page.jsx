@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useLayoutEffect } from "react";
 import { useSelector } from "react-redux";
 import Router from "next/router";

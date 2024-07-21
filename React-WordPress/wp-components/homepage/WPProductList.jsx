@@ -98,19 +98,19 @@ const WPProductList = ({ categoryID, title }) => {
     } else {
         const tempArr = [1, 2, 3, 4, 5, 6];
         const skeletons = tempArr.map((item) => (
-            <div className="col-xl-2 col-lg-3 col-sm-3 col-6" key={item}>
+            <div className="" key={item}>
                 <SkeletonProduct />
             </div>
         ));
-        productItemsView = <div className="row">{skeletons}</div>;
+        productItemsView = <div className="flex">{skeletons}</div>;
     }
 
     return (
-        <div className="ps-product-list">
-            <div className="ps-container">
+        <div className="mx-4">
+            <div className="">
                 <br />
-                <div className="my-4" style={{marginTop:"64px"}}>
-                    <h3 style={{textTransform:"capitalize"}}>{title}</h3>
+                <div className="my-4" style={{marginTop:"64px", fontSize:"22px", marginLeft:"16px"}}>
+                    <h3 className="font-bold capitalize">{title}</h3>
                     {/* <ul className="ps-section__links">
                         {sectionLinksView}
                         <li>

@@ -3,66 +3,51 @@ import Link from "next/link";
 import { removeItem } from "~/store/cart/action";
 import { connect, useDispatch } from "react-redux";
 import { WPProductThumbnailView } from "~/utilities/WPHelpers";
-import { useRouter } from 'next/router';
+import { useCartFunctions } from "@/redux-store/hooks/useCart";
 
 
-//make this function a default export
-//export default function WPProductDetailPage({pid}){
 
-const WPProductDetailPage = ({ pid }) => {
-    const dispatch = useDispatch()
-    const router = useRouter();
+export default function WPProductOnCart(props) {
+    const { product } = props;
+    const {removeFromCart} = useCartFunctions()
 
-}
-
-class WPProductOnCart extends Component {
-    constructor() {
-        super();
+    const removeCartItem=()=>{
+        removeFromCart(product);
     }
+    
+    // Views
+    const thumbnailImage = WPProductThumbnailView(product);
 
-    handleRemoveCartItem(product) {
-        console.log(product);
-        this.props.dispatch(removeItem(product));
-    }
-    removeCartItem() {
-        const { product } = this.props;
-        this.props.dispatch(removeItem(product));
-    }
+    const query = `${product.slug}-${product.id}`.trim();
 
-    render() {
-        const { product } = this.props;
-        // Views
-        const thumbnailImage = WPProductThumbnailView(product);
-
-        const query = `${product.slug}-${product.id}`.trim();
-
-        return (
-            <div className="ps-product--cart-mobile">
-                <div className="ps-product__thumbnail">
-                    <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
-                        <a>{thumbnailImage}</a>
-                    </Link>
-                </div>
-                <div className="ps-product__content">
-                    <a
-                        className="ps-product__remove"
-                        onClick={(e) => this.removeCartItem()}>
-                        <i className="icon-cross"></i>
-                    </a>
-                    <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
-                        <a className="font-bold">{product.name}</a>
-                    </Link>
-                    <p>
-                        <strong>Sold by:</strong>{" "}
-                        {product.store && product.store.name}
-                    </p>
-                    <small>
-                        {product.quantity} x €{product.price}
-                    </small>
-                </div>
+    return (
+        <div className="ps-product--cart-mobile">
+            <div className="ps-product__thumbnail">
+                <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
+                    <a>{thumbnailImage}</a>
+                </Link>
             </div>
-        );
-    }
+            <div className="ps-product__content">
+                <a
+                    className="ps-product__remove"
+                    style={{cursor: "pointer"}}
+                    onClick={(e) => removeCartItem()}>
+                    <i className="bi bi-trash"></i>
+                </a>
+                <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
+                    <a className="font-bold">{product.name}</a>
+                </Link>
+                <p>
+                    <strong>Sold by:</strong>{" "}
+                    {product.store && product.store.name}
+                </p>
+                <small>
+                    {product.quantity} x €{product.price}
+                </small>
+            </div>
+        </div>
+    );
 }
 
-export default connect()(WPProductOnCart);
+
+

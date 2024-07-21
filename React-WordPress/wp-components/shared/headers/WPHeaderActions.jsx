@@ -1,18 +1,17 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+"use client";
 import Link from "next/link";
 import AccountQuickLinks from "~/app/components/shared/headers/modules/AccountQuickLinks";
 import WPMiniCart from "~/wp-components/shared/headers/WPMiniCart";
+import { useAppSelector } from "@/redux-store/hooks";
 
-class WPHeaderActions extends Component {
-    constructor(props) {
-        super(props);
-    }
+export default function  WPHeaderActions(){
+        const auth = useAppSelector(state=>state.auth)
+        const comapre = useAppSelector(state=>state.compare)
+        const wishlist = useAppSelector(state=>state.wishlist)
 
-    render() {
-        const { compare, wishlist, auth } = this.props;
+        // const { compare, wishlist, auth } = this.props;
         // Views
-        let accountView = <AccountQuickLinks isLoggedIn={false} />;
+        let accountView = <AccountQuickLinks isLoggedIn={auth.isLoggedIn} />;
         return (
             <div className="header__actions">
                 <div
@@ -58,7 +57,7 @@ class WPHeaderActions extends Component {
                                     right: "-2px",
                                     width: 17,
                                 }}>
-                                <i>{0}</i>
+                                <i>{wishlist.wishlistTotal}</i>
                             </span>
                         </span>
                     </Link>
@@ -76,10 +75,10 @@ class WPHeaderActions extends Component {
             </div>
         );
     }
-}
 
-const mapStateToProps = (state) => {
-    return state;
-};
 
-export default connect(mapStateToProps)(WPHeaderActions);
+// const mapStateToProps = (state) => {
+//     return state;
+// };
+
+// export default connect(mapStateToProps)(WPHeaderActions);

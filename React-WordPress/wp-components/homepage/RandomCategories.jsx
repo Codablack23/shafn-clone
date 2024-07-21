@@ -43,7 +43,9 @@ function RandomCategories() {
 
     return (
         <>
-            {categories &&
+        <div className="" >
+        
+        {categories &&
                 categories.map((category) => (
                     <WPProductList
                         key={category.id}
@@ -51,6 +53,10 @@ function RandomCategories() {
                         title={category.name}
                     />
                 ))}
+        
+       
+        </div>
+         
         </>
     );
 }

@@ -1,7 +1,7 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import Router, { useRouter } from "next/router";
-import Head from "next/head";
+import Router, { useRouter } from "next/navigation";
 import WPProductDetail from "~/wp-components/elements/products/WPProductDetail";
 import WPProductRepository from "~/repositories/WP/WPProductRepository";
 import WPHeaderProduct from "~/wp-components/shared/headers/WPHeaderProduct";
@@ -17,8 +17,11 @@ import WPModuleDefaultDescription from "~/wp-components/elements/products/module
 import { addRecentlyViewedProduct } from "~/store/recently-viewed-products/action";
 import { scrollPageToTop } from "~/utilities/common-helpers";
 
-const WPProductDetailPage = ({ pid }) => {
-    const dispatch = useDispatch();
+//make this function a default export
+// do it like this
+// export default function WPProductDetailPage({pid}){
+export default function WPProductDetailPage({ params }){
+    // const dispatch = useDispatch()
     const router = useRouter();
 
     const [product, setProduct] = useState(null);
@@ -27,8 +30,11 @@ const WPProductDetailPage = ({ pid }) => {
     const [loading, setLoading] = useState(true);
     const [relatedProducts, setRelatedProducts] = useState(null);
 
+    const slugs = params.pid.split("-");
+    const pid = slugs[slugs.length - 1];
     // Get your product by ID from API
     async function getProduct(productID) {
+        console.log(productID)
         const WPProduct = await WPProductRepository.getProductByID(productID);
         if (WPProduct) {
             // Get related product data
@@ -53,42 +59,33 @@ const WPProductDetailPage = ({ pid }) => {
                 250
             );
         } else {
-            await router.push("/page/page-404", "/404");
+            // router.push("/page/page-404", "/404");
         }
+        console.log(WPProduct)
         return WPProduct;
     }
 
-    async function getProductOnChangeURL(url) {
-        const isProductRoute = url.includes("/product/");
-        const nextPid = url.split("-").pop();
-        if (
-            isProductRoute &&
-            nextPid !== "" &&
-            isNaN(parseInt(nextPid)) === false
-        ) {
-            setLoading(true);
-            await getProduct(nextPid);
-            setLoading(false);
-        }
-    }
+    // async function getProductOnChangeURL(url) {
+    //     const isProductRoute = url.includes("/product/");
+    //     const nextPid = url.split("-").pop();
+    //     if (
+    //         isProductRoute &&
+    //         nextPid !== "" &&
+    //         isNaN(parseInt(nextPid)) === false
+    //     ) {
+    //         setLoading(true);
+    //         await getProduct(nextPid);
+    //         setLoading(false);
+    //     }
+    // }
 
     useEffect(() => {
-        if (isNaN(pid)) {
-            Router.push("/page/page-404");
-        }
-
+        console.log(pid);
         if (pid) {
-            getProduct(pid)
-                .then((res) => dispatch(addRecentlyViewedProduct(res)))
-                .catch((err) => console.log(err));
+            getProduct(parseInt(pid))
         }
 
-        router.events.on("routeChangeStart", getProductOnChangeURL);
-
-        return () => {
-            router.events.off("routeChangeStart", getProductOnChangeURL);
-        };
-    }, []);
+    }, [router]);
 
     // View area
     let productView, headerView, widgetView;
@@ -120,26 +117,6 @@ const WPProductDetailPage = ({ pid }) => {
 
     return (
         <div ref={scrollPageToTop}>
-            {/* <Head>
-                {product && (
-                    <>
-                        <meta property="og:title" content={product.name} />
-                        <meta property="og:type" content="product" />
-                        <meta
-                            property="og:image"
-                            content={product.images[0].src}
-                        />
-                        <meta
-                            property="og:url"
-                            content={window.location.href}
-                        />
-                        <meta
-                            name="twitter:card"
-                            content="summary_large_image"
-                        />
-                    </>
-                )}
-            </Head> */}
             <WPLayoutProductDetail
                 title={product ? product.name : "Loading..."}>
                 <WPHeaderDefault />
@@ -163,11 +140,4 @@ const WPProductDetailPage = ({ pid }) => {
         </div>
     );
 };
-
-WPProductDetailPage.getInitialProps = async ({ query }) => {
-    let product_id = query.pid.split("-").pop();
-
-    return { pid: product_id };
-};
-
-export default connect()(WPProductDetailPage);
+// delete this on every page

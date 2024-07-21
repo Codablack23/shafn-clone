@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+"use client";
+import { Component } from 'react';
 
 import Slider from 'react-slick';
 import Link from 'next/link';

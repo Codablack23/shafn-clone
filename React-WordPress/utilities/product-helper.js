@@ -1,5 +1,3 @@
-import React from "react";
-
 export function formatCurrency(num) {
     if (num !== undefined) {
         return parseFloat(num)
