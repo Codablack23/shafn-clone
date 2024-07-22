@@ -34,7 +34,7 @@ export default function WPProductDetailPage({ params }){
     const pid = slugs[slugs.length - 1];
     // Get your product by ID from API
     async function getProduct(productID) {
-        console.log(productID)
+        // console.log(productID)
         const WPProduct = await WPProductRepository.getProductByID(productID);
         if (WPProduct) {
             // Get related product data

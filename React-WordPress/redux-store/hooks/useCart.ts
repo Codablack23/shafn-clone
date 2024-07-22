@@ -9,6 +9,7 @@ import { notification } from "antd";
 export function useCart(){
     const cartState = useAppSelector(state => state.cart);
     const dispatch = useAppDispatch()
+
     useEffect(()=>{
         const getLocalCartObject=()=>{
             const localCart = localStorage.getItem("persist:martfury");
@@ -22,7 +23,7 @@ export function useCart(){
             }
         }
         const localCartObject = getLocalCartObject()
-        dispatch(update_cart_success(localCartObject))
+        dispatch(update_cart_success(localCartObject));
     },[])
 
     // useEffect(()=>{
@@ -133,16 +134,18 @@ export function useCartFunctions(){
             cart: JSON.stringify(updatedState),
         }));
         dispatch(update_cart_success(updatedState))
+        notification.success({
+            message: "Success",
+            description: "This product has been added to your cart!",
+            duration: 1,
+        })
     }
 
     const removeFromCart = (product:CartItem)=>{
         const localStorageData  = JSON.parse(localStorage.getItem("persist:martfury") as string);
         const cartItems:CartItem[] = getLocalCartObject().cartItems
 
-        const updatedCartItems =  cartItems.filter (cartItem =>
-            cartItem.id !== product.id
-            && cartItem.variation_id !== product.variation_id
-        )
+        const updatedCartItems =  cartItems.filter (cartItem =>cartItem.id !== product.id)
         const cartTotal = updatedCartItems.map(item=>item.quantity).reduce((a,b)=>a + b,0)
         const amount = updatedCartItems.map(item=>item.quantity * item.price).reduce((a,b)=>a + b,0)
         const updatedState = {
@@ -156,6 +159,11 @@ export function useCartFunctions(){
             cart: JSON.stringify(updatedState),
         }));
         dispatch(update_cart_success(updatedState))
+        notification.warning({
+            message: "Remove A Item",
+            description: "This product has been removed from your cart!",
+            duration: 1,
+        });
 
     }
     return {

@@ -1,6 +1,3 @@
-import React, { Component } from "react";
-
-import Slider from "react-slick";
 import { getItemBySlug } from "@/utilities/product-helper";
 import Promotion from "@/app/components/elements/media/Promotion";
 import BannerItem from "~/app/components/elements/media/BannerItem";

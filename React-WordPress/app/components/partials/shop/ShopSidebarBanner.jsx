@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Slider from 'react-slick';
 import Link from 'next/link';
-import { carouselSingle } from '../../../utilities/carousel-helpers';
+import { carouselSingle } from '@/utilities/carousel-helpers';
 
 class ShopSidebarBanner extends Component {
     render() {

@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from 'react';
 import RelatedPosts from '~/app/components/partials/post/RelatedPosts';
 import PostComments from '~/app/components/partials/post/PostComments';
@@ -7,7 +8,8 @@ import WPLayout from '~/wp-components/layouts/WPLayout';
 import SkeletonSinglePost from '~/app/components/elements/skeletons/SkeletonSinglePost';
 import { scrollPageToTop } from '~/utilities/common-helpers';
 
-const WPSinglePost = ({ query }) => {
+const WPSinglePost = ({ params }) => {
+    const query = params.pid
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -60,8 +62,5 @@ const WPSinglePost = ({ query }) => {
     );
 };
 
-WPSinglePost.getInitialProps = async ({ query }) => {
-    return { query: query };
-};
 
 export default WPSinglePost;

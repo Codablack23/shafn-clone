@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import CountDownSimple from '../../../elements/CountDownSimple';
+import CountDownSimple from '@/app/components/elements/CountDownSimple';
 import Link from 'next/link';
-import Product from '../../../elements/products/Product';
+import Product from '@/app/components/elements/products/Product';
 import Slider from 'react-slick';
-import { carouselStandard } from '../../../../utilities/carousel-helpers';
+import { carouselStandard } from '@/utilities/carousel-helpers';
 import { connect } from 'react-redux';
-import { getColletionBySlug } from '../../../../utilities/product-helper';
+import { getColletionBySlug } from '@/utilities/product-helper';
 
 class MarketPlaceDealOfDay extends Component {
     constructor(props) {

@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import LazyLoad from "react-lazyload";
 import Link from "next/link";
 import { Modal } from "antd";
 import ProductDetailQuickView from "../detail/ProductDetailQuickView";
 import Rating from "../Rating";
-import { baseUrl } from "../../../repositories/Repository";
-import { formatCurrency } from "../../../utilities/product-helper";
-import { addItem } from "../../../store/cart/action";
-import { addItemToCompare } from "../../../store/compare/action";
-import { addItemToWishlist } from "../../../store/wishlist/action";
-import { isStaticData } from "../../../utilities/app-settings";
+import { baseUrl } from "@/repositories/Repository";
+import { formatCurrency } from "@/utilities/product-helper";
+// import { addItem } from "../../../store/cart/action";
+// import { addItemToCompare } from "../../../store/compare/action";
+// import { addItemToWishlist } from "../../../store/wishlist/action";
+import { isStaticData } from "@/utilities/app-settings";
 
 class Product extends Component {
     constructor(props) {
@@ -23,29 +22,29 @@ class Product extends Component {
     handleAddItemToCart = (e) => {
         e.preventDefault();
         const { product } = this.props;
-        this.props.dispatch(addItem(product));
+        // this.props.dispatch(addItem(product));
     };
 
     handleAddItemToCompare = (e) => {
         e.preventDefault();
         const { product } = this.props;
-        this.props.dispatch(addItemToCompare(product));
+        // this.props.dispatch(addItemToCompare(product));
     };
 
     handleAddItemToWishlist = (e) => {
         e.preventDefault();
         const { product } = this.props;
-        this.props.dispatch(addItemToWishlist(product));
+        // this.props.dispatch(addItemToWishlist(product));
     };
 
     handleShowQuickView = (e) => {
         e.preventDefault();
-        this.setState({ isQuickView: true });
+        // this.setState({ isQuickView: true });
     };
 
     handleHideQuickView = (e) => {
         e.preventDefault();
-        this.setState({ isQuickView: false });
+        // this.setState({ isQuickView: false });
     };
 
     render() {

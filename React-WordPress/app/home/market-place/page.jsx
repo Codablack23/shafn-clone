@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useRef } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import MarketPlaceProductBox from '~/app/components/partials/homepage/marketplace/MarketPlaceProductBox';
@@ -21,7 +22,6 @@ const WPProductDetailPage = ({ pid }) => {
 }
 
 const HomeMarketPlacePage = () => {
-    const dispatch = useDispatch();
 
     useEffect(() => {
         const collectionsSlug = ['deal-of-the-day'];
@@ -32,8 +32,7 @@ const HomeMarketPlacePage = () => {
             'garden-and-kitchen',
             'health-and-beauty',
         ];
-        dispatch(getCollections(collectionsSlug));
-        dispatch(getCategories(categoriesSlug));
+
     }, []);
 
     return (
@@ -50,4 +49,4 @@ const HomeMarketPlacePage = () => {
         </div>
     );
 };
-export default connect()(HomeMarketPlacePage);
+export default HomeMarketPlacePage;

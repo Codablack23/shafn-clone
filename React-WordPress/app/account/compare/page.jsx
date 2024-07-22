@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import WPCompare from '~/wp-components/account/WPCompare';

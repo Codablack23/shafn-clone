@@ -1,31 +1,35 @@
-import React, { Component } from "react";
-import Slider from "react-slick";
-import NextArrow from "../../elements/carousel/NextArrow";
-import PrevArrow from "../../elements/carousel/PrevArrow";
+
+import { Splide, SplideSlide } from "@splidejs/react-splide";
 
 export default function ShopBanner(){
-    // const carouselSetting = {
-    //     dots: false,
-    //     arrows: true,
-    //     infinite: true,
-    //     speed: 1000,
-    //     slidesToShow: 1,
-    //     slidesToScroll: 1,
-    //     nextArrow: <NextArrow />,
-    //     prevArrow: <PrevArrow />,
-    // }
+
+    const sliderOptions = {
+        perPage:1,
+        type:"loop",
+        gap:"2em",
+        arrows:false,
+        interval:10000,
+        speed:500,
+        autoplay:true,
+        pagination:true,
+        rewind:true,
+    }
     return (
         <div className="ps-shop-banner">
-            {/* <Slider {...carouselSetting} className="ps-carousel"> */}
-                <img
-                    src="/static/img/slider/shop-default/1.jpg"
-                    alt="martfury"
-                />
-                <img
-                    src="/static/img/slider/shop-default/2.jpg"
-                    alt="martfury"
-                />
-            {/* </Slider> */}
+            <Splide aria-label="My Favorite Images" options={sliderOptions}>
+                <SplideSlide>
+                    <img
+                        src="/static/img/slider/shop-default/1.jpg"
+                        alt="martfury"
+                    />
+                </SplideSlide>
+                <SplideSlide>
+                    <img
+                        src="/static/img/slider/shop-default/2.jpg"
+                        alt="martfury"
+                    />
+                </SplideSlide>
+            </Splide>
         </div>
     );
 }

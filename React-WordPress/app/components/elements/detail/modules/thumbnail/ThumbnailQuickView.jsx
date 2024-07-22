@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Slider from 'react-slick';
 import NextArrow from '../../../carousel/NextArrow';
 import PrevArrow from '../../../carousel/PrevArrow';
-import { baseUrl } from '../../../../../repositories/Repository';
+import { baseUrl } from '@/repositories/Repository';
 import ThumbnailImage from '../elements/ThumbnailImage';
 import StaticThumbnailImage from '../elements/StaticThumbnailImage';
 

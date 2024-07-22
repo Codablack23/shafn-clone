@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useLayoutEffect } from "react";
 import Router from "next/router";
 import UserInformation from "~/app/components/partials/account/UserInformation";

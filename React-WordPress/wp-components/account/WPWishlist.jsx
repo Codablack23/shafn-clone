@@ -1,32 +1,27 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { addItem } from "~/store/cart/action";
-import { removeWishlistItem } from "~/store/wishlist/action";
-import WPProductCart, {
+"use client";
+
+import  {
     CustomProductCart,
 } from "~/wp-components/elements/products/WPProductCart";
 import { Button } from "~/utilities/WPHelpers";
-class WPWishlist extends Component {
-    constructor(props) {
-        super(props);
-    }
+import { useAppSelector } from "@/redux-store/hooks";
+import { useCartFunctions } from "@/redux-store/hooks/useCart";
+import { useWishlistFunctions } from "@/redux-store/hooks/useWishList";
 
-    handleAddItemToCart = (e, product) => {
-        this.props.dispatch(addItem(product));
+export default function WPWishlist(){
+
+    const {wishlistItems} = useAppSelector(state=>state.wishlist)
+    const {removeFromWishlist} = useWishlistFunctions()
+    const {addToCart} = useCartFunctions()
+
+    const handleAddItemToCart = (product) => {
+        addToCart(product)
     };
 
-    handleRemoveWishListItem = (e, product) => {
-        e.preventDefault();
-
-        this.props.dispatch(removeWishlistItem(product));
+    const handleRemoveWishListItem = (product) => {
+        removeFromWishlist(product)
     };
 
-    // call = (product) => {
-    //     this.props.dispatch(removeWishlistItem(product));
-    // };
-
-    render() {
-        const { wishlistItems } = this.props;
         // views
         let wishlistView;
         if (wishlistItems && wishlistItems.length > 0) {
@@ -50,7 +45,7 @@ class WPWishlist extends Component {
                             classes={`w3-black w3-border w3-hover-white rounded btn-hover`}
                             hoverColor="black"
                             eventHandler={(e) => {
-                                this.handleAddItemToCart(e, product);
+                                handleAddItemToCart(product);
                             }}
                             text="Add to cart"
                         />
@@ -65,7 +60,7 @@ class WPWishlist extends Component {
                         <a
                             href="#"
                             onClick={(e) =>
-                                this.handleRemoveWishListItem(e, product)
+                                handleRemoveWishListItem(product)
                             }>
                             <i className="bi bi-trash w3-text-black"></i>
                         </a>
@@ -101,9 +96,6 @@ class WPWishlist extends Component {
                 </div>
             </div>
         );
-    }
+
 }
-const mapStateToProps = (state) => {
-    return state.wishlist;
-};
-export default connect(mapStateToProps)(WPWishlist);
+

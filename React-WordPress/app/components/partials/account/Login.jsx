@@ -7,11 +7,11 @@ import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
 // import OAuth from "./modules/OAuth";
 
 import { Form, Input, notification, Spin } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppSelector,useAppDispatch } from "@/redux-store/hooks";
 
 function Login() {
-    const dispatch = useDispatch();
-    const auth = useSelector((state) => state.auth);
+    const dispatch = useAppDispatch();
+    const auth = useAppSelector((state) => state.auth);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -44,7 +44,8 @@ function Login() {
                     const customer = await WPCustomerRepository.getCustomer(
                         _user.user_id
                     );
-                    Router.push("/");
+                    // Router.push("/");
+                    console.log(user);
                 } else {
                     notification["error"]({
                         message: "Not a customer account",
@@ -54,14 +55,7 @@ function Login() {
                 console.log(error);
                 notification["error"]({
                     message: "Unable to login user",
-                    description:
-                        error.response === undefined
-                            ? ReactHtmlParser(String(error))
-                            : error.response.data !== undefined
-                            ? ReactHtmlParser(error.response.data.message)
-                            : error.message
-                            ? ReactHtmlParser(error.message)
-                            : null,
+                    description:error.response || error.response.data || error.message
                 });
             } finally {
                 setIsLoading(false);

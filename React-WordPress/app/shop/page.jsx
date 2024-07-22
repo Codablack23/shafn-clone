@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useSearchParams } from "next/navigation";
 import { getProductsByCategory } from "~/store/product/action";
@@ -15,29 +15,33 @@ import WPProductRepository from "~/repositories/WP/WPProductRepository";
 import WPLayoutFullwidth from "~/wp-components/layouts/WPLayoutFullwidth";
 // import WPShopCategories from "~/wp-components/shop/WPShopCategories";
 import { scrollPageToTop } from "~/utilities/common-helpers";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
+import axios from "axios";
 
 
 //make this function a default export
 //export default function WPProductDetailPage({pid}){
+
 
 const WPProductDetailPage = ({ pid }) => {
     const dispatch = useDispatch()
     const router = useRouter();
 
 }
-
+let productReqSource;
 export default function WPShopPage() {
-    // const dispatch = useDispatch();
-    // const router = useRouter();
-    const params = useSearchParams()
-    const category = params.get("categories")
 
-    const [categoryName, setCategoryName] = useState(null);
+    // const dispatch = useDispatch();
+    const router = useRouter();
+    const params = useSearchParams()
+    const category = params.get("category")
+
+    const [WPLoading, setWPLoading] = useState(true)
+    const [WPProducts, setWPProducts] = useState(null)
 
     // async function getCategory(id) {
-    //     const category = await WPProductRepository.getCategoryByID(35);
-    //     console.log({category})
+    //     const categoryRes = await WPProductRepository.getCategoryByID(category);
+    //     console.log({categoryRes})
     //     if (category) {
     //         setCategoryName(category.name);
     //         return category;
@@ -46,67 +50,30 @@ export default function WPShopPage() {
     //     }
     // }
 
-    // async function getShopOnChangeUrl(url) {
-    //     const isShopRoute = url.includes("/shop");
-    //     const categoryId = url.split("category=").pop();
-    //     console.log({
-    //         categoryId
-    //     })
-    //     if (
-    //         isShopRoute &&
-    //         categoryId !== "" &&
-    //         isNaN(parseInt(categoryId)) === false
-    //     ) {
-    //         const queries = {
-    //             page: 1,
-    //             per_page: 24,
-    //             category: categoryId,
-    //         };
-
-    //         dispatch(WPGetProducts(queries));
-    //         getCategory(categoryId);
-    //     } else {
-    //         const queries = {
-    //             page: 1,
-    //             per_page: 24,
-    //         };
-    //         dispatch(WPGetProducts(queries));
-    //     }
-    // }
-
     async function getProducts(){
-        if(category){
-            const queries = {page: 1,per_page: 24,category,};
-            // dispatch(WPGetProducts(queries));
-            // getCategory(category);
-        }else{
-            const queries = { page: 1,per_page: 24,};
-            // dispatch(WPGetProducts(queries));
+        if(!category){
+            const queries = {page: 1,per_page: 16}
+            productReqSource = axios.CancelToken.source();
+            setWPLoading(true)
+            const res = await WPProductRepository.getProducts(queries,productReqSource.token)
+            setWPLoading(false)
+            if(res){
+                setWPProducts(res)
+            }
+            return;
         }
+        const queries = {page: 1,per_page: 16,category}
+        productReqSource = axios.CancelToken.source();
+        setWPLoading(true)
+        const res = await WPProductRepository.getProducts(queries,productReqSource.token)
+        setWPLoading(false);
+        if(res) return setWPProducts(res);
     }
 
     useEffect(() => {
         getProducts();
-        // if (query) {
-        //     const queries = {
-        //         page: 1,
-        //         per_page: 24,
-        //     };
-        //     dispatch(WPGetProducts(queries));
+    }, [category,params,router]);
 
-        //     if (query.category) {
-        //         dispatch(getProductsByCategory(query.category));
-        //         getCategory(query.category);
-        //     } else {
-        //     }
-        // }
-
-        // router.events.on("routeChangeStart", getShopOnChangeUrl);
-
-        // return () => {
-        //     router.events.off("routeChangeStart", getShopOnChangeUrl);
-        // };
-    }, [category]);
 
     return (
         <div ref={scrollPageToTop}>
@@ -118,15 +85,17 @@ export default function WPShopPage() {
                         {/* <WPShopCategories /> */}
                         <div className="ps-layout--shop">
                             <div className="ps-layout__left">
-                                <WPWidgetCategories
-                                    activeID={category?category:""}
-                                    page={"shop"}
-                                />
+                               <Suspense fallback={null}>
+                                    <WPWidgetCategories
+                                        activeID={category?category:""}
+                                        page={"shop"}
+                                    />
+                               </Suspense>
                                 {/* <WPWidgetBrand /> */}
                                 <WPWidgetFilterByPrices />
                             </div>
                             <div className="ps-layout__right">
-                                <WPShopProducts />
+                                <WPShopProducts WPProducts={WPProducts} WPLoading={WPLoading} />
                             </div>
                         </div>
                     </div>
@@ -136,8 +105,3 @@ export default function WPShopPage() {
     );
 };
 
-// WPShopPage.getInitialProps = async ({ query }) => {
-//     return { query: query };
-// };
-
-// export default connect()(WPShopPage);

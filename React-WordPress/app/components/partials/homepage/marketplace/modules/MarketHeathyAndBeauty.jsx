@@ -3,9 +3,9 @@ import Link from 'next/link';
 
 import { connect } from 'react-redux';
 import Slider from 'react-slick';
-import ProductSimple from '../../../../elements/products/ProductSimple';
-import { carouselSingle } from '../../../../../utilities/carousel-helpers';
-import { getColletionBySlug } from '../../../../../utilities/product-helper';
+import ProductSimple from '@/app/components/elements/products/ProductSimple';
+import { carouselSingle } from '@/utilities/carousel-helpers';
+import { getColletionBySlug } from '@/utilities/product-helper';
 
 class MarketHeathyAndBeauty extends Component {
     constructor(props) {

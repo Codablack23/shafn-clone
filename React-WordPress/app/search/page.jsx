@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+"use client"
+import React, { Suspense, useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { getProductsByCategory } from "~/store/product/action";
 import { WPGetProducts } from "~/store/wp/action";
@@ -9,6 +10,7 @@ import { generateTempArray, scrollPageToTop } from "~/utilities/common-helpers";
 import SkeletonProduct from "~/app/components/elements/skeletons/SkeletonProduct";
 import { Pagination } from "antd";
 import { useRouter } from 'next/router';
+import { useSearchParams } from "next/navigation";
 
 
 //make this function a default export
@@ -21,39 +23,44 @@ const WPProductDetailPage = ({ pid }) => {
 }
 
 
-const WPSearchPage = ({ query }) => {
+export default function WPSearchPage(){
+    const searchParams = useSearchParams()
+    const paramsKeyword = searchParams.get("keyword")
+
+    const query = {keyword:paramsKeyword}
+
     const [keyword, setKeyword] = useState(null);
     const [products, setProducts] = useState(null);
     const [loading, setLoading] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
 
-    async function getCategory(id) {
-        const category = await WPProductRepository.getCategoryByID(id);
-        if (category) {
-            setCategoryName(category.name);
-            return category;
-        } else {
-            return null;
-        }
-    }
+    // async function getCategory(id) {
+    //     const category = await WPProductRepository.getCategoryByID(id);
+    //     if (category) {
+    //         setCategoryName(category.name);
+    //         return category;
+    //     } else {
+    //         return null;
+    //     }
+    // }
 
-    async function getProductOnChangeURL(url) {
-        const nextPid = url.split("category=").pop();
-        if (nextPid !== "" && isNaN(parseInt(nextPid)) === false) {
-            const queries = {
-                page: 1,
-                per_page: 18,
-                category: nextPid,
-            };
-            dispatch(WPGetProducts(queries));
-        } else {
-            const queries = {
-                page: 1,
-                per_page: 18,
-            };
-            dispatch(WPGetProducts(queries));
-        }
-    }
+    // async function getProductOnChangeURL(url) {
+    //     const nextPid = url.split("category=").pop();
+    //     if (nextPid !== "" && isNaN(parseInt(nextPid)) === false) {
+    //         const queries = {
+    //             page: 1,
+    //             per_page: 18,
+    //             category: nextPid,
+    //         };
+    //         dispatch(WPGetProducts(queries));
+    //     } else {
+    //         const queries = {
+    //             page: 1,
+    //             per_page: 18,
+    //         };
+    //         dispatch(WPGetProducts(queries));
+    //     }
+    // }
 
     async function handlePagination(page, pageSize) {
         if (query && query.keyword) {
@@ -168,7 +175,9 @@ const WPSearchPage = ({ query }) => {
                             <h3>Result for: "{keyword}"</h3>
                         </div> */}
                             <div className="ps-section__content">
+                                <Suspense fallback={null}>
                                 {productItemView}
+                                </Suspense>
                             </div>
                             {paginationView}
                         </section>
@@ -179,8 +188,3 @@ const WPSearchPage = ({ query }) => {
     );
 };
 
-WPSearchPage.getInitialProps = async ({ query }) => {
-    return { query: query };
-};
-
-export default connect()(WPSearchPage);

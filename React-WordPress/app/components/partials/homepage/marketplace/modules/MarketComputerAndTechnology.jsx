@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 
 import Slider from 'react-slick';
-import ProductSimple from '../../../../elements/products/ProductSimple';
-import { carouselSingle } from '../../../../../utilities/carousel-helpers';
-import { getColletionBySlug } from '../../../../../utilities/product-helper';
+import ProductSimple from '@/app/components/elements/products/ProductSimple';
+import { carouselSingle } from '@/utilities/carousel-helpers';
+import { getColletionBySlug } from '@/utilities/product-helper';
 import { connect } from 'react-redux';
 
 class MarketComputerAndTechnology extends Component {

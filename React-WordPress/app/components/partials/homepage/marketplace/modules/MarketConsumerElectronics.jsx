@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
-
 import Slider from 'react-slick';
-import ProductSimple from '../../../../elements/products/ProductSimple';
-import { carouselSingle } from '../../../../../utilities/carousel-helpers';
+import ProductSimple from '@/app/components/elements/products/ProductSimple';
+import { carouselSingle } from '@/utilities/carousel-helpers';
 import { connect } from 'react-redux';
-import { getColletionBySlug } from '../../../../../utilities/product-helper';
+import { getColletionBySlug } from '@/utilities/product-helper';
 
 class MarketConsumerElectronics extends Component {
     constructor(props) {

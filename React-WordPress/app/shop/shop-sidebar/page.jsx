@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+"use client";
+import React, { Suspense, useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { getProductsByCategory } from '~/store/product/action';
@@ -13,7 +14,8 @@ import WPProductRepository from '~/repositories/WP/WPProductRepository';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import ShopSidebarBanner from '~/app/components/partials/shop/ShopSidebarBanner';
 import { scrollPageToTop } from '~/utilities/common-helpers';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
+// import { useRouter } from 'next/router';
 
 
 //make this function a default export
@@ -25,8 +27,11 @@ const WPProductDetailPage = ({ pid }) => {
 
 }
 
-const WPShopSidebarPage = ({ query }) => {
-    const dispatch = useDispatch();
+const WPShopSidebarPage = () => {
+    const searchParams = useSearchParams()
+    const paramsCategory = searchParams.get("category")
+
+    const query = {category:paramsCategory}
     const router = useRouter();
     const [categoryName, setCategoryName] = useState(null);
 
@@ -88,9 +93,11 @@ const WPShopSidebarPage = ({ query }) => {
                     <div className="container">
                         <div className="ps-layout--shop" id="shop-sidebar">
                             <div className="ps-layout__left">
-                                <WPWidgetCategories
-                                    activeID={query && query.category}
-                                />
+                                <Suspense fallback={null}>
+                                    <WPWidgetCategories
+                                        activeID={query && query.category}
+                                    />
+                                </Suspense>
                                 <WPWidgetBrand />
                                 <WPWidgetFilterByPrices />
                             </div>
@@ -109,8 +116,4 @@ const WPShopSidebarPage = ({ query }) => {
     );
 };
 
-WPShopSidebarPage.getInitialProps = async ({ query }) => {
-    return { query: query };
-};
-
-export default connect()(WPShopSidebarPage);
+export default WPShopSidebarPage;

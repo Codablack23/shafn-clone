@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { notification, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import PhoneInput from "react-phone-number-input";
-import ReactHtmlParser from "react-html-parser";
 
-import { updateAuth } from "~/store/auth/action";
+// import { updateAuth } from "~/store/auth/action";
 import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
 import WPDataRepository from "~/repositories/WP/WPDataRepository";
 
@@ -79,7 +78,7 @@ function FormEditBillingAddress() {
                     { billing }
                 );
 
-                dispatch(updateAuth(_customer));
+                // dispatch(updateAuth(_customer));
 
                 notification["success"]({
                     message: "Update successful",
@@ -87,10 +86,7 @@ function FormEditBillingAddress() {
             } catch (error) {
                 notification["error"]({
                     message: "Unable to update billing info",
-                    description:
-                        error.response === undefined
-                            ? ReactHtmlParser(String(error))
-                            : ReactHtmlParser(error.response.data.message),
+                    description:error.response || error ||error.response.data.message
                 });
             } finally {
                 setIsSaving(false);

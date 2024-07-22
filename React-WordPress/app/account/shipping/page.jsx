@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { getCart } from '~/store/cart/action';
@@ -34,4 +35,4 @@ const ShippingPage = () => {
     );
 };
 
-export default connect()(ShippingPage);
+export default ShippingPage;

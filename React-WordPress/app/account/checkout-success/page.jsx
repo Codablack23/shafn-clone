@@ -1,21 +1,17 @@
-import React, { use, useEffect, useState } from "react";
-import { connect, useDispatch } from "react-redux";
+"use client";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import WPLayout from "~/wp-components/layouts/WPLayout";
 import { scrollPageToTop } from "~/utilities/common-helpers";
 import { clearCheckoutItems } from "~/store/checkout-items/action";
 import { removeItems } from "~/store/cart/action";
 import { loadStripe } from "@stripe/stripe-js";
 import { Spin } from "antd";
-import { pid } from "process";
 import { useRouter } from "next/router";
 
 //make this function a default export
 //export default function WPProductDetailPage({pid}){
 
-const WPProductDetailPage = ({ pid }) => {
-    const dispatch = useDispatch()
-    const router = useRouter();
-}
 
 const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -25,7 +21,7 @@ const stripePromise = loadStripe(
     return;
 });
 
-const CheckoutSuccessPage = () => {
+export default function CheckoutSuccessPage(){
     const dispatch = useDispatch();
 
     const [orderNumber, setOrderNumber] = useState("");
@@ -105,4 +101,3 @@ const CheckoutSuccessPage = () => {
     );
 };
 
-export default connect()(CheckoutSuccessPage);

@@ -5,47 +5,50 @@ import Router from "next/router";
 import { formatCurrency } from "~/utilities/product-helper";
 import { addItem } from "~/store/cart/action";
 import { addCheckoutItem } from "~/store/checkout-items/action";
-
 import { Button } from "~/utilities/WPHelpers";
-
 import SocialShareButtons from "~/app/components/elements/media/SocialShareButtons";
+import { useAppDispatch, useAppSelector } from "@/redux-store/hooks";
+import { useCartFunctions } from "@/redux-store/hooks/useCart";
 
-const WPModuleProductInformation = ({ product, variant, children }) => {
-    const dispatch = useDispatch();
+export default function  WPModuleProductInformation({ product, variant, children }){
+    
+    const {cartItems,cartTotal,amount} = useAppSelector(state=>state.cart)
+    const {addToCart} = useCartFunctions()
+    const dispatch = useAppDispatch();
     const [quantity, setQuantity] = useState(1);
 
     const handleAddToCheckoutItems = () => {
-        let item;
-        if (product.type === "variable") {
-            if (variant) {
-                const options = variant.attributes
-                    .map((attribute) => attribute.option)
-                    .join(", ");
+        // let item;
+        // if (product.type === "variable") {
+        //     if (variant) {
+        //         const options = variant.attributes
+        //             .map((attribute) => attribute.option)
+        //             .join(", ");
 
-                const _product = {
-                    ...product,
-                    name: `${product.name}[${options}]`,
-                    price: variant.price,
-                    variation_id: variant.id,
-                };
+        //         const _product = {
+        //             ...product,
+        //             name: `${product.name}[${options}]`,
+        //             price: variant.price,
+        //             variation_id: variant.id,
+        //         };
 
-                item = {
-                    amount: variant.price,
-                    cartItems: [{ ..._product, quantity }],
-                    cartTotal: 1,
-                };
-            }
-        } else {
-            item = {
-                amount: product.price,
-                cartItems: [{ ...product, quantity, variation_id: 0 }],
-                cartTotal: 1,
-            };
-        }
+        //         item = {
+        //             amount: variant.price,
+        //             cartItems: [{ ..._product, quantity }],
+        //             cartTotal: 1,
+        //         };
+        //     }
+        // } else {
+        //     item = {
+        //         amount: product.price,
+        //         cartItems: [{ ...product, quantity, variation_id: 0 }],
+        //         cartTotal: 1,
+        //     };
+        // }
 
-        dispatch(addCheckoutItem(item));
+        // dispatch(addCheckoutItem(item));
 
-        Router.push("/account/checkout");
+        // Router.push("/account/checkout");
     };
 
     const handleAddItemToCart = (e) => {
@@ -54,6 +57,7 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
         let _product = {
             ...product,
             variation_id: 0,
+            quantity,
             variation_stock_quantity: 0,
         };
 
@@ -71,9 +75,10 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
                     variation_stock_quantity: variant.stock_quantity,
                 };
             }
-        }
 
-        dispatch(addItem({ ..._product, quantity }));
+        }
+        addToCart(_product)
+
     };
 
     const handleIncreaseItemQty = (e) => {
@@ -232,7 +237,3 @@ const WPModuleProductInformation = ({ product, variant, children }) => {
     );
 };
 
-const mapStateToProps = (state) => {
-    return state.cart;
-};
-export default connect(mapStateToProps)(WPModuleProductInformation);

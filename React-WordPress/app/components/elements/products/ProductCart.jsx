@@ -1,15 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
-import LazyLoad from 'react-lazyload';
-import { isStaticData } from '../../../utilities/app-settings';
-import { baseUrl } from '../../../repositories/Repository';
+// import LazyLoad from 'react-lazyload';
+import { isStaticData } from '@/utilities/app-settings';
+import { baseUrl } from '@/repositories/Repository';
 const ProductCart = ({ product }) => {
     return (
         <div className="ps-product--cart">
             <div className="ps-product__thumbnail">
                 <Link legacyBehavior href="/product/[pid]" as={`/product/${product.id}`}>
                     <a>
-                        <LazyLoad>
                             <img
                                 src={
                                     isStaticData === false
@@ -18,7 +17,8 @@ const ProductCart = ({ product }) => {
                                 }
                                 alt="martfury"
                             />
-                        </LazyLoad>
+                        {/* <LazyLoad>
+                        </LazyLoad> */}
                     </a>
                 </Link>
             </div>

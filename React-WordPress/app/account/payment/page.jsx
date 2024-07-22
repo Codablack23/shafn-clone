@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect } from 'react';
 import { useDispatch, connect } from 'react-redux';
 import { getCart } from '~/store/cart/action';
@@ -9,11 +11,6 @@ import { useRouter } from 'next/router';
 
 //make this function a default export
 //export default function WPProductDetailPage({pid}){
-
-const WPProductDetailPage = ({ pid }) => {
-    const dispatch = useDispatch()
-    const router = useRouter();
-}
 
 
 const PaymentPage = () => {
@@ -33,4 +30,4 @@ const PaymentPage = () => {
     );
 };
 
-export default connect()(PaymentPage);
+export default PaymentPage;

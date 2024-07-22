@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import InvoiceDetail from '~/app/components/partials/account/InvoiceDetail';
 import { scrollPageToTop } from '~/utilities/common-helpers';

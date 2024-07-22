@@ -1,15 +1,9 @@
-import React, { Component } from 'react';
 import MyAccount2 from '~/app/components/partials/account/MyAccount2';
-import { scrollPageToTop } from '~/utilities/common-helpers';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 
-class MyAccountPage2 extends Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
+function MyAccountPage2() {
         return (
-            <div ref={scrollPageToTop}>
+            <div>
                 <WPLayout>
                     <div className="ps-page--my-account">
                         <MyAccount2 />
@@ -17,7 +11,6 @@ class MyAccountPage2 extends Component {
                 </WPLayout>
             </div>
         );
-    }
 }
 
 export default MyAccountPage2;

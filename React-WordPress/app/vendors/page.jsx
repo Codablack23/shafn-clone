@@ -1,3 +1,4 @@
+"use client";
 import WPStores from '~/wp-components/store/WPStores';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 

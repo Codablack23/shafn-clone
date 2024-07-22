@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addItem } from "../../../store/cart/action";
-import { addItemToCompare } from "../../../store/compare/action";
-import { addItemToWishlist } from "../../../store/wishlist/action";
+// import { addItem } from "../../../store/cart/action";
+// import { addItemToCompare } from "../../../store/compare/action";
+// import { addItemToWishlist } from "../../../store/wishlist/action";
 import Link from "next/link";
 import { Rate, Modal } from "antd";
 import ProductDetailQuickView from "../detail/ProductDetailQuickView";
 import Rating from "../Rating";
-import { formatCurrency } from "../../../utilities/product-helper";
-import { isStaticData } from "../../../utilities/app-settings";
-import { baseUrl } from "../../../repositories/Repository";
+import { formatCurrency } from "@/utilities/product-helper";
+import { isStaticData } from "@/utilities/app-settings";
+import { baseUrl } from "@/repositories/Repository";
 import ThumbnailImage from "../detail/modules/elements/ThumbnailImage";
 
 class ProductSimple extends Component {
@@ -23,19 +23,19 @@ class ProductSimple extends Component {
     handleAddItemToCart = (e) => {
         e.preventDefault();
         const { product } = this.props;
-        this.props.dispatch(addItem(product));
+        // this.props.dispatch(addItem(product));
     };
 
     handleAddItemToCompare = (e) => {
         e.preventDefault();
         const { product } = this.props;
-        this.props.dispatch(addItemToCompare(product));
+        // this.props.dispatch(addItemToCompare(product));
     };
 
     handleAddItemToWishlist = (e) => {
         e.preventDefault();
         const { product } = this.props;
-        this.props.dispatch(addItemToWishlist(product));
+        // this.props.dispatch(addItemToWishlist(product));
     };
 
     handleShowQuickView = (e) => {

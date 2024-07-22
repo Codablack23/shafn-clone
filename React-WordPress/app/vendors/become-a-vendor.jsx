@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import VendorBanner from '~/app/components/partials/vendor/VendorBanner';
 import VendorAbout from '~/appcomponents/partials/vendor/VendorAbout';

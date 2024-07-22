@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { notification, Spin } from "antd";
 import { useDispatch, connect } from "react-redux";
-import ReactHtmlParser from "react-html-parser";
-
 import { updateAuth } from "~/store/auth/action";
 import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
 import WPDataRepository from "~/repositories/WP/WPDataRepository";
@@ -71,10 +69,7 @@ function FormEditShippingAddress(auth) {
             } catch (error) {
                 notification["error"]({
                     message: "Unable to update shipping info",
-                    description:
-                        error.response === undefined
-                            ? ReactHtmlParser(String(error))
-                            : ReactHtmlParser(error.response.data.message),
+                    description:error.response || error || error.response.data.message
                 });
             } finally {
                 setIsSaving(false);

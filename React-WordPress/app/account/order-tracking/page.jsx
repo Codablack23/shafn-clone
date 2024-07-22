@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import OrderTracking from '~/app/components/partials/account/OrderTracking';
 import WPLayout from '~/wp-components/layouts/WPLayout';

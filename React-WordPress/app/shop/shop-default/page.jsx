@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+"use client";
+import React, { Suspense, useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { getProductsByCategory } from '~/store/product/action';
@@ -13,7 +14,7 @@ import WPProductRepository from '~/repositories/WP/WPProductRepository';
 import WPLayout from '~/wp-components/layouts/WPLayout';
 import WPShopCategories from '~/wp-components/shop/WPShopCategories';
 import { scrollPageToTop } from '~/utilities/common-helpers';
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 
 
 //make this function a default export
@@ -25,8 +26,11 @@ const WPProductDetailPage = ({ pid }) => {
 
 }
 
-const WPShopDefaultPage = ({ query }) => {
-    const dispatch = useDispatch();
+const WPShopDefaultPage = () => {
+    const searchParams = useSearchParams()
+    const paramsCategory = searchParams.get("category")
+
+    const query = {category:paramsCategory}
     const router = useRouter();
     const [categoryName, setCategoryName] = useState(null);
 
@@ -91,9 +95,11 @@ const WPShopDefaultPage = ({ query }) => {
                         <WPShopCategories sidebar={true} />
                         <div className="ps-layout--shop">
                             <div className="ps-layout__left">
-                                <WPWidgetCategories
-                                    activeID={query && query.category}
-                                />
+                                <Suspense fallback={null}>
+                                    <WPWidgetCategories
+                                        activeID={query && query.category}
+                                    />
+                                </Suspense>
                                 <WPWidgetBrand />
                                 <WPWidgetFilterByPrices />
                             </div>
@@ -108,8 +114,5 @@ const WPShopDefaultPage = ({ query }) => {
     );
 };
 
-WPShopDefaultPage.getInitialProps = async ({ query }) => {
-    return { query: query };
-};
 
-export default connect()(WPShopDefaultPage);
+export default WPShopDefaultPage;

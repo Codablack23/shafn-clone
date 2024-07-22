@@ -7,7 +7,7 @@ import { WPGetProducts } from "~/store/wp/action";
 import { generateTempArray } from "~/utilities/common-helpers";
 import SkeletonProduct from "~/app/components/elements/skeletons/SkeletonProduct";
 
-const WPShopProducts = (props) => {
+export default function WPShopProducts(props){
     const { WPProducts, WPLoading, sidebar } = props;
     const dispatch = useDispatch();
     const [listView, setListView] = useState(true);
@@ -150,4 +150,4 @@ const WPShopProducts = (props) => {
     );
 };
 
-export default connect((state) => state.wp)(WPShopProducts);
+// export default connect((state) => state.wp)(WPShopProducts);

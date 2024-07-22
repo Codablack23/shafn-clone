@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+"use client";
+import React, { Suspense, useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { getProductsByCategory } from "~/store/product/action";
 import { WPGetOnSaleProducts } from "~/store/sales/action";
 
@@ -12,7 +13,7 @@ import WPProductRepository from "~/repositories/WP/WPProductRepository";
 import WPLayoutFullwidth from "~/wp-components/layouts/WPLayoutFullwidth";
 // import WPShopCategories from "~/wp-components/shop/WPShopCategories";
 import { scrollPageToTop } from "~/utilities/common-helpers";
-import { useRouter } from 'next/router';
+import { useSearchParams } from "next/navigation";
 
 
 //make this function a default export
@@ -24,9 +25,10 @@ const WPProductDetailPage = ({ pid }) => {
 
 }
 
-const WPSalesPage = ({ query }) => {
-    const dispatch = useDispatch();
+const WPSalesPage = () => {
     const router = useRouter();
+    const query = useSearchParams()
+    const category = query.get("category")
 
     const [categoryName, setCategoryName] = useState(null);
 
@@ -54,7 +56,7 @@ const WPSalesPage = ({ query }) => {
                 category: categoryId,
                 on_sale: true,
             };
-            dispatch(WPGetOnSaleProducts(queries));
+            // dispatch(WPGetOnSaleProducts(queries));
             getCategory(categoryId);
         } else {
             const queries = {
@@ -62,7 +64,7 @@ const WPSalesPage = ({ query }) => {
                 per_page: 24,
                 on_sale: true,
             };
-            dispatch(WPGetOnSaleProducts(queries));
+            // dispatch(WPGetOnSaleProducts(queries));
         }
     }
 
@@ -73,21 +75,15 @@ const WPSalesPage = ({ query }) => {
                 per_page: 24,
                 on_sale: true,
             };
-            dispatch(WPGetOnSaleProducts(queries));
+            // dispatch(WPGetOnSaleProducts(queries));
 
             if (query.category) {
-                dispatch(getProductsByCategory(query.category));
+                // dispatch(getProductsByCategory(query.category));
                 getCategory(query.category);
             } else {
             }
         }
-
-        router.events.on("routeChangeStart", getSalesOnChangeUrl);
-
-        return () => {
-            router.events.off("routeChangeStart", getSalesOnChangeUrl);
-        };
-    }, [dispatch]);
+    }, []);
 
     return (
         <div ref={scrollPageToTop}>
@@ -96,10 +92,12 @@ const WPSalesPage = ({ query }) => {
                     <div className="ps-container">
                         <div className="ps-layout--shop">
                             <div className="ps-layout__left">
-                                <WPWidgetCategories
-                                    activeID={query && query.category}
-                                    page={"sales"}
-                                />
+                                <Suspense fallback={null}>
+                                    <WPWidgetCategories
+                                        activeID={query && category}
+                                        page={"sales"}
+                                    />
+                                </Suspense>
                                 <WPWidgetFilterByPrices />
                             </div>
                             <div className="ps-layout__right">
@@ -113,8 +111,5 @@ const WPSalesPage = ({ query }) => {
     );
 };
 
-WPSalesPage.getInitialProps = async ({ query }) => {
-    return { query: query };
-};
 
-export default connect()(WPSalesPage);
+export default WPSalesPage;

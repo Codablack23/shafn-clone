@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import RecentViewedProducts from '~/app/components/partials/account/RecentViewedProducts';
 import { scrollPageToTop } from '~/utilities/common-helpers';

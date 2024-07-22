@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface Data{
+export interface WishListItem{
     [key: string]: any;
 }
-interface WishlistState{
-    wishlistItems:Data[],
+export interface WishlistState{
+    wishlistItems:WishListItem[],
     wishlistTotal:number,
     error?:boolean
 }

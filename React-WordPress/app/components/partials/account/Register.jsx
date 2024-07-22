@@ -87,6 +87,8 @@ function Register() {
                     loggedUser.user_id
                 );
 
+                console.log({loggedUser, customer});
+
                 // dispatch(login(customer));
 
                 Router.push("/");
@@ -98,14 +100,7 @@ function Register() {
             } catch (error) {
                 notification["error"]({
                     message: "Unable to register user",
-                    description:
-                        error.response === undefined
-                            ? ReactHtmlParser(String(error))
-                            : error.response.data !== undefined
-                            ? ReactHtmlParser(error.response.data.message)
-                            : error.message
-                            ? ReactHtmlParser(error.message)
-                            : null,
+                    description:error.response || error.response.data || error.message,
                 });
             } finally {
                 setIsLoading(false);

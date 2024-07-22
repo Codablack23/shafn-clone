@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 
 import Slider from 'react-slick';
-import ProductSimple from '../../../../elements/products/ProductSimple';
+import ProductSimple from '@/app/components/elements/products/ProductSimple';
 import { connect } from 'react-redux';
-import { getColletionBySlug } from '../../../../../utilities/product-helper';
-import { carouselSingle } from '../../../../../utilities/carousel-helpers';
+import { getColletionBySlug } from '@/utilities/product-helper';
+import { carouselSingle } from '@/utilities/carousel-helpers';
 
 class MarketGardenAndKitchen extends Component {
     constructor(props) {

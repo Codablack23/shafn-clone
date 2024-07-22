@@ -4,23 +4,15 @@ import FooterFullwidth from "~/app/components/shared/footers/FooterFullwidth";
 import WPHeaderDefault from "~/wp-components/shared/headers/WPHeaderDefault";
 import WPHeaderMobile from "~/wp-components/shared/mobile/WPHeaderMobile";
 import WPNavigationBottom from "~/wp-components/shared/mobile/WPNavigationBottom";
+import { useCart } from "@/redux-store/hooks/useCart";
+import useWishList from "@/redux-store/hooks/useWishList";
 
 const WPLayoutFullwidth = ({ children, title }) => {
-    let titleView;
-    if (title !== null) {
-        titleView = process.env.NEXT_PUBLIC_TITLE + " | " + title;
-    } else {
-        titleView =
-            process.env.NEXT_PUBLIC_TITLE +
-            " | " +
-            process.env.NEXT_PUBLIC_TITLE_DESCRIPTION;
-    }
+    useCart()
+    useWishList()
 
     return (
         <div className="shafn">
-            <Head>
-                <title>{titleView}</title>
-            </Head>
             {/* <WPHeaderDefault /> */}
             <WPHeaderDefault />
             <WPHeaderMobile />

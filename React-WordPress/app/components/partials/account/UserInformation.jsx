@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import Router from "next/router";
 import { Form, Input, notification, Spin } from "antd";
-import { logOut, updateAuth } from "../../../store/auth/action";
+// import { logOut, updateAuth } from "../../../store/auth/action";
 import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
-import ReactHtmlParser from "react-html-parser";
 
 const accountLinks = [
     {
@@ -27,7 +26,7 @@ const accountLinks = [
 ];
 
 function UserInformation() {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth);
 
     const [customer, setCustomer] = useState({
@@ -78,7 +77,7 @@ function UserInformation() {
                     payload
                 );
 
-                dispatch(updateAuth(_customer));
+                // dispatch(updateAuth(_customer));
 
                 notification["success"]({
                     message: "Update successful",
@@ -86,10 +85,7 @@ function UserInformation() {
             } catch (error) {
                 notification["error"]({
                     message: "Unable to update account info",
-                    description:
-                        error.response === undefined
-                            ? ReactHtmlParser(String(error))
-                            : ReactHtmlParser(error.response.data.message),
+                    description:error.response || error || error.response.data.message
                 });
             } finally {
                 setIsUpdating(false);

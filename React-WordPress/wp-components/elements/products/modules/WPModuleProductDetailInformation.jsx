@@ -5,15 +5,16 @@ import { formatCurrency } from "~/utilities/product-helper";
 import { addItemToWishlist } from "~/store/wishlist/action";
 
 import { WPProductDetailShortDescView, Button } from "~/utilities/WPHelpers";
+import { useWishlistFunctions } from "@/redux-store/hooks/useWishList";
 
-const WPModuleProductDetailInformation = ({
+export default function WPModuleProductDetailInformation({
     product,
     children,
     variations,
     variant,
     isWidget,
-}) => {
-    const dispatch = useDispatch();
+}){
+    const {addToWishList} = useWishlistFunctions()
 
     const handleAddItemToWishlist = (e) => {
         e.preventDefault();
@@ -38,8 +39,7 @@ const WPModuleProductDetailInformation = ({
                 };
             }
         }
-
-        dispatch(addItemToWishlist(_product));
+        addToWishList(_product);
     };
 
     const handleRenderPriceRange = () => {
@@ -224,7 +224,3 @@ const WPModuleProductDetailInformation = ({
     );
 };
 
-const mapStateToProps = (state) => {
-    return state.cart;
-};
-export default connect(mapStateToProps)(WPModuleProductDetailInformation);

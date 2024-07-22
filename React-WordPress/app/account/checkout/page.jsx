@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import { getCart } from "~/store/cart/action";
 import { useDispatch, connect } from "react-redux";
@@ -8,6 +9,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import WPPaymentRepository from "~/repositories/WP/WPPaymentRepository";
 import { Spin } from "antd";
+import { useAppSelector } from "@/redux-store/hooks";
 
 const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -17,13 +19,13 @@ const stripePromise = loadStripe(
     return;
 });
 
-const CheckoutPage = (props) => {
-    const dispatch = useDispatch();
-
+export default function CheckoutPage (){
+    // const dispatch = useDispatch();
+    const {checkoutItems} = useAppSelector(state=>state.checkoutItems)
     const [paymentIntent, setPaymentIntent] = useState(null);
 
     const createPaymentIntent = async (user_email) => {
-        const products = props.checkoutItems.map((item) => ({
+        const products = checkoutItems.map((item) => ({
             id: item.id,
             name: item.name,
             price: item.price,
@@ -50,7 +52,7 @@ const CheckoutPage = (props) => {
     };
 
     useEffect(() => {
-        dispatch(getCart());
+        // dispatch(getCart());
 
         let auth = JSON.parse(
             JSON.parse(localStorage.getItem("persist:martfury")).auth
@@ -59,7 +61,7 @@ const CheckoutPage = (props) => {
         if (auth.isLoggedIn && Number(props.amount) > 0) {
             createPaymentIntent(auth.email);
         }
-    }, [dispatch]);
+    }, []);
 
     const appearance = {
         theme: "stripe",
@@ -100,11 +102,3 @@ const CheckoutPage = (props) => {
     );
 };
 
-const mapStateToProps = (state) => {
-    return {
-        auth: state.auth,
-        ...state.checkoutItems,
-    };
-};
-
-export default connect(mapStateToProps)(CheckoutPage);
