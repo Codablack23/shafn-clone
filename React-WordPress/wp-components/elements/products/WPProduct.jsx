@@ -197,7 +197,9 @@ const WPProduct = ({ product }) => {
             </div>
             <div className="">
                 <Link legacyBehavior href="/shop">
-                    <a className=" border-t-gray-300" >
+                    <a
+                    style={{ marginTop:"10px", marginBottom:"10px"}} 
+                    className=" border-t-gray-300" >
                         {product.store && product.store.name}
                         <hr />
                     </a>
@@ -205,7 +207,6 @@ const WPProduct = ({ product }) => {
                 <div className="hover-hide">
                     <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
                         <a 
-                        style={{ paddingTop: "20px" }}
                         className="ps-product__title font-bold">{product.name}</a>
                     </Link>
                     <div className="ps-product__rating">
@@ -219,7 +220,6 @@ const WPProduct = ({ product }) => {
                     <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
                         
                         <a 
-                        style={{ paddingTop: "20px" }}
                         className="ps-product__title font-bold">{product.name}</a>
                     </Link>
                     <div className="text-2xl" >{priceView}</div>

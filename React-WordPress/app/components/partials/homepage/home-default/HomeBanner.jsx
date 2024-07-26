@@ -17,6 +17,7 @@ const sliderOptions = {
     autoplay:true,
     pagination:true,
     rewind:true,
+    height: 445,
 }
 
 export default function HomeBanner (props) {
@@ -102,8 +103,10 @@ export default function HomeBanner (props) {
                         )}
                     </div>
                 </div>
-                <div className="flex-1">
-                    <div className="mb-2">
+
+                <div 
+                className="md:flex md:flex-1 md:flex-col hidden">
+                    <div className="mb-2 ">
                         <Promotion
                             link="/shop"
                             image={promotion1 ?null : null}
