@@ -43,7 +43,7 @@ export default function HeaderNav() {
                                   <a className="nav--link">{category.name}</a>
                               </Link>
                               {category.sub_cat ? (
-                                  <ul className="nav-dropdown-menu">
+                                  <ul className="nav-dropdown-menu font-bold">
                                       {category.sub_cat.map((sub, i) => (
                                           <div key={`${i}-sub-title`}>
                                               <h5>{sub.title}</h5>
