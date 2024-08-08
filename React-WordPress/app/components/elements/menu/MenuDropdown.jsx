@@ -11,7 +11,7 @@ class MenuDropdown extends Component {
         return (
             <li
                 className={
-                    menuData.subMenu ? 'menu-item-has-children dropdown' : ''
+                    menuData.subMenu ? 'menu-item-has-children dropdown font-bold' : ''
                 }>
                 {/* <Link legacyBehavior href={menuData.url} as={menuData.url}>
                     <a>{menuData.text}</a>

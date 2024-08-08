@@ -62,7 +62,8 @@ const WPDealOfDay = () => {
                     gap:"2em",
                     pagination:true,
                     padding:{
-                        bottom:"1em"
+                        bottom:"8em",
+                        top: "8em"
                     },
                     rewind:true,
                     breakpoints:{

@@ -4,7 +4,9 @@ import NextArrow from '~/app/components/elements/carousel/NextArrow';
 import PrevArrow from '~/app/components/elements/carousel/PrevArrow';
 // import Lightbox from 'react-image-lightbox';
 // import 'react-image-lightbox/style.css';
+
 class WPModuleProductDetailThumbnail extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -33,6 +35,7 @@ class WPModuleProductDetailThumbnail extends Component {
     render() {
         const { product, variant } = this.props;
         const { photoIndex, isOpen } = this.state;
+       
         const variantSetting = {
             slidesToShow: 4,
             responsive: [
@@ -70,7 +73,7 @@ class WPModuleProductDetailThumbnail extends Component {
         };
         const gallerySetting = {
             dots: false,
-            infinite: true,
+            infinite: false,
             speed: 500,
             slidesToShow: 1,
             slidesToScroll: 1,
@@ -91,6 +94,7 @@ class WPModuleProductDetailThumbnail extends Component {
             } else {
                 productImages = product.images;
             }
+            
             product.images.map((item) => {
                 lightboxImages.push(item.src);
             });
@@ -127,6 +131,7 @@ class WPModuleProductDetailThumbnail extends Component {
                         </Slider>
                     </div>
                 </figure>
+
                 <Slider
                     asNavFor={this.state.galleryCarousel}
                     ref={(slider) => (this.slider2 = slider)}
@@ -139,39 +144,49 @@ class WPModuleProductDetailThumbnail extends Component {
                     className="ps-product__variants">
                     {slideItems}
                 </Slider>
-                {/* {isOpen && (
-                    <Lightbox
-                        mainSrc={lightboxImages[photoIndex]}
-                        nextSrc={
-                            lightboxImages[
-                                (photoIndex + 1) % lightboxImages.length
-                            ]
-                        }
-                        prevSrc={
-                            lightboxImages[
-                                (photoIndex + lightboxImages.length - 1) %
-                                    lightboxImages.length
-                            ]
-                        }
-                        onCloseRequest={() => this.setState({ isOpen: false })}
-                        onMovePrevRequest={() =>
-                            this.setState({
-                                photoIndex:
-                                    (photoIndex + lightboxImages.length - 1) %
-                                    lightboxImages.length,
-                            })
-                        }
-                        onMoveNextRequest={() =>
-                            this.setState({
-                                photoIndex:
-                                    (photoIndex + 1) % lightboxImages.length,
-                            })
-                        }
-                    />
-                )} */}
             </div>
-        );
-    }
-}
+        ) 
+
+    }};
+
+
+    //             {/* {isOpen && (
+    //                 <Lightbox
+    //                     mainSrc={lightboxImages[photoIndex]}
+    //                     nextSrc={
+    //                         lightboxImages[
+    //                             (photoIndex + 1) % lightboxImages.length
+    //                         ]
+    //                     }
+    //                     prevSrc={
+    //                         lightboxImages[
+    //                             (photoIndex + lightboxImages.length - 1) %
+    //                                 lightboxImages.length
+    //                         ]
+    //                     }
+    //                     onCloseRequest={() => this.setState({ isOpen: false })}
+    //                     onMovePrevRequest={() =>
+    //                         this.setState({
+    //                             photoIndex:
+    //                                 (photoIndex + lightboxImages.length - 1) %
+    //                                 lightboxImages.length,
+    //                         })
+    //                     }
+    //                     onMoveNextRequest={() =>
+    //                         this.setState({
+    //                             photoIndex:
+    //                                 (photoIndex + 1) % lightboxImages.length,
+    //                         })
+    //                     }
+    //                 />
+    //             )} */
+    
+    // }
+    //          </div>
+    //     );
+    // }
+
+
+        
 
 export default WPModuleProductDetailThumbnail;
