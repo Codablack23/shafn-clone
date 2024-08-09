@@ -14,7 +14,7 @@ import {
 import WPProductRepository from "~/repositories/WP/WPProductRepository";
 import { useCartFunctions } from "@/redux-store/hooks/useCart";
 
-const WPProduct = ({ product }) => {
+export default function WPProduct ({ product }){
     const {addToCart} = useCartFunctions();
     const [isQuickView, setIsQuickView] = useState(false);
     const [priceRangeView, setPriceRangeView] = useState(null);
@@ -146,68 +146,25 @@ const WPProduct = ({ product }) => {
     const query = `${product.slug}-${product.id}`.trim();
 
     return (
-        <div className="hover-scale">
+        <div className="shop-product-hover-scale">
             <div className="ps-product__thumbnail">
                 <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
                     <a>{thumbnailImage}</a>
                 </Link>
                 {badgeView}
-                {/* <ul className="ps-product__actions">
-                    <li>
-                        <a
-                            href="#"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            title="Add To Cart"
-                            onClick={handleAddItemToCart}>
-                            <i className="icon-bag2"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="#"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            title="Quick View"
-                            onClick={handleShowQuickView}>
-                            <i className="icon-eye"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="#"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            title="Add to wishlist"
-                            onClick={handleAddItemToWishlist}>
-                            <i className="icon-heart"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="#"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            title="Compare"
-                            onClick={handleAddItemToCompare}>
-                            <i className="icon-chart-bars"></i>
-                        </a>
-                    </li>
-                </ul> */}
             </div>
             <div className="">
                 <Link legacyBehavior href="/shop">
                     <a
-                    style={{ marginTop:"10px", marginBottom:"10px"}} 
-                    className=" border-t-gray-300" >
+                    style={{ marginTop:"10px", marginBottom:"10px",textTransform:"capitalize"}} 
+                    className=" border-t-gray-300 capitalize">
                         {product.store && product.store.name}
                         <hr />
                     </a>
                 </Link>
-                <div className="hover-hide">
+                <div className="">
                     <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
-                        <a 
-                        className="ps-product__title font-bold">{product.name}</a>
+                        <a className="font-bold">{product.name}</a>
                     </Link>
                     <div className="ps-product__rating">
                         {rating >= 3 && <Rating rating={rating} />}
@@ -215,30 +172,22 @@ const WPProduct = ({ product }) => {
                     </div>
                     <div className="text-2xl" >{priceView}</div>
                 </div>
-
                 <div className="hover-show">
-                    <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
-                        
-                        <a 
-                        className="ps-product__title font-bold">{product.name}</a>
-                    </Link>
-                    <div className="text-2xl" >{priceView}</div>
+                    {product.type === "simple" ? (
+                        <>
+                            <button
+                                style={{maxWidth:"220px", marginTop:"10px"}}
+                                className="hover-show"
+                                onClick={handleAddItemToCart}>
+                                Add To Cart
+                            </button>
+                        </>
+                    ) : (
+                        <p className="hover-show">
+                            View product to select variation to add to cart
+                        </p>
+                    )}
                 </div>
-
-                {product.type === "simple" ? (
-                    <>
-                        <button
-                            style={{maxWidth:"220px", marginTop:"10px"}}
-                            className="hover-show"
-                            onClick={handleAddItemToCart}>
-                            Add To Cart
-                        </button>
-                    </>
-                ) : (
-                    <p className="hover-show">
-                        View product to select variation to add to cart
-                    </p>
-                )}
             </div>
             <Modal
                 centered
@@ -253,4 +202,3 @@ const WPProduct = ({ product }) => {
     );
 };
 
- export default connect()(WPProduct);

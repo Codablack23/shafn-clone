@@ -2491,6 +2491,40 @@
         }
     }
 }
+
+.shop-product-hover-scale{
+    transition: all ease 0.5s;
+    min-height: 300px;
+    z-index: 99;
+    .hover-show{
+        display: none;
+    }
+    button.hover-show{
+        width: 100%;
+        background: #000;
+        color: #fff;
+        padding: 0.5em;
+        border: none;
+        font-size: 12px;
+        border-radius: 7px;
+        transition: all ease 0.4s;
+        border: 0.1px solid black;
+        &:hover{
+            background-color: #fff;
+            color: #000000;
+        }
+       }
+    &:hover{
+        transform: scale(1.07);
+        min-height: 400px;
+        z-index: 1000;
+        .hover-show{
+         display: block;
+
+        }
+    }
+}
+
 .ps__desc-md{
     transition: all ease 0.5s;
     @include media("<sm"){

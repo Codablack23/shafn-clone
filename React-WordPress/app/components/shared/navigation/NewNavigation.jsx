@@ -46,7 +46,7 @@ export default function HeaderNav() {
                                   <ul className="nav-dropdown-menu font-bold">
                                       {category.sub_cat.map((sub, i) => (
                                           <div key={`${i}-sub-title`}>
-                                              <h5>{sub.title}</h5>
+                                              <h5 style={{fontWeight:"800"}}>{sub.title}</h5>
                                               {sub.categories.map((cat, i) => {
                                                   const cat2 = categoryItems?
                                                   categoryItems.find(({name})=>{
@@ -60,7 +60,7 @@ export default function HeaderNav() {
                                                     <Link legacyBehavior
                                                     href={`/shop?category=${cat_id}`}
                                                     key={`${i}-cat`}>
-                                                    <a className="d-block category-link font-bold text-black">
+                                                    <a className="d-block category-link text-black">
                                                         {cat.name}
                                                     </a>
                                                 </Link>

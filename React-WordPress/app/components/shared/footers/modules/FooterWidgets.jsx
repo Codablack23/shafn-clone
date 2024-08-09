@@ -19,23 +19,23 @@ const FooterWidgets = (auth) => (
             <h4 className="widget-title text-white">Quick links</h4>
             <ul className="ps-list--link">
                 <li>
-                    <Link legacyBehavior href="/page/blank" scroll={false}>
+                    <Link legacyBehavior href="/privacy-policy" scroll={false}>
                         <a className="text-white">Policy</a>
                     </Link>
                 </li>
 
                 <li>
-                    <Link legacyBehavior href="/page/blank" scroll={false}>
+                    <Link legacyBehavior href="/terms-and-conditions" scroll={false}>
                         <a className="text-white">Term & Condition</a>
                     </Link>
                 </li>
                 <li>
-                    <Link legacyBehavior href="/page/blank" scroll={false}>
+                    <Link legacyBehavior href="/shipping" scroll={false}>
                         <a className="text-white">Shipping</a>
                     </Link>
                 </li>
                 <li>
-                    <Link legacyBehavior href="/page/blank" scroll={false}>
+                    <Link legacyBehavior href="/return" scroll={false}>
                         <a className="text-white">Return</a>
                     </Link>
                 </li>

@@ -95,30 +95,12 @@ const WPDealOfDay = () => {
         productItemsView = <div className="row">{skeletons}</div>;
     }
     return (
-        <div className="ps-deal-of-day my-8">
-            <div className="py-8">
-                {/* <div className="ps-section__header">
-                    <Link legacyBehavior href="/shop">
-                        <a>View all</a>
-                    </Link> */}
-                {/* <div className="ps-block--countdown-deal"> */}
-                {/* <div className="ps-block__left">
-                            <h3>Deal of the day</h3>
-                        </div>
-                        <div className="ps-block__right">
-                            <figure>
-                                <figcaption>End in:</figcaption>
-                                <CountDownSimple
-                                    timeTillDate="12 31 2021, 6:00 am"
-                                    timeFormat="MM DD YYYY, h:mm a"
-                                />
-                            </figure>
-                        </div> */}
-
-                {/* </div> */}
-                {/* </div> */}
-                <hr />
-                <div className="ps-section__content">{productItemsView}</div>
+        <div className="ps__deal-container">
+            <hr />
+            <div className="ps__deal-section">
+                <div>
+                {productItemsView}
+                </div>
             </div>
         </div>
     );

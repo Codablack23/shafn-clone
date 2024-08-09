@@ -3,6 +3,7 @@ import Promotion from "@/app/components/elements/media/Promotion";
 import BannerItem from "~/app/components/elements/media/BannerItem";
 import { useAppSelector } from "@/redux-store/hooks";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
+import { useRef } from "react";
 
 const sliderOptions = {
     perPage:1,
@@ -14,23 +15,16 @@ const sliderOptions = {
     autoplay:true,
     pagination:true,
     rewind:true,
-    height: 445,
+    height: 480,
 }
 
-export default function HomeBanner (props) {
+export default function HomeBanner () {
     // const { banners, promotions } = props;
+    const ref = useRef()
     const media = useAppSelector((state)=>state.media)
     const {banners,promotions} = media
-    // const carouselSetting = {
-    //     dots: true,
-    //     infinite: true,
-    //     speed: 500,
-    //     autoplay:true,
-    //     slidesToShow: 1,
-    //     slidesToScroll: 1,
-    // };
 
-    // const bannerData = getItemBySlug(banners, "banner-home-fullwidth");
+    console.log(ref)
     const bannerData = {
       items:[
         {
@@ -92,7 +86,7 @@ export default function HomeBanner (props) {
                 <div className="flex-[2]">
                     <div className="flex-[2]">
                         {bannerData !== null ? (
-                        <Splide aria-label="My Favorite Images" options={sliderOptions}>
+                        <Splide ref={ref} aria-label="My Favorite Images" options={sliderOptions}>
                             {bannersView}
                         </Splide>
                         ) : (

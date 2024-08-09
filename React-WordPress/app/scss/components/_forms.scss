@@ -209,7 +209,7 @@
     }
 
     button {
-        border-radius: 0;
+        border-radius: 10px;
         font-weight: 600;
     }
 }
@@ -224,6 +224,7 @@
 
     .submit {
         text-align: center;
+        border-radius: 10px;
 
         .ps-btn {
             padding: 0 30px;

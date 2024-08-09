@@ -53,11 +53,7 @@ export default function Home() {
     return (
         <WPLayoutHomeDefault title={process.env.NEXT_PUBLIC_TITLE_DESCRIPTION}>
             <HomeBanner />
-
-            <div className="my-12">
-                <WPDealOfDay />
-            </div>
-
+            <WPDealOfDay />
             <HomeAdsColumns />
 
             <RandomCategories />
