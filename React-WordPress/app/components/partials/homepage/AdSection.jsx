@@ -59,7 +59,7 @@ export default function AdSection(){
         };
     },[])
     return (
-        <section className="ps__ad-section my-16 ">
+        <section className="ps__ad-section my-16 py-16">
             <div className="ps-container ps-grid">
                 <AdSectionCategory
                 products={products.slice(0,5)}
