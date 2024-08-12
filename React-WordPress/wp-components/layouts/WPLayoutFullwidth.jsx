@@ -1,5 +1,4 @@
-import React from "react";
-import Head from "next/head";
+"use client";
 import FooterFullwidth from "~/app/components/shared/footers/FooterFullwidth";
 import WPHeaderDefault from "~/wp-components/shared/headers/WPHeaderDefault";
 import WPHeaderMobile from "~/wp-components/shared/mobile/WPHeaderMobile";

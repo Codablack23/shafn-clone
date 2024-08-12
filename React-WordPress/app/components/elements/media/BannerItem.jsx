@@ -13,7 +13,7 @@ const BannerItem = ({ source }) => {
            <div className="pb-3">
              <Link legacyBehavior href="/shop">
                 <div
-                    className=" bg--cover min-h-[445px]"
+                    className=" bg--cover min-h-[560px]"
                     style={{
                         // backgroundImage: `url('${baseUrl}${source.image.url}')` old implementation,
                         backgroundImage: `linear-gradient(to right,rgba(240,240,240,0.1),rgba(0,0,0,0.0)), url('${source.image.url}')`,

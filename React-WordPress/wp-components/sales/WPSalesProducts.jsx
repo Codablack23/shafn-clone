@@ -3,11 +3,11 @@ import { connect, useDispatch } from "react-redux";
 import { Pagination } from "antd";
 import WPProduct from "~/wp-components/elements/products/WPProduct";
 import WPProductWide from "~/wp-components/elements/products/WPProductWide";
-import { WPGetOnSaleProducts } from "~/store/sales/action";
+import { WPGetProducts } from "~/store/wp/action";
 import { generateTempArray } from "~/utilities/common-helpers";
 import SkeletonProduct from "~/app/components/elements/skeletons/SkeletonProduct";
 
-const WPSalesProducts = (props) => {
+export default function WPShopProducts(props){
     const { WPProducts, WPLoading, sidebar } = props;
     const dispatch = useDispatch();
     const [listView, setListView] = useState(true);
@@ -24,10 +24,9 @@ const WPSalesProducts = (props) => {
         const params = {
             page: page,
             per_page: pageSize,
-            on_sale: true,
         };
         setLoading(true);
-        dispatch(WPGetOnSaleProducts(params));
+        dispatch(WPGetProducts(params));
         setTimeout(
             function () {
                 setLoading(false);
@@ -44,6 +43,7 @@ const WPSalesProducts = (props) => {
                 }.bind(this),
                 200
             );
+            console.log(WPProducts);
         }
     }, []);
 
@@ -51,6 +51,7 @@ const WPSalesProducts = (props) => {
 
     if (!WPLoading) {
         if (WPProducts && WPProducts.items) {
+            console.log(WPProducts);
             countProductsView = (
                 <p>
                     <strong>{WPProducts.totalItems}</strong> Product(s) found.
@@ -73,13 +74,13 @@ const WPSalesProducts = (props) => {
                 ));
                 producItemView = <div className="row">{productItems}</div>;
             }
-            if (WPProducts.totalPages > 1 && WPProducts.items.length > 0) {
+            if (WPProducts.totalPages > 1) {
                 sectionPaginationView = (
                     <div className="ps-shopping__footer text-center pt-40">
                         <Pagination
                             total={WPProducts && WPProducts.totalItems}
                             pageSize={24}
-                            responsive={true}
+                            responsive={false}
                             current={currentPage}
                             onChange={handlePagination}
                         />
@@ -149,4 +150,4 @@ const WPSalesProducts = (props) => {
     );
 };
 
-export default connect((state) => state.sales)(WPSalesProducts);
+// export default connect((state) => state.wp)(WPShopProducts);

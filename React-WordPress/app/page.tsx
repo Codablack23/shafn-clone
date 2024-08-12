@@ -2,7 +2,6 @@
 
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
-import { connect, useDispatch } from "react-redux";
 import HomeBanner from "~/app/components/partials/homepage/home-default/HomeBanner";
 import HomeAdsColumns from "~/app/components/partials/homepage/home-default/HomeAdsColumns";
 import { getCollections } from "~/store/collection/action";
