@@ -15,7 +15,7 @@ const sliderOptions = {
     autoplay:true,
     pagination:true,
     rewind:true,
-    height: 480,
+    height: 600,
 }
 
 export default function HomeBanner () {

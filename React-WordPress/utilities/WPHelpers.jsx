@@ -112,6 +112,7 @@ export function WPProductThumbnailView(product) {
                 style={{
                     width: "100%",
                     display: "block",
+                    maxHeight:"200px",
                     margin: "auto",
                 }}
                 alt={product.name}

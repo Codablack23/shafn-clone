@@ -61,6 +61,7 @@ const WPDealOfDay = () => {
                     type:"loop",
                     gap:"2em",
                     pagination:true,
+                    height:380,
                     padding:{
                         bottom:"8em",
                         top: "8em"
@@ -75,7 +76,7 @@ const WPDealOfDay = () => {
                         },
                         600:{
                             perPage:1,
-                            arrows:false
+                            arrows:false,
                         }
                     }
                 }}>

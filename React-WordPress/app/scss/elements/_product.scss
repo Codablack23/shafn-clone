@@ -2493,8 +2493,11 @@
 }
 
 .shop-product-hover-scale{
+    position: relative;
     transition: all ease 0.5s;
-    min-height: 300px;
+    padding: 1em;
+    background: #ffffff;
+    transform: scale(1);
     z-index: 99;
     .hover-show{
         display: none;
@@ -2516,8 +2519,8 @@
        }
     &:hover{
         transform: scale(1.07);
-        min-height: 400px;
         z-index: 1000;
+        border: 1px solid #eeeeee;
         .hover-show{
          display: block;
 

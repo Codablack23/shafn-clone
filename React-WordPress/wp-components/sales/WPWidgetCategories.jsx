@@ -68,7 +68,7 @@ const WPWidgetCategories = ({ activeID, page }) => {
             <h4 className="widget-title">Categories</h4>
             <div>
                 <div style={{ marginLeft: 10, marginBlock: 10 }}>
-                    <Link legacyBehavior href="/shop">
+                    <Link legacyBehavior href={`/${page}`}>
                         <a
                             className={
                                 activeID === undefined

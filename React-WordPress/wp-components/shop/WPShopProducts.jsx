@@ -8,44 +8,15 @@ import { generateTempArray } from "~/utilities/common-helpers";
 import SkeletonProduct from "~/app/components/elements/skeletons/SkeletonProduct";
 
 export default function WPShopProducts(props){
-    const { WPProducts, WPLoading, sidebar } = props;
-    const dispatch = useDispatch();
+    const { WPProducts, WPLoading, sidebar, handlePagination,currentPage} = props;
     const [listView, setListView] = useState(true);
     const [loading, setLoading] = useState(true);
-    const [currentPage, setCurrentPage] = useState(1);
 
     function handleChangeViewMode(event) {
         event.preventDefault();
         setListView(!listView);
     }
 
-    function handlePagination(page, pageSize) {
-        setCurrentPage(page);
-        const params = {
-            page: page,
-            per_page: pageSize,
-        };
-        setLoading(true);
-        dispatch(WPGetProducts(params));
-        setTimeout(
-            function () {
-                setLoading(false);
-            }.bind(this),
-            500
-        );
-    }
-
-    useEffect(() => {
-        if (WPProducts) {
-            setTimeout(
-                function () {
-                    setLoading(false);
-                }.bind(this),
-                200
-            );
-            console.log(WPProducts);
-        }
-    }, []);
 
     let producItemView, sectionPaginationView, countProductsView;
 
