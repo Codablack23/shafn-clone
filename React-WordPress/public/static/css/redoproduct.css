@@ -1,0 +1,16 @@
+.main-slide{
+    padding-top: 10px;
+    display: flex;
+    flex-direction: row-reverse
+}
+
+.carousel .thumb{
+    width: 5%;
+    height: 50px;
+    position: relative;
+    left: 0;
+    top: 20px;
+    background-color: blue;
+    align-items: flex-start;
+    display: flex;
+}
