@@ -102,7 +102,7 @@ const WPProductList = ({ categoryID, title }) => {
                 <SkeletonProduct />
             </div>
         ));
-        productItemsView = <div className="flex">{skeletons}</div>;
+        productItemsView = <div className="">{skeletons}</div>;
     }
 
     return (

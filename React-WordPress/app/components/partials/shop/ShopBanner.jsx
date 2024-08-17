@@ -8,6 +8,7 @@ export default function ShopBanner(){
         type:"loop",
         gap:"2em",
         arrows:false,
+        height:500,
         interval:10000,
         speed:500,
         autoplay:true,
@@ -18,16 +19,22 @@ export default function ShopBanner(){
         <div className="ps-shop-banner">
             <Splide aria-label="My Favorite Images" options={sliderOptions}>
                 <SplideSlide>
-                    <img
-                        src="/static/img/slider/shop-default/1.jpg"
-                        alt="martfury"
-                    />
+                    <div style={{height:"500px"}}>
+                            <img
+                                src="/static/img/slider/shop-default/1.jpg"
+                                alt="martfury"
+                                style={{height:"500px", width:"100%",objectFit:"cover"}}
+                            />
+                    </div>
                 </SplideSlide>
                 <SplideSlide>
-                    <img
-                        src="/static/img/slider/shop-default/2.jpg"
-                        alt="martfury"
-                    />
+                    <div style={{height:"500px"}}>
+                        <img
+                            src="/static/img/slider/shop-default/2.jpg"
+                            alt="martfury"
+                            style={{height:"500px", width:"100%",objectFit:"cover"}}
+                        />
+                    </div>
                 </SplideSlide>
             </Splide>
         </div>
