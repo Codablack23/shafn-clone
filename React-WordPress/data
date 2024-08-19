@@ -21,12 +21,14 @@ const nextSettings = {
         CONSUMER_SECRET: "cs_bdeeef6932561e0eacd2131947a77b4dab90c66a",
     },
 };​
-module.exports = {
-    async rewrites() {
-        return [{
+async rewrites() {
+    return [
+        {
             source: "/api/:path*",
-            destination: "https://shafn.com/:path*",
-        }, ];
-    },
-};​
-module.exports = withPlugins([withImages(), nextSettings]);
+            destination: "https://shafn.com/:path*", // Proxy to your WooCommerce API
+        },
+    ];
+},
+};
+
+module.exports = withPlugins([withImages], nextConfig);
