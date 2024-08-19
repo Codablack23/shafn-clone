@@ -5,8 +5,9 @@
 * Updated at: 2020-11-06T15:29:20+07:00
 ​
 * */
-
-const nextConfig = {
+const withPlugins = require("next-compose-plugins");
+const withImages = require("next-images");​
+const nextSettings = {
     env: {
         TITLE: "ShafN",
         TITLE_DESCRIPTION: "ShafN Smarter Beauty Shopping",
@@ -19,14 +20,13 @@ const nextConfig = {
         CONSUMER_KEY: "ck_eadfe00a40b2359376e43ee7ec06ce499f9302cf",
         CONSUMER_SECRET: "cs_bdeeef6932561e0eacd2131947a77b4dab90c66a",
     },
+};​
+module.exports = {
     async rewrites() {
-        return [
-            {
-                source: "/api/:path*",
-                destination: "https://shafn.com/:path*", 
-            },
-        ];
+        return [{
+            source: "/api/:path*",
+            destination: "https://shafn.com/:path*",
+        }, ];
     },
-};
-
-module.exports = withPlugins([withImages], nextConfig);
+};​
+module.exports = withPlugins([withImages(), nextSettings]);
