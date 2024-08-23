@@ -17,8 +17,8 @@ const nextSettings = {
         ADMIN_PASSWORD: "1188145718594459",
         NODEMAILER_AUTH_USER: "",
         NODEMAILER_AUTH_PASSWORD: "",
-        CONSUMER_KEY: "ck_eadfe00a40b2359376e43ee7ec06ce499f9302cf",
-        CONSUMER_SECRET: "cs_bdeeef6932561e0eacd2131947a77b4dab90c66a",
+        CONSUMER_KEY: "ck_6b4a94550b687fec006df0ac920704cddbea2497",
+        CONSUMER_SECRET: "cs_81751967b27b6fd95bcbc1f22d4a088d340f3fb7",
     },
 };​
 module.exports = {
