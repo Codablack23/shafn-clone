@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseDomain = "https://api.shafn.com/";
+const baseDomain = "http://45.76.97.89:3000/";
 export const wp = "https://shafn.com/";
 
 export const customHeaders = {
