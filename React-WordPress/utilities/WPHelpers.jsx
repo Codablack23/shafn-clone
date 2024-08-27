@@ -112,6 +112,7 @@ export function WPProductThumbnailView(product) {
                 style={{
                     width: "100%",
                     display: "block",
+                    objectFit: "contain",
                     maxHeight:"200px",
                     margin: "auto",
                 }}

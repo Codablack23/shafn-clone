@@ -54,7 +54,9 @@ export default function Home() {
             <HomeBanner />
             <WPDealOfDay />
             <HomeAdsColumns />
-
+            <br />
+            <br />
+            <br />
             <RandomCategories />
             <AdSection/>
             <WPNewArrivals />

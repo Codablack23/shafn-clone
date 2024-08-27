@@ -23,25 +23,28 @@ export default function HomeAdsColumns (){
         <div className="ps-home-ads">
             <div className="ps-container">
                 <div className="row">
-                    <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 ">
+                    <div className="col-xl-4 col-lg-4 mb-2 col-md-12 col-sm-12 col-12 ">
                         <Promotion
                             link="/shop"
                             image={promotion1 ? promotion1.image : null}
                             defImage={"/promotion-images/promotion-1.jpg"}
+                            styles={{height:"350px", width:"100%",objectFit:"cover"}}
                         />
                     </div>
-                    <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 ">
+                    <div className="col-xl-4 col-lg-4 mb-2 col-md-12 col-sm-12 col-12 ">
                         <Promotion
                             link="/shop"
                             image={promotion2 ? promotion2.image : null}
                             defImage={"/promotion-images/promotion-2.jpg"}
+                            styles={{height:"350px", width:"100%",objectFit:"cover"}}
                         />
                     </div>
-                    <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 ">
+                    <div className="col-xl-4 col-lg-4 mb-2 col-md-12 col-sm-12 col-12 ">
                         <Promotion
                             link="/shop"
                             image={promotion3 ? promotion3.image : null}
                             defImage={"/promotion-images/promotion-3.jpg"}
+                            styles={{height:"350px", width:"100%",objectFit:"cover"}}
                         />
                     </div>
                 </div>
