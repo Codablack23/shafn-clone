@@ -90,7 +90,7 @@ const WPWidgetCategories = ({ activeID, page }) => {
                             key={`${c.name}-${i + 1}`}>
                             {c.sub_cat.map((sc, i) => (
                                 <div key={sc.title} style={{marginBottom:"8px"}}>
-                                    <p className="w-text-black" style={{marginBottom:-5,color:"black"}}>
+                                    <p className="w-text-black" style={{marginBottom:-2,color:"black"}}>
                                         <b>{sc.title}</b>
                                     </p>
                                     {sc.categories.map((sub_c) => {
@@ -115,7 +115,7 @@ const WPWidgetCategories = ({ activeID, page }) => {
                                                     Math.random()
                                                 }>
                                                 <a
-                                                    className={`d-block category-link font-bold mt-2 mb-2 ${
+                                                    className={`d-block category-link font-normal mt-2 mb-2 ${
                                                         parseInt(activeID) ===
                                                         cat_id
                                                             ? "active"
