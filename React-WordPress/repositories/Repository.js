@@ -12,6 +12,7 @@ export const baseUrl = `${baseDomain}`;
 export default axios.create({
     baseUrl,
     headers: customHeaders,
+    withCredentials: true,
 });
 
 export const serializeQuery = (query) => {
