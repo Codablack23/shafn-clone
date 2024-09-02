@@ -3,6 +3,7 @@ import DefaultDescription from "~/app/components/elements/detail/modules/descrip
 import WPModuleProductDetailThumbnail from "~/wp-components/elements/products/modules/WPModuleProductDetailThumbnail";
 import WPModuleProductDetailInformation from "~/wp-components/elements/products/modules/WPModuleProductDetailInformation";
 import WPModuleDefaultDescription from "~/wp-components/elements/products/modules/WPModuleDefaultDescription";
+import RedoProductDetailThumbnail from "~/wp-components/elements/products/modules/RedoProductDetailThumbnail";
 
 const WPProductDetail = ({
     product,
@@ -71,7 +72,7 @@ const WPProductDetail = ({
         return (
             <div className="ps-product--detail ps-product--fullwidth">
                 <div className="ps-product__header">
-                    <WPModuleProductDetailThumbnail product={product} />
+                    <RedoProductDetailThumbnail product={product} />
                     <WPModuleProductDetailInformation product={product} />
                 </div>
                 <div className="d-none d-lg-block">
@@ -85,7 +86,7 @@ const WPProductDetail = ({
                 className="ps-product--detail ps-product--fullwidth"
                 style={{ paddingBottom: 0 }}>
                 <div className="ps-product__header">
-                    <WPModuleProductDetailThumbnail
+                    <RedoProductDetailThumbnail
                         product={product}
                         variant={activeVariant}
                     />
