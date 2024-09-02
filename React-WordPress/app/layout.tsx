@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "react-image-gallery/styles/css/image-gallery.css";
 import "./scss/style.scss";
 import "./globals.css"
 import "bootstrap-icons/font/bootstrap-icons.min.css";

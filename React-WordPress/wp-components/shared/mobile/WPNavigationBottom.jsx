@@ -104,7 +104,7 @@ const SideBar = ({ shown, handleClose }) => {
                                             <Link legacyBehavior
                                                 href={`/${page}?category=${cat_id}`}>
                                                 <a
-                                                    className={`d-block category-link font-bold mt-2 mb-2 mt-2 mb-2 ${
+                                                    className={`d-block category-link font-bold mt-2 mb-2 ${
                                                         parseInt(activeID) ===
                                                         cat_id
                                                             ? "active"

@@ -3,42 +3,30 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import '../../../../public/static/css/redoproduct.css'
+import ImageGallery from "react-image-gallery";
 
 
 
-class RedoProductDetailThumbnail extends Component {
 
-//  constructor(props) {
-//     super(props);
-//     this.state = {
-//         galleryImg: null,
-//         productImages: null,
-//         nextImg: null,
-//         galleryCarousel: null,
-//         variantCarousel: null,
-//         photoIndex: 0,
-//         isOpen: false,
-//     };
-// }
 
-render () {
-    
 
-  return (
-    <Carousel className='main-slide'>
-        <div>
-            <img src={"/images/slider1.jpg"} alt='Product1' height='300px' width='400px' />
-        </div>
-        <div>
-            <img src={'/images/slider2.jpg'} alt='Product2' height='300px' width='400px' />
-        </div>
-        <div>
-            <img src={'/images/slider3.jpg'} alt='Product3' height='300px' width='400px' />
-        </div>
-    </Carousel>
-  )
-}
+export default function RedoProductDetailThumbnail({product})  {
+  const images = product.images.map(img=>(
+      {
+        original: img.src,
+        thumbnail: img.src,
+        originalHeight:"400px",
+        thumbnailWidth:50,
+        thumbnailHeight:50
+      }
+  ));
+
+  return <ImageGallery
+    thumbnailPosition={"left"}
+    items={images} showPlayButton={false}
+    useBrowserFullscreen={false}
+    showNav={false}
+    showFullscreenButton={false}
+  />;
 }
 
-export default RedoProductDetailThumbnail;

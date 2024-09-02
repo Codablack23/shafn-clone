@@ -21,3 +21,13 @@ html{
 .card{
     box-shadow: 0 12px 24px 0 rgba(0,0,0,1);
 }
+
+.image-gallery-thumbnail{
+    height: 80px;
+    width: 80px;
+    &.active,
+    &:hover,
+    &:focus{
+        border:3px solid #FCB800;
+    }
+}
