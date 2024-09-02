@@ -79,7 +79,7 @@ export default function HomeBanner () {
             </SplideSlide>
         ));
     }
-    
+
     return (
         <div className="ps-home-banner ps-home-banner--1 my-10 mt-14">
             <div className="ps-container flex gap-2">
@@ -95,7 +95,7 @@ export default function HomeBanner () {
                     </div>
                 </div>
 
-                <div 
+                <div
                 className="md:flex md:flex-1 md:flex-col hidden">
                     <div className="mb-2 ">
                         <Promotion
@@ -107,6 +107,7 @@ export default function HomeBanner () {
                     <Promotion
                         link="/shop"
                         image={promotion2 ? null : null}
+                        styles={{width:"100%",height:"280px",objectFit:"cover"}}
                         defImage={"/static/images/slider12.jpg"}
                     />
                 </div>

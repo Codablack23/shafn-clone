@@ -4,8 +4,9 @@ import WPProductRepository from '~/repositories/WP/WPProductRepository';
 import React from "react";
 import { Categories } from "./categories";
 
+
+
 export default function HeaderNav() {
-    // getProducts();s
     const [loading, setLoading] = useState(true);
     const [categoryItems, setCategoryItems] = useState(null);
     async function getCategoryItems() {
@@ -60,12 +61,11 @@ export default function HeaderNav() {
                                                     <Link legacyBehavior
                                                     href={`/shop?category=${cat_id}`}
                                                     key={`${i}-cat`}>
-                                                    <a className="d-block category-link text-black">
+                                                    <a className="d-block category-link">
                                                         {cat.name}
                                                     </a>
                                                 </Link>
                                                  )
-                                                
                                                })}
                                           </div>
                                       ))}

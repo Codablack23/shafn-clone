@@ -26,15 +26,6 @@ export function useCart(){
         dispatch(update_cart_success(localCartObject));
     },[])
 
-    // useEffect(()=>{
-    //     const data  = JSON.parse(localStorage.getItem("persist:martfury") as string);
-    //     const cart = JSON.stringify(cartState)
-    //     const localStorageData = JSON.stringify({
-    //         ...data,
-    //         cart,
-    //     })
-    //     localStorage.setItem("persist:martfury", localStorageData)
-    // },[cartState])
 }
 
 export function useCartFunctions(){
@@ -57,7 +48,7 @@ export function useCartFunctions(){
     const increaseQuantity = (product:CartItem) =>{
         let cartItems:CartItem[] = getLocalCartObject().cartItems
 
-        const  updatedItems = cartItems.map((item) =>{
+        const updatedItems = cartItems.map((item) =>{
             if(item.id !== product.id && item.variation_id !== product.variation_id) return item;
             const selectedItem = item
 
@@ -133,6 +124,7 @@ export function useCartFunctions(){
             ...localStorageData,
             cart: JSON.stringify(updatedState),
         }));
+
         dispatch(update_cart_success(updatedState))
         notification.success({
             message: "Success",

@@ -10,8 +10,8 @@ import ScrollProvider from "./components/layouts/ScrollProvider";
 
 
 export const metadata: Metadata = {
-  title: "ShafN |  We are here to serve you",
-  description: "ShafN We are here to serve you",
+  title: process.env.NEXT_PUBLIC_TITLE || "ShafN",
+  description:process.env.NEXT_PUBLIC_TITLE_DESCRIPTION || "Smarter Beauty Shopping",
 };
 
 export default function RootLayout({
