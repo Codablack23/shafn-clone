@@ -82,7 +82,7 @@ export default function HomeBanner () {
 
     return (
         <div className="ps-home-banner ps-home-banner--1 my-10 mt-14">
-            <div className="ps-container flex gap-2">
+            <div className="ps-container flex gap-[8px]">
                 <div className="flex-[2]">
                     <div className="flex-[2]">
                         {bannerData !== null ? (
@@ -97,7 +97,7 @@ export default function HomeBanner () {
 
                 <div
                 className="md:flex md:flex-1 md:flex-col hidden">
-                    <div className="mb-2 ">
+                    <div className="mb-[9px]">
                         <Promotion
                             link="/shop"
                             image={promotion1 ?null : null}

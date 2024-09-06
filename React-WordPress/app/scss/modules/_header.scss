@@ -634,7 +634,8 @@
         .nav--link{
             padding-block: 6px;
           &:hover{
-            border-bottom: 4px solid black;
+            border-bottom: 4px solid #E83E8C;
+            color: #E83E8C;
           }
         }
         li{
@@ -648,7 +649,7 @@
             .nav-dropdown-menu{
                 border:1px solid rgba(0, 0, 0, 0.25);
                 top: 53px;
-                padding:32px ;
+                padding:32px 0 35px 200px ;
                 grid-template-columns: repeat(3,1fr);
                 gap: 16px;
                 position: absolute;
@@ -659,6 +660,7 @@
                 height: 50vh;
                 overflow-y: auto;
                 background-color: #fff;
+
             }
             .shop{
                 font-size: 14px;

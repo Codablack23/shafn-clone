@@ -16,7 +16,7 @@ const FooterWidgets = (auth) => (
             </div>
         </aside>
         <aside className="widget widget_footer">
-            <h4 className="widget-title text-white">Quick links</h4>
+            <h4 className="widget-title text-white ">Quick links</h4>
             <ul className="ps-list--link">
                 <li>
                     <Link legacyBehavior href="/privacy-policy" scroll={false}>
@@ -98,22 +98,22 @@ const FooterWidgets = (auth) => (
                 </li>
                 <li>
                     <Link legacyBehavior href={"https://www.seller.shafn.com/"} scroll={false}>
-                        <a className="text-white">Become A Vendor</a>
+                        <a className="text-white added-bottom">Become A Vendor</a>
                     </Link>
                 </li>
                 <li>
                     <Link legacyBehavior href="/vendors" scroll={false}>
-                        <a className="text-white">Vendor Stores</a>
+                        <a className="text-white added-bottom">Vendor Stores</a>
                     </Link>
                 </li>
                 <li>
                     <Link legacyBehavior href="/account/order-tracking" scroll={false}>
-                        <a className="text-white">Track your order</a>
+                        <a className="text-white added-bottom">Track your order</a>
                     </Link>
                 </li>
                 <li>
                     <Link legacyBehavior href="/account/register" scroll={false}>
-                        <a className="text-white">Sell on shafN</a>
+                        <a className="text-white added-bottom">Sell on shafN</a>
                     </Link>
                 </li>
             </ul>
