@@ -69,7 +69,7 @@ const WPWidgetCategories = ({ activeID, page }) => {
             <div>
                 <div style={{ marginLeft: 10, marginBlock: 10 }}>
                     <Link legacyBehavior href="/shop">
-                        <a
+                        <a href=""
                             className={
                                 activeID === undefined
                                     ? "ml-2 mt-4 mb-4 font-bold w3-text-black"
@@ -90,9 +90,13 @@ const WPWidgetCategories = ({ activeID, page }) => {
                             key={`${c.name}-${i + 1}`}>
                             {c.sub_cat.map((sc, i) => (
                                 <div key={sc.title} style={{marginBottom:"8px"}}>
-                                    <p className="w-text-black" style={{marginBottom:-2,color:"black"}}>
+                                                        {/* ADD LINK HERE */}
+                                    <p className="w-text-black" style={{marginBottom:-2,color:"black", cursor: "pointer"}}>
+                                        <a href="/">
                                         <b>{sc.title}</b>
+                                        </a>      
                                     </p>
+                                    
                                     {sc.categories.map((sub_c) => {
                                         const cat = categoryItems
                                             ? categoryItems.find(
@@ -114,7 +118,8 @@ const WPWidgetCategories = ({ activeID, page }) => {
                                                     Math.random() *
                                                     Math.random()
                                                 }>
-                                                <a
+                                                                                        {/* ADD LINK HERE */}
+                                                <a href="/"         
                                                     className={`d-block category-link font-normal mt-2 mb-2 ${
                                                         parseInt(activeID) ===
                                                         cat_id
