@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import WPProductCart,{CustomProductCart} from '~/wp-components/elements/products/WPProductCart';
+import {CustomProductCart} from '~/wp-components/elements/products/WPProductCart';
 import { useAppSelector } from "@/redux-store/hooks";
 import { useCartFunctions } from '@/redux-store/hooks/useCart';
 
 export default function WPShoppingCart() {
 
-    const {increaseQuantity,contextHolder,removeFromCart} = useCartFunctions()
+    const {increaseQuantity,contextHolder,removeFromCart,reduceQuantity} = useCartFunctions()
 
     // componentDidMount() {
     //     this.props.dispatch(getCart());
@@ -20,7 +20,7 @@ export default function WPShoppingCart() {
     }
 
     const handleDecreaseItemQty=(product)=>{
-        // this.props.dispatch(decreaseItemQty(product));
+       return ()=>reduceQuantity(product)
     }
 
     const handleRemoveCartItem = (product) => {
@@ -44,7 +44,6 @@ export default function WPShoppingCart() {
             </CustomProductCart>
             </div>
             </div>
-            
             <div className="ps__cart-info">
                         <div className='ps__cart-column'>
                             <div className="form-group--number">
@@ -55,10 +54,7 @@ export default function WPShoppingCart() {
                             </button>
                             <button
                                 className="down"
-                                // onClick={this.handleDecreaseItemQty.bind(
-                                //     this,
-                                //     product
-                                // )}
+                                onClick={handleDecreaseItemQty(product)}
                                 >
                                 -
                             </button>
@@ -71,7 +67,7 @@ export default function WPShoppingCart() {
                             />
                         </div>
                     </div>
-                    <div className='ps__cart-column pl-5'>${product.quantity * product.price}</div>
+                    <div className='ps__cart-column pl-5'>${(product.quantity * product.price).toFixed(2)}</div>
                     <div className='ps__cart-actions'>
                         <a
                         href="#"
@@ -87,7 +83,6 @@ export default function WPShoppingCart() {
     ));
     if (cartItems && cartItems.length > 0) {
         subtotalView = cartItems.map((product, index) => {
-            console.log(product);
             return (
                 <li key={product.id}>
                     <span className="ps-block__estimate">
@@ -139,7 +134,7 @@ export default function WPShoppingCart() {
                             <div className="ps-block--shopping-total">
                                 <div className="ps-block__header">
                                     <p>
-                                        Subtotal <span> ${amount}</span>
+                                        Subtotal <span> ${amount.toFixed(2)}</span>
                                     </p>
                                 </div>
                                 <div className="ps-block__content">
@@ -147,7 +142,7 @@ export default function WPShoppingCart() {
                                         {subtotalView}
                                     </ul>
                                     <h3>
-                                        Total <span>${amount}</span>
+                                        Total <span>${amount.toFixed(2)}</span>
                                     </h3>
                                 </div>
                             </div>

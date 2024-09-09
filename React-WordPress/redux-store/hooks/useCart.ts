@@ -1,13 +1,10 @@
 import { useEffect } from "react";
-import cart, { CartItem, initialState, update_cart_success } from "../cart";
+import cart, { CartItem, initialState, CartState,update_cart_success } from "../cart";
 import { useAppDispatch, useAppSelector} from ".";
 import { notification } from "antd";
 
 
-
-
 export function useCart(){
-    const cartState = useAppSelector(state => state.cart);
     const dispatch = useAppDispatch()
 
     useEffect(()=>{
@@ -53,12 +50,24 @@ export function useCartFunctions(){
             return initialState;
         }
     }
+    const getLocalStore=()=>{
+        const localCart = localStorage.getItem("persist:martfury");
+        try{
+            const JsonData =  JSON.parse(localCart as string);
+            return JSON.parse(JsonData)
+        }
+        catch(e){
+            console.log(e)
+            return initialState;
+        }
+    }
 
     const increaseQuantity = (product:CartItem) =>{
         let cartItems:CartItem[] = getLocalCartObject().cartItems
 
         const  updatedItems = cartItems.map((item) =>{
-            if(item.id !== product.id && item.variation_id !== product.variation_id) return item;
+            if(item.id !== product.id) return item;
+            console.log("isProduct", item.id === product.id )
             const selectedItem = item
 
             const isVariableProduct = product.variation_id !== 0;
@@ -85,6 +94,47 @@ export function useCartFunctions(){
                 return selectedItem;
             }
             selectedItem.quantity++
+            return selectedItem
+
+        });
+        const cartTotal = updatedItems.map(item=>item.quantity).reduce((a,b)=>a + b,0)
+        const amount = updatedItems.map(item=>item.quantity * item.price).reduce((a,b)=>a + b,0)
+
+        dispatch(update_cart_success({cartTotal,amount,cartItems:updatedItems}))
+
+    }
+    const reduceQuantity = (product:CartItem) =>{
+        let cartItems:CartItem[] = getLocalCartObject().cartItems
+
+        const  updatedItems = cartItems.map((item) =>{
+            if(item.id !== product.id && item.variation_id !== product.variation_id) return item;
+            const selectedItem = item
+            if(selectedItem.quantity < 2) return selectedItem
+
+            const isVariableProduct = product.variation_id !== 0;
+            if(isVariableProduct){
+                if(selectedItem.quantity === product.variation_stock_quantity) {
+                    api.warning({
+                        description:"Cannot exceed stock quantity",
+                        message:"Stock Quantity Exceeded",
+                    })
+                    return selectedItem;
+                }
+                selectedItem.quantity--
+                return selectedItem;
+            }
+            if(!product.stock_quantity){
+                selectedItem.quantity--
+                return selectedItem
+            }
+            if(selectedItem.quantity === product.stock_quantity){
+                api.warning({
+                    description:"Cannot exceed stock quantity",
+                    message:"Stock Quantity Exceeded",
+                })
+                return selectedItem;
+            }
+            selectedItem.quantity--
             return selectedItem
 
         });
@@ -142,7 +192,7 @@ export function useCartFunctions(){
     }
 
     const removeFromCart = (product:CartItem)=>{
-        const localStorageData  = JSON.parse(localStorage.getItem("persist:martfury") as string);
+        const localStorageData  = getLocalStore();
         const cartItems:CartItem[] = getLocalCartObject().cartItems
 
         const updatedCartItems =  cartItems.filter (cartItem =>cartItem.id !== product.id)
@@ -171,6 +221,7 @@ export function useCartFunctions(){
         increaseQuantity,
         removeFromCart,
         addToCart,
+        reduceQuantity,
         contextHolder,
     }
 }

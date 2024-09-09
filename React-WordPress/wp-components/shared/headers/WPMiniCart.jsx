@@ -19,7 +19,7 @@ export default function WPMiniCart() {
 
         const cartData = useAppSelector(state=>state.cart);
         const { amount, cartTotal, cartItems } = cartData;
-        
+
         // views
         let cartItemsView;
         if (cartItems && cartItems.length > 0) {
@@ -32,7 +32,7 @@ export default function WPMiniCart() {
                     <div className="ps-cart__footer">
                         <h3>
                             Sub Total:
-                            <strong>${amount ? amount : 0}</strong>
+                            <strong>${amount ? amount.toFixed(2) : 0}</strong>
                         </h3>
                         <figure>
                             <Link legacyBehavior href="/account/shopping-cart">

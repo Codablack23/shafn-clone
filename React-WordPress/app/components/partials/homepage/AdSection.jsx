@@ -58,6 +58,7 @@ export default function AdSection(){
             }
         };
     },[])
+
     return (
         <section className="ps__ad-section my-16 py-16">
             <div className="ps-container ps-grid">
@@ -78,24 +79,24 @@ export default function AdSection(){
                <Link legacyBehavior href={storeQuery?`/store/${storeQuery}`:"/vendors"}>
                <div className="ps-store text-center">
                         <>
-                        <p className="text-white title">STORE</p>
-                        <div className="store-img-container">
-                        {store !== null?(
-                            <img
-                            src={store.gravatar}
-                            alt={store.store_name}
-                            />
-                        ):null}
-                        </div>
-                        <p className="text-white title">{store?store.store_name:"Loading Store"}</p>
+                            <p className="text-white title">STORE</p>
+                            <div className="store-img-container">
+                            {store !== null?(
+                                <img
+                                src={store.gravatar}
+                                alt={store.store_name}
+                                />
+                            ):null}
+                            </div>
+                            <p className="text-white title">{store?store.store_name:"Loading Store"}</p>
                         </>
                </div>
                </Link>
-               <div className="ps-become-a_vendor">
-                 <Link legacyBehavior target="_blank" href={"https://seller.shafn.com"}>
-                   <button>BECOME A VENDOR</button>
-                 </Link>
-               </div>
+                <div className="ps-become-a_vendor">
+                    <Link legacyBehavior target="_blank" href={"https://seller.shafn.com"}>
+                    <button>BECOME A VENDOR</button>
+                    </Link>
+                </div>
             </div>
         </section>
     )

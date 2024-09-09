@@ -5,7 +5,7 @@ export interface CartItem{
     [key:string]:any
 }
 
-interface CartState{
+export interface CartState{
     cartItems:CartItem[],
     amount:number,
     cartTotal:number,
@@ -21,6 +21,21 @@ interface ErrorPayload{
     error:boolean
 }
 
+function setLocalCartObject(updatedCart:CartState){
+    const localCart = localStorage.getItem("persist:martfury");
+    try{
+        const localStore =  JSON.parse(localCart as string);
+        const cart = JSON.stringify(updatedCart);
+        localStorage.setItem("persist:martfury", JSON.stringify({
+            ...localStore,
+            cart,
+        }));
+    }
+    catch(e){
+        console.log(e)
+    }
+}
+
 const cartSlice = createSlice({
     name: "cart",
     initialState,
@@ -29,6 +44,7 @@ const cartSlice = createSlice({
             state.amount = action.payload.amount;
             state.cartItems = action.payload.cartItems;
             state.cartTotal = action.payload.cartTotal;
+            setLocalCartObject(action.payload)
         },
         get_cart_error:(state,action:PayloadAction<ErrorPayload>)=>{
             state.error = action.payload.error;
@@ -37,6 +53,7 @@ const cartSlice = createSlice({
             state.amount = action.payload.amount;
             state.cartItems = action.payload.cartItems;
             state.cartTotal = action.payload.cartTotal;
+            setLocalCartObject(action.payload)
         },
         update_cart_error:(state,action:PayloadAction<ErrorPayload>)=>{
             state.error = action.payload.error;

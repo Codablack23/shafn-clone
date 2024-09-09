@@ -481,6 +481,8 @@
         padding: 8px 16px;
         cursor: pointer;
         color: #fff;
+        box-shadow: 0 12px 24px 0 rgba(0,0,0,0.7);
+        border-radius: 20px;
         text-transform: uppercase;
         .store-img-container{
             background-color: #fff;
@@ -518,6 +520,8 @@
         background-color: #dea885;
         display: grid;
         grid-template-columns: repeat(2,1fr);
+        box-shadow: 0 12px 24px 0 rgba(0,0,0,0.7);
+        border-radius: 20px;
         gap: 12px;
         padding: 16px;
         text-transform: uppercase;
@@ -540,6 +544,8 @@
         align-items: center;
         padding: 16px;
         min-height: 300px;
+        border-radius: 20px;
+        box-shadow: 0 12px 24px 0 rgba(0,0,0,0.7);
         button{
             background-color: #000;
             color: #fff;
