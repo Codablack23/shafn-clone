@@ -94,7 +94,7 @@ const WPWidgetCategories = ({ activeID, page }) => {
                                     <p className="w-text-black" style={{marginBottom:-2,color:"black", cursor: "pointer"}}>
                                         <a href="/">
                                         <b>{sc.title}</b>
-                                        </a>      
+                                        </a>
                                     </p>
                                     
                                     {sc.categories.map((sub_c) => {
@@ -118,8 +118,8 @@ const WPWidgetCategories = ({ activeID, page }) => {
                                                     Math.random() *
                                                     Math.random()
                                                 }>
-                                                                                        {/* ADD LINK HERE */}
-                                                <a href="/"         
+                                                 {/* ADD LINK HERE */}
+                                                <a
                                                     className={`d-block category-link font-normal mt-2 mb-2 ${
                                                         parseInt(activeID) ===
                                                         cat_id
