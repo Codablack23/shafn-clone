@@ -1,38 +1,41 @@
 export const Categories = [
 
-    {id: 16, name: 'Makeup', sub_cat:[
-       {
-           title:"BRUSH AND SPONGE ACCESSORIES MAKEUP",
-           categories:[
-               {name:"Eyelash curler",slug:"",id:""},
-               {name:"Matt paper",slug:"",id:""},
-               {name:"Nail clippers",slug:"",id:""},
-               {name:"Sharpener",slug:"",id:""}
-           ]
-       },
-       {
-           title:"COMPLEXION",
-           categories:[
-            {name:"BB & CC Cream",slug:"",id:""},
-            {name:"Bronzer",slug:"",id:""},
-            {name:"Concealer",slug:"",id:""},
-            {name:"Contouring",slug:"",id:""},
-            {name:"Fixing spray",slug:"",id:""},
-            {name:"Foundation",slug:"",id:""},
-            {name:"Highlighter",slug:"",id:""},
-            {name:"Loose powder",slug:"",id:""},
-            {name:"Powder",slug:"",id:""},
-            {name:"Primers",slug:"",id:""},
-            {name:"Rouge",slug:"",id:""},
-           ]
-       },
-       {
-           title:"EYEBROWS",
-           categories:[
+    {
+        id: 16,
+        name: 'Makeup',
+        sub_cat:[
+        {
+            title:"BRUSH AND SPONGE ACCESSORIES MAKEUP",
+            categories:[
+                {name:"Eyelash curler",slug:"",id:""},
+                {name:"Matt paper",slug:"",id:""},
+                {name:"Nail clippers",slug:"",id:""},
+                {name:"Sharpener",slug:"",id:""}
+            ]
+        },
+        {
+            title:"COMPLEXION",
+            categories:[
+                {name:"BB & CC Cream",slug:"",id:""},
+                {name:"Bronzer",slug:"",id:""},
+                {name:"Concealer",slug:"",id:""},
+                {name:"Contouring",slug:"",id:""},
+                {name:"Fixing spray",slug:"",id:""},
+                {name:"Foundation",slug:"",id:""},
+                {name:"Highlighter",slug:"",id:""},
+                {name:"Loose powder",slug:"",id:""},
+                {name:"Powder",slug:"",id:""},
+                {name:"Primers",slug:"",id:""},
+                {name:"Rouge",slug:"",id:""},
+            ]
+        },
+        {
+            title:"EYEBROWS",
+            categories:[
             {name:"Eyebrow gel",slug:"",id:""},
             {name:"Eyebrow Pencil & Powder",slug:"",id:""},
             {name:"Eyebrow set",slug:"",id:""},
-           ]
+            ]
        },
        {
         title:"EYES",
@@ -329,12 +332,6 @@ export const Categories = [
    ]
 
 // BODY
-
-
-
-
-
-	
 
 
 

@@ -7,6 +7,8 @@ import '@splidejs/react-splide/css';
 import CustomReduxProvider from "../redux-store/provider";
 import StateProvider from "./components/layouts/StateProvider";
 import ScrollProvider from "./components/layouts/ScrollProvider";
+import Script from "next/script";
+import LanguageSwitcher from "./components/LanguageSwitcher";
 
 
 
@@ -21,7 +23,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html>
+        <Script
+          src="/scripts/lang-config.js"
+          strategy="beforeInteractive"
+        />
+        <Script
+          src="/scripts/translation.js"
+          strategy="beforeInteractive"
+        />
+        <Script
+          src="//translate.google.com/translate_a/element.js?cb=TranslateInit"
+          strategy="afterInteractive"
+        />
       <body>
         <CustomReduxProvider>
           <StateProvider>
@@ -30,6 +44,7 @@ export default function RootLayout({
             </ScrollProvider>
           </StateProvider>
         </CustomReduxProvider>
+        <LanguageSwitcher/>
       </body>
     </html>
   );
