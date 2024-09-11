@@ -109,7 +109,7 @@ const WPProductList = ({ categoryID, title }) => {
         <div className="mx-4">
             <div className="">
                 <br />
-                <div className="my-4" style={{marginTop:"64px", fontSize:"22px", marginLeft:"16px"}}>
+                <div className="my-4" style={{marginTop:"64px", fontSize:"22px", marginLeft:"80px"}}>
                     <h3 className="font-bold capitalize">{title}</h3>
                     {/* <ul className="ps-section__links">
                         {sectionLinksView}

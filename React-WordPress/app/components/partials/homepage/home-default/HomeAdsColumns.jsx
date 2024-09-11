@@ -20,9 +20,9 @@ export default function HomeAdsColumns (){
         promotion3 = getItemBySlug(promotionData.items, 'middle_3');
     }
     return (
-        <div className="ps-home-ads">
-            <div className="ps-container">
-                <div className="row">
+        <div className="">
+            <div className="">
+                <div className="row bg-[#52432f] -mt-12 px-14 pt-32 pb-32">
                     <div className="col-xl-4 col-lg-4 mb-2 col-md-12 col-sm-12 col-12 ">
                         <Promotion
                             link="/shop"
