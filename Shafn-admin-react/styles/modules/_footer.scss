@@ -19,7 +19,9 @@ $color-photo: #c81919;
     margin-top: 8px;
     padding: 0;
     list-style: none;
-   
+  }
+  li{
+    padding: 5px 0;
   }
   &__widgets {
     display: flex;
@@ -31,7 +33,7 @@ $color-photo: #c81919;
   &__links {
     padding: 60px 0;
     border-top: 1px solid #e1e1e1;
-
+    
     p {
       strong {
         color: $color-footer;
@@ -195,6 +197,7 @@ $color-photo: #c81919;
   padding: 0;
   border-top: 1px solid #e1e1e1;
   background-color: #f8f8f8;
+  
 
   .ps-block--site-features {
     padding: 40px 0;

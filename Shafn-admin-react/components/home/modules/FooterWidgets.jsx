@@ -87,26 +87,26 @@ const FooterWidgets = () => (
             <a className="text-white">Shop</a>
           </Link>
         </li>
-        <p>
+        <li>
           <Link href={"https://www.seller.shafn.com/"} scroll={false}>
             <a className="text-white">Become A Vendor</a>
           </Link>
-        </p>
-        <p>
+        </li>
+        <li>
         <Link href={"https://shafn.com/vendors"} scroll={false}>
             <a className="text-white">Vendor Stores</a>
           </Link>
-        </p>
-        <p>
+        </li>
+        <li>
         <Link href={"https://shafn.com/account/order-tracking"} scroll={false}>
             <a className="text-white">Track your order</a>
           </Link>
-        </p>
-        <p>
+        </li>
+        <li>
         <Link href={"https://shafn.com/account/register"} scroll={false}>
             <a className="text-white">Sell on shafN</a>
           </Link>
-        </p>
+        </li>
       </ul>
     </aside>
   </div>
