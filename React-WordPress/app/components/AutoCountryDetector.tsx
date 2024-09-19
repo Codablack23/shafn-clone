@@ -78,10 +78,13 @@ function AutoCountryModal(props:AutoCountryModalProps){
                         defaultValue={currency}
                         showSearch
                         filterOption={(input, option) =>((option?.label ?? '') as String).toLowerCase().includes(input.toLowerCase())}
-                        options={countries.filter(country=>country.currencies!= undefined).map((country) => ({
+                        options={countries.filter(country=>country.currencies!= undefined).map((country) => country.currencies?({
                             label: `${country.currencies[0].code } - ${country.currencies[0].symbol}`,
                             value: country.currencies[0].code,
-                        }))}
+                        }):{
+                            label:"USD - $",
+                            code:"USD"
+                        })}
                         style={{width:"100%"}}/>
                     </div>
                     {(!currentLanguage || !languageConfig)?
