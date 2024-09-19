@@ -13,7 +13,7 @@ export default function PrivacyPolicy(){
           },5000)
     },[])
     return(
-        <WPLayoutHomeDefault title="Multipurpose Marketplace React Ecommerce Template" children={undefined}>
+        <WPLayoutHomeDefault title="Multipurpose Marketplace React Ecommerce Template">
             <div className="ps__privacy-policy-page container mb-[100px]">
                 <br />
                 <h2 style={{fontSize:"36px"}} className="text-center text-3xl font-semibold">Privacy Policy</h2><br />
