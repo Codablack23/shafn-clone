@@ -8,9 +8,6 @@ import CustomReduxProvider from "../redux-store/provider";
 import StateProvider from "./components/layouts/StateProvider";
 import ScrollProvider from "./components/layouts/ScrollProvider";
 import Script from "next/script";
-import LanguageSwitcher from "./components/LanguageSwitcher";
-
-
 
 export const metadata: Metadata = {
   title: process.env.NEXT_PUBLIC_TITLE || "ShafN",
@@ -44,7 +41,6 @@ export default function RootLayout({
             </ScrollProvider>
           </StateProvider>
         </CustomReduxProvider>
-        <LanguageSwitcher/>
       </body>
     </html>
   );

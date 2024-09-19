@@ -19,7 +19,6 @@ function Category({category,product}){
 }
 
 export default function AdSectionCategory({products,categories}){
-    console.log(categories)
   if(categories.length > 0){
     return (
         <div className="ps-category">

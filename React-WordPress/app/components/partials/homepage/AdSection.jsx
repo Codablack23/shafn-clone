@@ -31,7 +31,6 @@ export default function AdSection(){
             const WPCategories = await WPProductRepository.getProductCategories(
                 categoryQueries
             );
-            console.log({WPCategories,WPProducts})
             if(WPCategories){
                 setCategories(WPCategories.items)
             }

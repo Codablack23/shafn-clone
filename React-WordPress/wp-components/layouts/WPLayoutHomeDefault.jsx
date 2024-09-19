@@ -1,4 +1,5 @@
 "use client";
+import AutoCountryDetector from "@/app/components/AutoCountryDetector";
 import { useCart } from "@/redux-store/hooks/useCart";
 import useWishList from "@/redux-store/hooks/useWishList";
 import Head from "next/head";
@@ -13,15 +14,20 @@ const WPLayoutHomeDefault = ({ children, title }) => {
     useWishList()
 
     return (
-        <div className="martfury" id="shafn">
-            <WPHeaderDefault />
-            <WPHeaderMobile />
-            <WPNavigationBottom />
-            <main id="homepage-1">{children}</main>
-            <FooterFullwidth />
-            {/*<SwicherDemo />*/}
-            {/*<SubscribePopup active={subscribe} />*/}
-        </div>
+        <>
+          <AutoCountryDetector/>
+          <main className="martfury" id="shafn">
+          
+          <WPHeaderDefault />
+          <WPHeaderMobile />
+          <WPNavigationBottom />
+          <main id="homepage-1">{children}</main>
+          <FooterFullwidth />
+          {/*<SwicherDemo />*/}
+          {/*<SubscribePopup active={subscribe} />*/}
+      </main>
+        </>
+       
     );
 };
 

@@ -24,7 +24,6 @@ export default function HomeBanner () {
     const media = useAppSelector((state)=>state.media)
     const {banners,promotions} = media
 
-    console.log(ref)
     const bannerData = {
       items:[
         {

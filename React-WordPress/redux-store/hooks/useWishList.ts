@@ -8,7 +8,6 @@ type WishlistLocalStoreHandler=()=>WishlistState
 
 const getLocalWishlistObject:WishlistLocalStoreHandler=()=>{
     const localCart = localStorage.getItem("persist:martfury");
-    console.log(localCart);
     try{
         const JsonData =  JSON.parse(localCart as string);
         return JSON.parse(JsonData.wishlist)

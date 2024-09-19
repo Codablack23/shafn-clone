@@ -89,11 +89,6 @@ export default function HeaderNav() {
         getCategoryItems();
     }, []);
 
-    console.log({
-        categoryItems,
-        Categories
-    })
-
     return (
         <nav className="custom--navigation">
             <ul className="nav--list nav--center">
