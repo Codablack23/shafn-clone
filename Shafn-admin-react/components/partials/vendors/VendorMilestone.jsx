@@ -112,7 +112,7 @@ export default function VendorMilestone(){
             <div className="ps__page-container">
             <div className="header text-center"><br /><br />
              <h2 className="title">HOW IT WORKS</h2>
-             <p className="subtitle">Easy to start selling online on Martfury just 4 simple steps</p>
+             <p className="subtitle">Easy to start selling online on ShafN just 4 simple steps</p>
            </div><br /><br />
            <br /><br />
            <div className="ps-milestone">
@@ -120,7 +120,7 @@ export default function VendorMilestone(){
                 <ul>
                 <h3>Register and list your products</h3>
                 <li>Register your business for free and create a product catalogue. Get free training on how to run your online business</li>
-                <li>Our Martfury Advisors will help you at every step and fully assist you in taking your business online</li>
+                <li>Our ShafN Advisors will help you at every step and fully assist you in taking your business online</li>
                 </ul>
              </div>
              <div></div>
@@ -136,7 +136,7 @@ export default function VendorMilestone(){
                 <ul>
                 <h3>Register and list your products</h3>
                 <li>Register your business for free and create a product catalogue. Get free training on how to run your online business</li>
-                <li>Our Martfury Advisors will help you at every step and fully assist you in taking your business online</li>
+                <li>Our ShafN Advisors will help you at every step and fully assist you in taking your business online</li>
                 </ul>
              </div>
              <div></div>
@@ -152,7 +152,7 @@ export default function VendorMilestone(){
                 <ul>
                 <h3>Register and list your products</h3>
                 <li>Register your business for free and create a product catalogue. Get free training on how to run your online business</li>
-                <li>Our Martfury Advisors will help you at every step and fully assist you in taking your business online</li>
+                <li>Our ShafN Advisors will help you at every step and fully assist you in taking your business online</li>
                 </ul>
              </div>
              <div></div>
@@ -168,7 +168,7 @@ export default function VendorMilestone(){
                 <ul>
                 <h3>Register and list your products</h3>
                 <li>Register your business for free and create a product catalogue. Get free training on how to run your online business</li>
-                <li>Our Martfury Advisors will help you at every step and fully assist you in taking your business online</li>
+                <li>Our ShafN Advisors will help you at every step and fully assist you in taking your business online</li>
                 </ul>
              </div>
              <div></div>

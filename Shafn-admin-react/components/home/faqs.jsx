@@ -4,15 +4,15 @@ export default function FAQS() {
       <div className="header text-center">
         <h4 className="title">frequently asked questions</h4>
         <p className="subtitle">
-          Here are some common questions about selling on Martfury
+          Here are some common questions about selling on ShafN
         </p>
       </div>
       <div className="row faqs-content">
         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 question">
           <figure>
-            <figcaption>How do fees work on Martfury?</figcaption>
+            <figcaption>How do fees work on ShafN?</figcaption>
             <p>
-              Joining and starting a shop on Martfury is free. There are three
+              Joining and starting a shop on ShafN is free. There are three
               basic selling fees: a listing fee, a transaction fee, and a
               payment processing fee.
             </p>
@@ -33,11 +33,11 @@ export default function FAQS() {
           <figure>
             <figcaption>What do I need to do to create a shop?</figcaption>
             <p>
-              It’s easy to set up a shop on Martfury. Create an Martfury account
+              It’s easy to set up a shop on ShafN. Create an ShafN account
               (if you don’t already have one), set your shop location and
               currency, choose a shop name, create a listing, set a payment
               method (how you want to be paid), and finally set a billing method
-              (how you want to pay your Martfuryfees).
+              (how you want to pay your ShafN fees).
             </p>
           </figure>
         </div>
@@ -46,7 +46,7 @@ export default function FAQS() {
             <figcaption>How do I get paid?</figcaption>
             <p>
               If you accept payments with PayPal, funds from PayPal sales on
-              Martfury will be deposited into your PayPal account. We encourage
+              ShafN will be deposited into your PayPal account. We encourage
               sellers to use a PayPal Business account and not a Personal
               account, as personal accounts are subject to monthly receiving
               limits and cannot accept payments from buyers that are funded by a
@@ -78,10 +78,10 @@ export default function FAQS() {
             </p>
           </figure>
           <figure>
-            <figcaption>What can I sell on Martfury?</figcaption>
+            <figcaption>What can I sell on ShafN?</figcaption>
           </figure>
           <p>
-            Martfury provides a marketplace for crafters, artists and collectors
+          ShafN provides a marketplace for crafters, artists and collectors
             to sell their handmade creations, vintage goods (at least 20 years
             old), and both handmade and non-handmade crafting supplies.
           </p>

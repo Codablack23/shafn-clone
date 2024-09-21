@@ -70,7 +70,7 @@ const FooterWidgets = () => (
       </ul>
     </aside>
     <aside className="widget widget_footer">
-      <h4 className="widget-title text-white">Bussiness</h4>
+      <h4 className="widget-title text-white">Business</h4>
       <ul className="ps-list--link">
         {/* <li>
                     <Link href="/page/about-us" scroll={false}>

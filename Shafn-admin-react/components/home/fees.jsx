@@ -42,7 +42,7 @@ export default function Fees() {
               {" "}
               We process payments with PayPal, an external payments platform
               that allows you to process transactions with a variety of payment
-              methods. Funds from PayPal sales on Martfury will be deposited
+              methods. Funds from PayPal sales on ShafN will be deposited
               into your PayPal account.
             </p>
           </div>

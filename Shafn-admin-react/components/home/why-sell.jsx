@@ -2,7 +2,7 @@ export default function WhySell() {
   return (
     <section className="why-sell ps__page-container">
       <header className="text-center">
-        <h4 className="title">Why sell on shafn</h4>
+        <h4 className="title">Why sell on ShafN</h4>
         <p className="subtitle">
           Join a marketplace where nearly 50 million buyers around the world
           shop for unique items
@@ -16,7 +16,7 @@ export default function WhySell() {
           <h4>Low Fees</h4>
           <p>
             It doesn’t take much to list your items and once you make a sale,
-            Shafn’s transaction fee is just 2.5%.
+            ShafN’s transaction fee is just 2.5%.
           </p>
         </div>
         <div className="grid-item">
