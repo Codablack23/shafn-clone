@@ -16,11 +16,14 @@ const WPHeaderDefault = () => {
     return (
         <header
             className="header bg-white"
+            style={{
+                alignItems:"center"
+            }}
             data-sticky="true"
             id="headerSticky">
             <div className="header-top bg-white">
                 <div className="bg-white">
-                    <div className="custom-header-center bg-white">
+                    <div className="custom-header-center bg-white" style={{paddingTop:"10px",alignItems:"center",gap:"8px"}}>
                         <Logo/>
                         <div className="custom-header-search header-lg">
                          <WPSearchHeader />

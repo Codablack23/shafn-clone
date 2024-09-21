@@ -100,13 +100,14 @@ export default function HomeBanner () {
                         <Promotion
                             link="/shop"
                             image={promotion1 ?null : null}
+                            styles={{width:"100%",height:"275px",objectFit:"cover"}}
                             defImage={"/static/images/slider3.jpg"}
                         />
                     </div>
                     <Promotion
                         link="/shop"
                         image={promotion2 ? null : null}
-                        styles={{width:"100%",height:"280px",objectFit:"cover"}}
+                        styles={{width:"100%",height:"275px",objectFit:"cover"}}
                         defImage={"/static/images/slider12.jpg"}
                     />
                 </div>

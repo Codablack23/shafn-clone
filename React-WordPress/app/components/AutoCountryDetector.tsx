@@ -153,17 +153,15 @@ export default function AutoCountryDetector(){
         open={open}
         currencySymbol={currencySymbol}
         />
-        <header className="bg-gray-100 p-2 py-4">
-            <div className="container flex justify-center">
-                <div onClick={openModal} className="flex cursor-pointer gap-4 border p-2 items-center">
-                    <div className="w-[30px] border h-[20px]">
-                        <Image  preview={false} src={country.flags.svg} alt={country.name}/>
-                    </div>
-                    <p>{currency} - {currencySymbol}</p>
-                    <button><i className="bi bi-chevron-down"></i></button>
+        <div className="flex justify-center autocountry-detector-btn">
+            <div onClick={openModal} className="flex cursor-pointer gap-4 border p-2 items-center">
+                <div className="w-[30px] border h-[20px]">
+                    <Image  preview={false} src={country.flags.svg} alt={country.name}/>
                 </div>
+                <p>{currency} - {currencySymbol}</p>
+                <button><i className="bi bi-chevron-down"></i></button>
             </div>
-        </header>
+        </div>
         </>
     )
 }
