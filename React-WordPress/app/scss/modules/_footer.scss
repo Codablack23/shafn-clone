@@ -4,6 +4,7 @@
     &__widgets {
         display: flex;
         flex-flow: row nowrap;
+        gap: 120px;
         justify-content: space-around;
         padding-bottom: 35px;
     }
