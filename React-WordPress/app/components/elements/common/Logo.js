@@ -40,11 +40,18 @@ const Logo = ({ type }) => {
         };
     }
     return (
-        <Link legacyBehavior href={data.url}>
-            <a className="ps-logo header-item">
-                <img src={data.img} alt="" />
+       <div className="flex-1" style={{
+        flex:1,
+        display:"flex",
+        alignItems:"center",
+        marginBottom:"8px"
+       }}>
+         <Link legacyBehavior href={data.url}>
+            <a className="">
+                <img style={{maxWidth:"80px"}} src={data.img} alt="" />
             </a>
         </Link>
+       </div>
     );
 };
 

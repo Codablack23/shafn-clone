@@ -3,6 +3,7 @@ import Link from "next/link";
 import AccountQuickLinks from "~/app/components/shared/headers/modules/AccountQuickLinks";
 import WPMiniCart from "~/wp-components/shared/headers/WPMiniCart";
 import { useAppSelector } from "@/redux-store/hooks";
+import AutoCountryDetector from "@/app/components/AutoCountryDetector";
 
 export default function  WPHeaderActions(){
         const auth = useAppSelector(state=>state.auth)
@@ -13,11 +14,15 @@ export default function  WPHeaderActions(){
         // Views
         let accountView = <AccountQuickLinks isLoggedIn={auth.isLoggedIn} />;
         return (
-            <div className="header__actions">
+            <div className="" style={{flex:"2"}}>
                 <div
-                    className="w-100 d-flex justify-content-around"
+                    className="d-flex"
                     style={{
                         alignItems: "center",
+                        justifyContent: "center",
+                        gap: "16px",
+                        marginBottom:"8px"
+
                     }}>
                     {/* <Link legacyBehavior href="/account/compare">
                         <span
@@ -37,6 +42,7 @@ export default function  WPHeaderActions(){
                             </span>
                         </span>
                     </Link> */}
+                    <AutoCountryDetector/>
                     <Link legacyBehavior href="/account/wishlist">
                         <span
                             title="Wishlist"
@@ -53,9 +59,9 @@ export default function  WPHeaderActions(){
                             <span
                                 className="sub"
                                 style={{
-                                    height: 17,
+                                    height: 16,
                                     right: "-2px",
-                                    width: 17,
+                                    width: 16,
                                 }}>
                                 <i>{wishlist.wishlistTotal}</i>
                             </span>

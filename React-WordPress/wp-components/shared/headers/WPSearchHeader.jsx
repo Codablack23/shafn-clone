@@ -177,7 +177,8 @@ const WPSearchHeader = () => {
             className="d-flex w-100 rounded-pill"
             style={{
                 height: "42px",
-                marginTop: "7px",
+                // marginTop: "7px",
+                flex:2
             }}
             method="get"
             action="/"

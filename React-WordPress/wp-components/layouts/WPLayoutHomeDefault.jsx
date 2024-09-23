@@ -15,9 +15,7 @@ const WPLayoutHomeDefault = ({ children, title }) => {
 
     return (
         <>
-          <AutoCountryDetector/>
           <main className="martfury" id="shafn">
-          
           <WPHeaderDefault />
           <WPHeaderMobile />
           <WPNavigationBottom />
