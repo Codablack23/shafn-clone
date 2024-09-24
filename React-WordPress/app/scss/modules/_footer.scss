@@ -1,10 +1,11 @@
 .ps-footer {
     padding-top: 70px;
     background-color: $color-dark;
+    
     &__widgets {
         display: flex;
         flex-flow: row nowrap;
-        gap: 120px;
+        gap: 155px;
         justify-content: space-around;
         padding-bottom: 35px;
     }

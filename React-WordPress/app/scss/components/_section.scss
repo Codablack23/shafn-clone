@@ -260,6 +260,7 @@
     @media (max-width: 1440px) and (min-width: 1200px) {
         .ps-section__content {
             .row {
+                padding-inline: 20px;
                 margin: 0;
             }
 
@@ -287,6 +288,30 @@
         }
     }
 }
+
+
+    @media (max-width: 1440px) and (min-width: 1200px) {
+        .ps-mobile{
+            margin-left: 50px;
+           }
+    }
+
+    @media (max-width: 1199px) {
+        .ps-mobile{
+            margin-left: 25px;
+           }
+    }
+    @include media("<md") {
+        .ps-mobile{
+            margin-left: 20px;
+           }
+    }
+    @media (max-width: 600px) {
+       .ps-mobile{
+        margin-left: 5px;
+       } 
+    }
+
 
 .ps-top-categories {
     h3 {
