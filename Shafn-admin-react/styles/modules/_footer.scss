@@ -3,11 +3,14 @@ $color-photo: #c81919;
 
 .ps-footer {
   padding-top: 70px;
-  padding-inline: 16px;
+  padding-inline: 40px;
   background-color: #161824;
   .ps-footer__content_wrapper {
     margin: auto;
   }
+
+
+
   .widget_footer{
     margin-bottom: 16px;
   }
@@ -23,10 +26,14 @@ $color-photo: #c81919;
   li{
     padding: 5px 0;
   }
+
+
+
+  
   &__widgets {
     display: flex;
     flex-flow: row nowrap;
-    gap: 90px;
+    gap: 170px;
     justify-content: space-around;
     padding-bottom: 35px;
   }
