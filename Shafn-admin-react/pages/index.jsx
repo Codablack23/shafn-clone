@@ -13,7 +13,7 @@ const Contact = ()=> (
    <div className="contact-section ps__page-container">
      <div className="contact-content">
       <p>Still have more questions? Feel free to contact us.</p>
-      <button>Contact Us</button>
+      <button><a href="https://shafn.com/page/contact-us">Contact Us</a></button>
      </div>
    </div>
 )

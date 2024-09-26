@@ -19,7 +19,7 @@ const HomeAds = props => {
     return (
         <div className="">
             <div className="">
-                <div className="row bg-[#52432f] -mt-12 px-14 pt-32 pb-32">
+                <div className="row bg-[#52432f] -mt-12 px-14 pt-32 pb-32 justify ">
                     <div className="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 ">
                         <Promotion
                             link="/shop"
