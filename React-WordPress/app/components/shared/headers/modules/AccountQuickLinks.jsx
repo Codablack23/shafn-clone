@@ -3,18 +3,13 @@ import { connect } from "react-redux";
 import Link from "next/link";
 import Router from "next/router";
 // import { logOut } from "../../../../store/auth/action";
-class AccountQuickLinks extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    handleLogout = (e) => {
+ export default function AccountQuickLinks(props) {
+    
+    const handleLogout = (e) => {
         e.preventDefault();
         this.props.dispatch(logOut());
         Router.push("/");
     };
-
-    render() {
         const accountLinks = [
             {
                 text: "Account Information",
@@ -29,7 +24,7 @@ class AccountQuickLinks extends Component {
                 url: "/account/orders",
             },
         ];
-        const { isLoggedIn } = this.props;
+        const { isLoggedIn } = props;
         if (isLoggedIn === true) {
             return (
                 <div className="ps-block--user-account mt-3">
@@ -60,7 +55,7 @@ class AccountQuickLinks extends Component {
                             <li className="ps-block__footer">
                                 <a
                                     href="#"
-                                    onClick={this.handleLogout.bind(this)}>
+                                    onClick={handleLogout}>
                                     Logout
                                 </a>
                             </li>
@@ -94,9 +89,6 @@ class AccountQuickLinks extends Component {
                 </div>
             );
         }
-    }
+
 }
-const mapStateToProps = (state) => {
-    return state;
-};
-export default connect(mapStateToProps)(AccountQuickLinks);
+

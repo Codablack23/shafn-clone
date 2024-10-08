@@ -10,6 +10,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import WPPaymentRepository from "~/repositories/WP/WPPaymentRepository";
 import { Spin } from "antd";
 import { useAppSelector } from "@/redux-store/hooks";
+import useAuth from "@/redux-store/hooks/useAuth";
 
 const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -21,7 +22,9 @@ const stripePromise = loadStripe(
 
 export default function CheckoutPage (){
     // const dispatch = useDispatch();
-    const {checkoutItems} = useAppSelector(state=>state.checkoutItems)
+    const {authState:auth} = useAuth()
+    const {amount} = useAppSelector(state=>state.checkoutItems)
+    const [loading,setLoading] = useState(true)
     const [paymentIntent, setPaymentIntent] = useState(null);
 
     const createPaymentIntent = async (user_email) => {
@@ -35,33 +38,32 @@ export default function CheckoutPage (){
         const payload = {
             products,
             user_email,
-            amount: Math.floor(Number(props.amount) * 100),
+            amount: amount * 100,
         };
 
         try {
+            setLoading(true);
             const { data } = await WPPaymentRepository.createOrderSession(
                 payload
             );
-
+            setLoading(false);
+            console.log(data);
             setPaymentIntent(data);
+
         } catch (error) {
-            console.log("error creating order session");
             console.error(error);
             return;
+        }finally{
+            setLoading(false);
         }
     };
 
     useEffect(() => {
         // dispatch(getCart());
-
-        let auth = JSON.parse(
-            JSON.parse(localStorage.getItem("persist:martfury")).auth
-        );
-
-        if (auth.isLoggedIn && Number(props.amount) > 0) {
+        if (auth.isLoggedIn && Number(amount) > 0) {
             createPaymentIntent(auth.email);
         }
-    }, []);
+    }, [auth]);
 
     const appearance = {
         theme: "stripe",
@@ -78,7 +80,10 @@ export default function CheckoutPage (){
                     <div className="ps-checkout ps-section--shopping">
                         <div className="container">
                             <div className="ps-section__content">
-                                {paymentIntent ? (
+                                {
+                                loading
+                                ?<Spin />
+                                :paymentIntent ? (
                                     <Elements
                                         options={options}
                                         stripe={stripePromise}>
@@ -90,9 +95,9 @@ export default function CheckoutPage (){
                                             paymentIntentId={paymentIntent.id}
                                         />
                                     </Elements>
-                                ) : (
-                                    <Spin />
-                                )}
+                                )
+                                :null
+                                }
                             </div>
                         </div>
                     </div>

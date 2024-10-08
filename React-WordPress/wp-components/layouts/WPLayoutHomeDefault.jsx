@@ -1,5 +1,6 @@
 "use client";
 import AutoCountryDetector from "@/app/components/AutoCountryDetector";
+import {useAuthEffect} from "@/redux-store/hooks/useAuth";
 import { useCart } from "@/redux-store/hooks/useCart";
 import useWishList from "@/redux-store/hooks/useWishList";
 import Head from "next/head";
@@ -12,7 +13,7 @@ import WPNavigationBottom from "~/wp-components/shared/mobile/WPNavigationBottom
 const WPLayoutHomeDefault = ({ children, title }) => {
     useCart()
     useWishList()
-
+    useAuthEffect()
     return (
         <>
           <main className="martfury" id="shafn">

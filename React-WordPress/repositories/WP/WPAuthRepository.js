@@ -14,7 +14,7 @@ class WPAuthRepository {
     }
 
     async register(user, adminToken) {
-        const endpoint = `${WPDomain}/wp-json/wp/v2/users/register`;
+        const endpoint = `${WPDomain}/wp-json/wp/v2/users`;
         const config = {
             headers: {
                 Authorization: `Bearer ${adminToken}`,
@@ -22,7 +22,7 @@ class WPAuthRepository {
         };
         const response = await axios.post(endpoint, user, config);
 
-        return response;
+        return response.data;
     }
 
     async login(user) {

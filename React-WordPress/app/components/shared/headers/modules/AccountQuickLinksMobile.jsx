@@ -49,7 +49,7 @@ export default function AccountQuickLinks() {
                 ))}
 
                 <Menu.Item>
-                    <a href="#" onClick={this.handleLogout.bind(this)}>
+                    <a href="#" onClick={handleLogout}>
                         Logout
                     </a>
                 </Menu.Item>

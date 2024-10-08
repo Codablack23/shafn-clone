@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import cart, { CartItem, initialState, CartState,update_cart_success } from "../cart";
+import cart, { CartItem, initialState,update_cart_success } from "../cart";
 import { useAppDispatch, useAppSelector} from ".";
 import { notification } from "antd";
 

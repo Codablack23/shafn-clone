@@ -4,13 +4,15 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Form, Input, notification, Spin } from "antd";
 // import { login } from "../../../store/auth/action";
-import { useDispatch } from "react-redux";
 import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
 import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
-import Router from "next/router";
 import WPVerification from "~/wp-components/account/WPVerification";
+import { useRouter } from "next/navigation";
+import { AxiosError } from "axios";
 
 function Register() {
+    const router = useRouter()
+    const [notificationApi, contextHolder] = notification.useNotification()
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -78,29 +80,36 @@ function Register() {
                 const admin = await WPAuthRepository.login(_admin);
 
                 // Register user with admin token
-                await WPAuthRepository.register(user, admin.token);
-
+                const newUser = await WPAuthRepository.register(user, admin.token);
                 // Login user
                 const loggedUser = await WPAuthRepository.login(_user);
+                console.log(loggedUser);
 
-                const customer = await WPCustomerRepository.getCustomer(
-                    loggedUser.user_id
-                );
+                const customer = await WPCustomerRepository.getCustomer(newUser.id);
 
-                console.log({loggedUser, customer});
+                // console.log({loggedUser, customer});
 
                 // dispatch(login(customer));
 
-                Router.push("/");
+                router.push("/");
                 // }
 
                 notification["success"]({
                     message: "Registration Successful!",
                 });
             } catch (error) {
-                notification["error"]({
+                console.log(error);
+                if(error instanceof AxiosError){
+                    return notificationApi.error({
+                        message: "Unable to register user",
+                        description:
+                        <p dangerouslySetInnerHTML={{__html:error.response.data.message}}></p> 
+                        || "Sorry could not register due to server issues please try again later",
+                    });
+                }
+                notificationApi.error({
                     message: "Unable to register user",
-                    description:error.response || error.response.data || error.message,
+                    description:error.message,
                 });
             } finally {
                 setIsLoading(false);
@@ -109,6 +118,8 @@ function Register() {
     };
 
     return (
+       <>
+       {contextHolder}
         <div className="ps-my-account">
             <div className="container">
                 <Form
@@ -232,24 +243,6 @@ function Register() {
                                     </a>
                                 </p>
                             </div>
-
-                            {/* <div className="ps-form__footer">
-                                <div className="or">
-                                    <hr />
-                                    <p>OR</p>
-                                    <hr />
-                                </div>
-                                <OAuth
-                                    onSuccess={(user) =>
-                                        handleRegistration("oauth", {
-                                            email: user.email,
-                                            password: user.id,
-                                            firstname: user.firstname,
-                                            lastname: user.lastname,
-                                        })
-                                    }
-                                />
-                            </div> */}
                         </div>
                     ) : null}
                 </Form>
@@ -265,6 +258,7 @@ function Register() {
                 ) : null}
             </div>
         </div>
+       </>
     );
 }
 

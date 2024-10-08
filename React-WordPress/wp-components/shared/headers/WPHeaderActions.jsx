@@ -4,9 +4,11 @@ import AccountQuickLinks from "~/app/components/shared/headers/modules/AccountQu
 import WPMiniCart from "~/wp-components/shared/headers/WPMiniCart";
 import { useAppSelector } from "@/redux-store/hooks";
 import AutoCountryDetector from "@/app/components/AutoCountryDetector";
+import useAuth from "@/redux-store/hooks/useAuth";
 
 export default function  WPHeaderActions(){
-        const auth = useAppSelector(state=>state.auth)
+        const {authState:auth} = useAuth()
+
         const comapre = useAppSelector(state=>state.compare)
         const wishlist = useAppSelector(state=>state.wishlist)
 

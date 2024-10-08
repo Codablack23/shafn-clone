@@ -20,6 +20,16 @@ class WPCustomerRepository {
 
         return reponse;
     }
+    async getCustomers() {
+        const enpoint = `/wp-json/wc/v3/customers/?${serializeQuery({
+            ...oathInfo,
+        })}`;
+        const reponse = await WPRepository.get(`${WPDomain}/${enpoint}`).then(
+            (response) => response.data
+        );
+
+        return reponse;
+    }
 
     async updateCustomer(id, payload) {
         const enpoint = `/wp-json/wc/v3/customers/${id}?${serializeQuery({

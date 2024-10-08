@@ -4,7 +4,7 @@ interface AuthData{
     isLoggedIn: boolean;
     [key:string]: any;
 }
-const initialState:AuthData = {
+export const initialState:AuthData = {
     isLoggedIn: false,
 };
 
@@ -16,10 +16,17 @@ const authSlice = createSlice({
             state = initialState
         },
         login_success:(state,action:PayloadAction<AuthData>)=>{
-            state = action.payload
+            state = {
+                ...action.payload,
+                isLoggedIn: true,
+            }
         },
         update_auth_success:(state,action:PayloadAction<AuthData>)=>{
-            state = action.payload
+            const keys = Object.keys(action.payload)
+            state.isLoggedIn = true
+            keys.forEach((key) => {
+                state[key] = action.payload[key]
+            })
         }
     }
 })

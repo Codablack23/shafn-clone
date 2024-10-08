@@ -5,20 +5,27 @@ import { getCart, removeItem } from "~/store/cart/action";
 import { addCheckoutItem } from "~/store/checkout-items/action";
 import WPProductOnCart from "~/wp-components/elements/products/WPProductOnCart";
 import { useAppSelector } from "@/redux-store/hooks";
+import useCheckout from "@/redux-store/hooks/useCheckout";
+import { useCart, useCartFunctions } from "@/redux-store/hooks/useCart";
+import { useRouter } from "next/navigation";
 
 export default function WPMiniCart() {
-  
+    const router = useRouter()
+    const {cartState:cartData,removeFromCart} = useCartFunctions()
+    const { amount, cartTotal, cartItems } = cartData;
+
+    const {addItemsToCheckout} = useCheckout()
 
     const handleAddToCheckoutItems=()=> {
-        // this.props.dispatch(addCheckoutItem(this.props));
+        addItemsToCheckout(cartItems)
+        router.push("/account/checkout")
     }
 
-    const  handleRemoveCartItem=(product)=> {
-        // this.props.dispatch(removeItem(product));
+    const handleRemoveCartItem=(product)=> {
+        removeFromCart(product)
     }
 
-        const cartData = useAppSelector(state=>state.cart);
-        const { amount, cartTotal, cartItems } = cartData;
+        
 
         // views
         let cartItemsView;
@@ -42,16 +49,12 @@ export default function WPMiniCart() {
                                     View Cart
                                 </a>
                             </Link>
-                            <Link legacyBehavior href="/account/checkout">
-                                <a
-                                    className="w3-black w3-hover-white w3-border rounded"
+                            <button
+                                    className="w3-black cursor-pointer w3-hover-white w3-border rounded"
                                     style={style}
-                                    onClick={() =>
-                                        this.handleAddToCheckoutItems()
-                                    }>
+                                    onClick={handleAddToCheckoutItems}>
                                     Checkout
-                                </a>
-                            </Link>
+                            </button>
                         </figure>
                     </div>
                 </div>

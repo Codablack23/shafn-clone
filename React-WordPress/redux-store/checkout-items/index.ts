@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface CheckoutItem{
+export interface CheckoutItem{
     [key:string] : any;
 }
 
@@ -10,7 +10,7 @@ interface CheckoutState{
     total:number,
 }
 
-const initialState:CheckoutState = {
+export const initialState:CheckoutState = {
     checkoutItems: [],
     amount: 0,
     total: 0,

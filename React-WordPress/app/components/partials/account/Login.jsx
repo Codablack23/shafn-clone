@@ -1,17 +1,21 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import Router from "next/router";
 import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
 import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
 // import OAuth from "./modules/OAuth";
 
 import { Form, Input, notification, Spin } from "antd";
 import { useAppSelector,useAppDispatch } from "@/redux-store/hooks";
+import { AxiosError } from "axios";
+import useAuth from "@/redux-store/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 function Login() {
-    const dispatch = useAppDispatch();
-    const auth = useAppSelector((state) => state.auth);
+    const router = useRouter()
+    const {loginUser,authState:auth} = useAuth()
+    const [notificationApi,contextHolder] = notification.useNotification()
+    
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -38,24 +42,31 @@ function Login() {
             try {
                 const _user = await WPAuthRepository.login(user);
 
-                const role = _user.user_role[0].toLowerCase();
+                const customers = await WPCustomerRepository.getCustomers();
+                const customer = customers.find((item)=>item.email === _user.user_email);
+                if(!customer){
+                    const CustomerError = new Error("customer does not exist please check your details")
+                    throw new CustomerError
+                }
+                const role = customer.role
 
-                if (role === "customer") {
-                    const customer = await WPCustomerRepository.getCustomer(
-                        _user.user_id
-                    );
-                    // Router.push("/");
-                    console.log(user);
-                } else {
-                    notification["error"]({
-                        message: "Not a customer account",
+                if (role !== "customer") {
+                    const CustomerError = new Error("The account details you provided is not a customer account please check the details and try again")
+                    throw new CustomerError
+                }
+
+                loginUser(customer)
+                router.push("/")
+            } catch (error) {
+                if(error instanceof AxiosError){
+                    return notificationApi.error({
+                        message: "Unable to login user",
+                        description:error.response.data.message || "Sorry an error occurred please try again later"
                     });
                 }
-            } catch (error) {
-                console.log(error);
-                notification["error"]({
+                notificationApi.error({
                     message: "Unable to login user",
-                    description:error.response || error.response.data || error.message
+                    description:error.message || "Sorry an error occurred please try again later"
                 });
             } finally {
                 setIsLoading(false);
@@ -64,6 +75,8 @@ function Login() {
     };
 
     return (
+        <>
+        {contextHolder}
         <div className="ps-my-account" style={{ paddingTop: 10 }}>
             <div className="container">
                 <Form
@@ -201,6 +214,7 @@ function Login() {
                 </Form>
             </div>
         </div>
+        </>
     );
 }
 

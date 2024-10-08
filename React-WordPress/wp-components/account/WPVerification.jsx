@@ -62,6 +62,7 @@ export default function WPVerification({
                     onChange={setCode}
                     numInputs={6}
                     separator={<span>-</span>}
+                    renderInput={(props) => <input {...props} />}
                     shouldAutoFocus
                     isInputNum
                 />
