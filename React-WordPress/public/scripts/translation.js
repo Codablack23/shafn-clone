@@ -6,3 +6,12 @@ function TranslateInit() {
       pageLanguage: window.__GOOGLE_TRANSLATION_CONFIG__.defaultLanguage,
     }, 'google_translate_element');
   }
+
+  // function TranslateInit() {
+  //   if (!window.__GOOGLE_TRANSLATION_CONFIG__) {
+  //     return;
+  //   }
+  //   new google.translate.TranslateElement({
+  //     pageLanguage: window.__GOOGLE_TRANSLATION_CONFIG__.defaultLanguage,
+  //   },);
+  // }
