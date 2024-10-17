@@ -256,6 +256,7 @@
     }
 }
 
+
 .ps-new-arrivals {
     @media (max-width: 1440px) and (min-width: 1200px) {
         .ps-section__content {
@@ -292,7 +293,10 @@
 
     @media (max-width: 1440px) and (min-width: 1200px) {
         .ps-mobile{
-            margin-left: 50px;
+            margin-left: 65px;
+           }
+           .ht-title{
+            margin-left: 48px;
            }
     }
 

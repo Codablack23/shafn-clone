@@ -89,7 +89,7 @@ const WPNewArrivals = () => {
         <div className="ps-product-list ps-new-arrivals">
             <div className="ps-container">
                 <div className="">
-                    <p className="ps-mobile" style={{fontSize: "22px", fontWeight: "700", fontFamily: "poppins",  color: "black"}}>Hot New Arrivals</p>
+                    <p className="ps-mobile ht-title " style={{fontSize: "22px", fontWeight: "700", fontFamily: "poppins", color: "black"}}>Hot New Arrivals</p>
                     {/* <ul className="ps-section__links">
                         {categoriedView}
                         <li>

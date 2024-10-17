@@ -1,13 +1,14 @@
 .ps-footer {
     padding-top: 70px;
     background-color: $color-dark;
+
     
     &__widgets {
         display: flex;
-        flex-flow: row nowrap;
-        gap: 155px;
-        justify-content: space-around;
         padding-bottom: 35px;
+        gap: 170px;
+        justify-content: center;
+        margin-left: 80px;
     }
 
     &__links {
@@ -65,6 +66,13 @@
         }
     }
 
+    // .widget_contact-us {
+    //     max-width: 100%;
+    //     width: 100%;
+    //     margin-left: 80px;
+    //     margin-right: 70px;
+    // }
+
     &__copyright {
         padding: 35px 0;
         display: flex;
@@ -93,19 +101,37 @@
             }
         }
     }
+    
+    // ....................................................................................................
 
-    @include media('<sm') {
+    @include media('<lg') {
         &__widgets {
-            flex-flow: row wrap;
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            justify-content: center;
+            // gap: 60px;
+            
 
             > * {
                 width: 100%;
                 max-width: 25%;
             }
+        }
+    }
 
-            .widget_contact-us {
-                max-width: 100%;
+    @include media('<sm') {
+        &__widgets {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            justify-content: center;
+            // padding: 0 12px;
+            gap: 3px;
+            // margin-left: 80px;
+            
+
+            > * {
                 width: 100%;
+                max-width: 25%;
             }
         }
     }
@@ -115,6 +141,7 @@
             > * {
                 max-width: 50%;
                 flex-basis: 50%;
+                margin-left: 12px;
             }
         }
         &__copyright {

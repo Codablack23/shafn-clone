@@ -5,15 +5,17 @@ import { DashboardDomain } from "~/repositories/WP/WPRepository";
 
 const FooterWidgets = (auth) => (
     <div className="ps-footer__widgets">
-        <aside className="widget widget_footer widget_contact-us">
-            <h4 className="widget-title text-white">Contact us</h4>
-            <div className="widget_content">
-                <p>
-                    <a href="mailto:info@shafn.com<" className="text-white">
-                        info@shafn.com
-                    </a>
-                </p>
-            </div>
+
+        <aside className="widget widget_footer">
+            <h4 className="widget-title text-white ">Contact us</h4>
+            <ul className="ps-list--link">
+               
+                <li>
+                    <Link legacyBehavior href="/return" scroll={false}>
+                        <a className="text-white">info@shafn.com</a>
+                    </Link>
+                </li>
+            </ul>
         </aside>
         <aside className="widget widget_footer">
             <h4 className="widget-title text-white ">Quick links</h4>
@@ -73,7 +75,7 @@ const FooterWidgets = (auth) => (
         </aside>
         <aside className="widget widget_footer">
             <h4 className="widget-title text-white">Business</h4>
-            <ul className="ps-list--link">
+            <ul className="ps-list--link ">
                 {/* <li>
                     <Link legacyBehavior href="/page/about-us" scroll={false}>
                         <a className="text-white">Our Press</a>
@@ -118,6 +120,7 @@ const FooterWidgets = (auth) => (
                 </li>
             </ul>
         </aside>
+        
     </div>
 );
 

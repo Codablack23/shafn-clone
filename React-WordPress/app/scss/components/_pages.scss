@@ -490,7 +490,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-block: 12px;
             p .text-white .title{
                 color: #fff;
                 font-size: 18px;
@@ -515,7 +514,7 @@
     
     .ps-category{
         &:first-child{
-            background-color: #b46b7c;
+        background-color: #b46b7c;
         }
         background-color: #dea885;
         display: grid;
@@ -557,20 +556,44 @@
             border: none;
         }
     }
+
+    // .................................................................................................................
+
     @include media("<md"){
+        .ps__ad-section{
+            margin: 16px auto;
+            padding: 100px 100px;
+        }
         .ps-grid{
             grid-template-columns: repeat(2,1fr);
+            width: 1200px;
+            gap: 60px;
         }
+        .ps-category{
+            width: 100%;
+            padding: 32px 40px;
+            .item{
+                width: 100%;
+            }
+        }
+        
     } 
     @include media("<sm"){
         .ps-grid{
             grid-template-columns: 1fr;
+            width: 1300px;
+            padding: 16px 0px;
+            gap: 100px;
+
         }
         .ps-become-a_vendor{
             min-height: 150px;
             button{
                 font-size: 14px;
             }
+        }
+        .ps-category{
+            padding: 16px 22px;
         }
     }
 }

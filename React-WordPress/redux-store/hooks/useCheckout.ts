@@ -11,7 +11,7 @@ import useLocalStorage from "./useLocalStorage";
 
 export default function useCheckout(){
     const [localCheckout,setLocalCheckout] = useLocalStorage("checkout",initialCheckoutState)
-    const checkoutState = useAppSelector(state=>state.checkoutItems)
+    const checkoutState = useAppSelector(state=>state.checkoutItems) 
     const dispatch = useAppDispatch()
 
     const removeItemFromCheckout = (id:string | number)=>{
