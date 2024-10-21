@@ -40,11 +40,11 @@ const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
-        clear_cart_success:(state,action:PayloadAction<CartState>)=>{
-            state.amount = action.payload.amount;
-            state.cartItems = action.payload.cartItems;
-            state.cartTotal = action.payload.cartTotal;
-            setLocalCartObject(action.payload)
+        clear_cart_success:(state)=>{
+            state.amount = initialState.amount;
+            state.cartItems = initialState.cartItems;
+            state.cartTotal = initialState.cartTotal;
+            setLocalCartObject(initialState)
         },
         get_cart_error:(state,action:PayloadAction<ErrorPayload>)=>{
             state.error = action.payload.error;

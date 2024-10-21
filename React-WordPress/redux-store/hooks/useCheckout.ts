@@ -9,6 +9,14 @@ import {
 import useLocalStorage from "./useLocalStorage";
 
 
+export function useCheckoutEffect(){
+    const dispatch = useAppDispatch()
+    const [localCheckout] = useLocalStorage("checkout",initialCheckoutState)
+    useEffect(()=>{
+        dispatch(update_checkout_item(localCheckout))
+    },[localCheckout])
+}
+
 export default function useCheckout(){
     const [localCheckout,setLocalCheckout] = useLocalStorage("checkout",initialCheckoutState)
     const checkoutState = useAppSelector(state=>state.checkoutItems) 
@@ -33,10 +41,10 @@ export default function useCheckout(){
     
     const addItemsToCheckout = (checkoutItems:CheckoutItem[])=>{
         console.log({checkoutItems})
-        const total = checkoutItems.reduce((a:number,b:CheckoutItem)=>{
+        const amount = checkoutItems.reduce((a:number,b:CheckoutItem)=>{
             return a + (b.quantity * b.price)
         },0)
-        const amount = checkoutItems.reduce((a:number,b:CheckoutItem)=>{
+        const total = checkoutItems.reduce((a:number,b:CheckoutItem)=>{
             return a + b.quantity
         },0)
         const updatedCheckoutState = {

@@ -7,9 +7,8 @@ class WPPaymentRepository {
     }
 
     async createPaymentIntent(payload) {
-        const endpoint = `/api/stripe/create-payment-intent`;
+        const endpoint = `/api/checkout`;
         const response = await axios.post(endpoint, payload);
-
         return response.data;
     }
 

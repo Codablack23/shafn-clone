@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 //import WPNavigationBottom from '~/wp-components/shared/mobile/WPNavigationBottom';
 import FooterDefault from "~/app/components/shared/footers/FooterDefault";
@@ -11,6 +11,8 @@ import WPHeaderMobile from "../shared/mobile/WPHeaderMobile";
 import WPNavigationBottom from "~/wp-components/shared/mobile/WPNavigationBottom";
 import { useCart } from "@/redux-store/hooks/useCart";
 import useWishList from "@/redux-store/hooks/useWishList";
+import { useAuthEffect } from "@/redux-store/hooks/useAuth";
+import useCheckout, { useCheckoutEffect } from "@/redux-store/hooks/useCheckout";
 
 const WPLayout = ({ children, title }) => {
     let titleView;
@@ -25,6 +27,8 @@ const WPLayout = ({ children, title }) => {
 
     useCart()
     useWishList()
+    useAuthEffect()
+    useCheckoutEffect()
     
     return (
         <div className="shafn">

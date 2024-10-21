@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import cart, { CartItem, initialState,update_cart_success } from "../cart";
+import cart, { CartItem, clear_cart_success, initialState,update_cart_success } from "../cart";
 import { useAppDispatch, useAppSelector} from ".";
 import { notification } from "antd";
 
@@ -144,6 +144,12 @@ export function useCartFunctions(){
         dispatch(update_cart_success({cartTotal,amount,cartItems:updatedItems}))
 
     }
+
+    function clearCart(){
+        dispatch(clear_cart_success())
+    }
+
+
     const addToCart = (product:CartItem) => {
         const localStorageData  = JSON.parse(localStorage.getItem("persist:martfury") as string);
         const cartItems:CartItem[] = getLocalCartObject().cartItems
@@ -218,10 +224,11 @@ export function useCartFunctions(){
     }
     return {
         cartState,
+        contextHolder,
         increaseQuantity,
         removeFromCart,
+        clearCart,
         addToCart,
         reduceQuantity,
-        contextHolder,
     }
 }
