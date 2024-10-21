@@ -16,12 +16,15 @@ const authSlice = createSlice({
             state = initialState
         },
         login_success:(state,action:PayloadAction<AuthData>)=>{
-            state = {
-                ...action.payload,
-                isLoggedIn: true,
-            }
+            console.log(action.payload)
+            const keys = Object.keys(action.payload)
+            state.isLoggedIn = true
+            keys.forEach((key) => {
+                state[key] = action.payload[key]
+            })
         },
         update_auth_success:(state,action:PayloadAction<AuthData>)=>{
+            console.log(action.payload)
             const keys = Object.keys(action.payload)
             state.isLoggedIn = true
             keys.forEach((key) => {

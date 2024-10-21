@@ -13,6 +13,7 @@ export function useAuthEffect(){
     const dispatch = useAppDispatch()
     useEffect(()=>{
         if(localAuthState && localAuthState.isLoggedIn){
+            console.log(localAuthState)
             dispatch(update_auth_success(localAuthState))
         }
     },[localAuthState])

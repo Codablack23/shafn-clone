@@ -1,28 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { metadata } from '../../../../layout';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 interface Body extends ReadableStream<Uint8Array>{
-    products:any[],
-    user_email:string,
-    amount:number
+    orderId:string,
+    order_session_id:string,
 }
 
+interface Params{
+    params:{
+        id:string,
+    }
+}
 
-export async function POST(req:NextRequest) {
+export async function POST(req:NextRequest,{params}:Params) {
     try {
+        const {id} = params
         const data = await req.json() as Body;
-        const {amount} = data
+        const {orderId} = data
 
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount,
-            currency:"usd",
-            automatic_payment_methods:{enabled: true},
+        if(!id) throw new Error("Invalid Payment Intent Id");
+        const paymentIntent = await stripe.paymentIntents.update(id,{
+            metadata:{
+                orderId,
+            }
         })
         const clientSecret =  paymentIntent.client_secret
-        const id =  paymentIntent.id
-        return NextResponse.json({clientSecret,id},{status:200})
+        return NextResponse.json({clientSecret},{status:200})
     } catch (error) {
         console.log(error)
         if(error instanceof Error) {

@@ -9,13 +9,15 @@ import { Form, Input, notification, Spin } from "antd";
 import { useAppSelector,useAppDispatch } from "@/redux-store/hooks";
 import { AxiosError } from "axios";
 import useAuth from "@/redux-store/hooks/useAuth";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 function Login() {
     const router = useRouter()
+    const params = useSearchParams()
     const {loginUser,authState:auth} = useAuth()
     const [notificationApi,contextHolder] = notification.useNotification()
     
+    console.log(params)
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -56,6 +58,8 @@ function Login() {
                 }
 
                 loginUser(customer)
+                const redirectURL = params.get("next")
+                if(redirectURL) return router.push(redirectURL)
                 router.push("/")
             } catch (error) {
                 if(error instanceof AxiosError){

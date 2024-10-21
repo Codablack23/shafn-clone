@@ -40,7 +40,7 @@
     "redux": "^5.0.1",
     "sass": "^1.77.2",
     "slick-carousel": "^1.8.1",
-    "stripe": "^15.8.0",
+    "stripe": "^15.12.0",
     "toolkit": "^1.5.4"
   },
   "devDependencies": {
