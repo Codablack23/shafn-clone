@@ -13,6 +13,7 @@ interface Data{
 interface AutoCountryModalProps{
     country:Data,
     currency:string,
+    selectCountry:(countryName:string)=>void,
     currencySymbol:string,
     open?:boolean,
     onClose?:()=>void,
@@ -24,7 +25,18 @@ interface AutoCountryModalProps{
 }
 
 function AutoCountryModal(props:AutoCountryModalProps){
-    const {country,currency,currencySymbol,open,onClose,onOk,currentLanguage,languageConfig,setCurrentLanguage} = props
+    const {
+        country,
+        currency,
+        selectCountry,
+        currencySymbol,
+        open,
+        onClose,
+        onOk,
+        currentLanguage,
+        languageConfig,
+        setCurrentLanguage
+    } = props
     const handleCloseModal:MouseEventHandler<HTMLDivElement> = (e)=>{
         if (e.target !== e.currentTarget) return null
         if(onClose){
@@ -61,6 +73,7 @@ function AutoCountryModal(props:AutoCountryModalProps){
                         <Select
                         optionFilterProp="label"
                         value={country.name}
+                        onChange={value=>selectCountry(value)}
                         defaultValue={country.name}
                         showSearch
                         filterOption={(input, option) =>((option?.label ?? '') as String).toLowerCase().includes(input.toLowerCase())}
@@ -117,7 +130,12 @@ export default function AutoCountryDetector(){
         switchLanguage(currentLanguage as string)
         closeModal()
     }
-
+    const handleSelectCountry = (countryName:string)=>{
+        const selectedCountry = countries.find(country => country.name.includes(countryName))
+        if(selectedCountry){
+            setCountry(selectedCountry)
+        }
+    }
     useEffect(()=>{
         const getCountryLocale = async ()=>{
             const res = await fetch("http://ip-api.com/json?fields=8441855")
@@ -143,6 +161,7 @@ export default function AutoCountryDetector(){
     return(
         <>
         <AutoCountryModal
+        selectCountry={handleSelectCountry}
         languageConfig={languageConfig}
         currentLanguage={currentLanguage}
         setCurrentLanguage={setCurrentLanguage}
@@ -156,7 +175,7 @@ export default function AutoCountryDetector(){
         <div className="flex justify-center autocountry-detector-btn">
             <div onClick={openModal} className="flex cursor-pointer gap-4 border p-2 items-center">
                 <div className="w-[30px] border h-[20px]">
-                    <Image  preview={false} src={country.flags.svg} alt={country.name}/>
+                    <Image height={"20px"} width={"30px"} preview={false} src={country.flags.svg} alt={country.name}/>
                 </div>
                 <p>{currency} - {currencySymbol}</p>
                 <button><i className="bi bi-chevron-down"></i></button>

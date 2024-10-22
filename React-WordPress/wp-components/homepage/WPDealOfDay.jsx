@@ -96,7 +96,7 @@ const WPDealOfDay = () => {
         productItemsView = <div className="row">{skeletons}</div>;
     }
     return (
-        <div className="ps__deal-container">
+        <div className="ps__deal-container ps-container">
             <hr />
             <div className="ps__deal-section">
                 <div>

@@ -21,8 +21,8 @@ export default function HomeAdsColumns (){
     }
     return (
         <div className="">
-            <div className="">
-                <div className="row bg-[#52432f] -mt-12 px-14 pt-32 pb-32">
+            <div className=" bg-[#52432f]">
+                <div className="row  ps-container -mt-12 px-14 pt-32 pb-32">
                     <div className="col-xl-4 col-lg-4 mb-2 col-md-12 col-sm-12 col-12 ">
                         <Promotion
                             link="/shop"
