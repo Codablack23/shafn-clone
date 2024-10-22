@@ -9,7 +9,7 @@ import useAuth from "@/redux-store/hooks/useAuth";
 export default function  WPHeaderActions(){
         const {authState:auth} = useAuth()
 
-        const comapre = useAppSelector(state=>state.compare)
+        const compare = useAppSelector(state=>state.compare)
         const wishlist = useAppSelector(state=>state.wishlist)
 
         // const { compare, wishlist, auth } = this.props;
