@@ -15,13 +15,7 @@ import { useRouter } from "next/navigation";
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
 export default function CheckoutPage (){
-    const router = useRouter();
     const { amount} = useAppSelector((state) => state.checkoutItems);
-    const auth = useAppSelector(state=>state.auth)
-
-    useEffect(() => {
-        if(!auth.isLoggedIn) router.push("/account/login/?next=account/checkout")
-    },[])
 
     return (
         <div ref={scrollPageToTop}>

@@ -19,15 +19,17 @@ interface Product extends CheckoutItem{
 export default function CheckoutForm(){
     const {amount,checkoutItems} = useAppSelector(state=>state.checkoutItems)
     const {
+        auth,
         form,
         isSubmitting,
         initialFormValues,
         isDifferentAddress,
         paymentIntent,
+        placeOrder,
+        redirectToLogin,
         handleChangeDifferentAddress,
         handlePaymentElementChange,
         handlePaymentElementReady,
-        placeOrder
     } = useCheckoutForm()
     return (
         <Form
@@ -101,12 +103,17 @@ export default function CheckoutForm(){
                                 />
                                 }
                             </div>
-                            <button
+                            {auth.isLoggedIn
+                            ?(
+                                <button
                                 type="submit"
                                 className="ps-btn ps-btn--fullwidth"
                                 disabled={isSubmitting}>
                                 {isSubmitting ? <Spin /> : "Pay now"}
-                            </button>
+                                </button>
+                            )
+                            :<button type="button" onClick={redirectToLogin} className="ps-btn ps-btn--fullwidth">Pay now</button>
+                            }
                         </div>
                     </div>
                 </div>
