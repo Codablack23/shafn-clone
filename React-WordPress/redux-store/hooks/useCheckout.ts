@@ -13,7 +13,9 @@ export function useCheckoutEffect(){
     const dispatch = useAppDispatch()
     const [localCheckout] = useLocalStorage("checkout",initialCheckoutState)
     useEffect(()=>{
-        dispatch(update_checkout_item(localCheckout))
+        if(localCheckout){
+            dispatch(update_checkout_item(localCheckout))
+        }
     },[localCheckout])
 }
 

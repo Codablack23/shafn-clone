@@ -2,13 +2,14 @@ import { useAppSelector } from "@/redux-store/hooks";
 import WPOrderRepository from "@/repositories/WP/WPOrderRepository";
 import WPPaymentRepository from "@/repositories/WP/WPPaymentRepository";
 import { convertToURLEncoded } from "@/utilities/WPHelpers";
-import { Form, Checkbox, notification, Spin } from "antd";
+import { Form, notification } from "antd";
 import {useState} from "react";
 import useCheckoutPayment from "./useCheckoutPayment";
 import { CheckboxChangeEvent } from "antd/es/checkbox/Checkbox";
 import { AxiosError } from "axios";
 import useCheckout from "@/redux-store/hooks/useCheckout";
 import { useCartFunctions } from "@/redux-store/hooks/useCart";
+import { useRouter } from "next/navigation";
 
 interface Data{
     [key:string]: any;
@@ -26,6 +27,7 @@ interface CheckoutData{
 }
 
 export default function useCheckoutForm(){
+    const router = useRouter()
     const {clearCheckout} = useCheckout()
     const {clearCart} = useCartFunctions()
     const {checkoutItems,amount} = useAppSelector(state=>state.checkoutItems)
@@ -93,6 +95,9 @@ export default function useCheckoutForm(){
         }));
     }
 
+    function redirectToLogin(){
+        router.push("/account/login/?next=/account/checkout")
+    }
     async function placeOrder(values:any) {
         if(!paymentIntent) return;
         if (checkoutItems.length === 0) {
@@ -206,7 +211,7 @@ export default function useCheckoutForm(){
                     return notification["error"]({
                         message:error.response?.data.error,
                     })
-                } 
+                }
                 notification["error"]({
                     message:(error as Error).message ,
                 });
@@ -217,14 +222,15 @@ export default function useCheckoutForm(){
 
     return {
         initialFormValues,
+        auth,
         form,
         isSubmitting,
         isDifferentAddress,
         paymentIntent,
+        redirectToLogin,
         placeOrder,
         handleChangeDifferentAddress,
         handlePaymentElementChange,
         handlePaymentElementReady,
-        
     }
 }
