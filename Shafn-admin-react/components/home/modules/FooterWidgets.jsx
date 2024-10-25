@@ -5,7 +5,7 @@ const FooterWidgets = () => (
   <div className="ps-footer__widgets">
 
         <aside className="widget widget_footer">
-            <h4 className="widget-title text-white ">Contact us</h4>
+            <h4 className="widget-title text-white footer-lists">Contact us</h4>
             <ul className="ps-list--link">
                
                 <li>
@@ -17,8 +17,8 @@ const FooterWidgets = () => (
         </aside>
 
         <aside className="widget widget_footer">
-            <h4 className="widget-title text-white ">Quick links</h4>
-            <ul className="ps-list--link">
+            <h4 className="widget-title text-[#161824] footer-lists text-white ">Quick links</h4>
+            <ul className="ps-list--link footer-list ">
                 <li>
                     <Link legacyBehavior href="/privacy-policy" scroll={false}>
                         <a className="text-white">Policy</a>
@@ -49,7 +49,7 @@ const FooterWidgets = () => (
         </aside>
 
         <aside className="widget widget_footer">
-            <h4 className="widget-title text-white">Company</h4>
+            <h4 className="widget-title text-white footer-lists">Company</h4>
             <ul className="ps-list--link">
                 <li>
                     <Link legacyBehavior href="/page/about-us" scroll={false}>
@@ -75,7 +75,7 @@ const FooterWidgets = () => (
         </aside>
 
         <aside className="widget widget_footer">
-            <h4 className="widget-title text-white">Business</h4>
+            <h4 className="widget-title text-white footer-lists">Business</h4>
             <ul className="ps-list--link ">
                 {/* <li>
                     <Link legacyBehavior href="/page/about-us" scroll={false}>
@@ -87,13 +87,13 @@ const FooterWidgets = () => (
                         <a className="text-white">Checkout</a>
                     </Link>
                 </li>
-                {auth.isLoggedIn && (
+
                     <li>
                         <Link legacyBehavior href="/account/user-information" scroll={false}>
                             <a className="text-white">My account</a>
                         </Link>
                     </li>
-                )}
+
                 <li>
                     <Link legacyBehavior href="/shop" scroll={false}>
                         <a className="text-white">Shop</a>

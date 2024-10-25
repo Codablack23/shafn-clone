@@ -5,10 +5,20 @@ $color-photo: #c81919;
   padding-top: 70px;
   padding-inline: 40px;
   background-color: #161824;
+  
   .ps-footer__content_wrapper {
     margin: auto;
   }
 
+  .footer-lists {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 28px;
+  }
+  
+  .footer-list{
+    color: #c81919;
+  }
 
 
   .widget_footer{
@@ -17,6 +27,7 @@ $color-photo: #c81919;
   a:hover{
     color: #fff;
   }
+  
   ul {
     margin: 0;
     margin-top: 8px;
@@ -42,6 +53,7 @@ $color-photo: #c81919;
     padding: 60px 0;
     border-top: 1px solid #e1e1e1;
     
+
     p {
       strong {
         color: $color-footer;
@@ -144,12 +156,12 @@ $color-photo: #c81919;
       justify-content: center;
       // padding: 0 12px;
       gap: 3px;
-      // margin-left: 80px;
+      margin-left: 20px;
       
 
       > * {
           width: 100%;
-          max-width: 25%;
+          max-width: 100%;
       }
   }
 }
@@ -157,9 +169,7 @@ $color-photo: #c81919;
   @include media("<xs") {
     &__widgets {
       > * {
-        max-width: 50%;
-        flex-basis: 50%;
-        margin-left: 12px;
+        margin-left: 0px;
 
       }
     }
