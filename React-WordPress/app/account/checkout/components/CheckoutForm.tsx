@@ -17,7 +17,7 @@ interface Product extends CheckoutItem{
 
 
 export default function CheckoutForm(){
-    const {amount,checkoutItems} = useAppSelector(state=>state.checkoutItems)
+    const {total,checkoutItems} = useAppSelector(state=>state.checkoutItems)
     const {
         auth,
         form,
@@ -68,7 +68,7 @@ export default function CheckoutForm(){
                                     <figcaption>
                                         <strong>Subtotal</strong>
                                         <strong className="red">
-                                        ${amount}
+                                        ${total}
                                         </strong>
                                     </figcaption>
                                 </figure>
@@ -82,11 +82,10 @@ export default function CheckoutForm(){
                                     <figcaption>
                                         <strong>Total</strong>
                                         <strong className="red">
-                                            ${(amount + 20).toLocaleString(undefined,{maximumFractionDigits:2})}
+                                            ${(total + 20).toLocaleString(undefined,{maximumFractionDigits:2})}
                                         </strong>
                                     </figcaption>
-                                </figure>
-                                {
+                                </figure>{
                                     paymentIntent === null
                                     ?(
                                         <div className="flex justify-center items-center h-20">
@@ -120,6 +119,5 @@ export default function CheckoutForm(){
             </div>
         </div>
         </Form>
-       
     )
 }

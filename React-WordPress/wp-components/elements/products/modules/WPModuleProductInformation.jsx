@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { Tag } from "antd";
 import Router from "next/router";
@@ -9,46 +9,41 @@ import { Button } from "~/utilities/WPHelpers";
 import SocialShareButtons from "~/app/components/elements/media/SocialShareButtons";
 import { useAppDispatch, useAppSelector } from "@/redux-store/hooks";
 import { useCartFunctions } from "@/redux-store/hooks/useCart";
+import useCheckout from "@/redux-store/hooks/useCheckout";
+import { useRouter } from "next/navigation";
 
 export default function  WPModuleProductInformation({ product, variant, children }){
-    
-    const {cartItems,cartTotal,amount} = useAppSelector(state=>state.cart)
+    const router = useRouter()
     const {addToCart} = useCartFunctions()
-    const dispatch = useAppDispatch();
+    const {addItemToCheckout} = useCheckout()
     const [quantity, setQuantity] = useState(1);
 
     const handleAddToCheckoutItems = () => {
-        // let item;
-        // if (product.type === "variable") {
-        //     if (variant) {
-        //         const options = variant.attributes
-        //             .map((attribute) => attribute.option)
-        //             .join(", ");
+        let _product = {
+            ...product,
+            variation_id: 0,
+            quantity,
+            variation_stock_quantity: 0,
+        };
 
-        //         const _product = {
-        //             ...product,
-        //             name: `${product.name}[${options}]`,
-        //             price: variant.price,
-        //             variation_id: variant.id,
-        //         };
+        if (product.type === "variable") {
+            if (variant) {
+                const options = variant.attributes
+                    .map((attribute) => attribute.option)
+                    .join(", ");
 
-        //         item = {
-        //             amount: variant.price,
-        //             cartItems: [{ ..._product, quantity }],
-        //             cartTotal: 1,
-        //         };
-        //     }
-        // } else {
-        //     item = {
-        //         amount: product.price,
-        //         cartItems: [{ ...product, quantity, variation_id: 0 }],
-        //         cartTotal: 1,
-        //     };
-        // }
+                _product = {
+                    ...product,
+                    name: `${product.name}[${options}]`,
+                    price: variant.price,
+                    variation_id: variant.id,
+                    variation_stock_quantity: variant.stock_quantity,
+                };
+            }
 
-        // dispatch(addCheckoutItem(item));
-
-        // Router.push("/account/checkout");
+        }
+        addItemToCheckout(_product)
+        router.push("/account/checkout");
     };
 
     const handleAddItemToCart = (e) => {
