@@ -26,17 +26,17 @@ const FooterWidgets = () => (
                 </li>
 
                 <li>
-                    <Link legacyBehavior href="/terms-and-conditions" scroll={false}>
+                    <Link legacyBehavior href="https://shafn.com/terms-and-conditions" scroll={false}>
                         <a className="text-white">Term & Condition</a>
                     </Link>
                 </li>
                 <li>
-                    <Link legacyBehavior href="/shipping" scroll={false}>
+                    <Link legacyBehavior href="https://shafn.com/shipping" scroll={false}>
                         <a className="text-white">Shipping</a>
                     </Link>
                 </li>
                 <li>
-                    <Link legacyBehavior href="/return" scroll={false}>
+                    <Link legacyBehavior href="https://shafn.com/return" scroll={false}>
                         <a className="text-white">Return</a>
                     </Link>
                 </li>
@@ -52,7 +52,7 @@ const FooterWidgets = () => (
             <h4 className="widget-title text-white footer-lists">Company</h4>
             <ul className="ps-list--link">
                 <li>
-                    <Link legacyBehavior href="/page/about-us" scroll={false}>
+                    <Link legacyBehavior href="https://shafn.com/page/about-us" scroll={false}>
                         <a className="text-white">About Us</a>
                     </Link>
                 </li>
@@ -67,7 +67,7 @@ const FooterWidgets = () => (
                     </Link>
                 </li> */}
                 <li>
-                    <Link legacyBehavior href="/page/contact-us" scroll={false}>
+                    <Link legacyBehavior href="https://shafn.com/page/contact-us" scroll={false}>
                         <a className="text-white">Contact</a>
                     </Link>
                 </li>
@@ -83,19 +83,19 @@ const FooterWidgets = () => (
                     </Link>
                 </li> */}
                 <li>
-                    <Link legacyBehavior href="/account/checkout" scroll={false}>
+                    <Link legacyBehavior href="https://shafn.com/account/checkout" scroll={false}>
                         <a className="text-white">Checkout</a>
                     </Link>
                 </li>
 
                     <li>
-                        <Link legacyBehavior href="/account/user-information" scroll={false}>
+                        <Link legacyBehavior href="https://shafn.com/shop" scroll={false}>
                             <a className="text-white">My account</a>
                         </Link>
                     </li>
 
                 <li>
-                    <Link legacyBehavior href="/shop" scroll={false}>
+                    <Link legacyBehavior href="https://shafn.com/shop" scroll={false}>
                         <a className="text-white">Shop</a>
                     </Link>
                 </li>
@@ -105,17 +105,17 @@ const FooterWidgets = () => (
                     </Link>
                 </li>
                 <li>
-                    <Link legacyBehavior href="/vendors" scroll={false}>
+                    <Link legacyBehavior href="https://shafn.com/vendors" scroll={false}>
                         <a className="text-white added-bottom">Vendor Stores</a>
                     </Link>
                 </li>
                 <li>
-                    <Link legacyBehavior href="/account/order-tracking" scroll={false}>
+                    <Link legacyBehavior href="https://shafn.com/account/order-tracking" scroll={false}>
                         <a className="text-white added-bottom">Track your order</a>
                     </Link>
                 </li>
                 <li>
-                    <Link legacyBehavior href="/account/register" scroll={false}>
+                    <Link legacyBehavior href="https://shafn.com/account/register" scroll={false}>
                         <a className="text-white added-bottom">Sell on shafN</a>
                     </Link>
                 </li>
