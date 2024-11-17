@@ -49,3 +49,15 @@ export const serializeQuery = (query) => {
     )
     .join("&");
 };
+
+
+export const  getUsers = async ()=>{
+    const enpoint = `/wp-json/wp/v2/users/?${serializeQuery({
+        ...oathInfo,
+    })}`;
+    const reponse = await axios.get(`${WPDomain}/${enpoint}`).then(
+        (response) => response.data
+    );
+
+    return reponse;
+}

@@ -6,6 +6,7 @@ import SettingsRepository from "~/repositories/SettingsRepository";
 import Router from "next/router";
 import ReactHtmlParser from "react-html-parser";
 import WPVerification from "~/components/shared/widgets/WPVerification";
+import UserRepository from "~/repositories/UserRepository";
 
 export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,10 +14,11 @@ export default function Register() {
     username: "",
     email: "",
     password: "",
-    store_name: "",
+    store: "",
     first_name: "",
     last_name: "",
     role: "seller",
+    roles:["seller"]
   });
   const [otp, setOtp] = useState({
     code: "",
@@ -84,7 +86,7 @@ export default function Register() {
         const admin = await AuthRepository.login(_admin);
 
         // Register vendor with admin token
-        await AuthRepository.register(_vendor, admin.token);
+        const {data:newVendor} = await AuthRepository.register(_vendor, admin.token);
 
         // Login vendor
         const vendorData = await AuthRepository.login(_user);
@@ -95,13 +97,18 @@ export default function Register() {
 
         localStorage.setItem("auth_token", encryptedToken);
 
+        console.log({vendor})
+
         try {
-          await SettingsRepository.updateStore(vendorData.user_id, {
-            store_name: vendor.store_name,
+          await SettingsRepository.updateStore(newVendor.id,{
+            store_name: vendor.store,
+            store: vendor.store,
           });
         } catch (error) {
           console.log("Error updating store name");
-          console.log(error);
+          console.log("error:",error);
+          // console.log("response:",error.response);
+          // console.log("data:",error.response.data);
           notification["error"]({
             message: "Unable to register store name",
             description: "This can be registered in the settings page",
@@ -116,6 +123,7 @@ export default function Register() {
 
         Router.push("/dashboard");
       } catch (error) {
+        console.log(error);
         notification["error"]({
           message: "Unable to register user",
           description:
@@ -203,11 +211,11 @@ export default function Register() {
 
               <Form.Item>
                 <Input
-                  name="store_name"
+                  name="store"
                   className="form-control"
                   type="text"
                   placeholder="Store name"
-                  value={vendor.store_name}
+                  value={vendor.store}
                   onChange={handleInputChange}
                 />
               </Form.Item>

@@ -1,7 +1,23 @@
-import Router from "next/router"
-import { notification } from "antd"
 import { WPDomain } from "./Repository"
 import axios from "axios"
+
+export const serializeQuery = (query) => {
+    return Object.keys(query)
+        .map(
+            (key) =>
+            `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`
+        )
+        .join("&");
+};
+
+const oathInfo = {
+  consumer_key: process.env.NEXT_PUBLIC_CONSUMER_KEY
+      ? process.env.NEXT_PUBLIC_CONSUMER_KEY
+      : process.env.CONSUMER_KEY,
+  consumer_secret: process.env.NEXT_PUBLIC_CONSUMER_SECRET
+      ? process.env.NEXT_PUBLIC_CONSUMER_SECRET
+      : process.env.CONSUMER_SECRET,
+};
 
 class UserRepository {
   constructor(callback) {
@@ -28,6 +44,29 @@ class UserRepository {
     const { data: response } = await axios.get(endpoint, config)
 
     return response
+  }
+
+  async getUsers() {
+    const enpoint = `/wp-json/wp/v2/users/?${serializeQuery({
+        ...oathInfo,
+    })}`;
+    // const config = this.getConfig()
+    const reponse = await axios.get(`${WPDomain}/${enpoint}`).then(
+        (response) => response.data
+    );
+
+    return reponse;
+ }
+
+  async getUserById(id) {
+    const enpoint = `/wp-json/wc/v3/customers/${id}?${serializeQuery({
+        ...oathInfo,
+    })}`;
+    const reponse = await axios.get(`${WPDomain}/${enpoint}`).then(
+        (response) => response.data
+    );
+
+    return reponse;
   }
 
   async getAuthToken(user) {

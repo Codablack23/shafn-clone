@@ -1,11 +1,14 @@
 import Link from "next/link"
 
 function Category({category,product}){
-    const img = product
-        ?product.images
-            ?product.images[0].src
-            :null
-        :null
+
+    const getImage = () => {
+        if(!product) return null
+        if(product.images[0]) return product.images[0].src
+        if(product.images) return product.images
+        return null
+    }
+    const img = getImage()
     return (
         <Link legacyBehavior href={`/shop?category=${category.id}`}>
         <div>

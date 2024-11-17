@@ -25,11 +25,13 @@ const TableProjectItems = ({ products, page }) => {
       }
 
       return (
-        <Link href={`${MAIN_DOMAIN}/product/${item.slug}-${item.id}`}>
+       
           <tr key={item.id}>
             <td>{index + 1 + 10 * (page - 1)}</td>
             <td>
-              <strong>{item.name}</strong>
+              <Link href={`${MAIN_DOMAIN}/product/${item.slug}-${item.id}`}>
+                <strong>{item.name}</strong>
+              </Link>
             </td>
             <td>{status}</td>
             <td>{item.sku}</td>
@@ -49,7 +51,6 @@ const TableProjectItems = ({ products, page }) => {
               <DropdownAction productID={item.id} />
             </td>
           </tr>
-        </Link>
       );
     });
   }

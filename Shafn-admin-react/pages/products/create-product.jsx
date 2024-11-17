@@ -125,6 +125,7 @@ const CreateProductPage = () => {
 
       setTagOptions((tagOptions) => [...tagOptions, tagOption]);
     } catch (err) {
+      console.error(err);
       notification["error"]({
         message: "Failed To Add Tag",
         description:

@@ -249,10 +249,9 @@ class ProductRepository {
     };
 
     const admin = await UserRepository.getAuthToken(adminLogin);
-
     const config = {
       headers: {
-        Authorization: `Bearer ${admin.data.token}`,
+        Authorization: `Bearer ${admin.token}`,
       },
     };
 

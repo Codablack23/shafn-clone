@@ -7,6 +7,7 @@ import Router from "next/router";
 import ReactHtmlParser from "react-html-parser";
 import { useDispatch, useSelector } from "react-redux";
 import AuthRepository from "~/repositories/AuthRepository";
+import UserRepository from "~/repositories/UserRepository";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -45,14 +46,16 @@ export default function Login() {
       }
 
       try {
-        const _user = await AuthRepository.login(_vendor);
+        const userData = await AuthRepository.login(_vendor);
+        const _user = await UserRepository.getUserById(userData.id)
 
-        const role = _user.user_role[0].toLowerCase();
+
+        const role = _user.role.toLowerCase();
 
         if (role === "seller" || role === "administrator") {
           const { encrypt } = require("~/utilities/helperFunctions");
 
-          const encryptedToken = encrypt(_user.token);
+          const encryptedToken = encrypt(userData.token);
 
           localStorage.setItem("auth_token", encryptedToken);
           // TO-DO: Store vendor data in redux
@@ -64,6 +67,7 @@ export default function Login() {
         }
       } catch (error) {
         console.log(error);
+
         notification["error"]({
           message: "Unable to login user",
           description:
