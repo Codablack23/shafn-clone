@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { notification, Spin } from "antd"
 import OtpInput from "react-otp-input"
+import styles from '../../../styles/verify.module.css'
+
 
 export default function WPVerification({
   email,
@@ -45,46 +47,61 @@ export default function WPVerification({
   }
 
   return (
-    <div className="ps__verify-widget w3-card">
-      <h3 className="ps__icon">
-        <i className="bi bi-shield-lock"></i>
-      </h3>
-      <h3 className="ps__title">Authenticate your Account</h3>
-      <p className="ps__desc">
-        Protecting your account is our top priority. Please confirm your account
-        by entering the code sent to{" "}
-        <span>{censorEmail(email ? email : "")}</span>
-      </p>
-      <form className="ps__code-form">
-        <OtpInput
-          value={code}
-          onChange={setCode}
-          numInputs={6}
-          separator={<span>-</span>}
-          shouldAutoFocus
-          isInputNum
-        />
-      </form>
-      <br />
-      <div className="ps__footer">
-        <div>
-          <p>it may take a while to recieve your code</p>
-          <p>
-            Haven't recieved it?{" "}
-            <a className="ps__resend-link" onClick={() => verifyEmail()}>
-              Resend a new code
-            </a>
-          </p>
+
+      <div className={styles.ps__verify}>
+            <h3 className={styles.ps__icon}>
+            <i className="bi bi-shield-lock"></i>
+                
+            </h3>
+            <p className={styles.ps__title}>Authenticate your Account</p>
+            <p className={styles.ps__desc}>
+                Protecting your account is our top priority. Please confirm your
+                account by entering the code sent to{" "}
+                <span>{censorEmail(email ? email : "")}</span>
+            </p>
+
+          <div className={styles.ps__formmain} >
+
+            <form className= {styles.ps__codeform}  >
+                <OtpInput
+                    value={code}
+                    onChange={setCode}
+                    numInputs={6}
+                    renderInput={(props) => <input {...props} />}
+                    shouldAutoFocus
+                    isInputNum
+                />
+            </form>
+
+            </div>
+
+            <br />
+
+            <div className={styles.ps__footer}>
+                <div>
+                    <p>it may take a while to recieve your code</p>
+                    <p>
+                        Haven't recieved it?{" "}
+                        <a
+                            className={styles.ps__resendlink}
+                            onClick={() => verifyEmail()}>
+                            Resend a new code
+                        </a>
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    className={styles.ps__submitbtn}
+                    onClick={verifyOTP}
+                    disabled={isLoading}>
+                    {isLoading ? <Spin /> : "Submit"}
+                </button>
+            </div>
+        
         </div>
-        <button
-          type="button"
-          className="ps__submit-btn"
-          onClick={verifyOTP}
-          disabled={isLoading}
-        >
-          {isLoading ? <Spin /> : "Submit"}
-        </button>
-      </div>
-    </div>
+   
+    
+   
   )
 }
