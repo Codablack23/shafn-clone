@@ -27,7 +27,7 @@ export default function CheckoutPage (){
                                 {<Elements
                                     options={{
                                         mode: "payment",
-                                        amount: amount ? amount * 100:1000,
+                                        amount: amount ? amount * 100:0.00,
                                         currency: "usd",
                                     }}
                                     stripe={stripePromise}>

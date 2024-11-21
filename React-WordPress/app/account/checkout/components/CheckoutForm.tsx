@@ -72,17 +72,17 @@ export default function CheckoutForm(){
                                         </strong>
                                     </figcaption>
                                 </figure>
-                                <figure>
+                                {/* <figure>
                                     <figcaption>
                                         <strong>Shipping</strong>
-                                        <small>Free Shipping</small>
+                                        <small></small>
                                     </figcaption>
-                                </figure>
+                                </figure> */}
                                 <figure className="ps-block__total">
                                     <figcaption>
                                         <strong>Total</strong>
                                         <strong className="red">
-                                            ${(total + 20).toLocaleString(undefined,{maximumFractionDigits:2})}
+                                            ${(total).toLocaleString(undefined,{maximumFractionDigits:2})}
                                         </strong>
                                     </figcaption>
                                 </figure>{
