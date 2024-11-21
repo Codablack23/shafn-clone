@@ -329,6 +329,23 @@ export const Categories = [
         ],
         slug: ',id:""fabrics',
     } ,
+    {
+        id: 235,
+        name:"Baby & Kids",
+        slug: ',id:""fabrics',
+        sub_cat:[
+            {
+                title:"BABY & KIDS",
+                categories:[
+                 {name:"Hair Care",slug:"hair-care",id:236},
+                 {name:"Skin Care",slug:"skin-care",id:235},
+                 {name:"Bath & Shower",slug:"bath-shower",id:238},
+                 {name:"Baby Wipes",slug:"baby-wipes",id:239},
+                 {name:"Body Care",slug:"body-care",id:242}
+                ]
+            },
+        ]
+    }
    ]
 
 // BODY

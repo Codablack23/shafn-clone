@@ -58,7 +58,7 @@ function AutoCountryModal(props:AutoCountryModalProps){
             }}
             >
             <div onClick={handleCloseModal} className="fixed z-[1001] bg-[rgba(0,0,0,0.5)] top-0 left-0 w-full h-full flex items-center justify-center p-2 sm:p-4">
-                <div style={{padding:"32px auto"}} className="bg-white min-h-[70vh] p-10 py-10 flex-1 max-w-[400px]">
+                <div style={{padding:"32px auto"}} className="bg-white min-h-[30vh] p-10 py-10 flex-1 max-w-[400px]">
                         <div className="flex justify-center">
                             <div className="flex cursor-pointer gap-4 border p-2 items-center">
                                 <div className="w-[30px] border h-[20px]">
@@ -83,7 +83,7 @@ function AutoCountryModal(props:AutoCountryModalProps){
                         }))}
                         style={{width:"100%"}}/>
                     </div>
-                    <div className="auto-country-field">
+                    {/* <div className="auto-country-field">
                         <p>Currency</p>
                         <Select
                         optionFilterProp="label"
@@ -99,15 +99,15 @@ function AutoCountryModal(props:AutoCountryModalProps){
                             code:"USD"
                         })}
                         style={{width:"100%"}}/>
-                    </div>
-                    {(!currentLanguage || !languageConfig)?
+                    </div> */}
+                    {/* {(!currentLanguage || !languageConfig)?
                         null:(
                             <LanguageSwitcher
                                 currentLanguage={currentLanguage}
                                 languageConfig={languageConfig}
                                 setCurrentLanguage={setCurrentLanguage}
                             />
-                        )}
+                        )} */}
                     <button onClick={onOk} className="w--full bg-[#FCB800] auto-country-btn">Update</button>
                 </div>
             </div>
@@ -127,7 +127,7 @@ export default function AutoCountryDetector(){
     const openModal = ()=>setOpen(true)
     const onOK = ()=>{
         localStorage.setItem("user-country", JSON.stringify(country))
-        switchLanguage(currentLanguage as string)
+        // switchLanguage(currentLanguage as string)
         closeModal()
     }
     const handleSelectCountry = (countryName:string)=>{
