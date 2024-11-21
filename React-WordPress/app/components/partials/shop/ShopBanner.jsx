@@ -21,7 +21,7 @@ export default function ShopBanner(){
                 <SplideSlide>
                     <div style={{height:"500px"}}>
                             <img
-                                src="/static/img/slider/shop-default/1.jpg"
+                                src="/static/img/slider/shop-default/image1.jpg"
                                 alt="martfury"
                                 style={{height:"500px", width:"100%",objectFit:"cover"}}
                             />
@@ -30,7 +30,7 @@ export default function ShopBanner(){
                 <SplideSlide>
                     <div style={{height:"500px"}}>
                         <img
-                            src="/static/img/slider/shop-default/2.jpg"
+                            src="/static/img/slider/shop-default/image2.jpg"
                             alt="martfury"
                             style={{height:"500px", width:"100%",objectFit:"cover"}}
                         />
