@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { connect } from "react-redux";
 import { DashboardDomain } from "~/repositories/WP/WPRepository";
+import { useRouter } from "next/navigation";
+import Modal from "./Modal";
 
-const FooterWidgets = (auth) => (
+const FooterWidgets = (auth) => {
+ 
+    return (
+
     <div className="ps-footer__widgets">
 
         <aside className="widget widget_footer">
             <h4 className="widget-title text-white ">Contact us</h4>
             <ul className="ps-list--link">
                
-                <li>
-                    <Link legacyBehavior href="/return" scroll={false}>
+                <li>        
+                    <Link legacyBehavior href="#" scroll={false}>
                         <a className="text-white">info@shafn.com</a>
                     </Link>
                 </li>
@@ -122,6 +127,6 @@ const FooterWidgets = (auth) => (
         </aside>
         
     </div>
-);
+) };
 
 export default connect((state) => state.auth)(FooterWidgets);
