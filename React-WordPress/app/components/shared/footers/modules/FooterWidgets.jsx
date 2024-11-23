@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { connect } from "react-redux";
 import { DashboardDomain } from "~/repositories/WP/WPRepository";
-import { useRouter } from "next/navigation";
-import Modal from "./Modal";
 
 const FooterWidgets = (auth) => {
- 
+
+
     return (
 
     <div className="ps-footer__widgets">
@@ -20,6 +19,7 @@ const FooterWidgets = (auth) => {
                         <a className="text-white">info@shafn.com</a>
                     </Link>
                 </li>
+                    
             </ul>
         </aside>
         <aside className="widget widget_footer">
