@@ -103,7 +103,7 @@ function Register() {
                     return notificationApi.error({
                         message: "Unable to register user",
                         description:
-                        <p dangerouslySetInnerHTML={{__html:error.response.data.message}}></p> 
+                        <p dangerouslySetInnerHTML={{__html:error.response.data.message}}></p>
                         || "Sorry could not register due to server issues please try again later",
                     });
                 }
