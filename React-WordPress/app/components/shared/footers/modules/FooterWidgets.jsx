@@ -2,8 +2,31 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { connect } from "react-redux";
 import { DashboardDomain } from "~/repositories/WP/WPRepository";
+import Modal from "./Modal.jsx";
 
 const FooterWidgets = (auth) => {
+    // const router = useRouter()
+
+    // const [showModal, setShowModal] = useState(false);
+
+    // const Modal = ({ onClose, children, title }) => {
+    //     const handleCloseClick = (e) => {
+    //         e.preventDefault();
+
+    //         setTimeout(() => {
+    //             onClose();
+    //         }, 5000);
+    //     }
+    // };
+
+
+    // const handleClick = () => {
+    //     setTimeout(() => {
+    //         router.push('/');
+    //     }, 5000);
+    // }
+
+
 
 
     return (
@@ -14,11 +37,17 @@ const FooterWidgets = (auth) => {
             <h4 className="widget-title text-white ">Contact us</h4>
             <ul className="ps-list--link">
                
-                <li>        
+                <button openModal={()=>setIsOpen(true)}>        
                     <Link legacyBehavior href="#" scroll={false}>
                         <a className="text-white">info@shafn.com</a>
                     </Link>
-                </li>
+                </button>
+
+                {/* {showModal &&
+                    <Modal onClose={() => setShowModal(false)}>
+                        Hello from the modal!
+                    </Modal>
+                } */}
                     
             </ul>
         </aside>
