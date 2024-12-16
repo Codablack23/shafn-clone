@@ -16,8 +16,6 @@ function Login() {
     const params = useSearchParams()
     const {loginUser,authState:auth} = useAuth()
     const [notificationApi,contextHolder] = notification.useNotification()
-    
-    console.log(params)
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -42,7 +40,12 @@ function Login() {
             };
 
             try {
-                const _user = await WPAuthRepository.login(user);
+                const _admin = {
+                    username: process.env.NEXT_PUBLIC_ADMIN_USERNAME,
+                    password: process.env.NEXT_PUBLIC_ADMIN_PASSWORD,
+                };
+
+                const _user = await WPAuthRepository.login(_admin);
 
                 const customers = await WPCustomerRepository.getCustomers();
                 const customer = customers.find((item)=>item.email === _user.user_email);
@@ -62,6 +65,7 @@ function Login() {
                 if(redirectURL) return router.push(redirectURL)
                 router.push("/")
             } catch (error) {
+                console.log({error})
                 if(error instanceof AxiosError){
                     return notificationApi.error({
                         message: "Unable to login user",
