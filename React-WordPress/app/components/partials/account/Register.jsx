@@ -70,6 +70,7 @@ function Register() {
                     username: process.env.NEXT_PUBLIC_ADMIN_USERNAME,
                     password: process.env.NEXT_PUBLIC_ADMIN_PASSWORD,
                 };
+                
 
                 const _user = {
                     username: user.email,

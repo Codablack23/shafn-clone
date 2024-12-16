@@ -1,14 +1,18 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React from "react";
 import Link from "next/link";
-import Router from "next/router";
+import useAuth from "@/redux-store/hooks/useAuth";
+import { useRouter } from "next/navigation";
 // import { logOut } from "../../../../store/auth/action";
+
+
  export default function AccountQuickLinks(props) {
-    
+    const {logoutUser} = useAuth()
+    const router = useRouter()
+
     const handleLogout = (e) => {
         e.preventDefault();
-        this.props.dispatch(logOut());
-        Router.push("/");
+        logoutUser()
+        router.push("/");
     };
         const accountLinks = [
             {

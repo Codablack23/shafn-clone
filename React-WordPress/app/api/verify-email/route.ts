@@ -1,7 +1,7 @@
 import crypto  from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer"
-import { makeStore } from '../../../redux-store/store';
+
 
 interface Body extends ReadableStream<Uint8Array>{
     email:string,
@@ -20,8 +20,8 @@ type MailerHandler = (to:string | string [],html:string)=>Promise<MailerResponse
 
 
 const SMTPAuth = {
-    user: process.env.NEXT_PUBLIC_NODEMAILER_AUTH_USER,
-    pass: process.env.NEXT_PUBLIC_NODEMAILER_AUTH_PASSWORD,
+    user: process.env.NODEMAILER_AUTH_USER,
+    pass: process.env.NODEMAILER_AUTH_PASSWORD,
 }
 
 const transporter = nodemailer.createTransport({
@@ -43,7 +43,7 @@ const sendMail:MailerHandler=(to:string | string [],html:string)=>{
             err_code:null,
         }
         const message = {
-            from: process.env.NEXT_PUBLIC_NODEMAILER_AUTH_USER,
+            from: process.env.NODEMAILER_AUTH_USER,
             to,
             subject: "ShafN - Verification Code",
             html,
