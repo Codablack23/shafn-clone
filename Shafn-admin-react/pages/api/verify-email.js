@@ -1,6 +1,8 @@
-const crypto = require("crypto");
+const crypto = require("crypto")
 const nodemailer = require("nodemailer");
 
+
+//Request Handler function
 export default function handler(req, res) {
   const { name, email } = req.body;
   const transporter = nodemailer.createTransport({
