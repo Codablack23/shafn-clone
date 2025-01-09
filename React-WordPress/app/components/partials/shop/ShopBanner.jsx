@@ -13,7 +13,7 @@ export default function ShopBanner(){
         speed:500,
         autoplay:true,
         pagination:true,
-        rewind:false,
+        rewind:true,
     }
     return (
         <div className="ps-shop-banner">
