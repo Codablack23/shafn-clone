@@ -55,20 +55,14 @@ const Dashboard = () => {
     <DefaultLayout>
       <ContainerDashboard title="Dashboard">
         <section className="ps-dashboard" id="homepage">
-          <div className="ps-section__left">
-            <div className="row">
-              <div className="col-xl-8 col-12">
+          <div className="">
+            <div>
                 <CardSaleReport />
-              </div>
-              <div className="col-xl-4 col-12">
+              <div>
                 <CardEarning />
               </div>
             </div>
             <CardRecentOrders />
-          </div>
-          <div className="ps-section__right">
-            <CardStatics />
-            {/* <CardTopCountries /> */}
           </div>
         </section>
       </ContainerDashboard>

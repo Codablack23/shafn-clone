@@ -70,7 +70,7 @@ const CardSaleReport = () => {
     };
 
     return (
-        <div className="ps-card ps-card--sale-report">
+        <div className="ps-card">
             <div className="ps-card__header">
                 <h4>Sales Reports</h4>
             </div>

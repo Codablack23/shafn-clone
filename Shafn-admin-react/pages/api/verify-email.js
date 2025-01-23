@@ -1,20 +1,22 @@
-const crypto = require("crypto");
+const crypto = require("crypto")
 const nodemailer = require("nodemailer");
 
+
+//Request Handler function
 export default function handler(req, res) {
   const { name, email } = req.body;
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: process.env.NEXT_PUBLIC_NODEMAILER_AUTH_USER,
-      pass: process.env.NEXT_PUBLIC_NODEMAILER_AUTH_PASSWORD,
+      user: process.env.NODEMAILER_AUTH_USER,
+      pass: process.env.NODEMAILER_AUTH_PASSWORD,
     },
   });
 
   const code = crypto.randomInt(0, 1000000).toString().padStart(6, "0");
 
   const message = {
-    from: process.env.NEXT_PUBLIC_NODEMAILER_AUTH_USER,
+    from: process.env.NODEMAILER_AUTH_USER,
     to: email,
     subject: "ShafN - Verification Code",
     html: `

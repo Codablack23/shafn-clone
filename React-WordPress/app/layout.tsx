@@ -22,18 +22,6 @@ export default function RootLayout({
   return (
     <html>
       <body>
-      <Script
-          src="/scripts/lang-config.js"
-          strategy="beforeInteractive"
-        />
-        <Script
-          src="/scripts/translation.js"
-          strategy="beforeInteractive"
-        />
-        <Script
-          src="//translate.google.com/translate_a/element.js?cb=TranslateInit"
-          strategy="afterInteractive"
-        />
         <CustomReduxProvider>
           <StateProvider>
             <ScrollProvider>

@@ -19,17 +19,23 @@ export default function ShopContent(){
     const [WPProducts, setWPProducts] = useState(null)
 
 
+    const getAllProducts = async(page,per_page) => {
+        let productReqSource;
+        const queries = {page,per_page}
+        productReqSource = axios.CancelToken.source();
+        setWPLoading(true)
+        return await WPProductRepository.getProducts(queries,productReqSource.token)
+    }
+
     async function getProducts(page=currentPage,per_page=16){
         let productReqSource;
         setCurrentPage(page);
+
+        const allProducts = await getAllProducts(page,per_page)
+
         if(!category){
-            const queries = {page,per_page}
-            productReqSource = axios.CancelToken.source();
-            setWPLoading(true)
-            const res = await WPProductRepository.getProducts(queries,productReqSource.token)
-            setWPLoading(false)
-            if(res){
-                setWPProducts(res)
+            if(allProducts){
+                setWPProducts(allProducts)
             }
             return;
         }
@@ -37,8 +43,10 @@ export default function ShopContent(){
         productReqSource = axios.CancelToken.source();
         setWPLoading(true)
         const res = await WPProductRepository.getProducts(queries,productReqSource.token)
+
         setWPLoading(false);
         if(res) return setWPProducts(res);
+        if(allProducts) return setWPProducts(allProducts)
     }
 
     useEffect(() => {
