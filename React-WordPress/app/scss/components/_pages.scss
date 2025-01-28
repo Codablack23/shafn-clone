@@ -270,7 +270,7 @@
             }
         }
 
-        .ps-shop-banner,
+       
         .ps-shop-brand,
         .ps-shop-categories,
         .ps-shop-categories,
@@ -278,6 +278,7 @@
         .ps-block--shop-features {
             display: none;
         }
+    
     }
     @include media('<sm') {
         .ps-product {

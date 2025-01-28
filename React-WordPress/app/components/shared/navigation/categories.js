@@ -87,10 +87,10 @@ export const Categories = [
             {name:"nail clippers",slug:"",id:""},
             {name:"Matt paper",slug:"",id:""}
            ]
-       },
-       
-   
-    ]} ,    
+       },   
+    ]
+    } ,    
+
     {
         id: 24,
         name: 'Face',
@@ -153,10 +153,12 @@ export const Categories = [
                 ]
             },
         ]
-    } ,   
+    } ,  
+
     {
       id: 24,
       name: 'Perfume',
+      slug: ',id:""clothing',
       sub_cat:[
         {
             title:"MEN'S FRAGRANCES",
@@ -210,7 +212,8 @@ export const Categories = [
             ]
         },
       ],
-      slug: ',id:""clothing',} ,
+    } ,
+
     {
         id: 24, 
         name: 'Hair', 
@@ -273,6 +276,7 @@ export const Categories = [
         ],
         slug: ',id:""clothing',
     } ,
+
     {
         id: 22,
         name: 'Body',
@@ -329,6 +333,7 @@ export const Categories = [
         ],
         slug: ',id:""fabrics',
     } ,
+
     {
         id: 235,
         name:"Baby & Kids",
