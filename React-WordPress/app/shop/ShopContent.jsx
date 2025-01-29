@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import ShopBanner from "~/app/components/partials/shop/ShopBanner";
 import WPWidgetCategories from "~/wp-components/shop/WPWidgetCategories";
@@ -18,6 +18,7 @@ export default function ShopContent(){
     const [WPLoading, setWPLoading] = useState(true)
     const [WPProducts, setWPProducts] = useState(null)
 
+    const shopSectionRef = useRef(null);
 
     const getAllProducts = async(page,per_page) => {
         let productReqSource;
@@ -26,39 +27,43 @@ export default function ShopContent(){
         setWPLoading(true)
         return await WPProductRepository.getProducts(queries,productReqSource.token)
     }
-
-    async function getProducts(page=currentPage,per_page=16){
+    const getCategoryProducts = async(page,per_page,category)=> {
         let productReqSource;
-        setCurrentPage(page);
-
-        const allProducts = await getAllProducts(page,per_page)
-
-        if(!category){
-            if(allProducts){
-                setWPProducts(allProducts)
-            }
-            return;
-        }
         const queries = {page,per_page,category}
         productReqSource = axios.CancelToken.source();
         setWPLoading(true)
-        const res = await WPProductRepository.getProducts(queries,productReqSource.token)
+        return await WPProductRepository.getProducts(queries,productReqSource.token)
+    }
 
+    async function getProducts(page=currentPage,per_page=16){
+        setCurrentPage(page);
+        const allProducts = await getAllProducts(page,per_page)
+        const categoryProducts = await getCategoryProducts(page,per_page,category)
         setWPLoading(false);
-        if(res) return setWPProducts(res);
-        if(allProducts) return setWPProducts(allProducts)
+
+        if(categoryProducts){
+            setWPProducts(categoryProducts)
+            return;
+        }
+        setWPProducts(allProducts)
     }
 
     useEffect(() => {
         getProducts();
+        if(shopSectionRef.current){
+            shopSectionRef.current.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+        }
     }, [category,params,router]);
+
+    
+
     return (
     <div className="ps-page--shop">
         <div className="ps-container">
             <ShopBanner />
             {/* <ShopBrands /> */}
             {/* <WPShopCategories /> */}
-            <div className="ps-layout--shop">
+            <div className="ps-layout--shop" ref={shopSectionRef}>
                 <div className="ps-layout__left">
                         <WPWidgetCategories
                             activeID={category?category:""}

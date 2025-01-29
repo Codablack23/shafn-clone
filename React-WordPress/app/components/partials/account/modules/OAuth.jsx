@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { notification } from "antd";
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { GoogleLogin } from "react-google-login";
 
 const OAuth = ({ onSuccess }) => {

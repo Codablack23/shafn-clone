@@ -10,19 +10,18 @@ import SkeletonProduct from "~/app/components/elements/skeletons/SkeletonProduct
 export default function WPShopProducts(props){
     const { WPProducts, WPLoading, sidebar, handlePagination,currentPage} = props;
     const [listView, setListView] = useState(true);
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
 
-    function handleChangeViewMode(event) {
-        event.preventDefault();
-        setListView(!listView);
-    }
+    // function handleChangeViewMode(event) {
+    //     event.preventDefault();
+    //     setListView(!listView);
+    // }
 
 
     let producItemView, sectionPaginationView, countProductsView;
 
     if (!WPLoading) {
         if (WPProducts && WPProducts.items) {
-            console.log(WPProducts);
             countProductsView = (
                 <p>
                     <strong>{WPProducts.totalItems}</strong> Product(s) found.

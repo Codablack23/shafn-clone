@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
 import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
-// import OAuth from "./modules/OAuth";
+import OAuth from "./modules/OAuth";
 
 import { Form, Input, notification, Spin } from "antd";
 import { useAppSelector,useAppDispatch } from "@/redux-store/hooks";
@@ -203,7 +203,7 @@ function Login() {
                                 </a>
                             </p>
                         </div>
-                        {/* <div className="ps-form__footer">
+                        <div className="ps-form__footer">
                             <div className="or">
                                 <hr />
                                 <p>OR</p>
@@ -217,7 +217,7 @@ function Login() {
                                     })
                                 }
                             />
-                        </div> */}
+                        </div>
                     </div>
                 </Form>
             </div>

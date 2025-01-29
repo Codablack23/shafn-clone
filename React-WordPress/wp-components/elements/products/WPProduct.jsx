@@ -147,7 +147,7 @@ export default function WPProduct ({ product }){
 
     return (
         <div className="shop-product-hover-scale">
-            <div className="ps-product__thumbnail">
+            <div className="ps-product__thumbnail" style={{minHeight:"200px"}}>
                 <Link legacyBehavior href="/product/[pid]" as={`/product/${query}`}>
                     <a>{thumbnailImage}</a>
                 </Link>
