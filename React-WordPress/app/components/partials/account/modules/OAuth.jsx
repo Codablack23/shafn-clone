@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { notification } from "antd";
-import { GoogleLogin } from "react-google-login";
+import { GoogleLogin } from "@react-oauth/google";
 
 const OAuth = ({ onSuccess }) => {
-    const handleOnSuccess = (id, email, firstname = "", lastname = "") => {
+    const handleOnSuccess = ({id, email, firstname = "", lastname = ""}) => {
         if (email) {
             onSuccess({ id, email, firstname, lastname });
         } else {
