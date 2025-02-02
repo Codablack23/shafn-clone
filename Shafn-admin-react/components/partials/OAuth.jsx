@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { notification } from "antd";
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+// import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { GoogleLogin } from "react-google-login";
 
 const OAuth = ({ onSuccess }) => {
@@ -60,7 +60,7 @@ const OAuth = ({ onSuccess }) => {
         )}
       />
 
-      <FacebookLogin
+      {/* <FacebookLogin
         appId={process.env.NEXT_PUBLIC_FACEBOOK_APPID}
         fields="name,email,picture"
         scope="email"
@@ -82,7 +82,7 @@ const OAuth = ({ onSuccess }) => {
             </p>
           </button>
         )}
-      />
+      /> */}
     </>
   );
 };

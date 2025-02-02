@@ -10,7 +10,7 @@ function RandomCategories() {
     async function getCategories() {
         const params = {
             page: 1,
-            per_page: 4,
+            perPage: 30,
         };
 
         const WPCategories = await WPProductRepository.getProductCategories(
@@ -19,12 +19,16 @@ function RandomCategories() {
         );
 
         if (WPCategories) {
+            console.log(WPCategories.items);
             let categories = [];
             for (let i = 0; i < 2; i++) {
                 // random index must not exceed categories length - 1
                 let randomIndex = Math.floor(
                     Math.random() * WPCategories.items.length
                 );
+
+                console.log(randomIndex)
+
                 categories.push(WPCategories.items[randomIndex]);
             }
             setCategories(categories);
