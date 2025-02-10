@@ -18,16 +18,20 @@ function RandomCategories() {
             productReqSource.token
         );
 
+        // if (WPCategories) {
+        //     let categories = [];
+        //     for (let i = 0; i < 2; i++) {
+        //         // random index must not exceed categories length - 1
+        //         let randomIndex = Math.floor(
+        //             Math.random() * WPCategories.items.length
+        //         );
+        //         categories.push(WPCategories.items[randomIndex]);
+        //     }
+
         if (WPCategories) {
-            let categories = [];
-            for (let i = 0; i < 2; i++) {
-                // random index must not exceed categories length - 1
-                let randomIndex = Math.floor(
-                    Math.random() * WPCategories.items.length
-                );
-                categories.push(WPCategories.items[randomIndex]);
-            }
-            setCategories(categories);
+            const shuffledCategories = WPCategories.items.sort(() => 0.5 - Math.random());
+            const selectedCategories = shuffledCategories.slice(0, 2);
+            setCategories(selectedCategories);
         }
     }
 
