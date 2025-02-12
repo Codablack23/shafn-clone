@@ -2,6 +2,7 @@ import { actionTypes } from "./action";
 
 export const initProfile = {
   name: "",
+  avatar:null
 };
 
 function reducer(state = initProfile, action) {

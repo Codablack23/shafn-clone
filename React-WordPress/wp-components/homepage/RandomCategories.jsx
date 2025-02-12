@@ -18,20 +18,11 @@ function RandomCategories() {
             productReqSource.token
         );
 
+
         if (WPCategories) {
-            console.log(WPCategories.items);
-            let categories = [];
-            for (let i = 0; i < 2; i++) {
-                // random index must not exceed categories length - 1
-                let randomIndex = Math.floor(
-                    Math.random() * WPCategories.items.length
-                );
-
-                console.log(randomIndex)
-
-                categories.push(WPCategories.items[randomIndex]);
-            }
-            setCategories(categories);
+            const shuffledCategories = WPCategories.items.sort(() => 0.5 - Math.random());
+            const selectedCategories = shuffledCategories.slice(0, 2);
+            setCategories(selectedCategories);
         }
     }
 
@@ -48,19 +39,15 @@ function RandomCategories() {
     return (
         <>
         <div className="" >
-        
-        {categories &&
-                categories.map((category) => (
-                    <WPProductList
-                        key={category.id}
-                        categoryID={category.id}
-                        title={category.name}
-                    />
-                ))}
-        
-       
+            {categories &&
+              categories.map((category) => (
+                <WPProductList
+                    key={category.id}
+                    categoryID={category.id}
+                    title={category.name}
+                />
+            ))}
         </div>
-         
         </>
     );
 }

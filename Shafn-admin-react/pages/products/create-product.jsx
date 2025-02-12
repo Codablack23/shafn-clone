@@ -18,6 +18,8 @@ import DefaultLayout from "~/components/layouts/DefaultLayout";
 import { CustomModal } from "~/components/elements/custom/index";
 import FileRepository from "~/repositories/FileRepository";
 import { generateSlug } from "~/utilities/helperFunctions";
+import axios from "axios";
+import AuthProvider from "~/components/auth/AuthProvider";
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
 });
@@ -220,14 +222,21 @@ const CreateProductPage = () => {
           });
 
           setTimeout(() => {
-            Router.reload(window.location.pathname);
+            Router.push("/products");
           }, 1500);
         } catch (error) {
-          console.error(error);
-          notification["error"]({
-            message: "Unable to upload product",
-            description: "Please check your network connection and try again",
-          });
+          if(axios.isAxiosError(error)){
+            notification["error"]({
+              message: "Unable to upload product",
+              description: error.response.data.message
+            });
+          }else{
+            notification["error"]({
+              message: "Unable to upload product",
+              description: "Please check your network connection and try again",
+            });
+          }
+         
         }
       }
 
@@ -272,6 +281,7 @@ const CreateProductPage = () => {
   }, []);
 
   return (
+    <AuthProvider loaderTitle="Loading Create Product Page">
     <DefaultLayout>
       <ContainerDefault title="Create new product">
         <HeaderDashboard
@@ -541,6 +551,7 @@ const CreateProductPage = () => {
         </CustomModal>
       </ContainerDefault>
     </DefaultLayout>
+    </AuthProvider>
   );
 };
 export default CreateProductPage;

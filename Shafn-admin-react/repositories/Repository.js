@@ -13,7 +13,7 @@ export const WPDomain = "https://api.shafn.com";
 export const MAIN_DOMAIN =
   process.env.NEXT_PUBLIC_NODE_ENV === "production"
     ? "https://www.shafn.com"
-    : "http://localhost:3000";
+    : "http://localhost:5500";
 export const domain =
   process.env.NEXT_PUBLIC_NODE_ENV === "production"
     ? "https://dashboard.shafn.com"

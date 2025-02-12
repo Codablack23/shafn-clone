@@ -9,6 +9,7 @@ import { toggleDrawerMenu } from "~/store/app/action";
 import OrdersRepository from "~/repositories/OrdersRepository";
 import ReactHtmlParser from "react-html-parser";
 import DefaultLayout from "~/components/layouts/DefaultLayout";
+import AuthProvider from "~/components/auth/AuthProvider";
 
 const { Option } = Select;
 const OrdersPage = () => {
@@ -98,6 +99,7 @@ const OrdersPage = () => {
     getOrders();
   }, []);
   return (
+    <AuthProvider loaderTitle="Loading Orders Page">
     <DefaultLayout>
       <ContainerDefault>
         <HeaderDashboard title="Orders" description="ShafN Orders Listing" />
@@ -187,6 +189,7 @@ const OrdersPage = () => {
         </section>
       </ContainerDefault>
     </DefaultLayout>
+    </AuthProvider>
   );
 };
 export default connect((state) => state.app)(OrdersPage);

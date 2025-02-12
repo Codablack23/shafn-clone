@@ -1,44 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { addProfile } from "~/store/profile/action";
-import SettingsRepository from "~/repositories/SettingsRepository";
-import UserRepository from "~/repositories/UserRepository";
+import { connect } from "react-redux";
 import { domain } from "~/repositories/Repository";
 
-const WidgetUserWelcome = () => {
-  const dispatch = useDispatch();
-
-  const [name, setName] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState("");
+const WidgetUserWelcome = ({name,avatar:avatarUrl}) => {
 
   const logout = () => {
     localStorage.removeItem("auth_token");
     window.location.assign(`${domain}/login`);
   };
 
-  const getStoreData = async () => {
-    try {
-      const settings = await SettingsRepository.getStore();
-      setName(settings.store_name);
-      dispatch(addProfile({ name: settings.store_name }));
-
-      const user = await UserRepository.getUser();
-      const store = await SettingsRepository.getStoreById(user.id);
-      setAvatarUrl(store.gravatar);
-    } catch (error) {
-      console.log("Failed to get store data");
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getStoreData();
-  }, []);
-
   return (
     <div className="ps-block--user-wellcome">
       <div className="ps-block__left">
-        <img src={avatarUrl.toString()} alt="" style={styles.img} />
+        {avatarUrl && (<img src={avatarUrl.toString()} alt="" style={styles.img} />)}
       </div>
       <div className="ps-block__right">
         <p>
@@ -64,4 +37,4 @@ const styles = {
   },
 };
 
-export default WidgetUserWelcome;
+export default connect((state)=>state.profile)(WidgetUserWelcome);

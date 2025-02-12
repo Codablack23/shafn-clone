@@ -8,6 +8,7 @@ import ContainerDashboard from "~/components/layouts/ContainerDashboard";
 import { useDispatch } from "react-redux";
 import { toggleDrawerMenu } from "~/store/app/action";
 import DefaultLayout from "~/components/layouts/DefaultLayout";
+import AuthProvider from "~/components/auth/AuthProvider";
 // import CardTopCountries from "~/components/shared/cards/CardTopCountries"
 // import UserRepository from "~/repositories/UserRepository"
 // import { Spin } from "antd"
@@ -52,7 +53,8 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <DefaultLayout>
+    <AuthProvider>
+<DefaultLayout>
       <ContainerDashboard title="Dashboard">
         <section className="ps-dashboard" id="homepage">
           <div className="">
@@ -67,6 +69,7 @@ const Dashboard = () => {
         </section>
       </ContainerDashboard>
     </DefaultLayout>
+    </AuthProvider>
   );
 };
 

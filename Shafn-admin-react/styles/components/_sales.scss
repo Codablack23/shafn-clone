@@ -1,0 +1,163 @@
+
+.store-container{
+    padding: 50px;
+}
+
+.cover{
+    padding: 0 30px;
+    margin-top: 10px;
+    width: 100%;
+    min-height: 300px;
+    background-color: grey;
+    border-radius: 7px;
+}
+
+.avatar{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: red;
+    margin-top: -60px;
+    margin-left: 50px;
+}
+
+.store-sec{
+    display: flex;
+    gap: 50px;
+    justify-content: space-between;
+}
+
+
+.store_name{
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 40px;
+}
+
+.user{
+    min-width: 250px;
+    margin-left: 30px;
+}
+.user_date{
+    color: green;
+    font-weight: 600;
+}
+
+.bottom-sec{
+    border-top: 1px solid ;
+    margin-top: 20px;
+    padding-top: 20px;
+    width: 250px;
+}
+
+// .user_address{
+//     max-width: 220px;
+// }
+
+.user_address span{
+    padding-right: 5px;
+}
+.store_social{
+    margin-left: 20px;
+}
+
+.social_media_icons{
+    margin-top: 10px;
+}
+.icon{
+    margin-right: 30px;
+}
+
+
+.products_number{
+    padding: 8px 14px;
+    min-width: 100%;
+    background-color: #f5f5f5;
+}
+.products_number span{
+    font-weight: 700;
+}
+.grid-products{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+.product{
+    margin-top: 50px;
+    min-height: 300px;
+    min-width: 210px;
+    background-color: #f5f5f5a1;
+    padding: 15px;
+    
+}
+.product_img{
+    min-height: 250px;
+    background-color: #f5f5f5c4;
+}
+.product_store_name{
+    padding: 5px 0px;
+    border-bottom: 1px solid #e5e5e5;
+    margin: 0;
+
+}
+.product_desc{
+    padding-top: -10px;
+    margin: 0;
+    font-weight: 700;
+}
+
+.product:hover{
+    border: 1px solid #e5e5e5;
+    .cart_btn{
+        display: block;
+    }
+}
+.cart_btn{
+    display: none;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    align-items: center;
+    border: 0;
+    min-width: 80%;
+    border-radius: 10px;
+}
+.flex{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.pages{
+    margin-top: 40px;
+}
+
+@media (max-width: 460px) {
+    .main{
+        padding: 0;
+        margin: 0;
+        min-width: 500px;
+    }
+    .store-container{
+        padding: 10px;
+        min-width: 500px;
+    }
+    .store-sec{
+        display: block;
+        gap: 10px;
+    }
+    .grid-products{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin: 0;
+    }
+    .cover{
+        padding: 0 10px;
+        min-width: 100%;
+    }
+    .user{
+        min-width: 400px;
+        margin-bottom: 30px;
+    }
+}

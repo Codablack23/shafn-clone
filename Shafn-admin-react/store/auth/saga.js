@@ -5,7 +5,7 @@ import { actionTypes, loginSuccess, logOutSuccess } from './action';
 
 const modalSuccess = (type) => {
     notification[type]({
-        message: 'Wellcome back',
+        message: 'Welcome back',
         description: 'You are login successful!',
     });
 };

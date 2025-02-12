@@ -1,0 +1,19 @@
+
+ps_auth-loader{
+    background: rgb(260, 260, 260);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100000000000;
+    width: 100%;
+    left: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .dialogue{
+      flex: 1;
+      max-width: 500px;
+      min-height: 150px;
+      padding: 1em;
+    }
+  }

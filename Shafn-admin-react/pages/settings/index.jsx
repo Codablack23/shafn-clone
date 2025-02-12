@@ -5,6 +5,7 @@ import HeaderDashboard from "~/components/shared/headers/HeaderDashboard"
 import { connect, useDispatch } from "react-redux"
 import { toggleDrawerMenu } from "~/store/app/action"
 import DefaultLayout from "~/components/layouts/DefaultLayout"
+import AuthProvider from "~/components/auth/AuthProvider"
 
 const SettingsPage = () => {
   const dispatch = useDispatch()
@@ -12,6 +13,7 @@ const SettingsPage = () => {
     dispatch(toggleDrawerMenu(false))
   }, [])
   return (
+    <AuthProvider loaderTitle="Loading Settings Page">
     <DefaultLayout>
       <ContainerDefault title="Settings">
         <HeaderDashboard title="Settings" description="ShafN Settings" />
@@ -30,6 +32,7 @@ const SettingsPage = () => {
         </section>
       </ContainerDefault>
     </DefaultLayout>
+    </AuthProvider>
   )
 }
 export default connect((state) => state.app)(SettingsPage)

@@ -10,6 +10,7 @@ import { CustomModal } from "~/components/elements/custom/index";
 import ProductRepository from "~/repositories/ProductRepository";
 import ReactHtmlParser from "react-html-parser";
 import DefaultLayout from "~/components/layouts/DefaultLayout";
+import AuthProvider from "~/components/auth/AuthProvider";
 
 const { Option } = Select;
 const ProductPage = () => {
@@ -147,6 +148,7 @@ const ProductPage = () => {
     getProducts();
   }, []);
   return (
+    <AuthProvider loaderTitle="Loading Product Page...">
     <DefaultLayout>
       <ContainerDefault title="Products">
         <CustomModal isOpen={false}>
@@ -283,6 +285,7 @@ const ProductPage = () => {
         </section>
       </ContainerDefault>
     </DefaultLayout>
+    </AuthProvider>
   );
 };
 export default connect((state) => state.app)(ProductPage);

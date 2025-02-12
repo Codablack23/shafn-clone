@@ -39,11 +39,15 @@ class UserRepository {
   }
 
   async getUser() {
+   try {
     const endpoint = `${WPDomain}/wp-json/wp/v2/users/me`
     const config = this.getConfig()
     const { data: response } = await axios.get(endpoint, config)
 
     return response
+   } catch (error) {
+    return null;
+   }
   }
 
   async getUsers() {

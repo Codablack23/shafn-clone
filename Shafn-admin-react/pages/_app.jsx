@@ -28,7 +28,6 @@ function App({ Component, pageProps }) {
         <Component {...pageProps} />
       </PersistGate>
     </Provider>
-    
   );
 }
 
