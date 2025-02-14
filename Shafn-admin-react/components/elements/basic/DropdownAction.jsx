@@ -1,7 +1,7 @@
 import React from "react"
 import { Dropdown, Menu, notification, Popconfirm } from "antd"
 import Router from "next/router"
-import ProductRepository from "~/repositories/ProductRepository"
+import ProductRepository from "@/repositories/ProductRepository"
 
 const DropdownAction = ({ productID }) => {
   const goToEditPage = () => {

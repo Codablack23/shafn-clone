@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import dynamic from "next/dynamic"
 import { notification,Spin } from "antd"
-import ProductRepository from "~/repositories/ProductRepository"
+import ProductRepository from "@/repositories/ProductRepository"
 import "suneditor/dist/css/suneditor.min.css"
-import { CustomModal } from "~/components/elements/custom"
+import { CustomModal } from "@/components/elements/custom"
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,

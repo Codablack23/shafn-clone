@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import { WPDomain } from "~/repositories/Repository";
+import { WPDomain } from "@/repositories/Repository";
 
 const TableCategoryItems = () => {
   const [categories, setCategories] = useState([]);

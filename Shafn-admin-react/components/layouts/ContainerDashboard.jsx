@@ -1,10 +1,10 @@
 import React from "react";
 import Head from "next/head";
-import FooterCopyright from "~/components/shared/footers/FooterCopyright";
-import MenuSidebar from "~/components/shared/menus/MenuSidebar";
-import WidgetEarningSidebar from "~/components/shared/widgets/WidgetEarningSidebar";
-import WidgetUserWelcome from "~/components/shared/widgets/WidgetUserWelcome";
-import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
+import FooterCopyright from "@/components/shared/footers/FooterCopyright";
+import MenuSidebar from "@/components/shared/menus/MenuSidebar";
+import WidgetEarningSidebar from "@/components/shared/widgets/WidgetEarningSidebar";
+import WidgetUserWelcome from "@/components/shared/widgets/WidgetUserWelcome";
+import HeaderDashboard from "@/components/shared/headers/HeaderDashboard";
 
 const ContainerDashboard = ({ children, title }) => {
   let titleView;

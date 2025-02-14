@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import { Menu, Spin } from "antd"
 import axios from "axios"
-import DropdownAction from "~/components/elements/basic/DropdownAction"
-import { WPDomain } from "~/repositories/Repository"
-import OrdersRepository from "~/repositories/OrdersRepository"
+import DropdownAction from "@/components/elements/basic/DropdownAction"
+import { WPDomain } from "@/repositories/Repository"
+import OrdersRepository from "@/repositories/OrdersRepository"
 
 const TableOrderSummary = () => {
   const [orders, setOrders] = useState(null)

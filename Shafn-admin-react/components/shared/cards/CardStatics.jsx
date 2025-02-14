@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { notification } from "antd"
 import ReactHtmlParser from "react-html-parser"
 
-import ReportsRepository from "~/repositories/ReportsRepository"
+import ReportsRepository from "@/repositories/ReportsRepository"
 
 const CardStatics = () => {
   const [report, setReport] = useState({

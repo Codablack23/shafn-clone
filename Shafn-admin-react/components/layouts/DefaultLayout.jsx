@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "./modules/Head";
-import HeaderMobile from "~/components/shared/headers/HeaderMobile";
-import DrawerMenu from "~/components/shared/drawers/DrawerMenu";
+import HeaderMobile from "@/components/shared/headers/HeaderMobile";
+import DrawerMenu from "@/components/shared/drawers/DrawerMenu";
 
 const DefaultLayout = ({ children }) => {
   return (

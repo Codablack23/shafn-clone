@@ -1,12 +1,12 @@
 import { Form, Input, notification, Spin } from "antd";
 import { useState } from "react";
-import HomepageLayout from "~/components/layouts/HomePageLayout";
-import AuthRepository from "~/repositories/AuthRepository";
-import SettingsRepository from "~/repositories/SettingsRepository";
+import HomepageLayout from "@/components/layouts/HomePageLayout";
+import AuthRepository from "@/repositories/AuthRepository";
+import SettingsRepository from "@/repositories/SettingsRepository";
 import Router from "next/router";
 import ReactHtmlParser from "react-html-parser";
-import WPVerification from "~/components/shared/widgets/WPVerification";
-import UserRepository from "~/repositories/UserRepository";
+import WPVerification from "@/components/shared/widgets/WPVerification";
+import UserRepository from "@/repositories/UserRepository";
 
 export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
@@ -91,7 +91,7 @@ export default function Register() {
         // Login vendor
         const vendorData = await AuthRepository.login(_user);
 
-        const { encrypt } = require("~/utilities/helperFunctions");
+        const { encrypt } = require("@/utilities/helperFunctions");
 
         const encryptedToken = encrypt(vendorData.token);
 

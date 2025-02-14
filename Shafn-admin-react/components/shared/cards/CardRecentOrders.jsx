@@ -1,5 +1,5 @@
 import React from "react";
-import TableOrderSummary from "~/components/shared/tables/TableOrderSummary";
+import TableOrderSummary from "@/components/shared/tables/TableOrderSummary";
 
 const CardRecentOrders = () => (
   <div className="ps-card">

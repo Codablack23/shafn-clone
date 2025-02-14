@@ -1,12 +1,7 @@
 import { connect } from "react-redux";
-import { domain } from "~/repositories/Repository";
 
 const WidgetUserWelcome = ({name,avatar:avatarUrl}) => {
 
-  const logout = () => {
-    localStorage.removeItem("auth_token");
-    window.location.assign(`${domain}/login`);
-  };
 
   return (
     <div className="ps-block--user-wellcome">
@@ -18,13 +13,13 @@ const WidgetUserWelcome = ({name,avatar:avatarUrl}) => {
           Hello,<a href="#">{name}</a>
         </p>
       </div>
-      <div
+      {/* <div
         className="ps-block__action"
         style={{ cursor: "pointer" }}
         onClick={logout}
       >
         <i className="icon-exit"></i>
-      </div>
+      </div> */}
     </div>
   );
 };

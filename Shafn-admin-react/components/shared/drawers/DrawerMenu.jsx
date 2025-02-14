@@ -1,9 +1,9 @@
 import React from "react";
 import { connect, useDispatch } from "react-redux";
-import { toggleDrawerMenu } from "~/store/app/action";
+import { toggleDrawerMenu } from "@/store/app/action";
 import WidgetUserWelcome from "../widgets/WidgetUserWelcome";
 import WidgetEarningSidebar from "../widgets/WidgetEarningSidebar";
-import MenuSidebar from "~/components/shared/menus/MenuSidebar";
+import MenuSidebar from "@/components/shared/menus/MenuSidebar";
 
 const DrawerMenu = ({ isDrawerMenu }) => {
   const dispatch = useDispatch();

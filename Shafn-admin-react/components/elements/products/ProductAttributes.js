@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react"
-import ProductRepository from "~/repositories/ProductRepository"
+import ProductRepository from "@/repositories/ProductRepository"
 import { v4 as uuid } from "uuid"
 import { notification, Spin } from "antd"
 import Attribute from "./modules/Attribute"
-import { CustomModal } from "~/components/elements/custom"
+import { CustomModal } from "@/components/elements/custom"
 
 const ProductAttributes = ({
   productId,

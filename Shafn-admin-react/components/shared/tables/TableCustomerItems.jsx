@@ -1,5 +1,5 @@
 import React from 'react';
-import DropdownAction from '~/components/elements/basic/DropdownAction';
+import DropdownAction from '@/components/elements/basic/DropdownAction';
 
 const TableCustomerItems = () => {
     const customers = [

@@ -23,7 +23,7 @@ class FileRepository {
     const endpoint = `${WPDomain}/wp-json/wp/v2/media`
     const auth_token = localStorage.getItem("auth_token")
 
-    const { decrypt } = require("~/utilities/helperFunctions")
+    const { decrypt } = require("@/utilities/helperFunctions")
 
     const config = {
       headers: {

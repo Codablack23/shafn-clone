@@ -9,8 +9,8 @@ function Error({ statusCode }) {
                 <p>
                     It seems we can't find what you're looking for. <br />
                 </p>
+                <strong className="mr-2">Return to</strong>
                 <p>
-                    <strong className="mr-2">Return to</strong>
                     <Link href="/">
                         <a className="ps-btn ps-btn--black ps-btn--rounded ps-btn--sm">
                             Dashboard

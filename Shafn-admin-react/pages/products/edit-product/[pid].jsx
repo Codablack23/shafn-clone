@@ -6,17 +6,17 @@ import { notification, Progress, Spin } from "antd"
 import ReactHtmlParser from "react-html-parser"
 import Select from "react-select"
 
-import { toggleDrawerMenu } from "~/store/app/action"
-import FileRepository from "~/repositories/FileRepository"
-import ProductRepository from "~/repositories/ProductRepository"
-import ImageSelectTiles from "~/components/elements/products/ImageSelectTiles"
-// import ProductAttributes from "~/components/elements/products/ProductAttributes"
-// import ProductVariations from "~/components/elements/products/ProductVariations"
-import { CustomModal } from "~/components/elements/custom/index"
-import ContainerDefault from "~/components/layouts/ContainerDefault"
-import DefaultLayout from "~/components/layouts/DefaultLayout"
-import HeaderDashboard from "~/components/shared/headers/HeaderDashboard"
-import { generateSlug } from "~/utilities/helperFunctions"
+import { toggleDrawerMenu } from "@/store/app/action"
+import FileRepository from "@/repositories/FileRepository"
+import ProductRepository from "@/repositories/ProductRepository"
+import ImageSelectTiles from "@/components/elements/products/ImageSelectTiles"
+// import ProductAttributes from "@/components/elements/products/ProductAttributes"
+// import ProductVariations from "@/components/elements/products/ProductVariations"
+import { CustomModal } from "@/components/elements/custom/index"
+import ContainerDefault from "@/components/layouts/ContainerDefault"
+import DefaultLayout from "@/components/layouts/DefaultLayout"
+import HeaderDashboard from "@/components/shared/headers/HeaderDashboard"
+import { generateSlug } from "@/utilities/helperFunctions"
 
 import "suneditor/dist/css/suneditor.min.css"
 import "react-image-lightbox/style.css"
@@ -26,10 +26,10 @@ const SunEditor = dynamic(() => import("suneditor-react"), {
 })
 
 const ProductAttributes = dynamic(() =>
-  import("~/components/elements/products/ProductAttributes")
+  import("@/components/elements/products/ProductAttributes")
 )
 const ProductVariations = dynamic(() =>
-  import("~/components/elements/products/ProductVariations")
+  import("@/components/elements/products/ProductVariations")
 )
 
 const short_buttonList = [

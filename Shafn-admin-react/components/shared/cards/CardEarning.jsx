@@ -3,7 +3,7 @@ import { notification } from "antd";
 import ReactHtmlParser from "react-html-parser";
 import dynamic from "next/dynamic";
 
-import ReportsRepository from "~/repositories/ReportsRepository";
+import ReportsRepository from "@/repositories/ReportsRepository";
 import { useSelector } from "react-redux";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });

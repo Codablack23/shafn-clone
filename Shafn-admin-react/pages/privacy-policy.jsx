@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from 'react';
-import HomepageLayout from '~/components/layouts/HomePageLayout';
+import HomepageLayout from '@/components/layouts/HomePageLayout';
 
 
 export default function PrivacyPolicy(){

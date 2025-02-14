@@ -1,11 +1,11 @@
 import React from "react";
 import Head from "next/head";
-import FooterCopyright from "~/components/shared/footers/FooterCopyright";
-import MenuSidebar from "~/components/shared/menus/MenuSidebar";
-import WidgetEarningSidebar from "~/components/shared/widgets/WidgetEarningSidebar";
-import WidgetUserWelcome from "~/components/shared/widgets/WidgetUserWelcome";
-import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
-import { CustomModal } from "~/components/elements/custom/index";
+import FooterCopyright from "@/components/shared/footers/FooterCopyright";
+import MenuSidebar from "@/components/shared/menus/MenuSidebar";
+import WidgetEarningSidebar from "@/components/shared/widgets/WidgetEarningSidebar";
+import WidgetUserWelcome from "@/components/shared/widgets/WidgetUserWelcome";
+import HeaderDashboard from "@/components/shared/headers/HeaderDashboard";
+import { CustomModal } from "@/components/elements/custom/index";
 
 const ContainerDefault = ({ children, title }) => {
   let titleView;

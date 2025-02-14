@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import ContainerDefault from "~/components/layouts/ContainerDefault";
-import ModuleOrderShippingInformation from "~/components/partials/orders/ModuleOrderShippingInformation";
-import ModuleOrderBillingInformation from "~/components/partials/orders/ModuleOrderBillingInformation";
-import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
+import ContainerDefault from "@/components/layouts/ContainerDefault";
+import ModuleOrderShippingInformation from "@/components/partials/orders/ModuleOrderShippingInformation";
+import ModuleOrderBillingInformation from "@/components/partials/orders/ModuleOrderBillingInformation";
+import HeaderDashboard from "@/components/shared/headers/HeaderDashboard";
 import { connect, useDispatch } from "react-redux";
-import { toggleDrawerMenu } from "~/store/app/action";
+import { toggleDrawerMenu } from "@/store/app/action";
 import { notification, Select, Button, Popconfirm } from "antd";
-import OrdersRepository from "~/repositories/OrdersRepository";
-import ProductRepository from "~/repositories/ProductRepository";
-import { domain } from "~/repositories/Repository";
-import DefaultLayout from "~/components/layouts/DefaultLayout";
+import OrdersRepository from "@/repositories/OrdersRepository";
+import ProductRepository from "@/repositories/ProductRepository";
+import { domain } from "@/repositories/Repository";
+import DefaultLayout from "@/components/layouts/DefaultLayout";
 
 const { Option } = Select;
 

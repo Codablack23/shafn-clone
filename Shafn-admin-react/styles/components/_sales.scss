@@ -1,163 +1,167 @@
 
-.store-container{
-    padding: 50px;
+.store-header{
+    margin-bottom: 100px;
 }
-
-.cover{
-    padding: 0 30px;
-    margin-top: 10px;
-    width: 100%;
-    min-height: 300px;
-    background-color: grey;
-    border-radius: 7px;
-}
-
-.avatar{
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background-color: red;
-    margin-top: -60px;
-    margin-left: 50px;
-}
-
-.store-sec{
-    display: flex;
-    gap: 50px;
-    justify-content: space-between;
-}
-
-
-.store_name{
-    font-size: 18px;
-    font-weight: 700;
-    margin-top: 40px;
-}
-
-.user{
-    min-width: 250px;
-    margin-left: 30px;
-}
-.user_date{
-    color: green;
-    font-weight: 600;
-}
-
-.bottom-sec{
-    border-top: 1px solid ;
-    margin-top: 20px;
-    padding-top: 20px;
-    width: 250px;
-}
-
-// .user_address{
-//     max-width: 220px;
-// }
-
-.user_address span{
-    padding-right: 5px;
-}
-.store_social{
-    margin-left: 20px;
-}
-
-.social_media_icons{
-    margin-top: 10px;
-}
-.icon{
-    margin-right: 30px;
-}
-
-
-.products_number{
-    padding: 8px 14px;
-    min-width: 100%;
-    background-color: #f5f5f5;
-}
-.products_number span{
-    font-weight: 700;
-}
-.grid-products{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 25px;
-}
-.product{
-    margin-top: 50px;
-    min-height: 300px;
-    min-width: 210px;
-    background-color: #f5f5f5a1;
-    padding: 15px;
-    
-}
-.product_img{
-    min-height: 250px;
-    background-color: #f5f5f5c4;
-}
-.product_store_name{
-    padding: 5px 0px;
-    border-bottom: 1px solid #e5e5e5;
-    margin: 0;
-
-}
-.product_desc{
-    padding-top: -10px;
-    margin: 0;
-    font-weight: 700;
-}
-
-.product:hover{
-    border: 1px solid #e5e5e5;
-    .cart_btn{
-        display: block;
+.store-details-container{
+    .title{
+        font-weight: 600;
+        font-size: 24px;
+        text-transform:uppercase;
+        color: black;
+        margin-bottom: 0;
+    }
+    .stars-container{
+        display: flex;
+        align-items: center;
+        gap: 4px;
     }
 }
-.cart_btn{
-    display: none;
-    background-color: black;
-    color: white;
-    padding: 10px;
-    align-items: center;
-    border: 0;
-    min-width: 80%;
+.store-banner{
+    height: 200px;
     border-radius: 10px;
-}
-.flex{
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    background: #f5f5f5;
+    box-shadow: 0 3px 6px 0 rgba(0,0,0,0.1);
+    i{
+        font-size: 200px;
+        color: #9e9e9e;
+    }
 }
-.pages{
-    margin-top: 40px;
+.store-image-container{
+    height: 120px;
+    z-index: 100;
+    position: absolute;
+    width: 120px;
+    padding: 4;
+    border-radius: 50%;
+    margin-top: -50px;
+    margin-left: 16px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 6px 0 rgba(0,0,0,0.1);
+    i{
+        font-size: 80px;
+        color: gray;
+    }
+    img{
+        border-radius: 50%;
+    }
+}
+.store-products{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 2em;
+    .store-product{
+        min-height: 150px;
+        border: 1px solid #f5f5f5;
+        padding: 1em;
+        transform: scale(1);
+        transition: all ease 0.4s;
+        .edit-product-btn{
+            border: none;
+            width: 100%;
+            height: 40px;
+            background-color: black;
+            color: white;
+            margin-top: 8px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: none;
+        }
+        &:hover{
+            .edit-product-btn{
+                display: block;
+            }
+            transform: scale(1.1);
+        }
+    }
+    .store-product-image-container{
+        height: 120px;
+        border: 1px solid #f5f5f5;
+        margin-bottom: 8px;
+        img{
+            height: 120px;
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+
 }
 
-@media (max-width: 460px) {
-    .main{
-        padding: 0;
-        margin: 0;
-        min-width: 500px;
+.logout-confirmation{
+    text-align: center;
+    padding: 2em;
+    .title{
+        font-size: 20px;
+        font-weight: 500;
     }
-    .store-container{
-        padding: 10px;
-        min-width: 500px;
+    .action{
+        display: flex;
+        margin: 1em auto;
+        justify-content: center;
+        gap: 2em;
+        button{
+            height: 48px;
+            width: 100%;
+            font-size: 18px;
+            border: none;
+            &:first-child{
+                background-color: black;
+                color: white;
+            }
+            &:nth-child(2){
+                background-color: $color-1st;
+                color: black;
+            }
+        }
     }
-    .store-sec{
-        display: block;
-        gap: 10px;
+}
+
+.loader-image-container{
+    max-width: 120px;
+    margin: auto;
+    padding: 1em;
+    text-align: center;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    justify-content: center;
+    border-radius: 50%;
+}
+.loader-image-container-spinner{
+    width: 120px;
+    margin: auto;
+    height: 120px;
+    position: absolute;
+    border-radius: 50%;
+    border-left: 4px solid $color-1st;
+    animation: rotatingAnimation 1s  infinite;
+}
+
+@media screen and (max-width:900px) {
+    .store-products{
+        grid-template-columns: repeat(3,1fr);
+        gap: 1em;
     }
-    .grid-products{
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-        margin: 0;
+}
+@media screen and (max-width:600px) {
+    .store-products{
+        grid-template-columns: repeat(2,1fr);
+        .store-product{
+            .edit-product-btn{
+                height: 32px;
+            }
+        }
     }
-    .cover{
-        padding: 0 10px;
-        min-width: 100%;
-    }
-    .user{
-        min-width: 400px;
-        margin-bottom: 30px;
-    }
+}
+
+@keyframes rotatingAnimation {
+    from{transform: rotate(0);}
+    to{transform: rotate(360deg);}
 }

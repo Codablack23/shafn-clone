@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import ContainerDefault from "~/components/layouts/ContainerDefault";
-import TableOrdersItems from "~/components/shared/tables/TableOrdersItems";
+import ContainerDefault from "@/components/layouts/ContainerDefault";
+import TableOrdersItems from "@/components/shared/tables/TableOrdersItems";
 import { Select, Spin, Pagination, notification } from "antd";
 import Link from "next/link";
-import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
+import HeaderDashboard from "@/components/shared/headers/HeaderDashboard";
 import { connect, useDispatch } from "react-redux";
-import { toggleDrawerMenu } from "~/store/app/action";
-import OrdersRepository from "~/repositories/OrdersRepository";
+import { toggleDrawerMenu } from "@/store/app/action";
+import OrdersRepository from "@/repositories/OrdersRepository";
 import ReactHtmlParser from "react-html-parser";
-import DefaultLayout from "~/components/layouts/DefaultLayout";
-import AuthProvider from "~/components/auth/AuthProvider";
+import DefaultLayout from "@/components/layouts/DefaultLayout";
+import AuthProvider from "@/components/auth/AuthProvider";
 
 const { Option } = Select;
 const OrdersPage = () => {

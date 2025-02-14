@@ -2,8 +2,8 @@ import React from "react";
 import Link from "next/link";
 import ReactHtmlParser from "react-html-parser";
 
-import DropdownAction from "~/components/elements/basic/DropdownAction";
-import { MAIN_DOMAIN } from "~/repositories/Repository";
+import DropdownAction from "@/components/elements/basic/DropdownAction";
+import { MAIN_DOMAIN } from "@/repositories/Repository";
 
 const TableProjectItems = ({ products, page }) => {
   let tableItems;

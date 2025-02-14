@@ -2,10 +2,10 @@ import React, { useState, useEffect, useMemo } from "react"
 import { notification, Spin } from "antd"
 
 import Variation from "./modules/Variation"
-import ProductRepository from "~/repositories/ProductRepository"
-import FileRepository from "~/repositories/FileRepository"
-import { arraysEqual } from "~/utilities/helperFunctions"
-import { CustomModal } from "~/components/elements/custom"
+import ProductRepository from "@/repositories/ProductRepository"
+import FileRepository from "@/repositories/FileRepository"
+import { arraysEqual } from "@/utilities/helperFunctions"
+import { CustomModal } from "@/components/elements/custom"
 
 const ProductVariations = ({
   productId,

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import ReportsRepository from "~/repositories/ReportsRepository";
+import ReportsRepository from "@/repositories/ReportsRepository";
 import ReactHtmlParser from "react-html-parser";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleEarningsVisibility } from "~/store/app/action";
+import { toggleEarningsVisibility } from "@/store/app/action";
 
 const WidgetEarningSidebar = () => {
   const [balance, setBalance] = useState(0);

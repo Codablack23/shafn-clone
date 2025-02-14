@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import FormHeaderSearch from "~/components/shared/forms/FormHeaderSearch";
+import FormHeaderSearch from "@/components/shared/forms/FormHeaderSearch";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { MAIN_DOMAIN, WPDomain } from "~/repositories/Repository";
+import { MAIN_DOMAIN, WPDomain } from "@/repositories/Repository";
 
 
 const HeaderDashboard = ({
@@ -23,7 +23,7 @@ const HeaderDashboard = ({
     const auth_token = localStorage.getItem("auth_token");
 
     if(auth_token){
-      const { decrypt } = require("~/utilities/helperFunctions");
+      const { decrypt } = require("@/utilities/helperFunctions");
 
       const config = {
         headers: {
@@ -56,14 +56,14 @@ const HeaderDashboard = ({
           //   href={`${MAIN_DOMAIN}/store/[pid]`}
           //   as={`${MAIN_DOMAIN}/store/${query}`}
           // >
-             <Link
-                href={query} 
-             >
-            <a className="header__site-link">
-              <span>View your store</span>
-              <i className="icon-exit-right"></i>
-            </a>
-          </Link>
+          //    <Link
+          //       href={query} 
+          //    >
+          //   <a className="header__site-link">
+          //     <span>View your store</span>
+          //     <i className="icon-exit-right"></i>
+          //   </a>
+          // </Link>
         }
       </div>
     </header>

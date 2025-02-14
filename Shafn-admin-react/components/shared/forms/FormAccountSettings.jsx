@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Router from "next/router";
 import { notification } from "antd";
-import FileRepository from "~/repositories/FileRepository";
-import SettingsRepository from "~/repositories/SettingsRepository";
+import FileRepository from "@/repositories/FileRepository";
+import SettingsRepository from "@/repositories/SettingsRepository";
 import PhoneInput from "react-phone-number-input";
-import UserRepository from "~/repositories/UserRepository";
-import DataRepository from "~/repositories/DataRepository";
+import UserRepository from "@/repositories/UserRepository";
+import DataRepository from "@/repositories/DataRepository";
 
 const FormAccountSettings = () => {
   const [name, setName] = useState("");

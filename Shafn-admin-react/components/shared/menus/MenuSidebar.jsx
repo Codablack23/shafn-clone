@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { Modal } from "antd";
 
 const MenuSidebar = () => {
   const router = useRouter();
+  const [logoutModalOpen,setModalLogoutOpen] = useState(false);
+
+  const openLogoutModal = ()=> setModalLogoutOpen(true);
+  const closeLogoutModal = ()=>setModalLogoutOpen(false);
+
+  const logout = () => {
+    localStorage.removeItem("auth_token");
+    window.location.assign(`/login`);
+  };
+
   const menuItems = [
     {
       text: "Dashboard",
@@ -35,9 +46,24 @@ const MenuSidebar = () => {
       url: "/settings",
       icon: "icon-cog",
     },
+    {
+      text: "My Store",
+      url: "/store",
+      icon: "bi bi-shop",
+    },
   ];
 
   return (
+    <>
+    <Modal visible={logoutModalOpen} onCancel={closeLogoutModal} footer={null} closeIcon={null}>
+      <div className="logout-confirmation">
+        <p className="title">Are you sure you want to Logout</p>
+         <div className="action">
+            <button onClick={closeLogoutModal}>Cancel</button>
+            <button onClick={logout}>Continue</button>
+         </div>
+      </div>
+    </Modal>
     <ul className="menu">
       {menuItems.map((item, index) => (
         <li
@@ -52,7 +78,14 @@ const MenuSidebar = () => {
           </Link>
         </li>
       ))}
+      <li onClick={openLogoutModal}>
+        <a>
+          <i className="icon-exit"></i>
+          <span>Logout</span>
+        </a>
+      </li>
     </ul>
+    </>
   );
 };
 

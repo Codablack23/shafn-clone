@@ -1,13 +1,13 @@
 import React from "react";
 import { Form, Input, Checkbox, notification, Spin, Divider } from "antd";
 import { useState } from "react";
-import HomepageLayout from "~/components/layouts/HomePageLayout";
-import OAuth from "~/components/partials/OAuth";
+import HomepageLayout from "@/components/layouts/HomePageLayout";
+import OAuth from "@/components/partials/OAuth";
 import Router from "next/router";
 import ReactHtmlParser from "react-html-parser";
 import { useDispatch, useSelector } from "react-redux";
-import AuthRepository from "~/repositories/AuthRepository";
-import UserRepository from "~/repositories/UserRepository";
+import AuthRepository from "@/repositories/AuthRepository";
+import UserRepository from "@/repositories/UserRepository";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -53,7 +53,7 @@ export default function Login() {
         const role = _user.role.toLowerCase();
 
         if (role === "seller" || role === "administrator") {
-          const { encrypt } = require("~/utilities/helperFunctions");
+          const { encrypt } = require("@/utilities/helperFunctions");
 
           const encryptedToken = encrypt(userData.token);
 

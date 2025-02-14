@@ -3,14 +3,14 @@ import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 // import '../../../styles/_custom.scss'
 
-// import DefaultLayout from "~/components/layouts/DefaultLayout"
-import { makeStore, persistor, wrapper } from "~/store/store";
+// import DefaultLayout from "@/components/layouts/DefaultLayout"
+import { makeStore, persistor, wrapper } from "@/store/store";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "antd/dist/antd.min.css";
-import "~/styles/style.scss";
+import "@/styles/style.scss";
 
-// import "~/styles/_custom.scss";
+// import "@/styles/_custom.scss";
 import { Provider } from "react-redux";
 
 function App({ Component, pageProps }) {

@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Router from "next/router";
-import ContainerDefault from "~/components/layouts/ContainerDefault";
-import HeaderDashboard from "~/components/shared/headers/HeaderDashboard";
+import ContainerDefault from "@/components/layouts/ContainerDefault";
+import HeaderDashboard from "@/components/shared/headers/HeaderDashboard";
 import { useDispatch } from "react-redux";
 import { notification, Progress, Spin } from "antd";
-import { toggleDrawerMenu } from "~/store/app/action";
-import SettingsRepository from "~/repositories/SettingsRepository";
-import ProductRepository from "~/repositories/ProductRepository";
+import { toggleDrawerMenu } from "@/store/app/action";
+import SettingsRepository from "@/repositories/SettingsRepository";
+import ProductRepository from "@/repositories/ProductRepository";
 import ReactHtmlParser from "react-html-parser";
 import Select from "react-select";
 import "react-image-lightbox/style.css";
 import "suneditor/dist/css/suneditor.min.css";
-import ImageSelectTiles from "~/components/elements/products/ImageSelectTiles";
-import DefaultLayout from "~/components/layouts/DefaultLayout";
+import ImageSelectTiles from "@/components/elements/products/ImageSelectTiles";
+import DefaultLayout from "@/components/layouts/DefaultLayout";
 
-import { CustomModal } from "~/components/elements/custom/index";
-import FileRepository from "~/repositories/FileRepository";
-import { generateSlug } from "~/utilities/helperFunctions";
+import { CustomModal } from "@/components/elements/custom/index";
+import FileRepository from "@/repositories/FileRepository";
+import { generateSlug } from "@/utilities/helperFunctions";
 import axios from "axios";
-import AuthProvider from "~/components/auth/AuthProvider";
+import AuthProvider from "@/components/auth/AuthProvider";
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
 });

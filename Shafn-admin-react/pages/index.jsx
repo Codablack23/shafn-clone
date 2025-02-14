@@ -1,13 +1,10 @@
 import React,{useEffect,useState} from "react"
-import Testimonials from "~/components/home/testimonials";
-import FAQS from "~/components/home/faqs";
-import Hero from "~/components/home/hero";
-import WhySell from "~/components/home/why-sell";
-import Fees from "~/components/home/fees";
-import HomepageLayout from "~/components/layouts/HomePageLayout";
-
-
-
+import Testimonials from "@/components/home/testimonials";
+import FAQS from "@/components/home/faqs";
+import Hero from "@/components/home/hero";
+import WhySell from "@/components/home/why-sell";
+import Fees from "@/components/home/fees";
+import HomepageLayout from "@/components/layouts/HomePageLayout";
 
 const Contact = ()=> (
    <div className="contact-section ps__page-container">
@@ -39,7 +36,6 @@ const Index = () => {
       <hr />
       <Contact/>
    </HomepageLayout>
-
   )
 }
 
