@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Select, Spin, Table, notification, Tag } from "antd";
-import WPOrderRepository from "~/repositories/WP/WPOrderRepository";
+import WPOrderRepository from "@/repositories/WP/WPOrderRepository";
 import { useSelector } from "react-redux";
 import ReactHtmlParser from "react-html-parser";
 

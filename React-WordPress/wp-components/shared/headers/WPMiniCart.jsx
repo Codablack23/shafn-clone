@@ -1,9 +1,9 @@
 import React, { Component, useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import Link from "next/link";
-import { getCart, removeItem } from "~/store/cart/action";
-import { addCheckoutItem } from "~/store/checkout-items/action";
-import WPProductOnCart from "~/wp-components/elements/products/WPProductOnCart";
+import { getCart, removeItem } from "@/store/cart/action";
+import { addCheckoutItem } from "@/store/checkout-items/action";
+import WPProductOnCart from "@/wp-components/elements/products/WPProductOnCart";
 import { useAppSelector } from "@/redux-store/hooks";
 import useCheckout from "@/redux-store/hooks/useCheckout";
 import { useCart, useCartFunctions } from "@/redux-store/hooks/useCart";

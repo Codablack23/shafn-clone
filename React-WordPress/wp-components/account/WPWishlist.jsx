@@ -2,8 +2,8 @@
 
 import  {
     CustomProductCart,
-} from "~/wp-components/elements/products/WPProductCart";
-import { Button } from "~/utilities/WPHelpers";
+} from "@/wp-components/elements/products/WPProductCart";
+import { Button } from "@/utilities/WPHelpers";
 import { useAppSelector } from "@/redux-store/hooks";
 import { useCartFunctions } from "@/redux-store/hooks/useCart";
 import { useWishlistFunctions } from "@/redux-store/hooks/useWishList";

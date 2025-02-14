@@ -1,6 +1,6 @@
 "use client";
-import WPStores from '~/wp-components/store/WPStores';
-import WPLayout from '~/wp-components/layouts/WPLayout';
+import WPStores from '@/wp-components/store/WPStores';
+import WPLayout from '@/wp-components/layouts/WPLayout';
 
 const VendorPage = () => (
     <div>

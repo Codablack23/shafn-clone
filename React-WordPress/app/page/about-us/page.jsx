@@ -1,7 +1,7 @@
 import React from 'react';
-import OurTeam from '~/app/components/partials/page/about-us/OurTeam';
-import AboutAwards from '~/app/components/partials/page/about-us/AboutAwards';
-import WPLayout from '~/wp-components/layouts/WPLayout';
+import OurTeam from '@/app/components/partials/page/about-us/OurTeam';
+import AboutAwards from '@/app/components/partials/page/about-us/AboutAwards';
+import WPLayout from '@/wp-components/layouts/WPLayout';
 
 const AboutUsPage = () => (
     <div>

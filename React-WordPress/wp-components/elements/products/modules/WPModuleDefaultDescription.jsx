@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Tabs } from "antd";
-import PartialSpecification from "~/app/components/elements/detail/modules/description/PartialSpecification";
-import PartialReview from "~/app/components/elements/detail/modules/description/PartialReview";
-import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import PartialSpecification from "@/app/components/elements/detail/modules/description/PartialSpecification";
+import PartialReview from "@/app/components/elements/detail/modules/description/PartialReview";
+import WPProductRepository from "@/repositories/WP/WPProductRepository";
 import axios from "axios";
 
 const { TabPane } = Tabs;

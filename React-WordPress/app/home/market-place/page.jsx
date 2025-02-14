@@ -1,14 +1,14 @@
 "use client";
 import React, { useEffect, useRef } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import MarketPlaceProductBox from '~/app/components/partials/homepage/marketplace/MarketPlaceProductBox';
-import MarketPlacePromotion from '~/app/components/partials/homepage/marketplace/MarketPlacePromotions';
-import MarketPlaceDealOfDay from '~/app/components/partials/homepage/marketplace/MarketPlaceDealOfDay';
-import MarketPlaceSiteFeatures from '~/app/components/partials/homepage/marketplace/MarketPlaceSiteFeatures';
-import MarketPlaceHomeBanner from '~/app/components/partials/homepage/marketplace/MartketPlaceHomeBanner';
-import { getCategories, getCollections } from '~/store/collection/action';
-import WPLayoutHomeMarketPlace from '~/wp-components/layouts/WPLayoutHomeMarketPlace';
-import { scrollPageToTop } from '~/utilities/common-helpers';
+import MarketPlaceProductBox from '@/app/components/partials/homepage/marketplace/MarketPlaceProductBox';
+import MarketPlacePromotion from '@/app/components/partials/homepage/marketplace/MarketPlacePromotions';
+import MarketPlaceDealOfDay from '@/app/components/partials/homepage/marketplace/MarketPlaceDealOfDay';
+import MarketPlaceSiteFeatures from '@/app/components/partials/homepage/marketplace/MarketPlaceSiteFeatures';
+import MarketPlaceHomeBanner from '@/app/components/partials/homepage/marketplace/MartketPlaceHomeBanner';
+import { getCategories, getCollections } from '@/store/collection/action';
+import WPLayoutHomeMarketPlace from '@/wp-components/layouts/WPLayoutHomeMarketPlace';
+import { scrollPageToTop } from '@/utilities/common-helpers';
 import { useRouter } from 'next/router';
 
 

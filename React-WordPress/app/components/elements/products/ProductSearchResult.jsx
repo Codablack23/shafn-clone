@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { Rate } from 'antd';
 import { connect } from 'react-redux';
 import Rating from '../Rating';
-import { formatCurrency } from '~/utilities/product-helper';
-import { isStaticData } from '~/utilities/app-settings';
-import { baseUrl } from '~/repositories/Repository';
+import { formatCurrency } from '@/utilities/product-helper';
+import { isStaticData } from '@/utilities/app-settings';
+import { baseUrl } from '@/repositories/Repository';
 
 class ProductResult extends Component {
     constructor(props) {

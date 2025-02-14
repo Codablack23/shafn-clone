@@ -1,8 +1,8 @@
 "use client";
 import React from 'react';
-import OrderTracking from '~/app/components/partials/account/OrderTracking';
-import WPLayout from '~/wp-components/layouts/WPLayout';
-import { scrollPageToTop } from '~/utilities/common-helpers';
+import OrderTracking from '@/app/components/partials/account/OrderTracking';
+import WPLayout from '@/wp-components/layouts/WPLayout';
+import { scrollPageToTop } from '@/utilities/common-helpers';
 
 const OrderTrackingPage = () => (
     <div ref={scrollPageToTop}>

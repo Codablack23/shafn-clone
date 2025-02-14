@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 
-import WPVendorRepository from "~/repositories/WP/WPVendorRepository";
-import WPStore from "~/wp-components/elements/stores/WPStore";
-import { generateTempArray } from "~/utilities/common-helpers";
-import SkeletonVendor from "~/app/components/elements/skeletons/SkeletonVendor";
+import WPVendorRepository from "@/repositories/WP/WPVendorRepository";
+import WPStore from "@/wp-components/elements/stores/WPStore";
+import { generateTempArray } from "@/utilities/common-helpers";
+import SkeletonVendor from "@/app/components/elements/skeletons/SkeletonVendor";
 import { Spin, notification, Pagination } from "antd";
 
 const WPStores = () => {

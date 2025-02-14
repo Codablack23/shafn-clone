@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import { notification } from 'antd';
 
-import MenuCategoriesDropdown from '~/app/components/shared/menus/MenuCategoriesDropdown';
-import CurrencyDropdown from '~/app/components/shared/headers/modules/CurrencyDropdown';
-import LanguageSwicher from '~/app/components/shared/headers/modules/LanguageSwicher';
-import menuData from '~/public/static/data/menu';
-import Menu from '~/app/components/elements/menu/Menu';
+import MenuCategoriesDropdown from '@/app/components/shared/menus/MenuCategoriesDropdown';
+import CurrencyDropdown from '@/app/components/shared/headers/modules/CurrencyDropdown';
+import LanguageSwicher from '@/app/components/shared/headers/modules/LanguageSwicher';
+import menuData from '@/public/static/data/menu';
+import Menu from '@/app/components/elements/menu/Menu';
 
 class WPNavigationDefault extends Component {
     constructor(props) {

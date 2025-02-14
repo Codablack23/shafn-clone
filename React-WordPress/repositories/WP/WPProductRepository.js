@@ -2,8 +2,8 @@ import {
     oathInfo,
     WPDomain,
     WPRepository,
-} from "~/repositories/WP/WPRepository";
-import Repository, { serializeQuery } from "~/repositories/Repository";
+} from "@/repositories/WP/WPRepository";
+import Repository, { serializeQuery } from "@/repositories/Repository";
 
 const settings = {
     async: true,

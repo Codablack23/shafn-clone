@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect,useState } from 'react';
-import WPLayoutHomeDefault from '~/wp-components/layouts/WPLayoutHomeDefault';
-import ModalCookie from '~/app/components/elements/modalCookie';
+import WPLayoutHomeDefault from '@/wp-components/layouts/WPLayoutHomeDefault';
+import ModalCookie from '@/app/components/elements/modalCookie';
 import { motion } from 'framer-motion';
 
 export default function PrivacyPolicy(){

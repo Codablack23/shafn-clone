@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { Menu } from 'antd';
 // import { menuPrimary } from '../../../public/static/data/menu';
-import menu from '~/public/static/data/menu.json';
+import menu from '@/public/static/data/menu.json';
 import Link from 'next/link';
 
 const { SubMenu } = Menu;

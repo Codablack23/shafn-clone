@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import WPWidgetCategories from '~/wp-components/shop/WPWidgetCategories';
-import WPWidgetBrand from '~/wp-components/shop/WPWidgetBrand';
-import WPWidgetFilterByPrices from '~/wp-components/shop/WPWidgetFilterByPrices';
+import WPWidgetCategories from '@/wp-components/shop/WPWidgetCategories';
+import WPWidgetBrand from '@/wp-components/shop/WPWidgetBrand';
+import WPWidgetFilterByPrices from '@/wp-components/shop/WPWidgetFilterByPrices';
 
 const WPShopWidget = () => {
     return (

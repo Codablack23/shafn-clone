@@ -4,8 +4,8 @@ import HeaderActions from './modules/HeaderActions';
 import MenuCategories from './modules/MenuCategories';
 import SearchHeader from './modules/SearchHeader';
 import { stickyHeader } from '../../../utilities/common-helpers';
-import Logo from '~/app/components/elements/common/Logo';
-import MenuCategoriesDropdown from '~/app/components/shared/menus/MenuCategoriesDropdown';
+import Logo from '@/app/components/elements/common/Logo';
+import MenuCategoriesDropdown from '@/app/components/shared/menus/MenuCategoriesDropdown';
 
 const HeaderDefault = () => {
     useEffect(() => {

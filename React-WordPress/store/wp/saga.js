@@ -5,7 +5,7 @@ import {
     WPGetProductsSuccess,
     WPToggleProductLoading,
 } from './action';
-import WPProductRepository from '~/repositories/WP/WPProductRepository';
+import WPProductRepository from '@/repositories/WP/WPProductRepository';
 
 polyfill();
 

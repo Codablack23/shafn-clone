@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Link from 'next/link';
-import AccountQuickLinks from '~/app/components/shared/headers/modules/AccountQuickLinks';
-import WPMiniCart from '~/wp-components/shared/headers/WPMiniCart';
+import AccountQuickLinks from '@/app/components/shared/headers/modules/AccountQuickLinks';
+import WPMiniCart from '@/wp-components/shared/headers/WPMiniCart';
 
 class WPHeaderActions2 extends Component {
     constructor(props) {

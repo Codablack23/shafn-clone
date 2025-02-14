@@ -5,7 +5,7 @@ import {
     WPGetProductImage,
     WPGetProductPrice,
     WPProductThumbnailView,
-} from '~/utilities/WPHelpers';
+} from '@/utilities/WPHelpers';
 import Rating from '@/app/components/elements/Rating';
 
 const WPProductSearchResult = ({ product }) => {

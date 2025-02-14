@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { connect } from "react-redux";
-import { DashboardDomain } from "~/repositories/WP/WPRepository";
+import { DashboardDomain } from "@/repositories/WP/WPRepository";
 import Modal from "./Modal.jsx";
 
 const FooterWidgets = (auth) => {

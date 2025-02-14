@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import WPLayout from '~/wp-components/layouts/WPLayout';
+import WPLayout from '@/wp-components/layouts/WPLayout';
 
 const Page404 = () => (
     <div>

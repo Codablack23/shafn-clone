@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import InformationQuickView from '@/app/components/elements/detail/modules/information/InformationQuickView';
-import WPModuleProductQuickviewThumbnail from '~/wp-components/elements/products/modules/WPModuleProductQuickviewThumbnail';
-import WPModuleProductQuickviewInformation from '~/wp-components/elements/products/modules/WPModuleProductQuickviewInformation';
-import WPProductRepository from '~/repositories/WP/WPProductRepository';
+import WPModuleProductQuickviewThumbnail from '@/wp-components/elements/products/modules/WPModuleProductQuickviewThumbnail';
+import WPModuleProductQuickviewInformation from '@/wp-components/elements/products/modules/WPModuleProductQuickviewInformation';
+import WPProductRepository from '@/repositories/WP/WPProductRepository';
 import { Spin } from 'antd';
 import Spiner from '@/app/components/elements/common/Spiner';
 import SkeletonProductDetail from '@/app/components/elements/skeletons/SkeletonProductDetail';

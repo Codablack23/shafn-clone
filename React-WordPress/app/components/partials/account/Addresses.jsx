@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Address from "./modules/Address";
 
-import { logOut } from "~/store/auth/action";
+import { logOut } from "@/store/auth/action";
 
 const accountLinks = [
     {

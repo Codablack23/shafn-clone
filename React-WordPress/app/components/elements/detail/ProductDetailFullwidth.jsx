@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import ThumbnailDefault from "./modules/thumbnail/ThumbnailDefault";
 import InformationDefault from "./modules/information/InformationDefault";
 import DefaultDescription from "./modules/description/DefaultDescription";
-import ModuleProductHasVariants from "~/app/components/elements/detail/modules/ModuleProductHasVariants";
+import ModuleProductHasVariants from "@/app/components/elements/detail/modules/ModuleProductHasVariants";
 
 class ProductDetailFullwidth extends Component {
     constructor(props) {

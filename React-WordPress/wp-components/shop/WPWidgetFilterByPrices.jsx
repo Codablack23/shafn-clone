@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Slider } from "antd";
 import { connect, useDispatch } from "react-redux";
-import { WPGetProducts } from "~/store/wp/action";
+import { WPGetProducts } from "@/store/wp/action";
 import { useRouter } from 'next/router';
 
 

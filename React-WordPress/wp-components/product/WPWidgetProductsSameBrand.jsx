@@ -1,5 +1,5 @@
 import React from 'react';
-import WPProductSelf from '~/wp-components/elements/products/WPProductSelf';
+import WPProductSelf from '@/wp-components/elements/products/WPProductSelf';
 
 const WPWidgetProductsSameBrand = ({ products }) => {
     let productItemsView;

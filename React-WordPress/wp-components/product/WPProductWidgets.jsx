@@ -8,7 +8,7 @@ import WPModuleProductInformation from "../../wp-components/elements/products/mo
 //     WPProductDetailRatingView,
 //     WPProductDetailShortDescView,
 //     WPProductDetailTagsView,
-// } from "~/utilities/WPHelpers";
+// } from "@/utilities/WPHelpers";
 
 const WPProductWidgets = ({ product, variant, children }) => {
     return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import ModulePaymentOrderSummary from '~/app/components/partials/account/modules/ModulePaymentOrderSummary';
-import WPModulePaymentOrderSummary from '~/wp-components/account/WPModulePaymentOrderSummary';
+import ModulePaymentOrderSummary from '@/app/components/partials/account/modules/ModulePaymentOrderSummary';
+import WPModulePaymentOrderSummary from '@/wp-components/account/WPModulePaymentOrderSummary';
 
 const WPShipping = () => {
     return (

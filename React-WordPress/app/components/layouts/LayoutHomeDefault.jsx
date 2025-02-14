@@ -1,11 +1,11 @@
 import React from 'react';
 import Head from 'next/head';
-import FooterFullwidth from '~/app/components/shared/footers/FooterFullwidth';
-import SwicherDemo from '~/app/components/shared/switcher-demo/SwitcherDemo';
-import HeaderDefault from '~/app/components/shared/headers/HeaderDefault';
-import HeaderMobile from '~/app/components/shared/headers/HeaderMobile';
-import NavigationList from '~/app/components/shared/navigation/NavigationList';
-import SubscribePopup from '~/app/components/shared/SubscribePopup';
+import FooterFullwidth from '@/app/components/shared/footers/FooterFullwidth';
+import SwicherDemo from '@/app/components/shared/switcher-demo/SwitcherDemo';
+import HeaderDefault from '@/app/components/shared/headers/HeaderDefault';
+import HeaderMobile from '@/app/components/shared/headers/HeaderMobile';
+import NavigationList from '@/app/components/shared/navigation/NavigationList';
+import SubscribePopup from '@/app/components/shared/SubscribePopup';
 
 const LayoutHomeDefault = ({ children, title = 'Homepage' }) => {
     return (

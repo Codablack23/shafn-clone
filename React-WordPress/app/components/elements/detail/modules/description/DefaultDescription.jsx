@@ -6,7 +6,7 @@ const { TabPane } = Tabs;
 import PartialDescription from "./PartialDescription";
 import PartialSpecification from "./PartialSpecification";
 import PartialReview from "./PartialReview";
-import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import WPProductRepository from "@/repositories/WP/WPProductRepository";
 
 function DescView({ product }) {
     let descView;

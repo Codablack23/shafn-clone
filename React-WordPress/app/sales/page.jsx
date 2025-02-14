@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import WPLayoutFullwidth from "~/wp-components/layouts/WPLayoutFullwidth";
+import WPLayoutFullwidth from "@/wp-components/layouts/WPLayoutFullwidth";
 import MainContent from "./MainContent";
 
 

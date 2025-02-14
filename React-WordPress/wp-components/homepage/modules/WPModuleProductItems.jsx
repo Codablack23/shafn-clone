@@ -1,6 +1,6 @@
 import React from "react";
-import { carouselFullwidth } from "~/utilities/carousel-helpers";
-import WPProduct from "~/wp-components/elements/products/WPProduct";
+import { carouselFullwidth } from "@/utilities/carousel-helpers";
+import WPProduct from "@/wp-components/elements/products/WPProduct";
 import Slider from "react-slick";
 
 const WPModuleProductItems = ({ products }) => {

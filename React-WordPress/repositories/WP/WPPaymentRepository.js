@@ -1,4 +1,4 @@
-import { STRAPI_DOMAIN } from "~/repositories/WP/WPRepository";
+import { STRAPI_DOMAIN } from "@/repositories/WP/WPRepository";
 import axios from "axios";
 
 class WPPaymentRepository {

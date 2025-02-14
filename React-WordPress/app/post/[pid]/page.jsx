@@ -1,12 +1,12 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import RelatedPosts from '~/app/components/partials/post/RelatedPosts';
-import PostComments from '~/app/components/partials/post/PostComments';
-import WPPostRepository from '~/repositories/WP/WPPostRepository';
-import WPPostDetail from '~/wp-components/elements/posts/WPPostDetail';
-import WPLayout from '~/wp-components/layouts/WPLayout';
-import SkeletonSinglePost from '~/app/components/elements/skeletons/SkeletonSinglePost';
-import { scrollPageToTop } from '~/utilities/common-helpers';
+import RelatedPosts from '@/app/components/partials/post/RelatedPosts';
+import PostComments from '@/app/components/partials/post/PostComments';
+import WPPostRepository from '@/repositories/WP/WPPostRepository';
+import WPPostDetail from '@/wp-components/elements/posts/WPPostDetail';
+import WPLayout from '@/wp-components/layouts/WPLayout';
+import SkeletonSinglePost from '@/app/components/elements/skeletons/SkeletonSinglePost';
+import { scrollPageToTop } from '@/utilities/common-helpers';
 
 const WPSinglePost = ({ params }) => {
     const query = params.pid

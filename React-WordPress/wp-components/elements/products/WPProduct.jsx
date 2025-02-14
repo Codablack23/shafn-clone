@@ -4,14 +4,14 @@ import { connect, useDispatch } from "react-redux";
 import Link from "next/link";
 import { Modal } from "antd";
 import Rating from "@/app/components/elements/Rating";
-import { addItem } from "~/store/cart/action";
-import WPModuleProductQuickview from "~/wp-components/elements/products/modules/WPModuleProductQuickview";
+import { addItem } from "@/store/cart/action";
+import WPModuleProductQuickview from "@/wp-components/elements/products/modules/WPModuleProductQuickview";
 import {
     WPProductBadgeView,
     WPProductPriceView,
     WPProductThumbnailView,
-} from "~/utilities/WPHelpers";
-import WPProductRepository from "~/repositories/WP/WPProductRepository";
+} from "@/utilities/WPHelpers";
+import WPProductRepository from "@/repositories/WP/WPProductRepository";
 import { useCartFunctions } from "@/redux-store/hooks/useCart";
 
 export default function WPProduct ({ product }){

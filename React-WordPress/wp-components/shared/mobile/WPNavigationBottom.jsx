@@ -2,12 +2,12 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Drawer } from "antd";
-import PanelMenu from "~/app/components/shared/panel/PanelMenu";
-import PanelSearch from "~/app/components/shared/panel/PanelSearch";
-import PanelCategories from "~/app/components/shared/panel/PanelCategories";
-import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import PanelMenu from "@/app/components/shared/panel/PanelMenu";
+import PanelSearch from "@/app/components/shared/panel/PanelSearch";
+import PanelCategories from "@/app/components/shared/panel/PanelCategories";
+import WPProductRepository from "@/repositories/WP/WPProductRepository";
 import Link from "next/link";
-import { Categories } from "~/app/components/shared/navigation/categories";
+import { Categories } from "@/app/components/shared/navigation/categories";
 import { Collapse } from "antd";
 import { useRouter } from "next/navigation";
 

@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import { notification, Progress, Rate, Spin } from "antd";
 import Rating from "../../../Rating";
-import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import WPProductRepository from "@/repositories/WP/WPProductRepository";
 // import ReactHtmlParser from "react-html-parser";
 
 const PartialReview = () => {

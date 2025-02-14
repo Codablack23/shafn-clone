@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 // import Link from "next/link";
 import Slider from "react-slick";
-import WPProductRepository from "~/repositories/WP/WPProductRepository";
-import SkeletonProduct from "~/app/components/elements/skeletons/SkeletonProduct";
-import { carouselFullwidth } from "~/utilities/carousel-helpers";
-import WPProductDealOfDay from "~/wp-components/elements/products/WPProductDealOfDay";
+import WPProductRepository from "@/repositories/WP/WPProductRepository";
+import SkeletonProduct from "@/app/components/elements/skeletons/SkeletonProduct";
+import { carouselFullwidth } from "@/utilities/carousel-helpers";
+import WPProductDealOfDay from "@/wp-components/elements/products/WPProductDealOfDay";
 import axios from "axios";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
-// import CountDownSimple from "~/app/components/elements/CountDownSimple";
+// import CountDownSimple from "@/app/components/elements/CountDownSimple";
 
 let productReqSource;
 const WPDealOfDay = () => {

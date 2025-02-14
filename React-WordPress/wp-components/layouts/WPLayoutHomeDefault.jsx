@@ -5,11 +5,11 @@ import { useCart } from "@/redux-store/hooks/useCart";
 import { useCheckoutEffect } from "@/redux-store/hooks/useCheckout";
 import useWishList from "@/redux-store/hooks/useWishList";
 import Head from "next/head";
-import FooterFullwidth from "~/app/components/shared/footers/FooterFullwidth";
-import SwicherDemo from "~/app/components/shared/switcher-demo/SwitcherDemo";
-import WPHeaderDefault from "~/wp-components/shared/headers/WPHeaderDefault";
-import WPHeaderMobile from "~/wp-components/shared/mobile/WPHeaderMobile";
-import WPNavigationBottom from "~/wp-components/shared/mobile/WPNavigationBottom";
+import FooterFullwidth from "@/app/components/shared/footers/FooterFullwidth";
+import SwicherDemo from "@/app/components/shared/switcher-demo/SwitcherDemo";
+import WPHeaderDefault from "@/wp-components/shared/headers/WPHeaderDefault";
+import WPHeaderMobile from "@/wp-components/shared/mobile/WPHeaderMobile";
+import WPNavigationBottom from "@/wp-components/shared/mobile/WPNavigationBottom";
 
 const WPLayoutHomeDefault = ({ children, title }) => {
     useCart()

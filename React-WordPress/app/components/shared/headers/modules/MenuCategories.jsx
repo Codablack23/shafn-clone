@@ -1,6 +1,6 @@
 import React from 'react';
-import menuData from '~/public/static/data/menu.json';
-import Menu from '~/app/components/elements/menu/Menu';
+import menuData from '@/public/static/data/menu.json';
+import Menu from '@/app/components/elements/menu/Menu';
 const MenuCategories = () => (
     <Menu data={menuData.product_categories} className="menu--dropdown" />
 );

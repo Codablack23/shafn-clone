@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Slider } from "antd";
 import { connect, useDispatch } from "react-redux";
-import { WPGetOnSaleProducts } from "~/store/sales/action";
+import { WPGetOnSaleProducts } from "@/store/sales/action";
 import { useRouter } from 'next/router';
 
 

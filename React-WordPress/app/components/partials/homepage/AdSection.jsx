@@ -1,8 +1,8 @@
 import { Image } from "antd";
 import Link from "next/link";
 import { useEffect,useState } from "react";
-import WPVendorRepository from "~/repositories/WP/WPVendorRepository";
-import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import WPVendorRepository from "@/repositories/WP/WPVendorRepository";
+import WPProductRepository from "@/repositories/WP/WPProductRepository";
 import axios from "axios";
 import AdSectionCategory from "./AdSectionCategory";
 
@@ -75,7 +75,7 @@ export default function AdSection(){
                       :[]
                     }
                 />
-               <Link legacyBehavior href={storeQuery?`/store/${storeQuery}`:"/vendors"}>
+               <Link href={storeQuery?`/store/${storeQuery}`:"/vendors"}>
                <div className="ps-store text-center">
                         <>
                             <p className="text-white title">STORE</p>
@@ -92,8 +92,8 @@ export default function AdSection(){
                </div>
                </Link>
                 <div className="ps-become-a_vendor">
-                    <Link legacyBehavior target="_blank" href={"https://seller.shafn.com"}>
-                    <button>BECOME A VENDOR</button>
+                    <Link target="_blank" href={"https://seller.shafn.com"}>
+                        <button>BECOME A VENDOR</button>
                     </Link>
                 </div>
             </div>

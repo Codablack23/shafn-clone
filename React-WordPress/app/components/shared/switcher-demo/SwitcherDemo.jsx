@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Tabs } from 'antd';
 const { TabPane } = Tabs;
-import DemoLayouts from '~/app/components/shared/switcher-demo/modules/DemoLayouts';
-import { switchDemoPanel } from '~/store/app/action';
+import DemoLayouts from '@/app/components/shared/switcher-demo/modules/DemoLayouts';
+import { switchDemoPanel } from '@/store/app/action';
 class SwicherDemo extends React.Component {
     constructor(props) {
         super(props);

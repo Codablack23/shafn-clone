@@ -1,6 +1,6 @@
 import React from 'react';
-import WPBlogGrid from '~/wp-components/blog/WPBlogGrid';
-import WPLayout from '~/wp-components/layouts/WPLayout';
+import WPBlogGrid from '@/wp-components/blog/WPBlogGrid';
+import WPLayout from '@/wp-components/layouts/WPLayout';
 
 const BlogGridPage = () => (
     <div>

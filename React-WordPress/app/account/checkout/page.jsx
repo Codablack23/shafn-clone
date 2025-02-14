@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect } from "react";
-import WPLayout from "~/wp-components/layouts/WPLayout";
-import WPFormCheckout from "~/wp-components/shared/forms/WPFormCheckout";
-import { scrollPageToTop } from "~/utilities/common-helpers";
+import WPLayout from "@/wp-components/layouts/WPLayout";
+import WPFormCheckout from "@/wp-components/shared/forms/WPFormCheckout";
+import { scrollPageToTop } from "@/utilities/common-helpers";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { useAppSelector } from "@/redux-store/hooks";

@@ -4,8 +4,8 @@
  * */
 
 import React from "react";
-import { formatCurrency } from "~/utilities/product-helper";
-import Rating from "~/app/components/elements/Rating";
+import { formatCurrency } from "@/utilities/product-helper";
+import Rating from "@/app/components/elements/Rating";
 import Link from "next/link";
 
 export function convertToURLEncoded(element, key, l) {

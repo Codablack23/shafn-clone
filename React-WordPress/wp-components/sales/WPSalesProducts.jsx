@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { Pagination } from "antd";
-import WPProduct from "~/wp-components/elements/products/WPProduct";
-import WPProductWide from "~/wp-components/elements/products/WPProductWide";
-import { WPGetProducts } from "~/store/wp/action";
-import { generateTempArray } from "~/utilities/common-helpers";
-import SkeletonProduct from "~/app/components/elements/skeletons/SkeletonProduct";
+import WPProduct from "@/wp-components/elements/products/WPProduct";
+import WPProductWide from "@/wp-components/elements/products/WPProductWide";
+import { WPGetProducts } from "@/store/wp/action";
+import { generateTempArray } from "@/utilities/common-helpers";
+import SkeletonProduct from "@/app/components/elements/skeletons/SkeletonProduct";
 
 export default function WPShopProducts(props){
     const { WPProducts, WPLoading, sidebar } = props;

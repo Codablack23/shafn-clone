@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Link from 'next/link';
 import Rating from '../../../Rating';
-import ModuleProductDetailSharing from '~/app/components/elements/detail/modules/elements/ModuleProductDetailSharing';
+import ModuleProductDetailSharing from '@/app/components/elements/detail/modules/elements/ModuleProductDetailSharing';
 import { addItem } from '../../../../../store/cart/action';
 import { addItemToCompare } from '../../../../../store/compare/action';
 import { addItemToWishlist } from '../../../../../store/wishlist/action';
-import ModuleProductDetailSpecification from '~/app/components/elements/detail/modules/elements/ModuleProductDetailSpecification';
-import ModuleProductDetailDescription from '~/app/components/elements/detail/modules/elements/ModuleProductDetailDescription';
-import { imageSwatcher } from '~/public/static/data/product-detail.json';
-import ImageFromApi from '~/app/components/elements/detail/modules/elements/ImageFromApi';
+import ModuleProductDetailSpecification from '@/app/components/elements/detail/modules/elements/ModuleProductDetailSpecification';
+import ModuleProductDetailDescription from '@/app/components/elements/detail/modules/elements/ModuleProductDetailDescription';
+import { imageSwatcher } from '@/public/static/data/product-detail.json';
+import ImageFromApi from '@/app/components/elements/detail/modules/elements/ImageFromApi';
 
 class InformationDefault extends Component {
     constructor(props) {

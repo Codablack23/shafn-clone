@@ -1,7 +1,7 @@
 import React from 'react';
-import Register from '~/app/components/partials/account/Register';
+import Register from '@/app/components/partials/account/Register';
 
-import WPLayout from '~/wp-components/layouts/WPLayout';
+import WPLayout from '@/wp-components/layouts/WPLayout';
 
 const RegisterPage = () => (
     <div>

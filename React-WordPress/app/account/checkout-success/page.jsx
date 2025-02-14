@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import WPLayout from "~/wp-components/layouts/WPLayout";
-import { scrollPageToTop } from "~/utilities/common-helpers";
-import { clearCheckoutItems } from "~/store/checkout-items/action";
-import { removeItems } from "~/store/cart/action";
+import WPLayout from "@/wp-components/layouts/WPLayout";
+import { scrollPageToTop } from "@/utilities/common-helpers";
+import { clearCheckoutItems } from "@/store/checkout-items/action";
+import { removeItems } from "@/store/cart/action";
 import { loadStripe } from "@stripe/stripe-js";
 import { Spin } from "antd";
 import { useRouter } from "next/router";

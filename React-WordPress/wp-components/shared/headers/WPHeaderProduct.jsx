@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Link from 'next/link';
-import { addItem } from '~/store/cart/action';
-import { stickyHeader } from '~/utilities/common-helpers';
-import NavigationDefault from '~/app/components/shared/navigation/NavigationDefault';
-import { formatCurrency } from '~/utilities/product-helper';
-import MenuCategories from '~/app/components/shared/headers/modules/MenuCategories';
-import SearchHeader from '~/app/components/shared/headers/modules/SearchHeader';
-import HeaderActions from '~/app/components/shared/headers/modules/HeaderActions';
-import WPNavigationDefault from '~/wp-components/shared/navigations/WPNavigationDefault';
-import WPHeaderActions from '~/wp-components/shared/headers/WPHeaderActions';
-import WPSearchHeader from '~/wp-components/shared/headers/WPSearchHeader';
+import { addItem } from '@/store/cart/action';
+import { stickyHeader } from '@/utilities/common-helpers';
+import NavigationDefault from '@/app/components/shared/navigation/NavigationDefault';
+import { formatCurrency } from '@/utilities/product-helper';
+import MenuCategories from '@/app/components/shared/headers/modules/MenuCategories';
+import SearchHeader from '@/app/components/shared/headers/modules/SearchHeader';
+import HeaderActions from '@/app/components/shared/headers/modules/HeaderActions';
+import WPNavigationDefault from '@/wp-components/shared/navigations/WPNavigationDefault';
+import WPHeaderActions from '@/wp-components/shared/headers/WPHeaderActions';
+import WPSearchHeader from '@/wp-components/shared/headers/WPSearchHeader';
 
 const WPHeaderProduct = ({ product }) => {
     const dispatch = useDispatch();

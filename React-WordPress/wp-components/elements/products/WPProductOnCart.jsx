@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Link from "next/link";
-import { removeItem } from "~/store/cart/action";
+import { removeItem } from "@/store/cart/action";
 import { connect, useDispatch } from "react-redux";
-import { WPProductThumbnailView } from "~/utilities/WPHelpers";
+import { WPProductThumbnailView } from "@/utilities/WPHelpers";
 import { useCartFunctions } from "@/redux-store/hooks/useCart";
 
 

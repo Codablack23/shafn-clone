@@ -1,5 +1,5 @@
 import React from 'react';
-import MenuCategories from '~/app/components/shared/headers/modules/MenuCategories';
+import MenuCategories from '@/app/components/shared/headers/modules/MenuCategories';
 
 const MenuCategoriesDropdown = () => {
     return (

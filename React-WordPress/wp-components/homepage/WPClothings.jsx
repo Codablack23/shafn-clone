@@ -1,12 +1,12 @@
 import React, { Component, useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import Link from 'next/link';
-import { carouselFullwidth } from '~/utilities/carousel-helpers';
-import WPProduct from '~/wp-components/elements/products/WPProduct';
-import Spiner from '~/app/components/elements/common/Spiner';
-import { serializeQuery, wp } from '~/repositories/Repository';
-import WPModuleProductItems from '~/wp-components/homepage/modules/WPModuleProductItems';
-import WPProductRepository from '~/repositories/WP/WPProductRepository';
+import { carouselFullwidth } from '@/utilities/carousel-helpers';
+import WPProduct from '@/wp-components/elements/products/WPProduct';
+import Spiner from '@/app/components/elements/common/Spiner';
+import { serializeQuery, wp } from '@/repositories/Repository';
+import WPModuleProductItems from '@/wp-components/homepage/modules/WPModuleProductItems';
+import WPProductRepository from '@/repositories/WP/WPProductRepository';
 
 const WPClothings = ({ products, collectionSlug, collections }) => {
     const [productItems, setProductItems] = useState(null);

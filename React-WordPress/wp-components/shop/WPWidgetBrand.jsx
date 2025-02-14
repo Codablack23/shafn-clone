@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import WPProductRepository from '~/repositories/WP/WPProductRepository';
-import SkeletonWidgetBrands from '~/app/components/elements/skeletons/SkeletonWidgetBrands';
+import WPProductRepository from '@/repositories/WP/WPProductRepository';
+import SkeletonWidgetBrands from '@/app/components/elements/skeletons/SkeletonWidgetBrands';
 import { Checkbox } from 'antd';
 import { connect, useDispatch } from 'react-redux';
-import { WPGetProducts } from '~/store/wp/action';
+import { WPGetProducts } from '@/store/wp/action';
 import { useRouter } from 'next/router';
 
 

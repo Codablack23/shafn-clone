@@ -1,6 +1,6 @@
 import React from 'react';
-import WPLayout from '~/wp-components/layouts/WPLayout';
-import WPWishlist from '~/wp-components/account/WPWishlist';
+import WPLayout from '@/wp-components/layouts/WPLayout';
+import WPWishlist from '@/wp-components/account/WPWishlist';
 
 
 const WishlistPage = () => (

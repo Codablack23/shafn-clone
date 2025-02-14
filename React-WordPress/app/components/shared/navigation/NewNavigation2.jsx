@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Menu } from '@headlessui/react'
-import ProductRepository from '~/repositories/ProductRepository';
+import ProductRepository from '@/repositories/ProductRepository';
 import React from 'react';
 
 const Categories = [

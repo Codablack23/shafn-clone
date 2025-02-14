@@ -2,8 +2,8 @@
  * WPReact
  * Developed by: diaryforlife
  * */
-import { WPDomain, WPRepository } from '~/repositories/WP/WPRepository';
-import { serializeQuery } from '~/repositories/Repository';
+import { WPDomain, WPRepository } from '@/repositories/WP/WPRepository';
+import { serializeQuery } from '@/repositories/Repository';
 
 class WPPostRepository {
     constructor(callback) {

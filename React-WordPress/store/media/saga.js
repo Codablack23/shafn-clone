@@ -2,7 +2,7 @@ import { all, put, call, takeEvery } from 'redux-saga/effects';
 import { polyfill } from 'es6-promise';
 import { actionTypes, getBannersSuccess, getPromotionsSuccess } from './action';
 import MediaRepository from '../../repositories/MediaRepository';
-import WPProductRepository from '~/repositories/WP/WPProductRepository';
+import WPProductRepository from '@/repositories/WP/WPProductRepository';
 
 polyfill();
 

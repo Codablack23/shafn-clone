@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Link from 'next/link';
-import ModuleProductDetailSharing from '~/app/components/elements/detail/modules/elements/ModuleProductDetailSharing';
-import ModuleProductDetailSpecification from '~/app/components/elements/detail/modules/elements/ModuleProductDetailSpecification';
-import ModuleProductDetailDescription from '~/app/components/elements/detail/modules/elements/ModuleProductDetailDescription';
-import ImageFromApi from '~/appcomponents/elements/detail/modules/elements/ImageFromApi';
-import Rating from '~/app/components/elements/Rating';
-import ThumbnailHasVariant from '~/app/components/elements/detail/modules/thumbnail/ThumbnailHasVariant';
-import { addItem } from '~/store/cart/action';
-import { addItemToCompare } from '~/store/compare/action';
-import { addItemToWishlist } from '~/store/wishlist/action';
+import ModuleProductDetailSharing from '@/app/components/elements/detail/modules/elements/ModuleProductDetailSharing';
+import ModuleProductDetailSpecification from '@/app/components/elements/detail/modules/elements/ModuleProductDetailSpecification';
+import ModuleProductDetailDescription from '@/app/components/elements/detail/modules/elements/ModuleProductDetailDescription';
+import ImageFromApi from '@/appcomponents/elements/detail/modules/elements/ImageFromApi';
+import Rating from '@/app/components/elements/Rating';
+import ThumbnailHasVariant from '@/app/components/elements/detail/modules/thumbnail/ThumbnailHasVariant';
+import { addItem } from '@/store/cart/action';
+import { addItemToCompare } from '@/store/compare/action';
+import { addItemToWishlist } from '@/store/wishlist/action';
 
 class ModuleProductHasVariants extends Component {
     constructor(props) {

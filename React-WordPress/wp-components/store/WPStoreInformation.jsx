@@ -1,6 +1,6 @@
 import React from "react";
-import Rating from "~/app/components/elements/Rating";
-import SocialShareButtons from "~/app/components/elements/media/SocialShareButtons";
+import Rating from "@/app/components/elements/Rating";
+import SocialShareButtons from "@/app/components/elements/media/SocialShareButtons";
 
 const WPStoreInformation = ({ store }) => {
     // views

@@ -1,13 +1,13 @@
 "use client"
 import React, { Suspense, useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import { getProductsByCategory } from "~/store/product/action";
-import { WPGetProducts } from "~/store/wp/action";
-import WPProductRepository from "~/repositories/WP/WPProductRepository";
-import WPLayout from "~/wp-components/layouts/WPLayout";
-import WPProduct from "~/wp-components/elements/products/WPProduct";
-import { generateTempArray, scrollPageToTop } from "~/utilities/common-helpers";
-import SkeletonProduct from "~/app/components/elements/skeletons/SkeletonProduct";
+import { getProductsByCategory } from "@/store/product/action";
+import { WPGetProducts } from "@/store/wp/action";
+import WPProductRepository from "@/repositories/WP/WPProductRepository";
+import WPLayout from "@/wp-components/layouts/WPLayout";
+import WPProduct from "@/wp-components/elements/products/WPProduct";
+import { generateTempArray, scrollPageToTop } from "@/utilities/common-helpers";
+import SkeletonProduct from "@/app/components/elements/skeletons/SkeletonProduct";
 import { Pagination } from "antd";
 import { useRouter } from 'next/router';
 import { useSearchParams } from "next/navigation";

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { connect, useDispatch } from 'react-redux';
-import { addItem } from '~/store/cart/action';
-import { addItemToCompare } from '~/store/compare/action';
-import { addItemToWishlist } from '~/store/wishlist/action';
-import { formatCurrency } from '~/utilities/product-helper';
+import { addItem } from '@/store/cart/action';
+import { addItemToCompare } from '@/store/compare/action';
+import { addItemToWishlist } from '@/store/wishlist/action';
+import { formatCurrency } from '@/utilities/product-helper';
 import {
     WPProductPriceView,
     WPProductThumbnailView,
-} from '~/utilities/WPHelpers';
+} from '@/utilities/WPHelpers';
 
 const WPProductWide = ({ product }) => {
     const dispatch = useDispatch();

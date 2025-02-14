@@ -4,7 +4,7 @@ import Link from "next/link";
 import Router from "next/router";
 import { Form, Input, notification, Spin } from "antd";
 // import { logOut, updateAuth } from "../../../store/auth/action";
-import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
+import WPCustomerRepository from "@/repositories/WP/WPCustomerRepository";
 
 const accountLinks = [
     {

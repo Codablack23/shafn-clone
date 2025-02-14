@@ -1,6 +1,6 @@
 import React from 'react';
-import BlankContent from '~/app/components/partials/page/Blank';
-import WPLayout from '~/wp-components/layouts/WPLayout';
+import BlankContent from '@/app/components/partials/page/Blank';
+import WPLayout from '@/wp-components/layouts/WPLayout';
 
 const BlankPage = () => (
     <div>

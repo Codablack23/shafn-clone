@@ -1,12 +1,12 @@
 import React from 'react';
 import Head from 'next/head';
-import HeaderDefault from '~/app/components/shared/headers/HeaderDefault';
+import HeaderDefault from '@/app/components/shared/headers/HeaderDefault';
 
-import NavigationList from '~/app/components/shared/navigation/NavigationList';
+import NavigationList from '@/app/components/shared/navigation/NavigationList';
 
-import Newletters from '~/app/components/partials/commons/Newletters';
-import FooterDefault from '~/app/components/shared/footers/FooterDefault';
-import BreadCrumb2 from '~/app/components/elements/BreadCrumb2';
+import Newletters from '@/app/components/partials/commons/Newletters';
+import FooterDefault from '@/app/components/shared/footers/FooterDefault';
+import BreadCrumb2 from '@/app/components/elements/BreadCrumb2';
 const LayoutBlog = ({ children, breadcrumb, title = 'Blog' }) => {
     return (
         <div className="layout--product">

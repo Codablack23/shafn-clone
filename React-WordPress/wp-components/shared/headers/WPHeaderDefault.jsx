@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect } from 'react';
-import HeaderNav from '~/app/components/shared/navigation/NewNavigation';
-import { stickyHeader } from '~/utilities/common-helpers';
-import Logo from '~/app/components/elements/common/Logo';
-import MenuCategoriesDropdown from '~/app/components/shared/menus/MenuCategoriesDropdown';
-import SearchHeader from '~/app/components/shared/headers/modules/SearchHeader';
-import WPNavigationDefault from '~/wp-components/shared/navigations/WPNavigationDefault';
-import WPHeaderActions from '~/wp-components/shared/headers/WPHeaderActions';
-import WPSearchHeader from '~/wp-components/shared/headers/WPSearchHeader';
+import HeaderNav from '@/app/components/shared/navigation/NewNavigation';
+import { stickyHeader } from '@/utilities/common-helpers';
+import Logo from '@/app/components/elements/common/Logo';
+import MenuCategoriesDropdown from '@/app/components/shared/menus/MenuCategoriesDropdown';
+import SearchHeader from '@/app/components/shared/headers/modules/SearchHeader';
+import WPNavigationDefault from '@/wp-components/shared/navigations/WPNavigationDefault';
+import WPHeaderActions from '@/wp-components/shared/headers/WPHeaderActions';
+import WPSearchHeader from '@/wp-components/shared/headers/WPSearchHeader';
 
 const WPHeaderDefault = () => {
     useEffect(() => {

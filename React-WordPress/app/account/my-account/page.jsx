@@ -1,9 +1,9 @@
 "use client";
 import React, { Component } from 'react';
 
-import MyAccount from '~/app/components/partials/account/MyAccount';
-import { scrollPageToTop } from '~/utilities/common-helpers';
-import WPLayout from '~/wp-components/layouts/WPLayout';
+import MyAccount from '@/app/components/partials/account/MyAccount';
+import { scrollPageToTop } from '@/utilities/common-helpers';
+import WPLayout from '@/wp-components/layouts/WPLayout';
 
 class MyAccountPage extends Component {
     constructor(props) {

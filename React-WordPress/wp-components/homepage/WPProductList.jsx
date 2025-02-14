@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import WPModuleProductItems from "~/wp-components/homepage/modules/WPModuleProductItems";
-import WPProductRepository from "~/repositories/WP/WPProductRepository";
-import SkeletonProduct from "~/app/components/elements/skeletons/SkeletonProduct";
+import WPModuleProductItems from "@/wp-components/homepage/modules/WPModuleProductItems";
+import WPProductRepository from "@/repositories/WP/WPProductRepository";
+import SkeletonProduct from "@/app/components/elements/skeletons/SkeletonProduct";
 
 const WPProductList = ({ categoryID, title }) => {
     const [productItems, setProductItems] = useState(null);

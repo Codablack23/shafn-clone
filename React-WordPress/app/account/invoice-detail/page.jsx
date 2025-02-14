@@ -1,9 +1,9 @@
 "use client";
 import React from 'react';
-import InvoiceDetail from '~/app/components/partials/account/InvoiceDetail';
-import { scrollPageToTop } from '~/utilities/common-helpers';
+import InvoiceDetail from '@/app/components/partials/account/InvoiceDetail';
+import { scrollPageToTop } from '@/utilities/common-helpers';
 
-import WPLayout from '~/wp-components/layouts/WPLayout';
+import WPLayout from '@/wp-components/layouts/WPLayout';
 
 const InvoiceDetailPage = () => (
     <div ref={scrollPageToTop}>

@@ -1,6 +1,6 @@
 import { getItemBySlug } from "@/utilities/product-helper";
 import Promotion from "@/app/components/elements/media/Promotion";
-import BannerItem from "~/app/components/elements/media/BannerItem";
+import BannerItem from "@/app/components/elements/media/BannerItem";
 import { useAppSelector } from "@/redux-store/hooks";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { useRef } from "react";

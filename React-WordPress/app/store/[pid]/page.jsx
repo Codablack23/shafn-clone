@@ -3,14 +3,14 @@
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import Router from "next/router";
-import WPStoreInformation from "~/wp-components/store/WPStoreInformation";
-import WPVendorRepository from "~/repositories/WP/WPVendorRepository";
-import SkeletonVendorInformation from "~/app/components/elements/skeletons/SkeletonVendorInformation";
-import { SkeletonBanner } from "~/app/components/elements/skeletons/SkeletonVendorInformation";
-import WPLayout from "~/wp-components/layouts/WPLayout";
-import WPVendorProducts from "~/wp-components/store/WPVendorProducts";
-import { generateTempArray, scrollPageToTop } from "~/utilities/common-helpers";
-import SkeletonProduct from "~/app/components/elements/skeletons/SkeletonProduct";
+import WPStoreInformation from "@/wp-components/store/WPStoreInformation";
+import WPVendorRepository from "@/repositories/WP/WPVendorRepository";
+import SkeletonVendorInformation from "@/app/components/elements/skeletons/SkeletonVendorInformation";
+import { SkeletonBanner } from "@/app/components/elements/skeletons/SkeletonVendorInformation";
+import WPLayout from "@/wp-components/layouts/WPLayout";
+import WPVendorProducts from "@/wp-components/store/WPVendorProducts";
+import { generateTempArray, scrollPageToTop } from "@/utilities/common-helpers";
+import SkeletonProduct from "@/app/components/elements/skeletons/SkeletonProduct";
 import { useRouter } from 'next/router';
 
 

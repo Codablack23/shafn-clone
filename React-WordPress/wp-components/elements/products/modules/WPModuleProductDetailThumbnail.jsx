@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Slider from 'react-slick';
-import NextArrow from '~/app/components/elements/carousel/NextArrow';
-import PrevArrow from '~/app/components/elements/carousel/PrevArrow';
+import NextArrow from '@/app/components/elements/carousel/NextArrow';
+import PrevArrow from '@/app/components/elements/carousel/PrevArrow';
 // import Lightbox from 'react-image-lightbox';
 // import 'react-image-lightbox/style.css';
 

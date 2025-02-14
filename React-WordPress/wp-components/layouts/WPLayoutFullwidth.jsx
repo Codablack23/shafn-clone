@@ -1,8 +1,8 @@
 "use client";
-import FooterFullwidth from "~/app/components/shared/footers/FooterFullwidth";
-import WPHeaderDefault from "~/wp-components/shared/headers/WPHeaderDefault";
-import WPHeaderMobile from "~/wp-components/shared/mobile/WPHeaderMobile";
-import WPNavigationBottom from "~/wp-components/shared/mobile/WPNavigationBottom";
+import FooterFullwidth from "@/app/components/shared/footers/FooterFullwidth";
+import WPHeaderDefault from "@/wp-components/shared/headers/WPHeaderDefault";
+import WPHeaderMobile from "@/wp-components/shared/mobile/WPHeaderMobile";
+import WPNavigationBottom from "@/wp-components/shared/mobile/WPNavigationBottom";
 import { useCart } from "@/redux-store/hooks/useCart";
 import useWishList from "@/redux-store/hooks/useWishList";
 

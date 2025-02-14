@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import WPProductRepository from "@/repositories/WP/WPProductRepository";
 import axios from "axios";
 import WPProductList from "./WPProductList";
 

@@ -1,4 +1,4 @@
-import { WPDomain } from "~/repositories/WP/WPRepository";
+import { WPDomain } from "@/repositories/WP/WPRepository";
 import axios from "axios";
 
 class WPAuthRepository {

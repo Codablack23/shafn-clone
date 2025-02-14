@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import WPProductRepository from "~/repositories/WP/WPProductRepository";
-import WPProductHorizontal from "~/wp-components/elements/products/WPProductHorizontal";
-import SkeletonProductHorizontal from "~/app/components/elements/skeletons/SkeletonProductHorizontal";
+import WPProductRepository from "@/repositories/WP/WPProductRepository";
+import WPProductHorizontal from "@/wp-components/elements/products/WPProductHorizontal";
+import SkeletonProductHorizontal from "@/app/components/elements/skeletons/SkeletonProductHorizontal";
 import axios from "axios";
 
 let productReqSource;

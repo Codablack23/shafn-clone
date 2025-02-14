@@ -1,6 +1,6 @@
 import React from 'react';
 import { Skeleton } from 'antd';
-import { generateTempArray } from '~/utilities/common-helpers';
+import { generateTempArray } from '@/utilities/common-helpers';
 
 const SkeletonWidgetBrands = () => {
     const itemsView = generateTempArray(8).map((item) => (

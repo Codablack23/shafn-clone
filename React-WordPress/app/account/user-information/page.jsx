@@ -2,9 +2,9 @@
 
 import React, { useLayoutEffect } from "react";
 import Router from "next/router";
-import UserInformation from "~/app/components/partials/account/UserInformation";
-import WPLayout from "~/wp-components/layouts/WPLayout";
-import { scrollPageToTop } from "~/utilities/common-helpers";
+import UserInformation from "@/app/components/partials/account/UserInformation";
+import WPLayout from "@/wp-components/layouts/WPLayout";
+import { scrollPageToTop } from "@/utilities/common-helpers";
 
 const UserInformationPage = () => {
     useLayoutEffect(() => {

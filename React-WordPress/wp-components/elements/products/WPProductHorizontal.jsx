@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { formatCurrency } from "~/utilities/product-helper";
+import { formatCurrency } from "@/utilities/product-helper";
 // import LazyLoad from 'react-lazyload';
 import Rating from "@/app/components/elements/Rating";
 import {
     WPProductPriceView,
     WPProductThumbnailView,
-} from "~/utilities/WPHelpers";
-import WPProductRepository from "~/repositories/WP/WPProductRepository";
+} from "@/utilities/WPHelpers";
+import WPProductRepository from "@/repositories/WP/WPProductRepository";
 
 const WPProductHorizontal = ({ product }) => {
     const [priceRangeView, setPriceRangeView] = useState(null);

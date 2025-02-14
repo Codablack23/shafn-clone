@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import DemoItem from '~/app/components/elements/DemoItem';
+import DemoItem from '@/app/components/elements/DemoItem';
 
 const DemoLayouts = () => {
     const pages = [

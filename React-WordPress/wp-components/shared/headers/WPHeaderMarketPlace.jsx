@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
-import menuData from '~/public/static/data/menu.json';
-import { stickyHeader } from '~/utilities/common-helpers';
-import Menu from '~/app/components/elements/menu/Menu';
-import Logo from '~/app/components/elements/common/Logo';
-import WPSearchHeader from '~/wp-components/shared/headers/WPSearchHeader';
-import WPHeaderActions2 from '~/wp-components/shared/headers/WPHeaderActions2';
-import CurrencyDropdown from '~/app/components/shared/headers/modules/CurrencyDropdown';
-import LanguageSwicher from '~/app/components/shared/headers/modules/LanguageSwicher';
+import menuData from '@/public/static/data/menu.json';
+import { stickyHeader } from '@/utilities/common-helpers';
+import Menu from '@/app/components/elements/menu/Menu';
+import Logo from '@/app/components/elements/common/Logo';
+import WPSearchHeader from '@/wp-components/shared/headers/WPSearchHeader';
+import WPHeaderActions2 from '@/wp-components/shared/headers/WPHeaderActions2';
+import CurrencyDropdown from '@/app/components/shared/headers/modules/CurrencyDropdown';
+import LanguageSwicher from '@/app/components/shared/headers/modules/LanguageSwicher';
 
 const WPHeaderMarketPlace = () => {
     useEffect(() => {

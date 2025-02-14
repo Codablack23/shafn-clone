@@ -3,9 +3,9 @@
 import React, { useLayoutEffect } from "react";
 import { useSelector } from "react-redux";
 import Router from "next/router";
-import Addresses from "~/app/components/partials/account/Addresses";
-import WPLayout from "~/wp-components/layouts/WPLayout";
-import { scrollPageToTop } from "~/utilities/common-helpers";
+import Addresses from "@/app/components/partials/account/Addresses";
+import WPLayout from "@/wp-components/layouts/WPLayout";
+import { scrollPageToTop } from "@/utilities/common-helpers";
 
 const MyAccountPage = () => {
     const auth = useSelector((state) => state.auth);

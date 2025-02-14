@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import ShopBanner from "~/app/components/partials/shop/ShopBanner";
-import WPWidgetCategories from "~/wp-components/shop/WPWidgetCategories";
-import WPWidgetFilterByPrices from "~/wp-components/shop/WPWidgetFilterByPrices";
-import WPShopProducts from "~/wp-components/shop/WPShopProducts";
-import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import ShopBanner from "@/app/components/partials/shop/ShopBanner";
+import WPWidgetCategories from "@/wp-components/shop/WPWidgetCategories";
+import WPWidgetFilterByPrices from "@/wp-components/shop/WPWidgetFilterByPrices";
+import WPShopProducts from "@/wp-components/shop/WPShopProducts";
+import WPProductRepository from "@/repositories/WP/WPProductRepository";
 import { useRouter } from 'next/navigation';
 import axios from "axios";
 

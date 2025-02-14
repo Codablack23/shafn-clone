@@ -1,10 +1,10 @@
 import React from "react";
 import { connect, useDispatch } from "react-redux";
 import Link from "next/link";
-import { formatCurrency } from "~/utilities/product-helper";
-import { addItemToWishlist } from "~/store/wishlist/action";
+import { formatCurrency } from "@/utilities/product-helper";
+import { addItemToWishlist } from "@/store/wishlist/action";
 
-import { WPProductDetailShortDescView, Button } from "~/utilities/WPHelpers";
+import { WPProductDetailShortDescView, Button } from "@/utilities/WPHelpers";
 import { useWishlistFunctions } from "@/redux-store/hooks/useWishList";
 
 export default function WPModuleProductDetailInformation({

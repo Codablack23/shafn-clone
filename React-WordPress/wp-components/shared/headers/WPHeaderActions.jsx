@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import AccountQuickLinks from "~/app/components/shared/headers/modules/AccountQuickLinks";
-import WPMiniCart from "~/wp-components/shared/headers/WPMiniCart";
+import AccountQuickLinks from "@/app/components/shared/headers/modules/AccountQuickLinks";
+import WPMiniCart from "@/wp-components/shared/headers/WPMiniCart";
 import { useAppSelector } from "@/redux-store/hooks";
 import AutoCountryDetector from "@/app/components/AutoCountryDetector";
 import useAuth from "@/redux-store/hooks/useAuth";

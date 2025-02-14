@@ -2,8 +2,8 @@ import {
     oathInfo,
     WPDomain,
     WPRepository,
-} from "~/repositories/WP/WPRepository";
-import { serializeQuery } from "~/repositories/Repository";
+} from "@/repositories/WP/WPRepository";
+import { serializeQuery } from "@/repositories/Repository";
 
 class WPDataRepository {
     constructor(callback) {

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import WPProduct from "~/wp-components/elements/products/WPProduct";
-// import WPProductWide from "~/wp-components/elements/products/WPProductWide";
+import WPProduct from "@/wp-components/elements/products/WPProduct";
+// import WPProductWide from "@/wp-components/elements/products/WPProductWide";
 import { Pagination } from "antd";
-// import { WPGetProducts } from "~/store/wp/action";
+// import { WPGetProducts } from "@/store/wp/action";
 // import { useDispatch } from "react-redux";
-import WPVendorRepository from "~/repositories/WP/WPVendorRepository";
-import { generateTempArray } from "~/utilities/common-helpers";
-import SkeletonProduct from "~/app/components/elements/skeletons/SkeletonProduct";
+import WPVendorRepository from "@/repositories/WP/WPVendorRepository";
+import { generateTempArray } from "@/utilities/common-helpers";
+import SkeletonProduct from "@/app/components/elements/skeletons/SkeletonProduct";
 
 const WPVendorProducts = ({ products, id }) => {
     // const [listView, setListView] = useState(true);

@@ -3,7 +3,7 @@ import Link from "next/link";
 import Router from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 
-import { logOut } from "~/store/auth/action";
+import { logOut } from "@/store/auth/action";
 
 import OrdersListing from "./OrderListing";
 

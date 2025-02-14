@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Link from "next/link";
-import AccountQuickLinksMobile from "~/app/components/shared/headers/modules/AccountQuickLinksMobile";
+import AccountQuickLinksMobile from "@/app/components/shared/headers/modules/AccountQuickLinksMobile";
 import { useAppSelector } from "@/redux-store/hooks";
 
 export default function WPMobileHeaderActions(){

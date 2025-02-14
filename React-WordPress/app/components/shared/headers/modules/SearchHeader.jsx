@@ -3,7 +3,7 @@ import { Select } from 'antd';
 import Link from 'next/link';
 import Router from 'next/router';
 
-import ProductResult from '~/app/components/elements/products/ProductSearchResult';
+import ProductResult from '@/app/components/elements/products/ProductSearchResult';
 import { connect } from 'react-redux';
 // import { getProductsByKeyword } from '../../../../store/product/action';
 

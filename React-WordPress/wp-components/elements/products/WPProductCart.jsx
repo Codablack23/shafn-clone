@@ -1,6 +1,6 @@
 import React, { Children } from 'react';
 import Link from 'next/link';
-import { WPProductThumbnailView } from '~/utilities/WPHelpers';
+import { WPProductThumbnailView } from '@/utilities/WPHelpers';
 const WPProductCart = ({ product }) => {
     // Views
     const thumbnailImage = WPProductThumbnailView(product);

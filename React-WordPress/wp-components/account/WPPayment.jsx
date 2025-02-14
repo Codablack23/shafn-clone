@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { Radio, Select } from 'antd';
-import ModulePaymentOrderSummary from '~/app/components/partials/account/modules/ModulePaymentOrderSummary';
-import WPModulePaymentOrderSummary from '~/wp-components/account/WPModulePaymentOrderSummary';
+import ModulePaymentOrderSummary from '@/app/components/partials/account/modules/ModulePaymentOrderSummary';
+import WPModulePaymentOrderSummary from '@/wp-components/account/WPModulePaymentOrderSummary';
 import { useRouter } from 'next/router';
 
 

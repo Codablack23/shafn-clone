@@ -2,10 +2,10 @@
 import React, { Suspense, useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import WPWidgetCategories from "~/wp-components/sales/WPWidgetCategories";
-import WPSalesProducts from "~/wp-components/sales/WPSalesProducts";
-import WPWidgetFilterByPrices from "~/wp-components/sales/WPWidgetFilterByPrices";
-import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import WPWidgetCategories from "@/wp-components/sales/WPWidgetCategories";
+import WPSalesProducts from "@/wp-components/sales/WPSalesProducts";
+import WPWidgetFilterByPrices from "@/wp-components/sales/WPWidgetFilterByPrices";
+import WPProductRepository from "@/repositories/WP/WPProductRepository";
 import { useSearchParams } from "next/navigation";
 
 export default function MainContent(){

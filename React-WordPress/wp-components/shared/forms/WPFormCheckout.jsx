@@ -2,16 +2,16 @@ import React, { useState, useLayoutEffect } from "react";
 import { Form, Checkbox, notification, Spin } from "antd";
 import Router from "next/router";
 import {Link} from "next/link";
-import WPOrderRepository from "~/repositories/WP/WPOrderRepository";
-import { convertToURLEncoded } from "~/utilities/WPHelpers";
-import WPPaymentRepository from "~/repositories/WP/WPPaymentRepository";
+import WPOrderRepository from "@/repositories/WP/WPOrderRepository";
+import { convertToURLEncoded } from "@/utilities/WPHelpers";
+import WPPaymentRepository from "@/repositories/WP/WPPaymentRepository";
 
 import {
     PaymentElement,
     useStripe,
     useElements,
 } from "@stripe/react-stripe-js";
-import { DOMAIN } from "~/repositories/WP/WPRepository";
+import { DOMAIN } from "@/repositories/WP/WPRepository";
 import ShippingInfoForm from "./modules/ShippingInfoForm";
 import BillingInfoForm from "./modules/BillingInfoForm";
 import useAuth from "@/redux-store/hooks/useAuth";

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { notification, Spin } from "antd";
 import { useDispatch, connect } from "react-redux";
-import { updateAuth } from "~/store/auth/action";
-import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
-import WPDataRepository from "~/repositories/WP/WPDataRepository";
+import { updateAuth } from "@/store/auth/action";
+import WPCustomerRepository from "@/repositories/WP/WPCustomerRepository";
+import WPDataRepository from "@/repositories/WP/WPDataRepository";
 
 function FormEditShippingAddress(auth) {
     const dispatch = useDispatch();

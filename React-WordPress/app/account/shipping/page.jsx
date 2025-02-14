@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { getCart } from '~/store/cart/action';
-import WPLayout from '~/wp-components/layouts/WPLayout';
-import WPShipping from '~/wp-components/account/WPShipping';
-import { scrollPageToTop } from '~/utilities/common-helpers';
+import { getCart } from '@/store/cart/action';
+import WPLayout from '@/wp-components/layouts/WPLayout';
+import WPShipping from '@/wp-components/account/WPShipping';
+import { scrollPageToTop } from '@/utilities/common-helpers';
 import { useRouter } from 'next/router';
 
 

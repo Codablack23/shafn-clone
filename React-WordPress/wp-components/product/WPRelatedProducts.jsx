@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import Slider from 'react-slick';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
-import { carouselFullwidth } from '~/utilities/carousel-helpers';
-import WPProductSelf from '~/wp-components/elements/products/WPProductSelf';
+import { carouselFullwidth } from '@/utilities/carousel-helpers';
+import WPProductSelf from '@/wp-components/elements/products/WPProductSelf';
 import WPRelatedProduct from '../elements/products/WPRelatedProduct';
 
 const WPRelatedProducts = ({ products }) => {

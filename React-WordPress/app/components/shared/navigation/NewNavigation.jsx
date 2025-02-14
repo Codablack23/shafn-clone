@@ -1,6 +1,6 @@
 import {useEffect,useState} from 'react'
 import Link from "next/link";
-import WPProductRepository from '~/repositories/WP/WPProductRepository';
+import WPProductRepository from '@/repositories/WP/WPProductRepository';
 import React from "react";
 import { Categories } from "./categories";
 

@@ -10,7 +10,7 @@ function Category({category,product}){
     }
     const img = getImage()
     return (
-        <Link legacyBehavior href={`/shop?category=${category.id}`}>
+        <Link href={`/shop?category=${category.id}`}>
         <div>
             <div className="item">
                 <img src={img} alt={category.name} />
@@ -23,6 +23,7 @@ function Category({category,product}){
 
 export default function AdSectionCategory({products,categories}){
   if(categories.length > 0){
+    console.log({categories})
     return (
         <div className="ps-category">
                 {

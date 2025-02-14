@@ -1,5 +1,5 @@
-import MyAccount2 from '~/app/components/partials/account/MyAccount2';
-import WPLayout from '~/wp-components/layouts/WPLayout';
+import MyAccount2 from '@/app/components/partials/account/MyAccount2';
+import WPLayout from '@/wp-components/layouts/WPLayout';
 
 function MyAccountPage2() {
         return (

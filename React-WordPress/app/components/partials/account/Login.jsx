@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
-import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
+import WPAuthRepository from "@/repositories/WP/WPAuthRepository";
+import WPCustomerRepository from "@/repositories/WP/WPCustomerRepository";
 // import OAuth from "./modules/OAuth";
 
 import { Form, Input, notification, Spin } from "antd";

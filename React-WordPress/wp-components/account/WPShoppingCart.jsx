@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import {CustomProductCart} from '~/wp-components/elements/products/WPProductCart';
+import {CustomProductCart} from '@/wp-components/elements/products/WPProductCart';
 import { useAppSelector } from "@/redux-store/hooks";
 import { useCartFunctions } from '@/redux-store/hooks/useCart';
 

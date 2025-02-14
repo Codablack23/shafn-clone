@@ -2,8 +2,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import WPProductSearchResult from "~/wp-components/elements/products/WPProductSearchResult";
-import WPProductRepository from "~/repositories/WP/WPProductRepository";
+import WPProductSearchResult from "@/wp-components/elements/products/WPProductSearchResult";
+import WPProductRepository from "@/repositories/WP/WPProductRepository";
 import { Spin } from "antd";
 
 const exampleCategories = [

@@ -3,9 +3,9 @@ import { notification, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import PhoneInput from "react-phone-number-input";
 
-// import { updateAuth } from "~/store/auth/action";
-import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
-import WPDataRepository from "~/repositories/WP/WPDataRepository";
+// import { updateAuth } from "@/store/auth/action";
+import WPCustomerRepository from "@/repositories/WP/WPCustomerRepository";
+import WPDataRepository from "@/repositories/WP/WPDataRepository";
 
 function FormEditBillingAddress() {
     const dispatch = useDispatch();

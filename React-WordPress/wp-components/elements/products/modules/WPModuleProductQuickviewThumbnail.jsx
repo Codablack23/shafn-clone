@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Slider from 'react-slick';
-import NextArrow from '~/app/components/elements/carousel/NextArrow';
-import PrevArrow from '~/app/components/elements/carousel/PrevArrow';
-import ThumbnailImage from '~/app/components/elements/detail/modules/elements/ThumbnailImage';
+import NextArrow from '@/app/components/elements/carousel/NextArrow';
+import PrevArrow from '@/app/components/elements/carousel/PrevArrow';
+import ThumbnailImage from '@/app/components/elements/detail/modules/elements/ThumbnailImage';
 // import LazyLoad from 'react-lazyload';
 
 const WPModuleProductQuickviewThumbnail = ({product}) => {

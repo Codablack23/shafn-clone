@@ -1,5 +1,5 @@
 import React from 'react';
-import { baseUrl } from '~/repositories/Repository';
+import { baseUrl } from '@/repositories/Repository';
 
 const ImageFromApi = ({ url, alt }) => (
     <img

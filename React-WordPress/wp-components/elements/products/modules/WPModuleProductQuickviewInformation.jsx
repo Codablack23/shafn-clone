@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import Link from 'next/link';
-import { formatCurrency } from '~/utilities/product-helper';
+import { formatCurrency } from '@/utilities/product-helper';
 import Rating from '@/app/components/elements/Rating';
-// import { addItem } from '~/store/cart/action';
-import { addCheckoutItem } from '~/store/checkout-items/action';
+// import { addItem } from '@/store/cart/action';
+import { addCheckoutItem } from '@/store/checkout-items/action';
 import ModuleProductDetailSharing from '@/app/components/elements/detail/modules/elements/ModuleProductDetailSharing';
-import ModuleProductDetailSpecification from '~/app/components/elements/detail/modules/elements/ModuleProductDetailSpecification';
+import ModuleProductDetailSpecification from '@/app/components/elements/detail/modules/elements/ModuleProductDetailSpecification';
 
 const WPModuleProductQuickviewInformation = ({ product }) => {
     const dispatch = useDispatch();

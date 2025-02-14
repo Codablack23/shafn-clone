@@ -4,16 +4,16 @@ import { connect, useDispatch } from "react-redux";
 import Link from "next/link";
 import { Modal } from "antd";
 import Rating from "@/app/components/elements/Rating";
-import { formatCurrency, getDiscountPercent } from "~/utilities/product-helper";
-import { addItem } from "~/store/cart/action";
-import { addItemToCompare } from "~/store/compare/action";
-import { addItemToWishlist } from "~/store/wishlist/action";
-import WPModuleProductQuickview from "~/wp-components/elements/products/modules/WPModuleProductQuickview";
+import { formatCurrency, getDiscountPercent } from "@/utilities/product-helper";
+import { addItem } from "@/store/cart/action";
+import { addItemToCompare } from "@/store/compare/action";
+import { addItemToWishlist } from "@/store/wishlist/action";
+import WPModuleProductQuickview from "@/wp-components/elements/products/modules/WPModuleProductQuickview";
 import {
     WPProductPriceView,
     WPProductThumbnailView,
-} from "~/utilities/WPHelpers";
-import WPProductRepository from "~/repositories/WP/WPProductRepository";
+} from "@/utilities/WPHelpers";
+import WPProductRepository from "@/repositories/WP/WPProductRepository";
 import { useRouter } from 'next/router';
 
 

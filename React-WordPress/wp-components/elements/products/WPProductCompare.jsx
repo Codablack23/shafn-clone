@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { WPProductThumbnailView } from '~/utilities/WPHelpers';
+import { WPProductThumbnailView } from '@/utilities/WPHelpers';
 const WPProductCompare = ({ product }) => {
     // Views
     const thumbnailImage = WPProductThumbnailView(product);

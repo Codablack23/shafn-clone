@@ -3,10 +3,10 @@ import React, { useLayoutEffect } from "react";
 import { useSelector } from "react-redux";
 import Router from "next/router";
 
-import { scrollPageToTop } from "~/utilities/common-helpers";
+import { scrollPageToTop } from "@/utilities/common-helpers";
 
-import WPLayout from "~/wp-components/layouts/WPLayout";
-// import Orders from "~/app/components/partials/account/Orders";
+import WPLayout from "@/wp-components/layouts/WPLayout";
+// import Orders from "@/app/components/partials/account/Orders";
 
 const MyOrders = () => {
     const auth = useSelector((state) => state.auth);

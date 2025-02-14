@@ -1,7 +1,7 @@
 import React from 'react';
-import ContactForm from '~/app/components/partials/page/ContactForm';
-import WPLayout from '~/wp-components/layouts/WPLayout';
-import Newsletters from '~/app/components/partials/commons/Newletters';
+import ContactForm from '@/app/components/partials/page/ContactForm';
+import WPLayout from '@/wp-components/layouts/WPLayout';
+import Newsletters from '@/app/components/partials/commons/Newletters';
 
 const ContactUsPage = () => (
     <div>

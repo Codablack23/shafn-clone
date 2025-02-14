@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addItem } from '~/store/cart/action';
-import { removeCompareItem } from '~/store/compare/action';
+import { addItem } from '@/store/cart/action';
+import { removeCompareItem } from '@/store/compare/action';
 import Link from 'next/link';
 import { Rate } from 'antd';
-import WPProductCart from '~/wp-components/elements/products/WPProductCart';
-import WPProductCompare from '~/wp-components/elements/products/WPProductCompare';
+import WPProductCart from '@/wp-components/elements/products/WPProductCart';
+import WPProductCompare from '@/wp-components/elements/products/WPProductCompare';
 
 class WPCompare extends Component {
     constructor(props) {

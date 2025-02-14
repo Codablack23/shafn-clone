@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Form, Input, notification, Spin } from "antd";
 // import { login } from "../../../store/auth/action";
-import WPAuthRepository from "~/repositories/WP/WPAuthRepository";
-import WPCustomerRepository from "~/repositories/WP/WPCustomerRepository";
-import WPVerification from "~/wp-components/account/WPVerification";
+import WPAuthRepository from "@/repositories/WP/WPAuthRepository";
+import WPCustomerRepository from "@/repositories/WP/WPCustomerRepository";
+import WPVerification from "@/wp-components/account/WPVerification";
 import { useRouter } from "next/navigation";
 import { AxiosError } from "axios";
 
