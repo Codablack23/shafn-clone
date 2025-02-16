@@ -1,7 +1,7 @@
-export default function WPPagination(){
-    return(
-        <ul>
+// export default function WPPagination(){
+//     return(
+//         <ul>
             
-        </ul>
-    )
-}
+//         </ul>
+//     )
+// }
