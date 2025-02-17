@@ -1,32 +1,68 @@
-import React, { useEffect } from "react";
+// import React, { useEffect } from "react";
 import { notification } from "antd";
-import { GoogleLogin } from "@react-oauth/google";
+import {FirebaseAuthProvider} from "@/repositories/FirebaseAuthRepository";
+// import { GoogleLogin } from "@react-oauth/google";
 
 const OAuth = ({ onSuccess }) => {
-    const handleOnSuccess = ({id, email, firstname = "", lastname = ""}) => {
-        if (email) {
-            onSuccess({ id, email, firstname, lastname });
-        } else {
-            notification["error"]({
-                message: "Login failed!",
-                description:
-                    "Could not retrieve email from provider. Please fill the form to complete registration.",
-            });
+    // const handleOnSuccess = ({id, email, firstname = "", lastname = ""}) => {
+    //     if (email) {
+    //         onSuccess({ id, email, firstname, lastname });
+    //     } else {
+    //         notification["error"]({
+    //             message: "Login failed!",
+    //             description:
+    //                 "Could not retrieve email from provider. Please fill the form to complete registration.",
+    //         });
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     const { gapi, loadAuth2 } = require("gapi-script");
+    //     const loadGoogleAuth = async () => {
+    //         await loadAuth2(gapi, process.env.NEXT_PUBLIC_GOOGLE_CLIENTID, "");
+    //     };
+
+    //     loadGoogleAuth();
+    // }, []);
+
+
+    const handleClick = async () => {
+        const {user,error} = await FirebaseAuthProvider.googleSignIn()
+        const username = user.email.slice(0, user.email.indexOf("@"))
+    
+        if(!error){
+          onSuccess({
+            username,
+            email: user.email,
+            password: user.uid,
+            role: "customer",
+          })
+          return;
         }
-    };
-
-    useEffect(() => {
-        const { gapi, loadAuth2 } = require("gapi-script");
-        const loadGoogleAuth = async () => {
-            await loadAuth2(gapi, process.env.NEXT_PUBLIC_GOOGLE_CLIENTID, "");
-        };
-
-        loadGoogleAuth();
-    }, []);
+        notification.error({
+          message: "Google Sign in Failed",
+          description: error,
+        })
+      }
 
     return (
         <ul className="social-links">
-            <GoogleLogin
+        <li
+            onClick={handleClick}
+            style={{ cursor: "pointer" }}>
+            <a className="google handles">
+                <span>
+                    <img
+                        style={{
+                            objectFit: "contain",
+                        }}
+                        src="/icons/google.svg"
+                    />
+                </span>
+                <span>Continue With Google</span>
+            </a>
+        </li>
+            {/* <GoogleLogin
                 clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENTID}
                 jsSrc="https://accounts.google.com/gsi/client"
                 uxMode="redirect"
@@ -50,23 +86,9 @@ const OAuth = ({ onSuccess }) => {
                 }}
                 cookiePolicy={"single_host_origin"}
                 render={(renderProps) => (
-                    <li
-                        onClick={renderProps.onClick}
-                        style={{ cursor: "pointer" }}>
-                        <a className="google handles">
-                            <span>
-                                <img
-                                    style={{
-                                        objectFit: "contain",
-                                    }}
-                                    src="/icons/google.svg"
-                                />
-                            </span>
-                            <span>Continue With Google</span>
-                        </a>
-                    </li>
+                    
                 )}
-            />
+            /> */}
 
             {/* <FacebookLogin
                 appId={process.env.FACEBOOK_APPID}

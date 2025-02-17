@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { notification } from "antd";
 // import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { GoogleLogin } from "react-google-login";
+import FirebaseAuthProvider from "~/repositories/FirebaseAuthRepository";
 
 const OAuth = ({ onSuccess }) => {
   const handleOnSuccess = (id, email, firstname = "", lastname = "") => {
@@ -25,9 +26,40 @@ const OAuth = ({ onSuccess }) => {
     loadGoogleAuth();
   }, []);
 
+
+  const handleClick = async () => {
+    const {user,error} = await FirebaseAuthProvider.googleSignIn()
+    const username = user.email.slice(0, user.email.indexOf("@"))
+    const [first_name,last_name]  = user.displayName.split(" ")
+
+    if(!error){
+      onSuccess({
+        username,
+        email: user.email,
+        password: user.uid,
+        store: user.displayName,
+        first_name,
+        last_name,
+        role: "seller",
+        roles:["seller"]
+      })
+      return;
+    }
+    notification.error({
+      message: "Google Sign in Failed",
+      description: error,
+    })
+  }
+
   return (
     <>
-      <GoogleLogin
+      <button className="oauth-btn" type="button" onClick={handleClick} style={{cursor:"pointer"}}>
+            <p>
+              <span></span>
+              <span>Continue with Google</span>
+            </p>
+        </button>
+      {/* <GoogleLogin
         clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENTID}
         jsSrc="https://accounts.google.com/gsi/client"
         uxMode="redirect"
@@ -51,14 +83,14 @@ const OAuth = ({ onSuccess }) => {
         }}
         cookiePolicy={"single_host_origin"}
         render={(renderProps) => (
-          <button className="oauth-btn" onClick={renderProps.onClick}>
+          <button className="oauth-btn">
             <p>
               <span></span>
               <span>Continue with Google</span>
             </p>
           </button>
         )}
-      />
+      /> */}
 
       {/* <FacebookLogin
         appId={process.env.NEXT_PUBLIC_FACEBOOK_APPID}

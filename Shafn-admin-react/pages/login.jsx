@@ -39,7 +39,7 @@ export default function Login() {
       let _vendor = { username: vendor.email, password: vendor.password };
 
       if (type === "oauth") {
-        user = {
+        _vendor = {
           username: oauth.email,
           password: oauth.password,
         };
@@ -170,7 +170,7 @@ export default function Login() {
             </p>
 
             <Divider>OR</Divider>
-            <OAuth onSuccess={(user) => console.log(user)} />
+            <OAuth onSuccess={(vendor)=>handleLogin("oauth",vendor)} />
           </div>
         </Form>
       </div>

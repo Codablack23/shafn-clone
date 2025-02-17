@@ -7,6 +7,7 @@ import Router from "next/router";
 import ReactHtmlParser from "react-html-parser";
 import WPVerification from "@/components/shared/widgets/WPVerification";
 import UserRepository from "@/repositories/UserRepository";
+import OAuth from "~/components/partials/OAuth";
 
 export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
@@ -63,10 +64,11 @@ export default function Register() {
     }
   };
 
+
   const handleRegistration = async (type = "form", oauth) => {
     setIsLoading(true);
 
-    let _vendor = vendor;
+    let _vendor = type == "form" ? vendor : oauth
 
     delete _vendor.store_name;
 
@@ -97,12 +99,11 @@ export default function Register() {
 
         localStorage.setItem("auth_token", encryptedToken);
 
-        console.log({vendor})
 
         try {
           await SettingsRepository.updateStore(newVendor.id,{
-            store_name: vendor.store,
-            store: vendor.store,
+            store_name: _vendor.store,
+            store: _vendor.store,
           });
         } catch (error) {
           console.log("Error updating store name");
@@ -277,6 +278,9 @@ export default function Register() {
                   Login
                 </a>
               </p>
+              <OAuth onSuccess={(newVendor)=>{
+                handleRegistration("oauth",newVendor)
+              }}/>
             </div>
           </Form>
         ) : (
