@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Drawer } from "antd";
@@ -10,6 +11,8 @@ import Link from "next/link";
 import { Categories } from "@/app/components/shared/navigation/categories";
 import { Collapse } from "antd";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/redux-store/hooks";
+
 
 const DrawerMobile = ({ closeEvent, visibleStatus, children }) => {
     return (
@@ -45,6 +48,8 @@ const SideBar = ({ shown, handleClose }) => {
         }
         return categories;
     }
+    
+ 
 
     useEffect(() => {
         getCategoryItems();
@@ -58,7 +63,7 @@ const SideBar = ({ shown, handleClose }) => {
             className={`shafn-sidebar-mobile font-poppins  w3-card ${shown ? "shown" : ""}`}>
             <div className="shafn-mobile-header" style={{zIndex:10}}>
                 <div>
-                    <i className="bi bi-justify"></i>
+                    
                 </div>
                 <button className="close-btn" onClick={handleClose}>
                     <i className="bi bi-x-lg"></i>
@@ -156,6 +161,10 @@ const WPNavigationBottom = () => {
             categories: false,
         });
     };
+
+    const { cart } = useAppSelector(state=>state);
+    const { cartTotal } = cart;
+
     const handleShowMenuDrawer = () => {
         setIsDrawerShow(true);
         setActiveDrawer({
@@ -275,8 +284,13 @@ const WPNavigationBottom = () => {
                 </a> */}
                 <Link legacyBehavior href="/account/shopping-cart">
                     <a className="navigation__item">
-                        <i className="icon-bag2"></i>
-                        <span> Cart</span>
+                    <div className="navigation__item__icon">
+                            {/* <i className="fa fa-shopping-cart"></i> */}
+                            <i className="icon-bag2"></i>
+                        <span className="sub-bottom">{cartTotal ? cartTotal : 0}</span>
+                    </div>
+
+                        <span>Cart</span>
                     </a>
                 </Link>
             </div>

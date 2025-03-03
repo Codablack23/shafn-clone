@@ -228,7 +228,24 @@
 
     .navigation__item {
         text-align: center;
-
+        display: flex;
+        flex-direction: column;
+    .navigation__item__icon{
+        margin-left: 10px;
+    }
+   .sub-bottom {
+                position: relative;
+               top: 4px;
+                left: -7px;
+                background-color: black;
+                border-radius: 50%;
+                font-size: 10px;
+                font-weight: 600;
+                color: white;
+                display: inline-block;
+                height: 15px;
+                width: 15px;
+            }
         i {
             font-size: 24px;
         }
