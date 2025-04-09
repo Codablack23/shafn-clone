@@ -20,7 +20,7 @@ export default function ShopBanner(){
             <Splide aria-label="My Favorite Images" options={sliderOptions}>
                 <SplideSlide>
                     <div style={{height:"500px"}}>
-                    <a href="/shop?category=242" className="absolute cursor-pointer bottom-0 md:ml-80 md:mb-64 mb-32 ml-10 md:py-[48px] py-3 md:px-12 px-7 text-white font-bold md:text-4xl text-[20px] bg-[#50B2D0] shadow-xl shadow-[#3b5e69] rounded-3xl">Shop Now!</a>
+                    <a href="/shop?category=242" className="absolute cursor-pointer bottom-0 md:ml-80 md:mb-64 mb-32 ml-10 md:py-[48px] py-3 md:px-12 px-7 text-white font-bold md:text-4xl text-[20px] bg-[#50B2D0] shadow-xl shadow-[#3b5e69] rounded-3xl">Shop Now</a>
                      <p className="absolute right-0 md:mr-28 mr-10 md:mt-28 mt-20 text-white font-bold md:w-[600px] w-[200px] md:text-[50px] text-[32px] leading-tight md:tracking-[0.2em]">Gentle Care For Your Little One's Delicate Skin</p>
                             <img
                                 src="/static/img/slider/shop-sidebar/image1.jpeg"
