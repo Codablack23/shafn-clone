@@ -719,7 +719,9 @@ const EditProductPage = ({ pid }) => {
           </form>
 
           <CustomModal isOpen={isUploading}>
-            <div className="row">
+
+              <Spin />
+            {/* <div className="row">
               <div className="col-12 col-md-3"></div>
               <div className="col-12 col-md-6 mt-5">
                 <div className="mt-5">
@@ -734,7 +736,8 @@ const EditProductPage = ({ pid }) => {
                 </div>
               </div>
               <div className="col-12 col-md-3"></div>
-            </div>
+            </div> */}
+
           </CustomModal>
         </section>
 

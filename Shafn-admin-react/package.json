@@ -16,7 +16,7 @@
     "axios": "^0.21.4",
     "crypto-js": "^4.1.1",
     "es6-promise": "^4.2.8",
-    "firebase": "^10.12.4",
+    "firebase": "^10.14.1",
     "framer-motion": "^7.2.1",
     "gapi-script": "^1.2.0",
     "history": "^4.10.1",
