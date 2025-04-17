@@ -20,6 +20,7 @@ import FileRepository from "@/repositories/FileRepository";
 import { generateSlug } from "@/utilities/helperFunctions";
 import axios from "axios";
 import AuthProvider from "@/components/auth/AuthProvider";
+import Image from "next/image";
 const SunEditor = dynamic(() => import("suneditor-react"), {
   ssr: false,
 });
@@ -71,6 +72,19 @@ let buttonList = [
     "fullScreen",
   ],
 ];
+
+const style = {
+  display: "flex",
+  position: "fixed",
+  alignItems: "center",
+  top: 0,
+  left: 0,
+  zIndex: 1000,
+  width: "100%",
+  height: "100%",
+  background: "rgba(260,260,260,0.75)",
+  justifyContent: "center"
+}
 
 const CreateProductPage = () => {
   const dispatch = useDispatch();
@@ -498,25 +512,16 @@ const CreateProductPage = () => {
         {/* Products Viewer */}
         
         <CustomModal isOpen={isUploading}>
-          
-            <Spin />
 
-          {/* <div className="row">
-            <div className="col-12 col-md-3"></div>
-            <div className="col-12 col-md-6 mt-5">
-              <div className="mt-5">
-                <Spin size="large" />
-                {progress !== images.length * 100 && (
-                  <>
-                    <Progress type="line" percent={progress} />
-                    <span>{`${progress}%`}</span>
-                    <p>Uploading images</p>
-                  </>
-                )}
-              </div>
+            <div style={style}>
+            <div className="dialogue" style={{ textAlign: "center"}}>
+                <div className="loader-image-container">
+                    <Image width={"100%"} height={"35%"} src={"/img/logo_light.png"} preview={false} alt=""/>
+                </div>
+                <div className="loader-image-container-spinner rotating-animation"/>
+                
             </div>
-            <div className="col-12 col-md-3"></div>
-          </div> */}
+        </div>
 
         </CustomModal>
 
