@@ -49,18 +49,18 @@ const WPStoreInformation = ({ store }) => {
                 <div className="ps-block__content">
                     <p>
                         <strong>Address:</strong>{" "}
-                        {`${store.address.street_1}, `}
-                        {`${store.address.city}, `}
+                        {/* {`${store.address.street_1}, `} */}
+                        {/* {`${store.address.city}, `} */}
                         {`${store.address.state}, `}
                         {`${store.address.country}, `}
-                        {`${store.address.zip}, `}
+                        {/* {`${store.address.zip}, `} */}
                     </p>
-                    {store.show_email && (
+                    {/* {store.show_email && (
                         <p>
                             <strong>Email:</strong>
                             {store.email}
                         </p>
-                    )}
+                    )} */}
                 </div>
                 {/* <div className="ps-block__footer">
                     <p>
@@ -75,7 +75,7 @@ const WPStoreInformation = ({ store }) => {
                         Contact Seller
                     </a>
                 </div> */}
-                <div className="share m-3">
+                <div className="share mt-4">
                     <p className="w3-text-grey">Share on social media</p>
                     <div className="d-flex justify-content-between">
                         <SocialShareButtons url={window.location.href} />
