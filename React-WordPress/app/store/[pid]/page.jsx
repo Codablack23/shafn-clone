@@ -54,7 +54,7 @@ export default function WPStorePage ({ params }){
         }
 
         if (vendorProducts) {
-            await setStoreProducts(vendorProducts);
+            await setStoreProducts(vendorProducts);                                                                                                                                          
         }
 
         setTimeout(
