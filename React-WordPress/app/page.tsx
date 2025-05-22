@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
+import CategoryMap from "@/app/components/partials/homepage/home-default/CategoryMap";
 import HomeBanner from "@/app/components/partials/homepage/home-default/HomeBanner";
 import HomeAdsColumns from "@/app/components/partials/homepage/home-default/HomeAdsColumns";
 import { getCollections } from "@/store/collection/action";
@@ -52,6 +53,7 @@ export default function Home() {
     return (
         <WPLayoutHomeDefault title={process.env.NEXT_PUBLIC_TITLE_DESCRIPTION}>
             <HomeBanner />
+            <CategoryMap />
             <WPDealOfDay />
             <HomeAdsColumns />
             <br />
