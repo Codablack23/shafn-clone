@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>New Contact Submission</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background-color: #EAEFEF;
+    }
+    .main-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1em;
+    }
+    .main-content-box {
+      text-align: center;
+      max-width: 500px;
+      background: #fff;
+      padding: 2em;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+    }
+    .logo-image {
+      max-width: 120px;
+      margin: 0 auto 1em;
+    }
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 1em;
+    }
+    .message {
+      font-size: 16px;
+      color: #333;
+      text-align: left;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <div class="main-content-box">
+      <img class="logo-image" src="https://shaf-n.vercel.app/static/img/logo_light.png" alt="Shafn Logo" />
+      <p class="title">New Contact Form Submission</p>
+      <div class="message">
+        <p><strong>A new message was submitted via the contact form:</strong></p>
+        <ul>
+          <li><strong>Name:</strong> {{name}}</li>
+          <li><strong>Email:</strong> {{email}}</li>
+          <li><strong>Subject:</strong> {{subject}}</li>
+          <li><strong>Message:</strong><br/>{{message}}</li>
+        </ul>
+        <p>Log in to your dashboard to reply.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
