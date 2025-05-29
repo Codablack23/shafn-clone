@@ -51,6 +51,8 @@ export default function Home() {
 
     // console.log(auth)
     return (
+        <>
+         <meta name="google-site-verification" content="QfvLxQjo0bzbeUWlxN8ch3RnEkvwlBf1n5-47qGfXws" />
         <WPLayoutHomeDefault title={process.env.NEXT_PUBLIC_TITLE_DESCRIPTION}>
             <HomeBanner />
             <CategoryMap />
@@ -70,6 +72,7 @@ export default function Home() {
                 </div>
             </motion.div>
         </WPLayoutHomeDefault>
+        </>
     );
 };
 
