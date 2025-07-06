@@ -11,7 +11,7 @@ import Script from "next/script";
 
 export const metadata: Metadata = {
   title: process.env.NEXT_PUBLIC_TITLE || "ShafN",
-  description:process.env.NEXT_PUBLIC_TITLE_DESCRIPTION || "Smarter Beauty Shopping",
+  description: process.env.NEXT_PUBLIC_TITLE_DESCRIPTION || "Smarter Beauty Shopping",
 };
 
 export default function RootLayout({
@@ -29,10 +29,8 @@ export default function RootLayout({
             </ScrollProvider>
           </StateProvider>
         </CustomReduxProvider>
-  {/* <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/145933911.js"></script> */}
-  <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/145953484.js"></script>
-
-
+        {/* <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/145933911.js"></script> */}
+        <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/145953484.js"></script>
       </body>
     </html>
   );

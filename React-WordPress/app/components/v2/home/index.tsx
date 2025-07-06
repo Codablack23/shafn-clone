@@ -1,0 +1,7 @@
+export {default as HeroSection} from "./Hero"
+export {default as ShopByCategorySection} from "./ShopCategory"
+export {default as NewArrivalsSection} from "./NewArrivals"
+export {default as PopularStoresSection} from "./PopularStores"
+export {default as BestDealsSection} from "./BestDeals"
+export {default as BecomeVendorSection} from "./BecomeVendor"
+export {default as FeaturedProductsSection} from "./FeaturedProducts"
