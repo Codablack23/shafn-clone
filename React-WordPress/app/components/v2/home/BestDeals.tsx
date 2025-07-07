@@ -15,18 +15,30 @@ export default function BestDealsSection() {
         <section className="py-[64px]">
             <div className="max-w-[1196px] px-[16px] mx-auto">
                 <header className="flex py-[16px] items-center justify-between">
-                    <p className="text-header font-semibold text-[20px] text-[#242B36]">BEST DEALS</p>
+                    <p className="text-header font-semibold lg:text-[20px] text-[#242B36]">BEST DEALS</p>
                     <Link href="/shop">
-                        <button className="px-[32px] text-white py-[8px] text-[16px] bg-[#FE5A00] text-header">Shop Now</button>
+                        <button className="px-[32px] text-white py-[8px] text-[12px] lg:text-[16px] bg-[#FE5A00] text-header">Shop Now</button>
                     </Link>
                 </header>
                 <div className="py-[32px]">
                     <Swiper
 
                         spaceBetween={10}
-                        slidesPerView={5}
+                        slidesPerView={2}
                         onSlideChange={() => console.log('slide change')}
                         onSwiper={(swiper) => console.log(swiper)}
+
+                        breakpoints={{
+                            760:{
+                                slidesPerView:3
+                            },
+                            960:{
+                                slidesPerView:4
+                            },
+                            1240:{
+                                slidesPerView:5
+                            }
+                         }}
                     >
                         {items.map(item => {
                             return (
@@ -37,9 +49,9 @@ export default function BestDealsSection() {
                                         </div>
                                         <div>
                                             <p className="">Shafn</p>
-                                            <p className="text-[16px] font-semibold text-header">BRUSH AND SPONGE</p>
-                                            <p className="font-bold text-[#242B36]">£10.1</p>
-                                            <button className="w-full rounded-xl font-semibold text-sora bg-[#242B36] text-white py-[10px] mt-[16px]">ADD TO CART</button>
+                                            <p className="text-[14px] lg:text-[16px] font-semibold text-header">BRUSH AND SPONGE</p>
+                                            <p className="font-bold text-[12px] lg:text-[16px] text-[#242B36]">£10.1</p>
+                                            <button className="w-full text-[12px] lg:text-[16px] rounded-xl font-semibold text-sora bg-[#242B36] text-white py-[10px] mt-[16px]">ADD TO CART</button>
                                         </div>
                                     </div>
                                 </SwiperSlide>

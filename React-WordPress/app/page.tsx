@@ -1,6 +1,7 @@
 import {
     BecomeVendorSection,
     BestDealsSection,
+    BottomBar,
     FeaturedProductsSection,
     Footer,
     HeroSection,
@@ -21,6 +22,7 @@ export default function Page(){
             <NewArrivalsSection/>
             <FeaturedProductsSection/>
             <Footer/>
+            <BottomBar/>
         </main>
     )
 }

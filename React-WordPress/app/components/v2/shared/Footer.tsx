@@ -4,7 +4,7 @@ export default function Footer(){
     return(
         <footer className="bg-[#242B36] py-[64px]">
             <div className="max-w-[1196px] mx-auto px-[16px]">
-                <div className="flex gap-[10px]">
+                <div className="lg:flex gap-[10px]">
                     <div className="flex-[3] py-8 pr-[32px]">
                         <p className="font-medium text-[14px] text-white mb-[10px]">SUSCRIBE TO OUR NEWSLETTER</p>
                         <form className="border-white border flex">
@@ -16,7 +16,7 @@ export default function Footer(){
                             <p className="text-white">info@shafn.com</p>
                         </div>
                     </div>
-                    <div className="flex-[2] px-[32px] p-8 space-y-[10px]">
+                    <div className="flex-[2] lg:!text-left text-center  lg:px-[32px] py-8 space-y-[10px]">
                         <p className="text-header font-light text-[#D9D9D9] text-[18px]">QUICK LINKS</p>
                         <div className="space-y-[10px]">
                             <Link className="block" href={"/"}><button className="font-bold text-white">Shipping</button></Link>
@@ -24,7 +24,7 @@ export default function Footer(){
                             <Link className="block" href={"/"}><button className="font-bold text-white">Return Policy</button></Link>
                         </div>
                     </div>
-                    <div className="flex-[2] px-[32px] p-8 space-y-[10px]">
+                    <div className="flex-[2] lg:!text-left text-center  lg:px-[32px] py-8 space-y-[10px]">
                         <p className="text-header font-light text-[#D9D9D9] text-[18px]">COMPANY</p>
                         <div className="space-y-[10px]">
                             <Link className="block" href={"/"}><button className="font-bold text-white">About</button></Link>
@@ -33,7 +33,7 @@ export default function Footer(){
                             <Link className="block" href={"/"}><button className="font-bold text-white">Terms and Conditions</button></Link>
                         </div>
                     </div>
-                    <div className="flex-[2] px-[32px] space-y-[10px] p-8">
+                    <div className="flex-[2] lg:!text-left text-center  lg:px-[32px] space-y-[10px] py-8">
                         <p className="text-header font-light text-[#D9D9D9] text-[18px]">BUSINESS</p>
                         <div className="space-y-[10px]">
                             <Link className="block" href={"/"}><button className="font-bold text-white">Cart</button></Link>
